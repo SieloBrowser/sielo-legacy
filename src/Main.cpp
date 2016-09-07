@@ -7,6 +7,7 @@
 
 int main(int argc, char *argv[])
 {
+	// It's a commentaire for Slack integration
     QApplication app(argc, argv);
 
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
