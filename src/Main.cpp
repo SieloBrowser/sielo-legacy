@@ -13,19 +13,14 @@ int main(int argc, char *argv[])
 
 	QWidget fen;
 	STabWidget tab;
-	//QWidget tabPage;
 	SWebView webView(&tab, QUrl("http://feldrise.com"));
 
+	tab.createWebTab("Teste", &webView);
+
 	QVBoxLayout* mainLayout{ new QVBoxLayout };
-	QVBoxLayout* tabLayout{ new QVBoxLayout };
 
 	mainLayout->addWidget(&tab);
-	tabLayout->addWidget(&webView);
-
-	webView.setLayout(tabLayout);
 	fen.setLayout(mainLayout);
-
-	tab.addTab(&webView, "Page web");
 
 	fen.show();
 
