@@ -3,6 +3,7 @@
 #include <QtWebEngineWidgets>
 
 #include "SWebView.h"
+#include "STabWidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,12 +12,21 @@ int main(int argc, char *argv[])
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 
 	QWidget fen;
-	SWebView web(&fen, QUrl("http://youtube.com"));
+	STabWidget tab;
+	//QWidget tabPage;
+	SWebView webView(&tab, QUrl("http://feldrise.com"));
 
-	QVBoxLayout* layout{ new QVBoxLayout };
-	layout->addWidget(&web);
+	QVBoxLayout* mainLayout{ new QVBoxLayout };
+	QVBoxLayout* tabLayout{ new QVBoxLayout };
 
-	fen.setLayout(layout);
+	mainLayout->addWidget(&tab);
+	tabLayout->addWidget(&webView);
+
+	webView.setLayout(tabLayout);
+	fen.setLayout(mainLayout);
+
+	tab.addTab(&webView, "Page web");
+
 	fen.show();
 
     return app.exec();

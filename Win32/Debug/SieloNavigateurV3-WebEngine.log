@@ -1,3 +1,7 @@
 ﻿  Main.cpp
+  STabWidget.cpp
+  SWebView.cpp
+src\SWebView.cpp(19): warning C4100: 'request': unreferenced formal parameter
+  Generating Code...
   SieloNavigateurV3-WebEngine.vcxproj -> C:\Users\victo\Documents\Qt\Projects\SieloNavigateurV3-WebEngine\debug\SieloNavigateurV3-WebEngine.exe
   SieloNavigateurV3-WebEngine.vcxproj -> debug\SieloNavigateurV3-WebEngine.pdb (Full PDB)

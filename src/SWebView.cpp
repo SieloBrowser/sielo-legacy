@@ -2,8 +2,9 @@
 
 #include <QMessageBox>
 
-SWebView::SWebView(QWidget * parent, QUrl url) 
-	//QWebEngineView(parent)
+SWebView::SWebView(QWidget * parent, QUrl url) :
+	QWebEngineView(parent),
+	m_parent(parent)
 {
 	connect(this->page(), SIGNAL(fullScreenRequested(QWebEngineFullScreenRequest)), this, SLOT(setFullScreen(QWebEngineFullScreenRequest)));
 

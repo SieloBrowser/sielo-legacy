@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QtWebEngineWidgets>
 
+#include "STabWidget.h"
+
 class SWebView : public QWebEngineView
 {
 public:
@@ -14,7 +16,7 @@ public slots:
 	void setFullScreen(QWebEngineFullScreenRequest* request);
 
 private:
-
+	QWidget* m_parent{ nullptr };
 };
 
 #endif // SWEBVIEW_H
