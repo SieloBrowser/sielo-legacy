@@ -4,6 +4,7 @@
 
 #include "SWebView.h"
 #include "STabWidget.h"
+#include "SMainWindows.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +12,8 @@ int main(int argc, char *argv[])
 
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 
-	QWidget fen;
+	SMainWindows fen;
+/*	
 	STabWidget tab;
 	SWebView webView(&tab, QUrl("http://feldrise.com"));
 
@@ -20,7 +22,8 @@ int main(int argc, char *argv[])
 	QVBoxLayout* mainLayout{ new QVBoxLayout };
 
 	mainLayout->addWidget(&tab);
-	fen.setLayout(mainLayout);
+	fen.setLayout(mainLayout); 
+*/
 
 	fen.show();
 
