@@ -2,9 +2,9 @@
 #include <QtWidgets>
 #include <QtWebEngineWidgets>
 
-#include "SWebView.h"
-#include "STabWidget.h"
-#include "SMainWindows.h"
+#include "..\includes\SWebView.h"
+#include "..\includes\STabWidget.h"
+#include "..\includes\SMainWindow.h"
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 
-	SMainWindows fen;
+	SMainWindow fen;
 /*	
 	STabWidget tab;
 	SWebView webView(&tab, QUrl("http://feldrise.com"));

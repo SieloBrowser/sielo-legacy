@@ -1,0 +1,15 @@
+back
+next
+home
+refresh
+--
+logo A
+title Of Theme
+logo B
+separator
+separator
+url Area
+go
+separator
+search Area
+search

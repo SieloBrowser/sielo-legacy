@@ -1,4 +1,4 @@
-#include "SWebView.h"
+#include "..\includes\SWebView.h"
 
 #include <QMessageBox>
 
