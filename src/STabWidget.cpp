@@ -1,8 +1,10 @@
-#include "STabWidget.h"
-#include "SWebView.h"
+#include "..\includes\STabWidget.hpp"
+#include "..\includes\SWebView.hpp"
+#include "..\includes\SMainWindow.hpp"
 
-STabWidget::STabWidget(QWidget * parent) : 
-	QTabWidget(parent)
+STabWidget::STabWidget(SMainWindow * parent) : 
+	QTabWidget(parent),
+	m_parent(parent)
 {
 }
 

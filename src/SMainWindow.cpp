@@ -1,4 +1,4 @@
-﻿#include "..\includes\SMainWindow.h"
+﻿#include "..\includes\SMainWindow.hpp"
 
 #include <QMessageBox>
 #include <QFile>
@@ -9,6 +9,7 @@ QSettings * SMainWindow::SSettings = new QSettings("data/sdata.ini", QSettings::
 SMainWindow::SMainWindow(QWidget* parent) :
 	QMainWindow(parent)
 {
+	setWindowTitle("[S]ielo[N]avigateur V3");
 	SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };
 	m_tabs->createWebTab("Google", webView);
 
@@ -59,5 +60,23 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 	}
 
 	return true;
+
+}
+
+//-- PUBLIC SLOTS
+
+void SMainWindow::changeTitle(const QString& newTitle)
+{
+	QString shorTitle{ newTitle };
+
+	if (newTitle.size() > 40)
+		shorTitle = newTitle.left(40) + "...";
+
+	setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+	m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
+}
+
+void SMainWindow::changeUrl(const QUrl& newUrl)
+{
 
 }

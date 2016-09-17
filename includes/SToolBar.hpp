@@ -4,7 +4,7 @@
 #include <QString>
 #include <QTextStream>
 
-#include "Actions.h"
+#include "..\includes\Actions.hpp"
 
 class SMainWindow;
 

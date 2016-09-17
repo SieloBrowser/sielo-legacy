@@ -2,9 +2,9 @@
 #include <QtWidgets>
 #include <QtWebEngineWidgets>
 
-#include "..\includes\SWebView.h"
-#include "..\includes\STabWidget.h"
-#include "..\includes\SMainWindow.h"
+#include "..\includes\SWebView.hpp"
+#include "..\includes\STabWidget.hpp"
+#include "..\includes\SMainWindow.hpp"
 
 int main(int argc, char *argv[])
 {

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QtWebEngineWidgets>
 
-#include "STabWidget.h"
+#include "..\includes\STabWidget.hpp"
 
 class SWebView : public QWebEngineView
 {
