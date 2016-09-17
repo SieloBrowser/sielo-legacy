@@ -2,6 +2,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include <QSettings>
 
 #include "STabWidget.h"
 #include "SWebView.h"
@@ -15,6 +16,8 @@ public:
 	~SMainWindow();
 
 	Actions* getActions() const { return m_actions; }
+
+	static QSettings* SSettings;
 
 private:
 	Actions* m_actions{ new Actions };

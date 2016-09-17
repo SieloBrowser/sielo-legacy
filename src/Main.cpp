@@ -10,6 +10,10 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+	QCoreApplication::setOrganizationName("Feldrise");
+	QCoreApplication::setOrganizationDomain("feldrise.com");
+	QCoreApplication::setApplicationName("Sielo NAvigateur V3");
+
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 
 	SMainWindow fen;

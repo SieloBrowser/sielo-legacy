@@ -7,7 +7,15 @@ SToolBar::SToolBar(const QString& toolBarName, SMainWindow* parent) :
 	m_parents(parent),
 	m_actions(parent->getActions())
 {
+	m_spacer1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	m_spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	addWidget(m_spacer1);
+
 	addAction(m_actions->back);
+
+	addWidget(m_spacer2);
+		
 }
 
 

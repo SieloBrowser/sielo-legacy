@@ -2,11 +2,13 @@
 
 #include <QMessageBox>
 
+QSettings * SMainWindow::SSettings = new QSettings("data/sdata.ini", QSettings::IniFormat);
+
 SMainWindow::SMainWindow(QWidget* parent) : 
 	QMainWindow(parent)
 {
 	SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };
-	m_tabs->createWebTab("Teste", webView);
+	m_tabs->createWebTab(webView->title(), webView);
 
 	setCentralWidget(m_tabs);
 

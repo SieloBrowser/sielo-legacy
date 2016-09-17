@@ -14,6 +14,8 @@ public:
 
 private:
 	SMainWindow* m_parents{ nullptr };
+	QWidget* m_spacer1{ new QWidget(this) };
+	QWidget* m_spacer2{ new QWidget(this) };
 	Actions* m_actions{ nullptr };
 };
 
