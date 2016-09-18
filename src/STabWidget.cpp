@@ -54,8 +54,6 @@ void STabWidget::createWebTab()
 	createPlusTab();
 	if (tabBar()->tabButton(count() - 3, QTabBar::RightSide))
 		removeTab(count() - 3);
-	else
-		QMessageBox::critical(this, "Error", "Il n'existe que deux onglets !");
 }
 
 void STabWidget::createPlusTab()

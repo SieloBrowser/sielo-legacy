@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QtWidgets>
 #include <QtWebEngineWidgets>
+#include <QStyle>
 
 #include "..\includes\SWebView.hpp"
 #include "..\includes\STabWidget.hpp"
@@ -9,6 +10,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+//	QApplication::setStyle(QStyleFactory::create("Fusion"));
 
 	QCoreApplication::setOrganizationName("Feldrise");
 	QCoreApplication::setOrganizationDomain("feldrise.com");
