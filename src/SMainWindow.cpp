@@ -10,11 +10,16 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	QMainWindow(parent)
 {
 	setWindowTitle("[S]ielo[N]avigateur V3");
-	SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };
-	m_tabs->createWebTab("Google", webView);
+	//SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };
+	//m_tabs->createWebTab(tr("Google"), webView);
+	//m_tabs->createWebTab(tr("Feldrise"), QUrl("http://feldrise.com"));
+
+	m_tabs->createWebTab();
 
 //	m_urlArea->hide();
 //	m_searchArea->hide();
+	m_urlArea->setMinimumWidth(400);
+	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText("Recherche Google");
 
 	loadToolBar("Themes/SIcons/toolBar.txt");
@@ -46,7 +51,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 	case THEME_V0:
 		in >> nbreToolBar;
 
-		for (int i{ 0 }; i < nbreToolBar; ++i) {
+		for (size_t i{ 0 }; i < nbreToolBar; ++i) {
 			m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
 			m_toolsBars[i]->loadToolBarV0(in);
 			addToolBar(m_toolsBars[i]);
@@ -63,9 +68,34 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 
 }
 
+SWebView * SMainWindow::currentPage()
+{
+	return m_tabs->currentWidget()->findChild<SWebView *>();
+}
+
 //-- PUBLIC SLOTS
 
 void SMainWindow::changeTitle(const QString& newTitle)
+{
+	SWebView* view{ static_cast<SWebView*>(sender()) };
+
+	if (!view) {
+		QMessageBox::critical(this, "Error", "Failed to know the sender of new title signal");
+		return;
+	}
+
+	if (view == currentPage()) {
+		QString shorTitle{ newTitle };
+
+		if (newTitle.size() > 40)
+			shorTitle = newTitle.left(40) + "...";
+
+		setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+		m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
+	}
+}
+
+void SMainWindow::changeTabTitle(const QString& newTitle)
 {
 	QString shorTitle{ newTitle };
 
@@ -73,10 +103,27 @@ void SMainWindow::changeTitle(const QString& newTitle)
 		shorTitle = newTitle.left(40) + "...";
 
 	setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
-	m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
 }
+
 
 void SMainWindow::changeUrl(const QUrl& newUrl)
 {
+	SWebView* view{ static_cast<SWebView*>(sender()) };
+
+	if (!view) {
+		QMessageBox::critical(this, "Error", "Failed to know the sender of new title signal");
+		return;
+	}
+
+	if (view == currentPage()) {
+		if (newUrl.toString() != tr("html/page_blanche"))
+			m_urlArea->setText(newUrl.toString());
+	}
+}
+
+void SMainWindow::changeTabUrl(const QUrl& newUrl)
+{
+	if (newUrl.toString() != tr("html/page_blanche"))
+		m_urlArea->setText(newUrl.toString());
 
 }

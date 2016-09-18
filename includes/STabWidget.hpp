@@ -14,7 +14,14 @@ public:
 	STabWidget(SMainWindow* parent = nullptr);
 	~STabWidget();
 
-	void createWebTab(QString title, SWebView* view = nullptr, QUrl url = QUrl("http://google.com"));
+	void createWebTab(QString& title, SWebView* view);
+	void createWebTab(QString& title, QUrl& url);
+	void createWebTab();
+	void createPlusTab();
+
+public slots:
+	void tabChanged(int index);
+	void tabClosed(int index = -1);
 
 private:
 	SMainWindow* m_parent;

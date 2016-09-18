@@ -19,11 +19,15 @@ public:
 	~SMainWindow();
 
 	bool loadToolBar(const QString& filePath);
+	void changeTabTitle(const QString& newTitle);
+	void changeTabUrl(const QUrl& newUrl);
 
 	// Getters
 	Actions* getActions() const { return m_actions; }
 	QLineEdit* getUrlArea() const { return m_urlArea; }
 	QLineEdit* getSearchArea() const { return m_searchArea; }
+
+	SWebView* currentPage();
 
 public slots:
 	void changeTitle(const QString& newTitle);
