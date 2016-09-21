@@ -8,6 +8,7 @@
 #include "..\includes\STabWidget.hpp"
 #include "..\includes\SWebView.hpp"
 #include "..\includes\SToolBar.hpp"
+#include "..\includes\SMenu.hpp"
 #include "..\includes\Actions.hpp"
 
 class SMainWindow : public QMainWindow
@@ -18,6 +19,7 @@ public:
 	SMainWindow(QWidget* parent = nullptr);
 	~SMainWindow();
 
+	void loadMenus();
 	bool loadToolBar(const QString& filePath);
 	void changeTabTitle(const QString& newTitle);
 	void changeTabUrl(const QUrl& newUrl);
@@ -26,6 +28,7 @@ public:
 	Actions* getActions() const { return m_actions; }
 	QLineEdit* getUrlArea() const { return m_urlArea; }
 	QLineEdit* getSearchArea() const { return m_searchArea; }
+	STabWidget* getTabs() { return m_tabs; }
 
 	SWebView* currentPage();
 
@@ -40,5 +43,6 @@ private:
 	Actions* m_actions{ new Actions };
 	STabWidget* m_tabs{ new STabWidget(this) };
 	QVector<SToolBar*> m_toolsBars{};
+	QVector<SMenu*> m_menus{};
 };
 

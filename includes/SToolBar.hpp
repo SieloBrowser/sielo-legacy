@@ -4,9 +4,8 @@
 #include <QString>
 #include <QTextStream>
 
-#include "..\includes\Actions.hpp"
-
 class SMainWindow;
+class Actions;
 
 class SToolBar : public QToolBar
 {

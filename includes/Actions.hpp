@@ -22,7 +22,6 @@ struct Actions {
 	QAction* newTab{ new QAction(QIcon(themePath + "newTab.png"), "Nouvelle Onglet") };
 	QAction* newWindow{ new QAction(QIcon(themePath + "newWindow.png"), "Nouvelle Fenêtre") };
 	QAction* openFile{ new QAction("Ouvrir un fichier") };
-	QAction* closeCurrentTab{ new QAction("Fermet l'onglet") };
 	QAction* exit{ new QAction(QIcon(themePath + "exit.png"), "Fermer Sielo NAvigateur") };
 	QAction* showFullScreen{ new QAction("Afficher en pleine écran") };
 	QAction* findInPage{ new QAction(QIcon(themePath + "search.png"), "Chercher dans la page") };

@@ -14,7 +14,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	//m_tabs->createWebTab(tr("Google"), webView);
 	//m_tabs->createWebTab(tr("Feldrise"), QUrl("http://feldrise.com"));
 
-	m_tabs->createWebTab();
+	m_tabs->createDefaultWebTab();
 
 //	m_urlArea->hide();
 //	m_searchArea->hide();
@@ -22,6 +22,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText("Recherche Google");
 
+	loadMenus();
 	loadToolBar("Themes/SIcons/toolBar.txt");
 	setCentralWidget(m_tabs);
 }
@@ -29,6 +30,23 @@ SMainWindow::SMainWindow(QWidget* parent) :
 
 SMainWindow::~SMainWindow()
 {
+}
+
+void SMainWindow::loadMenus()
+{
+	m_menus.push_back(new SMenu(this, "&Fichier", SMenuType::File));
+	m_menus.push_back(new SMenu(this, "&Affichage", SMenuType::Show));
+	m_menus.push_back(new SMenu(this, "&Navigation", SMenuType::Brows));
+	m_menus.push_back(new SMenu(this, "&Fa&voris", SMenuType::Fav));
+	m_menus.push_back(new SMenu(this, "&Edition", SMenuType::Edit));
+	m_menus.push_back(new SMenu(this, "&?", SMenuType::About));
+	
+	menuBar()->addMenu(m_menus[0]);
+	menuBar()->addMenu(m_menus[1]);
+	menuBar()->addMenu(m_menus[2]);
+	menuBar()->addMenu(m_menus[3]);
+	menuBar()->addMenu(m_menus[4]);
+	menuBar()->addMenu(m_menus[5]);
 }
 
 bool SMainWindow::loadToolBar(const QString & filePath)

@@ -48,7 +48,7 @@ void STabWidget::createWebTab(QString & title, QUrl & url)
 
 }
 
-void STabWidget::createWebTab()
+void STabWidget::createDefaultWebTab()
 {
 	createWebTab(tr("Home page"), SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toUrl());
 	createPlusTab();
@@ -64,6 +64,7 @@ void STabWidget::createPlusTab()
 
 void STabWidget::tabClosed(int index)
 {
+	QMessageBox::information(this, "DEBUG", QString::number(index));
 	if (index == -1)
 		index = currentIndex();
 
@@ -81,7 +82,7 @@ void STabWidget::tabClosed(int index)
 void STabWidget::tabChanged(int index)
 {
 	if (index == count() - 1 && count() > 1) 
-		createWebTab();
+		createDefaultWebTab();
 	else {
 		m_parent->changeTabTitle(m_parent->currentPage()->title());
 		m_parent->changeTabUrl(m_parent->currentPage()->url());

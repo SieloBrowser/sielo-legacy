@@ -1,5 +1,4 @@
-#ifndef SWEBVIEW_H
-#define SWEBVIEW_H
+#pragma once 
 
 #include <QWidget>
 #include <QtWebEngineWidgets>
@@ -18,5 +17,3 @@ public slots:
 private:
 	QWidget* m_parent{ nullptr };
 };
-
-#endif // SWEBVIEW_H
