@@ -139,6 +139,43 @@ void SMainWindow::changeUrl(const QUrl& newUrl)
 	}
 }
 
+void SMainWindow::fullScreen()
+{
+	if (isFullScreen()) {
+		showNormal();
+		m_actions->showFullScreen->setText("Afficher en pleine écran");
+	}
+	else {
+		showFullScreen();
+		m_actions->showFullScreen->setText("Enlever le pleine écran");
+	}
+}
+
+void SMainWindow::back()
+{
+	currentPage()->back();
+}
+
+void SMainWindow::next()
+{
+	currentPage()->forward();
+}
+
+void SMainWindow::home()
+{
+	currentPage()->load(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toUrl());
+}
+
+void SMainWindow::refresh()
+{
+	currentPage()->reload();
+}
+
+void SMainWindow::stop()
+{
+	currentPage()->stop();
+}
+
 void SMainWindow::changeTabUrl(const QUrl& newUrl)
 {
 	if (newUrl.toString() != tr("html/page_blanche"))

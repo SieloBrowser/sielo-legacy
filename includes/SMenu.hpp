@@ -32,6 +32,8 @@ public slots:
 	void createNewWindows();
 	void openFile();
 
+	void findInPage();
+	void zoom();
 private:
 	SMainWindow* m_parent{ nullptr };
 	Actions* m_actions{ nullptr };

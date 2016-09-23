@@ -36,6 +36,13 @@ public slots:
 	void changeTitle(const QString& newTitle);
 	void changeUrl(const QUrl& newUrl);
 
+	void fullScreen();
+
+	void back();
+	void next();
+	void home();
+	void refresh();
+	void stop();
 private:
 	// Private member
 	QLineEdit* m_urlArea{ new QLineEdit(this) };
