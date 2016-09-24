@@ -17,6 +17,8 @@ public slots:
 	void loadInProgress(int percent);
 	void loadFinished(bool ok);
 
+	void loadUrl();
+
 private:
 	SMainWindow* m_parent{ nullptr };
 	QLineEdit* m_champs{ new QLineEdit(this) };

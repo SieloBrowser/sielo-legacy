@@ -13,6 +13,9 @@ public:
 
 	void paintEvent(QPaintEvent* event);
 
+public slots:
+	void loadSearch();
+
 private:
 	SMainWindow* m_parent{ nullptr };
 	QIcon m_icon{};

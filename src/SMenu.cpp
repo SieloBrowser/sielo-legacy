@@ -99,6 +99,8 @@ void SMenu::createBrowsMenu()
 	connect(m_actions->home, &QAction::triggered, m_parent, &SMainWindow::home);
 	connect(m_actions->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 
+	connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
+
 	addAction(m_actions->back);
 	addAction(m_actions->next);
 	addAction(m_actions->home);
