@@ -46,5 +46,11 @@ void SUrlArea::loadFinished(bool ok)
 
 void SUrlArea::loadUrl()
 {
-	m_parent->currentPage()->load(QUrl(m_champs->text()));
+	QString url{};
+	if (m_champs->text().left(7) != "http://" && m_champs->text().left(8) != "https://")
+		url = "https://" + m_champs->text();
+	else
+		url = m_champs->text();
+
+	m_parent->currentPage()->load(QUrl(url));
 }
