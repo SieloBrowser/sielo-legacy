@@ -32,6 +32,8 @@ void SUrlArea::loadStarted()
 	m_parent->getActions()->refreshOrStop->setText("Arrêter le chargement");
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 
+	setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2)}");
+
 	QString url{ m_parent->currentPage()->url().toString() };
 	if ((url.left(7) != "http://" && url.left(8) != "https://" && url.left(5) != "html/") && !url.isEmpty()) {
 		QMessageBox warningMsgBox{ QMessageBox::Warning, tr("Site non sécurisé"), tr("Attention, le site sur lequel vous entrez n'est pas sécurisé !"), QMessageBox::Ignore | QMessageBox::Cancel, this };
@@ -46,7 +48,6 @@ void SUrlArea::loadStarted()
 
 void SUrlArea::loadInProgress(int percent)
 {
-	setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2)}");
 	setValue(percent);
 }
 
@@ -54,6 +55,7 @@ void SUrlArea::loadFinished(bool ok)
 {
 	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
 	m_parent->getActions()->refreshOrStop->setText("Rafraichir la page");
+	setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2)}");
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 }
 
