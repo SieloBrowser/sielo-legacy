@@ -15,6 +15,8 @@ SUrlArea::SUrlArea(SMainWindow * parent) :
 	layout->addWidget(m_champs);
 
 	setTextVisible(false);
+
+	connect(m_champs, &QLineEdit::returnPressed, this, &SUrlArea::loadUrl);
 }
 
 void SUrlArea::setText(const QString& texte)
@@ -40,4 +42,9 @@ void SUrlArea::loadFinished(bool ok)
 	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
 	m_parent->getActions()->refreshOrStop->setText("Rafraichir la page");
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
+}
+
+void SUrlArea::loadUrl()
+{
+	m_parent->currentPage()->load(QUrl(m_champs->text()));
 }
