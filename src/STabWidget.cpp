@@ -1,6 +1,7 @@
 #include "..\includes\STabWidget.hpp"
 #include "..\includes\SWebView.hpp"
 #include "..\includes\SMainWindow.hpp"
+#include "..\includes\SUrlArea.hpp"
 
 STabWidget::STabWidget(SMainWindow * parent) : 
 	QTabWidget(parent),
@@ -27,6 +28,7 @@ void STabWidget::createWebTab(QString & title, SWebView * view)
 
     connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
     connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
+	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
 
 	addTab(tabPage, title);
 
@@ -43,6 +45,7 @@ void STabWidget::createWebTab(QString & title, QUrl & url)
 
 	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
 	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
+	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
 
 	addTab(tabPage, title);
 

@@ -9,6 +9,7 @@
 #include "..\includes\SWebView.hpp"
 #include "..\includes\SToolBar.hpp"
 #include "..\includes\SMenu.hpp"
+#include "..\includes\SUrlArea.hpp"
 #include "..\includes\Actions.hpp"
 
 class SMainWindow : public QMainWindow
@@ -26,7 +27,7 @@ public:
 
 	// Getters
 	Actions* getActions() const { return m_actions; }
-	QLineEdit* getUrlArea() const { return m_urlArea; }
+	SUrlArea* getUrlArea() const { return m_urlArea; }
 	QLineEdit* getSearchArea() const { return m_searchArea; }
 	STabWidget* getTabs() { return m_tabs; }
 
@@ -45,7 +46,7 @@ public slots:
 	void stop();
 private:
 	// Private member
-	QLineEdit* m_urlArea{ new QLineEdit(this) };
+	SUrlArea* m_urlArea{ new SUrlArea(this) };
 	QLineEdit* m_searchArea{ new QLineEdit(this) };
 	Actions* m_actions{ new Actions };
 	STabWidget* m_tabs{ new STabWidget(this) };
