@@ -4,11 +4,21 @@ QT += webenginewidgets
 
 SOURCES += \
     src/Main.cpp \
-    src/SWebView.cpp \
-    src/STabWidget.cpp \
-	src/SMainWindows.cpp
+    src/SMainWindow.cpp \
+    src/SWidgets/SMenu.cpp \
+    src/SWidgets/SSearchArea.cpp \
+    src/SWidgets/STabWidget.cpp \
+    src/SWidgets/SToolBar.cpp \
+    src/SWidgets/SUrlArea.cpp \
+    src/SWidgets/SWebView.cpp
 
 HEADERS += \
-    includes/SWebView.h \
-    includes/STabWidget.h \
-	includes/SMainWindows
+    includes/Actions.hpp \
+    includes/SMainWindow.hpp \
+    includes/SWidgets/SMenu.hpp \
+    includes/SWidgets/SSearchArea.hpp \
+    includes/SWidgets/STabWidget.hpp \
+    includes/SWidgets/SToolBar.hpp \
+    includes/SWidgets/SUrlArea.hpp \
+    includes/SWidgets/SWebView.hpp
+

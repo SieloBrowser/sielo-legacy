@@ -1,4 +1,4 @@
-﻿#include "..\includes\SMainWindow.hpp"
+﻿#include "../includes/SMainWindow.hpp"
 #include "../includes/Actions.hpp"
 
 #include <QMessageBox>

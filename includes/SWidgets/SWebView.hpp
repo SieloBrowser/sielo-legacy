@@ -3,8 +3,6 @@
 #include <QWidget>
 #include <QtWebEngineWidgets>
 
-#include "..\includes\STabWidget.hpp"
-
 class SWebView : public QWebEngineView
 {
 public:

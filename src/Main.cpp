@@ -3,9 +3,9 @@
 #include <QtWebEngineWidgets>
 #include <QStyle>
 
-#include "..\includes\SWebView.hpp"
-#include "..\includes\STabWidget.hpp"
-#include "..\includes\SMainWindow.hpp"
+#include "../includes/SWidgets/SWebView.hpp"
+#include "../includes/SWidgets/STabWidget.hpp"
+#include "../includes/SMainWindow.hpp"
 
 int main(int argc, char *argv[])
 {

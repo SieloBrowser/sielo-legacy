@@ -5,12 +5,12 @@
 #include <QSettings>
 #include <QLineEdit>
 
-#include "..\includes\STabWidget.hpp"
-#include "..\includes\SWebView.hpp"
-#include "..\includes\SToolBar.hpp"
-#include "..\includes\SMenu.hpp"
-#include "..\includes\SUrlArea.hpp"
-#include "../includes/SSearchArea.hpp"
+#include "../includes/SWidgets/STabWidget.hpp"
+#include "../includes/SWidgets/SWebView.hpp"
+#include "../includes/SWidgets/SToolBar.hpp"
+#include "../includes/SWidgets/SMenu.hpp"
+#include "../includes/SWidgets/SUrlArea.hpp"
+#include "../includes/SWidgets/SSearchArea.hpp"
 
 
 struct Actions;
