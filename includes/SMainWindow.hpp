@@ -10,7 +10,9 @@
 #include "..\includes\SToolBar.hpp"
 #include "..\includes\SMenu.hpp"
 #include "..\includes\SUrlArea.hpp"
-#include "..\includes\Actions.hpp"
+
+
+struct Actions;
 
 class SMainWindow : public QMainWindow
 {
@@ -48,7 +50,7 @@ private:
 	// Private member
 	SUrlArea* m_urlArea{ new SUrlArea(this) };
 	QLineEdit* m_searchArea{ new QLineEdit(this) };
-	Actions* m_actions{ new Actions };
+	Actions* m_actions{ nullptr };
 	STabWidget* m_tabs{ new STabWidget(this) };
 	QVector<SToolBar*> m_toolsBars{};
 	QVector<SMenu*> m_menus{};

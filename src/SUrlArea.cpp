@@ -1,5 +1,6 @@
 #include "../includes/SUrlArea.hpp"
 #include "../includes/SMainWindow.hpp"
+#include "../includes/Actions.hpp"
 
 SUrlArea::SUrlArea(SMainWindow * parent) :
 	QProgressBar(parent),
@@ -23,6 +24,9 @@ void SUrlArea::setText(const QString& texte)
 
 void SUrlArea::loadStarted()
 {
+	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
+	m_parent->getActions()->refreshOrStop->setText("Arrêter le chargement");
+	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 }
 
 void SUrlArea::loadInProgress(int percent)
@@ -33,4 +37,7 @@ void SUrlArea::loadInProgress(int percent)
 
 void SUrlArea::loadFinished(bool ok)
 {
+	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
+	m_parent->getActions()->refreshOrStop->setText("Rafraichir la page");
+	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 }

@@ -28,7 +28,9 @@ void STabWidget::createWebTab(QString & title, SWebView * view)
 
     connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
     connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
+	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
 	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
+	connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
 
 	addTab(tabPage, title);
 
@@ -45,7 +47,9 @@ void STabWidget::createWebTab(QString & title, QUrl & url)
 
 	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
 	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
+	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
 	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
+	connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
 
 	addTab(tabPage, title);
 
@@ -67,7 +71,6 @@ void STabWidget::createPlusTab()
 
 void STabWidget::tabClosed(int index)
 {
-	QMessageBox::information(this, "DEBUG", QString::number(index));
 	if (index == -1)
 		index = currentIndex();
 

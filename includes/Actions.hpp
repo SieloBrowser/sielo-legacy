@@ -1,10 +1,11 @@
 #pragma once
 
 #include <QAction>
+#include "../includes/SMainWindow.hpp"
 
 struct Actions {
 
-	QString themePath{ "Themes/Sicons/" };
+	QString themePath{ SMainWindow::SSettings->value("Themes/currentThemePath", "Themes/Sicons").toString() + "/" };
 
 	// All actions possible in the tool bar
 	QAction* back{ new QAction(QIcon(themePath + "back.png"), "&Précédent") };
