@@ -10,6 +10,7 @@
 #include "..\includes\SToolBar.hpp"
 #include "..\includes\SMenu.hpp"
 #include "..\includes\SUrlArea.hpp"
+#include "../includes/SSearchArea.hpp"
 
 
 struct Actions;
@@ -30,7 +31,7 @@ public:
 	// Getters
 	Actions* getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }
-	QLineEdit* getSearchArea() const { return m_searchArea; }
+	SSearchArea* getSearchArea() const { return m_searchArea; }
 	STabWidget* getTabs() { return m_tabs; }
 
 	SWebView* currentPage();
@@ -49,7 +50,7 @@ public slots:
 private:
 	// Private member
 	SUrlArea* m_urlArea{ new SUrlArea(this) };
-	QLineEdit* m_searchArea{ new QLineEdit(this) };
+	SSearchArea* m_searchArea{ nullptr };
 	Actions* m_actions{ nullptr };
 	STabWidget* m_tabs{ new STabWidget(this) };
 	QVector<SToolBar*> m_toolsBars{};
