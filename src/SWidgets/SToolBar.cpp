@@ -1,6 +1,6 @@
-#include "../includes/SWidgets/SToolBar.hpp"
-#include "../includes/SMainWindow.hpp"
-#include "../includes/Actions.hpp"
+#include "includes/SWidgets/SToolBar.hpp"
+#include "includes/SMainWindow.hpp"
+#include "includes/Actions.hpp"
 
 SToolBar::SToolBar(const QString& toolBarName, SMainWindow* parent) :
 	QToolBar(toolBarName),

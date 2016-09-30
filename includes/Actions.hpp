@@ -1,18 +1,18 @@
 #pragma once
 
 #include <QAction>
-#include "../includes/SMainWindow.hpp"
+#include "includes/SMainWindow.hpp"
 
 struct Actions {
 
-	QString themePath{ SMainWindow::SSettings->value("Themes/currentThemePath", "Themes/Sicons").toString() + "/" };
+    QString themePath{ SMainWindow::SSettings->value("Themes/currentThemePath", "Themes/SIcons").toString() + "/" };
 
 	// All actions possible in the tool bar
 	QAction* back{ new QAction(QIcon(themePath + "back.png"), "&Précédent") };
-	QAction* next{ new QAction(QIcon(themePath + "next.png"), "&Suivant") };;
-	QAction* home{ new QAction(QIcon(themePath + "home.png"), "&Accueil") };;
-	QAction* refreshOrStop{ new QAction(QIcon(themePath + "refresh.png"), "&Rafraichir") };;
-	QAction* go{ new QAction(QIcon(themePath + "go.png"), "&Go") };;
+    QAction* next{ new QAction(QIcon(themePath + "next.png"), "&Suivant") };
+    QAction* home{ new QAction(QIcon(themePath + "home.png"), "&Accueil") };
+    QAction* refreshOrStop{ new QAction(QIcon(themePath + "refresh.png"), "&Rafraichir") };
+    QAction* go{ new QAction(QIcon(themePath + "go.png"), "&Go") };
 	QAction* shearch{ new QAction(QIcon(themePath + "search.png"), "&Chercher") };
 	QAction* showHistory{ new QAction(QIcon(themePath + "history.png"), "&Historique") };
 	QAction* preferences{ new QAction(QIcon(themePath + "preferences.png"), "Pré&férences") };

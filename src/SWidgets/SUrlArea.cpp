@@ -1,6 +1,6 @@
-#include "../includes/SWidgets/SUrlArea.hpp"
-#include "../includes/SMainWindow.hpp"
-#include "../includes/Actions.hpp"
+#include "includes/SWidgets/SUrlArea.hpp"
+#include "includes/SMainWindow.hpp"
+#include "includes/Actions.hpp"
 
 #include <QMessageBox>
 
@@ -53,10 +53,23 @@ void SUrlArea::loadInProgress(int percent)
 
 void SUrlArea::loadFinished(bool ok)
 {
+	SWebView* view{ static_cast<SWebView*>(sender()) };
+
+	if (!view) 
+		return;
+
 	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
 	m_parent->getActions()->refreshOrStop->setText("Rafraichir la page");
 	setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2)}");
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
+
+	if (view->url().toString() == "about:blank")
+		return;
+	else if(m_parent->getCurSessionHistory().size() <= 0)
+        m_parent->addHistoryItem(view->title(), view->url());
+	else if(m_parent->getLastHistoryItem().title != view->title())
+        m_parent->addHistoryItem(view->title(), view->url());
+
 }
 
 void SUrlArea::loadUrl()

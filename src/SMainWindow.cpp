@@ -1,11 +1,11 @@
-﻿#include "../includes/SMainWindow.hpp"
-#include "../includes/Actions.hpp"
+﻿#include "includes/SMainWindow.hpp"
+#include "includes/Actions.hpp"
 
 #include <QMessageBox>
 #include <QFile>
 
 const unsigned int THEME_V0 = 1;
-QSettings * SMainWindow::SSettings = new QSettings("data/sdata.ini", QSettings::IniFormat);
+QSettings * SMainWindow::SSettings = new QSettings("Feldrise" "SieloNAvigateurV3");
 
 SMainWindow::SMainWindow(QWidget* parent) :
 	QMainWindow(parent),
@@ -26,7 +26,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	m_searchArea->setPlaceholderText("Recherche Google");
 
 	loadMenus();
-	loadToolBar("Themes/SIcons/toolBar.txt");
+    loadToolBar("Themes/SIcons/toolBar.txt");
 	setCentralWidget(m_tabs);
 }
 
@@ -57,7 +57,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 	QFile file{ filePath };
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QMessageBox::critical(this, "Error", "Impossible d'ouvrir le theme de la bare d'outile");
+        QMessageBox::critical(this, "Error", "Impossible d'ouvrir le theme de la bare d'outile : " + filePath);
 		return false;
 	}
 
@@ -94,6 +94,31 @@ SWebView * SMainWindow::currentPage()
 	return m_tabs->currentWidget()->findChild<SWebView *>();
 }
 
+void SMainWindow::changeTabTitle(const QString& newTitle)
+{
+	QString shorTitle{ newTitle };
+
+	if (newTitle.size() > 40)
+		shorTitle = newTitle.left(40) + "...";
+
+	setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+}
+
+void SMainWindow::changeTabUrl(const QUrl& newUrl)
+{
+	if (newUrl.toString() != tr("html/page_blanche"))
+		m_urlArea->setText(newUrl.toString());
+
+}
+
+void SMainWindow::addHistoryItem(QString title, QUrl url)
+{
+	SHistoryItem item{};
+	item.title = title;
+	item.url = url;
+	m_curSessionHistory.push_back(item);
+}
+
 //-- PUBLIC SLOTS
 
 void SMainWindow::changeTitle(const QString& newTitle)
@@ -115,17 +140,6 @@ void SMainWindow::changeTitle(const QString& newTitle)
 		m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
 	}
 }
-
-void SMainWindow::changeTabTitle(const QString& newTitle)
-{
-	QString shorTitle{ newTitle };
-
-	if (newTitle.size() > 40)
-		shorTitle = newTitle.left(40) + "...";
-
-	setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
-}
-
 
 void SMainWindow::changeUrl(const QUrl& newUrl)
 {
@@ -179,9 +193,29 @@ void SMainWindow::stop()
 	currentPage()->stop();
 }
 
-void SMainWindow::changeTabUrl(const QUrl& newUrl)
+void SMainWindow::closeEvent(QCloseEvent * event)
 {
-	if (newUrl.toString() != tr("html/page_blanche"))
-		m_urlArea->setText(newUrl.toString());
+	for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
+		m_tabs->setCurrentIndex(i);
+		QMessageBox::information(this, "DEBUG", "Pause");
+	}
 
+	QDate date{ QDate::currentDate() };
+
+
+
+    SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
+	int itemNum{ SMainWindow::SSettings->value("itemNum", 0).toInt() };
+	for (int i{ 0 }; i < m_curSessionHistory.size(); ++i) {
+		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/title", m_curSessionHistory[i].title);
+		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/url", m_curSessionHistory[i].url);
+		++itemNum;
+		QMessageBox::information(this, "DEBUG", m_curSessionHistory[i].title + ", " + m_curSessionHistory[i].url.toString());
+	}
+	SMainWindow::SSettings->setValue("itemNum", itemNum);
+	SMainWindow::SSettings->endGroup();
+
+
+	event->accept();
 }
+

@@ -34,6 +34,8 @@ public slots:
 
 	void findInPage();
 	void zoom();
+
+	void showHistory();
 private:
 	SMainWindow* m_parent{ nullptr };
 	Actions* m_actions{ nullptr };

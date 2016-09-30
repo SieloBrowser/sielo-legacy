@@ -1,7 +1,7 @@
-#include "../includes/SWidgets/STabWidget.hpp"
-#include "../includes/SWidgets/SWebView.hpp"
-#include "../includes/SWidgets/SUrlArea.hpp"
-#include "../includes/SMainWindow.hpp"
+#include "includes/SWidgets/STabWidget.hpp"
+#include "includes/SWidgets/SWebView.hpp"
+#include "includes/SWidgets/SUrlArea.hpp"
+#include "includes/SMainWindow.hpp"
 
 STabWidget::STabWidget(SMainWindow * parent) : 
 	QTabWidget(parent),
@@ -18,7 +18,7 @@ STabWidget::~STabWidget()
 	// Empty
 }
 
-void STabWidget::createWebTab(QString & title, SWebView * view)
+void STabWidget::createWebTab(QString title, SWebView * view)
 {
 	QWidget* tabPage{ new QWidget(this) };
 	QVBoxLayout* pageLayout{ new QVBoxLayout };
@@ -36,7 +36,7 @@ void STabWidget::createWebTab(QString & title, SWebView * view)
 
 }
 
-void STabWidget::createWebTab(QString & title, QUrl & url)
+void STabWidget::createWebTab(QString title, QUrl url)
 {
 	QWidget* tabPage{ new QWidget(this) };
 	SWebView* view{ new SWebView(tabPage, url) };

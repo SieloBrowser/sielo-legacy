@@ -1,6 +1,7 @@
-#include "../includes/SWidgets/SMenu.hpp"
-#include "../includes/SMainWindow.hpp"
-#include "../includes/Actions.hpp"
+#include "includes/SWidgets/SMenu.hpp"
+#include "includes/SWindows/SHistory.hpp"
+#include "includes/SMainWindow.hpp"
+#include "includes/Actions.hpp"
 
 #include <QFileDialog>
 #include <QInputDialog>
@@ -98,6 +99,7 @@ void SMenu::createBrowsMenu()
 	connect(m_actions->next, &QAction::triggered, m_parent, &SMainWindow::next);
 	connect(m_actions->home, &QAction::triggered, m_parent, &SMainWindow::home);
 	connect(m_actions->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
+	connect(m_actions->history, &QAction::triggered, this, &SMenu::showHistory);
 
 	connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
 	connect(m_actions->go, &QAction::triggered, m_parent->getUrlArea(), &SUrlArea::loadUrl);
@@ -180,4 +182,11 @@ void SMenu::zoom()
 		m_parent->currentPage()->setZoomFactor(m_parent->currentPage()->zoomFactor() - 0.1);
 	else 
 		QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
+}
+
+void SMenu::showHistory()
+{
+	SHistoryWindow* historyWin{ new SHistoryWindow(m_parent) };
+	connect(historyWin, &SHistoryWindow::close, historyWin, &SHistoryWindow::deleteLater);
+	historyWin->show();
 }

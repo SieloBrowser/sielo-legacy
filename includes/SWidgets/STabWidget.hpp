@@ -13,8 +13,8 @@ public:
 	STabWidget(SMainWindow* parent = nullptr);
 	~STabWidget();
 
-	void createWebTab(QString& title, SWebView* view);
-	void createWebTab(QString& title, QUrl& url);
+    void createWebTab(QString title, SWebView* view);
+    void createWebTab(QString title, QUrl url);
 	void createPlusTab();
 
 public slots:

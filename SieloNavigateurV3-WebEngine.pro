@@ -10,7 +10,8 @@ SOURCES += \
     src/SWidgets/STabWidget.cpp \
     src/SWidgets/SToolBar.cpp \
     src/SWidgets/SUrlArea.cpp \
-    src/SWidgets/SWebView.cpp
+    src/SWidgets/SWebView.cpp \
+    src/SWindows/SHistory.cpp
 
 HEADERS += \
     includes/Actions.hpp \
@@ -20,5 +21,6 @@ HEADERS += \
     includes/SWidgets/STabWidget.hpp \
     includes/SWidgets/SToolBar.hpp \
     includes/SWidgets/SUrlArea.hpp \
-    includes/SWidgets/SWebView.hpp
+    includes/SWidgets/SWebView.hpp \
+    includes/SWindows/SHistory.hpp
 

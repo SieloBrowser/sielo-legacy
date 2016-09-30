@@ -3,9 +3,9 @@
 #include <QtWebEngineWidgets>
 #include <QStyle>
 
-#include "../includes/SWidgets/SWebView.hpp"
-#include "../includes/SWidgets/STabWidget.hpp"
-#include "../includes/SMainWindow.hpp"
+#include "includes/SWidgets/SWebView.hpp"
+#include "includes/SWidgets/STabWidget.hpp"
+#include "includes/SMainWindow.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -13,13 +13,13 @@ int main(int argc, char *argv[])
 
 //	QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-	QCoreApplication::setOrganizationName("Feldrise");
-	QCoreApplication::setOrganizationDomain("feldrise.com");
-	QCoreApplication::setApplicationName("Sielo NAvigateur V3");
+//	QCoreApplication::setOrganizationName("Feldrise");
+//	QCoreApplication::setOrganizationDomain("feldrise.com");
+//	QCoreApplication::setApplicationName("Sielo NAvigateur V3");
 
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 
-	SMainWindow fen;
+    SMainWindow* fen{ new SMainWindow };
 /*	
 	STabWidget tab;
 	SWebView webView(&tab, QUrl("http://feldrise.com"));
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	fen.setLayout(mainLayout); 
 */
 
-	fen.show();
+    fen->show();
 
     return app.exec();
 }
