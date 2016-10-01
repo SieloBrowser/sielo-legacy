@@ -91,6 +91,7 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
 
     connect(m_view, &QTreeView::doubleClicked, this, &SHistoryWindow::load);
     connect(m_loadBtn, &QPushButton::clicked, this, &SHistoryWindow::load);
+    connect(m_deleteAllBtn, &QPushButton::clicked, this, &SHistoryWindow::deleteAll);
 }
 
 SHistoryWindow::~SHistoryWindow()
@@ -118,4 +119,12 @@ void SHistoryWindow::load()
     m_parent->getTabs()->createWebTab(title, url);
     m_parent->getTabs()->createPlusTab();
     m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+}
+
+void SHistoryWindow::deleteAll()
+{
+    m_parent->getCurSessionHistory().clear();
+    SMainWindow::SSettings->remove("History");
+
+    m_model->clear();
 }

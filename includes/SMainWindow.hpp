@@ -39,8 +39,8 @@ public:
 	STabWidget* getTabs() { return m_tabs; }
 	SWebView* currentPage();
 
-	QVector<SHistoryItem> getCurSessionHistory() { return m_curSessionHistory; }
-	SHistoryItem  getLastHistoryItem() { if(m_curSessionHistory.size() > 0) return m_curSessionHistory[m_curSessionHistory.size() - 1]; }
+    QVector<SHistoryItem>& getCurSessionHistory() { return m_curSessionHistory; }
+    SHistoryItem&  getLastHistoryItem() { if(m_curSessionHistory.size() > 0) return m_curSessionHistory[m_curSessionHistory.size() - 1]; }
 
     static QSettings* SSettings;
 public slots:

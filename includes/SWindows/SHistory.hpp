@@ -28,6 +28,7 @@ public:
 
 public slots:
     void load();
+    void deleteAll();
 
 private:
     SMainWindow* m_parent{ nullptr };

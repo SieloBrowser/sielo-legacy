@@ -215,4 +215,3 @@ void SMainWindow::closeEvent(QCloseEvent * event)
 
 	event->accept();
 }
-
