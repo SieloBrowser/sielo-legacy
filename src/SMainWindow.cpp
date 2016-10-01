@@ -199,7 +199,7 @@ void SMainWindow::closeEvent(QCloseEvent * event)
         m_tabs->setCurrentIndex(i);
     }
 
-	QDate date{ QDate::currentDate() };
+    QDate date{ QDate::currentDate() };
 
 
     SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));

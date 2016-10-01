@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
 
 //	QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-//	QCoreApplication::setOrganizationName("Feldrise");
-//	QCoreApplication::setOrganizationDomain("feldrise.com");
-//	QCoreApplication::setApplicationName("Sielo NAvigateur V3");
+    QCoreApplication::setOrganizationName("Feldrise");
+    QCoreApplication::setOrganizationDomain("feldrise.com");
+    QCoreApplication::setApplicationName("Sielo NAvigateur V3");
 
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 

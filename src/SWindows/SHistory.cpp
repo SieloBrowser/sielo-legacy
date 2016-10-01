@@ -88,8 +88,34 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
 	headersNams.push_back("Nom des pages");
 	headersNams.push_back("Adresses");
 	m_model->setHorizontalHeaderLabels(headersNams);
+
+    connect(m_view, &QTreeView::doubleClicked, this, &SHistoryWindow::load);
+    connect(m_loadBtn, &QPushButton::clicked, this, &SHistoryWindow::load);
 }
 
 SHistoryWindow::~SHistoryWindow()
 {
+}
+
+void SHistoryWindow::load()
+{
+    QModelIndex index{ m_view->currentIndex() };
+    QString title{};
+    QUrl url{};
+
+    if(m_model->itemFromIndex(index)->parent() == nullptr)
+        return;
+
+    if(index.column() == 1) {
+        title = m_model->data(m_model->itemFromIndex(index)->parent()->child(index.row())->index()).toString();
+        url = m_model->data(index).toUrl();
+    }
+    else {
+        title = m_model->data(index).toString();
+        url = m_model->data(m_model->itemFromIndex(index)->parent()->child(index.row(), 1)->index()).toUrl();
+    }
+
+    m_parent->getTabs()->createWebTab(title, url);
+    m_parent->getTabs()->createPlusTab();
+    m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
 }
