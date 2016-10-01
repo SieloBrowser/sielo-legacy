@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QSettings>
 #include <QLineEdit>
+#include <QSharedPointer>
 
 #include "includes/SWidgets/STabWidget.hpp"
 #include "includes/SWidgets/SWebView.hpp"
@@ -32,7 +33,7 @@ public:
     void addHistoryItem(QString title, QUrl url);
 
 	// Getters
-	Actions* getActions() const { return m_actions; }
+    QSharedPointer<Actions> getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }
 	SSearchArea* getSearchArea() const { return m_searchArea; }
 	STabWidget* getTabs() { return m_tabs; }
@@ -70,7 +71,7 @@ private:
 	SHistoryWindow* m_historyWindow{ nullptr };
 
 	// Other
-	Actions* m_actions{ nullptr };
+    QSharedPointer<Actions> m_actions{};
 	QVector<SHistoryItem> m_curSessionHistory{};
 };
 

@@ -38,5 +38,5 @@ public slots:
 	void showHistory();
 private:
 	SMainWindow* m_parent{ nullptr };
-	Actions* m_actions{ nullptr };
+    QSharedPointer<Actions> m_actions{};
 };
