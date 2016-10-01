@@ -31,6 +31,20 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
 	QList<QStandardItem*> historyItemTitle{};
 	QList<QStandardItem*> historyItemUrl{};
 
+    for(int i{ m_parent->getCurSessionHistory().size() - 1 }; i >= 0; --i) {
+        historyItemTitle.append(new QStandardItem(m_parent->getCurSessionHistory()[i].title));
+        historyItemUrl.append(new QStandardItem(m_parent->getCurSessionHistory()[i].url.toString()));
+    }
+    QStandardItem *currentSessionItem{ new QStandardItem("Session actuelle") };
+    currentSessionItem->appendColumn(historyItemTitle);
+    currentSessionItem->appendColumn(historyItemUrl);
+    m_model->appendRow(currentSessionItem);
+
+    m_view->expandAll();
+
+    historyItemTitle.clear();
+    historyItemUrl.clear();
+
     QDate date{ QDate::currentDate() };
     QDate dateToShow{ date.year(), date.month(), date.day() - 7};
 
