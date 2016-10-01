@@ -196,25 +196,22 @@ void SMainWindow::stop()
 void SMainWindow::closeEvent(QCloseEvent * event)
 {
 	for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
-		m_tabs->setCurrentIndex(i);
-		QMessageBox::information(this, "DEBUG", "Pause");
-	}
+        m_tabs->setCurrentIndex(i);
+    }
 
 	QDate date{ QDate::currentDate() };
 
 
-
     SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
-	int itemNum{ SMainWindow::SSettings->value("itemNum", 0).toInt() };
+    int itemNum{ SMainWindow::SSettings->value("itemNum", 0).toInt() };
+
 	for (int i{ 0 }; i < m_curSessionHistory.size(); ++i) {
 		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/title", m_curSessionHistory[i].title);
 		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/url", m_curSessionHistory[i].url);
 		++itemNum;
-		QMessageBox::information(this, "DEBUG", m_curSessionHistory[i].title + ", " + m_curSessionHistory[i].url.toString());
 	}
 	SMainWindow::SSettings->setValue("itemNum", itemNum);
 	SMainWindow::SSettings->endGroup();
-
 
 	event->accept();
 }

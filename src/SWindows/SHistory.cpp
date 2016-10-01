@@ -46,7 +46,7 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
     historyItemUrl.clear();
 
     QDate date{ QDate::currentDate() };
-    QDate dateToShow{ date.year(), date.month(), date.day() - 7};
+    QDate dateToShow{ QDate::currentDate().addDays(-7) };
 
     for (date = QDate::currentDate(); date >= dateToShow; date = date.addDays(-1)) {
         SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
