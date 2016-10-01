@@ -28,9 +28,13 @@ public:
 
 public slots:
     void load();
+    void deleteOne();
     void deleteAll();
 
 private:
+    void deleteOneFromParent();
+    void deleteOneFromItem();
+
     SMainWindow* m_parent{ nullptr };
 
     QVBoxLayout* m_layout{ new QVBoxLayout(this) };
@@ -38,7 +42,7 @@ private:
     QSpacerItem* m_hSpacer{ new QSpacerItem(40, 20, QSizePolicy::Expanding) };
     QTreeView* m_view{ new QTreeView(this) };
     QStandardItemModel* m_model{ new QStandardItemModel(this) };
-    QPushButton* m_loadBtn{ new QPushButton("Charger", this) };
+    QPushButton* m_deleteOneBtn{ new QPushButton("Effacer", this) };
     QPushButton* m_deleteAllBtn{ new QPushButton("Effacer tout l'historique", this) };
     QDialogButtonBox* m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
 };
