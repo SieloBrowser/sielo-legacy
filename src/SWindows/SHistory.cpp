@@ -51,12 +51,17 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
     for (date = QDate::currentDate(); date >= dateToShow; date = date.addDays(-1)) {
         SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
 
-        if(SMainWindow::SSettings->value("itemNum", -1).toInt() == -1) {
+        if(!SMainWindow::SSettings->contains("itemNum")) {
             SMainWindow::SSettings->endGroup();
             continue;
         }
 
         for (int i{ SMainWindow::SSettings->value("itemNum", 0).toInt() - 1 }; i >= 0; --i) {
+            if(!SMainWindow::SSettings->contains(QString::number(i) + "/title")) {
+                SMainWindow::SSettings->endGroup();
+                continue;
+            }
+
             QString title{ SMainWindow::SSettings->value(QString::number(i) + "/title", "nullTitle").toString() };
             QString url{ SMainWindow::SSettings->value(QString::number(i) + "/url", "nullUrl").toString() };
 
