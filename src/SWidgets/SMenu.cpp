@@ -1,7 +1,7 @@
 #include "includes/SWidgets/SMenu.hpp"
 #include "includes/SWindows/SHistory.hpp"
 #include "includes/SMainWindow.hpp"
-#include "includes/Actions.hpp"
+#include "includes/SActions.hpp"
 
 #include <QFileDialog>
 #include <QInputDialog>

@@ -14,7 +14,6 @@ SOURCES += \
     src/SWindows/SHistory.cpp
 
 HEADERS += \
-    includes/Actions.hpp \
     includes/SMainWindow.hpp \
     includes/SWidgets/SMenu.hpp \
     includes/SWidgets/SSearchArea.hpp \
@@ -22,5 +21,6 @@ HEADERS += \
     includes/SWidgets/SToolBar.hpp \
     includes/SWidgets/SUrlArea.hpp \
     includes/SWidgets/SWebView.hpp \
-    includes/SWindows/SHistory.hpp
+    includes/SWindows/SHistory.hpp \
+    includes/SActions.hpp
 

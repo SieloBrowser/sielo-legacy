@@ -17,7 +17,7 @@
 #include "includes/SWindows/SHistory.hpp"
 
 
-struct Actions;
+struct SActions;
 
 class SMainWindow : public QMainWindow
 {
@@ -33,7 +33,7 @@ public:
     void addHistoryItem(QString title, QUrl url);
 
 	// Getters
-    QSharedPointer<Actions> getActions() const { return m_actions; }
+    QSharedPointer<SActions> getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }
 	SSearchArea* getSearchArea() const { return m_searchArea; }
 	STabWidget* getTabs() { return m_tabs; }
@@ -71,7 +71,7 @@ private:
 	SHistoryWindow* m_historyWindow{ nullptr };
 
 	// Other
-    QSharedPointer<Actions> m_actions{};
+    QSharedPointer<SActions> m_actions{};
 	QVector<SHistoryItem> m_curSessionHistory{};
 };
 

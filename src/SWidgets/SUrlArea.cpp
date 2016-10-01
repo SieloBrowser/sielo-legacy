@@ -1,6 +1,6 @@
 #include "includes/SWidgets/SUrlArea.hpp"
 #include "includes/SMainWindow.hpp"
-#include "includes/Actions.hpp"
+#include "includes/SActions.hpp"
 
 #include <QMessageBox>
 

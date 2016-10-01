@@ -1,5 +1,5 @@
 ﻿#include "includes/SMainWindow.hpp"
-#include "includes/Actions.hpp"
+#include "includes/SActions.hpp"
 
 #include <QMessageBox>
 #include <QFile>
@@ -8,8 +8,8 @@ const unsigned int THEME_V0 = 1;
 QSettings * SMainWindow::SSettings = new QSettings("Feldrise" "SieloNAvigateurV3");
 
 SMainWindow::SMainWindow(QWidget* parent) :
-	QMainWindow(parent),
-	m_actions(new Actions)
+    QMainWindow(parent),
+    m_actions(QSharedPointer<SActions>(new SActions))
 {
 	setWindowTitle("[S]ielo[N]avigateur V3");
 	//SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };

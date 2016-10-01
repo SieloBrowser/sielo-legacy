@@ -3,7 +3,7 @@
 #include <QMenu>
 
 class SMainWindow;
-class Actions;
+class SActions;
 
 enum SMenuType {
 	File = 0,
@@ -38,5 +38,5 @@ public slots:
 	void showHistory();
 private:
 	SMainWindow* m_parent{ nullptr };
-    QSharedPointer<Actions> m_actions{};
+    QSharedPointer<SActions> m_actions{};
 };

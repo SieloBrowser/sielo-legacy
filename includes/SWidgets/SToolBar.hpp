@@ -5,7 +5,7 @@
 #include <QTextStream>
 
 class SMainWindow;
-class Actions;
+class SActions;
 
 class SToolBar : public QToolBar
 {
@@ -18,6 +18,6 @@ private:
 	SMainWindow* m_parent{ nullptr };
 	QWidget* m_spacer1{ new QWidget(this) };
 	QWidget* m_spacer2{ new QWidget(this) };
-    QSharedPointer<Actions> m_actions{};
+    QSharedPointer<SActions> m_actions{};
 };
 

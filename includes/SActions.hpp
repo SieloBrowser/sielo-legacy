@@ -3,7 +3,9 @@
 #include <QAction>
 #include "includes/SMainWindow.hpp"
 
-struct Actions {
+struct SActions {
+
+    SActions() {}
 
     QString themePath{ SMainWindow::SSettings->value("Themes/currentThemePath", "Themes/SIcons").toString() + "/" };
 
