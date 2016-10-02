@@ -11,7 +11,8 @@ SOURCES += \
     src/SWidgets/SToolBar.cpp \
     src/SWidgets/SUrlArea.cpp \
     src/SWidgets/SWebView.cpp \
-    src/SWindows/SHistory.cpp
+    src/SWindows/SHistory.cpp \
+    src/SWindows/SHtmlSrcViewver.cpp
 
 HEADERS += \
     includes/SMainWindow.hpp \
@@ -22,5 +23,6 @@ HEADERS += \
     includes/SWidgets/SUrlArea.hpp \
     includes/SWidgets/SWebView.hpp \
     includes/SWindows/SHistory.hpp \
-    includes/SActions.hpp
+    includes/SActions.hpp \
+    includes/SWindows/SHtmlSrcViewver.hpp
 

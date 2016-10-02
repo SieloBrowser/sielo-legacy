@@ -1,5 +1,6 @@
 #include "includes/SWidgets/SMenu.hpp"
 #include "includes/SWindows/SHistory.hpp"
+#include "includes/SWindows/SHtmlSrcViewver.hpp"
 #include "includes/SMainWindow.hpp"
 #include "includes/SActions.hpp"
 
@@ -101,6 +102,7 @@ void SMenu::createBrowsMenu()
 	connect(m_actions->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 	connect(m_actions->history, &QAction::triggered, this, &SMenu::showHistory);
     connect(m_actions->privateBrowsing, &QAction::triggered, this, &SMenu::privateBrowsing);
+    connect(m_actions->viewPageCodeSource, &QAction::triggered, this, &SMenu::showPageSrc);
 
     connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
 	connect(m_actions->go, &QAction::triggered, m_parent->getUrlArea(), &SUrlArea::loadUrl);
@@ -197,4 +199,10 @@ void SMenu::privateBrowsing()
     SMainWindow *privateBrowsingWindow{ new SMainWindow{} };
     privateBrowsingWindow->privateBrowsing = true;
     privateBrowsingWindow->show();
+}
+
+void SMenu::showPageSrc()
+{
+    SHtmlSrcViewver* srcViewver{ new SHtmlSrcViewver(m_parent) };
+    srcViewver->show();
 }
