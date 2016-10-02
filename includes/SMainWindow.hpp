@@ -43,6 +43,7 @@ public:
     SHistoryItem&  getLastHistoryItem() { if(m_curSessionHistory.size() > 0) return m_curSessionHistory[m_curSessionHistory.size() - 1]; }
 
     static QSettings* SSettings;
+    bool privateBrowsing{ false };
 public slots:
 	void changeTitle(const QString& newTitle);
 	void changeUrl(const QUrl& newUrl);

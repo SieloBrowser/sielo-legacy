@@ -36,6 +36,7 @@ public slots:
 	void zoom();
 
 	void showHistory();
+    void privateBrowsing();
 private:
 	SMainWindow* m_parent{ nullptr };
     QSharedPointer<SActions> m_actions{};

@@ -33,7 +33,7 @@ struct SActions {
 	QAction* zoomMore{ new QAction("Zoomer plus") };
 	QAction* zoomLess{ new QAction("Zoomer moins") };
 	QAction* history{ new QAction(QIcon(themePath + "history.png"), "Historique") };
-	QAction* privateBrowsing{ new QAction("Navigation privée") };
+    QAction* privateBrowsing{ new QAction("Nouvelle fenêtre navigation privée") };
 	QAction* downloads{ new QAction("Téléchargements") };
 	QAction* viewPageCodeSource{ new QAction("Voire le code source de la page") };
 	QAction* aboutQt{ new QAction("A propos de Qt") };

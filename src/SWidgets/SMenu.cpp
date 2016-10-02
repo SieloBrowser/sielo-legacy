@@ -100,8 +100,9 @@ void SMenu::createBrowsMenu()
 	connect(m_actions->home, &QAction::triggered, m_parent, &SMainWindow::home);
 	connect(m_actions->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 	connect(m_actions->history, &QAction::triggered, this, &SMenu::showHistory);
+    connect(m_actions->privateBrowsing, &QAction::triggered, this, &SMenu::privateBrowsing);
 
-	connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
+    connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
 	connect(m_actions->go, &QAction::triggered, m_parent->getUrlArea(), &SUrlArea::loadUrl);
 
 	addAction(m_actions->back);
@@ -189,4 +190,11 @@ void SMenu::showHistory()
 	SHistoryWindow* historyWin{ new SHistoryWindow(m_parent) };
 	connect(historyWin, &SHistoryWindow::close, historyWin, &SHistoryWindow::deleteLater);
 	historyWin->show();
+}
+
+void SMenu::privateBrowsing()
+{
+    SMainWindow *privateBrowsingWindow{ new SMainWindow{} };
+    privateBrowsingWindow->privateBrowsing = true;
+    privateBrowsingWindow->show();
 }

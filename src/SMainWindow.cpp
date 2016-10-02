@@ -12,6 +12,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
     m_actions(QSharedPointer<SActions>(new SActions))
 {
 	setWindowTitle("[S]ielo[N]avigateur V3");
+    resize(1024, 768);
 	//SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };
 	//m_tabs->createWebTab(tr("Google"), webView);
 	//m_tabs->createWebTab(tr("Feldrise"), QUrl("http://feldrise.com"));
@@ -136,7 +137,11 @@ void SMainWindow::changeTitle(const QString& newTitle)
 		if (newTitle.size() > 40)
 			shorTitle = newTitle.left(40) + "...";
 
-		setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+        if(privateBrowsing)
+            setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3 (Navigation privée)");
+        else
+            setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+
 		m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
 	}
 }
