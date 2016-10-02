@@ -37,7 +37,10 @@ public:
 	STabWidget* getTabs() { return m_tabs; }
 	SWebView* currentPage();
 
-    static SHistoryItem&  getLastHistoryItem() { if(SMainWindow::curSessionHistory.size() > 0) return SMainWindow::curSessionHistory[SMainWindow::curSessionHistory.size() - 1]; }
+    static SHistoryItem&  getLastHistoryItem() {
+        if(SMainWindow::curSessionHistory.size() > 0)
+            return SMainWindow::curSessionHistory[SMainWindow::curSessionHistory.size() - 1];
+    }
     static void addHistoryItem(QString title, QUrl url);
 
     static QSettings* SSettings;

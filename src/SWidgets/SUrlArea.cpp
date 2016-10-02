@@ -51,7 +51,7 @@ void SUrlArea::loadInProgress(int percent)
     setValue(percent);
 }
 
-void SUrlArea::loadFinished(bool ok)
+void SUrlArea::loadFinished()
 {
     SWebView* view{ static_cast<SWebView*>(sender()) };
 

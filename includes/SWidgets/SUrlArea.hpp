@@ -15,7 +15,7 @@ public slots:
 	void setText(const QString& texte);
 	void loadStarted();
 	void loadInProgress(int percent);
-	void loadFinished(bool ok);
+    void loadFinished();
 
 	void loadUrl();
 

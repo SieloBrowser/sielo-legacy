@@ -42,7 +42,7 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 	addWidget(m_spacer1);
 
 	in >> widgetInToolBar;
-	for (int i{ 0 }; i < widgetInToolBar; ++i) {
+    for (size_t i{ 0 }; i < widgetInToolBar; ++i) {
 		in >> currentWidget;
 		if (currentWidget == "back") {
 			addAction(m_actions->back);

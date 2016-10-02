@@ -19,4 +19,5 @@ SWebView::~SWebView()
 void SWebView::setFullScreen(QWebEngineFullScreenRequest* request)
 {
 	QMessageBox::information(this, "DEBUG", "Full screen requested");
+    request->accept();
 }
