@@ -20,7 +20,7 @@ public:
 public slots:
 	void tabChanged(int index);
 	void tabClosed(int index = -1);
-	void createDefaultWebTab();
+    void createDefaultWebTab();
 
 private:
 	SMainWindow* m_parent;

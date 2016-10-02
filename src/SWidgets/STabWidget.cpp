@@ -30,7 +30,7 @@ void STabWidget::createWebTab(QString title, SWebView * view)
     connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
 	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
 	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
-	connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
+    connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
 
 	addTab(tabPage, title);
 
@@ -49,7 +49,7 @@ void STabWidget::createWebTab(QString title, QUrl url)
 	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
 	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
 	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
-	connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
+    connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
 
 	addTab(tabPage, title);
 
