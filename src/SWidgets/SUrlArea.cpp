@@ -63,14 +63,13 @@ void SUrlArea::loadFinished(bool ok)
     setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2)}");
     connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 
-    QMessageBox::information(this, "TEST", QString::number(m_parent->privateBrowsing));
     if(!m_parent->privateBrowsing) {
         if (view->url().toString() == "about:blank")
             return;
-        else if(m_parent->getCurSessionHistory().size() <= 0)
-            m_parent->addHistoryItem(view->title(), view->url());
-        else if(m_parent->getLastHistoryItem().title != view->title())
-            m_parent->addHistoryItem(view->title(), view->url());
+        else if(SMainWindow::curSessionHistory.size() <= 0)
+            SMainWindow::addHistoryItem(view->title(), view->url());
+        else if(SMainWindow::getLastHistoryItem().title != view->title())
+            SMainWindow::addHistoryItem(view->title(), view->url());
     }
 }
 

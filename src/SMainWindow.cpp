@@ -6,6 +6,7 @@
 
 const unsigned int THEME_V0 = 1;
 QSettings * SMainWindow::SSettings = new QSettings("Feldrise" "SieloNAvigateurV3");
+QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 
 SMainWindow::SMainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -116,8 +117,8 @@ void SMainWindow::addHistoryItem(QString title, QUrl url)
 {
 	SHistoryItem item{};
 	item.title = title;
-	item.url = url;
-	m_curSessionHistory.push_back(item);
+    item.url = url;
+    SMainWindow::curSessionHistory.push_back(item);
 }
 
 //-- PUBLIC SLOTS
@@ -210,13 +211,15 @@ void SMainWindow::closeEvent(QCloseEvent * event)
     SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
     int itemNum{ SMainWindow::SSettings->value("itemNum", 0).toInt() };
 
-	for (int i{ 0 }; i < m_curSessionHistory.size(); ++i) {
-		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/title", m_curSessionHistory[i].title);
-		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/url", m_curSessionHistory[i].url);
+    for (int i{ 0 }; i < SMainWindow::curSessionHistory.size(); ++i) {
+        SMainWindow::SSettings->setValue(QString::number(itemNum) + "/title", SMainWindow::curSessionHistory[i].title);
+        SMainWindow::SSettings->setValue(QString::number(itemNum) + "/url", SMainWindow::curSessionHistory[i].url);
 		++itemNum;
 	}
 	SMainWindow::SSettings->setValue("itemNum", itemNum);
 	SMainWindow::SSettings->endGroup();
+
+    SMainWindow::curSessionHistory.clear();
 
 	event->accept();
 }

@@ -31,9 +31,9 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
 	QList<QStandardItem*> historyItemTitle{};
 	QList<QStandardItem*> historyItemUrl{};
 
-    for(int i{ m_parent->getCurSessionHistory().size() - 1 }; i >= 0; --i) {
-        historyItemTitle.append(new QStandardItem(m_parent->getCurSessionHistory()[i].title));
-        historyItemUrl.append(new QStandardItem(m_parent->getCurSessionHistory()[i].url.toString()));
+    for(int i{ SMainWindow::curSessionHistory.size() - 1 }; i >= 0; --i) {
+        historyItemTitle.append(new QStandardItem(SMainWindow::curSessionHistory[i].title));
+        historyItemUrl.append(new QStandardItem(SMainWindow::curSessionHistory[i].url.toString()));
     }
     QStandardItem *currentSessionItem{ new QStandardItem("Session actuelle") };
     currentSessionItem->appendColumn(historyItemTitle);
@@ -127,7 +127,7 @@ void SHistoryWindow::load()
 
 void SHistoryWindow::deleteAll()
 {
-    m_parent->getCurSessionHistory().clear();
+    SMainWindow::curSessionHistory.clear();
     SMainWindow::SSettings->remove("History");
 
     m_model->clear();
@@ -148,7 +148,7 @@ void SHistoryWindow::deleteOneFromParent()
     QDate dateForDeletation{};
 
     if(m_model->data(m_view->currentIndex()).toString() == "Session actuelle")
-        m_parent->getCurSessionHistory().clear();
+        SMainWindow::curSessionHistory.clear();
     else if(m_model->data(m_view->currentIndex()).toString() == "Aujourd'hui")
         dateForDeletation = QDate::currentDate();
     else if(m_model->data(m_view->currentIndex()).toString() == "Hier")
@@ -165,7 +165,7 @@ void SHistoryWindow::deleteOneFromItem()
     QDate dateForDeletation{};
 
     if(m_model->data(m_view->currentIndex().parent()).toString() == "Session actuelle")
-        m_parent->getCurSessionHistory().remove(m_parent->getCurSessionHistory().size() - 1 - m_view->currentIndex().row());
+        SMainWindow::curSessionHistory.remove(SMainWindow::curSessionHistory.size() - 1 - m_view->currentIndex().row());
     if(m_model->data(m_view->currentIndex().parent()).toString() == "Aujourd'hui")
         dateForDeletation = QDate::currentDate();
     else if(m_model->data(m_view->currentIndex().parent()).toString() == "Hier")

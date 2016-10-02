@@ -30,8 +30,6 @@ public:
 	void changeTabTitle(const QString& newTitle);
 	void changeTabUrl(const QUrl& newUrl);
 
-    void addHistoryItem(QString title, QUrl url);
-
 	// Getters
     QSharedPointer<SActions> getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }
@@ -39,10 +37,12 @@ public:
 	STabWidget* getTabs() { return m_tabs; }
 	SWebView* currentPage();
 
-    QVector<SHistoryItem>& getCurSessionHistory() { return m_curSessionHistory; }
-    SHistoryItem&  getLastHistoryItem() { if(m_curSessionHistory.size() > 0) return m_curSessionHistory[m_curSessionHistory.size() - 1]; }
+    static SHistoryItem&  getLastHistoryItem() { if(SMainWindow::curSessionHistory.size() > 0) return SMainWindow::curSessionHistory[SMainWindow::curSessionHistory.size() - 1]; }
+    static void addHistoryItem(QString title, QUrl url);
 
     static QSettings* SSettings;
+    static QVector<SHistoryItem> curSessionHistory;
+
     bool privateBrowsing{ false };
 public slots:
 	void changeTitle(const QString& newTitle);
@@ -68,11 +68,7 @@ private:
 	QVector<SToolBar*> m_toolsBars{};
 	QVector<SMenu*> m_menus{};
 
-	// Windows
-	SHistoryWindow* m_historyWindow{ nullptr };
-
 	// Other
     QSharedPointer<SActions> m_actions{};
-	QVector<SHistoryItem> m_curSessionHistory{};
 };
 
