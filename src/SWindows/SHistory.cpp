@@ -51,7 +51,7 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
     for (date = QDate::currentDate(); date >= dateToShow; date = date.addDays(-1)) {
         SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
 
-        if(!SMainWindow::SSettings->contains("itemNum")) {
+        if(!SMainWindow::SSettings->contains("itemNum") || SMainWindow::SSettings->value("itemNum", 0).toInt() == 0) {
             SMainWindow::SSettings->endGroup();
             continue;
         }
