@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QTextCodec>
 #include <QtWidgets>
 #include <QtWebEngineWidgets>
 #include <QStyle>
@@ -10,6 +11,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
 //	QApplication::setStyle(QStyleFactory::create("Fusion"));
 

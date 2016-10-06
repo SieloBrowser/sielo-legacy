@@ -9,9 +9,10 @@ enum SMenuType {
 	File = 0,
 	Show = 1,
 	Brows = 2,
-	Fav = 3,
-	Edit = 4,
-	About = 5
+    Dl = 3,
+    Fav = 4,
+    Edit = 5,
+    About = 6
 };
 
 class SMenu : public QMenu
@@ -23,6 +24,7 @@ public:
 	void createFileMenu();
 	void createShowMenu();
 	void createBrowsMenu();
+    void createDlMenu();
 	void createEditMenu();
 	void createAboutMenu();
 

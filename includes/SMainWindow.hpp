@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <QLineEdit>
 #include <QSharedPointer>
+#include <QWebEngineDownloadItem>
 
 #include "includes/SWidgets/STabWidget.hpp"
 #include "includes/SWidgets/SWebView.hpp"
@@ -14,8 +15,8 @@
 #include "includes/SWidgets/SUrlArea.hpp"
 #include "includes/SWidgets/SSearchArea.hpp"
 
+#include "includes/SWindows/SDownload.hpp"
 #include "includes/SWindows/SHistory.hpp"
-
 
 struct SActions;
 
@@ -45,6 +46,7 @@ public:
 
     static QSettings* SSettings;
     static QVector<SHistoryItem> curSessionHistory;
+    static QVector<SDownloadItem*> dlItems;
 
     bool privateBrowsing{ false };
 public slots:
@@ -52,6 +54,8 @@ public slots:
 	void changeUrl(const QUrl& newUrl);
 
 	void fullScreen();
+    void addDownload(QWebEngineDownloadItem *download);
+    void removeDownload();
 
 	void back();
 	void next();

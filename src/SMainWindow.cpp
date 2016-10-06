@@ -7,6 +7,7 @@
 const unsigned int THEME_V0 = 1;
 QSettings * SMainWindow::SSettings = new QSettings("Feldrise" "SieloNAvigateurV3");
 QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
+QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};
 
 SMainWindow::SMainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -27,6 +28,10 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText("Recherche Google");
 
+    // TEST AREA
+
+    // END OF TEST AREA
+
 	loadMenus();
     loadToolBar("Themes/SIcons/toolBar.txt");
 	setCentralWidget(m_tabs);
@@ -42,6 +47,7 @@ void SMainWindow::loadMenus()
 	m_menus.push_back(new SMenu(this, "&Fichier", SMenuType::File));
 	m_menus.push_back(new SMenu(this, "&Affichage", SMenuType::Show));
 	m_menus.push_back(new SMenu(this, "&Navigation", SMenuType::Brows));
+    m_menus.push_back(new SMenu(this, "&Téléchargement", SMenuType::Dl));
 	m_menus.push_back(new SMenu(this, "&Fa&voris", SMenuType::Fav));
 	m_menus.push_back(new SMenu(this, "&Edition", SMenuType::Edit));
 	m_menus.push_back(new SMenu(this, "&?", SMenuType::About));
@@ -52,6 +58,7 @@ void SMainWindow::loadMenus()
 	menuBar()->addMenu(m_menus[3]);
 	menuBar()->addMenu(m_menus[4]);
 	menuBar()->addMenu(m_menus[5]);
+    menuBar()->addMenu(m_menus[6]);
 }
 
 bool SMainWindow::loadToolBar(const QString & filePath)
@@ -172,6 +179,35 @@ void SMainWindow::fullScreen()
 		showFullScreen();
 		m_actions->showFullScreen->setText("Enlever le pleine écran");
 	}
+}
+
+void SMainWindow::addDownload(QWebEngineDownloadItem *download)
+{
+    if(dlItems.isEmpty() || download->url() != dlItems[dlItems.size() - 1]->getDownload()->url()) {
+        SDownloadItem *item{ new SDownloadItem(download, this) };
+        QWidgetAction *actionItem{ new QWidgetAction(m_menus[SMenuType::Dl]) };
+        actionItem->setDefaultWidget(item);
+        m_menus[SMenuType::Dl]->addAction(actionItem);
+        dlItems.push_back(item);
+        connect(item, &SDownloadItem::finished, this, &SMainWindow::removeDownload);
+    }
+}
+
+void SMainWindow::removeDownload()
+{
+    QMessageBox::information(this, "DEBUG", "Close DL !!");
+    SDownloadItem *dlItem{ static_cast<SDownloadItem*>(sender()) };
+    if(!dlItem)
+        return;
+
+    int index{ dlItems.indexOf(dlItem) };
+
+    dlItems.removeOne(dlItem);
+    QList<QAction*> downloads{};
+    downloads = m_menus[SMenuType::Dl]->actions();
+    m_menus[SMenuType::Dl]->removeAction(downloads[index]);
+
+    QMessageBox::information(this, "DEBUG", QString::number(index));
 }
 
 void SMainWindow::back()

@@ -117,6 +117,11 @@ void SMenu::createBrowsMenu()
 	addAction(m_actions->viewPageCodeSource);
 }
 
+void SMenu::createDlMenu()
+{
+
+}
+
 void SMenu::createEditMenu()
 {
 }
