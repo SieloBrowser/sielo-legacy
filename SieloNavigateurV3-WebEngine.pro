@@ -24,7 +24,7 @@ HEADERS += \
     includes/SWidgets/SUrlArea.hpp \
     includes/SWidgets/SWebView.hpp \
     includes/SWindows/SHistory.hpp \
-    includes/SActions.hpp \
     includes/SWindows/SHtmlSrcViewver.hpp \
-    includes/SWindows/SDownload.hpp
+    includes/SWindows/SDownload.hpp \
+    includes/SActions.hpp
 
