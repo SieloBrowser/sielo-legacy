@@ -38,7 +38,7 @@ private:
     SMainWindow* m_parent{ nullptr };
 
     QVBoxLayout* m_layout{ new QVBoxLayout(this) };
-    QHBoxLayout* m_btnLayout{ new QHBoxLayout(this) };
+    QHBoxLayout* m_btnLayout{ new QHBoxLayout() };
     QSpacerItem* m_hSpacer{ new QSpacerItem(40, 20, QSizePolicy::Expanding) };
     QTreeView* m_view{ new QTreeView(this) };
     QStandardItemModel* m_model{ new QStandardItemModel(this) };

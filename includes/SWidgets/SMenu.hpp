@@ -40,6 +40,8 @@ public slots:
 	void showHistory();
     void privateBrowsing();
     void showPageSrc();
+
+    void openBookmarksManager();
 private:
 	SMainWindow* m_parent{ nullptr };
     QSharedPointer<SActions> m_actions{};

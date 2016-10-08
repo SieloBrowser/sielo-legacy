@@ -17,13 +17,13 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
 
 	m_boxBtn->setStandardButtons(QDialogButtonBox::Ok);
 
-    m_btnLayout->addWidget(m_deleteOneBtn);
+        m_btnLayout->addWidget(m_deleteOneBtn);
 	m_btnLayout->addWidget(m_deleteAllBtn);
 	m_btnLayout->addItem(m_hSpacer);
 	m_btnLayout->addWidget(m_boxBtn);
 
 	m_layout->addWidget(m_view);
-	m_layout->addLayout(m_btnLayout);
+        m_layout->addLayout(m_btnLayout);
 
 	connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SHistoryWindow::accept);
 	connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SHistoryWindow::reject);

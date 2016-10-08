@@ -1,6 +1,7 @@
 QT += widgets
 QT += network
 QT += webenginewidgets
+QT += xml
 
 SOURCES += \
     src/Main.cpp \
@@ -13,7 +14,8 @@ SOURCES += \
     src/SWidgets/SWebView.cpp \
     src/SWindows/SHistory.cpp \
     src/SWindows/SHtmlSrcViewver.cpp \
-    src/SWindows/SDownload.cpp
+    src/SWindows/SDownload.cpp \
+    src/SWindows/SBookmarks.cpp
 
 HEADERS += \
     includes/SMainWindow.hpp \
@@ -26,5 +28,6 @@ HEADERS += \
     includes/SWindows/SHistory.hpp \
     includes/SWindows/SHtmlSrcViewver.hpp \
     includes/SWindows/SDownload.hpp \
-    includes/SActions.hpp
+    includes/SActions.hpp \
+    includes/SWindows/SBookmarks.hpp
 
