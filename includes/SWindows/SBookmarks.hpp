@@ -14,10 +14,11 @@
 
 class SMainWindow;
 
-class SBookmarksDialog : public QDialog {
+class SBookmarksView : public QTreeView
+{
 public:
-    SBookmarksDialog(SMainWindow *parent = nullptr);
-    ~SBookmarksDialog();
+    SBookmarksView(QWidget *parent = nullptr);
+    ~SBookmarksView();
 
     bool loadBookMarks(QIODevice *device);
     bool saveBookMarks();
@@ -29,23 +30,31 @@ public:
     void readSeparator(QStandardItem *item);
     void readFolder(QStandardItem *item);
     void readBookmark(QStandardItem *item);
+
 private:
     QStandardItem *createChildItem(QStandardItem *item, bool havUrl = false, QString url = "");
 
-    SMainWindow *m_parent{ nullptr };
     QStandardItemModel *m_model{ new QStandardItemModel(this) };
-
-    QVBoxLayout *m_layout{ new QVBoxLayout(this) };
-    QHBoxLayout *m_layoutBoxBtn{ new QHBoxLayout() };
-    QTreeView *m_view{ new QTreeView(this) };
-    QSpacerItem *m_spacer{ new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum) };
-    QPushButton *m_deleteBtn{ new QPushButton("Effacer", this) };
-    QPushButton *m_addFolderBtn{ new QPushButton("Nouveau dossier", this) };
-    QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
-
     QXmlStreamReader m_xml{};
     QXmlStreamWriter m_stream{};
     QFile m_bookmarksFile{ "Bookmarks.xbel" };
     QIcon m_folderIcon{};
     QIcon m_itemIcon{};
+};
+
+class SBookmarksDialog : public QDialog {
+public:
+    SBookmarksDialog(SMainWindow *parent = nullptr);
+    ~SBookmarksDialog();
+
+private:
+    SMainWindow *m_parent{ nullptr };
+
+    QVBoxLayout *m_layout{ new QVBoxLayout(this) };
+    QHBoxLayout *m_layoutBoxBtn{ new QHBoxLayout() };
+    SBookmarksView *m_view{ new SBookmarksView(this) };
+    QSpacerItem *m_spacer{ new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum) };
+    QPushButton *m_deleteBtn{ new QPushButton("Effacer", this) };
+    QPushButton *m_addFolderBtn{ new QPushButton("Nouveau dossier", this) };
+    QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
 };

@@ -1,43 +1,29 @@
 #include "includes/SWindows/SBookmarks.hpp"
+#include "includes/SMainWindow.hpp"
 
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QHeaderView>
 
-SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
-    m_parent(parent)
+SBookmarksView::SBookmarksView(QWidget *parent) :
+    QTreeView(parent)
 {
-    resize(758, 450);
-    setModal(true);
-
     QStringList labels{};
     labels << tr("Title") << tr("Location");
 
-    m_view->setAutoScroll(true);
-//    m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    m_view->setProperty("showDropIndicator", QVariant(false));
-    m_view->setAlternatingRowColors(true);
-    m_view->setAnimated(true);
-    m_view->header()->setDefaultSectionSize(300);
-    m_view->setModel(m_model);
+    setAutoScroll(true);
+    setProperty("showDropIndicator", QVariant(false));
+    setAlternatingRowColors(true);
+    setAnimated(true);
+    header()->setDefaultSectionSize(300);
+    setModel(m_model);
     m_model->setHorizontalHeaderLabels(labels);
 
-    QStyle *style = m_view->style();
-
-    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirClosedIcon),
+    m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirClosedIcon),
                          QIcon::Normal, QIcon::Off);
-    m_folderIcon.addPixmap(style->standardPixmap(QStyle::SP_DirOpenIcon),
+    m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirOpenIcon),
                          QIcon::Normal, QIcon::On);
-    m_itemIcon.addPixmap(style->standardPixmap(QStyle::SP_FileIcon));
-
-    m_boxBtn->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-
-    m_layoutBoxBtn->addWidget(m_deleteBtn);
-    m_layoutBoxBtn->addWidget(m_addFolderBtn);
-    m_layoutBoxBtn->addItem(m_spacer);
-    m_layoutBoxBtn->addWidget(m_boxBtn);
-    m_layout->addWidget(m_view);
-    m_layout->addLayout(m_layoutBoxBtn);
+    m_itemIcon.addPixmap(style()->standardPixmap(QStyle::SP_FileIcon));
 
     if(!m_bookmarksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(this, "Erreur", "Erreur lors de l'ouverture des favories");
@@ -50,17 +36,14 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     }
 
     m_bookmarksFile.close();
-
-    connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksDialog::saveBookMarks);
-    connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksDialog::close);
 }
 
-SBookmarksDialog::~SBookmarksDialog()
+SBookmarksView::~SBookmarksView()
 {
 
 }
 
-bool SBookmarksDialog::loadBookMarks(QIODevice *device)
+bool SBookmarksView::loadBookMarks(QIODevice *device)
 {
     m_xml.setDevice(device);
 
@@ -75,7 +58,7 @@ bool SBookmarksDialog::loadBookMarks(QIODevice *device)
 
 }
 
-bool SBookmarksDialog::saveBookMarks()
+bool SBookmarksView::saveBookMarks()
 {
     if(!m_bookmarksFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
@@ -96,7 +79,7 @@ bool SBookmarksDialog::saveBookMarks()
     return true;
 }
 
-void SBookmarksDialog::readBookmarksFile()
+void SBookmarksView::readBookmarksFile()
 {
     while (m_xml.readNextStartElement()) {
         if(m_xml.name() == "folder")
@@ -110,7 +93,7 @@ void SBookmarksDialog::readBookmarksFile()
     }
 }
 
-void SBookmarksDialog::writeItem(QStandardItem *item)
+void SBookmarksView::writeItem(QStandardItem *item)
 {
     QString tagName{ item->data(Qt::UserRole).toString() };
 
@@ -134,12 +117,12 @@ void SBookmarksDialog::writeItem(QStandardItem *item)
     }
 }
 
-void SBookmarksDialog::readTitle(QStandardItem *item)
+void SBookmarksView::readTitle(QStandardItem *item)
 {
     item->setText(m_xml.readElementText());
 }
 
-void SBookmarksDialog::readSeparator(QStandardItem *item)
+void SBookmarksView::readSeparator(QStandardItem *item)
 {
     QStandardItem *separator = createChildItem(item, true, QString(30, 0xB7));
     separator->setFlags(item->flags() & ~Qt::ItemIsSelectable & ~Qt::ItemIsEditable);
@@ -148,7 +131,7 @@ void SBookmarksDialog::readSeparator(QStandardItem *item)
     m_xml.skipCurrentElement();
 }
 
-void SBookmarksDialog::readFolder(QStandardItem *item)
+void SBookmarksView::readFolder(QStandardItem *item)
 {
     QStandardItem *folder = createChildItem(item);
     bool folded = (m_xml.attributes().value("folded") != "no");
@@ -156,7 +139,7 @@ void SBookmarksDialog::readFolder(QStandardItem *item)
     folder->setIcon(m_folderIcon);
 
     if(!folded)
-        m_view->expand(folder->index());
+        expand(folder->index());
 
     while (m_xml.readNextStartElement()) {
         if (m_xml.name() == "title")
@@ -172,7 +155,7 @@ void SBookmarksDialog::readFolder(QStandardItem *item)
     }
 }
 
-void SBookmarksDialog::readBookmark(QStandardItem *item)
+void SBookmarksView::readBookmark(QStandardItem *item)
 {
     QStandardItem *bookmark = createChildItem(item, true, m_xml.attributes().value("href").toString());
     bookmark->setText(tr("Titre inconnu"));
@@ -186,7 +169,7 @@ void SBookmarksDialog::readBookmark(QStandardItem *item)
     }
 }
 
-QStandardItem *SBookmarksDialog::createChildItem(QStandardItem *item, bool havUrl, QString url)
+QStandardItem *SBookmarksView::createChildItem(QStandardItem *item, bool havUrl, QString url)
 {
     QList<QStandardItem*> items{ new QStandardItem };
     if (item) {
@@ -205,3 +188,27 @@ QStandardItem *SBookmarksDialog::createChildItem(QStandardItem *item, bool havUr
     return items[0];
 }
 
+SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
+    QDialog(parent),
+    m_parent(parent)
+{
+    resize(758, 450);
+    setModal(true);
+
+    m_layoutBoxBtn->addWidget(m_deleteBtn);
+    m_layoutBoxBtn->addWidget(m_addFolderBtn);
+    m_layoutBoxBtn->addItem(m_spacer);
+    m_layoutBoxBtn->addWidget(m_boxBtn);
+    m_layout->addWidget(m_view);
+    m_layout->addLayout(m_layoutBoxBtn);
+
+    m_boxBtn->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+
+    connect(m_boxBtn, &QDialogButtonBox::accepted, m_view, &SBookmarksView::saveBookMarks);
+    connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksDialog::close);
+}
+
+SBookmarksDialog::~SBookmarksDialog()
+{
+
+}
