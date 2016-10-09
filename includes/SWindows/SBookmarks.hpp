@@ -10,6 +10,7 @@
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 class SMainWindow;
 
@@ -19,7 +20,11 @@ public:
     ~SBookmarksDialog();
 
     bool loadBookMarks(QIODevice *device);
+    bool saveBookMarks(QIODevice *device);
+
     void readBookmarksFile();
+
+    void writeItem(QStandardItem *item);
     void readTitle(QStandardItem *item);
     void readSeparator(QStandardItem *item);
     void readFolder(QStandardItem *item);
@@ -38,7 +43,9 @@ private:
     QPushButton *m_addFolderBtn{ new QPushButton("Nouveau dossier", this) };
     QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
 
-    QXmlStreamReader m_xml;
+    QXmlStreamReader m_xml{};
+    QXmlStreamWriter m_stream{};
+    QFile m_bookmarksFile{ "Bookmarks.xbel" };
     QIcon m_folderIcon{};
     QIcon m_itemIcon{};
 };

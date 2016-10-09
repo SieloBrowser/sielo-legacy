@@ -30,7 +30,7 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
                          QIcon::Normal, QIcon::On);
     m_itemIcon.addPixmap(style->standardPixmap(QStyle::SP_FileIcon));
 
-    m_boxBtn->setStandardButtons(QDialogButtonBox::Ok);
+    m_boxBtn->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
     m_layoutBoxBtn->addWidget(m_deleteBtn);
     m_layoutBoxBtn->addWidget(m_addFolderBtn);
@@ -39,17 +39,18 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     m_layout->addWidget(m_view);
     m_layout->addLayout(m_layoutBoxBtn);
 
-    QFile bookmarks{ "Bookmarks.xbel" };
-
-    if(!bookmarks.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if(!m_bookmarksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::critical(this, "Erreur", "Erreur lors de l'ouverture des favories");
         return;
     }
 
-    if(!loadBookMarks(&bookmarks)) {
+    if(!loadBookMarks(&m_bookmarksFile)) {
         QMessageBox::critical(this, "Erreur", "Erreur lors de la lecture des favories");
         return;
     }
+
+    m_bookmarksFile.close();
+//    saveBookMarks(nullptr);
 }
 
 SBookmarksDialog::~SBookmarksDialog()
@@ -72,6 +73,25 @@ bool SBookmarksDialog::loadBookMarks(QIODevice *device)
 
 }
 
+bool SBookmarksDialog::saveBookMarks(QIODevice *device)
+{
+    QFile temp{ "temp.xbel" };
+    if(!temp.open(QIODevice::WriteOnly | QIODevice::Text))
+        return false;
+
+    m_stream.setDevice(&temp);
+    m_stream.setAutoFormatting(true);
+
+    m_stream.writeDTD("<!DOCTYPE xbel>");
+    m_stream.writeStartElement("xbel");
+    m_stream.writeAttribute("version", "1.0");
+    for(int i{ 0 }; i < m_model->rowCount(); ++i)
+        writeItem(m_model->item(i));
+
+    m_stream.writeEndDocument();
+    return true;
+}
+
 void SBookmarksDialog::readBookmarksFile()
 {
     while (m_xml.readNextStartElement()) {
@@ -86,6 +106,28 @@ void SBookmarksDialog::readBookmarksFile()
     }
 }
 
+void SBookmarksDialog::writeItem(QStandardItem *item)
+{
+    QString tagName{ item->data(Qt::UserRole).toString() };
+
+    if(tagName == "folder") {
+        m_stream.writeStartElement(tagName);
+        m_stream.writeTextElement("title", item->text());
+        for(int i{ 0 }; i < item->rowCount(); ++i)
+            writeItem(item->child(i));
+        m_stream.writeEndElement();
+    }
+    else if(tagName == "bookmark") {
+        m_stream.writeStartElement(tagName);
+        if(!m_model->data(item->parent()->child(item->row(), 1)->index()).toString().isEmpty())
+            m_stream.writeAttribute("href", m_model->data(item->parent()->child(item->row(), 1)->index()).toString());
+       m_stream.writeTextElement("title", item->text());
+       m_stream.writeEndElement();
+    }
+    else if(tagName == "separator") {
+        m_stream.writeEmptyElement(tagName);
+    }
+}
 
 void SBookmarksDialog::readTitle(QStandardItem *item)
 {
@@ -153,6 +195,7 @@ QStandardItem *SBookmarksDialog::createChildItem(QStandardItem *item, bool havUr
 
         m_model->appendRow(items);
     }
+    items[0]->setData(m_xml.name().toString(), Qt::UserRole);
     return items[0];
 }
 
