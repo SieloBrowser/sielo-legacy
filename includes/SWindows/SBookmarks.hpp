@@ -20,7 +20,7 @@ public:
     ~SBookmarksDialog();
 
     bool loadBookMarks(QIODevice *device);
-    bool saveBookMarks(QIODevice *device);
+    bool saveBookMarks();
 
     void readBookmarksFile();
 

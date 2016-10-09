@@ -14,7 +14,7 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     labels << tr("Title") << tr("Location");
 
     m_view->setAutoScroll(true);
-    m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//    m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_view->setProperty("showDropIndicator", QVariant(false));
     m_view->setAlternatingRowColors(true);
     m_view->setAnimated(true);
@@ -50,7 +50,9 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     }
 
     m_bookmarksFile.close();
-//    saveBookMarks(nullptr);
+
+    connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksDialog::saveBookMarks);
+    connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksDialog::close);
 }
 
 SBookmarksDialog::~SBookmarksDialog()
@@ -73,13 +75,12 @@ bool SBookmarksDialog::loadBookMarks(QIODevice *device)
 
 }
 
-bool SBookmarksDialog::saveBookMarks(QIODevice *device)
+bool SBookmarksDialog::saveBookMarks()
 {
-    QFile temp{ "temp.xbel" };
-    if(!temp.open(QIODevice::WriteOnly | QIODevice::Text))
+    if(!m_bookmarksFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
-    m_stream.setDevice(&temp);
+    m_stream.setDevice(&m_bookmarksFile);
     m_stream.setAutoFormatting(true);
 
     m_stream.writeDTD("<!DOCTYPE xbel>");
@@ -89,6 +90,9 @@ bool SBookmarksDialog::saveBookMarks(QIODevice *device)
         writeItem(m_model->item(i));
 
     m_stream.writeEndDocument();
+
+    m_bookmarksFile.close();
+    close();
     return true;
 }
 
@@ -112,6 +116,7 @@ void SBookmarksDialog::writeItem(QStandardItem *item)
 
     if(tagName == "folder") {
         m_stream.writeStartElement(tagName);
+        m_stream.writeAttribute("folded", item->parent() ? "yes" : "no");
         m_stream.writeTextElement("title", item->text());
         for(int i{ 0 }; i < item->rowCount(); ++i)
             writeItem(item->child(i));
@@ -136,8 +141,9 @@ void SBookmarksDialog::readTitle(QStandardItem *item)
 
 void SBookmarksDialog::readSeparator(QStandardItem *item)
 {
-    QStandardItem *separator = createChildItem(item);
-    separator->setFlags(item->flags() & ~Qt::ItemIsSelectable);
+    QStandardItem *separator = createChildItem(item, true, QString(30, 0xB7));
+    separator->setFlags(item->flags() & ~Qt::ItemIsSelectable & ~Qt::ItemIsEditable);
+    item->child(separator->row(), 1)->setFlags(item->flags() & ~Qt::ItemIsSelectable & ~Qt::ItemIsEditable);
     separator->setText(QString(30, 0xB7));
     m_xml.skipCurrentElement();
 }
