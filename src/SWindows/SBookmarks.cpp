@@ -257,7 +257,9 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
 {
     resize(758, 450);
     setModal(true);
+    m_openButton->setEnabled(false);
 
+    m_layoutBoxBtn->addWidget(m_openButton);
     m_layoutBoxBtn->addWidget(m_deleteBtn);
     m_layoutBoxBtn->addWidget(m_addFolderBtn);
     m_layoutBoxBtn->addItem(m_spacer);
@@ -269,9 +271,66 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
 
     connect(m_boxBtn, &QDialogButtonBox::accepted, m_view, &SBookmarksView::saveBookMarks);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksDialog::close);
+    connect(m_view, &SBookmarksView::pressed, this, &SBookmarksDialog::itemSelected);
+    connect(m_openButton, &QPushButton::clicked, this, &SBookmarksDialog::openBoomark);
+    connect(m_deleteBtn, &QPushButton::clicked, this, &SBookmarksDialog::deleteBookmark);
+    connect(m_addFolderBtn, &QPushButton::clicked, this, &SBookmarksDialog::addFolder);
 }
 
 SBookmarksDialog::~SBookmarksDialog()
 {
 
+}
+
+void SBookmarksDialog::openBoomark()
+{
+    QModelIndex index{ m_view->currentIndex() };
+    QString title{};
+    QUrl url{};
+
+    if(index.column() == 1) {
+        title = m_view->getModel()->data(m_view->getModel()->itemFromIndex(index)->parent()->child(index.row())->index()).toString();
+        url = m_view->getModel()->data(index).toUrl();
+    }
+    else {
+        title = m_view->getModel()->data(index).toString();
+        url = m_view->getModel()->data(m_view->getModel()->itemFromIndex(index)->parent()->child(index.row(), 1)->index()).toUrl();
+    }
+
+    m_parent->getTabs()->createWebTab(title, url);
+    m_parent->getTabs()->createPlusTab();
+    m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+}
+
+void SBookmarksDialog::deleteBookmark()
+{
+    if(m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent())
+        m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent()->removeRow(m_view->getModel()->itemFromIndex(m_view->currentIndex())->row());
+    else
+        m_view->getModel()->removeRow(m_view->getModel()->itemFromIndex(m_view->currentIndex())->row());
+}
+
+void SBookmarksDialog::addFolder()
+{
+    QStandardItem *folder{ nullptr };
+
+    if(!m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent())
+        folder = m_view->createChildItem(m_view->getModel()->itemFromIndex(m_view->currentIndex()));
+    else if(m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent() && m_view->getModel()->itemFromIndex(m_view->currentIndex())->data(Qt::UserRole).toString() == "folder")
+        folder = m_view->createChildItem(m_view->getModel()->itemFromIndex(m_view->currentIndex()));
+    else
+        folder = m_view->createChildItem(m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent());
+
+    folder->setText("Nouveau dossier");
+    folder->setIcon(m_view->getFolderIcon());
+    folder->setData("folder", Qt::UserRole);
+}
+
+void SBookmarksDialog::itemSelected(const QModelIndex &index)
+{
+    QStandardItem *item{ m_view->getModel()->itemFromIndex(index) };
+    if(item->data(Qt::UserRole).toString() == "bookmark")
+        m_openButton->setEnabled(true);
+    else
+        m_openButton->setEnabled(false);
 }

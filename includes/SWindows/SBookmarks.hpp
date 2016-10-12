@@ -37,6 +37,8 @@ public:
     QStandardItem *createChildItem(QStandardItem *item, bool havUrl = false, QString url = "");
 
     QStandardItemModel *getModel() { return m_model; }
+    QIcon& getFolderIcon() { return m_folderIcon; }
+    QIcon& getItemIcon() { return m_itemIcon; }
 
 private:
     QStandardItemModel *m_model{ new QStandardItemModel(this) };
@@ -75,6 +77,13 @@ public:
     SBookmarksDialog(SMainWindow *parent = nullptr);
     ~SBookmarksDialog();
 
+public slots:
+    void openBoomark();
+    void deleteBookmark();
+    void addFolder();
+
+    void itemSelected(const QModelIndex &index);
+
 private:
     SMainWindow *m_parent{ nullptr };
 
@@ -82,6 +91,7 @@ private:
     QHBoxLayout *m_layoutBoxBtn{ new QHBoxLayout() };
     SBookmarksView *m_view{ new SBookmarksView(this) };
     QSpacerItem *m_spacer{ new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum) };
+    QPushButton *m_openButton{ new QPushButton("Ouvrir", this) };
     QPushButton *m_deleteBtn{ new QPushButton("Effacer", this) };
     QPushButton *m_addFolderBtn{ new QPushButton("Nouveau dossier", this) };
     QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
