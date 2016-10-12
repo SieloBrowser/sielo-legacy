@@ -25,6 +25,9 @@ SMenu::SMenu(SMainWindow * parent, const QString & name, SMenuType menuType) :
     case SMenuType::Brows:
         createBrowsMenu();
         break;
+    case SMenuType::Fav:
+        createBookmarksMenu();
+        break;
     case SMenuType::Edit:
         createEditMenu();
         break;
@@ -108,7 +111,6 @@ void SMenu::createBrowsMenu()
 
     connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
     connect(m_actions->go, &QAction::triggered, m_parent->getUrlArea(), &SUrlArea::loadUrl);
-    connect(m_actions->bookmarksManager, &QAction::triggered, this, &SMenu::openBookmarksManager);
 
     addAction(m_actions->back);
     addAction(m_actions->next);
@@ -123,6 +125,19 @@ void SMenu::createBrowsMenu()
 void SMenu::createDlMenu()
 {
 
+}
+
+void SMenu::createBookmarksMenu()
+{
+    m_actions->addBookmarks->setParent(this);
+    m_actions->bookmarksManager->setParent(this);
+
+    connect(m_actions->addBookmarks, &QAction::triggered, this, &SMenu::addBookmark);
+    connect(m_actions->bookmarksManager, &QAction::triggered, this, &SMenu::openBookmarksManager);
+
+    addAction(m_actions->addBookmarks);
+    addAction(m_actions->bookmarksManager);
+    addSeparator();
 }
 
 void SMenu::createEditMenu()
@@ -219,4 +234,10 @@ void SMenu::openBookmarksManager()
 {
     SBookmarksDialog *bookmarksDialog{ new SBookmarksDialog(m_parent) };
     bookmarksDialog->show();
+}
+
+void SMenu::addBookmark()
+{
+    SBookmarksAddDialog *addBookmarkWin{ new SBookmarksAddDialog(m_parent) };
+    addBookmarkWin->show();
 }

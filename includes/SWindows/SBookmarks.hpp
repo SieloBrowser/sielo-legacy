@@ -6,6 +6,9 @@
 #include <QHBoxLayout>
 #include <QTreeView>
 #include <QSpacerItem>
+#include <QLabel>
+#include <QComboBox>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QDialogButtonBox>
 #include <QFile>
@@ -17,7 +20,7 @@ class SMainWindow;
 class SBookmarksView : public QTreeView
 {
 public:
-    SBookmarksView(QWidget *parent = nullptr);
+    SBookmarksView(QWidget *parent = nullptr, bool isItemEditable = true);
     ~SBookmarksView();
 
     bool loadBookMarks(QIODevice *device);
@@ -31,15 +34,40 @@ public:
     void readFolder(QStandardItem *item);
     void readBookmark(QStandardItem *item);
 
-private:
     QStandardItem *createChildItem(QStandardItem *item, bool havUrl = false, QString url = "");
 
+    QStandardItemModel *getModel() { return m_model; }
+
+private:
     QStandardItemModel *m_model{ new QStandardItemModel(this) };
     QXmlStreamReader m_xml{};
     QXmlStreamWriter m_stream{};
     QFile m_bookmarksFile{ "Bookmarks.xbel" };
     QIcon m_folderIcon{};
     QIcon m_itemIcon{};
+
+    bool m_isItemEditable{ true };
+};
+
+class SBookmarksAddDialog : public QDialog
+{
+public:
+    SBookmarksAddDialog(SMainWindow *parent = nullptr);
+    ~SBookmarksAddDialog();
+
+    void fillFolderBox();
+    void accept();
+private:
+    void addItemToBox(QStandardItem *item);
+
+    SMainWindow *m_parent{ nullptr };
+
+    QVBoxLayout *m_layout{ new QVBoxLayout(this) };
+    QLabel *m_label{ new QLabel("Choisissez le dossier où ajouter le favorie", this) };
+    QLineEdit *m_bookmarkName{ new QLineEdit(this) };
+    QComboBox *m_location{ new QComboBox(this) };
+    SBookmarksView *m_view{ new SBookmarksView(this, false) };
+    QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
 };
 
 class SBookmarksDialog : public QDialog {

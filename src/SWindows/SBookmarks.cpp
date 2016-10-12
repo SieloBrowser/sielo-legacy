@@ -5,11 +5,15 @@
 #include <QFileInfo>
 #include <QHeaderView>
 
-SBookmarksView::SBookmarksView(QWidget *parent) :
-    QTreeView(parent)
+SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
+    QTreeView(parent),
+    m_isItemEditable(isItemEditable)
 {
     QStringList labels{};
     labels << tr("Title") << tr("Location");
+
+    if(!m_isItemEditable)
+        setEditTriggers(EditTrigger::NoEditTriggers);
 
     setAutoScroll(true);
     setProperty("showDropIndicator", QVariant(false));
@@ -75,7 +79,7 @@ bool SBookmarksView::saveBookMarks()
     m_stream.writeEndDocument();
 
     m_bookmarksFile.close();
-    close();
+    static_cast<QWidget*>(parent())->close();
     return true;
 }
 
@@ -186,6 +190,65 @@ QStandardItem *SBookmarksView::createChildItem(QStandardItem *item, bool havUrl,
     }
     items[0]->setData(m_xml.name().toString(), Qt::UserRole);
     return items[0];
+}
+
+SBookmarksAddDialog::SBookmarksAddDialog(SMainWindow *parent) :
+    QDialog(parent),
+    m_parent(parent)
+{
+//    resize(267, height());
+    m_label->setText("Dossier : ");
+    m_boxBtn->setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
+    m_bookmarkName->setPlaceholderText("Nom du favorie");
+    m_bookmarkName->setText(m_parent->currentPage()->title());
+    m_view->hide();
+    fillFolderBox();
+
+    QHBoxLayout *folderLayout{ new QHBoxLayout() };
+    folderLayout->addWidget(m_label);
+    folderLayout->addWidget(m_location);
+
+    m_layout->addWidget(m_bookmarkName);
+    m_layout->addLayout(folderLayout);
+//    m_layout->addWidget(m_view);
+    m_layout->addWidget(m_boxBtn);
+
+    connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksAddDialog::accept);
+    connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksAddDialog::close);
+}
+
+SBookmarksAddDialog::~SBookmarksAddDialog()
+{
+
+}
+
+
+void SBookmarksAddDialog::fillFolderBox()
+{
+    for(int i{ 0 }; i < m_view->getModel()->rowCount(); ++i) {
+        addItemToBox(m_view->getModel()->item(i));
+    }
+}
+
+void SBookmarksAddDialog::addItemToBox(QStandardItem *item)
+{
+    QString tagName{ item->data(Qt::UserRole).toString() };
+
+    if(tagName == "folder") {
+        m_location->addItem(item->text(), item->index());
+        for(int i{ 0 }; i < item->rowCount(); ++i)
+            addItemToBox(item->child(i));
+
+    }
+}
+
+void SBookmarksAddDialog::accept()
+{
+    QStandardItem *item{ m_view->createChildItem(m_view->getModel()->itemFromIndex(m_location->currentData().toModelIndex()), true, m_parent->currentPage()->url().toString()) };
+    item->setText(m_bookmarkName->text());
+    item->setData("bookmark", Qt::UserRole);
+    m_view->saveBookMarks();
+    close();
 }
 
 SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :

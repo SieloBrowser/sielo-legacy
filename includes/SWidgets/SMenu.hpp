@@ -25,7 +25,8 @@ public:
 	void createShowMenu();
 	void createBrowsMenu();
     void createDlMenu();
-	void createEditMenu();
+    void createBookmarksMenu();
+    void createEditMenu();
 	void createAboutMenu();
 
 	void reset(); 
@@ -42,6 +43,7 @@ public slots:
     void showPageSrc();
 
     void openBookmarksManager();
+    void addBookmark();
 private:
 	SMainWindow* m_parent{ nullptr };
     QSharedPointer<SActions> m_actions{};
