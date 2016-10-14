@@ -23,10 +23,8 @@ SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
     setModel(m_model);
     m_model->setHorizontalHeaderLabels(labels);
 
-    m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirClosedIcon),
-                         QIcon::Normal, QIcon::Off);
-    m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirOpenIcon),
-                         QIcon::Normal, QIcon::On);
+    m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
+    m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
     m_itemIcon.addPixmap(style()->standardPixmap(QStyle::SP_FileIcon));
 
     if(!m_bookmarksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -175,10 +173,11 @@ void SBookmarksView::readBookmark(QStandardItem *item)
 
 QStandardItem *SBookmarksView::createChildItem(QStandardItem *item, bool havUrl, QString url)
 {
-    QList<QStandardItem*> items{ new QStandardItem };
+    QList<QStandardItem*> items{};
+    items.append(new QStandardItem{});
     if (item) {
         if(havUrl)
-            items.push_back(new QStandardItem(url));
+            items.append(new QStandardItem(url));
 
         item->appendRow(items);
     }
@@ -269,7 +268,7 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
 
     m_boxBtn->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
-    connect(m_boxBtn, &QDialogButtonBox::accepted, m_view, &SBookmarksView::saveBookMarks);
+    connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksDialog::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksDialog::close);
     connect(m_view, &SBookmarksView::pressed, this, &SBookmarksDialog::itemSelected);
     connect(m_openButton, &QPushButton::clicked, this, &SBookmarksDialog::openBoomark);
@@ -324,6 +323,14 @@ void SBookmarksDialog::addFolder()
     folder->setText("Nouveau dossier");
     folder->setIcon(m_view->getFolderIcon());
     folder->setData("folder", Qt::UserRole);
+}
+
+void SBookmarksDialog::accept()
+{
+    m_view->saveBookMarks();
+
+    m_parent->getMenus()[SMenuType::Fav]->clear();
+    m_parent->getMenus()[SMenuType::Fav]->createBookmarksMenu();
 }
 
 void SBookmarksDialog::itemSelected(const QModelIndex &index)

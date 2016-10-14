@@ -37,6 +37,7 @@ public:
 	SSearchArea* getSearchArea() const { return m_searchArea; }
 	STabWidget* getTabs() { return m_tabs; }
 	SWebView* currentPage();
+    QVector<SMenu*>& getMenus() { return m_menus; }
 
     static SHistoryItem&  getLastHistoryItem() {
         if(SMainWindow::curSessionHistory.size() > 0)

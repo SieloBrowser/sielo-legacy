@@ -82,6 +82,8 @@ public slots:
     void deleteBookmark();
     void addFolder();
 
+    void accept();
+
     void itemSelected(const QModelIndex &index);
 
 private:

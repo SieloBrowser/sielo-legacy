@@ -1,8 +1,10 @@
 #pragma once
 
 #include <QMenu>
+#include <QStandardItem>
 
 class SMainWindow;
+class SBookmarksView;
 class SActions;
 
 enum SMenuType {
@@ -43,8 +45,13 @@ public slots:
     void showPageSrc();
 
     void openBookmarksManager();
+    void openBookmark();
     void addBookmark();
 private:
+    void createBookmarksItem(QStandardItem *item, SMenu *parent);
+
 	SMainWindow* m_parent{ nullptr };
     QSharedPointer<SActions> m_actions{};
+
+    SBookmarksView *m_bView{ nullptr };
 };

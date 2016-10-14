@@ -129,8 +129,8 @@ void SMenu::createDlMenu()
 
 void SMenu::createBookmarksMenu()
 {
-    m_actions->addBookmarks->setParent(this);
-    m_actions->bookmarksManager->setParent(this);
+    m_bView = new SBookmarksView(this);
+    m_bView->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(m_actions->addBookmarks, &QAction::triggered, this, &SMenu::addBookmark);
     connect(m_actions->bookmarksManager, &QAction::triggered, this, &SMenu::openBookmarksManager);
@@ -138,6 +138,13 @@ void SMenu::createBookmarksMenu()
     addAction(m_actions->addBookmarks);
     addAction(m_actions->bookmarksManager);
     addSeparator();
+
+    for(int i{ 0 }; i < m_bView->getModel()->rowCount(); ++i)
+        createBookmarksItem(m_bView->getModel()->item(i), this);
+
+
+    m_bView->close();
+    m_bView = nullptr;
 }
 
 void SMenu::createEditMenu()
@@ -150,6 +157,7 @@ void SMenu::createAboutMenu()
 
 void SMenu::reset()
 {
+    clear();
 }
 
 void SMenu::createNewWindows()
@@ -236,8 +244,40 @@ void SMenu::openBookmarksManager()
     bookmarksDialog->show();
 }
 
+void SMenu::openBookmark()
+{
+    QAction *bookmarkAction{ static_cast<QAction*>(sender()) };
+
+    m_parent->getTabs()->createWebTab(bookmarkAction->text(), bookmarkAction->data().toUrl());
+    m_parent->getTabs()->createPlusTab();
+    m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+}
+
 void SMenu::addBookmark()
 {
     SBookmarksAddDialog *addBookmarkWin{ new SBookmarksAddDialog(m_parent) };
     addBookmarkWin->show();
 }
+
+void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
+{
+    QString tagName{ item->data(Qt::UserRole).toString() };
+
+    if(tagName == "folder") {
+        QMenu *folder{ new QMenu(item->text(), this) };
+        folder->setIcon(m_bView->getFolderIcon());
+        for(int i{ 0 }; i < m_bView->getModel()->rowCount(item->index()); ++i)
+            createBookmarksItem(item->child(i), static_cast<SMenu*>(folder));
+        parent->addMenu(folder);
+    }
+    else if(tagName == "separator") {
+        parent->addSeparator();
+    }
+    else if(tagName == "bookmark") {
+        QAction *bookmarkAction{ new QAction(m_bView->getItemIcon(), item->text(), parent) };
+        bookmarkAction->setData(m_bView->getModel()->itemFromIndex(item->index())->parent()->child(item->row(), 1)->text());
+        parent->addAction(bookmarkAction);
+        connect(bookmarkAction, &QAction::triggered, this, &SMenu::openBookmark);
+    }
+}
+
