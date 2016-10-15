@@ -23,7 +23,10 @@ int main(int argc, char *argv[])
 	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 
     SMainWindow* fen{ new SMainWindow };
-/*	
+
+    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+/*
 	STabWidget tab;
 	SWebView webView(&tab, QUrl("http://feldrise.com"));
 

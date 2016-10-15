@@ -2,6 +2,7 @@
 #include "includes/SWindows/SBookmarks.hpp"
 #include "includes/SWindows/SHistory.hpp"
 #include "includes/SWindows/SHtmlSrcViewver.hpp"
+#include "includes/SWindows/SPreferences.hpp"
 #include "includes/SMainWindow.hpp"
 #include "includes/SActions.hpp"
 
@@ -149,6 +150,11 @@ void SMenu::createBookmarksMenu()
 
 void SMenu::createEditMenu()
 {
+    m_actions->preferences->setParent(this);
+
+    connect(m_actions->preferences, &QAction::triggered, this, &SMenu::openPreferencesDialog);
+
+    addAction(m_actions->preferences);
 }
 
 void SMenu::createAboutMenu()
@@ -281,3 +287,9 @@ void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
     }
 }
 
+void SMenu::openPreferencesDialog()
+{
+    QMessageBox::information(this, "DEBUG", "Open preferences");
+    SPreferencesWindow *preferences{ new SPreferencesWindow(m_parent) };
+    preferences->show();
+}

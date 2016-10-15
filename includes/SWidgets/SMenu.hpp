@@ -47,6 +47,8 @@ public slots:
     void openBookmarksManager();
     void openBookmark();
     void addBookmark();
+
+    void openPreferencesDialog();
 private:
     void createBookmarksItem(QStandardItem *item, SMenu *parent);
 
