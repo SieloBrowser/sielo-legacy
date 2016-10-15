@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QDialog>
+#include <QFile>
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QTabWidget>
@@ -13,6 +14,22 @@
 #include <QCheckBox>
 
 class SMainWindow;
+
+class SThemeManager : public QObject
+{
+public:
+    SThemeManager(QObject *parent = nullptr);
+    ~SThemeManager();
+
+    bool compressTheme(QString srcFolder, QString fileDestionation);
+    bool decompressTheme(QString srcTheme);
+
+private:
+    QFile m_file{};
+    QDataStream m_dataStream{};
+
+    bool compress(QString srcFolder, QString prefex);
+};
 
 class HomePageWidget : public QWidget
 {
@@ -51,6 +68,16 @@ private:
     QCheckBox *m_javascripCheckBox{ new QCheckBox("Activer Javascript ( fortement recommandé ) ", this) };
     QCheckBox *m_cookiesCheckBox{ new QCheckBox("Activer les cookies ( fortement recommandé )", this) };
     QPushButton *m_deleteAllCookies{ new QPushButton("Supprimer tous les cookies", this) };
+};
+
+class ThemePageWidget : public QWidget
+{
+public:
+    ThemePageWidget(QWidget *parent = nullptr);
+    ~ThemePageWidget();
+
+private:
+
 };
 
 class SPreferencesWindow : public QDialog

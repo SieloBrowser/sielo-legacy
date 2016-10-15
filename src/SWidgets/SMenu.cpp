@@ -63,6 +63,10 @@ void SMenu::createFileMenu()
     addSeparator();
     addAction(m_actions->exit);
 
+    SThemeManager *manager{ new SThemeManager(this) };
+//    manager->compressTheme("/home/feldrise/Documents/C++/Projects/Qt/Sielo-NavigateurV3-WebEngine/Themes/SIcons", "/home/feldrise/testeTheme.stm");
+    manager->decompressTheme("/home/feldrise/SIcones.stm");
+
 }
 
 void SMenu::createShowMenu()
