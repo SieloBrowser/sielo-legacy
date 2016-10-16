@@ -288,7 +288,6 @@ void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
 
 void SMenu::openPreferencesDialog()
 {
-    QMessageBox::information(this, "DEBUG", "Open preferences");
     SPreferencesWindow *preferences{ new SPreferencesWindow(m_parent) };
     preferences->show();
 }

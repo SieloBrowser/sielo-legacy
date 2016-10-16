@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QRadioButton>
 #include <QComboBox>
 
 class SMainWindow;
@@ -32,23 +33,24 @@ private:
     bool compress(QString srcFolder, QString prefex);
 };
 
-class HomePageWidget : public QWidget
+class GeneralPageWidget : public QWidget
 {
 public:
-    HomePageWidget(QWidget *parent = nullptr);
-    ~HomePageWidget();
+    GeneralPageWidget(QWidget *parent = nullptr);
+    ~GeneralPageWidget();
 
     void save();
 
 private:
     QVBoxLayout *m_layout{ new QVBoxLayout(this) };
-    QGroupBox *m_box{ new QGroupBox(this) };
-    QVBoxLayout *m_boxLayout{ new QVBoxLayout(m_box) };
+    QGroupBox *m_closeBox{ new QGroupBox(this) };
+    QGroupBox *m_homePagebox{ new QGroupBox(this) };
+    QVBoxLayout *m_closeLayout{ new QVBoxLayout(m_closeBox) };
+    QVBoxLayout *m_homePageLayout{ new QVBoxLayout(m_homePagebox) };
 
-    QSpacerItem *m_spacer1{ new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Maximum) };
-    QSpacerItem *m_spacer2{ new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Maximum) };
-    QLabel *m_label{ new QLabel(QObject::tr("Entrez l'url de la page d'acceuil"), m_box) };
-    QLineEdit *m_homePageArea{ new QLineEdit(m_box) };
+    QRadioButton *m_homePageRButton{ new QRadioButton("Ouvrir sur la page d'accueil", m_closeBox) };
+    QRadioButton *m_saveTabRButton{ new QRadioButton("Ouvrir les onglets de la dernière session", m_closeBox) };
+    QLineEdit *m_homePageArea{ new QLineEdit(m_homePagebox) };
 };
 
 class BrowsPageWidget : public QWidget
@@ -65,10 +67,10 @@ private:
     QVBoxLayout *m_webLayout{ new QVBoxLayout(m_webBox) };
     QVBoxLayout *m_cookiesLayout{ new QVBoxLayout(m_cookiesBox) };
 
-    QCheckBox *m_pluginCheckBox{ new QCheckBox("Activer les plugins ( ils doivent être installés )", this) };
-    QCheckBox *m_javascripCheckBox{ new QCheckBox("Activer Javascript ( fortement recommandé ) ", this) };
-    QCheckBox *m_cookiesCheckBox{ new QCheckBox("Activer les cookies ( fortement recommandé )", this) };
-    QPushButton *m_deleteAllCookies{ new QPushButton("Supprimer tous les cookies", this) };
+    QCheckBox *m_pluginCheckBox{ new QCheckBox("Activer les plugins ( ils doivent être installés )", m_webBox) };
+    QCheckBox *m_javascripCheckBox{ new QCheckBox("Activer Javascript ( fortement recommandé ) ", m_webBox) };
+    QCheckBox *m_cookiesCheckBox{ new QCheckBox("Activer les cookies ( fortement recommandé )", m_cookiesBox) };
+    QPushButton *m_deleteAllCookies{ new QPushButton("Supprimer tous les cookies", m_cookiesBox) };
 };
 
 class ThemePageWidget : public QWidget
@@ -84,7 +86,6 @@ private:
 
     QIcon m_folderIcon{ style()->standardIcon(QStyle::SP_DirClosedIcon) };
     QIcon m_okIcon{ "Images/ok.png" };
-//    QIcon m_folderIcon{ style()->standardIcon(style()->standardPixmap(QStyle::SP_DirClosedIcon)) };
 
     QVBoxLayout *m_layout{ new QVBoxLayout(this) };
     QGroupBox *m_chooseThemeBox{ new QGroupBox(this) };
@@ -92,10 +93,8 @@ private:
     QVBoxLayout *m_chooseThemeLayout{ new QVBoxLayout(m_chooseThemeBox) };
     QVBoxLayout *m_addThemeLayout{ new QVBoxLayout(m_addThemeBox) };
 
-    QLabel *m_labelChooseTheme{ new QLabel("Choisissez le thème", this) };
-    QComboBox *m_themeComboBox{ new QComboBox(this) };
-    QLabel *m_labelAddTheme{ new QLabel("Ajouter un thème", this) };
-    QLineEdit *m_themePath{ new QLineEdit(this) };
+    QComboBox *m_themeComboBox{ new QComboBox(m_chooseThemeBox) };
+    QLineEdit *m_themePath{ new QLineEdit(m_addThemeBox) };
     QAction *m_choosePathAction{ m_themePath->addAction(m_folderIcon, QLineEdit::LeadingPosition) };
     QAction *m_addThemeAction{ m_themePath->addAction(m_okIcon, QLineEdit::TrailingPosition) };
 
@@ -117,7 +116,7 @@ private:
 
     QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this) };
 
-    HomePageWidget *m_homePageWidget{ new HomePageWidget(this) };
+    GeneralPageWidget *m_generalPageWidget{ new GeneralPageWidget(this) };
     BrowsPageWidget *m_browsPageWidget{ new BrowsPageWidget(this) };
     ThemePageWidget *m_themePageWidget{ new ThemePageWidget(this) };
 };

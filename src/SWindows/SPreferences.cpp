@@ -37,7 +37,6 @@ bool SThemeManager::decompressTheme(QString srcTheme)
 {
     QFile src{ srcTheme };
     QFileInfo themeName{ src };
-    QMessageBox::information(nullptr, "DEBUG", themeName.baseName());
     QString destinationFolder{ "Themes/" + themeName.baseName() };
 
     if(!src.exists())
@@ -118,26 +117,39 @@ bool SThemeManager::compress(QString srcFolder, QString prefix)
     return true;
 }
 
-HomePageWidget::HomePageWidget(QWidget *parent) :
+GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
     QWidget(parent)
 {
+    m_layout->addWidget(m_closeBox);
+    m_layout->addWidget(m_homePagebox);
+
     m_homePageArea->setText(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toString());
 
-    m_layout->addWidget(m_box);
+    if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool())
+        m_saveTabRButton->setChecked(true);
+    else
+        m_homePageRButton->setChecked(true);
 
-    m_boxLayout->addItem(m_spacer1);
-    m_boxLayout->addWidget(m_label);
-    m_boxLayout->addWidget(m_homePageArea);
-    m_boxLayout->addItem(m_spacer2);
+    m_closeBox->setTitle(tr("Option d'ouverture des fenêtres"));
+    m_homePagebox->setTitle(tr("Page d'accueil"));
+
+    m_closeLayout->addWidget(m_homePageRButton);
+    m_closeLayout->addWidget(m_saveTabRButton);
+    m_homePageLayout->addWidget(m_homePageArea);
 }
 
-HomePageWidget::~HomePageWidget()
+GeneralPageWidget::~GeneralPageWidget()
 {
 
 }
 
-void HomePageWidget::save()
+void GeneralPageWidget::save()
 {
+    if(m_saveTabRButton->isChecked())
+        SMainWindow::SSettings->setValue("preferences/saveTabs", true);
+    else
+        SMainWindow::SSettings->setValue("preferences/saveTabs", false);
+
     SMainWindow::SSettings->setValue("preferences/homePage", m_homePageArea->text());
 }
 
@@ -150,6 +162,9 @@ BrowsPageWidget::BrowsPageWidget(QWidget *parent) :
     m_pluginCheckBox->setChecked(SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
     m_javascripCheckBox->setChecked(SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
     m_cookiesCheckBox->setChecked(SMainWindow::SSettings->value("preferences/enableCookies", true).toBool());
+
+    m_webBox->setTitle(tr("Option de navigation"));
+    m_cookiesBox->setTitle(tr("Option pour les cookies"));
 
     m_webLayout->addWidget(m_pluginCheckBox);
     m_webLayout->addWidget(m_javascripCheckBox);
@@ -184,9 +199,10 @@ ThemePageWidget::ThemePageWidget(QWidget *parent) :
 
     m_themePath->setPlaceholderText(tr("Chemin du theme à ajouté"));
 
-    m_chooseThemeLayout->addWidget(m_labelChooseTheme);
+    m_chooseThemeBox->setTitle(tr("Thème de la fenêtre"));
+    m_addThemeBox->setTitle(tr("Ajouter un thème"));
+
     m_chooseThemeLayout->addWidget(m_themeComboBox);
-    m_addThemeLayout->addWidget(m_labelAddTheme);
     m_addThemeLayout->addWidget(m_themePath);
 
     connect(m_choosePathAction, &QAction::triggered, this, &ThemePageWidget::choosePath);
@@ -258,7 +274,7 @@ SPreferencesWindow::SPreferencesWindow(SMainWindow *parent) :
     m_layout->addWidget(m_tab);
     m_layout->addWidget(m_boxBtn);
 
-    m_tab->addTab(m_homePageWidget, tr("Page d'acceuil"));
+    m_tab->addTab(m_generalPageWidget, tr("Page d'acceuil"));
     m_tab->addTab(m_browsPageWidget, tr("Navigation"));
     m_tab->addTab(m_themePageWidget, tr("Theme"));
 
@@ -273,7 +289,7 @@ SPreferencesWindow::~SPreferencesWindow()
 
 void SPreferencesWindow::accept()
 {
-    m_homePageWidget->save();
+    m_generalPageWidget->save();
     m_browsPageWidget->save();
     m_themePageWidget->save();
 
