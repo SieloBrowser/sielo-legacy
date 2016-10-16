@@ -1,5 +1,4 @@
 #include "includes/SWindows/SPreferences.hpp"
-#include "includes/SMainWindow.hpp"
 
 #include <QWebEngineSettings>
 #include <QDir>
@@ -37,7 +36,7 @@ bool SThemeManager::decompressTheme(QString srcTheme)
 {
     QFile src{ srcTheme };
     QFileInfo themeName{ src };
-    QString destinationFolder{ "Themes/" + themeName.baseName() };
+    QString destinationFolder{ SMainWindow::dataPath + "Themes/" + themeName.baseName() };
 
     if(!src.exists())
         return false;

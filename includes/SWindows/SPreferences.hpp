@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QStandardPaths>
 #include <QWidget>
 #include <QDialog>
 #include <QFile>
@@ -14,6 +15,8 @@
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QComboBox>
+
+#include "includes/SMainWindow.hpp"
 
 class SMainWindow;
 
@@ -85,7 +88,7 @@ private:
     void addTheme();
 
     QIcon m_folderIcon{ style()->standardIcon(QStyle::SP_DirClosedIcon) };
-    QIcon m_okIcon{ "Images/ok.png" };
+    QIcon m_okIcon{ SMainWindow::dataPath + "Images/ok.png" };
 
     QVBoxLayout *m_layout{ new QVBoxLayout(this) };
     QGroupBox *m_chooseThemeBox{ new QGroupBox(this) };

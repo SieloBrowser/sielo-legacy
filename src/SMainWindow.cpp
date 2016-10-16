@@ -5,7 +5,8 @@
 #include <QFile>
 
 const unsigned int THEME_V0 = 1;
-QSettings * SMainWindow::SSettings = new QSettings("Feldrise" "SieloNAvigateurV3");
+QString SMainWindow::dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/SieloNavigateurV3/";
+QSettings * SMainWindow::SSettings = new QSettings(SMainWindow::dataPath + "snsettings.ini", QSettings::IniFormat);
 QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};
 
@@ -36,7 +37,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
         m_tabs->createDefaultWebTab();
 
 	loadMenus();
-    loadToolBar("Themes/SIcons/toolBar.txt");
+    loadToolBar(m_actions->themePath + "/toolBar.txt");
 	setCentralWidget(m_tabs);
 }
 

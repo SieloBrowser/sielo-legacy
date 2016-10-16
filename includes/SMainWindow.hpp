@@ -49,6 +49,8 @@ public:
     static QVector<SHistoryItem> curSessionHistory;
     static QVector<SDownloadItem*> dlItems;
 
+	static QString dataPath;
+
     bool privateBrowsing{ false };
 public slots:
 	void changeTitle(const QString& newTitle);

@@ -8,7 +8,6 @@ SWebView::SWebView(QWidget * parent, QUrl url) :
 	QWebEngineView(parent),
 	m_parent(parent)
 {
-
     connect(this->page(), &QWebEnginePage::fullScreenRequested, this, &SWebView::setFullScreen);
 
     load(url);

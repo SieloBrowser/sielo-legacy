@@ -1,3 +1,4 @@
+#include "..\includes\SStarter.hpp"
 #include "includes/SStarter.hpp"
 
 #include <QNetworkRequest>

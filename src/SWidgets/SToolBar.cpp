@@ -9,24 +9,6 @@ SToolBar::SToolBar(const QString& toolBarName, SMainWindow* parent) :
 {
 	m_spacer1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	m_spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-/*
-	std::ofstream out{ "Themes/SIcons/toolBar.txt" };
-
-	if (out.fail())
-		throw std::runtime_error("failed to whrite default theme");
-
-	out << THEME_V0 << ' ';
-	out << 2 << ' ';
-	out << 4 << ' ';
-	out << "back" << ' ';
-	out << "next" << ' ';
-	out << "home" << ' ';
-	out << "refresh" << ' ';
-	out << 2 << ' ';
-	out << "go" << ' ';
-	out << "search" << ' ';
-*/
-		
 }
 
 

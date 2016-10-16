@@ -44,7 +44,7 @@ private:
     QStandardItemModel *m_model{ new QStandardItemModel(this) };
     QXmlStreamReader m_xml{};
     QXmlStreamWriter m_stream{};
-    QFile m_bookmarksFile{ "Bookmarks.xbel" };
+    QFile m_bookmarksFile{};
     QIcon m_folderIcon{};
     QIcon m_itemIcon{};
 

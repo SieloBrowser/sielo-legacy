@@ -9,6 +9,7 @@ SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
     QTreeView(parent),
     m_isItemEditable(isItemEditable)
 {
+	m_bookmarksFile.setFileName(SMainWindow::dataPath + "Bookmarks.xbel");
     QStringList labels{};
     labels << tr("Title") << tr("Location");
 
