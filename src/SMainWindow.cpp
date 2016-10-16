@@ -14,6 +14,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
     QMainWindow(parent),
     m_actions(QSharedPointer<SActions>(new SActions))
 {
+	setWindowIcon(QIcon(SMainWindow::dataPath + "Images/icon.ico"));
 	setWindowTitle("[S]ielo[N]avigateur V3");
     resize(1024, 768);
 	//SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };

@@ -23,7 +23,6 @@ SStarter::SStarter(QObject *parent) :
 #endif
     }
     else {
-        QMessageBox::information(nullptr, "DEBUG", "Sielo est à joure !");
         m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/showTxt.txt")));
 
         QEventLoop loop2;
@@ -32,12 +31,10 @@ SStarter::SStarter(QObject *parent) :
 
         QString showTxt{ m_reply->readAll() };
         if(showTxt == "true\n") {
-            QMessageBox::information(nullptr, "DEBUG", "Need to show txt !");
             TextToShow *textToShow{ new TextToShow() };
             textToShow->show();
         }
         else {
-            QMessageBox::information(nullptr, "DEBUG", "Don't need to show txt !");
         }
     }
 }

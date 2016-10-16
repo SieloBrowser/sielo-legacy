@@ -35,3 +35,4 @@ HEADERS += \
     includes/SWindows/SPreferences.hpp \
     includes/SStarter.hpp
 
+RC_FILE+=icon.rc
