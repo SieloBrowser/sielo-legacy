@@ -34,7 +34,7 @@ public:
 
 private:
     QNetworkReply *m_reply{};
-    QString m_currentVersion{ "0.1b\n" };
-    QString m_version{ "0.1b\n"};
+    QString m_currentVersion{ "0.0b\n" };
+    QString m_version{ "0.0b\n"};
 };
 

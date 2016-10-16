@@ -16,7 +16,10 @@ SStarter::SStarter(QObject *parent) :
 
     m_version = m_reply->readAll();
     if(m_version != m_currentVersion) {
-        QMessageBox::information(nullptr, "DEBUG", "Sielo n'est pas à joure ! (" + m_version + "->" + m_currentVersion + ")");
+#ifndef Q_OS_WIN32
+        QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
+                                                      "recommandont de passer à la version " + m_version);
+#endif
     }
     else {
         QMessageBox::information(nullptr, "DEBUG", "Sielo est à joure !");
