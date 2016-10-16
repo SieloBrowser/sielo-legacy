@@ -96,6 +96,8 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
     connect(m_view, &QTreeView::entered, this, &SHistoryWindow::load);
     connect(m_deleteOneBtn, &QPushButton::clicked, this, &SHistoryWindow::deleteOne);
     connect(m_deleteAllBtn, &QPushButton::clicked, this, &SHistoryWindow::deleteAll);
+
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SHistoryWindow::~SHistoryWindow()

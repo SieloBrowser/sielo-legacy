@@ -196,7 +196,6 @@ SBookmarksAddDialog::SBookmarksAddDialog(SMainWindow *parent) :
     QDialog(parent),
     m_parent(parent)
 {
-//    resize(267, height());
     m_label->setText("Dossier : ");
     m_boxBtn->setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
     m_bookmarkName->setPlaceholderText("Nom du favorie");
@@ -215,6 +214,8 @@ SBookmarksAddDialog::SBookmarksAddDialog(SMainWindow *parent) :
 
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksAddDialog::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksAddDialog::close);
+
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SBookmarksAddDialog::~SBookmarksAddDialog()
@@ -275,6 +276,8 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     connect(m_openButton, &QPushButton::clicked, this, &SBookmarksDialog::openBoomark);
     connect(m_deleteBtn, &QPushButton::clicked, this, &SBookmarksDialog::deleteBookmark);
     connect(m_addFolderBtn, &QPushButton::clicked, this, &SBookmarksDialog::addFolder);
+
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SBookmarksDialog::~SBookmarksDialog()

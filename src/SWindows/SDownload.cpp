@@ -24,6 +24,8 @@ SDownloadItem::SDownloadItem(QWebEngineDownloadItem *download, SMainWindow *pare
     m_download->accept();
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SDownloadItem::undo);
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SDownloadItem::open);
+
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SDownloadItem::~SDownloadItem()

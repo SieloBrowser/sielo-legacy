@@ -21,10 +21,10 @@ STabWidget::~STabWidget()
 void STabWidget::createWebTab(QString title, SWebView * view)
 {
 	QWidget* tabPage{ new QWidget(this) };
-	QVBoxLayout* pageLayout{ new QVBoxLayout };
+	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
+	view->setParent(tabPage);
 
 	pageLayout->addWidget(view);
-	tabPage->setLayout(pageLayout);
 
     connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
     connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
@@ -35,16 +35,16 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 
 	addTab(tabPage, title);
 
+	tabPage->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void STabWidget::createWebTab(QString title, QUrl url)
 {
 	QWidget* tabPage{ new QWidget(this) };
 	SWebView* view{ new SWebView(tabPage, url) };
-	QVBoxLayout* pageLayout{ new QVBoxLayout };
+	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
 
 	pageLayout->addWidget(view);
-	tabPage->setLayout(pageLayout);
 
 	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
 	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
@@ -55,6 +55,7 @@ void STabWidget::createWebTab(QString title, QUrl url)
 
 	addTab(tabPage, title);
 
+	tabPage->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void STabWidget::createDefaultWebTab()

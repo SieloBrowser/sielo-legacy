@@ -39,6 +39,8 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	loadMenus();
     loadToolBar(m_actions->themePath + "/toolBar.txt");
 	setCentralWidget(m_tabs);
+
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 

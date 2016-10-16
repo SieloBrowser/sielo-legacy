@@ -279,6 +279,8 @@ SPreferencesWindow::SPreferencesWindow(SMainWindow *parent) :
 
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SPreferencesWindow::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SPreferencesWindow::close);
+
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SPreferencesWindow::~SPreferencesWindow()
