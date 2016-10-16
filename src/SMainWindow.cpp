@@ -19,8 +19,6 @@ SMainWindow::SMainWindow(QWidget* parent) :
 	//m_tabs->createWebTab(tr("Google"), webView);
 	//m_tabs->createWebTab(tr("Feldrise"), QUrl("http://feldrise.com"));
 
-	m_tabs->createDefaultWebTab();
-
 //	m_urlArea->hide();
 //	m_searchArea->hide();
 	m_urlArea->setMinimumWidth(400);
@@ -31,6 +29,11 @@ SMainWindow::SMainWindow(QWidget* parent) :
     // TEST AREA
 
     // END OF TEST AREA
+
+    if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool())
+        restoreTabs();
+    else
+        m_tabs->createDefaultWebTab();
 
 	loadMenus();
     loadToolBar("Themes/SIcons/toolBar.txt");
@@ -235,11 +238,31 @@ void SMainWindow::stop()
 	currentPage()->stop();
 }
 
+void SMainWindow::restoreTabs()
+{
+    SMainWindow::SSettings->beginGroup("windowSave/tabs");
+    for(int i{ 0 }; i < SMainWindow::SSettings->value("count", 1).toInt(); ++i) {
+        m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/name", "Google").toString(), SMainWindow::SSettings->value(QString::number(i) + "/url", "http://google.com").toUrl());
+    }
+
+    m_tabs->createPlusTab();
+    m_tabs->setCurrentIndex(SMainWindow::SSettings->value("focused", 0).toInt());
+    SMainWindow::SSettings->endGroup();
+}
+
 void SMainWindow::closeEvent(QCloseEvent * event)
 {
-	for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
+    SMainWindow::SSettings->beginGroup("windowSave/tabs");
+    SMainWindow::SSettings->remove("");
+    SMainWindow::SSettings->setValue("count", m_tabs->count() - 1);
+    SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
+
+    for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
         m_tabs->setCurrentIndex(i);
+        SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
+        SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
     }
+    SMainWindow::SSettings->endGroup();
 
     QDate date{ QDate::currentDate() };
 

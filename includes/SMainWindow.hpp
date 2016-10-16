@@ -68,6 +68,8 @@ protected:
 	virtual void closeEvent(QCloseEvent *event);
 
 private:
+    void restoreTabs();
+
 	// Private member
 	// Widgets
 	SUrlArea* m_urlArea{ new SUrlArea(this) };
