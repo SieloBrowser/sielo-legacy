@@ -62,11 +62,6 @@ void SMenu::createFileMenu()
     addAction(m_actions->openFile);
     addSeparator();
     addAction(m_actions->exit);
-
-    SThemeManager *manager{ new SThemeManager(this) };
-//    manager->compressTheme("/home/feldrise/Documents/C++/Projects/Qt/Sielo-NavigateurV3-WebEngine/Themes/SIcons", "/home/feldrise/testeTheme.stm");
-    manager->decompressTheme("/home/feldrise/SIcones.stm");
-
 }
 
 void SMenu::createShowMenu()
@@ -198,7 +193,7 @@ void SMenu::findInPage()
         return;
 
     if (action == m_actions->findInPage) {
-        QString word2find{ QInputDialog::getText(this, "Mot(s) à trouver", "Quel(s) est(sont) le(s) mot(s) que vous recherchez ?", QLineEdit::Normal, nullptr) };
+        QString word2find{ QInputDialog::getText(this, "Mot(s) ? trouver", "Quel(s) est(sont) le(s) mot(s) que vous recherchez ?", QLineEdit::Normal, nullptr) };
         if (word2find.isEmpty())
             return;
 
@@ -210,7 +205,7 @@ void SMenu::findInPage()
     else if (action == m_actions->findPrevious)
         m_parent->currentPage()->findText(m_actions->findInPage->objectName(), QWebEnginePage::FindBackward);
     else
-        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
+        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoy? un rapport au d?veloppeur de ce navigateur");
 }
 
 void SMenu::zoom()
@@ -225,7 +220,7 @@ void SMenu::zoom()
     else if (action == m_actions->zoomLess)
         m_parent->currentPage()->setZoomFactor(m_parent->currentPage()->zoomFactor() - 0.1);
     else
-        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
+        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoy? un rapport au d?veloppeur de ce navigateur");
 }
 
 void SMenu::showHistory()

@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QComboBox>
 
 class SMainWindow;
 
@@ -76,7 +77,27 @@ public:
     ThemePageWidget(QWidget *parent = nullptr);
     ~ThemePageWidget();
 
+    void save();
 private:
+    void choosePath();
+    void addTheme();
+
+    QIcon m_folderIcon{ style()->standardIcon(QStyle::SP_DirClosedIcon) };
+    QIcon m_okIcon{ "Images/ok.png" };
+//    QIcon m_folderIcon{ style()->standardIcon(style()->standardPixmap(QStyle::SP_DirClosedIcon)) };
+
+    QVBoxLayout *m_layout{ new QVBoxLayout(this) };
+    QGroupBox *m_chooseThemeBox{ new QGroupBox(this) };
+    QGroupBox *m_addThemeBox{ new QGroupBox(this) };
+    QVBoxLayout *m_chooseThemeLayout{ new QVBoxLayout(m_chooseThemeBox) };
+    QVBoxLayout *m_addThemeLayout{ new QVBoxLayout(m_addThemeBox) };
+
+    QLabel *m_labelChooseTheme{ new QLabel("Choisissez le thème", this) };
+    QComboBox *m_themeComboBox{ new QComboBox(this) };
+    QLabel *m_labelAddTheme{ new QLabel("Ajouter un thème", this) };
+    QLineEdit *m_themePath{ new QLineEdit(this) };
+    QAction *m_choosePathAction{ m_themePath->addAction(m_folderIcon, QLineEdit::LeadingPosition) };
+    QAction *m_addThemeAction{ m_themePath->addAction(m_okIcon, QLineEdit::TrailingPosition) };
 
 };
 
@@ -98,4 +119,5 @@ private:
 
     HomePageWidget *m_homePageWidget{ new HomePageWidget(this) };
     BrowsPageWidget *m_browsPageWidget{ new BrowsPageWidget(this) };
+    ThemePageWidget *m_themePageWidget{ new ThemePageWidget(this) };
 };

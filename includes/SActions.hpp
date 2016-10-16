@@ -7,7 +7,8 @@ struct SActions {
 
     SActions() {}
 
-    QString themePath{ SMainWindow::SSettings->value("Themes/currentThemePath", "Themes/SIcons").toString() + "/" };
+    int currentTheme{ SMainWindow::SSettings->value("preferences/themes/currentTheme", 0).toInt() };
+    QString themePath{ "Themes/" + SMainWindow::SSettings->value("preferences/themes/" + QString::number(currentTheme) + "/name", "SIcons").toString() + "/" };
 
     // All actions possible in the tool bar
     QAction* back{ new QAction(QIcon(themePath + "back.png"), QObject::trUtf8("&Précédent")) };

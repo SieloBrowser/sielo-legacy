@@ -24,7 +24,7 @@ SMainWindow::SMainWindow(QWidget* parent) :
 //	m_urlArea->hide();
 //	m_searchArea->hide();
 	m_urlArea->setMinimumWidth(400);
-	m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.jpg"), this);
+    m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.png"), this);
 	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText("Recherche Google");
 
