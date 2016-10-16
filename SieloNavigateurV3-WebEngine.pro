@@ -16,7 +16,8 @@ SOURCES += \
     src/SWindows/SHtmlSrcViewver.cpp \
     src/SWindows/SDownload.cpp \
     src/SWindows/SBookmarks.cpp \
-    src/SWindows/SPreferences.cpp
+    src/SWindows/SPreferences.cpp \
+    src/SStarter.cpp
 
 HEADERS += \
     includes/SMainWindow.hpp \
@@ -31,5 +32,6 @@ HEADERS += \
     includes/SWindows/SDownload.hpp \
     includes/SActions.hpp \
     includes/SWindows/SBookmarks.hpp \
-    includes/SWindows/SPreferences.hpp
+    includes/SWindows/SPreferences.hpp \
+    includes/SStarter.hpp
 

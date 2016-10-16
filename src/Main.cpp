@@ -7,11 +7,14 @@
 #include "includes/SWidgets/SWebView.hpp"
 #include "includes/SWidgets/STabWidget.hpp"
 #include "includes/SMainWindow.hpp"
+#include "includes/SStarter.hpp"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    SStarter *starter{ new SStarter() };
+//    delete starter;
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
 //	QApplication::setStyle(QStyleFactory::create("Fusion"));
