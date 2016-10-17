@@ -62,6 +62,11 @@ void SMenu::createFileMenu()
     addAction(m_actions->openFile);
     addSeparator();
     addAction(m_actions->exit);
+
+	m_actions->newTab->setShortcut(QKeySequence::AddTab);
+	m_actions->newWindow->setShortcut(QKeySequence("Ctrl+N"));
+	m_actions->openFile->setShortcut(QKeySequence::Open);
+	m_actions->exit->setShortcut(QKeySequence::Quit);
 }
 
 void SMenu::createShowMenu()
@@ -88,6 +93,13 @@ void SMenu::createShowMenu()
     addSeparator();
     addAction(m_actions->zoomMore);
     addAction(m_actions->zoomLess);
+
+	m_actions->showFullScreen->setShortcut(QKeySequence("F11"));
+	m_actions->findInPage->setShortcut(QKeySequence::Find);
+	m_actions->findNext->setShortcut(QKeySequence::FindNext);
+	m_actions->findPrevious->setShortcut(QKeySequence::FindPrevious);
+	m_actions->zoomMore->setShortcut(QKeySequence::ZoomIn);
+	m_actions->zoomLess->setShortcut(QKeySequence::ZoomOut);
 }
 
 void SMenu::createBrowsMenu()
@@ -120,6 +132,12 @@ void SMenu::createBrowsMenu()
     addAction(m_actions->privateBrowsing);
     addAction(m_actions->downloads);
     addAction(m_actions->viewPageCodeSource);
+
+	m_actions->back->setShortcut(QKeySequence::Back);
+	m_actions->next->setShortcut(QKeySequence::Forward);
+	m_actions->history->setShortcut(QKeySequence("Ctrl+H"));
+	m_actions->privateBrowsing->setShortcut(QKeySequence("Ctrl+Shift+P"));
+	m_actions->viewPageCodeSource->setShortcut(QKeySequence("Ctrl+U"));
 }
 
 void SMenu::createDlMenu()
@@ -142,9 +160,11 @@ void SMenu::createBookmarksMenu()
     for(int i{ 0 }; i < m_bView->getModel()->rowCount(); ++i)
         createBookmarksItem(m_bView->getModel()->item(i), this);
 
-
     m_bView->close();
     m_bView = nullptr;
+
+	m_actions->addBookmarks->setShortcut(QKeySequence("Ctrl+D"));
+	m_actions->bookmarksManager->setShortcut(QKeySequence("Ctrl+B"));
 }
 
 void SMenu::createEditMenu()
@@ -154,6 +174,8 @@ void SMenu::createEditMenu()
     connect(m_actions->preferences, &QAction::triggered, this, &SMenu::openPreferencesDialog);
 
     addAction(m_actions->preferences);
+
+	m_actions->preferences->setShortcut(QKeySequence("Ctrl+P"));
 }
 
 void SMenu::createAboutMenu()

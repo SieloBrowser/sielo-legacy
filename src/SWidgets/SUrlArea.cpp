@@ -30,6 +30,7 @@ void SUrlArea::loadStarted()
 {
     m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
     m_parent->getActions()->refreshOrStop->setText("Arrêter le chargement");
+	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
     connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 
     setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2)}");
@@ -60,6 +61,7 @@ void SUrlArea::loadFinished()
 
     m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
     m_parent->getActions()->refreshOrStop->setText("Rafraichir la page");
+	m_parent->getActions()->refreshOrStop->setShortcuts(QKeySequence::Refresh);
     setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2)}");
     connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 

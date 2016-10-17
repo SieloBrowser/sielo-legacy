@@ -55,7 +55,7 @@ void SMainWindow::loadMenus()
 	m_menus.push_back(new SMenu(this, "&Affichage", SMenuType::Show));
 	m_menus.push_back(new SMenu(this, "&Navigation", SMenuType::Brows));
     m_menus.push_back(new SMenu(this, "&Téléchargement", SMenuType::Dl));
-	m_menus.push_back(new SMenu(this, "&Fa&voris", SMenuType::Fav));
+	m_menus.push_back(new SMenu(this, "Fa&voris", SMenuType::Fav));
 	m_menus.push_back(new SMenu(this, "&Edition", SMenuType::Edit));
 	m_menus.push_back(new SMenu(this, "&?", SMenuType::About));
 	
