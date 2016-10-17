@@ -36,6 +36,8 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 	addTab(tabPage, title);
 
 	tabPage->setAttribute(Qt::WA_DeleteOnClose);
+	if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
+		view->page()->profile()->cookieStore()->deleteAllCookies();
 }
 
 void STabWidget::createWebTab(QString title, QUrl url)
@@ -56,6 +58,8 @@ void STabWidget::createWebTab(QString title, QUrl url)
 	addTab(tabPage, title);
 
 	tabPage->setAttribute(Qt::WA_DeleteOnClose);
+	if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
+		view->page()->profile()->cookieStore()->deleteAllCookies();
 }
 
 void STabWidget::createDefaultWebTab()

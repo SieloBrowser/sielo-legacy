@@ -1,4 +1,5 @@
 #include "includes/SWindows/SPreferences.hpp"
+#include "includes/SWidgets/STabWidget.hpp"
 
 #include <QWebEngineSettings>
 #include <QDir>
@@ -152,8 +153,9 @@ void GeneralPageWidget::save()
     SMainWindow::SSettings->setValue("preferences/homePage", m_homePageArea->text());
 }
 
-BrowsPageWidget::BrowsPageWidget(QWidget *parent) :
-    QWidget(parent)
+BrowsPageWidget::BrowsPageWidget(SPreferencesWindow *parent) :
+    QWidget(parent),
+	m_parent(parent)
 {
     m_layout->addWidget(m_webBox);
     m_layout->addWidget(m_cookiesBox);
@@ -169,6 +171,8 @@ BrowsPageWidget::BrowsPageWidget(QWidget *parent) :
     m_webLayout->addWidget(m_javascripCheckBox);
     m_cookiesLayout->addWidget(m_cookiesCheckBox);
     m_cookiesLayout->addWidget(m_deleteAllCookies);
+
+	connect(m_deleteAllCookies, &QPushButton::clicked, this, &BrowsPageWidget::deleteAllCookies);
 }
 
 BrowsPageWidget::~BrowsPageWidget()
@@ -181,6 +185,14 @@ void BrowsPageWidget::save()
     SMainWindow::SSettings->setValue("preferences/enablePlugins", m_pluginCheckBox->isChecked());
     SMainWindow::SSettings->setValue("preferences/enableJavascript", m_javascripCheckBox->isChecked());
     SMainWindow::SSettings->setValue("preferences/enableCookies", m_cookiesCheckBox->isChecked());
+}
+
+void BrowsPageWidget::deleteAllCookies()
+{
+	for (int i{ 0 }; i < m_parent->getParent()->getTabs()->count() - 1; ++i) 
+		m_parent->getParent()->getTabs()->widget(i)->findChild<SWebView*>()->page()->profile()->cookieStore()->deleteAllCookies();
+
+	QMessageBox::information(this, "Cookies", "Tous les cookies ont bien été suprimés");
 }
 
 ThemePageWidget::ThemePageWidget(QWidget *parent) :

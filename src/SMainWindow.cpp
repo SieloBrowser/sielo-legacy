@@ -265,6 +265,12 @@ void SMainWindow::closeEvent(QCloseEvent * event)
         m_tabs->setCurrentIndex(i);
         SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
         SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
+		SMainWindow::SSettings->endGroup();
+
+		if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool()) 
+			currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
+
+		SMainWindow::SSettings->beginGroup("windowSave/tabs");
     }
     SMainWindow::SSettings->endGroup();
 

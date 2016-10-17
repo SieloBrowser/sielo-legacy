@@ -19,6 +19,7 @@
 #include "includes/SMainWindow.hpp"
 
 class SMainWindow;
+class SPreferencesWindow;
 
 class SThemeManager : public QObject
 {
@@ -59,11 +60,16 @@ private:
 class BrowsPageWidget : public QWidget
 {
 public:
-    BrowsPageWidget(QWidget *parent = nullptr);
+    BrowsPageWidget(SPreferencesWindow *parent = nullptr);
     ~BrowsPageWidget();
 
     void save();
+
+public slots:
+	void deleteAllCookies();
+
 private:
+	SPreferencesWindow *m_parent{ nullptr };
     QVBoxLayout *m_layout{ new QVBoxLayout(this) };
     QGroupBox *m_webBox{ new QGroupBox(this) };
     QGroupBox *m_cookiesBox{ new QGroupBox(this) };
@@ -109,6 +115,7 @@ public:
     SPreferencesWindow(SMainWindow *parent = nullptr);
     ~SPreferencesWindow();
 
+	SMainWindow *getParent() { return m_parent; }
 public slots:
     void accept();
 
