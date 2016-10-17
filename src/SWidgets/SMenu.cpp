@@ -180,6 +180,12 @@ void SMenu::createEditMenu()
 
 void SMenu::createAboutMenu()
 {
+	m_actions->aboutQt->setParent(this);
+	m_actions->aboutQt->setIcon(QIcon(SMainWindow::dataPath + "/Images/QtIcon.png"));
+
+	connect(m_actions->aboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);
+
+	addAction(m_actions->aboutQt);
 }
 
 void SMenu::reset()
