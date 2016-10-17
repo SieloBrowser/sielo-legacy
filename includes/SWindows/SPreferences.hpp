@@ -53,7 +53,7 @@ private:
     QVBoxLayout *m_homePageLayout{ new QVBoxLayout(m_homePagebox) };
 
     QRadioButton *m_homePageRButton{ new QRadioButton("Ouvrir sur la page d'accueil", m_closeBox) };
-    QRadioButton *m_saveTabRButton{ new QRadioButton("Ouvrir les onglets de la dernière session", m_closeBox) };
+    QRadioButton *m_saveTabRButton{ new QRadioButton("Ouvrir les onglets de la derniere session", m_closeBox) };
     QLineEdit *m_homePageArea{ new QLineEdit(m_homePagebox) };
 };
 
@@ -76,7 +76,7 @@ private:
     QVBoxLayout *m_webLayout{ new QVBoxLayout(m_webBox) };
     QVBoxLayout *m_cookiesLayout{ new QVBoxLayout(m_cookiesBox) };
 
-    QCheckBox *m_pluginCheckBox{ new QCheckBox("Activer les plugins ( ils doivent être installés )", m_webBox) };
+    QCheckBox *m_pluginCheckBox{ new QCheckBox("Activer les plugins ( ils doivent etre installés )", m_webBox) };
     QCheckBox *m_javascripCheckBox{ new QCheckBox("Activer Javascript ( fortement recommandé ) ", m_webBox) };
     QCheckBox *m_cookiesCheckBox{ new QCheckBox("Activer les cookies ( fortement recommandé )", m_cookiesBox) };
     QPushButton *m_deleteAllCookies{ new QPushButton("Supprimer tous les cookies", m_cookiesBox) };

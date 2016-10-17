@@ -29,7 +29,7 @@ void SUrlArea::setText(const QString& texte)
 void SUrlArea::loadStarted()
 {
     m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
-    m_parent->getActions()->refreshOrStop->setText("Arrêter le chargement");
+    m_parent->getActions()->refreshOrStop->setText("Arreter le chargement");
 	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
     connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 
@@ -37,10 +37,10 @@ void SUrlArea::loadStarted()
 
     QString url{ m_parent->currentPage()->url().toString() };
     if ((url.left(7) != "http://" && url.left(8) != "https://" && url.left(5) != "html/") && !url.isEmpty()) {
-        QMessageBox warningMsgBox{ QMessageBox::Warning, tr("Site non sécurisé"), tr("Attention, le site sur lequel vous entrez n'est pas sécurisé !"), QMessageBox::Ignore | QMessageBox::Cancel, this };
+        QMessageBox warningMsgBox{ QMessageBox::Warning, tr("Site non sÃ©curisÃ©"), tr("Attention, le site sur lequel vous entrez n'est pas sÃ©curisÃ© !"), QMessageBox::Ignore | QMessageBox::Cancel, this };
 
         warningMsgBox.setButtonText(QMessageBox::Ignore, tr("Continuer"));
-        warningMsgBox.setButtonText(QMessageBox::Cancel, tr("Retour à la sécurité"));
+        warningMsgBox.setButtonText(QMessageBox::Cancel, tr("Retour a la sÃ©curitÃ©"));
 
         if (warningMsgBox.exec() == QMessageBox::Cancel)
             m_parent->back();

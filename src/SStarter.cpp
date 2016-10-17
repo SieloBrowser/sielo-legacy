@@ -22,8 +22,8 @@ SStarter::SStarter(QObject *parent) :
     m_version = m_reply->readAll();
     if(m_version != m_currentVersion) {
 #ifndef Q_OS_WIN32
-        QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
-                                                      "recommandont de passer à la version " + m_version);
+        QMessageBox::warning(nullptr, "Mise a joure", "Sielo Navigateur n'est pas a joure, nous vous \n"
+                                                      "recommandont de passer a la version " + m_version);
 #else
 		if (SMainWindow::SSettings->value("Maj/remind", true).toBool()) {
 			MaJDialog *majDialog{ new MaJDialog(nullptr) };
@@ -104,7 +104,7 @@ MaJDialog::MaJDialog(QWidget * parent)
 	m_layout->addWidget(m_box);
 	m_layout->addLayout(m_btnLayout);
 
-	m_box->setTitle(tr("Une nouvelle mise à joure est diponible !"));
+	m_box->setTitle(tr("Une nouvelle mise a joure est diponible !"));
 	m_boxBtn->addButton(m_installButton, QDialogButtonBox::AcceptRole);
 	m_boxBtn->addButton(QDialogButtonBox::Close);;
 	m_remindMaj->setChecked(true);
@@ -156,7 +156,7 @@ void MaJDialog::save()
 	QFile updater{ QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/SNUpdater.exe" };
 
 	if (!updater.open(QIODevice::WriteOnly)) {
-		QMessageBox::critical(this, "Erreur", "Erreur lors de l'installation de la mise à jours !");
+		QMessageBox::critical(this, "Erreur", "Erreur lors de l'installation de la mise a jours !");
 		return;
 	}
 

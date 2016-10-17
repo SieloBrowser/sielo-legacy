@@ -66,9 +66,9 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 			addSeparator();
 		}
 		else {
-			QMessageBox::warning(this, "Problème", "Une erreur est présente à la ligne numéro " + QString::number(i + 1) + ". "
-				"La barre de navigation risque de ne pas se charger comme prévue"
-				"Nous vous conseillons de contacter le créateur du thème pour qu'il corrige l'erreur au plus vite.");
+			QMessageBox::warning(this, "Probleme", "Une erreur est prÃ©sente a la ligne numÃ©ro " + QString::number(i + 1) + ". "
+				"La barre de navigation risque de ne pas se charger comme prÃ©vue"
+				"Nous vous conseillons de contacter le crÃ©ateur du theme pour qu'il corrige l'erreur au plus vite.");
 		}
 	}
 
