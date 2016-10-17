@@ -17,13 +17,5 @@ int main(int argc, char *argv[])
     SStarter *starter{ new SStarter };
     delete starter;
 
-    SMainWindow* fen{ new SMainWindow() };
-
-	QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-    QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
-
-    fen->show();
-
     return app.exec();
 }
