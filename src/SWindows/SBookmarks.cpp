@@ -196,6 +196,7 @@ SBookmarksAddDialog::SBookmarksAddDialog(SMainWindow *parent) :
     QDialog(parent),
     m_parent(parent)
 {
+    setModal(true);
     m_label->setText("Dossier : ");
     m_boxBtn->setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
     m_bookmarkName->setPlaceholderText("Nom du favorie");
@@ -257,7 +258,6 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     m_parent(parent)
 {
     resize(758, 450);
-    setModal(true);
     m_openButton->setEnabled(false);
 
     m_layoutBoxBtn->addWidget(m_openButton);
