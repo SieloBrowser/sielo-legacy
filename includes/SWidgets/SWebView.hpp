@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QtWebEngineWidgets>
+#include <QContextMenuEvent>
 
 class STabWidget;
 
@@ -13,7 +14,7 @@ public:
 
 	void changeParent(QWidget *parent, STabWidget *parentTab);
 protected:
-
+	void contextMenuEvent(QContextMenuEvent *event);
 	SWebView * createWindow(QWebEnginePage::WebWindowType type);
 
 public slots:

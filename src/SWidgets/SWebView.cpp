@@ -27,6 +27,17 @@ void SWebView::changeParent(QWidget * parent, STabWidget *parentTab)
 	m_parentTab = parentTab;
 }
 
+void SWebView::contextMenuEvent(QContextMenuEvent *event)
+{
+	QMenu *contextMenu{ page()->createStandardContextMenu() };
+
+	if (!page()->contextMenuData().linkUrl().isEmpty()) {
+		contextMenu->insertAction(page()->action(QWebEnginePage::OpenLinkInThisWindow), page()->action(QWebEnginePage::OpenLinkInNewTab));
+	}
+
+	contextMenu->exec(event->globalPos());
+}
+
 SWebView * SWebView::createWindow(QWebEnginePage::WebWindowType type)
 {
 	if (type == QWebEnginePage::WebBrowserWindow) {
