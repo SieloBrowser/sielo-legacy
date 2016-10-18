@@ -233,7 +233,7 @@ void SMenu::findInPage()
     else if (action == m_actions->findPrevious)
         m_parent->currentPage()->findText(m_actions->findInPage->objectName(), QWebEnginePage::FindBackward);
     else
-        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoy? un rapport au d?veloppeur de ce navigateur");
+        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
 }
 
 void SMenu::zoom()
@@ -248,7 +248,7 @@ void SMenu::zoom()
     else if (action == m_actions->zoomLess)
         m_parent->currentPage()->setZoomFactor(m_parent->currentPage()->zoomFactor() - 0.1);
     else
-        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoy? un rapport au d?veloppeur de ce navigateur");
+        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
 }
 
 void SMenu::showHistory()

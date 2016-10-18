@@ -57,7 +57,7 @@ private:
 
 	QLabel *m_text{ new QLabel("Nouveautées", m_box) };
 	QProgressBar *m_progress{ new QProgressBar(m_box) };
-	QCheckBox *m_remindMaj{ new QCheckBox("Rappeler les mises a joures", this) };
+	QCheckBox *m_remindMaj{ new QCheckBox("Rappeler les mises à joures", this) };
 	QPushButton *m_installButton{ new QPushButton("Installer", this) };
 	QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
 

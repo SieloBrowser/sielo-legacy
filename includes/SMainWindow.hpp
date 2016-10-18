@@ -23,7 +23,7 @@ struct SActions;
 class SMainWindow : public QMainWindow
 {
 public:
-	SMainWindow(QWidget* parent = nullptr);
+	SMainWindow(QWidget* parent = nullptr, SWebView *view = nullptr);
 	~SMainWindow();
 
 	void loadMenus();

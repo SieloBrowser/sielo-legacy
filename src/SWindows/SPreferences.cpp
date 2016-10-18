@@ -130,7 +130,7 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
     else
         m_homePageRButton->setChecked(true);
 
-    m_closeBox->setTitle(tr("Option d'ouverture des fenetres"));
+    m_closeBox->setTitle(tr("Option d'ouverture des fenêtres"));
     m_homePagebox->setTitle(tr("Page d'accueil"));
 
     m_closeLayout->addWidget(m_homePageRButton);
@@ -208,10 +208,10 @@ ThemePageWidget::ThemePageWidget(QWidget *parent) :
         }
     }
 
-    m_themePath->setPlaceholderText(tr("Chemin du theme a ajouté"));
+    m_themePath->setPlaceholderText(tr("Chemin du thème à ajouté"));
 
-    m_chooseThemeBox->setTitle(tr("Theme de la fenetre"));
-    m_addThemeBox->setTitle(tr("Ajouter un theme"));
+    m_chooseThemeBox->setTitle(tr("Thème de la fenêtre"));
+    m_addThemeBox->setTitle(tr("Ajouter un thème"));
 
     m_chooseThemeLayout->addWidget(m_themeComboBox);
     m_addThemeLayout->addWidget(m_themePath);
@@ -228,7 +228,7 @@ ThemePageWidget::~ThemePageWidget()
 
 void ThemePageWidget::choosePath()
 {
-    QString path{ QFileDialog::getOpenFileName(this, "Choisir un theme", m_themePath->text(), "Sielo Navigateur Themes(*.snthm)") };
+    QString path{ QFileDialog::getOpenFileName(this, "Choisir un thème", m_themePath->text(), "Sielo Navigateur Themes(*.snthm)") };
 
     if(!path.isEmpty()) {
         m_themePath->setText(path);
@@ -240,7 +240,7 @@ void ThemePageWidget::addTheme()
     QString path{ m_themePath->text() };
 
     if(!path.endsWith(".snthm")) {
-        QMessageBox::critical(this, "Error", "Le theme n'est pas valide");
+        QMessageBox::critical(this, "Error", "Le thème n'est pas valide");
         return;
     }
 
@@ -249,7 +249,7 @@ void ThemePageWidget::addTheme()
     int index{ SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt() };
 
     manager->decompressTheme(path);
-    QMessageBox::information(this, "Info", "Le theme " + themeInfo.baseName() + " va etre ajouté (patientez quelques instants s'il vous plait)");
+    QMessageBox::information(this, "Info", "Le thème " + themeInfo.baseName() + " va être ajouté (patientez quelques instants s'il vous plait)");
 
     SMainWindow::SSettings->beginGroup("preferences/themes/");
     SMainWindow::SSettings->setValue("nbre", index);
@@ -258,7 +258,7 @@ void ThemePageWidget::addTheme()
     SMainWindow::SSettings->endGroup();
 
     m_themeComboBox->addItem(themeInfo.baseName());
-    QMessageBox::information(this, "Fin", "Le theme a bien été ajouté");
+    QMessageBox::information(this, "Fin", "Le thème à bien été ajouté");
     delete manager;
     manager = nullptr;
 }
@@ -267,7 +267,7 @@ void ThemePageWidget::save()
 {
     for(int i{ 0 }; i < m_themeComboBox->count(); ++i) {
         if(i == m_themeComboBox->currentIndex() && !SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/current", false).toBool()) {
-            QMessageBox::information(this, "Application", "Le theme sera appliqué au prochain redémarrage");
+            QMessageBox::information(this, "Application", "Le thème sera appliqué au prochain redémarrage");
             SMainWindow::SSettings->setValue("preferences/themes/" + QString::number(i) + "/current", true);
             SMainWindow::SSettings->setValue("preferences/themes/currentTheme", i);
         }

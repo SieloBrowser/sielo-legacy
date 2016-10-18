@@ -22,7 +22,7 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 {
 	QWidget* tabPage{ new QWidget(this) };
 	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
-	view->setParent(tabPage);
+	view->changeParent(tabPage, this);
 
 	pageLayout->addWidget(view);
 
@@ -43,7 +43,7 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 void STabWidget::createWebTab(QString title, QUrl url)
 {
 	QWidget* tabPage{ new QWidget(this) };
-	SWebView* view{ new SWebView(tabPage, url) };
+	SWebView* view{ new SWebView(tabPage, this, url) };
 	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
 
 	pageLayout->addWidget(view);

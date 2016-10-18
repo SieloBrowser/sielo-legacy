@@ -29,7 +29,7 @@ void SUrlArea::setText(const QString& texte)
 void SUrlArea::loadStarted()
 {
     m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
-    m_parent->getActions()->refreshOrStop->setText("Arreter le chargement");
+    m_parent->getActions()->refreshOrStop->setText("Arrêter le chargement");
 	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
     connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 

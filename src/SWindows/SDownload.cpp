@@ -49,7 +49,6 @@ void SDownloadItem::progress(qint64 recept, qint64 total)
 
 void SDownloadItem::undo()
 {
-        QMessageBox::information(this, "DEBUG", "Canceled");
         m_dlCanceled = true;
         m_dlFinished = true;
         m_download->cancel();
@@ -63,13 +62,11 @@ void SDownloadItem::undo()
 void SDownloadItem::open()
 {
         QDesktopServices::openUrl(QString("file:///" + m_download->path()));
-        QMessageBox::information(this, "DEBUG", "Finish & Open");
 }
 
 void SDownloadItem::finish()
 {
     if(!m_dlCanceled) {
-        QMessageBox::information(this, "DEBUG", "Finish");
         m_dlFinished = true;
         m_label->setText(m_label->text() + " - Terminé");
         m_progressBar->setRange(0, 100);

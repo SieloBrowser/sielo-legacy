@@ -10,7 +10,7 @@ QSettings * SMainWindow::SSettings = new QSettings(SMainWindow::dataPath + "snse
 QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};
 
-SMainWindow::SMainWindow(QWidget* parent) :
+SMainWindow::SMainWindow(QWidget* parent, SWebView *view) :
     QMainWindow(parent),
     m_actions(QSharedPointer<SActions>(new SActions))
 {
@@ -32,9 +32,13 @@ SMainWindow::SMainWindow(QWidget* parent) :
 
     // END OF TEST AREA
 
-    if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool())
+    if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool() && !view)
         restoreTabs();
-    else
+	else if (view) {
+		m_tabs->createWebTab("Nouvelle onglet", view);
+		m_tabs->createPlusTab();
+	}
+	else
         m_tabs->createDefaultWebTab();
 
 	loadMenus();
@@ -73,7 +77,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 	QFile file{ filePath };
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, "Error", "Impossible d'ouvrir le theme de la bare d'outile : " + filePath);
+        QMessageBox::critical(this, "Error", "Impossible d'ouvrir le thème de la bare d'outile : " + filePath);
 		return false;
 	}
 
@@ -202,7 +206,6 @@ void SMainWindow::addDownload(QWebEngineDownloadItem *download)
 
 void SMainWindow::removeDownload()
 {
-    QMessageBox::information(this, "DEBUG", "Close DL !!");
     SDownloadItem *dlItem{ static_cast<SDownloadItem*>(sender()) };
     if(!dlItem)
         return;
@@ -213,8 +216,6 @@ void SMainWindow::removeDownload()
     QList<QAction*> downloads{};
     downloads = m_menus[SMenuType::Dl]->actions();
     m_menus[SMenuType::Dl]->removeAction(downloads[index]);
-
-    QMessageBox::information(this, "DEBUG", QString::number(index));
 }
 
 void SMainWindow::back()

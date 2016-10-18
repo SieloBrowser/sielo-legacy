@@ -65,7 +65,7 @@ private:
     SMainWindow *m_parent{ nullptr };
 
     QVBoxLayout *m_layout{ new QVBoxLayout(this) };
-    QLabel *m_label{ new QLabel("Choisissez le dossier ou ajouter le favorie", this) };
+    QLabel *m_label{ new QLabel("Choisissez le dossier où ajouter le favorie", this) };
     QLineEdit *m_bookmarkName{ new QLineEdit(this) };
     QComboBox *m_location{ new QComboBox(this) };
     SBookmarksView *m_view{ new SBookmarksView(this, false) };
