@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
 	QLocale france(QLocale::French, QLocale::France);
 	QString locale = france.name();
 	QTranslator translator;
-	QMessageBox::information(nullptr, "DEBUG", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	translator.load(QString("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	app.installTranslator(&translator);
 

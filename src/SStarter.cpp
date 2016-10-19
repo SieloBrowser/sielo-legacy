@@ -9,7 +9,7 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 
-QString SStarter::currentVersion = "0.0.1b\n";
+QString SStarter::currentVersion = "0.0.2\n";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {

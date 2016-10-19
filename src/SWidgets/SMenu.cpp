@@ -18,7 +18,7 @@ AboutSN::AboutSN(QWidget * parent) :
 {
 	setModal(true);
 	QString htmlTxt{ 
-		"<h2>Sielo <img src=\"" + SMainWindow::dataPath + "Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.0.1)</h2>"
+		"<h2>Sielo <img src=\"" + SMainWindow::dataPath + "Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.0.2)</h2>"
 		"<p>"
 			"Qu'est-ce que c'est ? <br/>"
 			"Sielo est un navigateur web léger, performant, très personnalisable et<br/>"
@@ -35,8 +35,8 @@ AboutSN::AboutSN(QWidget * parent) :
 			"</ul>"
 		"</p>"
 		"<p>"
-			"Ce navigateur est développé par Feldrise, et est en évolution constante.<br/>"
-			"Il est disponible sous licence GNU 3.0, et fait avec Qt 5.7 en C++ 14. N'oubliez<br/>"
+			"Ce navigateur est développé par <a href=\"https://feldrise.com\">Feldrise</a>, et est en évolution constante.<br/>"
+			"Il est disponible sous <a href=\"https://opensource.org/licenses/gpl-3.0.html\">licence GNU 3.0</a>, et fait avec <a href=\"https://www.qt.io/\">Qt 5.7</a> en C++ 14. N'oubliez<br/>"
 			"pas de faire régulièrement les mises à jours pour profité de nos dernières<br/>"
 			"fonctionnalitées et correction !"
 		"</p>"
@@ -381,8 +381,7 @@ void SMenu::openPreferencesDialog()
 
 void SMenu::openAboutSielo()
 {
-	QMessageBox::information(nullptr, "DEBUG", "About Sielo");
-	AboutSN *aboutSN{ new AboutSN(this) };
+	AboutSN *aboutSN{ new AboutSN(m_parent) };
 	aboutSN->show();
 }
 

@@ -76,6 +76,6 @@ public:
 	static QString currentVersion;
 private:
     QNetworkReply *m_reply{};
-    QString m_version{ "0.0.1b\n"};
+    QString m_version{ "0.0.2\n"};
 };
 

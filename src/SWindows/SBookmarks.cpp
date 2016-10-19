@@ -250,6 +250,10 @@ void SBookmarksAddDialog::accept()
     item->setText(m_bookmarkName->text());
     item->setData("bookmark", Qt::UserRole);
     m_view->saveBookMarks();
+
+    m_parent->getMenus()[SMenuType::Fav]->clear();
+    m_parent->getMenus()[SMenuType::Fav]->createBookmarksMenu();
+
     close();
 }
 
