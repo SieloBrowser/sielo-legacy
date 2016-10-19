@@ -39,5 +39,5 @@ struct SActions {
     QAction* viewPageCodeSource{ new QAction("Voire le code source de la page") };
     QAction* aboutQt{ new QAction("A propos de Qt") };
     QAction* aboutSielo{ new QAction("A propos de Sielo NAvigateur") };
-
+	QAction* checkMaJ{ new QAction("Vérifier les mises à jours") };
 };

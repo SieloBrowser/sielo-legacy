@@ -9,6 +9,7 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 
+QString SStarter::currentVersion = "0.0.1b\n";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {
@@ -20,7 +21,7 @@ SStarter::SStarter(QObject *parent) :
     loop.exec();
 
     m_version = m_reply->readAll();
-    if(m_version != m_currentVersion) {
+    if(m_version != currentVersion) {
 #ifndef Q_OS_WIN32
         QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
                                                       "recommandont de passer à la version " + m_version);
@@ -98,7 +99,8 @@ TextToShow::~TextToShow()
 
 }
 
-MaJDialog::MaJDialog(QWidget * parent)
+MaJDialog::MaJDialog(QWidget * parent) : 
+	QDialog(parent)
 {
 	setModal(true);
 	m_layout->addWidget(m_box);
@@ -108,6 +110,7 @@ MaJDialog::MaJDialog(QWidget * parent)
 	m_boxBtn->addButton(m_installButton, QDialogButtonBox::AcceptRole);
 	m_boxBtn->addButton(QDialogButtonBox::Close);;
 	m_remindMaj->setChecked(true);
+	m_icon->setPixmap(QPixmap(SMainWindow::dataPath + "Images/icon2.PNG"));
 
 	m_reply = m_netManager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/updateTxt.html")));
 	QEventLoop loop{};
@@ -115,8 +118,9 @@ MaJDialog::MaJDialog(QWidget * parent)
 	loop.exec();
 	m_text->setText(m_reply->readAll());
 
-	m_boxLayout->addWidget(m_text);
-	m_boxLayout->addWidget(m_progress);
+	m_boxLayout->addWidget(m_text, 0, 0, 1, 2);
+	m_boxLayout->addWidget(m_icon, 1, 0);
+	m_boxLayout->addWidget(m_progress, 1, 1);
 	m_btnLayout->addWidget(m_remindMaj);
 	m_btnLayout->addWidget(m_boxBtn);
 
@@ -178,12 +182,14 @@ void MaJDialog::closeEvent(QCloseEvent * event)
 			SMainWindow::SSettings->setValue("Maj/remind", false);
 		}
 
-		SMainWindow* fen{ new SMainWindow() };
+		if (parent() == nullptr) {
+			SMainWindow* fen{ new SMainWindow() };
 
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
 
-		fen->show();
+			fen->show();
+		}
 	}
 }

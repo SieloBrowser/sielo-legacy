@@ -5,10 +5,60 @@
 #include "includes/SWindows/SPreferences.hpp"
 #include "includes/SMainWindow.hpp"
 #include "includes/SActions.hpp"
+#include "includes/SStarter.hpp"
 
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QFileInfo>
+#include <QPixmap>
+#include <QEventLoop>
+
+AboutSN::AboutSN(QWidget * parent) :
+	QDialog(parent)
+{
+	setModal(true);
+	QString htmlTxt{ 
+		"<h2>Sielo <img src=\"" + SMainWindow::dataPath + "Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.0.1)</h2>"
+		"<p>"
+			"Qu'est-ce que c'est ? <br/>"
+			"Sielo est un navigateur web léger, performant, très personnalisable et<br/>"
+			"<a href=\"https://github.com/Feldrise/Sielo-NavigateurV3-WebEngine\">open source</a><br/>"
+			"Il supporte plusieurs fonctionnalitées de base :"
+			"<ul>"
+				"<li>La navigation par onglet</li>"
+				"<li>Une très grande personnalisation grâce aux thèmes</li>"
+				"<li>L'enregistrement de marques pages / Favoris</li>"
+				"<li>L'enregistrement de l'historique et la navigation privée</li>"
+				"<li>La possibilité de voir le code source d'une page web</li>"
+				"<li>La possibilité de paramètrer Sielo (Page d'accueil, Cookies, Plugins...)</li>"
+				"<li>Et plein d'autres fonctionnalitées encore</li>"
+			"</ul>"
+		"</p>"
+		"<p>"
+			"Ce navigateur est développé par Feldrise, et est en évolution constante.<br/>"
+			"Il est disponible sous licence GNU 3.0, et fait avec Qt 5.7 en C++ 14. N'oubliez<br/>"
+			"pas de faire régulièrement les mises à jours pour profité de nos dernières<br/>"
+			"fonctionnalitées et correction !"
+		"</p>"
+	};
+
+	m_txt->setText(htmlTxt);
+	m_SNIcon->setPixmap(QPixmap(SMainWindow::dataPath + "Images/icon.ico"));
+
+	m_txtLayout->addWidget(m_SNIcon, 0, 0);
+	m_txtLayout->addItem(m_spacer, 1, 0);
+	m_txtLayout->addWidget(m_txt, 0, 1, 1, 2);
+
+
+	m_layout->addLayout(m_txtLayout);
+	m_layout->addWidget(m_boxBtn);
+
+	connect(m_boxBtn, &QDialogButtonBox::accepted, this, &AboutSN::accept);
+}
+
+AboutSN::~AboutSN()
+{
+}
 
 SMenu::SMenu(SMainWindow * parent, const QString & name, SMenuType menuType) :
     QMenu(name, parent),
@@ -182,10 +232,19 @@ void SMenu::createAboutMenu()
 {
 	m_actions->aboutQt->setParent(this);
 	m_actions->aboutQt->setIcon(QIcon(SMainWindow::dataPath + "/Images/QtIcon.png"));
+	m_actions->aboutSielo->setParent(this);
+	m_actions->aboutSielo->setIcon(QIcon(SMainWindow::dataPath + "/Images/icon.ico"));
+	m_actions->checkMaJ->setParent(this);
+	m_actions->checkMaJ->setIcon(QIcon(SMainWindow::dataPath + "Images/icon2.png"));
 
 	connect(m_actions->aboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);
+	connect(m_actions->aboutSielo, &QAction::triggered, this, &SMenu::openAboutSielo);
+	connect(m_actions->checkMaJ, &QAction::triggered, this, &SMenu::checkMaJ);
 
 	addAction(m_actions->aboutQt);
+	addAction(m_actions->aboutSielo);
+	addSeparator();
+	addAction(m_actions->checkMaJ);
 }
 
 void SMenu::reset()
@@ -318,4 +377,30 @@ void SMenu::openPreferencesDialog()
 {
     SPreferencesWindow *preferences{ new SPreferencesWindow(m_parent) };
     preferences->show();
+}
+
+void SMenu::openAboutSielo()
+{
+	QMessageBox::information(nullptr, "DEBUG", "About Sielo");
+	AboutSN *aboutSN{ new AboutSN(this) };
+	aboutSN->show();
+}
+
+void SMenu::checkMaJ()
+{
+	QNetworkAccessManager manager{};
+	QNetworkReply *reply{ manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt"))) };
+	QEventLoop loop{};
+	connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+	loop.exec();
+
+	QString version{ reply->readAll() };
+
+	if (version != SStarter::currentVersion) {
+		MaJDialog *majDialog{ new MaJDialog(m_parent) };
+		majDialog->show();
+	}
+	else {
+		QMessageBox::information(m_parent, "Aucune", "Vous possèdez la dernière version officielle de Sielo");
+	}
 }
