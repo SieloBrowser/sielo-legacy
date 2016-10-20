@@ -65,7 +65,7 @@ void SMainWindow::loadMenus()
 	m_menus.push_back(new SMenu(this, tr("&Fichier"), SMenuType::File));
 	m_menus.push_back(new SMenu(this, tr("&Affichage"), SMenuType::Show));
 	m_menus.push_back(new SMenu(this, tr("&Navigation"), SMenuType::Brows));
-    m_menus.push_back(new SMenu(this, tr("&Téléchargement"), SMenuType::Dl));
+    m_menus.push_back(new SMenu(this, tr("&Téléchargements"), SMenuType::Dl));
 	m_menus.push_back(new SMenu(this, tr("Fa&voris"), SMenuType::Fav));
 	m_menus.push_back(new SMenu(this, tr("&Edition"), SMenuType::Edit));
 	m_menus.push_back(new SMenu(this, tr("&?"), SMenuType::About));

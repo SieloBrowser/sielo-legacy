@@ -29,7 +29,7 @@ AboutSN::AboutSN(QWidget * parent) :
 			"<ul>"
 				"<li>La navigation par onglet,</li>"
 				"<li>Une très grande personnalisation grâce aux thèmes,</li>"
-				"<li>L'enregistrement de marques pages / Favoris,</li>"
+				"<li>L'enregistrement de marque-pages/favoris,</li>"
 				"<li>L'enregistrement de l'historique et la navigation privée,</li>"
 				"<li>La possibilité de voir le code source d'une page web,</li>"
 				"<li>La possibilité de paramétrer Sielo (Page d'accueil, Cookies, Plugins...),</li>"
@@ -446,6 +446,6 @@ void SMenu::checkMaJ()
 		majDialog->show();
 	}
 	else {
-		QMessageBox::information(m_parent, tr("Aucune mise à jour"), tr("Vous possédez la dernière version officielle de Sielo"));
+		QMessageBox::information(m_parent, tr("Aucune mise à jour"), tr("Vous possédez la dernière version officielle de Sielo."));
 	}
 }

@@ -19,11 +19,11 @@ struct SActions {
     QAction* shearch{ new QAction(QIcon(themePath + "search.png"), QObject::tr("&Chercher")) };
     QAction* showHistory{ new QAction(QIcon(themePath + "history.png"), QObject::tr("&Historique")) };
     QAction* preferences{ new QAction(QIcon(themePath + "preferences.png"), QObject::tr("Pré&férences")) };
-    QAction* addBookmarks{ new QAction(QIcon(themePath + "addFavoris.png"), QObject::tr("&Nouveau Favoris")) };
+    QAction* addBookmarks{ new QAction(QIcon(themePath + "addFavoris.png"), QObject::tr("&Nouveau favori")) };
     QAction* bookmarksManager{ new QAction(QIcon(themePath + "favoris.png"), QObject::tr("&Gérer les favoris")) };
 
     // All other actions
-    QAction* newTab{ new QAction(QIcon(themePath + "newTab.png"), QObject::tr("Nouvelle onglet")) };
+    QAction* newTab{ new QAction(QIcon(themePath + "newTab.png"), QObject::tr("Nouvel onglet")) };
     QAction* newWindow{ new QAction(QIcon(themePath + "newWindow.png"), QObject::tr("Nouvelle fenêtre")) };
     QAction* openFile{ new QAction(QObject::tr("Ouvrir un fichier")) };
     QAction* exit{ new QAction(QIcon(themePath + "exit.png"), QObject::tr("Fermer Sielo Navigateur")) };
@@ -35,8 +35,7 @@ struct SActions {
     QAction* zoomLess{ new QAction(QObject::tr("Zoomer moins")) };
     QAction* history{ new QAction(QIcon(themePath + "history.png"), QObject::tr("Historique")) };
     QAction* privateBrowsing{ new QAction(QObject::tr("Nouvelle fenêtre de navigation privée")) };
-    QAction* downloads{ new QAction(QObject::tr("Téléchargements")) };
-    QAction* viewPageCodeSource{ new QAction(QObject::tr("Voire le code source de la page")) };
+    QAction* viewPageCodeSource{ new QAction(QObject::tr("Voir le code source de la page")) };
     QAction* aboutQt{ new QAction(QObject::tr("A propos de Qt")) };
     QAction* aboutSielo{ new QAction(QObject::tr("A propos de Sielo Navigateur")) };
 	QAction* checkMaJ{ new QAction(QObject::tr("Vérifier les mises à jour")) };

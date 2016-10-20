@@ -10,7 +10,7 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 
-#define SieloPortable 1
+#define SieloPortable 0
 
 QString SStarter::currentVersion = "0.1.2";
 SStarter::SStarter(QObject *parent) :
@@ -209,6 +209,10 @@ void MaJDialog::save()
 	SMainWindow::SSettings->setValue("Maj/remind", true);
 
 	QDesktopServices::openUrl(QUrl(QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/SNUpdater.exe"));
+	if (parentWidget() != nullptr) {
+		qApp->quit();
+		return;
+	}
 	close();
 }
 

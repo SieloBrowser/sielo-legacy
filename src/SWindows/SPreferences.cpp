@@ -211,7 +211,7 @@ ThemePageWidget::ThemePageWidget(QWidget *parent) :
         }
     }
 
-    m_themePath->setPlaceholderText(tr("Chemin du thème à ajouté"));
+    m_themePath->setPlaceholderText(tr("Chemin du thème à ajouter"));
 
     m_chooseThemeBox->setTitle(tr("Thème de la fenêtre"));
     m_addThemeBox->setTitle(tr("Ajouter un thème"));
