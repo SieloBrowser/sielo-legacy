@@ -120,9 +120,11 @@ bool SThemeManager::compress(QString srcFolder, QString prefix)
 GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
     QWidget(parent)
 {
+	// Fill the main layout
     m_layout->addWidget(m_closeBox);
     m_layout->addWidget(m_homePagebox);
 
+	// Set widgets attributes
     m_homePageArea->setText(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toString());
 
     if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool())
@@ -133,6 +135,7 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
     m_closeBox->setTitle(tr("Option d'ouverture des fenêtres"));
     m_homePagebox->setTitle(tr("Page d'accueil"));
 
+	// Fill others layouts
     m_closeLayout->addWidget(m_homePageRButton);
     m_closeLayout->addWidget(m_saveTabRButton);
     m_homePageLayout->addWidget(m_homePageArea);
@@ -164,8 +167,8 @@ BrowsPageWidget::BrowsPageWidget(SPreferencesWindow *parent) :
     m_javascripCheckBox->setChecked(SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
     m_cookiesCheckBox->setChecked(SMainWindow::SSettings->value("preferences/enableCookies", true).toBool());
 
-    m_webBox->setTitle(tr("Option de navigation"));
-    m_cookiesBox->setTitle(tr("Option pour les cookies"));
+    m_webBox->setTitle(tr("Options de navigation"));
+    m_cookiesBox->setTitle(tr("Options pour les cookies"));
 
     m_webLayout->addWidget(m_pluginCheckBox);
     m_webLayout->addWidget(m_javascripCheckBox);
@@ -192,7 +195,7 @@ void BrowsPageWidget::deleteAllCookies()
 	for (int i{ 0 }; i < m_parent->getParent()->getTabs()->count() - 1; ++i) 
 		m_parent->getParent()->getTabs()->widget(i)->findChild<SWebView*>()->page()->profile()->cookieStore()->deleteAllCookies();
 
-	QMessageBox::information(this, "Cookies", "Tous les cookies ont bien été suprimés");
+	QMessageBox::information(this, tr("Cookies"), tr("Tous les cookies ont bien été suprimés"));
 }
 
 ThemePageWidget::ThemePageWidget(QWidget *parent) :
@@ -240,7 +243,7 @@ void ThemePageWidget::addTheme()
     QString path{ m_themePath->text() };
 
     if(!path.endsWith(".snthm")) {
-        QMessageBox::critical(this, "Error", "Le thème n'est pas valide");
+        QMessageBox::critical(this, tr("Erreur"), tr("Le thème n'est pas valide"));
         return;
     }
 
@@ -249,7 +252,7 @@ void ThemePageWidget::addTheme()
     int index{ SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt() };
 
     manager->decompressTheme(path);
-    QMessageBox::information(this, "Info", "Le thème " + themeInfo.baseName() + " va être ajouté (patientez quelques instants s'il vous plait)");
+    QMessageBox::information(this, tr("Info"), tr("Le thème ") + themeInfo.baseName() + tr(" va être ajouté (patientez quelques instants s'il vous plait)"));
 
     SMainWindow::SSettings->beginGroup("preferences/themes/");
     SMainWindow::SSettings->setValue("nbre", index);
@@ -258,7 +261,7 @@ void ThemePageWidget::addTheme()
     SMainWindow::SSettings->endGroup();
 
     m_themeComboBox->addItem(themeInfo.baseName());
-    QMessageBox::information(this, "Fin", "Le thème à bien été ajouté");
+    QMessageBox::information(this, tr("Fin"), tr("Le thème à bien été ajouté"));
     delete manager;
     manager = nullptr;
 }
@@ -267,7 +270,7 @@ void ThemePageWidget::save()
 {
     for(int i{ 0 }; i < m_themeComboBox->count(); ++i) {
         if(i == m_themeComboBox->currentIndex() && !SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/current", false).toBool()) {
-            QMessageBox::information(this, "Application", "Le thème sera appliqué au prochain redémarrage");
+            QMessageBox::information(this, tr("Application"), tr("Le thème sera appliqué au prochain redémarrage"));
             SMainWindow::SSettings->setValue("preferences/themes/" + QString::number(i) + "/current", true);
             SMainWindow::SSettings->setValue("preferences/themes/currentTheme", i);
         }
@@ -281,27 +284,33 @@ SPreferencesWindow::SPreferencesWindow(SMainWindow *parent) :
     QDialog(parent),
     m_parent(parent)
 {
+	// Set window attributes
     resize(657, 270);
+	setAttribute(Qt::WA_DeleteOnClose);
+
+	// Fill the layout
     m_layout->addWidget(m_tab);
     m_layout->addWidget(m_boxBtn);
 
-    m_tab->addTab(m_generalPageWidget, tr("Page d'acceuil"));
-    m_tab->addTab(m_browsPageWidget, tr("Navigation"));
-    m_tab->addTab(m_themePageWidget, tr("Theme"));
+	// Add pages to the tab widget
+    m_tab->addTab(m_generalPageWidget, tr("Page d'accueil"));
+    m_tab->addTab(m_browsPageWidget, tr("Options de Navigation"));
+    m_tab->addTab(m_themePageWidget, tr("Thème"));
 
+	// Connections
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SPreferencesWindow::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SPreferencesWindow::close);
 
-	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SPreferencesWindow::~SPreferencesWindow()
 {
-
+	// Empty
 }
 
 void SPreferencesWindow::accept()
 {
+	// Save all settings
     m_generalPageWidget->save();
     m_browsPageWidget->save();
     m_themePageWidget->save();

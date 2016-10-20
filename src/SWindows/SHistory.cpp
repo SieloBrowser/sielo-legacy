@@ -5,9 +5,12 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
     QDialog(parent),
 	m_parent(parent)
 {
-	setWindowTitle("Historique de navigation");
+	// Set attributes of the window
+	setAttribute(Qt::WA_DeleteOnClose);
+	setWindowTitle(tr("Historique de navigation"));
 	resize(758, 450);
 
+	// Set attribute of the view
 	m_view->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	m_view->setProperty("showDropIndicator", QVariant(false));
 	m_view->setAlternatingRowColors(true);
@@ -15,19 +18,19 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
 	m_view->header()->setDefaultSectionSize(300);
 	m_view->setModel(m_model);
 
-	m_boxBtn->setStandardButtons(QDialogButtonBox::Ok);
-
-        m_btnLayout->addWidget(m_deleteOneBtn);
+	// Add all widgets in layouts
+    m_btnLayout->addWidget(m_deleteOneBtn);
 	m_btnLayout->addWidget(m_deleteAllBtn);
 	m_btnLayout->addItem(m_hSpacer);
 	m_btnLayout->addWidget(m_boxBtn);
-
 	m_layout->addWidget(m_view);
-        m_layout->addLayout(m_btnLayout);
+    m_layout->addLayout(m_btnLayout);
 
+	// Connections
 	connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SHistoryWindow::accept);
 	connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SHistoryWindow::reject);
 
+	// Fill the history view
 	QList<QStandardItem*> historyItemTitle{};
 	QList<QStandardItem*> historyItemUrl{};
 
@@ -35,7 +38,7 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
         historyItemTitle.append(new QStandardItem(SMainWindow::curSessionHistory[i].title));
         historyItemUrl.append(new QStandardItem(SMainWindow::curSessionHistory[i].url.toString()));
     }
-    QStandardItem *currentSessionItem{ new QStandardItem("Session actuelle") };
+    QStandardItem *currentSessionItem{ new QStandardItem(tr("Session actuelle")) };
     currentSessionItem->appendColumn(historyItemTitle);
     currentSessionItem->appendColumn(historyItemUrl);
     m_model->appendRow(currentSessionItem);
@@ -73,9 +76,9 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
         QStandardItem *dateItem{ new QStandardItem(QString::number(date.month()) + "/" + QString::number(date.day())) };
 
         if(date == QDate::currentDate())
-            dateItem->setText("Aujourd'hui");
+            dateItem->setText(tr("Aujourd'hui"));
         if(date == QDate(QDate::currentDate().year(), QDate::currentDate().month(), QDate::currentDate().day() - 1))
-            dateItem->setText("Hier");
+            dateItem->setText(tr("Hier"));
 
         dateItem->insertColumn(0, historyItemTitle);
         dateItem->insertColumn(1, historyItemUrl);
@@ -88,24 +91,26 @@ SHistoryWindow::SHistoryWindow(SMainWindow * parent) :
     }
 
 	QStringList headersNams;
-	headersNams.push_back("Nom des pages");
-	headersNams.push_back("Adresses");
+	headersNams.push_back(tr("Nom des pages"));
+	headersNams.push_back(tr("Adresses"));
 	m_model->setHorizontalHeaderLabels(headersNams);
 
+	// Connections
     connect(m_view, &QTreeView::doubleClicked, this, &SHistoryWindow::load);
     connect(m_view, &QTreeView::entered, this, &SHistoryWindow::load);
     connect(m_deleteOneBtn, &QPushButton::clicked, this, &SHistoryWindow::deleteOne);
     connect(m_deleteAllBtn, &QPushButton::clicked, this, &SHistoryWindow::deleteAll);
 
-	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SHistoryWindow::~SHistoryWindow()
 {
+	// Empty
 }
 
 void SHistoryWindow::load()
 {
+	// Variables
     QModelIndex index{ m_view->currentIndex() };
     QString title{};
     QUrl url{};
@@ -125,6 +130,7 @@ void SHistoryWindow::load()
     m_parent->getTabs()->createWebTab(title, url);
     m_parent->getTabs()->createPlusTab();
     m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
 }
 
 void SHistoryWindow::deleteAll()
@@ -149,11 +155,11 @@ void SHistoryWindow::deleteOneFromParent()
 {
     QDate dateForDeletation{};
 
-    if(m_model->data(m_view->currentIndex()).toString() == "Session actuelle")
+    if(m_model->data(m_view->currentIndex()).toString() == tr("Session actuelle"))
         SMainWindow::curSessionHistory.clear();
-    else if(m_model->data(m_view->currentIndex()).toString() == "Aujourd'hui")
+    else if(m_model->data(m_view->currentIndex()).toString() == tr("Aujourd'hui"))
         dateForDeletation = QDate::currentDate();
-    else if(m_model->data(m_view->currentIndex()).toString() == "Hier")
+    else if(m_model->data(m_view->currentIndex()).toString() == tr("Hier"))
         dateForDeletation = QDate::currentDate().addDays(-1);
     else
         dateForDeletation = QDate::fromString(m_model->data(m_view->currentIndex().parent()).toString(), "M/d");
@@ -166,11 +172,11 @@ void SHistoryWindow::deleteOneFromItem()
 {
     QDate dateForDeletation{};
 
-    if(m_model->data(m_view->currentIndex().parent()).toString() == "Session actuelle")
+    if(m_model->data(m_view->currentIndex().parent()).toString() == tr("Session actuelle"))
         SMainWindow::curSessionHistory.remove(SMainWindow::curSessionHistory.size() - 1 - m_view->currentIndex().row());
-    if(m_model->data(m_view->currentIndex().parent()).toString() == "Aujourd'hui")
+    if(m_model->data(m_view->currentIndex().parent()).toString() == tr("Aujourd'hui"))
         dateForDeletation = QDate::currentDate();
-    else if(m_model->data(m_view->currentIndex().parent()).toString() == "Hier")
+    else if(m_model->data(m_view->currentIndex().parent()).toString() == tr("Hier"))
         dateForDeletation = QDate::currentDate().addDays(-1);
     else
         dateForDeletation = QDate::fromString(m_model->data(m_view->currentIndex().parent()).toString(), "M/d");

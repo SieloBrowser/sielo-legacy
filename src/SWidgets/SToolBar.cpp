@@ -7,6 +7,7 @@ SToolBar::SToolBar(const QString& toolBarName, SMainWindow* parent) :
 	m_parent(parent),
 	m_actions(parent->getActions())
 {
+	// Center widgets in the tool bar
 	m_spacer1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	m_spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
@@ -23,6 +24,7 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 
 	addWidget(m_spacer1);
 
+	// Add widgets in the tool bar from the tooBar.txt file
 	in >> widgetInToolBar;
     for (size_t i{ 0 }; i < widgetInToolBar; ++i) {
 		in >> currentWidget;
@@ -66,9 +68,9 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 			addSeparator();
 		}
 		else {
-			QMessageBox::warning(this, "Probleme", "Une erreur est présente a la ligne numéro " + QString::number(i + 1) + ". "
-				"La barre de navigation risque de ne pas se charger comme prévue"
-				"Nous vous conseillons de contacter le créateur du theme pour qu'il corrige l'erreur au plus vite.");
+			QMessageBox::warning(this, tr("Probleme"), tr("Une erreur est présente à la ligne numéro ") + QString::number(i + 1) + tr(". " 
+														  "La barre de navigation risque de ne pas se charger comme prévu"  
+														  "Nous vous conseillons de contacter le créateur du thème pour qu'il corrige l'erreur au plus vite."));
 		}
 	}
 

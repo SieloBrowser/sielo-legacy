@@ -7,8 +7,11 @@ STabWidget::STabWidget(SMainWindow * parent) :
 	QTabWidget(parent),
 	m_parent(parent)
 {
+	// Set attributes for the widgets
 	setTabsClosable(true);
 	setMovable(true);
+
+	// Connections
 	connect(this, &STabWidget::currentChanged, this, &STabWidget::tabChanged);
 	connect(this, &STabWidget::tabCloseRequested, this, &STabWidget::tabClosed);
 }
@@ -20,12 +23,14 @@ STabWidget::~STabWidget()
 
 void STabWidget::createWebTab(QString title, SWebView * view)
 {
+	// Widgets in the tab
 	QWidget* tabPage{ new QWidget(this) };
 	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
 	view->changeParent(tabPage, this);
 
 	pageLayout->addWidget(view);
 
+	// Connect the web view to all actions
     connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
     connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
 	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
@@ -36,18 +41,22 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 	addTab(tabPage, title);
 
 	tabPage->setAttribute(Qt::WA_DeleteOnClose);
+
+	// Enable are disable cookies
 	if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
 		view->page()->profile()->cookieStore()->deleteAllCookies();
 }
 
 void STabWidget::createWebTab(QString title, QUrl url)
 {
+	// Widgets in the tab
 	QWidget* tabPage{ new QWidget(this) };
 	SWebView* view{ new SWebView(tabPage, this, url) };
 	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
 
 	pageLayout->addWidget(view);
 
+	// Connect the web view to all action
 	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
 	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
 	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
@@ -58,6 +67,8 @@ void STabWidget::createWebTab(QString title, QUrl url)
 	addTab(tabPage, title);
 
 	tabPage->setAttribute(Qt::WA_DeleteOnClose);
+
+	// Enable are disable cookies
 	if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
 		view->page()->profile()->cookieStore()->deleteAllCookies();
 }

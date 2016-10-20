@@ -21,6 +21,11 @@ SUrlArea::SUrlArea(SMainWindow * parent) :
     connect(m_champs, &QLineEdit::returnPressed, this, &SUrlArea::loadUrl);
 }
 
+SUrlArea::~SUrlArea()
+{
+
+}
+
 void SUrlArea::setText(const QString& texte)
 {
     m_champs->setText(texte);
@@ -28,8 +33,9 @@ void SUrlArea::setText(const QString& texte)
 
 void SUrlArea::loadStarted()
 {
+	// Change the refresh action to the stop action
     m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
-    m_parent->getActions()->refreshOrStop->setText("Arrêter le chargement");
+    m_parent->getActions()->refreshOrStop->setText(tr("Arrêter le chargement"));
 	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
     connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 

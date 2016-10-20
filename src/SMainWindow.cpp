@@ -3,9 +3,16 @@
 
 #include <QMessageBox>
 #include <QFile>
+#include <QCoreApplication>
+
+#define SieloPortable 0
 
 const unsigned int THEME_V0 = 1;
+#if SieloPortable
+QString SMainWindow::dataPath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloData/";
+#else
 QString SMainWindow::dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/SieloNavigateurV3/";
+#endif
 QSettings * SMainWindow::SSettings = new QSettings(SMainWindow::dataPath + "snsettings.ini", QSettings::IniFormat);
 QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};
@@ -14,19 +21,17 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view) :
     QMainWindow(parent),
     m_actions(QSharedPointer<SActions>(new SActions))
 {
+	// Set window attributes
 	setWindowIcon(QIcon(SMainWindow::dataPath + "Images/icon.ico"));
-	setWindowTitle("[S]ielo[N]avigateur V3");
+	setWindowTitle(tr("Sielo Navigateur"));
     resize(1024, 768);
-	//SWebView* webView{ new SWebView(m_tabs, QUrl("http://google.com")) };
-	//m_tabs->createWebTab(tr("Google"), webView);
-	//m_tabs->createWebTab(tr("Feldrise"), QUrl("http://feldrise.com"));
+	setAttribute(Qt::WA_DeleteOnClose);
 
-//	m_urlArea->hide();
-//	m_searchArea->hide();
-	m_urlArea->setMinimumWidth(400);
+	// Set widgets attributes
+	m_urlArea->setMinimumWidth(500);
     m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.png"), this);
 	m_searchArea->setMaximumWidth(200);
-	m_searchArea->setPlaceholderText("Recherche Google");
+	m_searchArea->setPlaceholderText(tr("Recherche Google"));
 
     // TEST AREA
 
@@ -35,17 +40,17 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view) :
     if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool() && !view)
         restoreTabs();
 	else if (view) {
-		m_tabs->createWebTab("Nouvelle onglet", view);
+		m_tabs->createWebTab(tr("Nouvel onglet"), view);
 		m_tabs->createPlusTab();
 	}
 	else
         m_tabs->createDefaultWebTab();
 
+	// Load menus and tool bar
 	loadMenus();
-    loadToolBar(m_actions->themePath + "/toolBar.txt");
+    loadToolBar(m_actions->themePath + "toolBar.txt");
 	setCentralWidget(m_tabs);
 
-	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 
@@ -55,14 +60,16 @@ SMainWindow::~SMainWindow()
 
 void SMainWindow::loadMenus()
 {
-	m_menus.push_back(new SMenu(this, "&Fichier", SMenuType::File));
-	m_menus.push_back(new SMenu(this, "&Affichage", SMenuType::Show));
-	m_menus.push_back(new SMenu(this, "&Navigation", SMenuType::Brows));
-    m_menus.push_back(new SMenu(this, "&Téléchargement", SMenuType::Dl));
-	m_menus.push_back(new SMenu(this, "Fa&voris", SMenuType::Fav));
-	m_menus.push_back(new SMenu(this, "&Edition", SMenuType::Edit));
-	m_menus.push_back(new SMenu(this, "&?", SMenuType::About));
+	// Append menus list
+	m_menus.push_back(new SMenu(this, tr("&Fichier"), SMenuType::File));
+	m_menus.push_back(new SMenu(this, tr("&Affichage"), SMenuType::Show));
+	m_menus.push_back(new SMenu(this, tr("&Navigation"), SMenuType::Brows));
+    m_menus.push_back(new SMenu(this, tr("&Téléchargement"), SMenuType::Dl));
+	m_menus.push_back(new SMenu(this, tr("Fa&voris"), SMenuType::Fav));
+	m_menus.push_back(new SMenu(this, tr("&Edition"), SMenuType::Edit));
+	m_menus.push_back(new SMenu(this, tr("&?"), SMenuType::About));
 	
+	// Add menus
 	menuBar()->addMenu(m_menus[0]);
 	menuBar()->addMenu(m_menus[1]);
 	menuBar()->addMenu(m_menus[2]);
@@ -77,7 +84,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 	QFile file{ filePath };
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, "Error", "Impossible d'ouvrir le thème de la bare d'outile : " + filePath);
+        QMessageBox::critical(this, tr("Erreur"), tr("Impossible d'ouvrir le thème de la barre d'outils"));
 		return false;
 	}
 
@@ -99,8 +106,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 		}
 		break;
 	default:
-		QMessageBox::critical(this, "Error", "The version " + QString::number(version) + " is unknonw");
-		//throw std::runtime_error("The version of current theme is unknown.");
+		QMessageBox::critical(this, tr("Erreur"), tr("La version ") + QString::number(version) + tr(" est inconnue"));
 		return false;
 		break;
 	}
@@ -121,7 +127,10 @@ void SMainWindow::changeTabTitle(const QString& newTitle)
 	if (newTitle.size() > 40)
 		shorTitle = newTitle.left(40) + "...";
 
-	setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+    if(privateBrowsing)
+        setWindowTitle(shorTitle + tr(" - Sielo Navigateur (Navigation privée)"));
+    else
+        setWindowTitle(shorTitle + tr(" - Sielo Navigateur"));
 }
 
 void SMainWindow::changeTabUrl(const QUrl& newUrl)
@@ -146,7 +155,7 @@ void SMainWindow::changeTitle(const QString& newTitle)
 	SWebView* view{ static_cast<SWebView*>(sender()) };
 
 	if (!view) {
-		QMessageBox::critical(this, "Error", "Failed to know the sender of new title signal");
+		QMessageBox::critical(this, tr("Erreur"), tr("Impossible de connaitre l'origine de ce signal"));
 		return;
 	}
 
@@ -157,9 +166,9 @@ void SMainWindow::changeTitle(const QString& newTitle)
 			shorTitle = newTitle.left(40) + "...";
 
         if(privateBrowsing)
-            setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3 (Navigation privée)");
+            setWindowTitle(shorTitle + tr(" - Sielo Navigateur (Navigation privée)"));
         else
-            setWindowTitle(shorTitle + " - [S]ielo [N]avigateur V3");
+            setWindowTitle(shorTitle + tr(" - Sielo Navigateur"));
 
 		m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
 	}
@@ -170,7 +179,7 @@ void SMainWindow::changeUrl(const QUrl& newUrl)
 	SWebView* view{ static_cast<SWebView*>(sender()) };
 
 	if (!view) {
-		QMessageBox::critical(this, "Error", "Failed to know the sender of new title signal");
+		QMessageBox::critical(this, tr("Erreur"), tr("Impossible de connaitre l'origine de ce signal"));
 		return;
 	}
 
@@ -184,17 +193,18 @@ void SMainWindow::fullScreen()
 {
 	if (isFullScreen()) {
 		showNormal();
-		m_actions->showFullScreen->setText("Afficher en pleine écran");
+		m_actions->showFullScreen->setText(tr("Afficher en plein écran"));
 	}
 	else {
 		showFullScreen();
-		m_actions->showFullScreen->setText("Enlever le pleine écran");
+		m_actions->showFullScreen->setText(tr("Enlever le plein écran"));
 	}
 }
 
 void SMainWindow::addDownload(QWebEngineDownloadItem *download)
 {
     if(dlItems.isEmpty() || download->url() != dlItems[dlItems.size() - 1]->getDownload()->url()) {
+		// Convert the download dialg in download action
         SDownloadItem *item{ new SDownloadItem(download, this) };
         QWidgetAction *actionItem{ new QWidgetAction(m_menus[SMenuType::Dl]) };
         actionItem->setDefaultWidget(item);
@@ -257,23 +267,25 @@ void SMainWindow::restoreTabs()
 
 void SMainWindow::closeEvent(QCloseEvent * event)
 {
-    SMainWindow::SSettings->beginGroup("windowSave/tabs");
-    SMainWindow::SSettings->remove("");
-    SMainWindow::SSettings->setValue("count", m_tabs->count() - 1);
-    SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
-
-    for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
-        m_tabs->setCurrentIndex(i);
-        SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
-        SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
-		SMainWindow::SSettings->endGroup();
-
-		if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool()) 
-			currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
-
+	if (!privateBrowsing) {
 		SMainWindow::SSettings->beginGroup("windowSave/tabs");
-    }
-    SMainWindow::SSettings->endGroup();
+		SMainWindow::SSettings->remove("");
+		SMainWindow::SSettings->setValue("count", m_tabs->count() - 1);
+		SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
+
+		for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
+			m_tabs->setCurrentIndex(i);
+			SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
+			SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
+			SMainWindow::SSettings->endGroup();
+
+			if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
+				currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
+
+			SMainWindow::SSettings->beginGroup("windowSave/tabs");
+		}
+		SMainWindow::SSettings->endGroup();
+	}
 
     QDate date{ QDate::currentDate() };
 

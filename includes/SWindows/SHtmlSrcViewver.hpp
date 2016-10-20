@@ -5,6 +5,7 @@
 
 class SMainWindow;
 
+// This is the class used for coloring text in QTextEdit
 class SHtmlHighlighter : public QSyntaxHighlighter
 {
 public:
@@ -15,7 +16,9 @@ public:
         LastConstruct = Comment
     };
 
+	// Constructor and destructor
     SHtmlHighlighter(QTextDocument *document);
+	~SHtmlHighlighter();
 
     void setFormatFor(Construct construct, const QTextCharFormat &format);
     QTextCharFormat formatFor(Construct construct) const { return m_formats[construct]; }
@@ -33,6 +36,7 @@ private:
     QTextCharFormat m_formats[LastConstruct + 1]{};
 };
 
+// This is the class for showing the source code of the web page
 class SHtmlSrcViewver : public QDialog
 {
 public:
@@ -41,8 +45,12 @@ public:
 
 private:
     SMainWindow *m_parent{ nullptr };
-    SHtmlHighlighter *m_htmlHighlighter{ nullptr };
+
+	// Layout of the window
     QVBoxLayout *m_layout{ new QVBoxLayout(this) };
+
+	// Widgets of the window
+    SHtmlHighlighter *m_htmlHighlighter{ nullptr };
     QTextEdit *m_src{ new QTextEdit(this) };
-    QDialogButtonBox* m_boxBtn{ new QDialogButtonBox(Qt::Horizontal, this) };
+    QDialogButtonBox* m_boxBtn{ new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Horizontal, this) };
 };

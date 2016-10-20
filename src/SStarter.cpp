@@ -9,13 +9,15 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 
-QString SStarter::currentVersion = "0.0.2\n";
+QString SStarter::currentVersion = "0.1.0";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {
+	// Networks objects to download the last version
     QNetworkAccessManager manager{};
     m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt")));
 
+	// Downloading the last version
 	QEventLoop loop{};
     connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
@@ -27,6 +29,7 @@ SStarter::SStarter(QObject *parent) :
                                                       "recommandont de passer à la version " + m_version);
 #else
 		if (SMainWindow::SSettings->value("Maj/remind", true).toBool()) {
+			// Show update dialog
 			MaJDialog *majDialog{ new MaJDialog(nullptr) };
 			majDialog->show();
 		}
@@ -51,14 +54,15 @@ SStarter::SStarter(QObject *parent) :
 
 		fen->show();
 
+		// Get if we need to show a text
         m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/showTxt.txt")));
-
 		QEventLoop loop2{};
         connect(m_reply, &QNetworkReply::finished, &loop2, &QEventLoop::quit);
         loop2.exec();
 
         QString showTxt{ m_reply->readAll() };
         if(showTxt == "true\n") {
+			// Show the text
             TextToShow *textToShow{ new TextToShow(fen) };
             textToShow->show();
         }
@@ -75,49 +79,60 @@ SStarter::~SStarter()
 TextToShow::TextToShow(QWidget *parent) :
     QDialog(parent)
 {
+	// Set attributes of the window
     setModal(true);
+	setAttribute(Qt::WA_DeleteOnClose);
 
+	// Get text to show
     QNetworkAccessManager manager{};
     m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/textToShow.html")));
-
 	QEventLoop loop{{}};
     connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
     m_textToShow->setText(m_reply->readAll());
 
+	// Fill the layout
     m_boxLayout->addWidget(m_textToShow);
     m_layout->addWidget(m_box);
     m_layout->addWidget(m_boxBtn);
 
+	// Connections
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &TextToShow::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &TextToShow::close);
 }
 
 TextToShow::~TextToShow()
 {
-
+	// Empty
 }
 
 MaJDialog::MaJDialog(QWidget * parent) : 
 	QDialog(parent)
 {
+	// Set the window attributes
 	setModal(true);
+	setAttribute(Qt::WA_DeleteOnClose);
+
+	// Fill the main layout
 	m_layout->addWidget(m_box);
 	m_layout->addLayout(m_btnLayout);
 
-	m_box->setTitle(tr("Une nouvelle mise à joure est diponible !"));
+	// Set widgets attributes
+	m_box->setTitle(tr("Une nouvelle mise à jour est diponible !"));
 	m_boxBtn->addButton(m_installButton, QDialogButtonBox::AcceptRole);
 	m_boxBtn->addButton(QDialogButtonBox::Close);;
 	m_remindMaj->setChecked(true);
 	m_icon->setPixmap(QPixmap(SMainWindow::dataPath + "Images/icon2.PNG"));
 
+	// Get the text to show
 	m_reply = m_netManager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/updateTxt.html")));
 	QEventLoop loop{};
 	connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
 	loop.exec();
 	m_text->setText(m_reply->readAll());
 
+	// Fill others layouts
 	m_boxLayout->addWidget(m_text, 0, 0, 1, 2);
 	m_boxLayout->addWidget(m_icon, 1, 0);
 	m_boxLayout->addWidget(m_progress, 1, 1);
@@ -159,7 +174,7 @@ void MaJDialog::save()
 	QFile updater{ QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/SNUpdater.exe" };
 
 	if (!updater.open(QIODevice::WriteOnly)) {
-		QMessageBox::critical(this, "Erreur", "Erreur lors de l'installation de la mise à jours !");
+		QMessageBox::critical(this, tr("Erreur"), tr("Erreur lors de l'installation de la mise à jours !"));
 		return;
 	}
 
@@ -173,6 +188,7 @@ void MaJDialog::save()
 
 void MaJDialog::closeEvent(QCloseEvent * event)
 {
+	// We bloke the close event during the update
 	if (m_installingUpdate) {
 		event->ignore();
 		return;

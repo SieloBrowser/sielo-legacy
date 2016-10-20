@@ -8,24 +8,29 @@ SDownloadItem::SDownloadItem(QWebEngineDownloadItem *download, SMainWindow *pare
     m_parent(parent),
     m_download(download)
 {
+	// Info about download
     QFileInfo infos{ m_download->url().toString() };
     m_fileName = infos.fileName();
 
+	// Set attributes for widgets
+	setAttribute(Qt::WA_DeleteOnClose);
     m_boxBtn->setStandardButtons(QDialogButtonBox::Cancel);
     m_label->setText(m_fileName);
 
+	// Add all widgets in layout
     m_layout->addWidget(m_label);
     m_layout->addWidget(m_progressBar);
     m_layout->addWidget(m_boxBtn);
 
+	// Connection
     connect(m_download, &QWebEngineDownloadItem::downloadProgress, this, &SDownloadItem::progress);
     connect(m_download, &QWebEngineDownloadItem::finished, this, &SDownloadItem::finish);
 
-    m_download->accept();
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SDownloadItem::undo);
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SDownloadItem::open);
 
-	setAttribute(Qt::WA_DeleteOnClose);
+    m_download->accept();
+	QMessageBox::information(m_parent, tr("Téléchargement"), tr("Vous avez lancé le téléchargement de ") + m_fileName);
 }
 
 SDownloadItem::~SDownloadItem()
@@ -53,7 +58,7 @@ void SDownloadItem::undo()
         m_dlFinished = true;
         m_download->cancel();
         m_progressBar->setValue(0);
-        m_label->setText(m_label->text() + " - Annuler");
+        m_label->setText(m_label->text() + tr(" - Annuler"));
         m_boxBtn->setStandardButtons(QDialogButtonBox::Close);
         disconnect(m_boxBtn, &QDialogButtonBox::rejected, 0, 0);
         connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SDownloadItem::close);
@@ -68,7 +73,7 @@ void SDownloadItem::finish()
 {
     if(!m_dlCanceled) {
         m_dlFinished = true;
-        m_label->setText(m_label->text() + " - Terminé");
+        m_label->setText(m_label->text() + tr(" - Terminé"));
         m_progressBar->setRange(0, 100);
         m_progressBar->setValue(100);
         m_boxBtn->setStandardButtons(QDialogButtonBox::Open);

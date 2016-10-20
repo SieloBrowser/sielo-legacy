@@ -17,15 +17,18 @@ class SActions;
 class AboutSN : public QDialog
 {
 public:
+	// Constructor and destrcutor
 	AboutSN(QWidget *parent = nullptr);
 	~AboutSN();
 	
 private:
+	// Layouts
 	QVBoxLayout *m_layout{ new QVBoxLayout(this) };
 	QGridLayout *m_txtLayout{ new QGridLayout() };
 
+	// Widgets in the window
 	QLabel *m_SNIcon{ new QLabel(this) };
-	QSpacerItem *m_spacer{ new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Maximum)};
+	QSpacerItem *m_spacer{ new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Maximum) };
 	QLabel *m_txt{ new QLabel(this) };
 	QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Horizontal, this) };
 

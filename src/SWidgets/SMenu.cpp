@@ -17,47 +17,52 @@ AboutSN::AboutSN(QWidget * parent) :
 	QDialog(parent)
 {
 	setModal(true);
+
+	// The HTML text for the label
 	QString htmlTxt{ 
-		"<h2>Sielo <img src=\"" + SMainWindow::dataPath + "Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.0.2)</h2>"
+		"<h2>Sielo <img src=\"" + SMainWindow::dataPath + "Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.1.0)</h2>"
 		"<p>"
 			"Qu'est-ce que c'est ? <br/>"
 			"Sielo est un navigateur web léger, performant, très personnalisable et<br/>"
-			"<a href=\"https://github.com/Feldrise/Sielo-NavigateurV3-WebEngine\">open source</a><br/>"
-			"Il supporte plusieurs fonctionnalitées de base :"
+			"<a href=\"https://github.com/Feldrise/Sielo-NavigateurV3-WebEngine\">open source</a>.<br/>"
+			"Il supporte plusieurs fonctionnalités de base :"
 			"<ul>"
-				"<li>La navigation par onglet</li>"
-				"<li>Une très grande personnalisation grâce aux thèmes</li>"
-				"<li>L'enregistrement de marques pages / Favoris</li>"
-				"<li>L'enregistrement de l'historique et la navigation privée</li>"
-				"<li>La possibilité de voir le code source d'une page web</li>"
-				"<li>La possibilité de paramètrer Sielo (Page d'accueil, Cookies, Plugins...)</li>"
-				"<li>Et plein d'autres fonctionnalitées encore</li>"
+				"<li>La navigation par onglet,</li>"
+				"<li>Une très grande personnalisation grâce aux thèmes,</li>"
+				"<li>L'enregistrement de marques pages / Favoris,</li>"
+				"<li>L'enregistrement de l'historique et la navigation privée,</li>"
+				"<li>La possibilité de voir le code source d'une page web,</li>"
+				"<li>La possibilité de paramétrer Sielo (Page d'accueil, Cookies, Plugins...),</li>"
+				"<li>Et plein d'autres fonctionnalités encore.</li>"
 			"</ul>"
 		"</p>"
 		"<p>"
 			"Ce navigateur est développé par <a href=\"https://feldrise.com\">Feldrise</a>, et est en évolution constante.<br/>"
 			"Il est disponible sous <a href=\"https://opensource.org/licenses/gpl-3.0.html\">licence GNU 3.0</a>, et fait avec <a href=\"https://www.qt.io/\">Qt 5.7</a> en C++ 14. N'oubliez<br/>"
-			"pas de faire régulièrement les mises à jours pour profité de nos dernières<br/>"
-			"fonctionnalitées et correction !"
+			"pas de faire régulièrement les mises à jour pour profiter de nos dernières<br/>"
+			"fonctionnalités et corrections !"
 		"</p>"
 	};
 
+	// Set text and icons
 	m_txt->setText(htmlTxt);
 	m_SNIcon->setPixmap(QPixmap(SMainWindow::dataPath + "Images/icon.ico"));
 
+	// Fill layouts
 	m_txtLayout->addWidget(m_SNIcon, 0, 0);
 	m_txtLayout->addItem(m_spacer, 1, 0);
 	m_txtLayout->addWidget(m_txt, 0, 1, 1, 2);
 
-
 	m_layout->addLayout(m_txtLayout);
 	m_layout->addWidget(m_boxBtn);
 
+	// Connections
 	connect(m_boxBtn, &QDialogButtonBox::accepted, this, &AboutSN::accept);
 }
 
 AboutSN::~AboutSN()
 {
+	// Empty
 }
 
 SMenu::SMenu(SMainWindow * parent, const QString & name, SMenuType menuType) :
@@ -65,6 +70,7 @@ SMenu::SMenu(SMainWindow * parent, const QString & name, SMenuType menuType) :
     m_parent(parent),
     m_actions(parent->getActions())
 {
+	// Choose the menu to build
     switch (menuType)
     {
     case SMenuType::File:
@@ -97,22 +103,26 @@ SMenu::~SMenu()
 
 void SMenu::createFileMenu()
 {
+	// Set parents for actions
     m_actions->newTab->setParent(this);
     m_actions->newWindow->setParent(this);
     m_actions->openFile->setParent(this);
     m_actions->exit->setParent(this);
 
+	// Connect actions to their respective slot
     connect(m_actions->newTab, &QAction::triggered, m_parent->getTabs(), &STabWidget::createDefaultWebTab);
     connect(m_actions->newWindow, &QAction::triggered, this, &SMenu::createNewWindows);
     connect(m_actions->openFile, &QAction::triggered, this, &SMenu::openFile);
     connect(m_actions->exit, &QAction::triggered, m_parent, &SMainWindow::close);
 
+	// Add action to the menu
     addAction(m_actions->newTab);
     addAction(m_actions->newWindow);
     addAction(m_actions->openFile);
     addSeparator();
     addAction(m_actions->exit);
 
+	// Set shortcut for all actions from this menu
 	m_actions->newTab->setShortcut(QKeySequence::AddTab);
 	m_actions->newWindow->setShortcut(QKeySequence("Ctrl+N"));
 	m_actions->openFile->setShortcut(QKeySequence::Open);
@@ -121,6 +131,7 @@ void SMenu::createFileMenu()
 
 void SMenu::createShowMenu()
 {
+	// Set parents for actions
     m_actions->showFullScreen->setParent(this);
     m_actions->findInPage->setParent(this);
     m_actions->findNext->setParent(this);
@@ -128,6 +139,7 @@ void SMenu::createShowMenu()
     m_actions->zoomMore->setParent(this);
     m_actions->zoomLess->setParent(this);
 
+	// Connect actions to their respective slot
     connect(m_actions->showFullScreen, &QAction::triggered, m_parent, &SMainWindow::fullScreen);
     connect(m_actions->findInPage, &QAction::triggered, this, &SMenu::findInPage);
     connect(m_actions->findNext, &QAction::triggered, this, &SMenu::findInPage);
@@ -135,6 +147,7 @@ void SMenu::createShowMenu()
     connect(m_actions->zoomMore, &QAction::triggered, this, &SMenu::zoom);
     connect(m_actions->zoomLess, &QAction::triggered, this, &SMenu::zoom);
 
+	// Add actions to the menu
     addAction(m_actions->showFullScreen);
     addSeparator();
     addAction(m_actions->findInPage);
@@ -144,6 +157,7 @@ void SMenu::createShowMenu()
     addAction(m_actions->zoomMore);
     addAction(m_actions->zoomLess);
 
+	// Set shortcut for all actions from this menu
 	m_actions->showFullScreen->setShortcut(QKeySequence("F11"));
 	m_actions->findInPage->setShortcut(QKeySequence::Find);
 	m_actions->findNext->setShortcut(QKeySequence::FindNext);
@@ -154,6 +168,7 @@ void SMenu::createShowMenu()
 
 void SMenu::createBrowsMenu()
 {
+	// Set parents for actions
     m_actions->back->setParent(this);
     m_actions->next->setParent(this);
     m_actions->home->setParent(this);
@@ -163,6 +178,7 @@ void SMenu::createBrowsMenu()
     m_actions->downloads->setParent(this);
     m_actions->viewPageCodeSource->setParent(this);
 
+	// Connect actions to their respective slot
     connect(m_actions->back, &QAction::triggered, m_parent, &SMainWindow::back);
     connect(m_actions->next, &QAction::triggered, m_parent, &SMainWindow::next);
     connect(m_actions->home, &QAction::triggered, m_parent, &SMainWindow::home);
@@ -174,6 +190,7 @@ void SMenu::createBrowsMenu()
     connect(m_actions->shearch, &QAction::triggered, m_parent->getSearchArea(), &SSearchArea::loadSearch);
     connect(m_actions->go, &QAction::triggered, m_parent->getUrlArea(), &SUrlArea::loadUrl);
 
+	// Add actions to the menu
     addAction(m_actions->back);
     addAction(m_actions->next);
     addAction(m_actions->home);
@@ -183,6 +200,7 @@ void SMenu::createBrowsMenu()
     addAction(m_actions->downloads);
     addAction(m_actions->viewPageCodeSource);
 
+	// Set shortcut for all actions from this menu
 	m_actions->back->setShortcut(QKeySequence::Back);
 	m_actions->next->setShortcut(QKeySequence::Forward);
 	m_actions->history->setShortcut(QKeySequence("Ctrl+H"));
@@ -192,44 +210,54 @@ void SMenu::createBrowsMenu()
 
 void SMenu::createDlMenu()
 {
-
+	// Empty
 }
 
 void SMenu::createBookmarksMenu()
 {
+	// Create the view for know bookmarks
     m_bView = new SBookmarksView(this);
     m_bView->setAttribute(Qt::WA_DeleteOnClose);
 
+	// Connect actions to their respective slot
     connect(m_actions->addBookmarks, &QAction::triggered, this, &SMenu::addBookmark);
     connect(m_actions->bookmarksManager, &QAction::triggered, this, &SMenu::openBookmarksManager);
 
+	// Add actions in the menu
     addAction(m_actions->addBookmarks);
     addAction(m_actions->bookmarksManager);
     addSeparator();
 
+	// create the bookmarks menu
     for(int i{ 0 }; i < m_bView->getModel()->rowCount(); ++i)
         createBookmarksItem(m_bView->getModel()->item(i), this);
 
     m_bView->close();
     m_bView = nullptr;
-
+ 
+	// Set shortcut for all actions from this menu
 	m_actions->addBookmarks->setShortcut(QKeySequence("Ctrl+D"));
 	m_actions->bookmarksManager->setShortcut(QKeySequence("Ctrl+B"));
 }
 
 void SMenu::createEditMenu()
 {
+	// Set parents for the actions
     m_actions->preferences->setParent(this);
 
+	// Connect actions to their respective slots
     connect(m_actions->preferences, &QAction::triggered, this, &SMenu::openPreferencesDialog);
 
+	// Add actions to the menu
     addAction(m_actions->preferences);
 
+	// Set shortcut for all actionss from this menu
 	m_actions->preferences->setShortcut(QKeySequence("Ctrl+P"));
 }
 
 void SMenu::createAboutMenu()
 {
+	// Set parents and icons for actions
 	m_actions->aboutQt->setParent(this);
 	m_actions->aboutQt->setIcon(QIcon(SMainWindow::dataPath + "/Images/QtIcon.png"));
 	m_actions->aboutSielo->setParent(this);
@@ -237,10 +265,12 @@ void SMenu::createAboutMenu()
 	m_actions->checkMaJ->setParent(this);
 	m_actions->checkMaJ->setIcon(QIcon(SMainWindow::dataPath + "Images/icon2.png"));
 
+	// Connect actions to their respective slot
 	connect(m_actions->aboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);
 	connect(m_actions->aboutSielo, &QAction::triggered, this, &SMenu::openAboutSielo);
 	connect(m_actions->checkMaJ, &QAction::triggered, this, &SMenu::checkMaJ);
 
+	// Add actions to the menu
 	addAction(m_actions->aboutQt);
 	addAction(m_actions->aboutSielo);
 	addSeparator();
@@ -249,7 +279,7 @@ void SMenu::createAboutMenu()
 
 void SMenu::reset()
 {
-    clear();
+    clear(); //< Totally clear the menu
 }
 
 void SMenu::createNewWindows()
@@ -260,43 +290,51 @@ void SMenu::createNewWindows()
 
 void SMenu::openFile()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, "Ouvrir un fichier", QString(), "Web Resources (*.html *.htm *txt *svg *png *gif *svgz)");
+	// Open a dialog to get the file path
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Ouvrir un fichier"), QString(), tr("Web Resources (*.html *.htm *txt *svg *png *gif *svgz)"));
     if (filePath.isEmpty())
         return;
 
+	// Just for get the file name
     QFileInfo fileInfo{ filePath };
 
+	// Create the new tab
     filePath = "file:///" + filePath;
     m_parent->getTabs()->createWebTab(fileInfo.fileName(), QUrl(filePath));
     m_parent->getTabs()->createPlusTab();
     m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
 }
 
 void SMenu::findInPage()
 {
+	// Get back the action witch sent the signal
     QAction* action{ qobject_cast<QAction*>(sender()) };
 
     if (action == nullptr)
         return;
 
+	// If the user want to find a word
     if (action == m_actions->findInPage) {
-        QString word2find{ QInputDialog::getText(this, "Mot(s) ? trouver", "Quel(s) est(sont) le(s) mot(s) que vous recherchez ?", QLineEdit::Normal, nullptr) };
+        QString word2find{ QInputDialog::getText(this, tr("Mot à trouver"), tr("Quel est le mot que vous recherchez ?"), QLineEdit::Normal, nullptr) };
         if (word2find.isEmpty())
             return;
 
         m_parent->currentPage()->findText(word2find);
         m_actions->findInPage->setObjectName(word2find);
-    }
+    } // If the user want to find the next word in the page
     else if (action == m_actions->findNext)
         m_parent->currentPage()->findText(m_actions->findInPage->objectName());
+	// If the user want to find the previous word in the page
     else if (action == m_actions->findPrevious)
         m_parent->currentPage()->findText(m_actions->findInPage->objectName(), QWebEnginePage::FindBackward);
     else
-        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
+        QMessageBox::critical(this, tr("Erreur"), tr("Une erreur c'est produite. Veuillez envoyer un rapport au développeur de ce navigateur"));
 }
 
 void SMenu::zoom()
 {
+	// Get back the action witch sent the signal
     QAction* action{ qobject_cast<QAction*>(sender()) };
 
     if (action == nullptr)
@@ -307,7 +345,7 @@ void SMenu::zoom()
     else if (action == m_actions->zoomLess)
         m_parent->currentPage()->setZoomFactor(m_parent->currentPage()->zoomFactor() - 0.1);
     else
-        QMessageBox::critical(this, "Erreur", "Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur");
+        QMessageBox::critical(this, tr("Erreur"), tr("Une erreur c'est produite. Veuillez envoyé un rapport au développeur de ce navigateur"));
 }
 
 void SMenu::showHistory()
@@ -343,6 +381,7 @@ void SMenu::openBookmark()
     m_parent->getTabs()->createWebTab(bookmarkAction->text(), bookmarkAction->data().toUrl());
     m_parent->getTabs()->createPlusTab();
     m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
 }
 
 void SMenu::addBookmark()
@@ -353,18 +392,20 @@ void SMenu::addBookmark()
 
 void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
 {
+	// Get the type of item
     QString tagName{ item->data(Qt::UserRole).toString() };
 
+	// If the item is a folder
     if(tagName == "folder") {
         QMenu *folder{ new QMenu(item->text(), this) };
         folder->setIcon(m_bView->getFolderIcon());
         for(int i{ 0 }; i < m_bView->getModel()->rowCount(item->index()); ++i)
             createBookmarksItem(item->child(i), static_cast<SMenu*>(folder));
         parent->addMenu(folder);
-    }
+    } // If the item is a separator
     else if(tagName == "separator") {
         parent->addSeparator();
-    }
+    } // If the item is a bookmark
     else if(tagName == "bookmark") {
         QAction *bookmarkAction{ new QAction(m_bView->getItemIcon(), item->text(), parent) };
         bookmarkAction->setData(m_bView->getModel()->itemFromIndex(item->index())->parent()->child(item->row(), 1)->text());
@@ -387,12 +428,16 @@ void SMenu::openAboutSielo()
 
 void SMenu::checkMaJ()
 {
+	// Networks items to download the last version
 	QNetworkAccessManager manager{};
 	QNetworkReply *reply{ manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt"))) };
+
+	// Loop during the download of the last verson
 	QEventLoop loop{};
 	connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
 	loop.exec();
 
+	// New version
 	QString version{ reply->readAll() };
 
 	if (version != SStarter::currentVersion) {
@@ -400,6 +445,6 @@ void SMenu::checkMaJ()
 		majDialog->show();
 	}
 	else {
-		QMessageBox::information(m_parent, "Aucune", "Vous possèdez la dernière version officielle de Sielo");
+		QMessageBox::information(m_parent, tr("Aucune mise à jour"), tr("Vous possédez la dernière version officielle de Sielo"));
 	}
 }

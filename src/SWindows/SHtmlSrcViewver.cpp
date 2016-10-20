@@ -36,6 +36,11 @@ SHtmlHighlighter::SHtmlHighlighter(QTextDocument *document) :
     setFormatFor(Comment, commentFormat);
 }
 
+SHtmlHighlighter::~SHtmlHighlighter()
+{
+	// Empty
+}
+
 void SHtmlHighlighter::setFormatFor(Construct construct, const QTextCharFormat &format)
 {
     m_formats[construct] = format;
@@ -120,8 +125,6 @@ SHtmlSrcViewver::SHtmlSrcViewver(SMainWindow *parent) :
     setWindowTitle(tr("Source de la page ").arg(m_parent->currentPage()->title()));
     setMinimumWidth(640);
     setMinimumHeight(560);
-
-    m_boxBtn->setStandardButtons(QDialogButtonBox::Ok);
 
     m_layout->addWidget(m_src);
     m_layout->addWidget(m_boxBtn);

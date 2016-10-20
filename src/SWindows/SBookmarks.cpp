@@ -16,6 +16,7 @@ SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
     if(!m_isItemEditable)
         setEditTriggers(EditTrigger::NoEditTriggers);
 
+	// Set properties of the view
     setAutoScroll(true);
     setProperty("showDropIndicator", QVariant(false));
     setAlternatingRowColors(true);
@@ -24,17 +25,19 @@ SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
     setModel(m_model);
     m_model->setHorizontalHeaderLabels(labels);
 
+	// Create the icon based on the OS
     m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirClosedIcon), QIcon::Normal, QIcon::Off);
     m_folderIcon.addPixmap(style()->standardPixmap(QStyle::SP_DirOpenIcon), QIcon::Normal, QIcon::On);
     m_itemIcon.addPixmap(style()->standardPixmap(QStyle::SP_FileIcon));
 
+	// Attemp to open the XBEL file
     if(!m_bookmarksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, "Erreur", "Erreur lors de l'ouverture des favories");
+        QMessageBox::critical(this, tr("Erreur"), tr("Erreur lors de l'ouverture des favoris."));
         return;
     }
 
     if(!loadBookMarks(&m_bookmarksFile)) {
-        QMessageBox::critical(this, "Erreur", "Erreur lors de la lecture des favories");
+        QMessageBox::critical(this, tr("Erreur"), tr("Erreur lors de la lecture des favoris."));
         return;
     }
 
@@ -43,18 +46,19 @@ SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
 
 SBookmarksView::~SBookmarksView()
 {
-
+	// Empty
 }
 
 bool SBookmarksView::loadBookMarks(QIODevice *device)
 {
     m_xml.setDevice(device);
 
+	// Check if the file is write in good version
     if (m_xml.readNextStartElement()) {
         if (m_xml.name() == "xbel" && m_xml.attributes().value("version") == "1.0")
             readBookmarksFile();
         else
-            m_xml.raiseError(tr("Le fichier n'est pas un fichier XBEL 1.0."));
+            m_xml.raiseError(tr("Le fichier n'est pas un fichier XBEL 1.0 valide."));
     }
 
     return !m_xml.error();
@@ -63,18 +67,24 @@ bool SBookmarksView::loadBookMarks(QIODevice *device)
 
 bool SBookmarksView::saveBookMarks()
 {
+	// Attempt to open the file
     if(!m_bookmarksFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
+	// Set attributes for the stream
     m_stream.setDevice(&m_bookmarksFile);
     m_stream.setAutoFormatting(true);
 
+	// Write firth item
     m_stream.writeDTD("<!DOCTYPE xbel>");
     m_stream.writeStartElement("xbel");
     m_stream.writeAttribute("version", "1.0");
+
+	// Write bookmarks, folder and separator
     for(int i{ 0 }; i < m_model->rowCount(); ++i)
         writeItem(m_model->item(i));
 
+	// Write the end of the document
     m_stream.writeEndDocument();
 
     m_bookmarksFile.close();
@@ -196,27 +206,27 @@ SBookmarksAddDialog::SBookmarksAddDialog(SMainWindow *parent) :
     QDialog(parent),
     m_parent(parent)
 {
+	// Set attributes and text for all widgets
     setModal(true);
+	setAttribute(Qt::WA_DeleteOnClose);
     m_label->setText("Dossier : ");
-    m_boxBtn->setStandardButtons(QDialogButtonBox::Cancel | QDialogButtonBox::Ok);
-    m_bookmarkName->setPlaceholderText("Nom du favorie");
+    m_bookmarkName->setPlaceholderText(tr("Nom du favorie"));
     m_bookmarkName->setText(m_parent->currentPage()->title());
     m_view->hide();
     fillFolderBox();
 
+	// Fill the layouts
     QHBoxLayout *folderLayout{ new QHBoxLayout() };
     folderLayout->addWidget(m_label);
     folderLayout->addWidget(m_location);
 
     m_layout->addWidget(m_bookmarkName);
     m_layout->addLayout(folderLayout);
-//    m_layout->addWidget(m_view);
     m_layout->addWidget(m_boxBtn);
 
+	// Connection
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksAddDialog::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksAddDialog::close);
-
-	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SBookmarksAddDialog::~SBookmarksAddDialog()
@@ -227,6 +237,7 @@ SBookmarksAddDialog::~SBookmarksAddDialog()
 
 void SBookmarksAddDialog::fillFolderBox()
 {
+	// Fill the list of folder
     for(int i{ 0 }; i < m_view->getModel()->rowCount(); ++i) {
         addItemToBox(m_view->getModel()->item(i));
     }
@@ -251,6 +262,7 @@ void SBookmarksAddDialog::accept()
     item->setData("bookmark", Qt::UserRole);
     m_view->saveBookMarks();
 
+	// Refresh the bookmarks menu
     m_parent->getMenus()[SMenuType::Fav]->clear();
     m_parent->getMenus()[SMenuType::Fav]->createBookmarksMenu();
 
@@ -261,9 +273,12 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     QDialog(parent),
     m_parent(parent)
 {
+	// Set attributes of widgets
+	setAttribute(Qt::WA_DeleteOnClose);
     resize(758, 450);
     m_openButton->setEnabled(false);
 
+	// Add widgets on all layouts
     m_layoutBoxBtn->addWidget(m_openButton);
     m_layoutBoxBtn->addWidget(m_deleteBtn);
     m_layoutBoxBtn->addWidget(m_addFolderBtn);
@@ -272,8 +287,7 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     m_layout->addWidget(m_view);
     m_layout->addLayout(m_layoutBoxBtn);
 
-    m_boxBtn->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-
+	// Connection
     connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SBookmarksDialog::accept);
     connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SBookmarksDialog::close);
     connect(m_view, &SBookmarksView::pressed, this, &SBookmarksDialog::itemSelected);
@@ -281,16 +295,16 @@ SBookmarksDialog::SBookmarksDialog(SMainWindow *parent) :
     connect(m_deleteBtn, &QPushButton::clicked, this, &SBookmarksDialog::deleteBookmark);
     connect(m_addFolderBtn, &QPushButton::clicked, this, &SBookmarksDialog::addFolder);
 
-	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 SBookmarksDialog::~SBookmarksDialog()
 {
-
+	// Empty
 }
 
 void SBookmarksDialog::openBoomark()
 {
+	// Variables
     QModelIndex index{ m_view->currentIndex() };
     QString title{};
     QUrl url{};
@@ -307,10 +321,12 @@ void SBookmarksDialog::openBoomark()
     m_parent->getTabs()->createWebTab(title, url);
     m_parent->getTabs()->createPlusTab();
     m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
+	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
 }
 
 void SBookmarksDialog::deleteBookmark()
 {
+	// Check if it's a folder or not
     if(m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent())
         m_view->getModel()->itemFromIndex(m_view->currentIndex())->parent()->removeRow(m_view->getModel()->itemFromIndex(m_view->currentIndex())->row());
     else
@@ -335,8 +351,9 @@ void SBookmarksDialog::addFolder()
 
 void SBookmarksDialog::accept()
 {
-    m_view->saveBookMarks();
+    m_view->saveBookMarks(); //< Save bookmarks
 
+	// Refresh the bookmarks menu
     m_parent->getMenus()[SMenuType::Fav]->clear();
     m_parent->getMenus()[SMenuType::Fav]->createBookmarksMenu();
 }

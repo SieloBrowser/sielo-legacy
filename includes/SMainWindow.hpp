@@ -23,11 +23,15 @@ struct SActions;
 class SMainWindow : public QMainWindow
 {
 public:
+	// Constructor and destructor
 	SMainWindow(QWidget* parent = nullptr, SWebView *view = nullptr);
 	~SMainWindow();
 
+	// Loading functions
 	void loadMenus();
 	bool loadToolBar(const QString& filePath);
+
+	// Function to change tab title and update url area
 	void changeTabTitle(const QString& newTitle);
 	void changeTabUrl(const QUrl& newUrl);
 
@@ -53,13 +57,16 @@ public:
 
     bool privateBrowsing{ false };
 public slots:
+	// Change title of tab and url in url area from a web view
 	void changeTitle(const QString& newTitle);
 	void changeUrl(const QUrl& newUrl);
 
+	// Classical action
 	void fullScreen();
     void addDownload(QWebEngineDownloadItem *download);
     void removeDownload();
 
+	// Action of navigation
 	void back();
 	void next();
 	void home();
@@ -67,13 +74,15 @@ public slots:
 	void stop();
 
 protected:
-	virtual void closeEvent(QCloseEvent *event);
+	virtual void closeEvent(QCloseEvent *event); //< Called when Sielo is stoped
 
 private:
-    void restoreTabs();
+	// Private function
+    void restoreTabs(); //< Restore tab from the previous session
 
-	// Private member
-	// Widgets
+	// Private attributs
+	
+	// Widgets of the window
 	SUrlArea* m_urlArea{ new SUrlArea(this) };
 	SSearchArea* m_searchArea{ nullptr };
 	STabWidget* m_tabs{ new STabWidget(this) };
