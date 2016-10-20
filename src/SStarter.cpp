@@ -1,5 +1,6 @@
 #include "includes/SStarter.hpp"
 #include "includes/SMainWindow.hpp"
+#include "includes/SWidgets/SWebView.hpp"
 
 #include <QWebEngineView>
 #include <QNetworkRequest>
@@ -17,6 +18,21 @@ SStarter::SStarter(QObject *parent) :
     QNetworkAccessManager manager{};
     m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt")));
 
+	// Check if we want to open a file at the start of Sielo
+	if (QCoreApplication::arguments().count() > 1) {
+		QMessageBox::information(nullptr, "DEBUG", QCoreApplication::arguments()[1]);
+		QFileInfo fileInfo{ QCoreApplication::arguments()[1] };
+		SWebView *view{ new SWebView(nullptr) };
+		view->load(QUrl("File:///" + fileInfo.absoluteFilePath()));
+		SMainWindow* fen{ new SMainWindow(nullptr, view) };
+
+		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+
+		fen->show();
+		return;
+	}
 	// Downloading the last version
 	QEventLoop loop{};
     connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
