@@ -10,7 +10,9 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 
-QString SStarter::currentVersion = "0.1.0";
+#define SieloPortable 1
+
+QString SStarter::currentVersion = "0.1.2";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {
@@ -20,7 +22,6 @@ SStarter::SStarter(QObject *parent) :
 
 	// Check if we want to open a file at the start of Sielo
 	if (QCoreApplication::arguments().count() > 1) {
-		QMessageBox::information(nullptr, "DEBUG", QCoreApplication::arguments()[1]);
 		QFileInfo fileInfo{ QCoreApplication::arguments()[1] };
 		SWebView *view{ new SWebView(nullptr) };
 		view->load(QUrl("File:///" + fileInfo.absoluteFilePath()));
@@ -165,12 +166,21 @@ MaJDialog::~MaJDialog()
 
 void MaJDialog::startUpdate()
 {
+#if SieloPortable
+	if (!m_updateSuccess) {
+		QDesktopServices::openUrl(QUrl(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloPortableUpdater.exe"));
+		m_updateSuccess = true;
+		m_installingUpdate = false;
+		close();
+	}
+#else
 	m_boxBtn->setEnabled(false);
 	m_installingUpdate = true;
 
 	m_reply = m_netManager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/SN_update_setup.exe")));
 	connect(m_reply, &QNetworkReply::downloadProgress, this, &MaJDialog::downloadProgress);
 	connect(m_reply, &QNetworkReply::finished, this, &MaJDialog::save);
+#endif
 }
 
 void MaJDialog::downloadProgress(quint64 bytesReceived, quint16 bytesTotal)

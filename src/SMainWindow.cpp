@@ -8,6 +8,7 @@
 #define SieloPortable 0
 
 const unsigned int THEME_V0 = 1;
+
 #if SieloPortable
 QString SMainWindow::dataPath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloData/";
 #else

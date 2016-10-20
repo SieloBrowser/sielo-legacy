@@ -12,6 +12,7 @@
 #include "includes/SMainWindow.hpp"
 #include "includes/SStarter.hpp"
 
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
