@@ -122,8 +122,14 @@ void SBookmarksView::writeItem(QStandardItem *item)
         m_stream.writeStartElement(tagName);
         if(!m_model->data(item->parent()->child(item->row(), 1)->index()).toString().isEmpty())
             m_stream.writeAttribute("href", m_model->data(item->parent()->child(item->row(), 1)->index()).toString());
-       m_stream.writeTextElement("title", item->text());
-       m_stream.writeEndElement();
+		m_stream.writeTextElement("title", item->text());
+		m_stream.writeEndElement();
+
+		QFile icon{ SMainWindow::dataPath + "Images/FavIcons/icon" + item->text() + ".png" };
+		if (!icon.open(QIODevice::WriteOnly))
+			return;
+		item->icon().pixmap(64, 64).save(&icon, "PNG");
+		icon.close();
     }
     else if(tagName == "separator") {
         m_stream.writeEmptyElement(tagName);
@@ -133,6 +139,7 @@ void SBookmarksView::writeItem(QStandardItem *item)
 void SBookmarksView::readTitle(QStandardItem *item)
 {
     item->setText(m_xml.readElementText());
+	item->setIcon(QIcon(SMainWindow::dataPath + "Images/FavIcons/icon" + item->text() + ".png"));
 }
 
 void SBookmarksView::readSeparator(QStandardItem *item)
@@ -259,6 +266,7 @@ void SBookmarksAddDialog::accept()
 {
     QStandardItem *item{ m_view->createChildItem(m_view->getModel()->itemFromIndex(m_location->currentData().toModelIndex()), true, m_parent->currentPage()->url().toString()) };
     item->setText(m_bookmarkName->text());
+	item->setIcon(m_parent->currentPage()->icon());
     item->setData("bookmark", Qt::UserRole);
     m_view->saveBookMarks();
 

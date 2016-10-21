@@ -404,7 +404,7 @@ void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
         parent->addSeparator();
     } // If the item is a bookmark
     else if(tagName == "bookmark") {
-        QAction *bookmarkAction{ new QAction(m_bView->getItemIcon(), item->text(), parent) };
+        QAction *bookmarkAction{ new QAction(item->icon(), item->text(), parent) };
         bookmarkAction->setData(m_bView->getModel()->itemFromIndex(item->index())->parent()->child(item->row(), 1)->text());
         parent->addAction(bookmarkAction);
         connect(bookmarkAction, &QAction::triggered, this, &SMenu::openBookmark);
