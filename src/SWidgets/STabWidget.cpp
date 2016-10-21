@@ -79,6 +79,7 @@ void STabWidget::createDefaultWebTab()
 	createPlusTab();
 	if (tabBar()->tabButton(count() - 3, QTabBar::RightSide))
 		removeTab(count() - 3);
+	setCurrentIndex(count() - 2);
 }
 
 void STabWidget::createPlusTab()

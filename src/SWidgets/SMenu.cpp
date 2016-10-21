@@ -175,7 +175,6 @@ void SMenu::createBrowsMenu()
     m_actions->refreshOrStop->setParent(this);
     m_actions->history->setParent(this);
     m_actions->privateBrowsing->setParent(this);
-    m_actions->downloads->setParent(this);
     m_actions->viewPageCodeSource->setParent(this);
 
 	// Connect actions to their respective slot
@@ -197,7 +196,6 @@ void SMenu::createBrowsMenu()
     addAction(m_actions->refreshOrStop);
     addAction(m_actions->history);
     addAction(m_actions->privateBrowsing);
-    addAction(m_actions->downloads);
     addAction(m_actions->viewPageCodeSource);
 
 	// Set shortcut for all actions from this menu

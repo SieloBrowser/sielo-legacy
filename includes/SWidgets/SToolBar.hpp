@@ -16,6 +16,7 @@ public:
 
 	// Function to load toolbar in version 0 (for keeping older versions) 
 	void loadToolBarV0(QTextStream& in);
+	void loadToolBarV1(QTextStream& in);
 private:
 	SMainWindow* m_parent{ nullptr };
 

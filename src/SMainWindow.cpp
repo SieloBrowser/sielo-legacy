@@ -8,6 +8,7 @@
 #define SieloPortable 0
 
 const unsigned int THEME_V0 = 1;
+const unsigned int THEME_V1 = 2;
 
 #if SieloPortable
 QString SMainWindow::dataPath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloData/";
@@ -25,8 +26,10 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view) :
 	// Set window attributes
 	setWindowIcon(QIcon(SMainWindow::dataPath + "Images/icon.ico"));
 	setWindowTitle(tr("Sielo Navigateur"));
-    resize(1024, 768);
 	setAttribute(Qt::WA_DeleteOnClose);
+	resize(SMainWindow::SSettings->value("windowSave/attributes/size", QSize(1024, 768)).toSize());
+	if (!QString::number(SMainWindow::SSettings->value("windowSave/attributes/pos", QPoint()).toInt()).isEmpty())
+		move(SMainWindow::SSettings->value("windowSave/attributes/pos").toPoint());
 
 	// Set widgets attributes
 	m_urlArea->setMinimumWidth(500);
@@ -104,6 +107,14 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 			m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
 			m_toolsBars[i]->loadToolBarV0(in);
 			addToolBar(m_toolsBars[i]);
+		}
+		break;
+	case THEME_V1:
+		in >> nbreToolBar;
+
+		for (size_t i{ 0 }; i < nbreToolBar; ++i) {
+			m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
+			m_toolsBars[i]->loadToolBarV1(in);
 		}
 		break;
 	default:
@@ -303,6 +314,14 @@ void SMainWindow::closeEvent(QCloseEvent * event)
 	SMainWindow::SSettings->endGroup();
 
     SMainWindow::curSessionHistory.clear();
+
+	SMainWindow::SSettings->beginGroup("windowSave/attributes");
+	SMainWindow::SSettings->setValue("size", size());
+	SMainWindow::SSettings->setValue("pos", pos());
+	for (int i{ 0 }; i < m_toolsBars.size(); ++i) {
+		m_toolsBars[i]->saveGeometry();
+		SMainWindow::SSettings->setValue("toolBar" + QString::number(i), m_toolsBars[i]->pos());
+	}
 
 	event->accept();
 }
