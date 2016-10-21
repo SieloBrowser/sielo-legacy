@@ -45,6 +45,8 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 	// Enable are disable cookies
 	if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
 		view->page()->profile()->cookieStore()->deleteAllCookies();
+	else if(m_parent->privateBrowsing)
+		view->page()->profile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
 }
 
 void STabWidget::createWebTab(QString title, QUrl url)
@@ -71,6 +73,8 @@ void STabWidget::createWebTab(QString title, QUrl url)
 	// Enable are disable cookies
 	if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
 		view->page()->profile()->cookieStore()->deleteAllCookies();
+	else if(m_parent->privateBrowsing)
+		view->page()->profile()->setPersistentCookiesPolicy(QWebEngineProfile::NoPersistentCookies);
 }
 
 void STabWidget::createDefaultWebTab()

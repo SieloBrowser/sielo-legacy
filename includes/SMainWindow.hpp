@@ -24,7 +24,7 @@ class SMainWindow : public QMainWindow
 {
 public:
 	// Constructor and destructor
-	SMainWindow(QWidget* parent = nullptr, SWebView *view = nullptr);
+	SMainWindow(QWidget* parent = nullptr, SWebView *view = nullptr, bool isPrivateBrowsing = false);
 	~SMainWindow();
 
 	// Loading functions

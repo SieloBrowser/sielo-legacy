@@ -19,8 +19,9 @@ QSettings * SMainWindow::SSettings = new QSettings(SMainWindow::dataPath + "snse
 QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};
 
-SMainWindow::SMainWindow(QWidget* parent, SWebView *view) :
+SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing) :
     QMainWindow(parent),
+	privateBrowsing(isPrivateBrowsing),
     m_actions(QSharedPointer<SActions>(new SActions))
 {
 	// Set window attributes
@@ -322,6 +323,7 @@ void SMainWindow::closeEvent(QCloseEvent * event)
 		m_toolsBars[i]->saveGeometry();
 		SMainWindow::SSettings->setValue("toolBar" + QString::number(i), m_toolsBars[i]->pos());
 	}
+	SMainWindow::SSettings->endGroup();
 
 	event->accept();
 }

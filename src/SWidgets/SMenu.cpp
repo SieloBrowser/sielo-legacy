@@ -355,8 +355,7 @@ void SMenu::showHistory()
 
 void SMenu::privateBrowsing()
 {
-    SMainWindow *privateBrowsingWindow{ new SMainWindow{} };
-    privateBrowsingWindow->privateBrowsing = true;
+    SMainWindow *privateBrowsingWindow{ new SMainWindow(nullptr, nullptr, true) };
     privateBrowsingWindow->show();
 }
 
