@@ -28,6 +28,7 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
 	view->changeParent(tabPage, this);
 
+	pageLayout->setMargin(0);
 	pageLayout->addWidget(view);
 
 	// Connect the web view to all actions
@@ -56,6 +57,7 @@ void STabWidget::createWebTab(QString title, QUrl url)
 	SWebView* view{ new SWebView(tabPage, this, url) };
 	QVBoxLayout* pageLayout{ new QVBoxLayout(tabPage) };
 
+	pageLayout->setMargin(0);
 	pageLayout->addWidget(view);
 
 	// Connect the web view to all action
