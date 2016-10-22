@@ -88,6 +88,6 @@ public:
 	static QString currentVersion;
 private:
     QNetworkReply *m_reply{}; //< Reply to get the version of Sielo
-    QString m_version{ "0.1.1"};
+    QString m_version{ "0.2.0"};
 };
 

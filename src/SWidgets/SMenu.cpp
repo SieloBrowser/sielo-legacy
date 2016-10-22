@@ -20,7 +20,7 @@ AboutSN::AboutSN(QWidget * parent) :
 
 	// The HTML text for the label
 	QString htmlTxt{ 
-		tr("<h2>Sielo <img src=\"") + SMainWindow::dataPath + tr("Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.1.2)</h2>"
+		tr("<h2>Sielo <img src=\"") + SMainWindow::dataPath + tr("Images/icon2.PNG\" width=\"64\" height=\"64\"/> Navigateur (0.2.0)</h2>"
 		"<p>"
 			"Qu'est-ce que c'est ? <br/>"
 			"Sielo est un navigateur web léger, performant, très personnalisable et<br/>"
@@ -40,7 +40,8 @@ AboutSN::AboutSN(QWidget * parent) :
 			"Ce navigateur est développé par <a href=\"https://feldrise.com\">Feldrise</a>, et est en évolution constante.<br/>"
 			"Il est disponible sous <a href=\"https://opensource.org/licenses/MIT\">licence MIT</a>, et fait avec <a href=\"https://www.qt.io/\">Qt 5.7</a> en C++ 14. N'oubliez<br/>"
 			"pas de faire régulièrement les mises à jour pour profiter de nos dernières<br/>"
-			"fonctionnalités et corrections !"
+			"fonctionnalités et corrections ! Vous pouvez retrouver les auteurs des icones<br/>"
+			"dans le fichier à la racine du thème."
 		"</p>" )
 	};
 
