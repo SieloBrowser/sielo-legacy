@@ -139,7 +139,8 @@ void SBookmarksView::writeItem(QStandardItem *item)
 void SBookmarksView::readTitle(QStandardItem *item)
 {
     item->setText(m_xml.readElementText());
-	item->setIcon(QIcon(SMainWindow::dataPath + "Images/FavIcons/icon" + item->text() + ".png"));
+	if(item->data(Qt::UserRole).toString() == "bookmark")
+		item->setIcon(QIcon(SMainWindow::dataPath + "Images/FavIcons/icon" + item->text() + ".png"));
 }
 
 void SBookmarksView::readSeparator(QStandardItem *item)
