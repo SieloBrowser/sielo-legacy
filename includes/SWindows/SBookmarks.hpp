@@ -44,6 +44,10 @@ public:
     QIcon& getFolderIcon() { return m_folderIcon; } //< Return the folder icon of the OS
     QIcon& getItemIcon() { return m_itemIcon; } //< Return the file icon of the OS
 
+protected:
+	void dragMoveEvent(QDragMoveEvent *event);
+	void dropEvent(QDropEvent *event);
+
 private:
     QStandardItemModel *m_model{ new QStandardItemModel(this) };
     QXmlStreamReader m_xml{};

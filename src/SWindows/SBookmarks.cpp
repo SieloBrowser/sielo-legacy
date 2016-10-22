@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QHeaderView>
+#include <QStringListModel>
 
 SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
     QTreeView(parent),
@@ -12,6 +13,10 @@ SBookmarksView::SBookmarksView(QWidget *parent, bool isItemEditable) :
 	m_bookmarksFile.setFileName(SMainWindow::dataPath + "Bookmarks.xbel");
     QStringList labels{};
     labels << tr("Title") << tr("Location");
+	setSelectionMode(QTreeView::ExtendedSelection);
+	setAcceptDrops(true);
+	setDragEnabled(true);
+	setDropIndicatorShown(true);
 
     if(!m_isItemEditable)
         setEditTriggers(EditTrigger::NoEditTriggers);
@@ -120,8 +125,8 @@ void SBookmarksView::writeItem(QStandardItem *item)
     }
     else if(tagName == "bookmark") {
         m_stream.writeStartElement(tagName);
-        if(!m_model->data(item->parent()->child(item->row(), 1)->index()).toString().isEmpty())
-            m_stream.writeAttribute("href", m_model->data(item->parent()->child(item->row(), 1)->index()).toString());
+		if (!m_model->data(item->parent()->child(item->row(), 1)->index()).toString().isEmpty())
+			m_stream.writeAttribute("href", m_model->data(item->parent()->child(item->row(), 1)->index()).toString());
 		m_stream.writeTextElement("title", item->text());
 		m_stream.writeEndElement();
 
@@ -202,12 +207,39 @@ QStandardItem *SBookmarksView::createChildItem(QStandardItem *item, bool havUrl,
     }
     else {
         if(havUrl)
-            items.push_back(new QStandardItem(url));
+            items.append(new QStandardItem(url));
 
         m_model->appendRow(items);
     }
     items[0]->setData(m_xml.name().toString(), Qt::UserRole);
     return items[0];
+}
+
+
+void SBookmarksView::dragMoveEvent(QDragMoveEvent * event)
+{
+	if (m_model->itemFromIndex(indexAt(event->pos())) == nullptr || 
+		m_model->itemFromIndex(indexAt(event->pos()))->data(Qt::UserRole).toString() == "bookmark" ||
+		m_model->itemFromIndex(indexAt(event->pos()))->data(Qt::UserRole).toString() == "separator")
+		
+		event->ignore();
+	else
+		event->accept();
+}
+
+void SBookmarksView::dropEvent(QDropEvent * event)
+{
+	if (m_model->itemFromIndex(indexAt(event->pos())) == nullptr ||
+		m_model->itemFromIndex(indexAt(event->pos()))->data(Qt::UserRole).toString() == "bookmark" ||
+		m_model->itemFromIndex(indexAt(event->pos()))->data(Qt::UserRole).toString() == "separator")
+		event->ignore();
+	else
+		QTreeView::dropEvent(event);
+}
+
+Qt::DropActions QStandardItemModel::supportedDropActions() const
+{
+	return Qt::MoveAction;
 }
 
 SBookmarksAddDialog::SBookmarksAddDialog(SMainWindow *parent) :
