@@ -12,6 +12,9 @@ SWebView::SWebView(QWidget * parent, STabWidget *parentTab, QUrl url) :
 {
     connect(this->page(), &QWebEnginePage::fullScreenRequested, this, &SWebView::setFullScreen);
 
+	if (parentTab == nullptr)
+		connect(this->page(), &QWebEnginePage::windowCloseRequested, this, &SWebView::close);
+
     load(url);
 }
 
