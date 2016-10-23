@@ -223,7 +223,7 @@ void SMainWindow::addDownload(QWebEngineDownloadItem *download)
         actionItem->setDefaultWidget(item);
         m_menus[SMenuType::Dl]->addAction(actionItem);
         dlItems.push_back(item);
-        connect(item, &SDownloadItem::finished, this, &SMainWindow::removeDownload);
+//      connect(item, &SDownloadItem::finished, this, &SMainWindow::removeDownload);
     }
 }
 

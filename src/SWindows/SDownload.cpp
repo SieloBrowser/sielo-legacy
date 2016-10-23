@@ -54,14 +54,14 @@ void SDownloadItem::progress(qint64 recept, qint64 total)
 
 void SDownloadItem::undo()
 {
+
         m_dlCanceled = true;
         m_dlFinished = true;
         m_download->cancel();
         m_progressBar->setValue(0);
         m_label->setText(m_label->text() + tr(" - Annuler"));
-        m_boxBtn->setStandardButtons(QDialogButtonBox::Close);
         disconnect(m_boxBtn, &QDialogButtonBox::rejected, 0, 0);
-        connect(m_boxBtn, &QDialogButtonBox::rejected, this, &SDownloadItem::close);
+
 }
 
 void SDownloadItem::open()
