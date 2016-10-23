@@ -12,7 +12,7 @@
 
 #define SieloPortable 0
 
-QString SStarter::currentVersion = "0.2.0";
+QString SStarter::currentVersion = "0.2.1";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {
