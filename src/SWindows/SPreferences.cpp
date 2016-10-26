@@ -4,40 +4,39 @@
 #include <QWebEngineSettings>
 #include <QDir>
 
-SThemeManager::SThemeManager(QObject *parent) :
+SDataManager *SDataManager::mgr = new SDataManager();
+SDataManager::SDataManager(QObject *parent) :
     QObject(parent)
 {
 
 }
 
-SThemeManager::~SThemeManager()
+SDataManager::~SDataManager()
 {
-
+    // Empty
 }
 
-bool SThemeManager::compressTheme(QString srcFolder, QString fileDestionation)
+bool SDataManager::compressData(QString srcFolder, QString fileDestionation)
 {
     QDir src{ srcFolder };
     if(!src.exists())
         return false;
 
-    m_file.setFileName(fileDestionation);
-    if(!m_file.open(QIODevice::WriteOnly))
+    mgr->m_file.setFileName(fileDestionation);
+    if(!mgr->m_file.open(QIODevice::WriteOnly))
         return false;
 
-    m_dataStream.setDevice(&m_file);
+    mgr->m_dataStream.setDevice(&mgr->m_file);
 
-    bool success{ compress(srcFolder, "") };
-    m_file.close();
+    bool success{ mgr->compress(srcFolder, "") };
+    mgr->m_file.close();
 
     return success;
 }
 
-bool SThemeManager::decompressTheme(QString srcTheme)
+bool SDataManager::decompressData(QString srcData, QString destinationFolder)
 {
-    QFile src{ srcTheme };
-    QFileInfo themeName{ src };
-    QString destinationFolder{ SMainWindow::dataPath + "Themes/" + themeName.baseName() };
+    QFile src{ srcData };
 
     if(!src.exists())
         return false;
@@ -46,17 +45,17 @@ bool SThemeManager::decompressTheme(QString srcTheme)
     if(!dir.mkpath(destinationFolder))
         return false;
 
-    m_file.setFileName(srcTheme);
-    if(!m_file.open(QIODevice::ReadOnly))
+    mgr->m_file.setFileName(srcData);
+    if(!mgr->m_file.open(QIODevice::ReadOnly))
         return false;
 
-    m_dataStream.setDevice(&m_file);
+    mgr->m_dataStream.setDevice(&mgr->m_file);
 
-    while(!m_dataStream.atEnd()) {
+    while(!mgr->m_dataStream.atEnd()) {
         QString fileName{};
         QByteArray data{};
 
-        m_dataStream >> fileName >> data;
+        mgr->m_dataStream >> fileName >> data;
 
         QString subFolder{};
         for(int i{ fileName.length() - 1 }; i > 0; --i) {
@@ -69,7 +68,7 @@ bool SThemeManager::decompressTheme(QString srcTheme)
 
         QFile outFile(destinationFolder + "/" + fileName);
         if(!outFile.open(QIODevice::WriteOnly)) {
-            m_file.close();
+            mgr->m_file.close();
             return false;
         }
 
@@ -77,12 +76,12 @@ bool SThemeManager::decompressTheme(QString srcTheme)
         outFile.close();
     }
 
-    m_file.close();
+    mgr->m_file.close();
 
     return true;
 }
 
-bool SThemeManager::compress(QString srcFolder, QString prefix)
+bool SDataManager::compress(QString srcFolder, QString prefix)
 {
     QDir dir{ srcFolder };
     if(!dir.exists())
@@ -247,11 +246,10 @@ void ThemePageWidget::addTheme()
         return;
     }
 
-    SThemeManager *manager{ new SThemeManager(this) };
     QFileInfo themeInfo{ path };
     int index{ SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt() };
 
-    manager->decompressTheme(path);
+    SDataManager::decompressData(path, SMainWindow::dataPath + "Themes/" + themeInfo.baseName());
     QMessageBox::information(this, tr("Info"), tr("Le thème ") + themeInfo.baseName() + tr(" va être ajouté (patientez quelques instants s'il vous plait)"));
 
     SMainWindow::SSettings->beginGroup("preferences/themes/");
@@ -262,8 +260,6 @@ void ThemePageWidget::addTheme()
 
     m_themeComboBox->addItem(themeInfo.baseName());
     QMessageBox::information(this, tr("Fin"), tr("Le thème à bien été ajouté"));
-    delete manager;
-    manager = nullptr;
 }
 
 void ThemePageWidget::save()

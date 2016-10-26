@@ -1,5 +1,6 @@
 #include "includes/SStarter.hpp"
 #include "includes/SMainWindow.hpp"
+#include "includes/SWindows/SPreferences.hpp"
 #include "includes/SWidgets/SWebView.hpp"
 
 #include <QWebEngineView>
@@ -10,12 +11,18 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 
-#define SieloPortable 0
+#define SieloPortable 1
 
-QString SStarter::currentVersion = "0.2.1";
+QString SStarter::currentVersion = "0.2.3";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {
+#if SieloPortable
+    if(!SMainWindow::SSettings->value("builded", false).toBool()) {
+        SDataManager::decompressData(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/DefaultData.sndata", SMainWindow::dataPath);
+        SMainWindow::SSettings->setValue("builded", true);
+    }
+#endif
 	// Networks objects to download the last version
     QNetworkAccessManager manager{};
     m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt")));
@@ -44,6 +51,14 @@ SStarter::SStarter(QObject *parent) :
 #ifndef Q_OS_WIN32
         QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
                                                       "recommandont de passer à la version " + m_version);
+
+        SMainWindow* fen{ new SMainWindow() };
+
+        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+
+        fen->show();
 #else
 		if (SMainWindow::SSettings->value("Maj/remind", true).toBool()) {
 			// Show update dialog

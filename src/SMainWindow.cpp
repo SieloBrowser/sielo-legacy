@@ -5,16 +5,10 @@
 #include <QFile>
 #include <QCoreApplication>
 
-#define SieloPortable 0
-
 const unsigned int THEME_V0 = 1;
 const unsigned int THEME_V1 = 2;
 
-#if SieloPortable
-QString SMainWindow::dataPath = QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloData/";
-#else
 QString SMainWindow::dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/SieloNavigateurV3/";
-#endif
 QSettings * SMainWindow::SSettings = new QSettings(SMainWindow::dataPath + "snsettings.ini", QSettings::IniFormat);
 QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};

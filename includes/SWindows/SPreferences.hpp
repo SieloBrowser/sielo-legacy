@@ -22,16 +22,17 @@ class SMainWindow;
 class SPreferencesWindow;
 
 // This is the class for compress and decompress Sielo themes
-class SThemeManager : public QObject
+class SDataManager : public QObject
 {
 public:
-	// Constructor and destructor
-    SThemeManager(QObject *parent = nullptr);
-    ~SThemeManager();
+    // Constructor and destructor
+    SDataManager(QObject *parent = nullptr);
+    ~SDataManager();
 
-    bool compressTheme(QString srcFolder, QString fileDestionation);
-    bool decompressTheme(QString srcTheme);
+    static bool compressData(QString srcFolder, QString fileDestionation);
+    static bool decompressData(QString srcData, QString destinationFolder);
 
+    static SDataManager *mgr;
 private:
     QFile m_file{};
     QDataStream m_dataStream{};
