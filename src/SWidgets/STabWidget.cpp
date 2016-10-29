@@ -32,12 +32,12 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 	pageLayout->addWidget(view);
 
 	// Connect the web view to all actions
-    connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
-    connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
+	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
+	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
 	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
 	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
-    connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
-    connect(view->page()->profile(), &QWebEngineProfile::downloadRequested, m_parent, &SMainWindow::addDownload);
+	connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
+	connect(view->page()->profile(), &QWebEngineProfile::downloadRequested, m_parent, &SMainWindow::addDownload);
 
 	addTab(tabPage, title);
 
@@ -65,8 +65,8 @@ void STabWidget::createWebTab(QString title, QUrl url)
 	connect(view, &SWebView::urlChanged, m_parent, &SMainWindow::changeUrl);
 	connect(view, &SWebView::loadStarted, m_parent->getUrlArea(), &SUrlArea::loadStarted);
 	connect(view, &SWebView::loadProgress, m_parent->getUrlArea(), &SUrlArea::loadInProgress);
-    connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
-    connect(view->page()->profile(), &QWebEngineProfile::downloadRequested, m_parent, &SMainWindow::addDownload);
+	connect(view, &SWebView::loadFinished, m_parent->getUrlArea(), &SUrlArea::loadFinished);
+	connect(view->page()->profile(), &QWebEngineProfile::downloadRequested, m_parent, &SMainWindow::addDownload);
 
 	addTab(tabPage, title);
 

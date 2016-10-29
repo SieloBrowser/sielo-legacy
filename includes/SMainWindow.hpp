@@ -36,26 +36,26 @@ public:
 	void changeTabUrl(const QUrl& newUrl);
 
 	// Getters
-    QSharedPointer<SActions> getActions() const { return m_actions; }
+	QSharedPointer<SActions> getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }
 	SSearchArea* getSearchArea() const { return m_searchArea; }
 	STabWidget* getTabs() { return m_tabs; }
 	SWebView* currentPage();
-    QVector<SMenu*>& getMenus() { return m_menus; }
+	QVector<SMenu*>& getMenus() { return m_menus; }
 
-    static SHistoryItem&  getLastHistoryItem() {
-        if(SMainWindow::curSessionHistory.size() > 0)
-            return SMainWindow::curSessionHistory[SMainWindow::curSessionHistory.size() - 1];
-    }
-    static void addHistoryItem(QString title, QUrl url);
+	static SHistoryItem&  getLastHistoryItem() {
+		if(SMainWindow::curSessionHistory.size() > 0)
+			return SMainWindow::curSessionHistory[SMainWindow::curSessionHistory.size() - 1];
+	}
+	static void addHistoryItem(QString title, QUrl url);
 
-    static QSettings* SSettings;
-    static QVector<SHistoryItem> curSessionHistory;
-    static QVector<SDownloadItem*> dlItems;
+	static QSettings* SSettings;
+	static QVector<SHistoryItem> curSessionHistory;
+	static QVector<SDownloadItem*> dlItems;
 
 	static QString dataPath;
 
-    bool privateBrowsing{ false };
+	bool privateBrowsing{ false };
 public slots:
 	// Change title of tab and url in url area from a web view
 	void changeTitle(const QString& newTitle);
@@ -63,8 +63,8 @@ public slots:
 
 	// Classical action
 	void fullScreen();
-    void addDownload(QWebEngineDownloadItem *download);
-    void removeDownload();
+	void addDownload(QWebEngineDownloadItem *download);
+	void removeDownload();
 
 	// Action of navigation
 	void back();
@@ -78,7 +78,7 @@ protected:
 
 private:
 	// Private function
-    void restoreTabs(); //< Restore tab from the previous session
+	void restoreTabs(); //< Restore tab from the previous session
 
 	// Private attributs
 	
@@ -90,6 +90,6 @@ private:
 	QVector<SMenu*> m_menus{};
 
 	// Other
-    QSharedPointer<SActions> m_actions{};
+	QSharedPointer<SActions> m_actions{};
 };
 

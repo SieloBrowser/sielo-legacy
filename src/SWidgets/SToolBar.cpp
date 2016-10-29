@@ -26,7 +26,7 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 
 	// Add widgets in the tool bar from the tooBar.txt file
 	in >> widgetInToolBar;
-    for (size_t i{ 0 }; i < widgetInToolBar; ++i) {
+	for (size_t i{ 0 }; i < widgetInToolBar; ++i) {
 		in >> currentWidget;
 		if (currentWidget == "back") 
 			addAction(m_actions->back);
@@ -87,7 +87,7 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 
 	setIconSize(QSize(iconSize, iconSize));
 
-    for (size_t i{ 0 }; i < widgetInToolBar; ++i) {
+	for (size_t i{ 0 }; i < widgetInToolBar; ++i) {
 		in >> currentWidget;
 		if (currentWidget == "back") 
 			addAction(m_actions->back);

@@ -21,20 +21,20 @@ class TextToShow : public QDialog
 {
 public:
 	// Constructor and destructor
-    TextToShow(QWidget *parent = nullptr);
-    ~TextToShow();
+	TextToShow(QWidget *parent = nullptr);
+	~TextToShow();
 
 private:
 	// Layouts and box of the window
-    QVBoxLayout *m_layout{ new QVBoxLayout(this) };
-    QGroupBox *m_box{ new QGroupBox(this) };
-    QVBoxLayout *m_boxLayout{ new QVBoxLayout(m_box) };
+	QVBoxLayout *m_layout{ new QVBoxLayout(this) };
+	QGroupBox *m_box{ new QGroupBox(this) };
+	QVBoxLayout *m_boxLayout{ new QVBoxLayout(m_box) };
 
 	// Widgets of the window
-    QLabel *m_textToShow{ new QLabel("Texte", this)};
-    QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this) };
+	QLabel *m_textToShow{ new QLabel("Texte", this)};
+	QDialogButtonBox *m_boxBtn{ new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this) };
 
-    QNetworkReply *m_reply{}; //< Reply to get the text to show
+	QNetworkReply *m_reply{}; //< Reply to get the text to show
 };
 
 // This is the dialog to announce and do an update
@@ -82,12 +82,12 @@ class SStarter : public QObject
 {
 public:
 	// Constructor and destructor
-    SStarter(QObject *parent = nullptr);
-    ~SStarter();
+	SStarter(QObject *parent = nullptr);
+	~SStarter();
 
 	static QString currentVersion;
 private:
-    QNetworkReply *m_reply{}; //< Reply to get the version of Sielo
-    QString m_version{ "0.2.1"};
+	QNetworkReply *m_reply{}; //< Reply to get the version of Sielo
+	QString m_version{ "0.2.1"};
 };
 

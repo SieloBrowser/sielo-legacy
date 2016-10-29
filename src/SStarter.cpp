@@ -15,21 +15,21 @@
 
 QString SStarter::currentVersion = "0.2.2";
 SStarter::SStarter(QObject *parent) :
-    QObject(parent)
+	QObject(parent)
 {
 #if SieloPortable
-    if(!SMainWindow::SSettings->value("builded", false).toBool()) {
+	if(!SMainWindow::SSettings->value("builded", false).toBool()) {
 #ifndef Q_OS_WIN32
-        SDataManager::decompressData(":/data/DData", SMainWindow::dataPath);
+		SDataManager::decompressData(":/data/DData", SMainWindow::dataPath);
 #else
-        SDataManager::decompressData(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/DefaultData.sndata", SMainWindow::dataPath);
+		SDataManager::decompressData(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/DefaultData.sndata", SMainWindow::dataPath);
 #endif
-        SMainWindow::SSettings->setValue("builded", true);
-    }
+		SMainWindow::SSettings->setValue("builded", true);
+	}
 #endif
 	// Networks objects to download the last version
-    QNetworkAccessManager manager{};
-    m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt")));
+	QNetworkAccessManager manager{};
+	m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/version.txt")));
 
 	// Check if we want to open a file at the start of Sielo
 	if (QCoreApplication::arguments().count() > 1) {
@@ -47,22 +47,22 @@ SStarter::SStarter(QObject *parent) :
 	}
 	// Downloading the last version
 	QEventLoop loop{};
-    connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec();
+	connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+	loop.exec();
 
-    m_version = m_reply->readAll();
-    if(m_version != currentVersion) {
+	m_version = m_reply->readAll();
+	if(m_version != currentVersion) {
 #ifndef Q_OS_WIN32
-        QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
-                                                      "recommandont de passer à la version " + m_version);
+		QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
+													  "recommandont de passer à la version " + m_version);
 
-        SMainWindow* fen{ new SMainWindow() };
+		SMainWindow* fen{ new SMainWindow() };
 
-        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
 
-        fen->show();
+		fen->show();
 #else
 		if (SMainWindow::SSettings->value("Maj/remind", true).toBool()) {
 			// Show update dialog
@@ -80,8 +80,8 @@ SStarter::SStarter(QObject *parent) :
 		}
 #endif
 
-    }
-    else {
+	}
+	else {
 		SMainWindow* fen{ new SMainWindow() };
 
 		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
@@ -91,20 +91,20 @@ SStarter::SStarter(QObject *parent) :
 		fen->show();
 
 		// Get if we need to show a text
-        m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/showTxt.txt")));
+		m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/showTxt.txt")));
 		QEventLoop loop2{};
-        connect(m_reply, &QNetworkReply::finished, &loop2, &QEventLoop::quit);
-        loop2.exec();
+		connect(m_reply, &QNetworkReply::finished, &loop2, &QEventLoop::quit);
+		loop2.exec();
 
-        QString showTxt{ m_reply->readAll() };
-        if(showTxt == "true\n") {
+		QString showTxt{ m_reply->readAll() };
+		if(showTxt == "true\n") {
 			// Show the text
-            TextToShow *textToShow{ new TextToShow(fen) };
-            textToShow->show();
-        }
-        else {
-        }
-    }
+			TextToShow *textToShow{ new TextToShow(fen) };
+			textToShow->show();
+		}
+		else {
+		}
+	}
 }
 
 SStarter::~SStarter()
@@ -113,29 +113,29 @@ SStarter::~SStarter()
 }
 
 TextToShow::TextToShow(QWidget *parent) :
-    QDialog(parent)
+	QDialog(parent)
 {
 	// Set attributes of the window
-    setModal(true);
+	setModal(true);
 	setAttribute(Qt::WA_DeleteOnClose);
 
 	// Get text to show
-    QNetworkAccessManager manager{};
-    m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/textToShow.html")));
+	QNetworkAccessManager manager{};
+	m_reply = manager.get(QNetworkRequest(QUrl("http://feldrise.com/Sielo/textToShow.html")));
 	QEventLoop loop{{}};
-    connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec();
+	connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+	loop.exec();
 
-    m_textToShow->setText(m_reply->readAll());
+	m_textToShow->setText(m_reply->readAll());
 
 	// Fill the layout
-    m_boxLayout->addWidget(m_textToShow);
-    m_layout->addWidget(m_box);
-    m_layout->addWidget(m_boxBtn);
+	m_boxLayout->addWidget(m_textToShow);
+	m_layout->addWidget(m_box);
+	m_layout->addWidget(m_boxBtn);
 
 	// Connections
-    connect(m_boxBtn, &QDialogButtonBox::accepted, this, &TextToShow::accept);
-    connect(m_boxBtn, &QDialogButtonBox::rejected, this, &TextToShow::close);
+	connect(m_boxBtn, &QDialogButtonBox::accepted, this, &TextToShow::accept);
+	connect(m_boxBtn, &QDialogButtonBox::rejected, this, &TextToShow::close);
 }
 
 TextToShow::~TextToShow()

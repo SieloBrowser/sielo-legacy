@@ -10,12 +10,12 @@ SWebView::SWebView(QWidget * parent, STabWidget *parentTab, QUrl url) :
 	m_parent(parent),
 	m_parentTab(parentTab)
 {
-    connect(this->page(), &QWebEnginePage::fullScreenRequested, this, &SWebView::setFullScreen);
+	connect(this->page(), &QWebEnginePage::fullScreenRequested, this, &SWebView::setFullScreen);
 
 	if (parentTab == nullptr)
 		connect(this->page(), &QWebEnginePage::windowCloseRequested, this, &SWebView::close);
 
-    load(url);
+	load(url);
 }
 
 SWebView::~SWebView()
@@ -79,18 +79,18 @@ SWebView * SWebView::createWindow(QWebEnginePage::WebWindowType type)
 void SWebView::setFullScreen(QWebEngineFullScreenRequest request)
 {
 	// If it's not in full screen
-    if(!m_fullScreen) {
-        setParent(nullptr);
-        showFullScreen();
-        m_parent->layout()->removeWidget(this);
-        m_fullScreen = true;
-    } // If it's already in full screen
-    else {
-        setParent(m_parent);
-        show();
-        m_parent->layout()->addWidget(this);
-        m_fullScreen = false;
-    }
+	if(!m_fullScreen) {
+		setParent(nullptr);
+		showFullScreen();
+		m_parent->layout()->removeWidget(this);
+		m_fullScreen = true;
+	} // If it's already in full screen
+	else {
+		setParent(m_parent);
+		show();
+		m_parent->layout()->addWidget(this);
+		m_fullScreen = false;
+	}
 
-    request.accept();
+	request.accept();
 }

@@ -7,8 +7,8 @@ SSearchArea::SSearchArea(const QIcon & icon, SMainWindow * parent) :
 	m_icon(icon)
 {
 	setTextMargins(18, 0, 0, 0);
-    connect(this, &SSearchArea::returnPressed, this, &SSearchArea::loadSearch);
-    setClearButtonEnabled(true);
+	connect(this, &SSearchArea::returnPressed, this, &SSearchArea::loadSearch);
+	setClearButtonEnabled(true);
 }
 
 SSearchArea::~SSearchArea()

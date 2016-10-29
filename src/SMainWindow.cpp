@@ -14,9 +14,9 @@ QVector<SHistoryItem> SMainWindow::curSessionHistory = QVector<SHistoryItem>{};
 QVector<SDownloadItem*> SMainWindow::dlItems = QVector<SDownloadItem*>{};
 
 SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing) :
-    QMainWindow(parent),
+	QMainWindow(parent),
 	privateBrowsing(isPrivateBrowsing),
-    m_actions(QSharedPointer<SActions>(new SActions))
+	m_actions(QSharedPointer<SActions>(new SActions))
 {
 	// Set window attributes
 	setWindowIcon(QIcon(SMainWindow::dataPath + "Images/icon.ico"));
@@ -28,26 +28,26 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 
 	// Set widgets attributes
 	m_urlArea->setMinimumWidth(500);
-    m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.png"), this);
+	m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.png"), this);
 	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText(tr("Recherche Google"));
 
-    // TEST AREA
+	// TEST AREA
 
-    // END OF TEST AREA
+	// END OF TEST AREA
 
-    if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool() && !view)
-        restoreTabs();
+	if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool() && !view)
+		restoreTabs();
 	else if (view) {
 		m_tabs->createWebTab(tr("Nouvel onglet"), view);
 		m_tabs->createPlusTab();
 	}
 	else
-        m_tabs->createDefaultWebTab();
+		m_tabs->createDefaultWebTab();
 
 	// Load menus and tool bar
 	loadMenus();
-    loadToolBar(m_actions->themePath + "toolBar.txt");
+	loadToolBar(m_actions->themePath + "toolBar.txt");
 	setCentralWidget(m_tabs);
 
 }
@@ -63,7 +63,7 @@ void SMainWindow::loadMenus()
 	m_menus.push_back(new SMenu(this, tr("&Fichier"), SMenuType::File));
 	m_menus.push_back(new SMenu(this, tr("&Affichage"), SMenuType::Show));
 	m_menus.push_back(new SMenu(this, tr("&Navigation"), SMenuType::Brows));
-    m_menus.push_back(new SMenu(this, tr("&Téléchargements"), SMenuType::Dl));
+	m_menus.push_back(new SMenu(this, tr("&Téléchargements"), SMenuType::Dl));
 	m_menus.push_back(new SMenu(this, tr("Fa&voris"), SMenuType::Fav));
 	m_menus.push_back(new SMenu(this, tr("&Edition"), SMenuType::Edit));
 	m_menus.push_back(new SMenu(this, tr("&?"), SMenuType::About));
@@ -75,7 +75,7 @@ void SMainWindow::loadMenus()
 	menuBar()->addMenu(m_menus[3]);
 	menuBar()->addMenu(m_menus[4]);
 	menuBar()->addMenu(m_menus[5]);
-    menuBar()->addMenu(m_menus[6]);
+	menuBar()->addMenu(m_menus[6]);
 }
 
 bool SMainWindow::loadToolBar(const QString & filePath)
@@ -83,7 +83,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 	QFile file{ filePath };
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, tr("Erreur"), tr("Impossible d'ouvrir le thème de la barre d'outils"));
+		QMessageBox::critical(this, tr("Erreur"), tr("Impossible d'ouvrir le thème de la barre d'outils"));
 		return false;
 	}
 
@@ -134,10 +134,10 @@ void SMainWindow::changeTabTitle(const QString& newTitle)
 	if (newTitle.size() > 40)
 		shorTitle = newTitle.left(40) + "...";
 
-    if(privateBrowsing)
-        setWindowTitle(shorTitle + tr(" - Sielo Navigateur (Navigation privée)"));
-    else
-        setWindowTitle(shorTitle + tr(" - Sielo Navigateur"));
+	if(privateBrowsing)
+		setWindowTitle(shorTitle + tr(" - Sielo Navigateur (Navigation privée)"));
+	else
+		setWindowTitle(shorTitle + tr(" - Sielo Navigateur"));
 }
 
 void SMainWindow::changeTabUrl(const QUrl& newUrl)
@@ -151,8 +151,8 @@ void SMainWindow::addHistoryItem(QString title, QUrl url)
 {
 	SHistoryItem item{};
 	item.title = title;
-    item.url = url;
-    SMainWindow::curSessionHistory.push_back(item);
+	item.url = url;
+	SMainWindow::curSessionHistory.push_back(item);
 }
 
 //-- PUBLIC SLOTS
@@ -172,10 +172,10 @@ void SMainWindow::changeTitle(const QString& newTitle)
 		if (newTitle.size() > 40)
 			shorTitle = newTitle.left(40) + "...";
 
-        if(privateBrowsing)
-            setWindowTitle(shorTitle + tr(" - Sielo Navigateur (Navigation privée)"));
-        else
-            setWindowTitle(shorTitle + tr(" - Sielo Navigateur"));
+		if(privateBrowsing)
+			setWindowTitle(shorTitle + tr(" - Sielo Navigateur (Navigation privée)"));
+		else
+			setWindowTitle(shorTitle + tr(" - Sielo Navigateur"));
 
 		m_tabs->setTabText(m_tabs->currentIndex(), shorTitle);
 	}
@@ -210,29 +210,29 @@ void SMainWindow::fullScreen()
 
 void SMainWindow::addDownload(QWebEngineDownloadItem *download)
 {
-    if(dlItems.isEmpty() || download->url() != dlItems[dlItems.size() - 1]->getDownload()->url()) {
+	if(dlItems.isEmpty() || download->url() != dlItems[dlItems.size() - 1]->getDownload()->url()) {
 		// Convert the download dialg in download action
-        SDownloadItem *item{ new SDownloadItem(download, this) };
-        QWidgetAction *actionItem{ new QWidgetAction(m_menus[SMenuType::Dl]) };
-        actionItem->setDefaultWidget(item);
-        m_menus[SMenuType::Dl]->addAction(actionItem);
-        dlItems.push_back(item);
+		SDownloadItem *item{ new SDownloadItem(download, this) };
+		QWidgetAction *actionItem{ new QWidgetAction(m_menus[SMenuType::Dl]) };
+		actionItem->setDefaultWidget(item);
+		m_menus[SMenuType::Dl]->addAction(actionItem);
+		dlItems.push_back(item);
 //      connect(item, &SDownloadItem::finished, this, &SMainWindow::removeDownload);
-    }
+	}
 }
 
 void SMainWindow::removeDownload()
 {
-    SDownloadItem *dlItem{ static_cast<SDownloadItem*>(sender()) };
-    if(!dlItem)
-        return;
+	SDownloadItem *dlItem{ static_cast<SDownloadItem*>(sender()) };
+	if(!dlItem)
+		return;
 
-    int index{ dlItems.indexOf(dlItem) };
+	int index{ dlItems.indexOf(dlItem) };
 
-    dlItems.removeOne(dlItem);
-    QList<QAction*> downloads{};
-    downloads = m_menus[SMenuType::Dl]->actions();
-    m_menus[SMenuType::Dl]->removeAction(downloads[index]);
+	dlItems.removeOne(dlItem);
+	QList<QAction*> downloads{};
+	downloads = m_menus[SMenuType::Dl]->actions();
+	m_menus[SMenuType::Dl]->removeAction(downloads[index]);
 }
 
 void SMainWindow::back()
@@ -262,14 +262,14 @@ void SMainWindow::stop()
 
 void SMainWindow::restoreTabs()
 {
-    SMainWindow::SSettings->beginGroup("windowSave/tabs");
-    for(int i{ 0 }; i < SMainWindow::SSettings->value("count", 1).toInt(); ++i) {
-        m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/name", "Google").toString(), SMainWindow::SSettings->value(QString::number(i) + "/url", "http://google.com").toUrl());
-    }
+	SMainWindow::SSettings->beginGroup("windowSave/tabs");
+	for(int i{ 0 }; i < SMainWindow::SSettings->value("count", 1).toInt(); ++i) {
+		m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/name", "Google").toString(), SMainWindow::SSettings->value(QString::number(i) + "/url", "http://google.com").toUrl());
+	}
 
-    m_tabs->createPlusTab();
-    m_tabs->setCurrentIndex(SMainWindow::SSettings->value("focused", 0).toInt());
-    SMainWindow::SSettings->endGroup();
+	m_tabs->createPlusTab();
+	m_tabs->setCurrentIndex(SMainWindow::SSettings->value("focused", 0).toInt());
+	SMainWindow::SSettings->endGroup();
 }
 
 void SMainWindow::closeEvent(QCloseEvent * event)
@@ -294,21 +294,21 @@ void SMainWindow::closeEvent(QCloseEvent * event)
 		SMainWindow::SSettings->endGroup();
 	}
 
-    QDate date{ QDate::currentDate() };
+	QDate date{ QDate::currentDate() };
 
 
-    SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
-    int itemNum{ SMainWindow::SSettings->value("itemNum", 0).toInt() };
+	SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
+	int itemNum{ SMainWindow::SSettings->value("itemNum", 0).toInt() };
 
-    for (int i{ 0 }; i < SMainWindow::curSessionHistory.size(); ++i) {
-        SMainWindow::SSettings->setValue(QString::number(itemNum) + "/title", SMainWindow::curSessionHistory[i].title);
-        SMainWindow::SSettings->setValue(QString::number(itemNum) + "/url", SMainWindow::curSessionHistory[i].url);
+	for (int i{ 0 }; i < SMainWindow::curSessionHistory.size(); ++i) {
+		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/title", SMainWindow::curSessionHistory[i].title);
+		SMainWindow::SSettings->setValue(QString::number(itemNum) + "/url", SMainWindow::curSessionHistory[i].url);
 		++itemNum;
 	}
 	SMainWindow::SSettings->setValue("itemNum", itemNum);
 	SMainWindow::SSettings->endGroup();
 
-    SMainWindow::curSessionHistory.clear();
+	SMainWindow::curSessionHistory.clear();
 
 	SMainWindow::SSettings->beginGroup("windowSave/attributes");
 	SMainWindow::SSettings->setValue("size", size());

@@ -24,6 +24,6 @@ public slots:
 
 private:
 	QWidget* m_parent{ nullptr };
-	STabWidget *m_parentTab{ nullptr };
+    STabWidget *m_parentTab{ nullptr };
     bool m_fullScreen{ false };
 };

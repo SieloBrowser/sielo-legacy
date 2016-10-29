@@ -36,7 +36,7 @@ private:
 enum SMenuType {
 	File = 0,
 	Show = 1,
-	Brows = 2,
+    Brows = 2,
     Dl = 3,
     Fav = 4,
     Edit = 5,
@@ -51,7 +51,7 @@ public:
 
 	void createFileMenu();
 	void createShowMenu();
-	void createBrowsMenu();
+    void createBrowsMenu();
     void createDlMenu();
     void createBookmarksMenu();
     void createEditMenu();
@@ -66,7 +66,7 @@ public slots:
 	void findInPage();
 	void zoom();
 
-	void showHistory();
+    void showHistory();
     void privateBrowsing();
     void showPageSrc();
 
@@ -81,7 +81,7 @@ public slots:
 private:
     void createBookmarksItem(QStandardItem *item, SMenu *parent);
 
-	SMainWindow* m_parent{ nullptr };
+    SMainWindow* m_parent{ nullptr };
     QSharedPointer<SActions> m_actions{};
 
     SBookmarksView *m_bView{ nullptr };
