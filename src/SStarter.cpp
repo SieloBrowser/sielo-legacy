@@ -13,13 +13,17 @@
 
 #define SieloPortable 1
 
-QString SStarter::currentVersion = "0.2.3";
+QString SStarter::currentVersion = "0.2.2";
 SStarter::SStarter(QObject *parent) :
     QObject(parent)
 {
 #if SieloPortable
     if(!SMainWindow::SSettings->value("builded", false).toBool()) {
+#ifndef Q_OS_WIN32
+        SDataManager::decompressData(":/data/DData", SMainWindow::dataPath);
+#else
         SDataManager::decompressData(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/DefaultData.sndata", SMainWindow::dataPath);
+#endif
         SMainWindow::SSettings->setValue("builded", true);
     }
 #endif

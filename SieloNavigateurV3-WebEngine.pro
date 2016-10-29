@@ -36,3 +36,14 @@ HEADERS += \
     includes/SStarter.hpp
 
 RC_FILE+=icon.rc
+
+RESOURCES += \
+    defaultdata.qrc
+
+release: DESTDIR = bin
+debug:   DESTDIR = bin
+
+OBJECTS_DIR = $$DESTDIR/.obj
+MOC_DIR = $$DESTDIR/.moc
+RCC_DIR = $$DESTDIR/.qrc
+UI_DIR = $$DESTDIR/.ui
