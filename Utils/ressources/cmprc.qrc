@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/themes">
+        <file alias="defaultThm">DefaultThm.snthm</file>
+    </qresource>
+</RCC>

@@ -1,5 +1,4 @@
 #include "includes/MainWindow.hpp"
-#include "includes/ThemeManager.hpp"
 
 #include <QMenuBar>
 #include <QMessageBox>
@@ -7,6 +6,8 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QStandardPaths>
+#include <QCoreApplication>
+#include <QProcess>
 #include <QDir>
 
 const unsigned int THEME_V0 = 1;
@@ -15,7 +16,6 @@ const unsigned int THEME_V1 = 2;
 MainWindow::MainWindow(QWidget * parent) : 
 	QMainWindow(parent)
 {
-	createMenus();
 	resize(1024, 768);
 
 	connect(m_newThm, &QAction::triggered, this, &MainWindow::newThm);
@@ -36,6 +36,16 @@ MainWindow::MainWindow(QWidget * parent) :
 	m_view->load(QUrl("http://feldrise.com"));
 	setCentralWidget(m_view);
 
+    QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
+
+    fileMenu->addAction(m_newThm);
+    fileMenu->addAction(m_openThm);
+    fileMenu->addSeparator();
+    fileMenu->addAction(m_saveThm);
+    fileMenu->addAction(m_saveThmAs);
+    m_saveThm->setEnabled(false);
+    m_saveThmAs->setEnabled(false);
+
 //	QMessageBox::information(this, "DEBUG", QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 }
 
@@ -46,20 +56,28 @@ MainWindow::~MainWindow()
 
 void MainWindow::createMenus()
 {
-	QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
+    m_themeMenu->addAction(m_newToolBar);
 
-	fileMenu->addAction(m_newThm);
-	fileMenu->addAction(m_openThm);
-	fileMenu->addSeparator();
-	fileMenu->addAction(m_saveThm);
-	fileMenu->addAction(m_saveThmAs);
-	m_saveThm->setEnabled(false);
-	m_saveThmAs->setEnabled(false);
+    m_iconsMenu->addAction(m_backAction);
+    m_iconsMenu->addAction(m_nextAction);
+    m_iconsMenu->addAction(m_homeAction);
+    m_iconsMenu->addAction(m_refreshOrStopAction);
+    m_iconsMenu->addAction(m_goAction);
+    m_iconsMenu->addAction(m_searchAction);
+    m_iconsMenu->addAction(m_sowHistory);
+    m_iconsMenu->addAction(m_preferencesAction);
+    m_iconsMenu->addAction(m_addBookmarksAction);
+    m_iconsMenu->addAction(m_bookmarsManagerAction);
+    m_iconsMenu->addAction(m_newTabAction);
+    m_iconsMenu->addAction(m_newWindowAction);
 
-	QMenu *themeMenu = menuBar()->addMenu(tr("&Thèmes"));
+    m_helpMenu->addAction(m_helpAction);
 
-	themeMenu->addAction(m_newToolBar);
-	m_newToolBar->setEnabled(false);
+    menuBar()->addMenu(m_themeMenu);
+    menuBar()->addMenu(m_iconsMenu);
+    menuBar()->addMenu(m_helpMenu);
+
+    connect(m_iconsMenu, &QMenu::triggered, this, &MainWindow::changeIcon);
 }
 
 void MainWindow::createActions()
@@ -102,25 +120,6 @@ void MainWindow::createActions()
 	m_newWindowAction->setObjectName("newWindow");
 	m_editableAction.insert("newWindow", m_newWindowAction);
 	m_exitAction->setIcon(QIcon(m_thmPath + "exit.png"));
-
-	m_iconsMenu->addAction(m_backAction);
-	m_iconsMenu->addAction(m_nextAction);
-	m_iconsMenu->addAction(m_homeAction);
-	m_iconsMenu->addAction(m_refreshOrStopAction);
-	m_iconsMenu->addAction(m_goAction);
-	m_iconsMenu->addAction(m_searchAction);
-	m_iconsMenu->addAction(m_sowHistory);
-	m_iconsMenu->addAction(m_preferencesAction);
-	m_iconsMenu->addAction(m_addBookmarksAction);
-	m_iconsMenu->addAction(m_bookmarsManagerAction);
-	m_iconsMenu->addAction(m_newTabAction);
-	m_iconsMenu->addAction(m_newWindowAction);
-	menuBar()->addMenu(m_iconsMenu);
-
-	QMenu *helpMenu{ menuBar()->addMenu("&?") };
-	helpMenu->addAction(m_helpAction);
-
-	connect(m_iconsMenu, &QMenu::triggered, this, &MainWindow::changeIcon);
 }
 
 void MainWindow::loadToolBar(const QString & filePath)
@@ -196,9 +195,12 @@ void MainWindow::newThm()
         m_thmPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/SNThemeEditor/" + m_thmName + "/";
         QDir *themePath{ new QDir(m_thmPath) };
         themePath->mkpath(m_thmPath);
-        ThemeManager::decompressTheme(":/themes/defaultThm", themePath->absolutePath());
+        QStringList argc{};
+        argc << "decompress" << ":/themes/defaultThm" << themePath->absolutePath();
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", argc);
         ToolBar *defaut = addNewToolBar();
 		createActions();
+        createMenus();
 
 		thmSaved = false;
 		m_saveThm->setEnabled(true);
@@ -220,10 +222,13 @@ void MainWindow::openThm()
 		m_savedThmPath = filePath;
 		QDir *themePath{ new QDir(m_thmPath) };
 		themePath->mkpath(m_thmPath);
-		ThemeManager::decompressTheme(filePath, themePath->absolutePath());
+        QStringList argc{};
+        argc << "decompress" << filePath << themePath->absolutePath();
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", argc);
 
 		loadToolBar(QString(m_thmPath + "toolBar.txt"));
 		createActions();
+        createMenus();
 		thmSaved = false;
 		m_saveThm->setEnabled(true);
 		m_saveThmAs->setEnabled(true);
@@ -270,7 +275,10 @@ void MainWindow::saveThm()
 
 	toolBarTxt.close();
 
-	ThemeManager::compressTheme(m_thmPath, m_savedThmPath);
+    QStringList argc{};
+    argc << "compress" << m_thmPath << m_savedThmPath;
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", argc);
+
 	thmSaved = true;
 }
 
@@ -282,7 +290,7 @@ void MainWindow::saveThmAs()
 		return;
 	else {
 		m_savedThmPath = newThmPath;
-		saveThm();
+        saveThm();
 	}
 }
 

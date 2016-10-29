@@ -97,7 +97,9 @@ private:
 	QAction *m_newToolBar{ new QAction(QObject::tr("Nouvelle barre d'outils"), this) };
 	QAction *m_helpAction{ new QAction(QObject::tr("Aide") , this) };
 
+    QMenu *m_themeMenu{ new QMenu(QObject::tr("&Theme"), this) };
 	QMenu *m_iconsMenu{ new QMenu(QObject::tr("&Icones"), this) };
+    QMenu *m_helpMenu{ new QMenu(QObject::tr("&?"), this) };
 
     QWebEngineView *m_view{ new QWebEngineView(this) };
 	QVector<ToolBar*> m_toolBars{};
