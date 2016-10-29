@@ -35,15 +35,6 @@ HEADERS += \
     includes/SWindows/SPreferences.hpp \
     includes/SStarter.hpp
 
-RC_FILE+=icon.rc
-
 RESOURCES += \
-    defaultdata.qrc
+    ../Utils/ressources/data.qrc
 
-release: DESTDIR = bin
-debug:   DESTDIR = bin
-
-OBJECTS_DIR = $$DESTDIR/.obj
-MOC_DIR = $$DESTDIR/.moc
-RCC_DIR = $$DESTDIR/.qrc
-UI_DIR = $$DESTDIR/.ui
