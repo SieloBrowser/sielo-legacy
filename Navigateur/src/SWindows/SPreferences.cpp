@@ -197,85 +197,6 @@ void BrowsPageWidget::deleteAllCookies()
 	QMessageBox::information(this, tr("Cookies"), tr("Tous les cookies ont bien été suprimés"));
 }
 
-ThemePageWidget::ThemePageWidget(QWidget *parent) :
-	QWidget(parent)
-{
-	m_layout->addWidget(m_chooseThemeBox);
-	m_layout->addWidget(m_addThemeBox);
-
-	for(int i{ 0 }; i < SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt(); ++i) {
-		m_themeComboBox->addItem(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/name").toString());
-		if(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/current", false).toBool()) {
-			m_themeComboBox->setCurrentIndex(i);
-		}
-	}
-
-	m_themePath->setPlaceholderText(tr("Chemin du thème à ajouter"));
-
-	m_chooseThemeBox->setTitle(tr("Thème de la fenêtre"));
-	m_addThemeBox->setTitle(tr("Ajouter un thème"));
-
-	m_chooseThemeLayout->addWidget(m_themeComboBox);
-	m_addThemeLayout->addWidget(m_themePath);
-
-	connect(m_choosePathAction, &QAction::triggered, this, &ThemePageWidget::choosePath);
-	connect(m_addThemeAction, &QAction::triggered, this, &ThemePageWidget::addTheme);
-
-}
-
-ThemePageWidget::~ThemePageWidget()
-{
-
-}
-
-void ThemePageWidget::choosePath()
-{
-	QString path{ QFileDialog::getOpenFileName(this, "Choisir un thème", m_themePath->text(), "Sielo Navigateur Themes(*.snthm)") };
-
-	if(!path.isEmpty()) {
-		m_themePath->setText(path);
-	}
-}
-
-void ThemePageWidget::addTheme()
-{
-	QString path{ m_themePath->text() };
-
-	if(!path.endsWith(".snthm")) {
-		QMessageBox::critical(this, tr("Erreur"), tr("Le thème n'est pas valide"));
-		return;
-	}
-
-	QFileInfo themeInfo{ path };
-	int index{ SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt() };
-
-	SDataManager::decompressData(path, SMainWindow::dataPath + "Themes/" + themeInfo.baseName());
-	QMessageBox::information(this, tr("Info"), tr("Le thème ") + themeInfo.baseName() + tr(" va être ajouté (patientez quelques instants s'il vous plait)"));
-
-	SMainWindow::SSettings->beginGroup("preferences/themes/");
-	SMainWindow::SSettings->setValue("nbre", index);
-	SMainWindow::SSettings->setValue(QString::number(index) + "/name/", themeInfo.baseName());
-	SMainWindow::SSettings->setValue("nbre", index + 1);
-	SMainWindow::SSettings->endGroup();
-
-	m_themeComboBox->addItem(themeInfo.baseName());
-	QMessageBox::information(this, tr("Fin"), tr("Le thème à bien été ajouté"));
-}
-
-void ThemePageWidget::save()
-{
-	for(int i{ 0 }; i < m_themeComboBox->count(); ++i) {
-		if(i == m_themeComboBox->currentIndex() && !SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/current", false).toBool()) {
-			QMessageBox::information(this, tr("Application"), tr("Le thème sera appliqué au prochain redémarrage"));
-			SMainWindow::SSettings->setValue("preferences/themes/" + QString::number(i) + "/current", true);
-			SMainWindow::SSettings->setValue("preferences/themes/currentTheme", i);
-		}
-		else if(i != m_themeComboBox->currentIndex()) {
-			SMainWindow::SSettings->setValue("preferences/themes/" + QString::number(i) + "/current", false);
-		}
-	}
-}
-
 SPreferencesWindow::SPreferencesWindow(SMainWindow *parent) :
 	QDialog(parent),
 	m_parent(parent)
@@ -291,7 +212,6 @@ SPreferencesWindow::SPreferencesWindow(SMainWindow *parent) :
 	// Add pages to the tab widget
 	m_tab->addTab(m_generalPageWidget, tr("Page d'accueil"));
 	m_tab->addTab(m_browsPageWidget, tr("Options de Navigation"));
-	m_tab->addTab(m_themePageWidget, tr("Thème"));
 
 	// Connections
 	connect(m_boxBtn, &QDialogButtonBox::accepted, this, &SPreferencesWindow::accept);
@@ -309,7 +229,6 @@ void SPreferencesWindow::accept()
 	// Save all settings
 	m_generalPageWidget->save();
 	m_browsPageWidget->save();
-	m_themePageWidget->save();
 
 	close();
 }

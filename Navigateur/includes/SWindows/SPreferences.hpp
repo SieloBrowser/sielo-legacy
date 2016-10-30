@@ -94,37 +94,6 @@ private:
 	QPushButton *m_deleteAllCookies{ new QPushButton(QObject::tr("Supprimer tous les cookies"), m_cookiesBox) };
 };
 
-// This is the page for add and change themes
-class ThemePageWidget : public QWidget
-{
-public:
-	// Constructor and destructor
-	ThemePageWidget(QWidget *parent = nullptr);
-	~ThemePageWidget();
-
-	void save(); //< Save the settings for this page
-private:
-	void choosePath(); //< Choose a path to add in the QLineEdit for the theme to add
-	void addTheme(); //< Add a theme to Sielo
-
-	QIcon m_folderIcon{ style()->standardIcon(QStyle::SP_DirClosedIcon) };
-	QIcon m_okIcon{ SMainWindow::dataPath + "Images/ok.png" };
-
-	// Layouts and boxes of the page
-	QVBoxLayout *m_layout{ new QVBoxLayout(this) };
-	QGroupBox *m_chooseThemeBox{ new QGroupBox(this) };
-	QGroupBox *m_addThemeBox{ new QGroupBox(this) };
-	QVBoxLayout *m_chooseThemeLayout{ new QVBoxLayout(m_chooseThemeBox) };
-	QVBoxLayout *m_addThemeLayout{ new QVBoxLayout(m_addThemeBox) };
-
-	// Widgets of the page
-	QComboBox *m_themeComboBox{ new QComboBox(m_chooseThemeBox) };
-	QLineEdit *m_themePath{ new QLineEdit(m_addThemeBox) };
-	QAction *m_choosePathAction{ m_themePath->addAction(m_folderIcon, QLineEdit::LeadingPosition) };
-	QAction *m_addThemeAction{ m_themePath->addAction(m_okIcon, QLineEdit::TrailingPosition) };
-
-};
-
 // This is the dialog with all pages for preferences
 class SPreferencesWindow : public QDialog
 {
@@ -150,5 +119,4 @@ private:
 	// All the pages of the window
 	GeneralPageWidget *m_generalPageWidget{ new GeneralPageWidget(this) };
 	BrowsPageWidget *m_browsPageWidget{ new BrowsPageWidget(this) };
-	ThemePageWidget *m_themePageWidget{ new ThemePageWidget(this) };
 };
