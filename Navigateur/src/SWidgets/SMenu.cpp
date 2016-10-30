@@ -86,6 +86,9 @@ SMenu::SMenu(SMainWindow * parent, const QString & name, SMenuType menuType) :
 	case SMenuType::Fav:
 		createBookmarksMenu();
 		break;
+    case SMenuType::Theme:
+        createThemeMenu();
+        break;
 	case SMenuType::Edit:
 		createEditMenu();
 		break;
@@ -237,6 +240,27 @@ void SMenu::createBookmarksMenu()
 	// Set shortcut for all actions from this menu
 	m_actions->addBookmarks->setShortcut(QKeySequence("Ctrl+D"));
 	m_actions->bookmarksManager->setShortcut(QKeySequence("Ctrl+B"));
+}
+
+void SMenu::createThemeMenu()
+{
+    QMenu *themesMenu{ m_parent->menuBar()->addMenu(tr("Thèmes")) };
+
+    for(int i{ 0 }; i < SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt(); ++i) {
+        QAction *theme{ new QAction(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/name").toString()) };
+        theme->setData(i);
+        if(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/current", false).toBool())
+            theme->setEnabled(false);
+        themesMenu->addAction(theme);
+    }
+
+    addMenu(themesMenu);
+    addAction(m_actions->addTheme);
+    addSeparator();
+    addAction(m_actions->openThemeEditor);
+
+    connect(themesMenu, &QMenu::triggered, this, &SMenu::changeTheme);
+
 }
 
 void SMenu::createEditMenu()
@@ -410,6 +434,25 @@ void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
 		parent->addAction(bookmarkAction);
 		connect(bookmarkAction, &QAction::triggered, this, &SMenu::openBookmark);
 	}
+}
+
+void SMenu::changeTheme(QAction *theme)
+{
+    if(!SMainWindow::SSettings->value("preferences/themes/" + QString::number(theme->data().toInt()) + "/current", false).toBool()) {
+        // TODO: Change theme
+        SMainWindow::SSettings->beginGroup("preferences/themes/");
+        SMainWindow::SSettings->setValue(SMainWindow::SSettings->value("currentTheme", "0").toString() + "/current", false);
+        SMainWindow::SSettings->setValue(QString::number(theme->data().toInt()) + "/current", true);
+        SMainWindow::SSettings->setValue("currentTheme", theme->data().toInt());
+        SMainWindow::SSettings->setValue("changed", true);
+        SMainWindow::SSettings->endGroup();
+        m_parent->saveTabs();
+        m_parent->saveWinState();
+        SMainWindow *windows{ new SMainWindow() };
+        windows->show();
+        m_parent->close();
+    }
+
 }
 
 void SMenu::openPreferencesDialog()

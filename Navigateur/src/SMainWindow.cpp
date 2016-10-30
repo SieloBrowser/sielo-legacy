@@ -21,10 +21,10 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 	// Set window attributes
 	setWindowIcon(QIcon(SMainWindow::dataPath + "Images/icon.ico"));
 	setWindowTitle(tr("Sielo Navigateur"));
-	setAttribute(Qt::WA_DeleteOnClose);
-	resize(SMainWindow::SSettings->value("windowSave/attributes/size", QSize(1024, 768)).toSize());
-	if (!QString::number(SMainWindow::SSettings->value("windowSave/attributes/pos", QPoint()).toInt()).isEmpty())
-		move(SMainWindow::SSettings->value("windowSave/attributes/pos").toPoint());
+    setAttribute(Qt::WA_DeleteOnClose);
+    resize(SMainWindow::SSettings->value("windowSave/attributes/size", QSize(1024, 768)).toSize());
+    if (!QString::number(SMainWindow::SSettings->value("windowSave/attributes/pos", QPoint()).toInt()).isEmpty())
+        move(SMainWindow::SSettings->value("windowSave/attributes/pos").toPoint());
 
 	// Set widgets attributes
 	m_urlArea->setMinimumWidth(500);
@@ -38,6 +38,10 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 
 	if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool() && !view)
 		restoreTabs();
+    else if(SMainWindow::SSettings->value("preferences/themes/changed", false).toBool()) {
+        restoreTabs();
+        SMainWindow::SSettings->setValue("preferences/themes/changed", false);
+    }
 	else if (view) {
 		m_tabs->createWebTab(tr("Nouvel onglet"), view);
 		m_tabs->createPlusTab();
@@ -64,7 +68,8 @@ void SMainWindow::loadMenus()
 	m_menus.push_back(new SMenu(this, tr("&Affichage"), SMenuType::Show));
 	m_menus.push_back(new SMenu(this, tr("&Navigation"), SMenuType::Brows));
 	m_menus.push_back(new SMenu(this, tr("&Téléchargements"), SMenuType::Dl));
-	m_menus.push_back(new SMenu(this, tr("Fa&voris"), SMenuType::Fav));
+    m_menus.push_back(new SMenu(this, tr("&Thèmes"), SMenuType::Theme));
+    m_menus.push_back(new SMenu(this, tr("Fa&voris"), SMenuType::Fav));
 	m_menus.push_back(new SMenu(this, tr("&Edition"), SMenuType::Edit));
 	m_menus.push_back(new SMenu(this, tr("&?"), SMenuType::About));
 	
@@ -76,6 +81,7 @@ void SMainWindow::loadMenus()
 	menuBar()->addMenu(m_menus[4]);
 	menuBar()->addMenu(m_menus[5]);
 	menuBar()->addMenu(m_menus[6]);
+    menuBar()->addMenu(m_menus[7]);
 }
 
 bool SMainWindow::loadToolBar(const QString & filePath)
@@ -272,29 +278,43 @@ void SMainWindow::restoreTabs()
 	SMainWindow::SSettings->endGroup();
 }
 
+void SMainWindow::saveTabs()
+{
+    if (!privateBrowsing) {
+        SMainWindow::SSettings->beginGroup("windowSave/tabs");
+        SMainWindow::SSettings->remove("");
+        SMainWindow::SSettings->setValue("count", m_tabs->count() - 1);
+        SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
+
+        for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
+            m_tabs->setCurrentIndex(i);
+            SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
+            SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
+            SMainWindow::SSettings->endGroup();
+
+            if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
+                currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
+
+            SMainWindow::SSettings->beginGroup("windowSave/tabs");
+        }
+        SMainWindow::SSettings->endGroup();
+    }
+
+}
+
+void SMainWindow::saveWinState()
+{
+    SMainWindow::SSettings->beginGroup("windowSave/attributes");
+    SMainWindow::SSettings->setValue("size", size());
+    SMainWindow::SSettings->setValue("pos", pos());
+    SMainWindow::SSettings->endGroup();
+}
+
 void SMainWindow::closeEvent(QCloseEvent * event)
 {
-	if (!privateBrowsing) {
-		SMainWindow::SSettings->beginGroup("windowSave/tabs");
-		SMainWindow::SSettings->remove("");
-		SMainWindow::SSettings->setValue("count", m_tabs->count() - 1);
-		SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
+    saveTabs();
 
-		for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
-			m_tabs->setCurrentIndex(i);
-			SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
-			SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
-			SMainWindow::SSettings->endGroup();
-
-			if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
-				currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
-
-			SMainWindow::SSettings->beginGroup("windowSave/tabs");
-		}
-		SMainWindow::SSettings->endGroup();
-	}
-
-	QDate date{ QDate::currentDate() };
+    QDate date{ QDate::currentDate() };
 
 
 	SMainWindow::SSettings->beginGroup("History/" + QString::number(date.year()) + "/" + QString::number(date.month()) + "/" + QString::number(date.day()));
@@ -310,14 +330,7 @@ void SMainWindow::closeEvent(QCloseEvent * event)
 
 	SMainWindow::curSessionHistory.clear();
 
-	SMainWindow::SSettings->beginGroup("windowSave/attributes");
-	SMainWindow::SSettings->setValue("size", size());
-	SMainWindow::SSettings->setValue("pos", pos());
-	for (int i{ 0 }; i < m_toolsBars.size(); ++i) {
-		m_toolsBars[i]->saveGeometry();
-		SMainWindow::SSettings->setValue("toolBar" + QString::number(i), m_toolsBars[i]->pos());
-	}
-	SMainWindow::SSettings->endGroup();
+    saveWinState();
 
 	event->accept();
 }

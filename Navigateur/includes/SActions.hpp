@@ -36,7 +36,9 @@ struct SActions {
 	QAction* history{ new QAction(QIcon(themePath + "history.png"), QObject::tr("Historique")) };
 	QAction* privateBrowsing{ new QAction(QObject::tr("Nouvelle fenêtre de navigation privée")) };
 	QAction* viewPageCodeSource{ new QAction(QObject::tr("Voir le code source de la page")) };
-	QAction* aboutQt{ new QAction(QObject::tr("A propos de Qt")) };
+    QAction* addTheme{ new QAction(QObject::tr("Ajouter un thème")) };
+    QAction* openThemeEditor{ new QAction(QObject::tr("Editeur de thème")) };
+    QAction* aboutQt{ new QAction(QObject::tr("A propos de Qt")) };
 	QAction* aboutSielo{ new QAction(QObject::tr("A propos de Sielo Navigateur")) };
 	QAction* checkMaJ{ new QAction(QObject::tr("Vérifier les mises à jour")) };
 };

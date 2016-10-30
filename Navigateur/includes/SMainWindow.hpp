@@ -35,6 +35,10 @@ public:
 	void changeTabTitle(const QString& newTitle);
 	void changeTabUrl(const QUrl& newUrl);
 
+    // Save states
+    void saveTabs();
+    void saveWinState();
+
 	// Getters
 	QSharedPointer<SActions> getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }

@@ -38,9 +38,10 @@ enum SMenuType {
 	Show = 1,
     Brows = 2,
     Dl = 3,
-    Fav = 4,
-    Edit = 5,
-    About = 6
+    Theme = 4,
+    Fav = 5,
+    Edit = 6,
+    About = 7
 };
 
 class SMenu : public QMenu
@@ -54,6 +55,7 @@ public:
     void createBrowsMenu();
     void createDlMenu();
     void createBookmarksMenu();
+    void createThemeMenu();
     void createEditMenu();
 	void createAboutMenu();
 
@@ -73,6 +75,8 @@ public slots:
     void openBookmarksManager();
     void openBookmark();
     void addBookmark();
+
+    void changeTheme(QAction *theme);
 
     void openPreferencesDialog();
 
