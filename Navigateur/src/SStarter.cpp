@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QDesktopServices>
 #include <QStandardPaths>
+#include <QProcess>
 #include <QMessageBox>
 
 #define SieloPortable 1
@@ -20,9 +21,13 @@ SStarter::SStarter(QObject *parent) :
 #if SieloPortable
 	if(!SMainWindow::SSettings->value("builded", false).toBool()) {
 #ifndef Q_OS_WIN32
-		SDataManager::decompressData(":/data/DData", SMainWindow::dataPath);
+        QStringList args{};
+        args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", args);
 #else
-		SDataManager::decompressData(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/DefaultData.sndata", SMainWindow::dataPath);
+        QStringList args{};
+        args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager.exe", args);
 #endif
 		SMainWindow::SSettings->setValue("builded", true);
 	}

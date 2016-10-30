@@ -2,4 +2,7 @@
     <qresource prefix="/themes">
         <file alias="defaultThm">DefaultThm.snthm</file>
     </qresource>
+    <qresource prefix="/data">
+        <file alias="DData">DefaultData.sndata</file>
+    </qresource>
 </RCC>
