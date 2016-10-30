@@ -44,7 +44,6 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
     }
 	else if (view) {
 		m_tabs->createWebTab(tr("Nouvel onglet"), view);
-		m_tabs->createPlusTab();
 	}
 	else
 		m_tabs->createDefaultWebTab();
@@ -273,7 +272,6 @@ void SMainWindow::restoreTabs()
 		m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/name", "Google").toString(), SMainWindow::SSettings->value(QString::number(i) + "/url", "http://google.com").toUrl());
 	}
 
-	m_tabs->createPlusTab();
 	m_tabs->setCurrentIndex(SMainWindow::SSettings->value("focused", 0).toInt());
 	SMainWindow::SSettings->endGroup();
 }
@@ -283,10 +281,10 @@ void SMainWindow::saveTabs()
     if (!privateBrowsing) {
         SMainWindow::SSettings->beginGroup("windowSave/tabs");
         SMainWindow::SSettings->remove("");
-        SMainWindow::SSettings->setValue("count", m_tabs->count() - 1);
+        SMainWindow::SSettings->setValue("count", m_tabs->count());
         SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
 
-        for (int i{ 0 }; i < m_tabs->count() - 1; ++i) {
+        for (int i{ 0 }; i < m_tabs->count(); ++i) {
             m_tabs->setCurrentIndex(i);
             SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
             SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());

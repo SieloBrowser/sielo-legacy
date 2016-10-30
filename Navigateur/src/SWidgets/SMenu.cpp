@@ -328,9 +328,7 @@ void SMenu::openFile()
 	// Create the new tab
 	filePath = "file:///" + filePath;
 	m_parent->getTabs()->createWebTab(fileInfo.fileName(), QUrl(filePath));
-	m_parent->getTabs()->createPlusTab();
-	m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
-	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
+    m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 1);
 }
 
 void SMenu::findInPage()
@@ -405,9 +403,7 @@ void SMenu::openBookmark()
 	QAction *bookmarkAction{ static_cast<QAction*>(sender()) };
 
 	m_parent->getTabs()->createWebTab(bookmarkAction->text(), bookmarkAction->data().toUrl());
-	m_parent->getTabs()->createPlusTab();
-	m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
-	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
+    m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 1);
 }
 
 void SMenu::addBookmark()

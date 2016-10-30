@@ -17,7 +17,6 @@ public:
     // Fontion for create tabs in the tab widget
     void createWebTab(QString title, SWebView* view);
     void createWebTab(QString title, QUrl url);
-	void createPlusTab();
 
     // Create the default web tab (home page and "+" tabs)
     void createDefaultWebTab();

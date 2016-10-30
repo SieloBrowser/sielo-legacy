@@ -11,9 +11,15 @@ STabWidget::STabWidget(SMainWindow * parent) :
 	setTabsClosable(true);
 	setMovable(true);
 
+    QPushButton *plusButton{ new QPushButton(QIcon(SMainWindow::dataPath + "Images/plusTab.png"), "", this) };
+    plusButton->setMaximumWidth(24);
+    plusButton->setFlat(true);
+    setCornerWidget(plusButton);
+
 	// Connections
 	connect(this, &STabWidget::currentChanged, this, &STabWidget::tabChanged);
 	connect(this, &STabWidget::tabCloseRequested, this, &STabWidget::tabClosed);
+    connect(plusButton, &QPushButton::clicked, this, &STabWidget::createDefaultWebTab);
 }
 
 STabWidget::~STabWidget()
@@ -82,16 +88,7 @@ void STabWidget::createWebTab(QString title, QUrl url)
 void STabWidget::createDefaultWebTab()
 {
 	createWebTab(tr("Home page"), SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toUrl());
-	createPlusTab();
-	if (tabBar()->tabButton(count() - 3, QTabBar::RightSide))
-		removeTab(count() - 3);
-	setCurrentIndex(count() - 2);
-}
-
-void STabWidget::createPlusTab()
-{
-	createWebTab(tr("+"), QUrl("html/page_blanche"));
-	tabBar()->tabButton(count() - 1, QTabBar::RightSide)->resize(0, 0);
+    setCurrentIndex(count() - 1);
 }
 
 void STabWidget::tabClosed(int index)
@@ -99,10 +96,7 @@ void STabWidget::tabClosed(int index)
 	if (index == -1)
 		index = currentIndex();
 
-	if (count() > 2) {
-		if (index == count() - 2) {
-			setCurrentIndex(index - 1);
-		}
+    if (count() > 1) {
 		widget(index)->deleteLater();
 		removeTab(index);
 	}
@@ -112,11 +106,7 @@ void STabWidget::tabClosed(int index)
 
 void STabWidget::tabChanged(int index)
 {
-	if (index == count() - 1 && count() > 1) 
-		createDefaultWebTab();
-	else {
-		m_parent->changeTabTitle(m_parent->currentPage()->title());
-		m_parent->changeTabUrl(m_parent->currentPage()->url());
-	}
+    m_parent->changeTabTitle(m_parent->currentPage()->title());
+    m_parent->changeTabUrl(m_parent->currentPage()->url());
 }
 

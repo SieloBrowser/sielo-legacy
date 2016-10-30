@@ -60,16 +60,12 @@ SWebView * SWebView::createWindow(QWebEnginePage::WebWindowType type)
 	else if (type == QWebEnginePage::WebBrowserBackgroundTab) {
 		SWebView *view{ new SWebView(nullptr, m_parentTab) };
 		m_parentTab->createWebTab(tr("Nouvel onglet"), view);
-		m_parentTab->createPlusTab();
-		m_parentTab->removeTab(m_parentTab->count() - 3);
 		return view;
 	} // If we want to create a new tab
 	else if (type == QWebEnginePage::WebBrowserTab) {
 		SWebView *view{ new SWebView(nullptr, m_parentTab) };
 		m_parentTab->createWebTab(tr("Nouvel onglet"), view);
-		m_parentTab->createPlusTab();
-		m_parentTab->removeTab(m_parentTab->count() - 3);
-		m_parentTab->setCurrentIndex(m_parentTab->count() - 2);
+        m_parentTab->setCurrentIndex(m_parentTab->count() - 1);
 		return view;
 	}
 

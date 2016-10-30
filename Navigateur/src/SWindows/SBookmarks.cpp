@@ -360,9 +360,7 @@ void SBookmarksDialog::openBoomark()
 	}
 
 	m_parent->getTabs()->createWebTab(title, url);
-	m_parent->getTabs()->createPlusTab();
-	m_parent->getTabs()->removeTab(m_parent->getTabs()->count() - 3);
-	m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 2);
+    m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 1);
 }
 
 void SBookmarksDialog::deleteBookmark()
