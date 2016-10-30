@@ -137,6 +137,7 @@ void SMenu::createShowMenu()
 {
 	// Set parents for actions
 	m_actions->showFullScreen->setParent(this);
+    m_actions->split->setParent(this);
 	m_actions->findInPage->setParent(this);
 	m_actions->findNext->setParent(this);
 	m_actions->findPrevious->setParent(this);
@@ -145,6 +146,7 @@ void SMenu::createShowMenu()
 
 	// Connect actions to their respective slot
 	connect(m_actions->showFullScreen, &QAction::triggered, m_parent, &SMainWindow::fullScreen);
+    connect(m_actions->split, &QAction::triggered, this, &SMenu::split);
 	connect(m_actions->findInPage, &QAction::triggered, this, &SMenu::findInPage);
 	connect(m_actions->findNext, &QAction::triggered, this, &SMenu::findInPage);
 	connect(m_actions->findPrevious, &QAction::triggered, this, &SMenu::findInPage);
@@ -154,6 +156,8 @@ void SMenu::createShowMenu()
 	// Add actions to the menu
 	addAction(m_actions->showFullScreen);
 	addSeparator();
+    addAction(m_actions->split);
+    addSeparator();
 	addAction(m_actions->findInPage);
 	addAction(m_actions->findNext);
 	addAction(m_actions->findPrevious);
@@ -329,6 +333,14 @@ void SMenu::openFile()
 	filePath = "file:///" + filePath;
 	m_parent->getTabs()->createWebTab(fileInfo.fileName(), QUrl(filePath));
     m_parent->getTabs()->setCurrentIndex(m_parent->getTabs()->count() - 1);
+}
+
+void SMenu::split()
+{
+    STabWidget *newTabs{ new STabWidget(m_parent) };
+    newTabs->createDefaultWebTab();
+    m_parent->setTabs(newTabs);
+    m_parent->getSplitter()->addWidget(newTabs);
 }
 
 void SMenu::findInPage()

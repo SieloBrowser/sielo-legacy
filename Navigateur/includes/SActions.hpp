@@ -28,6 +28,7 @@ struct SActions {
 	QAction* openFile{ new QAction(QObject::tr("Ouvrir un fichier")) };
 	QAction* exit{ new QAction(QIcon(themePath + "exit.png"), QObject::tr("Fermer Sielo Navigateur")) };
 	QAction* showFullScreen{ new QAction(QObject::tr("Afficher en plein écran")) };
+    QAction* split{ new QAction(QObject::tr("Séparer les onglets en deux")) };
 	QAction* findInPage{ new QAction(QIcon(themePath + "search.png"), QObject::tr("Chercher dans la page")) };
 	QAction* findNext{ new QAction(QObject::tr("Trouver le suivant")) };
 	QAction* findPrevious{ new QAction(QObject::tr("Trouver le précédent")) };

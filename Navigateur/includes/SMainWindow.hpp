@@ -39,10 +39,13 @@ public:
     void saveTabs();
     void saveWinState();
 
+    void setTabs(STabWidget *tabs) { m_tabs = tabs; }
+
 	// Getters
 	QSharedPointer<SActions> getActions() const { return m_actions; }
 	SUrlArea* getUrlArea() const { return m_urlArea; }
 	SSearchArea* getSearchArea() const { return m_searchArea; }
+    QSplitter* getSplitter() { return m_splitter; }
 	STabWidget* getTabs() { return m_tabs; }
 	SWebView* currentPage();
 	QVector<SMenu*>& getMenus() { return m_menus; }
@@ -89,6 +92,7 @@ private:
 	// Widgets of the window
 	SUrlArea* m_urlArea{ new SUrlArea(this) };
 	SSearchArea* m_searchArea{ nullptr };
+    QSplitter* m_splitter{ new QSplitter(this) };
 	STabWidget* m_tabs{ new STabWidget(this) };
 	QVector<SToolBar*> m_toolsBars{};
 	QVector<SMenu*> m_menus{};

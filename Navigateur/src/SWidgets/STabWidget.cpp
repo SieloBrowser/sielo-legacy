@@ -9,7 +9,7 @@ STabWidget::STabWidget(SMainWindow * parent) :
 {
 	// Set attributes for the widgets
 	setTabsClosable(true);
-	setMovable(true);
+    setMovable(true);
 
     QPushButton *plusButton{ new QPushButton(QIcon(SMainWindow::dataPath + "Images/plusTab.png"), "", this) };
     plusButton->setMaximumWidth(24);
@@ -36,6 +36,8 @@ void STabWidget::createWebTab(QString title, SWebView * view)
 
 	pageLayout->setMargin(0);
 	pageLayout->addWidget(view);
+    tabPage->setFocusPolicy(Qt::StrongFocus);
+    tabPage->installEventFilter(this);
 
 	// Connect the web view to all actions
 	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
@@ -65,6 +67,8 @@ void STabWidget::createWebTab(QString title, QUrl url)
 
 	pageLayout->setMargin(0);
 	pageLayout->addWidget(view);
+    tabPage->setFocusPolicy(Qt::StrongFocus);
+    tabPage->installEventFilter(this);
 
 	// Connect the web view to all action
 	connect(view, &SWebView::titleChanged, m_parent, &SMainWindow::changeTitle);
@@ -91,6 +95,15 @@ void STabWidget::createDefaultWebTab()
     setCurrentIndex(count() - 1);
 }
 
+bool STabWidget::eventFilter(QObject *watched, QEvent *event)
+{
+
+    if(event->type() == QEvent::Enter) {
+        if(m_parent->getTabs() != this)
+            m_parent->setTabs(this);
+    }
+}
+
 void STabWidget::tabClosed(int index)
 {
 	if (index == -1)
@@ -100,8 +113,13 @@ void STabWidget::tabClosed(int index)
 		widget(index)->deleteLater();
 		removeTab(index);
 	}
-	else
-		m_parent->close();
+    else if(m_parent->getSplitter()->count() > 1) {
+        this->setParent(nullptr);
+        this->deleteLater();
+        close();
+    }
+    else
+        m_parent->close();
 }
 
 void STabWidget::tabChanged(int index)

@@ -65,6 +65,8 @@ public slots:
 	void createNewWindows();
 	void openFile();
 
+    void split();
+
 	void findInPage();
 	void zoom();
 

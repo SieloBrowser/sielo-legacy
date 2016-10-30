@@ -51,7 +51,9 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 	// Load menus and tool bar
 	loadMenus();
 	loadToolBar(m_actions->themePath + "toolBar.txt");
-	setCentralWidget(m_tabs);
+
+    m_splitter->addWidget(m_tabs);
+    setCentralWidget(m_splitter);
 
 }
 
@@ -129,7 +131,7 @@ bool SMainWindow::loadToolBar(const QString & filePath)
 
 SWebView * SMainWindow::currentPage()
 {
-	return m_tabs->currentWidget()->findChild<SWebView *>();
+    return m_tabs->currentWidget()->findChild<SWebView *>();
 }
 
 void SMainWindow::changeTabTitle(const QString& newTitle)
