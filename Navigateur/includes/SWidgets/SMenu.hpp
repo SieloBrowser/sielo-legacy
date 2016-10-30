@@ -77,6 +77,7 @@ public slots:
     void addBookmark();
 
     void changeTheme(QAction *theme);
+    void addTheme();
 
     void openPreferencesDialog();
 
@@ -89,4 +90,5 @@ private:
     QSharedPointer<SActions> m_actions{};
 
     SBookmarksView *m_bView{ nullptr };
+    QMenu *m_themesMenu{ nullptr };
 };

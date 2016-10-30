@@ -244,22 +244,24 @@ void SMenu::createBookmarksMenu()
 
 void SMenu::createThemeMenu()
 {
-    QMenu *themesMenu{ m_parent->menuBar()->addMenu(tr("Thèmes")) };
+    m_themesMenu = m_parent->menuBar()->addMenu(tr("Thèmes"));
+
+    connect(m_themesMenu, &QMenu::triggered, this, &SMenu::changeTheme);
+    connect(m_actions->addTheme, &QAction::triggered, this, &SMenu::addTheme);
 
     for(int i{ 0 }; i < SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt(); ++i) {
         QAction *theme{ new QAction(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/name").toString()) };
         theme->setData(i);
         if(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/current", false).toBool())
             theme->setEnabled(false);
-        themesMenu->addAction(theme);
+        m_themesMenu->addAction(theme);
     }
 
-    addMenu(themesMenu);
+    addMenu(m_themesMenu);
     addAction(m_actions->addTheme);
     addSeparator();
     addAction(m_actions->openThemeEditor);
 
-    connect(themesMenu, &QMenu::triggered, this, &SMenu::changeTheme);
 
 }
 
@@ -439,20 +441,57 @@ void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
 void SMenu::changeTheme(QAction *theme)
 {
     if(!SMainWindow::SSettings->value("preferences/themes/" + QString::number(theme->data().toInt()) + "/current", false).toBool()) {
-        // TODO: Change theme
+        // Save value for apply theme
         SMainWindow::SSettings->beginGroup("preferences/themes/");
         SMainWindow::SSettings->setValue(SMainWindow::SSettings->value("currentTheme", "0").toString() + "/current", false);
         SMainWindow::SSettings->setValue(QString::number(theme->data().toInt()) + "/current", true);
         SMainWindow::SSettings->setValue("currentTheme", theme->data().toInt());
         SMainWindow::SSettings->setValue("changed", true);
         SMainWindow::SSettings->endGroup();
+
+        // Save windows state for restoration
         m_parent->saveTabs();
         m_parent->saveWinState();
+
+        // Open a new window and close current window
         SMainWindow *windows{ new SMainWindow() };
         windows->show();
         m_parent->close();
     }
 
+}
+
+void SMenu::addTheme()
+{
+    // Get the path of the theme
+    QString path{ QFileDialog::getOpenFileName(m_parent, "Choisir un thème", QString(), "Sielo Navigateur Themes(*.snthm)") };
+
+    // if path is empty, we don't add a new theme
+    if(path.isEmpty())
+        return;
+
+    // Info about the new theme
+    QFileInfo themeInfo{ path };
+    int index{ SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt() };
+
+    // Uncompress the new theme in the theme directory
+    QStringList args{};
+    args << "decompress" << path << SMainWindow::dataPath + "Themes/" + themeInfo.baseName();
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", args);
+    QMessageBox::information(m_parent, tr("Info"), tr("Le thème ") + themeInfo.baseName() + tr(" va être ajouté (patientez quelques instants s'il vous plait)"));
+
+    // Update setting
+    SMainWindow::SSettings->beginGroup("preferences/themes/");
+    SMainWindow::SSettings->setValue("nbre", index);
+    SMainWindow::SSettings->setValue(QString::number(index) + "/name/", themeInfo.baseName());
+    SMainWindow::SSettings->setValue("nbre", index + 1);
+    SMainWindow::SSettings->endGroup();
+
+    // Add the new theme in the theme menu
+    QAction *newTheme{ new QAction(themeInfo.baseName()) };
+    newTheme->setData(index);
+    m_themesMenu->addAction(newTheme);
+    QMessageBox::information(m_parent, tr("Fin"), tr("Le thème à bien été ajouté"));
 }
 
 void SMenu::openPreferencesDialog()
