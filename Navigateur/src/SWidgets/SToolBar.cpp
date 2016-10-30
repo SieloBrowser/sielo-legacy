@@ -111,7 +111,7 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 			addAction(m_actions->bookmarksManager);
 		else if (currentWidget == "newTab")
 			addAction(m_actions->newTab);
-		else if (currentWidget == "newWin")
+        else if (currentWidget == "newWindow")
 			addAction(m_actions->newWindow);
 		else if (currentWidget == "urlArea") {
 			addWidget(m_parent->getUrlArea());

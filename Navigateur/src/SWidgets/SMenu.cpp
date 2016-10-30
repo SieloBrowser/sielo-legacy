@@ -309,7 +309,8 @@ void SMenu::reset()
 
 void SMenu::createNewWindows()
 {
-	SMainWindow* newWindows{ new SMainWindow };
+    SWebView *view{ new SWebView(nullptr, nullptr, SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toUrl()) };
+    SMainWindow* newWindows{ new SMainWindow(nullptr, view, false) };
 	newWindows->show();
 }
 
