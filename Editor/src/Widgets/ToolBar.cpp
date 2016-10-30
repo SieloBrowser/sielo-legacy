@@ -116,7 +116,7 @@ void ToolBar::loadToolBarV1(QTextStream & in)
 			addNewAction(m_parent->m_bookmarsManagerAction);
 		else if (currentWidget == "newTab")
 			addNewAction(m_parent->m_newTabAction);
-		else if (currentWidget == "newWin")
+        else if (currentWidget == "newWindow")
 			addNewAction(m_parent->m_newWindowAction);
 		else if (currentWidget == "urlArea") {
 			QLineEdit *newUrlArea{ new QLineEdit(m_parent) };
@@ -144,7 +144,7 @@ void ToolBar::loadToolBarV1(QTextStream & in)
 		}
 		else {
 			QMessageBox::warning(this, tr("Probleme"), tr("Une erreur est présente à la ligne numéro ") + QString::number(i + 1) + tr(". "
-				"La barre de navigation risque de ne pas se charger comme prévu"
+                "La barre de navigation risque de ne pas se charger comme prévu\n"
 				"Nous vous conseillons de contacter le créateur du thème pour qu'il corrige l'erreur au plus vite."));
 		}
 	}
