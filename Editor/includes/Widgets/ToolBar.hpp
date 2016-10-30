@@ -53,8 +53,8 @@ public:
 
 	void accept();
 private:
-	ToolBar *m_parentToolBar{ nullptr };
-	MainWindow *m_parent{ nullptr };
+    MainWindow *m_parent{ nullptr };
+    ToolBar *m_parentToolBar{ nullptr };
 
 	QVBoxLayout *m_layout{ new QVBoxLayout(this) };
 	QHBoxLayout *m_buttonLayout{ new QHBoxLayout() };

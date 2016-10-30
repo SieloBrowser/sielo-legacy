@@ -50,6 +50,7 @@ SWebView * SWebView::createWindow(QWebEnginePage::WebWindowType type)
 	if (type == QWebEnginePage::WebBrowserWindow) {
 		SWebView *newView{ new SWebView(nullptr) };
 		SMainWindow *newWindow{ new SMainWindow(nullptr, newView) };
+        newWindow->show();
 		return newView;
 	} // If we want to create a simple window with juste the web view
 	else if (type == QWebEnginePage::WebDialog) {

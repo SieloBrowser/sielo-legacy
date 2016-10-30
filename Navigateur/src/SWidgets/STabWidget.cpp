@@ -102,6 +102,8 @@ bool STabWidget::eventFilter(QObject *watched, QEvent *event)
         if(m_parent->getTabs() != this)
             m_parent->setTabs(this);
     }
+
+    return QTabWidget::eventFilter(watched, event);
 }
 
 void STabWidget::tabClosed(int index)

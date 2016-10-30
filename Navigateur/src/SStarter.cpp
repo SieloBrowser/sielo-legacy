@@ -209,10 +209,8 @@ void MaJDialog::startUpdate()
 
 void MaJDialog::downloadProgress(quint64 bytesReceived, quint16 bytesTotal)
 {
-	if (bytesTotal != -1) {
-		m_progress->setRange(0, bytesTotal);
-		m_progress->setValue(bytesReceived);
-	}
+    m_progress->setRange(0, bytesTotal);
+    m_progress->setValue(bytesReceived);
 }
 
 void MaJDialog::save()
