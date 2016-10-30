@@ -78,6 +78,7 @@ public slots:
 
     void changeTheme(QAction *theme);
     void addTheme();
+    void openThmEditor();
 
     void openPreferencesDialog();
 

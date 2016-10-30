@@ -248,6 +248,7 @@ void SMenu::createThemeMenu()
 
     connect(m_themesMenu, &QMenu::triggered, this, &SMenu::changeTheme);
     connect(m_actions->addTheme, &QAction::triggered, this, &SMenu::addTheme);
+    connect(m_actions->openThemeEditor, &QAction::triggered, this, &SMenu::openThmEditor);
 
     for(int i{ 0 }; i < SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt(); ++i) {
         QAction *theme{ new QAction(SMainWindow::SSettings->value("preferences/themes/" + QString::number(i) + "/name").toString()) };
@@ -493,6 +494,12 @@ void SMenu::addTheme()
     newTheme->setData(index);
     m_themesMenu->addAction(newTheme);
     QMessageBox::information(m_parent, tr("Fin"), tr("Le thème à bien été ajouté"));
+}
+
+void SMenu::openThmEditor()
+{
+    // TODO: distinction between Win OS and other OS
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SNThemeEditor");
 }
 
 void SMenu::openPreferencesDialog()
