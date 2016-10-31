@@ -270,11 +270,16 @@ void SMainWindow::stop()
 void SMainWindow::restoreTabs()
 {
 	SMainWindow::SSettings->beginGroup("windowSave/tabs");
-	for(int i{ 0 }; i < SMainWindow::SSettings->value("count", 1).toInt(); ++i) {
-		m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/name", "Google").toString(), SMainWindow::SSettings->value(QString::number(i) + "/url", "http://google.com").toUrl());
-	}
+    for(int i{ 0 }; i < SMainWindow::SSettings->value("count", 1).toInt(); ++i) {
+        m_tabs = new STabWidget(this);
+        for(int j{ 0 }; j < SMainWindow::SSettings->value(QString::number(i) + "/count", 1).toInt(); ++j) {
+            m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/name", "Google").toString(),
+                               SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/url", "http://feldrise.com").toUrl());
+        }
 
-	m_tabs->setCurrentIndex(SMainWindow::SSettings->value("focused", 0).toInt());
+        m_tabs->setCurrentIndex(SMainWindow::SSettings->value(QString::number(i) + "/focused", 0).toInt());
+        m_splitter->addWidget(m_tabs);
+    }
 	SMainWindow::SSettings->endGroup();
 }
 
@@ -283,19 +288,25 @@ void SMainWindow::saveTabs()
     if (!privateBrowsing) {
         SMainWindow::SSettings->beginGroup("windowSave/tabs");
         SMainWindow::SSettings->remove("");
-        SMainWindow::SSettings->setValue("count", m_tabs->count());
-        SMainWindow::SSettings->setValue("focused", m_tabs->currentIndex());
+        SMainWindow::SSettings->setValue("count", m_splitter->count());
 
-        for (int i{ 0 }; i < m_tabs->count(); ++i) {
-            m_tabs->setCurrentIndex(i);
-            SMainWindow::SSettings->setValue(QString::number(i) + "/name", currentPage()->title());
-            SMainWindow::SSettings->setValue(QString::number(i) + "/url", currentPage()->url());
-            SMainWindow::SSettings->endGroup();
+        for (int i{ 0 }; i < m_splitter->count(); ++i) {
+            m_tabs = static_cast<STabWidget*>(m_splitter->widget(i));
+
+            for(int j{ 0 }; j < m_tabs->count(); ++j) {
+                SMainWindow::SSettings->setValue(QString::number(i) + "/focused", m_tabs->currentIndex());
+                SMainWindow::SSettings->setValue(QString::number(i) + "/count", m_tabs->count());
+                m_tabs->setCurrentIndex(j);
+
+                SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/name", currentPage()->title());
+                SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/url", currentPage()->url());
+                SMainWindow::SSettings->endGroup();
 
             if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
                 currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
 
             SMainWindow::SSettings->beginGroup("windowSave/tabs");
+            }
         }
         SMainWindow::SSettings->endGroup();
     }
