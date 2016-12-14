@@ -107,10 +107,10 @@ void MainWindow::createActions()
 	m_preferencesAction->setIcon(QIcon(m_thmPath + "preferences.png"));
 	m_preferencesAction->setObjectName("preferences");
 	m_editableAction.insert("preferences", m_preferencesAction);
-	m_addBookmarksAction->setIcon(QIcon(m_thmPath + "addFavoris.png"));
+    m_addBookmarksAction->setIcon(QIcon(m_thmPath + "addBookmarks.png"));
 	m_addBookmarksAction->setObjectName("addBookmarks");
 	m_editableAction.insert("addBookmarks", m_addBookmarksAction);
-	m_bookmarsManagerAction->setIcon(QIcon(m_thmPath + "favoris.png"));
+    m_bookmarsManagerAction->setIcon(QIcon(m_thmPath + "bookmarksManager.png"));
 	m_bookmarsManagerAction->setObjectName("bookmarksManager");
 	m_editableAction.insert("bookmarksManager", m_bookmarsManagerAction);
 	m_newTabAction->setIcon(QIcon(m_thmPath + "newTab.png"));

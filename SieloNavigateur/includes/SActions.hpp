@@ -19,8 +19,8 @@ struct SActions {
 	QAction* shearch{ new QAction(QIcon(themePath + "search.png"), QObject::tr("&Chercher")) };
 	QAction* showHistory{ new QAction(QIcon(themePath + "history.png"), QObject::tr("&Historique")) };
 	QAction* preferences{ new QAction(QIcon(themePath + "preferences.png"), QObject::tr("Pré&férences")) };
-	QAction* addBookmarks{ new QAction(QIcon(themePath + "addFavoris.png"), QObject::tr("&Nouveau favori")) };
-	QAction* bookmarksManager{ new QAction(QIcon(themePath + "favoris.png"), QObject::tr("&Gérer les favoris")) };
+    QAction* addBookmarks{ new QAction(QIcon(themePath + "addBookmarks.png"), QObject::tr("&Nouveau favori")) };
+    QAction* bookmarksManager{ new QAction(QIcon(themePath + "bookmarksManager.png"), QObject::tr("&Gérer les favoris")) };
 
 	// All other actions
 	QAction* newTab{ new QAction(QIcon(themePath + "newTab.png"), QObject::tr("Nouvel onglet")) };
