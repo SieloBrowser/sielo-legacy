@@ -248,7 +248,7 @@ void SMenu::createBookmarksMenu()
 
 void SMenu::createThemeMenu()
 {
-    m_themesMenu = m_parent->menuBar()->addMenu(tr("Thèmes"));
+    m_themesMenu = new QMenu(tr("Thèmes"));
 
     connect(m_themesMenu, &QMenu::triggered, this, &SMenu::changeTheme);
     connect(m_actions->addTheme, &QAction::triggered, this, &SMenu::addTheme);
