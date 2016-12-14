@@ -3,8 +3,8 @@
 ################################################################################
 
 /.qmake.stash
-/Editor/SNThemeEditor.pro.user
-/Navigateur/SieloNavigateurV3-WebEngine.pro.user
+*.pro.user
 /build
 /Utils/prepareDeployment.sh
+/Utils/defaultData
 /Installateur

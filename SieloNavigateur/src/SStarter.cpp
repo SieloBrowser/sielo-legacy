@@ -41,13 +41,10 @@ SStarter::SStarter(QObject *parent) :
 		QFileInfo fileInfo{ QCoreApplication::arguments()[1] };
 		SWebView *view{ new SWebView(nullptr) };
 		view->load(QUrl("File:///" + fileInfo.absoluteFilePath()));
-		SMainWindow* fen{ new SMainWindow(nullptr, view) };
 
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+        SMainWindow *fen{ openSielo(view) };
+        fen->show();
 
-		fen->show();
 		return;
 	}
 	// Downloading the last version
@@ -61,12 +58,7 @@ SStarter::SStarter(QObject *parent) :
 		QMessageBox::warning(nullptr, "Mise à joure", "Sielo Navigateur n'est pas à joure, nous vous \n"
 													  "recommandont de passer à la version " + m_version);
 
-		SMainWindow* fen{ new SMainWindow() };
-
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
-
+        SMainWindow *fen{ openSielo() };
 		fen->show();
 #else
 		if (SMainWindow::SSettings->value("Maj/remind", true).toBool()) {
@@ -75,24 +67,14 @@ SStarter::SStarter(QObject *parent) :
 			majDialog->show();
 		}
 		else {
-			SMainWindow* fen{ new SMainWindow() };
-
-			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
-
+            SMainWindow *fen{ openSielo() };
 			fen->show();
 		}
 #endif
 
 	}
 	else {
-		SMainWindow* fen{ new SMainWindow() };
-
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-		QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
-
+        SMainWindow *fen{ openSielo() };
 		fen->show();
 
 		// Get if we need to show a text
@@ -115,6 +97,17 @@ SStarter::SStarter(QObject *parent) :
 SStarter::~SStarter()
 {
 
+}
+
+SMainWindow *SStarter::openSielo(SWebView *view)
+{
+        SMainWindow* fen{ new SMainWindow(nullptr, view) };
+
+        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+        QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+
+        return fen;
 }
 
 TextToShow::TextToShow(QWidget *parent) :
@@ -251,11 +244,11 @@ void MaJDialog::closeEvent(QCloseEvent * event)
 		}
 
 		if (parent() == nullptr) {
-			SMainWindow* fen{ new SMainWindow() };
+            SMainWindow* fen{ new SMainWindow() };
 
-			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
-			QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
+            QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+            QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::PluginsEnabled, SMainWindow::SSettings->value("preferences/enablePlugins", true).toBool());
+            QWebEngineSettings::globalSettings()->setAttribute(QWebEngineSettings::JavascriptEnabled, SMainWindow::SSettings->value("preferences/enableJavascript", true).toBool());
 
 			fen->show();
 		}

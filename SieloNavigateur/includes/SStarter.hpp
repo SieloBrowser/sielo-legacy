@@ -16,6 +16,8 @@
 #include <QNetworkReply>
 #include <QCloseEvent>
 
+class SWebView;
+class SMainWindow;
 // This is a basic dialog to show text from the feldrise website at the start of Sielo
 class TextToShow : public QDialog
 {
@@ -84,6 +86,8 @@ public:
 	// Constructor and destructor
 	SStarter(QObject *parent = nullptr);
 	~SStarter();
+
+    SMainWindow *openSielo(SWebView *view = nullptr);
 
 	static QString currentVersion;
 private:
