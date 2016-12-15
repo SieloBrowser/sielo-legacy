@@ -490,12 +490,33 @@ void SMenu::addTheme()
     QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", args);
     QMessageBox::information(m_parent, tr("Info"), tr("Le thème ") + themeInfo.baseName() + tr(" va être ajouté (patientez quelques instants s'il vous plait)"));
 
-    // Update setting
-    SMainWindow::SSettings->beginGroup("preferences/themes/");
-    SMainWindow::SSettings->setValue("nbre", index);
-    SMainWindow::SSettings->setValue(QString::number(index) + "/name/", themeInfo.baseName());
-    SMainWindow::SSettings->setValue("nbre", index + 1);
-    SMainWindow::SSettings->endGroup();
+	// TODO: Create generic function to test if valu existe in setting
+	bool themeExiste{ false };
+	for (int i{ 0 }; i < SMainWindow::SSettings->value("preferences/themes/nbre", 1).toInt(); ++i) {
+		SMainWindow::SSettings->beginGroup("preferences/themes/" + QString::number(i));
+		if (SMainWindow::SSettings->value("name", "").toString() == themeInfo.baseName()) {
+			themeExiste = true;
+			SMainWindow::SSettings->endGroup();
+			// Save windows state for restoration
+			m_parent->saveTabs();
+			m_parent->saveWinState();
+
+			// Open a new window and close current window
+			SMainWindow *windows{ new SMainWindow() };
+			windows->show();
+			m_parent->close();
+			return;
+		}
+		SMainWindow::SSettings->endGroup();
+	}
+	if (!themeExiste) {
+		// Update setting
+		SMainWindow::SSettings->beginGroup("preferences/themes/");
+		SMainWindow::SSettings->setValue("nbre", index);
+		SMainWindow::SSettings->setValue(QString::number(index) + "/name/", themeInfo.baseName());
+		SMainWindow::SSettings->setValue("nbre", index + 1);
+		SMainWindow::SSettings->endGroup();
+	}
 
     // Add the new theme in the theme menu
     QAction *newTheme{ new QAction(themeInfo.baseName()) };
@@ -507,7 +528,11 @@ void SMenu::addTheme()
 void SMenu::openThmEditor()
 {
     // TODO: distinction between Win OS and other OS
+#ifndef Q_OS_WIN32
     QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SNThemeEditor");
+#else
+	QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SNThemeEditor.exe");
+#endif
 }
 
 void SMenu::openPreferencesDialog()
