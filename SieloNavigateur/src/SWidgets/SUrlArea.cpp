@@ -84,6 +84,22 @@ void SUrlArea::loadFinished()
 void SUrlArea::loadUrl()
 {
 	QString url{};
+
+/*
+	QRegExp urlReg{ "(http|https)\:\/\/)?([a-zA-Z0-9-]+.)?([a-zA-Z0-9-]+.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,4}(:[0-9]+)?(/[a-zA-Z0-9-]* /?|/[a-zA-Z0-9]+\.[a-zA-Z0-9]{1,4})?$" };
+
+	if (!m_champs->text().contains(urlReg)) {
+		url = "http://www.google.com/search?q=" + m_champs->text();
+		url.replace(" ", "+");
+	}
+	else {
+		if (m_champs->text().left(7) != "http://" && m_champs->text().left(8) != "https://")
+			url = "https://" + m_champs->text();
+		else
+			url = m_champs->text();
+	}
+*/
+
 	if (m_champs->text().left(7) != "http://" && m_champs->text().left(8) != "https://")
 		url = "https://" + m_champs->text();
 	else
