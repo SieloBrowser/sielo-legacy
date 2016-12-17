@@ -14,7 +14,7 @@
 
 #define SieloPortable 0
 
-QString SStarter::currentVersion = "0.2.2";
+QString SStarter::currentVersion = "0.3.0";
 SStarter::SStarter(QObject *parent) :
 	QObject(parent)
 {
@@ -23,11 +23,11 @@ SStarter::SStarter(QObject *parent) :
 #ifndef Q_OS_WIN32
         QStringList args{};
         args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
-        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", args);
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
 #else
         QStringList args{};
         args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
-        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager.exe", args);
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware.exe", args);
 #endif
 		SMainWindow::SSettings->setValue("builded", true);
 	}

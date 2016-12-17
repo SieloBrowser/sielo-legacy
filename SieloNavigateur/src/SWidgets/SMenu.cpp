@@ -487,7 +487,11 @@ void SMenu::addTheme()
     // Uncompress the new theme in the theme directory
     QStringList args{};
     args << "decompress" << path << SMainWindow::dataPath + "Themes/" + themeInfo.baseName();
-    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", args);
+#ifndef Q_OS_WIN32
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
+#else 
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware.exe", args);
+#endif
     QMessageBox::information(m_parent, tr("Info"), tr("Le thème ") + themeInfo.baseName() + tr(" va être ajouté (patientez quelques instants s'il vous plait)"));
 
 	// TODO: Create generic function to test if valu existe in setting

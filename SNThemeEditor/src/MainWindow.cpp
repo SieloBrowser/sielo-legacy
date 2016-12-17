@@ -197,7 +197,11 @@ void MainWindow::newThm()
         themePath->mkpath(m_thmPath);
         QStringList argc{};
         argc << "decompress" << ":/themes/defaultThm" << themePath->absolutePath();
-        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", argc);
+#ifndef Q_OS_WIN32
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", argc);
+#else 
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware.exe", argc);
+#endif
         ToolBar *defaut = addNewToolBar();
 		createActions();
         createMenus();
@@ -224,7 +228,11 @@ void MainWindow::openThm()
 		themePath->mkpath(m_thmPath);
         QStringList argc{};
         argc << "decompress" << filePath << themePath->absolutePath();
-        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", argc);
+#ifndef Q_OS_WIN32
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", argc);
+#else 
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware.exe", argc);
+#endif
 
 		loadToolBar(QString(m_thmPath + "toolBar.txt"));
 		createActions();
@@ -277,7 +285,11 @@ void MainWindow::saveThm()
 
     QStringList argc{};
     argc << "compress" << m_thmPath << m_savedThmPath;
-    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloCompressManager", argc);
+#ifndef Q_OS_WIN32
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", argc);
+#else 
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware.exe", argc);
+#endif
 
 	thmSaved = true;
 }
