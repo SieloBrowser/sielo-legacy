@@ -20,15 +20,10 @@ SStarter::SStarter(QObject *parent) :
 {
 #if SieloPortable
 	if(!SMainWindow::SSettings->value("builded", false).toBool()) {
-#ifndef Q_OS_WIN32
         QStringList args{};
         args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
         QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
-#else
-        QStringList args{};
-        args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
-        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware.exe", args);
-#endif
+
 		SMainWindow::SSettings->setValue("builded", true);
 	}
 #endif

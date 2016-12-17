@@ -26,3 +26,4 @@
 *.sln
 *.db
 /vcredist_x86.exe
+*.opendb
