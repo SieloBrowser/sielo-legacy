@@ -28,9 +28,11 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 
 	// Set widgets attributes
 	m_urlArea->setMinimumWidth(500);
+	m_urlArea->move(-50, -50);
 	m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.png"), this);
 	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText(tr("Recherche Google"));
+	m_searchArea->move(-50, -50);
 
 	// TEST AREA
 
@@ -83,6 +85,8 @@ void SMainWindow::loadMenus()
 	menuBar()->addMenu(m_menus[5]);
 	menuBar()->addMenu(m_menus[6]);
     menuBar()->addMenu(m_menus[7]);
+
+	menuBar()->setVisible(false);
 }
 
 bool SMainWindow::loadToolBar(const QString & filePath)

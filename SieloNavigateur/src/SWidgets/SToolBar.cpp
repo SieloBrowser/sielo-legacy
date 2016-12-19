@@ -67,11 +67,13 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 
 void SToolBar::loadToolBarV1(QTextStream & in)
 {
+	setStyleSheet("QToolBar {background: #00CEECF5}");
 	unsigned widgetInToolBar{ 0 };
 	unsigned iconSize{ 32 };
 	QString currentWidget{ "nothing" };
 	QString toolBarPos{ "top" };
-
+	bool searchAreaVisible{ false };
+		
 	in >> toolBarPos; //< Tool bar position in the window
 	in >> iconSize;
 	in >> widgetInToolBar; //< Number of widgets in the tool bar from the tooBar.txt file
@@ -133,5 +135,4 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 														  "Nous vous conseillons de contacter le créateur du thème pour qu'il corrige l'erreur au plus vite."));
 		}
 	}
-
 }

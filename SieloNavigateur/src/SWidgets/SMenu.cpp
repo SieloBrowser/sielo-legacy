@@ -20,7 +20,7 @@ AboutSN::AboutSN(QWidget * parent) :
 
 	// The HTML text for the label
 	QString htmlTxt{ 
-		tr("<h2>Sielo <img src=\"") + SMainWindow::dataPath + tr("Images/icon.ico\" width=\"64\" height=\"64\"/> Navigateur (0.2.2)</h2>"
+		tr("<h2>Sielo <img src=\"") + SMainWindow::dataPath + tr("Images/icon.ico\" width=\"64\" height=\"64\"/> Navigateur (0.3.0)</h2>"
 		"<p>"
 			"Qu'est-ce que c'est ? <br/>"
 			"Sielo est un navigateur web léger, performant, très personnalisable et<br/>"
@@ -28,6 +28,7 @@ AboutSN::AboutSN(QWidget * parent) :
 			"Il supporte plusieurs fonctionnalités de base :"
 			"<ul>"
 				"<li>La navigation par onglet,</li>"
+				"<li>Vous pouvez créer plusieurs éspaces d'onglets dans la même fenêtre</li>"
 				"<li>Une très grande personnalisation grâce aux thèmes,</li>"
 				"<li>L'enregistrement de marque-pages/favoris,</li>"
 				"<li>L'enregistrement de l'historique et la navigation privée,</li>"
