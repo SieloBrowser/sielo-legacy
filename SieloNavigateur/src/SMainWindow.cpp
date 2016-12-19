@@ -29,6 +29,7 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 	// Set widgets attributes
 	m_urlArea->setMinimumWidth(500);
 	m_urlArea->move(-50, -50);
+	
 	m_searchArea = new SSearchArea(QIcon(m_actions->themePath + "search-lineedit.png"), this);
 	m_searchArea->setMaximumWidth(200);
 	m_searchArea->setPlaceholderText(tr("Recherche Google"));

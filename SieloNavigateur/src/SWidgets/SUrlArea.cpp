@@ -12,7 +12,7 @@ SUrlArea::SUrlArea(SMainWindow * parent) :
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(0);
 
-	m_champs->setStyleSheet("background: rgba(255, 255, 255, 0)");
+	m_champs->setStyleSheet("background: rgba(255, 255, 255, 0); border: none;");
 	m_champs->setClearButtonEnabled(true);
 	layout->addWidget(m_champs);
 
@@ -39,7 +39,7 @@ void SUrlArea::loadStarted()
 	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 
-	setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2)}");
+	setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2); border: none;}");
 
 	QString url{ m_parent->currentPage()->url().toString() };
 	if ((url.left(7) != "http://" && url.left(8) != "https://" && url.left(5) != "html/") && !url.isEmpty()) {
@@ -68,7 +68,7 @@ void SUrlArea::loadFinished()
 	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
 	m_parent->getActions()->refreshOrStop->setText(tr("Rafraîchir la page"));
 	m_parent->getActions()->refreshOrStop->setShortcuts(QKeySequence::Refresh);
-	setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2)}");
+	setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2); border: none;}");
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 
 	if(!m_parent->privateBrowsing) {

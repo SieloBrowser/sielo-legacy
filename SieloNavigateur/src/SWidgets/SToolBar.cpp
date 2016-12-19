@@ -67,7 +67,9 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 
 void SToolBar::loadToolBarV1(QTextStream & in)
 {
-	setStyleSheet("QToolBar {background: #00CEECF5}");
+	//setStyleSheet("border: none;");
+	setStyleSheet("QToolBar {background: #FFF0F0F0; border: none;}");
+
 	unsigned widgetInToolBar{ 0 };
 	unsigned iconSize{ 32 };
 	QString currentWidget{ "nothing" };
