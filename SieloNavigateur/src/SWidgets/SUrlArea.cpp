@@ -41,8 +41,16 @@ void SUrlArea::loadStarted()
 	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 
+	if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "fineBar") {
+		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 3px solid #000000;}");
+	}
+	else if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "flatBar") {
+		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #66000096;}");
+	}
+	else {
+		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 3px solid #000000;}");
+	}
 //	setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2); border: none;}");
-	setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #000066FF; border-bottom: 3px solid #000000;}");
 
 	QString url{ m_parent->currentPage()->url().toString() };
 	if ((url.left(7) != "http://" && url.left(8) != "https://" && url.left(5) != "html/") && !url.isEmpty()) {
@@ -71,7 +79,7 @@ void SUrlArea::loadFinished()
 	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
 	m_parent->getActions()->refreshOrStop->setText(tr("Rafraîchir la page"));
 	m_parent->getActions()->refreshOrStop->setShortcuts(QKeySequence::Refresh);
-//	setStyleSheet("QProgressBar::chunk{background-color: rgba(200, 200, 200, 0.2); border: none;}");
+
 	setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF;}");
 
 	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);

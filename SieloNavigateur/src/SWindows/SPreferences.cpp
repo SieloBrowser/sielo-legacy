@@ -12,14 +12,25 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
 	m_layout->addWidget(m_personalisationBox);
 	m_layout->addWidget(m_homePagebox);
 
+	QStringList loadingBarStyleList{};
+	loadingBarStyleList << "Fin" << "Flat";
+
 	// Set widgets attributes
 	m_homePageArea->setText(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toString());
 	m_showMenuBar->setChecked(SMainWindow::SSettings->value("preferences/showMenuBar", false).toBool());
+	m_loadingBarStyleComboBox->addItems(loadingBarStyleList);
 
 	if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool())
 		m_saveTabRButton->setChecked(true);
 	else
 		m_homePageRButton->setChecked(true);
+
+	if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "fineBar")
+		m_loadingBarStyleComboBox->setCurrentText("Fin");
+	else if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "flatBar")
+		m_loadingBarStyleComboBox->setCurrentText("Flat");
+	else
+		m_loadingBarStyleComboBox->setCurrentText("Fin");
 
 	m_closeBox->setTitle(tr("Option d'ouverture des fenêtres"));
 	m_personalisationBox->setTitle(tr("Personnalisation"));
@@ -28,7 +39,9 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
 	// Fill others layouts
 	m_closeLayout->addWidget(m_homePageRButton);
 	m_closeLayout->addWidget(m_saveTabRButton);
-	m_personalisationLayout->addWidget(m_showMenuBar);
+	m_personalisationLayout->addWidget(m_showMenuBar, 0, 0, 1, 2);
+	m_personalisationLayout->addWidget(m_loadingBarStyleLabel, 1, 0);
+	m_personalisationLayout->addWidget(m_loadingBarStyleComboBox, 1, 1);
 	m_homePageLayout->addWidget(m_homePageArea);
 }
 
@@ -43,6 +56,11 @@ void GeneralPageWidget::save()
 		SMainWindow::SSettings->setValue("preferences/saveTabs", true);
 	else
 		SMainWindow::SSettings->setValue("preferences/saveTabs", false);
+
+	if (m_loadingBarStyleComboBox->currentText() == "Fin")
+		SMainWindow::SSettings->setValue("preferences/loadingBarStyle", "fineBar");
+	else if (m_loadingBarStyleComboBox->currentText() == "Flat")
+		SMainWindow::SSettings->setValue("preferences/loadingBarStyle", "flatBar");
 
 	SMainWindow::SSettings->setValue("preferences/showMenuBar", m_showMenuBar->isChecked());
 	SMainWindow::SSettings->setValue("preferences/homePage", m_homePageArea->text());
