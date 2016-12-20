@@ -36,10 +36,12 @@ void SUrlArea::setText(const QString& texte)
 void SUrlArea::loadStarted()
 {
 	// Change the refresh action to the stop action
-	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
-	m_parent->getActions()->refreshOrStop->setText(tr("Arrêter le chargement"));
-	m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
-	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
+	if (m_parent->getActions()->refreshOrStop->text() != tr("Arrêter le chargement")) {
+		m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
+		m_parent->getActions()->refreshOrStop->setText(tr("Arrêter le chargement"));
+		m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
+		connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
+	}
 
 	if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "fineBar") {
 		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 3px solid #000000;}");
@@ -75,10 +77,11 @@ void SUrlArea::loadFinished()
 
 	if (!view)
 		return;
-
-	m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
-	m_parent->getActions()->refreshOrStop->setText(tr("Rafraîchir la page"));
-	m_parent->getActions()->refreshOrStop->setShortcuts(QKeySequence::Refresh);
+	if (this->value() == 100) {
+		m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
+		m_parent->getActions()->refreshOrStop->setText(tr("Rafraîchir la page"));
+		m_parent->getActions()->refreshOrStop->setShortcuts(QKeySequence::Refresh);
+	}
 
 	setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF;}");
 
