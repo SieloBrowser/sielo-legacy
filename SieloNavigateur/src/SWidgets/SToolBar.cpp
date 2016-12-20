@@ -75,6 +75,8 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 	QString currentWidget{ "nothing" };
 	QString toolBarPos{ "top" };
 	bool searchAreaVisible{ false };
+
+	this->setContentsMargins(0, 0, 0, 5);
 		
 	in >> toolBarPos; //< Tool bar position in the window
 	in >> iconSize;
