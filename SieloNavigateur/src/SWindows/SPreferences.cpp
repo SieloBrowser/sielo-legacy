@@ -9,10 +9,12 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
 {
 	// Fill the main layout
 	m_layout->addWidget(m_closeBox);
+	m_layout->addWidget(m_personalisationBox);
 	m_layout->addWidget(m_homePagebox);
 
 	// Set widgets attributes
 	m_homePageArea->setText(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toString());
+	m_showMenuBar->setChecked(SMainWindow::SSettings->value("preferences/showMenuBar", false).toBool());
 
 	if(SMainWindow::SSettings->value("preferences/saveTabs", false).toBool())
 		m_saveTabRButton->setChecked(true);
@@ -20,11 +22,13 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
 		m_homePageRButton->setChecked(true);
 
 	m_closeBox->setTitle(tr("Option d'ouverture des fenêtres"));
+	m_personalisationBox->setTitle(tr("Personnalisation"));
 	m_homePagebox->setTitle(tr("Page d'accueil"));
 
 	// Fill others layouts
 	m_closeLayout->addWidget(m_homePageRButton);
 	m_closeLayout->addWidget(m_saveTabRButton);
+	m_personalisationLayout->addWidget(m_showMenuBar);
 	m_homePageLayout->addWidget(m_homePageArea);
 }
 
@@ -40,6 +44,7 @@ void GeneralPageWidget::save()
 	else
 		SMainWindow::SSettings->setValue("preferences/saveTabs", false);
 
+	SMainWindow::SSettings->setValue("preferences/showMenuBar", m_showMenuBar->isChecked());
 	SMainWindow::SSettings->setValue("preferences/homePage", m_homePageArea->text());
 }
 

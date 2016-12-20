@@ -87,7 +87,10 @@ void SMainWindow::loadMenus()
 	menuBar()->addMenu(m_menus[6]);
     menuBar()->addMenu(m_menus[7]);
 
-	menuBar()->setVisible(false);
+	if (SMainWindow::SSettings->value("preferences/showMenuBar", false).toBool())
+		menuBar()->setVisible(true);
+	else 
+		menuBar()->setVisible(false);
 }
 
 bool SMainWindow::loadToolBar(const QString & filePath)

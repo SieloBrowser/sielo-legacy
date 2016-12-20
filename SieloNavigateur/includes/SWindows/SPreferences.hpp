@@ -35,13 +35,16 @@ private:
 	// Layouts and boxes of the page
 	QVBoxLayout *m_layout{ new QVBoxLayout(this) };
 	QGroupBox *m_closeBox{ new QGroupBox(this) };
+	QGroupBox *m_personalisationBox{ new QGroupBox(this) };
 	QGroupBox *m_homePagebox{ new QGroupBox(this) };
 	QVBoxLayout *m_closeLayout{ new QVBoxLayout(m_closeBox) };
+	QVBoxLayout *m_personalisationLayout{ new QVBoxLayout(m_personalisationBox) };
 	QVBoxLayout *m_homePageLayout{ new QVBoxLayout(m_homePagebox) };
 
 	// Widgets of the page
 	QRadioButton *m_homePageRButton{ new QRadioButton(QObject::tr("Ouvrir sur la page d'accueil"), m_closeBox) };
 	QRadioButton *m_saveTabRButton{ new QRadioButton(QObject::tr("Ouvrir les onglets de la dernière session"), m_closeBox) };
+	QCheckBox *m_showMenuBar{ new QCheckBox(QObject::tr("Afficher la barre de menu par défaut"), m_personalisationBox) };
 	QLineEdit *m_homePageArea{ new QLineEdit(m_homePagebox) };
 };
 
