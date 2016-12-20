@@ -41,7 +41,7 @@ void SToolBar::loadToolBarV0(QTextStream & in)
 		else if (currentWidget == "search") 
 			addAction(m_actions->shearch);
 		else if (currentWidget == "history") 
-			addAction(m_actions->showHistory);
+			addAction(m_actions->history);
 		else if (currentWidget == "preferences") 
 			addAction(m_actions->preferences);
 		else if (currentWidget == "addBookmarks") 
@@ -106,7 +106,7 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 		else if (currentWidget == "search") 
 			addAction(m_actions->shearch);
 		else if (currentWidget == "history") 
-			addAction(m_actions->showHistory);
+			addAction(m_actions->history);
 		else if (currentWidget == "preferences") 
 			addAction(m_actions->preferences);
 		else if (currentWidget == "addBookmarks") 

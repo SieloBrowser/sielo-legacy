@@ -17,7 +17,7 @@ struct SActions {
 	QAction* refreshOrStop{ new QAction(QIcon(themePath + "refresh.png"), QObject::tr("&Rafraichir")) };
 	QAction* go{ new QAction(QIcon(themePath + "go.png"), QObject::tr("&Go")) };
 	QAction* shearch{ new QAction(QIcon(themePath + "search.png"), QObject::tr("&Chercher")) };
-	QAction* showHistory{ new QAction(QIcon(themePath + "history.png"), QObject::tr("&Historique")) };
+	QAction* history{ new QAction(QIcon(themePath + "history.png"), QObject::tr("Historique")) };
 	QAction* preferences{ new QAction(QIcon(themePath + "preferences.png"), QObject::tr("Pré&férences")) };
     QAction* addBookmarks{ new QAction(QIcon(themePath + "addBookmarks.png"), QObject::tr("&Nouveau favori")) };
     QAction* bookmarksManager{ new QAction(QIcon(themePath + "bookmarksManager.png"), QObject::tr("&Gérer les favoris")) };
@@ -34,7 +34,6 @@ struct SActions {
 	QAction* findPrevious{ new QAction(QObject::tr("Trouver le précédent")) };
 	QAction* zoomMore{ new QAction(QObject::tr("Zoomer plus")) };
 	QAction* zoomLess{ new QAction(QObject::tr("Zoomer moins")) };
-	QAction* history{ new QAction(QIcon(themePath + "history.png"), QObject::tr("Historique")) };
 	QAction* privateBrowsing{ new QAction(QObject::tr("Nouvelle fenêtre de navigation privée")) };
 	QAction* viewPageCodeSource{ new QAction(QObject::tr("Voir le code source de la page")) };
     QAction* addTheme{ new QAction(QObject::tr("Ajouter un thème")) };
