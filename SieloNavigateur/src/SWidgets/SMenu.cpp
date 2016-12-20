@@ -139,6 +139,7 @@ void SMenu::createShowMenu()
 	// Set parents for actions
 	m_actions->showFullScreen->setParent(this);
     m_actions->split->setParent(this);
+	m_actions->showMenuBar->setParent(nullptr);
 	m_actions->findInPage->setParent(this);
 	m_actions->findNext->setParent(this);
 	m_actions->findPrevious->setParent(this);
@@ -148,6 +149,7 @@ void SMenu::createShowMenu()
 	// Connect actions to their respective slot
 	connect(m_actions->showFullScreen, &QAction::triggered, m_parent, &SMainWindow::fullScreen);
     connect(m_actions->split, &QAction::triggered, this, &SMenu::split);
+	connect(m_actions->showMenuBar, &QAction::triggered, this, &SMenu::showMenuBar);
 	connect(m_actions->findInPage, &QAction::triggered, this, &SMenu::findInPage);
 	connect(m_actions->findNext, &QAction::triggered, this, &SMenu::findInPage);
 	connect(m_actions->findPrevious, &QAction::triggered, this, &SMenu::findInPage);
@@ -156,6 +158,7 @@ void SMenu::createShowMenu()
 
 	// Add actions to the menu
 	addAction(m_actions->showFullScreen);
+	addAction(m_actions->showMenuBar);
 	addSeparator();
     addAction(m_actions->split);
     addSeparator();
@@ -168,6 +171,7 @@ void SMenu::createShowMenu()
 
 	// Set shortcut for all actions from this menu
 	m_actions->showFullScreen->setShortcut(QKeySequence("F11"));
+	m_actions->showMenuBar->setShortcut(QKeySequence("Alt+B"));
 	m_actions->findInPage->setShortcut(QKeySequence::Find);
 	m_actions->findNext->setShortcut(QKeySequence::FindNext);
 	m_actions->findPrevious->setShortcut(QKeySequence::FindPrevious);
@@ -342,6 +346,20 @@ void SMenu::split()
     newTabs->createDefaultWebTab();
     m_parent->setTabs(newTabs);
     m_parent->getSplitter()->addWidget(newTabs);
+}
+
+void SMenu::showMenuBar()
+{
+	if (!m_parent->menuBar()->isVisible()) {
+		m_parent->menuBar()->setVisible(true);
+		m_actions->showMenuBar->setText(tr("Afficher la barre de menu"));
+		SMainWindow::SSettings->setValue("preferences/showMenuBar", true);
+	}
+	else {
+		m_parent->menuBar()->setVisible(false);
+		m_actions->showMenuBar->setText(tr("Cacher la barre de menu"));
+		SMainWindow::SSettings->setValue("preferences/showMenuBar", false);
+	}
 }
 
 void SMenu::findInPage()

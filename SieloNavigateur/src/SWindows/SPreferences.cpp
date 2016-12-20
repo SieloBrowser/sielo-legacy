@@ -123,5 +123,7 @@ void SPreferencesWindow::accept()
 	m_generalPageWidget->save();
 	m_browsPageWidget->save();
 
+	m_parent->menuBar()->setVisible(m_generalPageWidget->getShowMenuBar()->isChecked());
+
 	close();
 }

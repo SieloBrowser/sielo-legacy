@@ -66,6 +66,7 @@ public slots:
 	void openFile();
 
     void split();
+	void showMenuBar();
 
 	void findInPage();
 	void zoom();

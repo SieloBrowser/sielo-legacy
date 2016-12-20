@@ -31,6 +31,8 @@ public:
 
 	void save(); //< Save the settings from this page
 
+	QCheckBox *getShowMenuBar() { return m_showMenuBar; }
+
 private:
 	// Layouts and boxes of the page
 	QVBoxLayout *m_layout{ new QVBoxLayout(this) };
@@ -44,7 +46,7 @@ private:
 	// Widgets of the page
 	QRadioButton *m_homePageRButton{ new QRadioButton(QObject::tr("Ouvrir sur la page d'accueil"), m_closeBox) };
 	QRadioButton *m_saveTabRButton{ new QRadioButton(QObject::tr("Ouvrir les onglets de la dernière session"), m_closeBox) };
-	QCheckBox *m_showMenuBar{ new QCheckBox(QObject::tr("Afficher la barre de menu par défaut"), m_personalisationBox) };
+	QCheckBox *m_showMenuBar{ new QCheckBox(QObject::tr("Afficher la barre de menu"), m_personalisationBox) };
 	QLineEdit *m_homePageArea{ new QLineEdit(m_homePagebox) };
 };
 
