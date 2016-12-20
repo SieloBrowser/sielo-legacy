@@ -3,23 +3,53 @@
 #include "includes/SWidgets/SUrlArea.hpp"
 #include "includes/SMainWindow.hpp"
 
-STabWidget::STabWidget(SMainWindow * parent) : 
+STabWidget::STabWidget(SMainWindow * parent) :
 	QTabWidget(parent),
 	m_parent(parent)
 {
 	// Set attributes for the widgets
 	setTabsClosable(true);
-    setMovable(true);
+	setMovable(true);
 
-    QPushButton *plusButton{ new QPushButton(QIcon(SMainWindow::dataPath + "Images/plusTab.png"), "", this) };
-    plusButton->setMaximumWidth(24);
-    plusButton->setFlat(true);
-    setCornerWidget(plusButton);
+	QPushButton *plusButton{ new QPushButton(QIcon(SMainWindow::dataPath + "Images/plusTab.png"), "", this) };
+	plusButton->setMaximumWidth(24);
+	plusButton->setFlat(true);
+	setCornerWidget(plusButton);
 
 	// Connections
 	connect(this, &STabWidget::currentChanged, this, &STabWidget::tabChanged);
 	connect(this, &STabWidget::tabCloseRequested, this, &STabWidget::tabClosed);
-    connect(plusButton, &QPushButton::clicked, this, &STabWidget::createDefaultWebTab);
+	connect(plusButton, &QPushButton::clicked, this, &STabWidget::createDefaultWebTab);
+
+	QString css{
+		"QTabWidget::pane{"
+		"	border-top: none;"
+		"}"
+		"QTabWidget::tab-bar{"
+		"	left: 5px;"
+		"}"
+		"QTabBar::tab{"
+		"	background: #e2e2e2;"
+		"	border: 1px solid #B9B9B9;"
+		"	border-style:solid; "
+		"	border-bottom: none;"
+		"	border-top-left-radius: 0;"
+		"	border-top-right-radius: 0;"
+		"	min-width: 8px;"
+		"	padding: 2px 5px 2px 13px;"
+		"}"
+		"QTabBar::tab:selected, QTabBar::tab:hover{"
+		"	background: #FFFFFF"
+		"}"
+		"QTabBar::tab:selected{"
+		"	border: none;"
+		"}"
+		"QTabBar::close-button {"
+		"	image: url(" + SMainWindow::dataPath + "Images/closeTab.png);"
+		"	subcontrol-position: right;"
+		"}"
+	};
+	this->setStyleSheet(css);
 }
 
 STabWidget::~STabWidget()
