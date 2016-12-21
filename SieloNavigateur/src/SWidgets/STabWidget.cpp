@@ -165,7 +165,7 @@ void STabWidget::tabClosed(int index)
         m_parent->close();
 }
 
-void STabWidget::tabChanged(int index)
+void STabWidget::tabChanged(/* int index */)
 {
     m_parent->changeTabTitle(m_parent->currentPage()->title());
     m_parent->changeTabUrl(m_parent->currentPage()->url());

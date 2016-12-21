@@ -12,7 +12,7 @@
 
 class SMainWindow;
 class SBookmarksView;
-class SActions;
+struct SActions;
 
 class AboutSN : public QDialog
 {

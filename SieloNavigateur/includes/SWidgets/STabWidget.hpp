@@ -24,7 +24,7 @@ public:
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
 public slots:
-	void tabChanged(int index); //< If tab index is changed
+	void tabChanged(/* int index */); //< If tab index is changed
 	void tabClosed(int index = -1); //< If tab is closed
 
 private:

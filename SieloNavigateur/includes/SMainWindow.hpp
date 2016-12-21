@@ -51,8 +51,10 @@ public:
 	QVector<SMenu*>& getMenus() { return m_menus; }
 
 	static SHistoryItem&  getLastHistoryItem() {
-		if(SMainWindow::curSessionHistory.size() > 0)
+		if (SMainWindow::curSessionHistory.size() > 0)
 			return SMainWindow::curSessionHistory[SMainWindow::curSessionHistory.size() - 1];
+		else
+			SHistoryItem();
 	}
 	static void addHistoryItem(QString title, QUrl url);
 

@@ -5,7 +5,7 @@
 #include <QTextStream>
 
 class SMainWindow;
-class SActions;
+struct SActions;
 
 class SToolBar : public QToolBar
 {

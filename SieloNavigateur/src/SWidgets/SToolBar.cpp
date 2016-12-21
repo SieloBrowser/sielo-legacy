@@ -74,7 +74,6 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 	unsigned iconSize{ 32 };
 	QString currentWidget{ "nothing" };
 	QString toolBarPos{ "top" };
-	bool searchAreaVisible{ false };
 
 	this->setContentsMargins(0, 0, 0, 5);
 		
