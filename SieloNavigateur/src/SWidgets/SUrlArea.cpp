@@ -40,6 +40,7 @@ void SUrlArea::loadStarted()
 		m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "stop.png"));
 		m_parent->getActions()->refreshOrStop->setText(tr("Arrêter le chargement"));
 		m_parent->getActions()->refreshOrStop->setShortcut(QKeySequence(""));
+		disconnect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 		connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
 	}
 
@@ -81,11 +82,11 @@ void SUrlArea::loadFinished()
 		m_parent->getActions()->refreshOrStop->setIcon(QIcon(m_parent->getActions()->themePath + "refresh.png"));
 		m_parent->getActions()->refreshOrStop->setText(tr("Rafraîchir la page"));
 		m_parent->getActions()->refreshOrStop->setShortcuts(QKeySequence::Refresh);
+		disconnect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::stop);
+		connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 	}
 
 	setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF;}");
-
-	connect(m_parent->getActions()->refreshOrStop, &QAction::triggered, m_parent, &SMainWindow::refresh);
 
 	if(!m_parent->privateBrowsing) {
 		if (view->url().toString() == "about:blank")

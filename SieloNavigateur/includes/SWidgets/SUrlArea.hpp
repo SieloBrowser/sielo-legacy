@@ -20,7 +20,6 @@ public slots:
     void loadFinished(); //< actions to do when page loading is finished
 
 	void loadUrl(); //< load the url in the lineedit
-
 private:
 	SMainWindow* m_parent{ nullptr };
 	QLineEdit* m_champs{ new QLineEdit(this) };

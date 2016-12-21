@@ -273,6 +273,11 @@ void SMainWindow::refresh()
 void SMainWindow::stop()
 {
 	currentPage()->stop();
+	m_actions->refreshOrStop->setIcon(QIcon(m_actions->themePath + "refresh.png"));
+	m_actions->refreshOrStop->setText(tr("Rafraîchir la page"));
+	m_actions->refreshOrStop->setShortcuts(QKeySequence::Refresh);
+	disconnect(m_actions->refreshOrStop, &QAction::triggered, this, &SMainWindow::stop);
+	connect(m_actions->refreshOrStop, &QAction::triggered, this, &SMainWindow::refresh);
 }
 
 void SMainWindow::restoreTabs()
