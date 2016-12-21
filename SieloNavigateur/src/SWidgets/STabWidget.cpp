@@ -21,31 +21,45 @@ STabWidget::STabWidget(SMainWindow * parent) :
 	connect(this, &STabWidget::tabCloseRequested, this, &STabWidget::tabClosed);
 	connect(plusButton, &QPushButton::clicked, this, &STabWidget::createDefaultWebTab);
 
-	QString css{
-		"QTabWidget::pane{"
-		"	border-top: none;"
-		"}"
-		"QTabWidget::tab-bar{"
-		"	left: 5px;"
-		"}"
-		"QTabBar::tab{"
-		"	background: #F0F0F0;"
-		"	border: none;"
-		"	min-width: 8px;"
-		"	padding: 2px 5px 2px 13px;"
-		"}"
-		"QTabBar::tab:selected, QTabBar::tab:hover{"
-		"	background: #FFFFFF;"
-		"}"
-		"QTabBar::tab:selected{"
-		"	border: 1px solid #9B9B9B;"
-		"	border-bottom: none;"
-		"}"
-		"QTabBar::close-button {"
-		"	image: url(" + SMainWindow::dataPath + "Images/closeTab.png);"
-		"	subcontrol-position: right;"
-		"}"
-	};
+	QFile style{ SMainWindow::dataPath + "Tabs/FlatTabs.sielocss" };
+	QString css{};
+
+	if (style.open(QFile::ReadOnly)) {
+		css = style.readAll();
+
+		css.replace("S", "Q");
+		css.replace("imagespath", SMainWindow::dataPath + "Images");
+		css.replace("QTabWidget::page", "QTabWidget::pane");
+
+		style.close();
+	}
+	else {
+		css =
+			"QTabWidget::pane{"
+			"	border-top: none;"
+			"}"
+			"QTabWidget::tab-bar{"
+			"	left: 5px;"
+			"}"
+			"QTabBar::tab{"
+			"	background: #F0F0F0;"
+			"	border: none;"
+			"	min-width: 8px;"
+			"	padding: 2px 5px 2px 13px;"
+			"}"
+			"QTabBar::tab:selected, QTabBar::tab:hover{"
+			"	background: #FFFFFF;"
+			"}"
+			"QTabBar::tab:selected{"
+			"	border: 1px solid #9B9B9B;"
+			"	border-bottom: none;"
+			"}"
+			"QTabBar::close-button {"
+			"	image: url(" + SMainWindow::dataPath + "Images/closeTab.png);"
+			"	subcontrol-position: right;"
+			"}";
+	}
+
 	this->setStyleSheet(css);
 }
 

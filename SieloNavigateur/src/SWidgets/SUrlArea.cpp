@@ -45,13 +45,13 @@ void SUrlArea::loadStarted()
 	}
 
 	if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "fineBar") {
-		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 3px solid #000000;}");
+		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 2px solid #000000;}");
 	}
 	else if (SMainWindow::SSettings->value("preferences/loadingBarStyle", "fineBar").toString() == "flatBar") {
-		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #66000096;}");
+		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #CFCFCF;}");
 	}
 	else {
-		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 3px solid #000000;}");
+		setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF; border-bottom: 2px solid #000000;}");
 	}
 //	setStyleSheet("QProgressBar::chunk{background-color: rgba(0, 0, 155, 0.2); border: none;}");
 
