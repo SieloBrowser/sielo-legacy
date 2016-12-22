@@ -9,6 +9,8 @@ SSearchArea::SSearchArea(const QIcon & icon, SMainWindow * parent) :
 	setTextMargins(18, 0, 0, 0);
 	connect(this, &SSearchArea::returnPressed, this, &SSearchArea::loadSearch);
 	setClearButtonEnabled(true);
+
+    setStyleSheet("QLineEdit{ border: none; background-color: #FFFFFF; }");
 }
 
 SSearchArea::~SSearchArea()
