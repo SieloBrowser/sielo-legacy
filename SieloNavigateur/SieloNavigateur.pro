@@ -3,6 +3,8 @@ QT += network
 QT += webenginewidgets
 QT += xml
 
+macx:ICON = $${PWD}/icon.icns
+
 SOURCES += \
     src/Main.cpp \
     src/SMainWindow.cpp \

@@ -20,7 +20,7 @@ AboutSN::AboutSN(QWidget * parent) :
 
 	// The HTML text for the label
 	QString htmlTxt{ 
-		tr("<h2>Sielo <img src=\"") + SMainWindow::dataPath + tr("Images/icon.ico\" width=\"64\" height=\"64\"/> Navigateur (0.3.0)</h2>"
+        tr("<h2>Sielo <img src=\"") + SMainWindow::dataPath + tr("Images/icon.ico\" width=\"64\" height=\"64\"/> Navigateur (0.4.0)</h2>"
 		"<p>"
 			"Qu'est-ce que c'est ? <br/>"
 			"Sielo est un navigateur web léger, performant, très personnalisable et<br/>"
