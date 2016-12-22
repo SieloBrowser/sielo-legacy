@@ -195,15 +195,14 @@ void MainWindow::newThm()
         m_thmPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation) + "/SNThemeEditor/" + m_thmName + "/";
         QDir *themePath{ new QDir(m_thmPath) };
         themePath->mkpath(m_thmPath);
-        QStringList argc{};
+        QStringList args{};
         
 #ifndef Q_OS_WIN32
-		argc << "decompress" << ":/themes/defaultThm" << themePath->absolutePath();
-#else 
+        args << "decompress" << ":/themes/defaultThm" << themePath->absolutePath();
+#else
 		argc << "decompress" << QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/resources/DefaultThm.snthm" << themePath->absolutePath();
 #endif
-		QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", argc);
-
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
         ToolBar *defaut = addNewToolBar();
 		createActions();
         createMenus();
@@ -228,10 +227,9 @@ void MainWindow::openThm()
 		m_savedThmPath = filePath;
 		QDir *themePath{ new QDir(m_thmPath) };
 		themePath->mkpath(m_thmPath);
-        QStringList argc{};
-        argc << "decompress" << filePath << themePath->absolutePath();
-        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", argc);
-
+        QStringList args{};
+        args << "decompress" << filePath << themePath->absolutePath();
+        QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
 		loadToolBar(QString(m_thmPath + "toolBar.txt"));
 		createActions();
         createMenus();
@@ -281,10 +279,9 @@ void MainWindow::saveThm()
 
 	toolBarTxt.close();
 
-    QStringList argc{};
-    argc << "compress" << m_thmPath << m_savedThmPath;
-    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", argc);
-
+    QStringList args{};
+    args << "compress" << m_thmPath << m_savedThmPath;
+    QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
 	thmSaved = true;
 }
 

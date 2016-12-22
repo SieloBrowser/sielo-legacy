@@ -12,19 +12,18 @@
 #include <QProcess>
 #include <QMessageBox>
 
-#define SieloPortable 0
+#define SieloPortable 1
 
 QString SStarter::currentVersion = "0.3.0";
 SStarter::SStarter(QObject *parent) :
 	QObject(parent)
 {
 #if SieloPortable
-	if(!SMainWindow::SSettings->value("builded", false).toBool()) {
+    if(!SMainWindow::SSettings->value("builded", false).toBool()) {
         QStringList args{};
         args << "decompress" << ":/data/DData" << SMainWindow::dataPath;
         QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
-
-		SMainWindow::SSettings->setValue("builded", true);
+        SMainWindow::SSettings->setValue("builded", true);
 	}
 #endif
 	// Networks objects to download the last version

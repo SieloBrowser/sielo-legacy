@@ -57,7 +57,6 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 
     m_splitter->addWidget(m_tabs);
     setCentralWidget(m_splitter);
-
 }
 
 
