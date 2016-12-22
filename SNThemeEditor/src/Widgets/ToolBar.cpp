@@ -20,6 +20,8 @@ ToolBar::ToolBar(MainWindow * parent) :
 
 	connect(m_paramAction, &QAction::triggered, this, &ToolBar::openParams);
 	connect(m_removeAction, &QAction::triggered, this, &ToolBar::deleteThis);
+
+    setStyleSheet("QToolBar {background: #FFF0F0F0; border: none;} QLineEdit{ border: none; background-color: #FFFFFF; }");
 }
 
 ToolBar::~ToolBar()
