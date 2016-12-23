@@ -200,7 +200,7 @@ void MainWindow::newThm()
 #ifndef Q_OS_WIN32
         args << "decompress" << ":/themes/defaultThm" << themePath->absolutePath();
 #else
-		argc << "decompress" << QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/resources/DefaultThm.snthm" << themePath->absolutePath();
+		args << "decompress" << QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/resources/DefaultThm.snthm" << themePath->absolutePath();
 #endif
         QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + "/SieloDataSoftware", args);
         ToolBar *defaut = addNewToolBar();

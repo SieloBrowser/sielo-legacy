@@ -12,7 +12,7 @@
 #include <QProcess>
 #include <QMessageBox>
 
-#define SieloPortable 1
+#define SieloPortable 0
 
 QString SStarter::currentVersion = "0.4.0";
 SStarter::SStarter(QObject *parent) :
