@@ -172,5 +172,8 @@ void STabWidget::tabChanged(/* int index */)
 		m_parent->changeTabTitle(m_parent->currentPage()->title());
 		m_parent->changeTabUrl(m_parent->currentPage()->url());
 	}
+	else {
+		m_parent->changeTabUrl(this->tabText(currentIndex()));
+	}
 }
 
