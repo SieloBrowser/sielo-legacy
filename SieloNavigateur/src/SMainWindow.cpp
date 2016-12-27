@@ -180,7 +180,7 @@ void SMainWindow::changeTitle(const QString& newTitle)
 		return;
 	}
 
-	if (view == currentPage()) {
+	if (currentPage() && view == currentPage()) {
 		QString shorTitle{ newTitle };
 
 		if (newTitle.size() > 40)
@@ -225,7 +225,7 @@ void SMainWindow::changeUrl(const QUrl& newUrl)
 		return;
 	}
 
-	if (view == currentPage()) {
+	if (currentPage() && view == currentPage()) {
 		if (newUrl.toString() != tr("html/page_blanche"))
 			m_urlArea->setText(newUrl.toString());
 	}
@@ -272,32 +272,38 @@ void SMainWindow::removeDownload()
 
 void SMainWindow::back()
 {
-	currentPage()->back();
+	if (currentPage())
+		currentPage()->back();
 }
 
 void SMainWindow::next()
 {
-	currentPage()->forward();
+	if (currentPage())
+		currentPage()->forward();
 }
 
 void SMainWindow::home()
 {
-	currentPage()->load(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toUrl());
+	if (currentPage())
+		currentPage()->load(SMainWindow::SSettings->value("preferences/homePage", "http://google.com").toUrl());
 }
 
 void SMainWindow::refresh()
 {
-	currentPage()->reload();
+	if (currentPage())
+		currentPage()->reload();
 }
 
 void SMainWindow::stop()
 {
-	currentPage()->stop();
-	m_actions->refreshOrStop->setIcon(QIcon(m_actions->themePath + "refresh.png"));
-	m_actions->refreshOrStop->setText(tr("Rafraîchir la page"));
-	m_actions->refreshOrStop->setShortcuts(QKeySequence::Refresh);
-	disconnect(m_actions->refreshOrStop, &QAction::triggered, this, &SMainWindow::stop);
-	connect(m_actions->refreshOrStop, &QAction::triggered, this, &SMainWindow::refresh);
+	if (currentPage()) {
+		currentPage()->stop();
+		m_actions->refreshOrStop->setIcon(QIcon(m_actions->themePath + "refresh.png"));
+		m_actions->refreshOrStop->setText(tr("Rafraîchir la page"));
+		m_actions->refreshOrStop->setShortcuts(QKeySequence::Refresh);
+		disconnect(m_actions->refreshOrStop, &QAction::triggered, this, &SMainWindow::stop);
+		connect(m_actions->refreshOrStop, &QAction::triggered, this, &SMainWindow::refresh);
+	}
 }
 
 void SMainWindow::restoreTabs()
@@ -306,8 +312,10 @@ void SMainWindow::restoreTabs()
     for(int i{ 0 }; i < SMainWindow::SSettings->value("count", 1).toInt(); ++i) {
         m_tabs = new STabWidget(this);
         for(int j{ 0 }; j < SMainWindow::SSettings->value(QString::number(i) + "/count", 1).toInt(); ++j) {
-            m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/name", "Google").toString(),
-                               SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/url", "http://feldrise.com").toUrl());
+			if (SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/name", "Google").toString() != "sielonullptr") {
+				m_tabs->createWebTab(SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/name", "Google").toString(),
+									 SMainWindow::SSettings->value(QString::number(i) + "/" + QString::number(j) + "/url", "http://feldrise.com").toUrl());
+			}
         }
 
         m_tabs->setCurrentIndex(SMainWindow::SSettings->value(QString::number(i) + "/focused", 0).toInt());
@@ -331,14 +339,20 @@ void SMainWindow::saveTabs()
                 SMainWindow::SSettings->setValue(QString::number(i) + "/count", m_tabs->count());
                 m_tabs->setCurrentIndex(j);
 
-                SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/name", currentPage()->title());
-                SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/url", currentPage()->url());
-                SMainWindow::SSettings->endGroup();
+				if (currentPage()) {
+					SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/name", currentPage()->title());
+					SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/url", currentPage()->url());
+					SMainWindow::SSettings->endGroup();
 
-            if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
-                currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
+					if (!SMainWindow::SSettings->value("preferences/enableCookies", true).toBool())
+						currentPage()->page()->profile()->cookieStore()->deleteAllCookies();
 
-            SMainWindow::SSettings->beginGroup("windowSave/tabs");
+					SMainWindow::SSettings->beginGroup("windowSave/tabs");
+				}
+				else {
+					SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/name", "sielonullptr");
+					SMainWindow::SSettings->setValue(QString::number(i) + "/" + QString::number(j) + "/url", "sielonullptr");
+				}
             }
         }
         SMainWindow::SSettings->endGroup();
@@ -352,6 +366,11 @@ void SMainWindow::saveWinState()
     SMainWindow::SSettings->setValue("size", size());
     SMainWindow::SSettings->setValue("pos", pos());
     SMainWindow::SSettings->endGroup();
+}
+
+void SMainWindow::createTab(QWidget * widget, const QString & title)
+{
+	m_tabs->addTab(widget, title);
 }
 
 void SMainWindow::closeEvent(QCloseEvent * event)

@@ -69,7 +69,6 @@ void SToolBar::loadToolBarV1(QTextStream & in)
 {
 	//setStyleSheet("border: none;");
 	QColor winFrameColor{ m_parent->getWindowFrameColor() };
-	QMessageBox::information(m_parent, "DEBUG", "Color is: " + winFrameColor.name());
 	setStyleSheet("QToolBar {background: " + winFrameColor.name() + "; border: none;}");
 
 	unsigned widgetInToolBar{ 0 };

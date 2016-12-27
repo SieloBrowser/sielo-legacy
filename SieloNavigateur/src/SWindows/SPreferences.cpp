@@ -32,6 +32,11 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
 	else
 		m_loadingBarStyleComboBox->setCurrentText("Fin");
 
+	if (SMainWindow::SSettings->value("preferences/openWidgetInTab", true).toBool())
+		m_prefereOpenInNewTab->setChecked(true);
+	else
+		m_prefereOpenInNewWin->setChecked(true);
+
 	m_closeBox->setTitle(tr("Option d'ouverture des fenêtres"));
 	m_personalisationBox->setTitle(tr("Personnalisation"));
 	m_homePagebox->setTitle(tr("Page d'accueil"));
@@ -42,6 +47,8 @@ GeneralPageWidget::GeneralPageWidget(QWidget *parent) :
 	m_personalisationLayout->addWidget(m_showMenuBar, 0, 0, 1, 2);
 	m_personalisationLayout->addWidget(m_loadingBarStyleLabel, 1, 0);
 	m_personalisationLayout->addWidget(m_loadingBarStyleComboBox, 1, 1);
+	m_personalisationLayout->addWidget(m_prefereOpenInNewTab, 2, 0);
+	m_personalisationLayout->addWidget(m_prefereOpenInNewWin, 3, 0);
 	m_homePageLayout->addWidget(m_homePageArea);
 }
 
@@ -61,6 +68,11 @@ void GeneralPageWidget::save()
 		SMainWindow::SSettings->setValue("preferences/loadingBarStyle", "fineBar");
 	else if (m_loadingBarStyleComboBox->currentText() == "Flat")
 		SMainWindow::SSettings->setValue("preferences/loadingBarStyle", "flatBar");
+
+	if (m_prefereOpenInNewTab->isChecked())
+		SMainWindow::SSettings->setValue("preferences/openWidgetInTab", true);
+	else
+		SMainWindow::SSettings->setValue("preferences/openWidgetInTab", false);
 
 	SMainWindow::SSettings->setValue("preferences/showMenuBar", m_showMenuBar->isChecked());
 	SMainWindow::SSettings->setValue("preferences/homePage", m_homePageArea->text());

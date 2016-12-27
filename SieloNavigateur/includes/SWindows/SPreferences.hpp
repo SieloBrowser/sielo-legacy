@@ -49,6 +49,8 @@ private:
 	QCheckBox *m_showMenuBar{ new QCheckBox(QObject::tr("Afficher la barre de menu"), m_personalisationBox) };
 	QLabel *m_loadingBarStyleLabel{ new QLabel(QObject::tr("Style de la barre de chargement"), m_personalisationBox) };
 	QComboBox *m_loadingBarStyleComboBox{ new QComboBox(m_personalisationBox) };
+	QRadioButton *m_prefereOpenInNewTab{ new QRadioButton(QObject::tr("Ouvrir les fenêtres de Sielo dans un nouvelle onglet"), m_personalisationBox) };
+	QRadioButton *m_prefereOpenInNewWin{ new QRadioButton(QObject::tr("Ouvrir les fenêtres de Sielo dans une nouvelle fenêtre"), m_personalisationBox) };
 	QLineEdit *m_homePageArea{ new QLineEdit(m_homePagebox) };
 };
 

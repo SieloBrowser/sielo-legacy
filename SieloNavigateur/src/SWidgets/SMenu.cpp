@@ -408,7 +408,12 @@ void SMenu::showHistory()
 {
 	SHistoryWindow* historyWin{ new SHistoryWindow(m_parent) };
 	connect(historyWin, &SHistoryWindow::close, historyWin, &SHistoryWindow::deleteLater);
-	historyWin->show();
+	if (SMainWindow::SSettings->value("preferences/openWidgetInTab", true).toBool()) {
+		m_parent->createTab(historyWin, tr("Favoris"));
+		m_parent->getTabs()->setCurrentWidget(historyWin);
+	}
+	else
+		historyWin->show();
 }
 
 void SMenu::privateBrowsing()
@@ -420,13 +425,23 @@ void SMenu::privateBrowsing()
 void SMenu::showPageSrc()
 {
 	SHtmlSrcViewver* srcViewver{ new SHtmlSrcViewver(m_parent) };
-	srcViewver->show();
+	if (SMainWindow::SSettings->value("preferences/openWidgetInTab", true).toBool()) {
+		m_parent->createTab(srcViewver, tr("Source de la page ").arg(m_parent->currentPage()->title()));
+		m_parent->getTabs()->setCurrentWidget(srcViewver);
+	}
+	else
+		srcViewver->show();
 }
 
 void SMenu::openBookmarksManager()
 {
 	SBookmarksDialog *bookmarksDialog{ new SBookmarksDialog(m_parent) };
-	bookmarksDialog->show();
+	if (SMainWindow::SSettings->value("preferences/openWidgetInTab", true).toBool()) {
+		m_parent->createTab(bookmarksDialog, tr("Favoris"));
+		m_parent->getTabs()->setCurrentWidget(bookmarksDialog);
+	}
+	else
+		bookmarksDialog->show();
 }
 
 void SMenu::openBookmark()
@@ -439,8 +454,10 @@ void SMenu::openBookmark()
 
 void SMenu::addBookmark()
 {
-	SBookmarksAddDialog *addBookmarkWin{ new SBookmarksAddDialog(m_parent) };
-	addBookmarkWin->show();
+	if (m_parent->currentPage()) {
+		SBookmarksAddDialog *addBookmarkWin{ new SBookmarksAddDialog(m_parent) };
+		addBookmarkWin->show();
+	}
 }
 
 void SMenu::createBookmarksItem(QStandardItem *item, SMenu *parent)
@@ -552,13 +569,23 @@ void SMenu::openThmEditor()
 void SMenu::openPreferencesDialog()
 {
 	SPreferencesWindow *preferences{ new SPreferencesWindow(m_parent) };
-	preferences->show();
+	if (SMainWindow::SSettings->value("preferences/openWidgetInTab", true).toBool()) {
+		m_parent->createTab(preferences, tr("Paramètres de Sielo"));
+		m_parent->getTabs()->setCurrentWidget(preferences);
+	}
+	else
+		preferences->show();
 }
 
 void SMenu::openAboutSielo()
 {
 	AboutSN *aboutSN{ new AboutSN(m_parent) };
-	aboutSN->show();
+	if (SMainWindow::SSettings->value("preferences/openWidgetInTab", true).toBool()) {
+		m_parent->createTab(aboutSN, tr("A propos de Sielo"));
+		m_parent->getTabs()->setCurrentWidget(aboutSN);
+	}
+	else
+		aboutSN->show();
 }
 
 void SMenu::checkMaJ()

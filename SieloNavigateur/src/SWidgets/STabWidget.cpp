@@ -37,6 +37,7 @@ STabWidget::STabWidget(SMainWindow * parent) :
 		css =
 			"QTabWidget::pane{"
 			"	border-top: none;"
+			"	background-color: #fff;"
 			"}"
 			"QTabWidget::tab-bar{"
 			"	left: 5px;"
@@ -167,7 +168,9 @@ void STabWidget::tabClosed(int index)
 
 void STabWidget::tabChanged(/* int index */)
 {
-    m_parent->changeTabTitle(m_parent->currentPage()->title());
-    m_parent->changeTabUrl(m_parent->currentPage()->url());
+	if (m_parent->currentPage()) {
+		m_parent->changeTabTitle(m_parent->currentPage()->title());
+		m_parent->changeTabUrl(m_parent->currentPage()->url());
+	}
 }
 

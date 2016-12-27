@@ -40,6 +40,7 @@ public:
     void saveWinState();
 
     void setTabs(STabWidget *tabs) { m_tabs = tabs; }
+	void createTab(QWidget *widget, const QString& title);
 
 	// Getters
 	QSharedPointer<SActions> getActions() const { return m_actions; }
