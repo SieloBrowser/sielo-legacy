@@ -65,6 +65,8 @@ public:
 	static QString dataPath;
 
 	bool privateBrowsing{ false };
+
+	QColor getWindowFrameColor();
 public slots:
 	// Change title of tab and url in url area from a web view
 	void changeTitle(const QString& newTitle);

@@ -29,3 +29,5 @@
 *.opendb
 *.DS_STORE
 /SieloNavigateur/icon.icns
+/SieloNavigateur/Win32/Debug
+/Utils/presentations/v0.3.0

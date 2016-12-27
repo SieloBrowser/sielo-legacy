@@ -195,6 +195,27 @@ void SMainWindow::changeTitle(const QString& newTitle)
 	}
 }
 
+QColor SMainWindow::getWindowFrameColor()
+{
+#ifdef Q_OS_WIN
+	DWORD ColorizationColor;
+	DWORD ColorizationColorBalance;
+	DWORD size = sizeof(DWORD);
+
+	RegGetValue(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\DWM", L"ColorizationColor", RRF_RT_REG_DWORD, 0, &ColorizationColor, &size);
+	RegGetValue(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\DWM", L"ColorizationColorBalance", RRF_RT_REG_DWORD, 0, &ColorizationColorBalance, &size);
+
+	BYTE ALPHA = 255 * ColorizationColorBalance / 100; // Convert from 0-100 to 0-255
+	BYTE RED = (ColorizationColor >> 16) & 0xFF;
+	BYTE GREEN = (ColorizationColor >> 8) & 0xFF;
+	BYTE BLUE = ColorizationColor & 0xFF;
+
+	return QColor(RED, GREEN, BLUE, ALPHA);
+#endif
+
+	return QColor("#F0F0F0");
+}
+
 void SMainWindow::changeUrl(const QUrl& newUrl)
 {
 	SWebView* view{ static_cast<SWebView*>(sender()) };
