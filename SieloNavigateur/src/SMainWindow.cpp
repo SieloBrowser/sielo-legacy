@@ -4,9 +4,11 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QCoreApplication>
+#include <QXmlStreamReader>
 
 const unsigned int THEME_V0 = 1;
 const unsigned int THEME_V1 = 2;
+const unsigned int THEME_V2 = 3;
 
 QString SMainWindow::dataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/SieloNavigateurV3/";
 QSettings * SMainWindow::SSettings = new QSettings(SMainWindow::dataPath + "snsettings.ini", QSettings::IniFormat);
@@ -53,7 +55,7 @@ SMainWindow::SMainWindow(QWidget* parent, SWebView *view, bool isPrivateBrowsing
 
 	// Load menus and tool bar
 	loadMenus();
-	loadToolBar(m_actions->themePath + "toolBar.txt");
+	loadToolBar(m_actions->themePath + "toolBar");
 
     m_splitter->addWidget(m_tabs);
     setCentralWidget(m_splitter);
@@ -94,44 +96,74 @@ void SMainWindow::loadMenus()
 
 bool SMainWindow::loadToolBar(const QString & filePath)
 {
-	QFile file{ filePath };
+	QFileInfo check_file(filePath + ".fielo");
+	QFile file{};
+	bool isFieloFile{ false };
+	if (check_file.exists() && check_file.isFile()) {
+		isFieloFile = true;
+		file.setFileName(filePath + ".fielo");
+	}
+	else
+		file.setFileName(filePath + ".txt");
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QMessageBox::critical(this, tr("Erreur"), tr("Impossible d'ouvrir le thème de la barre d'outils"));
 		return false;
 	}
 
-	QTextStream in{ &file };
+	if (!isFieloFile) {
+		QTextStream in{ &file };
 
-	unsigned version{ 0 };
-	in >> version;
+		unsigned version{ 0 };
+		in >> version;
 
-	unsigned nbreToolBar{ 0 };
-	switch (version)
-	{
-	case THEME_V0:
-		in >> nbreToolBar;
+		unsigned nbreToolBar{ 0 };
+		switch (version)
+		{
+		case THEME_V0:
+			in >> nbreToolBar;
 
-		for (size_t i{ 0 }; i < nbreToolBar; ++i) {
-			m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
-			m_toolsBars[i]->loadToolBarV0(in);
-			addToolBar(m_toolsBars[i]);
+			for (size_t i{ 0 }; i < nbreToolBar; ++i) {
+				m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
+				m_toolsBars[i]->loadToolBarV0(in);
+				addToolBar(m_toolsBars[i]);
+			}
+			break;
+		case THEME_V1:
+			in >> nbreToolBar;
+
+			for (size_t i{ 0 }; i < nbreToolBar; ++i) {
+				m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
+				m_toolsBars[i]->loadToolBarV1(in);
+			}
+			break;
+		default:
+			QMessageBox::critical(this, tr("Erreur"), tr("La version ") + QString::number(version) + tr(" est inconnue"));
+			return false;
+			break;
 		}
-		break;
-	case THEME_V1:
-		in >> nbreToolBar;
-
-		for (size_t i{ 0 }; i < nbreToolBar; ++i) {
-			m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
-			m_toolsBars[i]->loadToolBarV1(in);
-		}
-		break;
-	default:
-		QMessageBox::critical(this, tr("Erreur"), tr("La version ") + QString::number(version) + tr(" est inconnue"));
-		return false;
-		break;
 	}
+	else {
+		QXmlStreamReader fielo{};
+		fielo.setDevice(&file);
+		unsigned i{ 0 };
 
+		if (fielo.readNextStartElement()) {
+			if (fielo.name() == "fielo" && fielo.attributes().value("version") == "1.0") {
+				while (fielo.readNextStartElement()) {
+					if (fielo.name() == "toolbar") {
+						m_toolsBars.append(new SToolBar("toolBar" + QString::number(i + 1), this));
+						m_toolsBars[i]->loadToolBarV2(&fielo);
+						++i;
+					}
+					else
+						fielo.skipCurrentElement();
+				}
+			}
+			else
+				fielo.raiseError(tr("Le thème n'est pas un thème valide"));
+		}
+	}
 	return true;
 
 }
