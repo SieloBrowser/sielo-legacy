@@ -88,6 +88,20 @@ void SUrlArea::loadFinished()
 
 	setStyleSheet("QProgressBar{ border: none; background-color: #FFFFFF; } QProgressBar::chunk{background-color: #FFFFFF;}");
 
+	QRegExp youtubeRegex{ R"regex(^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*)regex" };
+	if (view->url().toString().contains(youtubeRegex)) {
+		QMessageBox::information(this, "DEBUG", "This is a YT video!");
+		if (!view->parent()->findChild<QPushButton*>()) {
+			QVBoxLayout *tabLayout{ view->parent()->findChild<QVBoxLayout*>() };
+			QPushButton *separateButton{ new QPushButton(tr("Détacher la vidéo"), static_cast<QWidget*>(view->parent())) };
+			separateButton->setFlat(true);
+			tabLayout->addWidget(separateButton);
+		}
+	}
+	else if (view->parent()->findChild<QPushButton*>()) {
+		view->parent()->findChild<QPushButton*>()->deleteLater();
+	}
+
 	if(!m_parent->privateBrowsing) {
 		if (view->url().toString() == "about:blank")
 			return;
