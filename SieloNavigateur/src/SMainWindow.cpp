@@ -315,12 +315,11 @@ void SMainWindow::separateVideo()
 	videoView->load(QUrl("https://www.youtube.com/embed/" + youtubeRegex.cap(2) + "?autoplay=1"));
 	videoWidget->setParent(nullptr);
 	videoWidget->resize(this->width() / 3, this->height() / 3);
-	videoWidget->move(this->pos().x() + (this->width() / 3 * 2) - 20, this->pos().y() + (this->height() / 3 * 2) - 10);
+	videoWidget->move(this->pos().x() + (this->width() / 3 * 2) - 20, this->pos().y() + (this->height() / 3 * 2) + 20);
 	videoWidget->setWindowFlags(videoWidget->windowFlags() | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 	videoWidget->show();
 
 	separateButton->setText(tr("Attacher la vidéo"));
-	separateButton->resize(separateButton->width(), 10);
 	disconnect(separateButton, &QPushButton::clicked, this, &SMainWindow::separateVideo);
 	connect(separateButton, &QPushButton::clicked, this, &SMainWindow::attachVideo);
 }

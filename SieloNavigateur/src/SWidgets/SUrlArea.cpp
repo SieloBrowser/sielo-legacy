@@ -96,7 +96,6 @@ void SUrlArea::loadFinished()
 			separateButton->setFlat(true);
 			tabLayout->addWidget(separateButton);
 			connect(separateButton, &QPushButton::clicked, m_parent, &SMainWindow::separateVideo);
-			QMessageBox::information(m_parent, "DEBUG", "The video id is " + youtubeRegex.cap(2));
 		}
 	}
 	else if (view->parent()->findChild<QPushButton*>()) {
