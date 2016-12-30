@@ -302,6 +302,47 @@ void SMainWindow::removeDownload()
 	m_menus[SMenuType::Dl]->removeAction(downloads[index]);
 }
 
+void SMainWindow::separateVideo()
+{
+	QRegExp youtubeRegex{ R"regex(^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*)regex" };
+	QPushButton* separateButton{ static_cast<QPushButton*>(sender()) };
+	QWidget *videoWidget{ static_cast<QWidget*>(separateButton->parent()) };
+	SWebView *videoView{ videoWidget->findChild<SWebView*>() };
+	bool isYouTubeVideo{ videoView->url().toString().contains(youtubeRegex) };
+
+	videoView->page()->runJavaScript("document.getElementById(\"movie_player\").click()", [](const QVariant &result) {});
+
+	videoView->load(QUrl("https://www.youtube.com/embed/" + youtubeRegex.cap(2) + "?autoplay=1"));
+	videoWidget->setParent(nullptr);
+	videoWidget->resize(this->width() / 3, this->height() / 3);
+	videoWidget->move(this->pos().x() + (this->width() / 3 * 2) - 20, this->pos().y() + (this->height() / 3 * 2) - 20);
+	videoWidget->setWindowFlags(videoWidget->windowFlags() | Qt::WindowStaysOnTopHint);
+	videoWidget->show();
+
+	separateButton->setText(tr("Attacher la vidéo"));
+	disconnect(separateButton, &QPushButton::clicked, this, &SMainWindow::separateVideo);
+	connect(separateButton, &QPushButton::clicked, this, &SMainWindow::attachVideo);
+}
+
+void SMainWindow::attachVideo()
+{
+	QRegExp youtubeRegex{ R"regex(^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*)regex" };
+	QPushButton* separateButton{ static_cast<QPushButton*>(sender()) };
+	QWidget *videoWidget{ static_cast<QWidget*>(separateButton->parent()) };
+	SWebView *videoView{ videoWidget->findChild<SWebView*>() };
+	bool isYouTubeVideo{ videoView->url().toString().contains(youtubeRegex) };
+
+	videoView->page()->runJavaScript("document.getElementById(\"movie_player\").click()", [](const QVariant &result) {});
+
+	videoView->load(QUrl("https://youtu.be/" + youtubeRegex.cap(2)));
+	m_tabs->addTab(videoWidget, videoView->title());
+	m_tabs->setCurrentWidget(videoWidget);
+
+	separateButton->setText(tr("Détacher la vidéo"));
+	disconnect(separateButton, &QPushButton::clicked, this, &SMainWindow::attachVideo);
+	connect(separateButton, &QPushButton::clicked, this, &SMainWindow::separateVideo);
+}
+
 void SMainWindow::back()
 {
 	if (currentPage())

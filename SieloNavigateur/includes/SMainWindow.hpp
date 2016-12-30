@@ -78,6 +78,10 @@ public slots:
 	void addDownload(QWebEngineDownloadItem *download);
 	void removeDownload();
 
+	// YouTube actions
+	void separateVideo();
+	void attachVideo();
+
 	// Action of navigation
 	void back();
 	void next();

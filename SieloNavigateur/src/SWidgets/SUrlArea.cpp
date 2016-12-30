@@ -90,12 +90,13 @@ void SUrlArea::loadFinished()
 
 	QRegExp youtubeRegex{ R"regex(^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*)regex" };
 	if (view->url().toString().contains(youtubeRegex)) {
-		QMessageBox::information(this, "DEBUG", "This is a YT video!");
 		if (!view->parent()->findChild<QPushButton*>()) {
 			QVBoxLayout *tabLayout{ view->parent()->findChild<QVBoxLayout*>() };
 			QPushButton *separateButton{ new QPushButton(tr("Détacher la vidéo"), static_cast<QWidget*>(view->parent())) };
 			separateButton->setFlat(true);
 			tabLayout->addWidget(separateButton);
+			connect(separateButton, &QPushButton::clicked, m_parent, &SMainWindow::separateVideo);
+			QMessageBox::information(m_parent, "DEBUG", "The video id is " + youtubeRegex.cap(2));
 		}
 	}
 	else if (view->parent()->findChild<QPushButton*>()) {
