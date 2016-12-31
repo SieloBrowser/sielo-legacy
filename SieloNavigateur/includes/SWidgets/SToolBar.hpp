@@ -20,7 +20,7 @@ public:
 	void loadToolBarV1(QTextStream& in);
 	void loadToolBarV2(QXmlStreamReader *fielo);
 private:
-	void loadCurrentWidget(QString& currentWidget);
+    void loadCurrentWidget(const QString& currentWidget);
 
 	SMainWindow* m_parent{ nullptr };
 

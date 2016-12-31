@@ -5,7 +5,7 @@
 #include "includes/SWindows/SPreferences.hpp"
 #include "includes/SMainWindow.hpp"
 #include "includes/SActions.hpp"
-#include "includes/SStarter.hpp"
+#include "includes/SApplication.hpp"
 
 #include <QFileDialog>
 #include <QInputDialog>
@@ -603,7 +603,7 @@ void SMenu::checkMaJ()
     QString version{ "0.4.1" };
 	version = reply->readAll();
 
-	if (version != SStarter::currentVersion) {
+    if (version != mApp->currentVersion) {
 		MaJDialog *majDialog{ new MaJDialog(m_parent) };
 		majDialog->show();
 	}

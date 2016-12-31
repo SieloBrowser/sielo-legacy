@@ -192,7 +192,7 @@ void SToolBar::loadToolBarV2(QXmlStreamReader * fielo)
 	}
 }
 
-void SToolBar::loadCurrentWidget(QString& currentWidget)
+void SToolBar::loadCurrentWidget(const QString &currentWidget)
 {
 	if (currentWidget == "back")
 		addAction(m_actions->back);
