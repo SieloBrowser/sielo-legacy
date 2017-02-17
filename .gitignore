@@ -1,0 +1,26 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.qmake.stash
+*.pro.user
+/build
+/.vs/SieloNavigateur/v14
+*.user
+*.filters
+/SieloNavigateur/GeneratedFiles
+/SieloDataSoftware/GeneratedFiles
+/SieloNavigateur/Win32/Release
+/SieloNavigateur/resource.h
+/SieloNavigateur/SieloNavigateur.aps
+/SieloNavigateur/SieloNavigateur.rc
+*.vcxproj
+/SNThemeEditor/GeneratedFiles
+/SNThemeEditor/Win32/Release
+*.sln
+*.db
+/vcredist_x86.exe
+*.opendb
+*.DS_STORE
+/SieloNavigateur/icon.icns
+/SieloNavigateur/Win32/Debug
