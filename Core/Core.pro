@@ -1,4 +1,8 @@
 TEMPLATE = lib
 
+QT += widgets
+QT += webenginewidgets
+
 HEADERS += \
-    Web/LoadRequest.hpp
+    Web/LoadRequest.hpp \
+    Application.hpp
