@@ -21,3 +21,17 @@
 ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  **
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
+
+#include <QApplication>
+#include <QtWidgets>
+
+
+int main(int argc, char *argv[])
+{
+	QApplication app(argc, argv);
+
+	QPushButton button{ QObject::tr("Hello World!") };
+	button.show();
+
+	return app.exec();
+}
