@@ -22,17 +22,30 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include <QApplication>
-#include <QtWidgets>
+#include <QString>
 
 #include "Application.hpp"
 
-int main(int argc, char **argv)
+namespace Sn {
+
+// Static member
+Application *Application::instance()
 {
-	Sn::Application app(argc, argv);
+	return (static_cast<Application*>(QCoreApplication::instance()));
+}
 
-	QPushButton button{ QObject::tr("Hello World!") };
-	button.show();
+// Constructor & destructor
+Application::Application(int &argc, char **argv) :
+	QApplication(argc, argv)
+{
+	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
+	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
+}
 
-	return app.exec();
+Application::~Application()
+{
+	// Empty
+}
+
 }

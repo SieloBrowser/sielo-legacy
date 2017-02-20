@@ -26,9 +26,11 @@
 
 #include <QApplication>
 
+#define sApp Sn::Application::instance()
+
 namespace Sn {
 
-class Application : QApplication {
+class Application : public QApplication {
 public:
 	enum ObjectName {
 		ON_WebView,
@@ -48,9 +50,13 @@ public:
 		NTT_NotSelectedTabAtEnd = NTT_NotSelectedTab | NTT_TabAtEnd,
 		NTT_CleanSelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd | NTT_CleanTab,
 		NTT_CleanSelectedTab = NTT_CleanTab | NTT_SelectedTab,
-		NTT_CleanNotSelectedTab = NTT_CleanTab, NTT_NotSelectedTab
+		NTT_CleanNotSelectedTab = NTT_CleanTab | NTT_NotSelectedTab
 	};
 
+	Application(int &argc, char **argv);
+	~Application();
+
+	static Application *instance();
 };
 
 }
