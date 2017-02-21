@@ -27,6 +27,7 @@
 
 #include <QWebEnginePage>
 #include <QWebEngineScript>
+#include <QWebEngineFullScreenRequest>
 
 #include <QPointF>
 #include <QVariant>
@@ -43,20 +44,20 @@ class WebPage : public QWebEnginePage
 	Q_OBJECT
 
 public:
-	WebPage(QObject *parent = nullptr);
+	WebPage(QObject* parent = nullptr);
 	~WebPage();
 
-	WebView *view() const;
+	WebView* view() const;
 
-	QVariant executeJavaScript(const QString &scriptSrc, quint32 worldId = QWebEngineScript::MainWorld, int timeout = 500);
+	QVariant executeJavaScript(const QString& scriptSrc, quint32 worldId = QWebEngineScript::MainWorld, int timeout = 500);
 
-	QPointF mapToViewport(const QPointF &pos) const;
-	WebHitTestResult hitTestContent(const QPoint &pos) const;
+	QPointF mapToViewport(const QPointF& pos) const;
+	WebHitTestResult hitTestContent(const QPoint& pos) const;
 
 	void scroll(int x, int y);
-	void setScrollPosition(const QPointF &pos);
+	void setScrollPosition(const QPointF& pos);
 
-	void javaScriptAlert(const QUrl &securityOrigin, const QString &msg) Q_DECL_OVERRIDE;
+	void javaScriptAlert(const QUrl& securityOrigin, const QString& msg) Q_DECL_OVERRIDE;
 
 	void setJavaScriptEnable(bool enabled);
 
@@ -72,19 +73,19 @@ protected slots:
 	void finished();
 
 private slots:
-	void urlChanged(const QUrl &url);
+	void urlChanged(const QUrl& url);
 	void windowCloseRequested();
 	void fullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest);
-	void featurePermissionRequested(const QUrl &origine, const QWebEnginePage::Feature& feature);
+	void featurePermissionRequested(const QUrl& origine, const QWebEnginePage::Feature& feature);
 
 private:
-	bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame) Q_DECL_OVERRIDE;
-	QWebEnginePage *createWindow(WebWindowType type) Q_DECL_OVERRIDE;
+	bool acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame) Q_DECL_OVERRIDE;
+	QWebEnginePage* createWindow(WebWindowType type) Q_DECL_OVERRIDE;
 
-	void handleUnknowProtocol(const QUrl &url);
-	void desktopServiceOpen(const QUrl &url);
+	void handleUnknowProtocol(const QUrl& url);
+	void desktopServiceOpen(const QUrl& url);
 
-	QEventLoop *m_runningLoop{ nullptr };
+	QEventLoop* m_runningLoop{ nullptr };
 
 	int m_loadProgress{ -1 };
 	bool m_blockAlerts{ false };
@@ -92,5 +93,7 @@ private:
 	bool m_adjustingSheduled{ false };
 
 };
+
+}
 
 #endif // WEBPAGE_HPP

@@ -41,12 +41,12 @@ class CheckBoxDialog : public QDialog
 {
 	Q_OBJECT
 public:
-	CheckBoxDialog(const QDialogButtonBox::StandardButtons &buttons, QWidget *parent = nullptr);
+	CheckBoxDialog(const QDialogButtonBox::StandardButtons& buttons, QWidget* parent = nullptr);
 
-	void setIcon(const QIcon &icon);
+	void setIcon(const QIcon& icon);
 
-	void setText(const QString &text);
-	void setCheckBoxText(const QString &text);
+	void setText(const QString& text);
+	void setCheckBoxText(const QString& text);
 
 	bool isChecked() const;
 	void setDefaultCheckState(Qt::CheckState state);
@@ -57,16 +57,16 @@ public slots:
 private:
 	void setupUi();
 
-	QVBoxLayout *m_layout{ nullptr };
-	QHBoxLayout *m_textLayout{ nullptr };
-	QHBoxLayout *m_buttonLayout{ nullptr };
+	QVBoxLayout* m_layout{ nullptr };
+	QHBoxLayout* m_textLayout{ nullptr };
+	QHBoxLayout* m_buttonLayout{ nullptr };
 
-	QLabel *m_iconLabel{ nullptr };
-	QLabel *m_textLabel{ nullptr };
+	QLabel* m_iconLabel{ nullptr };
+	QLabel* m_textLabel{ nullptr };
 
-	QDialogButtonBox *m_buttonBox{ nullptr };
-	QCheckBox *m_checkBox{ nullptr };
-	QSpacerItem *m_spacerItem{ nullptr };
+	QDialogButtonBox* m_buttonBox{ nullptr };
+	QCheckBox* m_checkBox{ nullptr };
+	QSpacerItem* m_spacerItem{ nullptr };
 };
 
 

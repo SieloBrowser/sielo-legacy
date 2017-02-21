@@ -31,15 +31,18 @@
 #include <QVariantMap>
 #include <QWebEngineContextMenuData>
 
+#include <QWebEnginePage>
+
 namespace Sn {
 
 class WebPage;
 
-class WebHitTestResult {
+class WebHitTestResult
+{
 public:
-	WebHitTestResult(const WebPage *page, const QPoint &pos);
+	WebHitTestResult(const WebPage* page, const QPoint& pos);
 
-	void updateWithContextMenuData(const QWebEngineContextMenuData &data);
+	void updateWithContextMenuData(const QWebEngineContextMenuData& data);
 
 	QUrl baseUrl() const;
 	QString alternateText() const;

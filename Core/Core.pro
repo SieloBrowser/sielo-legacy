@@ -7,11 +7,11 @@ HEADERS += \
     Web/LoadRequest.hpp \
     Application.hpp \
     Web/WebPage.hpp \
-    Web/WebHitTestResult.hpp \
     Utils/CheckBoxDialog.hpp \
-    Plugins/PluginInterface.hpp
+    Plugins/PluginInterface.hpp \
+    Web/WebHitTestResult.hpp
 
 SOURCES += \
     Application.cpp \
-    Web/WebHitTestResult.cpp \
-    Utils/CheckBoxDialog.cpp
+    Utils/CheckBoxDialog.cpp \
+    Web/WebHitTestResult.cpp

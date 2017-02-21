@@ -24,11 +24,11 @@
 
 #include "Web/WebHitTestResult.hpp"
 
-#include "WebPage.hpp"
+#include "Web/WebPage.hpp"
 
 namespace Sn {
 
-WebHitTestResult::WebHitTestResult(const WebPage *page, const QPoint &pos) :
+WebHitTestResult::WebHitTestResult(const WebPage* page, const QPoint& pos) :
 	m_isNull(true),
 	m_isContentEditable(false),
 	m_isContentSelected(false),
@@ -77,11 +77,11 @@ WebHitTestResult::WebHitTestResult(const WebPage *page, const QPoint &pos) :
 						  "    res.linkUrl = e.getAttribute('href');"
 						  "}"
 						  "while (e) {"
-						  "    if (res.linkTitle == '' && e.tagName == 'A')"
+						  "    if (res.linkTitle == ''& & e.tagName == 'A')"
 						  "        res.linkTitle = e.text;"
-						  "    if (res.linkUrl == '' && e.tagName == 'A')"
+						  "    if (res.linkUrl == ''& & e.tagName == 'A')"
 						  "        res.linkUrl = e.getAttribute('href');"
-						  "    if (res.mediaUrl == '' && isMediaElement(e)) {"
+						  "    if (res.mediaUrl == ''& & isMediaElement(e)) {"
 						  "        res.mediaUrl = e.currentSrc;"
 						  "        res.mediaPaused = e.paused;"
 						  "        res.mediaMuted = e.muted;"
@@ -91,12 +91,12 @@ WebHitTestResult::WebHitTestResult(const WebPage *page, const QPoint &pos) :
 						  "return res;"
 						  "})()");
 
-	WebPage *p = const_cast<WebPage*>(page);
+	WebPage* p = const_cast<WebPage*>(page);
 	m_viewportPos = p->mapToViewport(m_pos);
 
-	const QString &js = source.arg(m_viewportPos.x()).arg(m_viewportPos.y());
-	const QUrl &url{ p->url() };
-	const QVariantMap &map{ p->executeJavaScript(js, QWebEngineScript::ApplicationWorld).toMap() };
+	const QString& js = source.arg(m_viewportPos.x()).arg(m_viewportPos.y());
+	const QUrl& url{ p->url() };
+	const QVariantMap& map{ p->executeJavaScript(js, QWebEngineScript::ApplicationWorld).toMap() };
 
 	if (map.isEmpty())
 		return;
@@ -114,7 +114,7 @@ WebHitTestResult::WebHitTestResult(const WebPage *page, const QPoint &pos) :
 	m_mediaMuted = map.value(QStringLiteral("mediaMuted")).toBool();
 	m_tagName = map.value(QStringLiteral("tagName")).toString();
 
-	const QVariantList &rect = map.value(QStringLiteral("boundingRect")).toList();
+	const QVariantList& rect = map.value(QStringLiteral("boundingRect")).toList();
 	if (rect.size() == 4)
 		m_boundingRect = QRect(rect.at(0).toInt(), rect.at(1).toInt(), rect.at(2).toInt(), rect.at(3).toInt());
 
@@ -126,7 +126,7 @@ WebHitTestResult::WebHitTestResult(const WebPage *page, const QPoint &pos) :
 		m_mediaUrl = url.resolved(m_mediaUrl);
 }
 
-void WebHitTestResult::updateWithContextMenuData(const QWebEngineContextMenuData &data)
+void WebHitTestResult::updateWithContextMenuData(const QWebEngineContextMenuData& data)
 {
 	if (!data.isValid()) {
 		return;

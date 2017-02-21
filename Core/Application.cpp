@@ -29,13 +29,13 @@
 namespace Sn {
 
 // Static member
-Application *Application::instance()
+Application* Application::instance()
 {
 	return (static_cast<Application*>(QCoreApplication::instance()));
 }
 
-// Constructor & destructor
-Application::Application(int &argc, char **argv) :
+// Constructor&  destructor
+Application::Application(int& argc, char** argv) :
 	QApplication(argc, argv)
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));

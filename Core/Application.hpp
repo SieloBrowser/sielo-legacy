@@ -53,10 +53,10 @@ public:
 		NTT_CleanNotSelectedTab = NTT_CleanTab | NTT_NotSelectedTab
 	};
 
-	Application(int &argc, char **argv);
+	Application(int& argc, char** argv);
 	~Application();
 
-	static Application *instance();
+	static Application* instance();
 };
 
 }

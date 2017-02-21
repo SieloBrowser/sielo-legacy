@@ -26,7 +26,7 @@
 
 namespace Sn {
 
-CheckBoxDialog::CheckBoxDialog(const QDialogButtonBox::StandardButtons &buttons, QWidget *parent) :
+CheckBoxDialog::CheckBoxDialog(const QDialogButtonBox::StandardButtons& buttons, QWidget* parent) :
 	QDialog(parent, Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
 	setupUi();
@@ -34,23 +34,23 @@ CheckBoxDialog::CheckBoxDialog(const QDialogButtonBox::StandardButtons &buttons,
 	m_buttonBox->setStandardButtons(buttons);
 }
 
-void CheckBoxDialog::setIcon(const QIcon &icon)
+void CheckBoxDialog::setIcon(const QIcon& icon)
 {
 	m_iconLabel->setPixmap(icon.pixmap(48, 48));
 	m_iconLabel->setFixedWidth(48);
 }
 
-void CheckBoxDialog::setText(const QString &text)
+void CheckBoxDialog::setText(const QString& text)
 {
 	m_textLabel->setText(text);
 }
 
-void CheckBoxDialog::setCheckBoxText(const QString &text)
+void CheckBoxDialog::setCheckBoxText(const QString& text)
 {
 	m_checkBox->setText(text);
 }
 
-bool CheckBoxDialog::isChecked()
+bool CheckBoxDialog::isChecked() const
 {
 	return m_checkBox->isChecked();
 }

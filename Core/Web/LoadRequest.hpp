@@ -40,29 +40,29 @@ public:
 	LoadRequest() :
 		m_operation(GetOp)
 	{}
-	LoadRequest(const LoadRequest &other) :
+	LoadRequest(const LoadRequest& other) :
 		m_url(other.m_url),
 		m_operation(other.m_operation),
 		m_data(other.m_data)
 	{}
-	LoadRequest(const QUrl &url, Operation operation = GetOp, const QByteArray &data = QByteArray()) :
+	LoadRequest(const QUrl& url, Operation operation = GetOp, const QByteArray& data = QByteArray()) :
 		m_url(url),
 		m_operation(operation),
 		m_data(data)
 	{}
 
-	LoadRequest &operator =(const LoadRequest &other)
+	LoadRequest& operator =(const LoadRequest& other)
 	{
 		m_url = other.m_url;
 		m_operation = other.m_operation;
 		m_data = other.m_data;
-		return *this;
+		return* this;
 	}
 
 	bool isEmpty() const { return m_url.isEmpty(); }
 
 	QUrl url() const { return m_url; }
-	void setUrl(const QUrl &url) { m_url = url; }
+	void setUrl(const QUrl& url) { m_url = url; }
 
 	QString urlString() const { return QUrl::fromPercentEncoding(m_url.toEncoded()); }
 
@@ -70,7 +70,7 @@ public:
 	void setOperation(Operation operation) { m_operation = operation; }
 
 	QByteArray data() const { return m_data; }
-	void setData(const QByteArray &data) { m_data = data; }
+	void setData(const QByteArray& data) { m_data = data; }
 
 private:
 	QUrl m_url{};
