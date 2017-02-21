@@ -8,7 +8,8 @@ HEADERS += \
     Application.hpp \
     Web/WebPage.hpp \
     Web/WebHitTestResult.hpp \
-    Utils/CheckBoxDialog.hpp
+    Utils/CheckBoxDialog.hpp \
+    Plugins/PluginInterface.hpp
 
 SOURCES += \
     Application.cpp \
