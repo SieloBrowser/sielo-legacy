@@ -6,7 +6,9 @@ QT += webenginewidgets
 HEADERS += \
     Web/LoadRequest.hpp \
     Application.hpp \
-    Web/WebPage.hpp
+    Web/WebPage.hpp \
+    Web/WebHitTestResult.hpp
 
 SOURCES += \
-    Application.cpp
+    Application.cpp \
+    Web/WebHitTestResult.cpp
