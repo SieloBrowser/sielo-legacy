@@ -21,7 +21,24 @@
 ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  **
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
+
 #ifndef PLUGINS_HPP
 #define PLUGINS_HPP
+
+#include <QObject>
+#include <QList>
+
+#include "Plugins/PluginInterface.hpp"
+
+class QPluginLoader;
+
+namespace Sn {
+
+class Plugins : public QObject
+{
+
+};
+
+}
 
 #endif // PLUGINS_HPP

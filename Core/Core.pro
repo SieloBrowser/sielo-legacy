@@ -9,7 +9,8 @@ HEADERS += \
     Web/WebPage.hpp \
     Utils/CheckBoxDialog.hpp \
     Plugins/PluginInterface.hpp \
-    Web/WebHitTestResult.hpp
+    Web/WebHitTestResult.hpp \
+    Plugins/Plugins.hpp
 
 SOURCES += \
     Application.cpp \
