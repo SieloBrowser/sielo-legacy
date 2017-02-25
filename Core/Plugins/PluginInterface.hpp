@@ -44,11 +44,11 @@ struct PluginProp {
 
 	PluginProp() {}
 
-	bool operator ==(const SPluginProp& other) const {
-		return (name == other.name& &
-				info == other.info& &
-				desc == other.desc& &
-				author == other.author& &
+	bool operator ==(const PluginProp& other) const {
+		return (name == other.name &&
+				info == other.info &&
+				desc == other.desc &&
+				author == other.author &&
 				version == other.version);
 	}
 };
@@ -111,14 +111,13 @@ public:
 	}
 
 };
+}
 
 QT_BEGIN_NAMESPACE
 
 #define PluginInterface_iid "com.feldrise.Sielo.PluginInterface"
-Q_DECLARE_INTERFACE(PluginInterface, PluginInterface_iid)
+Q_DECLARE_INTERFACE(Sn::PluginInterface, PluginInterface_iid)
 
 QT_END_NAMESPACE
-
-}
 
 #endif // PLUGININTERFACE_HPP
