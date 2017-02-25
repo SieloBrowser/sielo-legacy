@@ -36,7 +36,26 @@ namespace Sn {
 
 class Plugins : public QObject
 {
+	Q_OBJECT
 
+public:
+	struct Plugin {
+		QString fileName{};
+		QString fullPath{};
+		PluginProp pluginProp{};
+		QPluginLoader* pluginLoader{ nullptr };
+		PluginInterface* instance{ nullptr };
+
+		Plugin() {}
+
+		bool isLoaded() const { return instance; }
+		bool operator ==(const Plugin& other) const {
+			return (fileName == other.fileName &&
+					fullPath == other.fullPath &&
+					pluginProp == other.pluginProp &&
+					instance == other.instance);
+		}
+	};
 };
 
 }
