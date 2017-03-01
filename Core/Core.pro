@@ -15,4 +15,5 @@ HEADERS += \
 SOURCES += \
     Application.cpp \
     Utils/CheckBoxDialog.cpp \
-    Web/WebHitTestResult.cpp
+    Web/WebHitTestResult.cpp \
+    Plugins/Plugins.cpp

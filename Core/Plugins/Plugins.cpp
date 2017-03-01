@@ -22,74 +22,74 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef PLUGINS_HPP
-#define PLUGINS_HPP
+#include "Plugins/Plugins.hpp"
 
-#include <QObject>
-#include <QList>
+#include <QDir>
+#include <QPluginLoader>
+#include <QMessageBox>
 
-#include "Plugins/PluginInterface.hpp"
+#include <QSettings>
 
-class QPluginLoader;
+#include "Application.hpp"
 
 namespace Sn {
 
-class Plugins : public QObject
+Plugins::Plugins(QObject *parent) :
+	QObject(parent)
 {
-	Q_OBJECT
-
-public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{ nullptr };
-		PluginInterface* instance{ nullptr };
-
-		Plugin() {}
-
-		bool isLoaded() const { return instance; }
-		bool operator ==(const Plugin& other) const {
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
-
-	explicit Plugins(QObject* parent = nullptr);
-
-	QList<Plugin> getAvailablePlugins();
-
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
-
-	void shutdown();
-
-public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface *plugin);
-
-private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface, QPluginLoader* loader);
-
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
-
-	QList<Plugin> m_availablePlugins{};
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsEnabled{ true };
-	bool m_pluginsLoaded{ false };
-};
-
+	loadSettings();
 }
 
-#endif // PLUGINS_HPP
+QList<Plugins::Plugin> Plugins::getAvailablePlugins()
+{
+	loadAvailablePlugins();
+
+	return m_availablePlugins;
+}
+
+bool Plugins::loadPlugin(Plugin *plugin)
+{
+	if (plugin->isLoaded())
+		return true;
+
+	plugin->pluginLoader->setFileName(plugin->fullPath);
+	PluginInterface *iPlugin{ qobject_cast<PluginInterface*>(plugin->pluginLoader->instance()) };
+
+	if (!iPlugin)
+		return false;
+
+	m_availablePlugins.removeOne(*plugin);
+	plugin->instance = initPlugin(PluginInterface::LateInitState, iPlugin, plugin->pluginLoader);
+	m_availablePlugins.prepend(*plugin);
+
+	refreshLoadedPlugins();
+
+	return plugin->isLoaded();
+}
+
+void Plugins::unloadPlugin(Plugin *plugin)
+{
+	if (!plugin->isLoaded())
+		return;
+
+	plugin->instance->unload();
+	plugin->pluginLoader->unload();
+	emit pluginUnloaded(plugin->instance);
+
+	m_availablePlugins.removeOne(*plugin);
+	plugin->instance = nullptr;
+	m_availablePlugins.append(*plugin);
+
+	refreshLoadedPlugins();
+}
+
+void Plugins::loadSettings()
+{
+	QSettings settings{};
+
+	settings.beginGroup("Plugin-Settings");
+	m_allowedPlugins = settings.value("AllowedPlugins", QStringList()).toStringList();
+	settings.endGroup();
+}
+
+}
