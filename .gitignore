@@ -24,3 +24,8 @@
 *.DS_STORE
 /SieloNavigateur/icon.icns
 /SieloNavigateur/Win32/Debug
+cmake-build-debug/
+cmake-build-release/
+CMakeLists.txt
+.idea
+.gitignore
