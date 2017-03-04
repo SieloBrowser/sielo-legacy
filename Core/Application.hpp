@@ -21,9 +21,10 @@
 ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  **
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
+
+#pragma once
 #ifndef CORE_APPLICATION_HPP
 #define CORE_APPLICATION_HPP
-#pragma once
 
 #include <QApplication>
 #include <QList>

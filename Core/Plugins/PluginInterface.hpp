@@ -22,9 +22,9 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
+#pragma once
 #ifndef CORE_PLUGININTERFACE_HPP
 #define CORE_PLUGININTERFACE_HPP
-#pragma once
 
 #include <QtPlugin>
 #include <QPixmap>

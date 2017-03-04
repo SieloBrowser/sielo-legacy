@@ -22,9 +22,9 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
+#pragma once
 #ifndef CORE_CHECKBOXDIALOG_HPP
 #define CORE_CHECKBOXDIALOG_HPP
-#pragma once
 
 #include <QDialog>
 #include <QDialogButtonBox>

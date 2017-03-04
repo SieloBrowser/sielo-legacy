@@ -22,9 +22,9 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
+#pragma once
 #ifndef CORE_WEBHITTESTRESULT_HPP
 #define CORE_WEBHITTESTRESULT_HPP
-#pragma once
 
 #include <QUrl>
 #include <QRect>
