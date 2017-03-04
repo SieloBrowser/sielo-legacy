@@ -34,22 +34,22 @@ class QPluginLoader;
 
 namespace Sn {
 
-class Plugins : public QObject
-{
-	Q_OBJECT
+class Plugins: public QObject {
+Q_OBJECT
 
 public:
 	struct Plugin {
 		QString fileName{};
 		QString fullPath{};
 		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{ nullptr };
-		PluginInterface* instance{ nullptr };
+		QPluginLoader* pluginLoader{nullptr};
+		PluginInterface* instance{nullptr};
 
 		Plugin() {}
 
 		bool isLoaded() const { return instance; }
-		bool operator ==(const Plugin& other) const {
+		bool operator==(const Plugin& other) const
+		{
 			return (fileName == other.fileName &&
 					fullPath == other.fullPath &&
 					pluginProp == other.pluginProp &&
@@ -74,11 +74,12 @@ protected:
 	QList<PluginInterface*> m_loadedPlugins{};
 
 signals:
-	void pluginUnloaded(PluginInterface *plugin);
+	void pluginUnloaded(PluginInterface* plugin);
 
 private:
 	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface, QPluginLoader* loader);
+	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
+								QPluginLoader* loader);
 
 	void refreshLoadedPlugins();
 	void loadAvailablePlugins();
@@ -86,8 +87,8 @@ private:
 	QList<Plugin> m_availablePlugins{};
 	QStringList m_allowedPlugins{};
 
-	bool m_pluginsEnabled{ true };
-	bool m_pluginsLoaded{ false };
+	bool m_pluginsEnabled{true};
+	bool m_pluginsLoaded{false};
 };
 
 }

@@ -39,9 +39,8 @@ namespace Sn {
 class WebView;
 class WebHitTestResult;
 
-class WebPage : public QWebEnginePage
-{
-	Q_OBJECT
+class WebPage: public QWebEnginePage {
+Q_OBJECT
 
 public:
 	WebPage(QObject* parent = nullptr);
@@ -49,7 +48,8 @@ public:
 
 	WebView* view() const;
 
-	QVariant executeJavaScript(const QString& scriptSrc, quint32 worldId = QWebEngineScript::MainWorld, int timeout = 500);
+	QVariant executeJavaScript(const QString& scriptSrc, quint32 worldId = QWebEngineScript::MainWorld,
+							   int timeout = 500);
 
 	QPointF mapToViewport(const QPointF& pos) const;
 	WebHitTestResult hitTestContent(const QPoint& pos) const;
@@ -85,12 +85,12 @@ private:
 	void handleUnknowProtocol(const QUrl& url);
 	void desktopServiceOpen(const QUrl& url);
 
-	QEventLoop* m_runningLoop{ nullptr };
+	QEventLoop* m_runningLoop{nullptr};
 
-	int m_loadProgress{ -1 };
-	bool m_blockAlerts{ false };
-	bool m_secureStatus{ false };
-	bool m_adjustingSheduled{ false };
+	int m_loadProgress{-1};
+	bool m_blockAlerts{false};
+	bool m_secureStatus{false};
+	bool m_adjustingSheduled{false};
 
 };
 

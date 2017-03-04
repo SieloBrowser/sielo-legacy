@@ -34,7 +34,7 @@
 
 namespace Sn {
 
-Plugins::Plugins(QObject *parent) :
+Plugins::Plugins(QObject* parent) :
 	QObject(parent)
 {
 	loadSettings();
@@ -47,13 +47,13 @@ QList<Plugins::Plugin> Plugins::getAvailablePlugins()
 	return m_availablePlugins;
 }
 
-bool Plugins::loadPlugin(Plugin *plugin)
+bool Plugins::loadPlugin(Plugin* plugin)
 {
 	if (plugin->isLoaded())
 		return true;
 
 	plugin->pluginLoader->setFileName(plugin->fullPath);
-	PluginInterface *iPlugin{ qobject_cast<PluginInterface*>(plugin->pluginLoader->instance()) };
+	PluginInterface* iPlugin{qobject_cast<PluginInterface*>(plugin->pluginLoader->instance())};
 
 	if (!iPlugin)
 		return false;
@@ -67,7 +67,7 @@ bool Plugins::loadPlugin(Plugin *plugin)
 	return plugin->isLoaded();
 }
 
-void Plugins::unloadPlugin(Plugin *plugin)
+void Plugins::unloadPlugin(Plugin* plugin)
 {
 	if (!plugin->isLoaded())
 		return;
@@ -90,6 +90,33 @@ void Plugins::loadSettings()
 	settings.beginGroup("Plugin-Settings");
 	m_allowedPlugins = settings.value("AllowedPlugins", QStringList()).toStringList();
 	settings.endGroup();
+}
+
+void Plugins::shutdown()
+{
+		foreach (PluginInterface* iPlugin, m_loadedPlugins) iPlugin->unload();
+}
+
+void Plugins::loadPlugins()
+{
+	if (!m_pluginsEnabled)
+		return;
+
+	QDir settingsDir(sApp->paths()[Application::P_Plugin]);
+
+	if (!settingsDir.exists())
+		settingsDir.mkdir(settingsDir.absolutePath());
+
+		foreach (const QString& fullPath, m_allowedPlugins) {
+			QPluginLoader* loader{new QPluginLoader(fullPath)};
+			PluginInterface* iPlugin{qobject_cast<PluginInterface*>(loader->instance())};
+
+			if (!iPlugin) {
+				qWarning() << "Loading " << fullPath << " plugin failed: " << loader->errorString();
+				continue;
+			}
+
+		}
 }
 
 }

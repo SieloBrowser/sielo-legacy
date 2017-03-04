@@ -40,11 +40,12 @@ struct PluginProp {
 	QString author{};
 	QString version{};
 	QPixmap icon{};
-	bool hasSettings{ false };
+	bool hasSettings{false};
 
 	PluginProp() {}
 
-	bool operator ==(const PluginProp& other) const {
+	bool operator==(const PluginProp& other) const
+	{
 		return (name == other.name &&
 				info == other.info &&
 				desc == other.desc &&
@@ -55,7 +56,7 @@ struct PluginProp {
 
 class PluginInterface {
 public:
-	enum InitState{ StartupInitState, LateInitState };
+	enum InitState { StartupInitState, LateInitState };
 
 	virtual PluginProp pluginProp() = 0;
 	virtual void init(InitState state, const QString& settingsPath) = 0;
@@ -65,45 +66,52 @@ public:
 	virtual ~PluginInterface() {}
 	virtual void showSettings(QWidget* parent = nullptr) { Q_UNUSED(parent) }
 
-	virtual bool mouseDoubleClick(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event) {
+	virtual bool mouseDoubleClick(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
 	}
-	virtual bool mousePress(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event) {
+	virtual bool mousePress(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
 	}
-	virtual bool mouseRelease(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event) {
+	virtual bool mouseRelease(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
 	}
-	virtual bool mouseMouve(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event) {
+	virtual bool mouseMouve(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
 	}
 
-	virtual bool wheelEvent(const Application::ObjectName& objName, QObject* obj, QWheelEvent* event) {
+	virtual bool wheelEvent(const Application::ObjectName& objName, QObject* obj, QWheelEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
 	}
 
-	virtual bool keyPress(const Application::ObjectName& objName, QObject* obj, QKeyEvent* event) {
+	virtual bool keyPress(const Application::ObjectName& objName, QObject* obj, QKeyEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
 	}
-	virtual bool keyRelease(const Application::ObjectName& objName, QObject* obj, QKeyEvent* event) {
+	virtual bool keyRelease(const Application::ObjectName& objName, QObject* obj, QKeyEvent* event)
+	{
 		Q_UNUSED(objName)
 		Q_UNUSED(obj)
 		Q_UNUSED(event)

@@ -27,7 +27,9 @@
 namespace Sn {
 
 CheckBoxDialog::CheckBoxDialog(const QDialogButtonBox::StandardButtons& buttons, QWidget* parent) :
-	QDialog(parent, Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
+	QDialog(parent,
+			Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint
+			| Qt::WindowCloseButtonHint)
 {
 	setupUi();
 

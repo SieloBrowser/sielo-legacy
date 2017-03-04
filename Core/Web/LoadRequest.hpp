@@ -38,25 +38,22 @@ public:
 	};
 
 	LoadRequest() :
-		m_operation(GetOp)
-	{}
+		m_operation(GetOp) {}
 	LoadRequest(const LoadRequest& other) :
 		m_url(other.m_url),
 		m_operation(other.m_operation),
-		m_data(other.m_data)
-	{}
+		m_data(other.m_data) {}
 	LoadRequest(const QUrl& url, Operation operation = GetOp, const QByteArray& data = QByteArray()) :
 		m_url(url),
 		m_operation(operation),
-		m_data(data)
-	{}
+		m_data(data) {}
 
-	LoadRequest& operator =(const LoadRequest& other)
+	LoadRequest& operator=(const LoadRequest& other)
 	{
 		m_url = other.m_url;
 		m_operation = other.m_operation;
 		m_data = other.m_data;
-		return* this;
+		return *this;
 	}
 
 	bool isEmpty() const { return m_url.isEmpty(); }

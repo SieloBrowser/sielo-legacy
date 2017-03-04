@@ -23,12 +23,23 @@
 ***********************************************************************************/
 
 #include <QString>
+#include <QStandardPaths>
+#include <QDir>
 
 #include "Application.hpp"
 
 namespace Sn {
 
 // Static member
+QList<QString> Application::paths()
+{
+	QList<QString> paths{};
+
+	paths.append(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+	paths.append(paths[Application::P_Data] + "/plugins");
+
+	return paths;
+}
 Application* Application::instance()
 {
 	return (static_cast<Application*>(QCoreApplication::instance()));

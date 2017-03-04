@@ -37,8 +37,7 @@ namespace Sn {
 
 class WebPage;
 
-class WebHitTestResult
-{
+class WebHitTestResult {
 public:
 	WebHitTestResult(const WebPage* page, const QPoint& pos);
 
@@ -61,21 +60,21 @@ public:
 	QString tagName() const;
 
 private:
-	bool m_isNull{ true };
-	QUrl m_baseUrl{ QUrl() };
-	QString m_alternateText{ QString() };
-	QRect m_boundingRect{ QRect() };
-	QUrl m_imageUrl{ QUrl() };
-	bool m_isContentEditable{ false };
-	bool m_isContentSelected{ false };
-	QString m_linkTitle{ QString() };
-	QUrl m_linkUrl{ QUrl() };
-	QUrl m_mediaUrl{ QUrl() };
-	bool m_mediaPaused{ false };
-	bool m_mediaMuted{ false };
-	QPoint m_pos{ QPoint() };
-	QPointF m_viewportPos{ QPointF() };
-	QString m_tagName{ QString() };
+	bool m_isNull{true};
+	QUrl m_baseUrl{QUrl()};
+	QString m_alternateText{QString()};
+	QRect m_boundingRect{QRect()};
+	QUrl m_imageUrl{QUrl()};
+	bool m_isContentEditable{false};
+	bool m_isContentSelected{false};
+	QString m_linkTitle{QString()};
+	QUrl m_linkUrl{QUrl()};
+	QUrl m_mediaUrl{QUrl()};
+	bool m_mediaPaused{false};
+	bool m_mediaMuted{false};
+	QPoint m_pos{QPoint()};
+	QPointF m_viewportPos{QPointF()};
+	QString m_tagName{QString()};
 };
 
 }

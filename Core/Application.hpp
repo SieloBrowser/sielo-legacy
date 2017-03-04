@@ -25,12 +25,12 @@
 #define APPLICATION_HPP
 
 #include <QApplication>
+#include <QList>
 
 #define sApp Sn::Application::instance()
 
 namespace Sn {
-
-class Application : public QApplication {
+class Application: public QApplication {
 public:
 	enum ObjectName {
 		ON_WebView,
@@ -39,13 +39,13 @@ public:
 	};
 
 	enum NewTabType {
-		NTT_SelectedTab =1,
+		NTT_SelectedTab = 1,
 		NTT_NotSelectedTab = 2,
 		NTT_CleanTab = 4,
 		NTT_TabAtEnd = 8,
 		NTT_NewEmptyTab = 16,
 		/* ------------------------- */
-		NTT_SelectedNewEmptyTab = NTT_SelectedTab | NTT_TabAtEnd | NTT_NewEmptyTab,
+			NTT_SelectedNewEmptyTab = NTT_SelectedTab | NTT_TabAtEnd | NTT_NewEmptyTab,
 		NTT_SelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd,
 		NTT_NotSelectedTabAtEnd = NTT_NotSelectedTab | NTT_TabAtEnd,
 		NTT_CleanSelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd | NTT_CleanTab,
@@ -53,9 +53,15 @@ public:
 		NTT_CleanNotSelectedTab = NTT_CleanTab | NTT_NotSelectedTab
 	};
 
+	enum Path {
+		P_Data = 0,
+		P_Plugin = 1
+	};
+
 	Application(int& argc, char** argv);
 	~Application();
 
+	static QList<QString> paths();
 	static Application* instance();
 };
 
