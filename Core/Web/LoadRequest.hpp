@@ -24,6 +24,7 @@
 
 #ifndef CORE_LOADREQUEST_HPP
 #define CORE_LOADREQUEST_HPP
+#pragma once
 
 #include <QUrl>
 #include <QByteArray>

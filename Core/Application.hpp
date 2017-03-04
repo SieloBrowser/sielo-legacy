@@ -23,6 +23,7 @@
 ***********************************************************************************/
 #ifndef CORE_APPLICATION_HPP
 #define CORE_APPLICATION_HPP
+#pragma once
 
 #include <QApplication>
 #include <QList>

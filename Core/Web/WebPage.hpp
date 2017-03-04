@@ -24,6 +24,7 @@
 
 #ifndef CORE_WEBPAGE_HPP
 #define CORE_WEBPAGE_HPP
+#pragma once
 
 #include <QWebEnginePage>
 #include <QWebEngineScript>

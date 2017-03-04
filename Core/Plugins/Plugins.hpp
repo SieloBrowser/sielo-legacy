@@ -24,6 +24,7 @@
 
 #ifndef CORE_PLUGINS_HPP
 #define CORE_PLUGINS_HPP
+#pragma once
 
 #include <QObject>
 #include <QList>
