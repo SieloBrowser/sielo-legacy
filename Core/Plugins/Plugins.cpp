@@ -117,7 +117,98 @@ void Plugins::loadPlugins()
 				continue;
 			}
 
+			Plugin plugin{};
+			plugin.fileName = QFileInfo(fullPath).fileName();
+			plugin.fullPath = fullPath;
+			plugin.pluginLoader = loader;
+			plugin.instance = initPlugin(PluginInterface::StartupInitState, iPlugin, loader);
+
+			if (plugin.isLoaded()) {
+				plugin.pluginProp = iPlugin->pluginProp();
+
+				m_loadedPlugins.append(plugin.instance);
+				m_availablePlugins.append(plugin);
+			}
+
+		}
+
+	refreshLoadedPlugins();
+
+	qDebug() << "Plugins are loaded! ";
+}
+
+void Plugins::loadAvailablePlugins()
+{
+	if (m_pluginsLoaded)
+		return;
+
+	m_pluginsLoaded = true;
+
+	QDir pluginsDir{QDir(sApp->paths()[Application::P_Plugin])};
+
+		foreach (const QString& fileName,
+				 pluginsDir.entryList(QDir::Files)) {
+			const QString absolutPath{pluginsDir.absoluteFilePath(fileName)};
+
+			QPluginLoader* loader{new QPluginLoader(absolutPath)};
+			PluginInterface* iPlugin{qobject_cast<PluginInterface*>(loader->instance())};
+
+			if (!iPlugin) {
+				qWarning() << "Available plugin loading error: " << loader->errorString();
+				continue;
+			}
+
+			Plugin plugin{};
+			plugin.fileName = fileName;
+			plugin.fullPath = absolutPath;
+			plugin.pluginProp = iPlugin->pluginProp();
+			plugin.pluginLoader = loader;
+			plugin.instance = nullptr;
+
+			loader->unload();
+
+			if (!alreadyPropInAvailable(plugin.pluginProp))
+				m_availablePlugins.append(plugin);
 		}
 }
 
+PluginInterface* Plugins::initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
+									 QPluginLoader* loader)
+{
+	if (!pluginInterface)
+		return nullptr;
+
+	pluginInterface->init(state, sApp->paths()[Application::P_Plugin]);
+
+	if (!pluginInterface->testPlugin()) {
+		pluginInterface->unload();
+		loader->unload();
+
+		emit pluginUnloaded(pluginInterface);
+
+		return nullptr;
+	}
+
+	return pluginInterface;
+}
+
+void Plugins::refreshLoadedPlugins()
+{
+	m_loadedPlugins.clear();
+
+		foreach (const Plugin& plugin, m_availablePlugins) {
+			if (plugin.isLoaded())
+				m_loadedPlugins.append(plugin.instance);
+		}
+}
+
+bool Plugins::alreadyPropInAvailable(const PluginProp& prop)
+{
+		foreach (const Plugin& plugin, m_availablePlugins) {
+			if (plugin.pluginProp == prop)
+				return true;
+		}
+
+	return false;
+}
 }
