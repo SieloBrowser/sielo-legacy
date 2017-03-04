@@ -22,8 +22,8 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef WEBPAGE_HPP
-#define WEBPAGE_HPP
+#ifndef CORE_WEBPAGE_HPP
+#define CORE_WEBPAGE_HPP
 
 #include <QWebEnginePage>
 #include <QWebEngineScript>
@@ -96,4 +96,4 @@ private:
 
 }
 
-#endif // WEBPAGE_HPP
+#endif // CORE_WEBPAGE_HPP

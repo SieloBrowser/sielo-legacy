@@ -22,8 +22,8 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef PLUGININTERFACE_HPP
-#define PLUGININTERFACE_HPP
+#ifndef CORE_PLUGININTERFACE_HPP
+#define CORE_PLUGININTERFACE_HPP
 
 #include <QtPlugin>
 #include <QPixmap>
@@ -128,4 +128,4 @@ Q_DECLARE_INTERFACE(Sn::PluginInterface, PluginInterface_iid)
 
 QT_END_NAMESPACE
 
-#endif // PLUGININTERFACE_HPP
+#endif // CORE_PLUGININTERFACE_HPP

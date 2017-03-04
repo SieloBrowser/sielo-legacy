@@ -22,8 +22,8 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef CHECKBOXDIALOG_HPP
-#define CHECKBOXDIALOG_HPP
+#ifndef CORE_CHECKBOXDIALOG_HPP
+#define CORE_CHECKBOXDIALOG_HPP
 
 #include <QDialog>
 #include <QDialogButtonBox>
@@ -70,4 +70,4 @@ private:
 
 }
 
-#endif // CHECKBOXDIALOG_HPP
+#endif // CORE_CHECKBOXDIALOG_HPP

@@ -21,8 +21,8 @@
 ** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  **
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
-#ifndef APPLICATION_HPP
-#define APPLICATION_HPP
+#ifndef CORE_APPLICATION_HPP
+#define CORE_APPLICATION_HPP
 
 #include <QApplication>
 #include <QList>
@@ -66,4 +66,4 @@ public:
 };
 
 }
-#endif // APPLICATION_HPP
+#endif // CORE_APPLICATION_HPP

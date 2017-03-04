@@ -22,8 +22,8 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef LOADREQUEST_HPP
-#define LOADREQUEST_HPP
+#ifndef CORE_LOADREQUEST_HPP
+#define CORE_LOADREQUEST_HPP
 
 #include <QUrl>
 #include <QByteArray>
@@ -76,4 +76,4 @@ private:
 };
 
 } // namespace Sn
-#endif // LOADREQUEST_HPP
+#endif // CORE_LOADREQUEST_HPP

@@ -22,8 +22,8 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef PLUGINS_HPP
-#define PLUGINS_HPP
+#ifndef CORE_PLUGINS_HPP
+#define CORE_PLUGINS_HPP
 
 #include <QObject>
 #include <QList>
@@ -93,4 +93,4 @@ private:
 
 }
 
-#endif // PLUGINS_HPP
+#endif // CORE_PLUGINS_HPP

@@ -29,6 +29,7 @@
 #include <QMessageBox>
 
 #include <QSettings>
+#include <QDebug>
 
 #include "Application.hpp"
 

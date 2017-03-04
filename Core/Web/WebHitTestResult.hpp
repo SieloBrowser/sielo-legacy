@@ -22,8 +22,8 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef WEBHITTESTRESULT_HPP
-#define WEBHITTESTRESULT_HPP
+#ifndef CORE_WEBHITTESTRESULT_HPP
+#define CORE_WEBHITTESTRESULT_HPP
 
 #include <QUrl>
 #include <QRect>
@@ -79,4 +79,4 @@ private:
 
 }
 
-#endif // WEBHITTESTRESULT_HPP
+#endif // CORE_WEBHITTESTRESULT_HPP
