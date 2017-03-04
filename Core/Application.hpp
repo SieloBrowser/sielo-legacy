@@ -32,6 +32,8 @@
 #define sApp Sn::Application::instance()
 
 namespace Sn {
+class PluginProxy;
+
 class Application: public QApplication {
 public:
 	enum ObjectName {
@@ -63,8 +65,13 @@ public:
 	Application(int& argc, char** argv);
 	~Application();
 
+	PluginProxy* plugins() { return m_plugins; }
+
 	static QList<QString> paths();
 	static Application* instance();
+
+private:
+	PluginProxy* m_plugins{nullptr};
 };
 
 }
