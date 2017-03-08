@@ -103,7 +103,7 @@ void Plugins::loadPlugins()
 	if (!m_pluginsEnabled)
 		return;
 
-	QDir settingsDir(sApp->paths()[Application::P_Plugin]);
+	QDir settingsDir(Application::instance()->paths()[Application::P_Plugin]);
 
 	if (!settingsDir.exists())
 		settingsDir.mkdir(settingsDir.absolutePath());
@@ -144,7 +144,7 @@ void Plugins::loadAvailablePlugins()
 
 	m_pluginsLoaded = true;
 
-	QDir pluginsDir{QDir(sApp->paths()[Application::P_Plugin])};
+	QDir pluginsDir{QDir(Application::instance()->paths()[Application::P_Plugin])};
 
 		foreach (const QString& fileName,
 				 pluginsDir.entryList(QDir::Files)) {
@@ -178,7 +178,7 @@ PluginInterface* Plugins::initPlugin(PluginInterface::InitState state, PluginInt
 	if (!pluginInterface)
 		return nullptr;
 
-	pluginInterface->init(state, sApp->paths()[Application::P_Plugin]);
+	pluginInterface->init(state, Application::instance()->paths()[Application::P_Plugin]);
 
 	if (!pluginInterface->testPlugin()) {
 		pluginInterface->unload();

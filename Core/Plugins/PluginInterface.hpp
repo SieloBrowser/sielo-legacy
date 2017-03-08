@@ -34,6 +34,8 @@
 
 namespace Sn {
 
+class WebPage;
+
 struct PluginProp {
 	QString name{};
 	QString info{};
@@ -117,6 +119,16 @@ public:
 		Q_UNUSED(obj)
 		Q_UNUSED(event)
 		return false;
+	}
+
+	virtual bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type,
+										 bool isMainFrame)
+	{
+		Q_UNUSED(page);
+		Q_UNUSED(url);
+		Q_UNUSED(type);
+		Q_UNUSED(isMainFrame);
+		return true;
 	}
 
 };

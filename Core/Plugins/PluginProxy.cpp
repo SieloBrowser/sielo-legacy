@@ -90,44 +90,44 @@ void PluginProxy::pluginUnloaded(PluginInterface* plugin)
 	m_keyReleaseHandlers.removeOne(plugin);
 }
 
-bool PluginProxy::processMouseDoubleClick(const Application::ObjectName &type, QObject *obj, QMouseEvent *event)
+bool PluginProxy::processMouseDoubleClick(const Application::ObjectName& type, QObject* obj, QMouseEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_mouseDoubleClickHandlers) {
+		foreach (PluginInterface* iPlugin, m_mouseDoubleClickHandlers) {
 			if (iPlugin->mouseDoubleClick(type, obj, event))
 				accepted = true;
 		}
 
 	return accepted;
 }
-bool PluginProxy::processMousePress(const Application::ObjectName &type, QObject *obj, QMouseEvent *event)
+bool PluginProxy::processMousePress(const Application::ObjectName& type, QObject* obj, QMouseEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_mousePressHandlers) {
+		foreach (PluginInterface* iPlugin, m_mousePressHandlers) {
 			if (iPlugin->mousePress(type, obj, event))
 				accepted = true;
 		}
 
 	return accepted;
 }
-bool PluginProxy::processMouseRelease(const Application::ObjectName &type, QObject *obj, QMouseEvent *event)
+bool PluginProxy::processMouseRelease(const Application::ObjectName& type, QObject* obj, QMouseEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_mouseReleaseHandlers) {
+		foreach (PluginInterface* iPlugin, m_mouseReleaseHandlers) {
 			if (iPlugin->mouseRelease(type, obj, event))
 				accepted = true;
 		}
 
 	return accepted;
 }
-bool PluginProxy::processMouseMove(const Application::ObjectName &type, QObject *obj, QMouseEvent *event)
+bool PluginProxy::processMouseMove(const Application::ObjectName& type, QObject* obj, QMouseEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_mouseMoveHandlers) {
+		foreach (PluginInterface* iPlugin, m_mouseMoveHandlers) {
 			if (iPlugin->mouseDoubleClick(type, obj, event))
 				accepted = true;
 		}
@@ -135,22 +135,22 @@ bool PluginProxy::processMouseMove(const Application::ObjectName &type, QObject 
 	return accepted;
 }
 
-bool PluginProxy::processKeyPress(const Application::ObjectName &type, QObject *obj, QKeyEvent *event)
+bool PluginProxy::processKeyPress(const Application::ObjectName& type, QObject* obj, QKeyEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_keyPressHandlers) {
+		foreach (PluginInterface* iPlugin, m_keyPressHandlers) {
 			if (iPlugin->keyPress(type, obj, event))
 				accepted = true;
 		}
 
 	return accepted;
 }
-bool PluginProxy::processKeyRelease(const Application::ObjectName &type, QObject *obj, QKeyEvent *event)
+bool PluginProxy::processKeyRelease(const Application::ObjectName& type, QObject* obj, QKeyEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_keyReleaseHandlers) {
+		foreach (PluginInterface* iPlugin, m_keyReleaseHandlers) {
 			if (iPlugin->keyRelease(type, obj, event))
 				accepted = true;
 		}
@@ -158,11 +158,11 @@ bool PluginProxy::processKeyRelease(const Application::ObjectName &type, QObject
 	return accepted;
 }
 
-bool PluginProxy::processWheelEvent(const Application::ObjectName &type, QObject *obj, QWheelEvent *event)
+bool PluginProxy::processWheelEvent(const Application::ObjectName& type, QObject* obj, QWheelEvent* event)
 {
-	bool accepted{ false };
+	bool accepted{false};
 
-		foreach (PluginInterface *iPlugin, m_wheelEventHandlers) {
+		foreach (PluginInterface* iPlugin, m_wheelEventHandlers) {
 			if (iPlugin->wheelEvent(type, obj, event))
 				accepted = true;
 		}
@@ -170,4 +170,34 @@ bool PluginProxy::processWheelEvent(const Application::ObjectName &type, QObject
 	return accepted;
 }
 
+bool PluginProxy::acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type,
+										  bool isMainFrame)
+{
+	bool accepted{true};
+
+		foreach (PluginInterface* iPlugin, m_loadedPlugins) {
+			if (!iPlugin->acceptNavigationRequest(page, url, type, isMainFrame))
+				accepted = false;
+		}
+
+	return accepted;
+}
+
+void PluginProxy::emitWebPageCreated(WebPage* page)
+{
+	emit webPageCreated(page);
+}
+void PluginProxy::emitWebPageDeleted(WebPage* page)
+{
+	emit webPageDeleted(page);
+}
+
+void PluginProxy::emitMainWindowCreated(MainWindow* window)
+{
+	emit mainWindowCreated(window);
+}
+void PluginProxy::emitMainWindowDeleted(MainWindow* window)
+{
+	emit mainWindowDeleted(window);
+}
 }

@@ -110,7 +110,7 @@ public slots:
 	void forward();
 
 	//TODO: Show sources
-	void openUrlInNewTab(const QUrl& url, Application::NewTabType position) = 0;
+	virtual void openUrlInNewTab(const QUrl& url, Application::NewTabType position) = 0;
 
 	virtual void closeView() = 0;
 	virtual void loadInNewTab(const LoadRequest& request, Application::NewTabType position) = 0;

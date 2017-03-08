@@ -22,3 +22,40 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
+#include "Web/WebPage.hpp"
+
+#include <QPointer>
+#include <QTimer>
+#include <QWebEngineSettings>
+#include <QDesktopServices>
+
+#include "Web/WebHitTestResult.hpp"
+#include "Web/WebView.hpp"
+
+#include "Utils/CheckBoxDialog.hpp"
+
+#include "Plugins/PluginProxy.hpp"
+
+#include "Application.hpp"
+
+namespace Sn {
+WebPage::WebPage(QObject* parent) :
+	QWebEnginePage(parent),
+	m_runningLoop(nullptr),
+	m_loadProgress(-1),
+	m_blockAlerts(false),
+	m_secureStatus(false),
+	m_adjustingSheduled(false)
+{
+	connect(this, &QWebEnginePage::loadProgress, this, &WebPage::progress);
+	connect(this, &QWebEnginePage::loadFinished, this, &WebPage::finished);
+	connect(this, &QWebEnginePage::urlChanged, this, &WebPage::urlChanged);
+	connect(this, &QWebEnginePage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
+	connect(this, &QWebEnginePage::windowCloseRequested, this, &WebPage::windowCloseRequested);
+	connect(this, &QWebEnginePage::fullScreenRequested, this, &WebPage::fullScreenRequested);
+}
+
+WebPage::~WebPage()
+{
+}
+}

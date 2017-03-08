@@ -28,10 +28,16 @@
 
 #include <QList>
 
+#include <QWebEnginePage>
+
 #include "Plugins/Plugins.hpp"
 #include "Application.hpp"
 
 namespace Sn {
+
+class WebPage;
+class MainWindow;
+
 class PluginProxy: public Plugins {
 Q_OBJECT
 
@@ -60,6 +66,20 @@ public:
 	bool processKeyPress(const Application::ObjectName& type, QObject* obj, QKeyEvent* event);
 	bool processKeyRelease(const Application::ObjectName& type, QObject* obj, QKeyEvent* event);
 
+	bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type, bool isMainFrame);
+
+	void emitWebPageCreated(WebPage* page);
+	void emitWebPageDeleted(WebPage* page);
+
+	void emitMainWindowCreated(MainWindow* window);
+	void emitMainWindowDeleted(MainWindow* window);
+
+signals:
+	void webPageCreated(WebPage* page);
+	void webPageDeleted(WebPage* page);
+
+	void mainWindowCreated(MainWindow* window);
+	void mainWindowDeleted(MainWindow* window);
 private slots:
 	void pluginUnloaded(PluginInterface* plugin);
 

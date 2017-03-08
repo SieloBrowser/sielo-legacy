@@ -29,8 +29,6 @@
 #include <QApplication>
 #include <QList>
 
-#define sApp Sn::Application::instance()
-
 namespace Sn {
 class PluginProxy;
 
