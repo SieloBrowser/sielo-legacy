@@ -47,7 +47,9 @@ Application* Application::instance()
 
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
-	QApplication(argc, argv)
+	QApplication(argc, argv),
+	m_plugins(nullptr),
+	m_webProfile(nullptr)
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));

@@ -43,7 +43,7 @@
 
 namespace Sn {
 WebPage::WebPage(QObject* parent) :
-	QWebEnginePage(parent),
+	QWebEnginePage(Application::instance()->webProfile(), parent),
 	m_runningLoop(nullptr),
 	m_loadProgress(-1),
 	m_blockAlerts(false),

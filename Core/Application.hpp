@@ -29,6 +29,8 @@
 #include <QApplication>
 #include <QList>
 
+#include <QWebEngineProfile>
+
 namespace Sn {
 class PluginProxy;
 
@@ -65,11 +67,15 @@ public:
 
 	PluginProxy* plugins() { return m_plugins; }
 
+	QWebEngineProfile* webProfile() const { return m_webProfile; }
+
 	static QList<QString> paths();
 	static Application* instance();
 
 private:
 	PluginProxy* m_plugins{nullptr};
+
+	QWebEngineProfile* m_webProfile{nullptr};
 };
 
 }
