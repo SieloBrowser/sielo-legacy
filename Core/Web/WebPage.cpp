@@ -56,6 +56,8 @@ WebPage::WebPage(QObject* parent) :
 	connect(this, &QWebEnginePage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
 	connect(this, &QWebEnginePage::windowCloseRequested, this, &WebPage::windowCloseRequested);
 	connect(this, &QWebEnginePage::fullScreenRequested, this, &WebPage::fullScreenRequested);
+
+	//TODO: Connect with network manager
 }
 
 WebPage::~WebPage()
