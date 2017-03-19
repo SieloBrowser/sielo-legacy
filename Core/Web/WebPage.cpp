@@ -27,6 +27,7 @@
 #include <QPointer>
 #include <QTimer>
 #include <QDesktopServices>
+#include <QFileInfo>
 
 #include <QWebEngineSettings>
 
@@ -36,14 +37,16 @@
 #include "Web/WebView.hpp"
 
 #include "Utils/CheckBoxDialog.hpp"
+#include "Utils/DelayedFileWatcher.hpp"
 
 #include "Plugins/PluginProxy.hpp"
 
 #include "Application.hpp"
 
 namespace Sn {
-WebPage::WebPage(QObject* parent) :
+WebPage::WebPage(QObject* parent, DelayedFileWatcher* m_fileWatcher) :
 	QWebEnginePage(Application::instance()->webProfile(), parent),
+	m_fileWatcher(m_fileWatcher),
 	m_runningLoop(nullptr),
 	m_loadProgress(-1),
 	m_blockAlerts(false),
@@ -175,7 +178,24 @@ void WebPage::finished()
 		setZoomFactor(zoomFactor() - 1);
 	}
 
-	// TODO: Manage files
+	if (url().scheme() == QLatin1String("file")) {
+		QFileInfo info{url().toLocalFile()};
+
+		if (info.isFile()) {
+			if (!m_fileWatcher) {
+				m_fileWatcher = new DelayedFileWatcher(this);
+				connect(m_fileWatcher, &DelayedFileWatcher::delayedFileChanged, this, &WebPage::watchedFileChanged);
+			}
+
+			const QString filePath{url().toLocalFile()};
+
+			if (QFile::exists(filePath) && !m_fileWatcher->files().contains(filePath))
+				m_fileWatcher->addPath(filePath);
+
+		}
+		else if (m_fileWatcher && !m_fileWatcher->files().isEmpty())
+			m_fileWatcher->removePaths(m_fileWatcher->files());
+	}
 }
 
 void WebPage::urlChanged(const QUrl& url)
@@ -184,6 +204,12 @@ void WebPage::urlChanged(const QUrl& url)
 
 	if (isLoading())
 		m_blockAlerts = false;
+}
+
+void WebPage::watchedFileChanged(const QString& file)
+{
+	if (url().toLocalFile() == file)
+		triggerAction(QWebEnginePage::Reload);
 }
 
 void WebPage::windowCloseRequested()

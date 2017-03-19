@@ -40,11 +40,13 @@ namespace Sn {
 class WebView;
 class WebHitTestResult;
 
+class DelayedFileWatcher;
+
 class WebPage: public QWebEnginePage {
 Q_OBJECT
 
 public:
-	WebPage(QObject* parent = nullptr);
+	WebPage(QObject* parent, DelayedFileWatcher* m_fileWatcher);
 	~WebPage();
 
 	WebView* view() const;
@@ -75,6 +77,7 @@ protected slots:
 
 private slots:
 	void urlChanged(const QUrl& url);
+	void watchedFileChanged(const QString& file);
 	void windowCloseRequested();
 	void fullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest);
 	void featurePermissionRequested(const QUrl& origine, const QWebEnginePage::Feature& feature);
@@ -86,6 +89,7 @@ private:
 	void handleUnknowProtocol(const QUrl& url);
 	void desktopServiceOpen(const QUrl& url);
 
+	DelayedFileWatcher* m_fileWatcher{nullptr};
 	QEventLoop* m_runningLoop{nullptr};
 
 	int m_loadProgress{-1};
