@@ -26,8 +26,11 @@
 
 #include <QPointer>
 #include <QTimer>
-#include <QWebEngineSettings>
 #include <QDesktopServices>
+
+#include <QWebEngineSettings>
+
+#include <QSettings>
 
 #include "Web/WebHitTestResult.hpp"
 #include "Web/WebView.hpp"
@@ -57,5 +60,227 @@ WebPage::WebPage(QObject* parent) :
 
 WebPage::~WebPage()
 {
+	Application::instance()->plugins()->emitWebPageDeleted(this);
+
+	if (m_runningLoop) {
+		m_runningLoop->exit(1);
+		m_runningLoop = nullptr;
+	}
 }
+
+WebView* WebPage::view() const
+{
+	return static_cast<WebView*>(QWebEnginePage::view());
+}
+
+QVariant WebPage::executeJavaScript(const QString& scriptSrc, quint32 worldId, int timeout)
+{
+	QPointer<QEventLoop> loop{new QEventLoop};
+	QVariant result{};
+	QTimer::singleShot(timeout, loop.data(), &QEventLoop::quit);
+
+	runJavaScript(scriptSrc, worldId, [loop, &result](const QVariant& res)
+	{
+		if (loop && loop->isRunning()) {
+			result = res;
+			loop->quit();
+		}
+	});
+
+	loop->exec();
+	delete loop;
+
+	return result;
+}
+
+QPointF WebPage::mapToViewport(const QPointF& pos) const
+{
+	return QPointF(pos.x() / zoomFactor(), pos.y() / zoomFactor());
+}
+
+WebHitTestResult WebPage::hitTestContent(const QPoint& pos) const
+{
+	return WebHitTestResult(this, pos);
+}
+
+void WebPage::scroll(int x, int y)
+{
+	runJavaScript(QStringLiteral("window.scrollTo(window.scrollX + %1, window.scrollY + %2)").arg(x).arg(y),
+				  QWebEngineScript::ApplicationWorld);
+}
+
+void WebPage::setScrollPosition(const QPointF& pos)
+{
+	const QPointF v{mapToViewport(pos.toPoint())};
+	runJavaScript(QStringLiteral("window.scrollTo(%1, %2)").arg(v.x()).arg(v.y()));
+}
+
+void WebPage::javaScriptAlert(const QUrl& securityOrigin, const QString& msg)
+{
+	Q_UNUSED(securityOrigin)
+
+	if (m_blockAlerts || m_runningLoop)
+		return;
+
+	QString title{tr("Alerte JavaScripte")};
+
+	if (!url().host().isEmpty())
+		title.append(QString(" - %1").arg(url().host()));
+
+	CheckBoxDialog dialog(QDialogButtonBox::Ok, view());
+	dialog.setWindowTitle(title);
+	dialog.setText(msg);
+	dialog.setCheckBoxText(tr("Empêcher la page de créer des boites de dialog supplémentaires."));
+	dialog.exec();
+
+	m_blockAlerts = dialog.isChecked();
+}
+
+void WebPage::setJavaScriptEnable(bool enabled)
+{
+	settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, enabled);
+}
+
+bool WebPage::isRunningLoop()
+{
+	return m_runningLoop;
+}
+
+bool WebPage::isLoading() const
+{
+	return m_loadProgress < 100;
+}
+
+void WebPage::progress(int progression)
+{
+	m_loadProgress = progression;
+
+	bool secStatus = url().scheme() == QLatin1String("https");
+
+	if (secStatus != m_secureStatus) {
+		m_secureStatus = secStatus;
+		emit privacyChanged(secStatus);
+	}
+}
+
+void WebPage::finished()
+{
+	progress(100);
+
+	if (m_adjustingSheduled) {
+		m_adjustingSheduled = false;
+		setZoomFactor(zoomFactor() + 1);
+		setZoomFactor(zoomFactor() - 1);
+	}
+
+	// TODO: Manage files
+}
+
+void WebPage::urlChanged(const QUrl& url)
+{
+	Q_UNUSED(url)
+
+	if (isLoading())
+		m_blockAlerts = false;
+}
+
+void WebPage::windowCloseRequested()
+{
+	if (!view())
+		return;
+
+	//TODO: view()->closeView();
+}
+
+void WebPage::fullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest)
+{
+	//TODO: view()->requestFullScreen(fullScreenRequest.toggleOn());
+
+	const bool accepted = fullScreenRequest.toggleOn() == view()->isFullScreen();
+
+	if (accepted)
+		fullScreenRequest.accept();
+	else
+		fullScreenRequest.reject();
+}
+
+void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePage::Feature& feature)
+{
+	if (feature == MouseLock && view()->isFullScreen())
+		setFeaturePermission(origin, feature, PermissionGrantedByUser);
+//    else
+//      //TODO: Manage permission by app
+}
+
+bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame)
+{
+	//TODO: Plugins implementation
+
+	return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
+}
+
+QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
+{
+	return Q_NULLPTR;
+
+	//TODO: Implement this methode
+
+}
+
+void WebPage::handleUnknowProtocol(const QUrl& url)
+{
+	QSettings settings{};
+
+	const QString protocol = url.scheme();
+	QStringList autoOpenProtocols{settings.value("AutomaticalyOpenProtocols", QStringList()).toStringList()};
+	QStringList blockedProtocols{settings.value("BlockedProtocols", QStringList()).toStringList()};
+
+	if (protocol == QLatin1String("mailto")) {
+		desktopServiceOpen(url);
+		return;
+	}
+
+	if (blockedProtocols.contains(protocol))
+		return;
+
+	if (autoOpenProtocols.contains(protocol)) {
+		desktopServiceOpen(url);
+		return;
+	}
+
+	CheckBoxDialog dialog(QDialogButtonBox::Yes | QDialogButtonBox::No, view());
+
+	const QString text{tr("Sielo n'arrive pas à traiter les protocoles <b>%1</b>. "
+							  "Voulez vous que Sielo tente malgré tout d'ouvrir le "
+							  "lien <b>%2%</b> avec un application système ?").arg(protocol, url.toString())};
+	dialog.setText(text);
+	dialog.setCheckBoxText(tr("Se rappler de mon choix pour ce protocole"));
+	dialog.setWindowTitle(tr("Requête d'un protocole externe"));
+
+	switch (dialog.exec()) {
+	case QDialog::Accepted:
+		if (dialog.isChecked()) {
+			autoOpenProtocols.append(protocol);
+			settings.setValue("AutomaticalyOpenProtocols", autoOpenProtocols);
+		}
+
+		QDesktopServices::openUrl(url);
+		break;
+	case QDialog::Rejected:
+		if (dialog.isChecked()) {
+			blockedProtocols.append(protocol);
+			settings.setValue("BlockedProtocols", blockedProtocols);
+		}
+	default:
+		break;
+	}
+
+}
+
+void WebPage::desktopServiceOpen(const QUrl& url)
+{
+	//TODO: do some actions
+	QDesktopServices::openUrl(url);
+}
+
 }

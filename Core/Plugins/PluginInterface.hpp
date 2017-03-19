@@ -30,6 +30,8 @@
 #include <QPixmap>
 #include <QObject>
 
+#include <QWebEnginePage>
+
 #include "Application.hpp"
 
 namespace Sn {
