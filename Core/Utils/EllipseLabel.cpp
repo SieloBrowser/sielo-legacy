@@ -108,9 +108,9 @@ void EllipseLabel::mouseMoveEvent(QMouseEvent* event)
 		return;
 	}
 
-	int manhattanLenght{(event->pos() - m_dragStart).manhattanLength()};
+	int manhattanLength{(event->pos() - m_dragStart).manhattanLength()};
 
-	if (manhattanLenght <= QApplication::startDragDistance())
+	if (manhattanLength <= QApplication::startDragDistance())
 		return;
 
 	QDrag* drag{new QDrag(this)};
