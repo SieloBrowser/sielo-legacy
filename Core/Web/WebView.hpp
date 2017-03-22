@@ -27,6 +27,7 @@
 #define CORE_WEBVIEW_HPP
 
 #include <QApplication>
+#include <QPointer>
 
 #include <QEvent>
 #include <QKeyEvent>
@@ -49,6 +50,8 @@ class WebView: public QWebEngineView {
 Q_OBJECT
 
 public:
+	static bool isUrlValide(const QUrl& url);
+	static QUrl searchUrl(const QString& searchText);
 	static QList<int> zoomLevels();
 
 	WebView(QWidget* parent = nullptr);
@@ -67,7 +70,7 @@ public:
 
 	void load(const QUrl& url);
 	void load(LoadRequest& request);
-	bool isLoading();
+	bool isLoading() const;
 
 	int loadingProgress() const;
 
@@ -126,8 +129,8 @@ protected slots:
 
 	void openUrlInNewWindow();
 	void copyLinkToClipboard();
-	void savePageAs();
 	void copyImageToClipboard();
+	void savePageAs();
 	void dlLinkToDisk();
 	void dlImageToDisk();
 	void dlMediaToDisk();
@@ -164,10 +167,11 @@ protected:
 private slots:
 	//TODO: Manage forms (for password for example)
 
-	void toggleMediaPause();
-	void toggleMediaMute();
+	void toggleMediaPause() { triggerPageAction(QWebEnginePage::ToggleMediaPlayPause); }
+	void toggleMediaMute() { triggerPageAction(QWebEnginePage::ToggleMediaMute); }
 
 private:
+	// Actually, this class is more for add shortcuts
 	void initActions();
 
 	int m_currentZoomLevel{};
