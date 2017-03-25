@@ -3,10 +3,18 @@ project(SieloBrowser)
 
 add_subdirectory(Core)
 include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/Core)
+
+file(
+        GLOB_RECURSE
+        SOURCE_FILES
+        Main/*.cpp
+        Main/*.hpp
+)
 
 set(CMAKE_CXX_STANDARD 14)
-set(SOURCE_FILES
-        Main/src/Main.cpp)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5WebEngine REQUIRED)

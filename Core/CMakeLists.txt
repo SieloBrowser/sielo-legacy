@@ -1,21 +1,20 @@
 cmake_minimum_required(VERSION 3.6)
 project(Core)
 
+include_directories(${CMAKE_SOURCE_DIR}/Core)
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCE_FILES
-        Plugins/PluginInterface.hpp
-        Plugins/Plugins.cpp
-        Plugins/Plugins.hpp
-        Utils/CheckBoxDialog.cpp
-        Utils/CheckBoxDialog.hpp
-        Web/LoadRequest.hpp
-        Web/WebHitTestResult.cpp
-        Web/WebHitTestResult.hpp
-        Web/WebPage.hpp
+file(
+        GLOB_RECURSE
+        SOURCE_FILES
         Application.cpp
-        Application.hpp Plugins/PluginProxy.hpp Plugins/PluginProxy.cpp Web/WebPage.cpp Web/WebView.hpp Web/WebView.cpp Utils/DelayedFileWatcher.hpp Utils/DelayedFileWatcher.cpp Utils/SiteInformation.hpp Utils/CertificateInformation.hpp Utils/CertificateInformation.cpp Utils/EllipseLabel.hpp Utils/EllipseLabel.cpp Utils/HorizontalListWidget.hpp Utils/HorizontalListWidget.cpp Utils/SiteInformation.cpp Web/Scripts.hpp Utils/AutoSaver.hpp Utils/AutoSaver.cpp)
-
-include_directories("./")
+        Application.hpp
+        Utils/*.cpp
+        Utils/*.hpp
+        Web/*.cpp
+        Web/*.hpp
+        Plugins/*.cpp
+        Plugins/*.hpp
+)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5WebEngine REQUIRED)
