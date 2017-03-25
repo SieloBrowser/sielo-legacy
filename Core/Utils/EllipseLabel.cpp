@@ -121,4 +121,12 @@ void EllipseLabel::mouseMoveEvent(QMouseEvent* event)
 	drag->setMimeData(mime);
 	drag->exec();
 }
+
+void EllipseLabel::copy()
+{
+	if (selectedText().length() == text().length())
+		QApplication::clipboard()->setText(m_originalText);
+	else
+		QApplication::clipboard()->setText(selectedText());
+}
 }
