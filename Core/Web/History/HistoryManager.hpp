@@ -94,7 +94,7 @@ private:
 	int m_historyLimit{30};
 
 	QTimer m_expiredTimer{};
-	QList<HistoryItem> m_history{};
+	QList<HistoryItem> m_history;
 	QString m_lastSavedUrl{};
 
 	HistoryModel* m_historyModel{nullptr};
