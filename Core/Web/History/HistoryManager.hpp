@@ -35,6 +35,7 @@
 namespace Sn {
 struct HistoryItem;
 class HistoryModel;
+class HistoryFilterModel;
 class AutoSaver;
 
 class HistoryManager: public QObject {
@@ -63,7 +64,8 @@ public:
 	void setHistory(const QList<HistoryItem>& history, bool loadedAndSorted = false);
 
 	HistoryModel* historyModel() const { return m_historyModel; }
-	//TODO: Add history models getters (Model, FilterModel and TreeModel)
+	HistoryFilterModel* historyFilterModel() const { return m_historyFilterModel; }
+	//TODO: Add history models getters (TreeModel)
 
 signals:
 	void historyReset();
@@ -95,7 +97,8 @@ private:
 	QString m_lastSavedUrl{};
 
 	HistoryModel* m_historyModel{nullptr};
-	//TODO: Add history models (FilterModel and TreeModel)
+	HistoryFilterModel* m_historyFilterModel{nullptr};
+	//TODO: Add history models (TreeModel)
 
 };
 }

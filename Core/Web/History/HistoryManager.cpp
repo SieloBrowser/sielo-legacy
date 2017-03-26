@@ -41,6 +41,7 @@
 
 #include "Web/History/HistoryItem.hpp"
 #include "Web/History/HistoryModel.hpp"
+#include "Web/History/HistoryFilterModel.hpp"
 
 #include "Utils/AutoSaver.hpp"
 
@@ -54,7 +55,8 @@ HistoryManager::HistoryManager(QObject* parent) :
 	QObject(parent),
 	m_saveTimer(new AutoSaver(this)),
 	m_historyLimit(30),
-	m_historyModel(nullptr)
+	m_historyModel(nullptr),
+	m_historyFilterModel(nullptr)
 //TODO: History models (...)
 {
 	m_expiredTimer.setSingleShot(true);
@@ -67,6 +69,7 @@ HistoryManager::HistoryManager(QObject* parent) :
 	load();
 
 	m_historyModel = new HistoryModel(this, this);
+	m_historyFilterModel = new HistoryFilterModel(m_historyModel, this);
 	//TODO: History models new() (...)
 
 }
@@ -78,8 +81,7 @@ HistoryManager::~HistoryManager()
 
 bool HistoryManager::historyContains(const QString& url) const
 {
-	//TODO: Need filter model
-	return false;
+	return m_historyFilterModel->historyContains(url);
 }
 
 void HistoryManager::addHistoryEntry(const QString& url)
