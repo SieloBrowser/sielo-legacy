@@ -239,7 +239,7 @@ void HistoryManager::save()
 		QDataStream stream{&data, QIODevice::WriteOnly};
 		HistoryItem item = m_history[i];
 
-		stream << HISTORY_VERSION << item.url << item.date << item.title;
+		stream << HISTORY_VERSION << item.url << item.dateTime << item.title;
 		out << data;
 	}
 
@@ -265,7 +265,7 @@ void HistoryManager::checkForExpired(bool removeExpiredEntriesDirectly)
 	int nextTimeout{0};
 
 	while (!m_history.isEmpty()) {
-		QDateTime checkForExpired{m_history.last().date};
+		QDateTime checkForExpired{m_history.last().dateTime};
 		checkForExpired.setDate(checkForExpired.date().addDays(m_historyLimit));
 
 		if (now.daysTo(checkForExpired) > 7)
@@ -328,10 +328,10 @@ void HistoryManager::load()
 
 		HistoryItem item{};
 		stream >> item.url;
-		stream >> item.date;
+		stream >> item.dateTime;
 		stream >> item.title;
 
-		if (!item.date.isValid())
+		if (!item.dateTime.isValid())
 			continue;
 
 		if (item == lastInsertedItem) {
