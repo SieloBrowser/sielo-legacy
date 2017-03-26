@@ -101,7 +101,7 @@ int HistoryTreeModel::rowCount(const QModelIndex& parent) const
 
 		Q_ASSERT(m_sourceRowCache.count() == rows);
 
-		return  rows;
+		return rows;
 	}
 
 	int start{sourceDateRow(parent.row())};

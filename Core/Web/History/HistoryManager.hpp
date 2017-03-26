@@ -36,6 +36,7 @@ namespace Sn {
 struct HistoryItem;
 class HistoryModel;
 class HistoryFilterModel;
+class HistoryTreeModel;
 class AutoSaver;
 
 class HistoryManager: public QObject {
@@ -65,7 +66,7 @@ public:
 
 	HistoryModel* historyModel() const { return m_historyModel; }
 	HistoryFilterModel* historyFilterModel() const { return m_historyFilterModel; }
-	//TODO: Add history models getters (TreeModel)
+	HistoryTreeModel* historyTreeModel() const { return m_historyTreeModel; }
 
 signals:
 	void historyReset();
@@ -98,7 +99,7 @@ private:
 
 	HistoryModel* m_historyModel{nullptr};
 	HistoryFilterModel* m_historyFilterModel{nullptr};
-	//TODO: Add history models (TreeModel)
+	HistoryTreeModel* m_historyTreeModel{nullptr};
 
 };
 }
