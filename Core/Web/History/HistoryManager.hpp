@@ -23,63 +23,78 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef CORE_APPLICATION_HPP
-#define CORE_APPLICATION_HPP
+#ifndef SIELOBROWSER_HISTORYMANAGER_HPP
+#define SIELOBROWSER_HISTORYMANAGER_HPP
 
-#include <QApplication>
 #include <QList>
+#include <QString>
+#include <QUrl>
 
-#include <QWebEngineProfile>
+#include <QTimer>
 
 namespace Sn {
-class PluginProxy;
+struct HistoryItem;
+class AutoSaver;
 
-class Application: public QApplication {
+class HistoryManager: public QObject {
+Q_OBJECT
+	Q_PROPERTY(int historyLimit
+				   READ
+					   historyLimit
+				   WRITE
+				   setHistoryLimit)
+
 public:
-	enum ObjectName {
-		ON_WebView,
-		ON_TabBar,
-		ON_BrowserWindow
-	};
+	explicit HistoryManager(QObject* parent = nullptr);
+	~HistoryManager();
 
-	enum NewTabType {
-		NTT_SelectedTab = 1,
-		NTT_NotSelectedTab = 2,
-		NTT_CleanTab = 4,
-		NTT_TabAtEnd = 8,
-		NTT_NewEmptyTab = 16,
-		/* ------------------------- */
-			NTT_SelectedNewEmptyTab = NTT_SelectedTab | NTT_TabAtEnd | NTT_NewEmptyTab,
-		NTT_SelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd,
-		NTT_NotSelectedTabAtEnd = NTT_NotSelectedTab | NTT_TabAtEnd,
-		NTT_CleanSelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd | NTT_CleanTab,
-		NTT_CleanSelectedTab = NTT_CleanTab | NTT_SelectedTab,
-		NTT_CleanNotSelectedTab = NTT_CleanTab | NTT_NotSelectedTab
-	};
+	bool historyContains(const QString& url) const;
 
-	enum Path {
-		P_Data = 0,
-		P_Plugin = 1
-	};
+	void addHistoryEntry(const QString& url);
+	void removeHistoryEntry(const QString& url);
 
-	Application(int& argc, char** argv);
-	~Application();
+	void updateHistoryItem(const QUrl& url, const QString& title);
 
-	bool privateBrowsing() const { return m_privateBrowsing; }
-	PluginProxy* plugins() { return m_plugins; }
+	int historyLimit() const { return m_historyLimit; }
+	void setHistoryLimit(int limit);
 
-	QWebEngineProfile* webProfile() const { return m_webProfile; }
+	QList<HistoryItem>& history()  { return m_history; }
+	void setHistory(const QList<HistoryItem>& history, bool loadedAndSorted = false);
 
-	static QList<QString> paths();
-	static Application* instance();
+	//TODO: Add history models getters (Model, FilterModel and TreeModel)
+
+signals:
+	void historyReset();
+	void entryAdded(const HistoryItem& item);
+	void entryRemoved(const HistoryItem& item);
+	void entryUpdate(int offset);
+
+public slots:
+	void clear();
+	void loadSettings();
+
+protected:
+	void addHistoryItem(const HistoryItem& item);
+	void removeHistoryItem(const HistoryItem& item);
+
+private slots:
+	void save();
+	void checkForExpired(bool removeExpiredEntriesDirectly = false);
 
 private:
-	bool m_privateBrowsing{false};
+	void load();
 
-	PluginProxy* m_plugins{nullptr};
+	AutoSaver* m_saveTimer{nullptr};
 
-	QWebEngineProfile* m_webProfile{nullptr};
+	int m_historyLimit{30};
+
+	QTimer m_expiredTimer{};
+	QList<HistoryItem> m_history{};
+	QString m_lastSavedUrl{};
+
+	//TODO: Add history models (Model, FilterModel and TreeModel)
+
 };
-
 }
-#endif // CORE_APPLICATION_HPP
+
+#endif //SIELOBROWSER_HISTORYMANAGER_HPP

@@ -31,19 +31,19 @@
 
 namespace Sn {
 
-struct Q_DECL_EXPORT HistoryIem {
-	HistoryIem() {};
-	HistoryIem(const QString& c_url, const QDateTime& c_date = QDateTime(), const QString& c_title = QString()) :
+struct Q_DECL_EXPORT HistoryItem {
+	HistoryItem() {};
+	HistoryItem(const QString& c_url, const QDateTime& c_date = QDateTime(), const QString& c_title = QString()) :
 		url(c_url),
 		date(c_date),
 		title(c_title) {}
 
-	inline bool operator==(const HistoryIem& other) const
+	inline bool operator==(const HistoryItem& other) const
 	{
 		return other.url == url && other.date == date && other.title == title;
 	}
 
-	inline bool operator<(const HistoryIem& other) const
+	inline bool operator<(const HistoryItem& other) const
 	{
 		return date > other.date;
 	}
