@@ -3,6 +3,9 @@ project(Core)
 
 include_directories(${CMAKE_SOURCE_DIR}/Core)
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
 file(
         GLOB_RECURSE
         SOURCE_FILES
