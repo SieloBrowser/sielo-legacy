@@ -22,11 +22,13 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
+#include "Application.hpp"
+
 #include <QString>
 #include <QStandardPaths>
 #include <QDir>
 
-#include "Application.hpp"
+#include "Web/History/HistoryManager.hpp"
 
 namespace Sn {
 
@@ -49,6 +51,7 @@ Application* Application::instance()
 Application::Application(int& argc, char** argv) :
 	QApplication(argc, argv),
 	m_plugins(nullptr),
+	m_historyManager(nullptr),
 	m_webProfile(nullptr)
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
@@ -58,7 +61,14 @@ Application::Application(int& argc, char** argv) :
 
 Application::~Application()
 {
-	// Empty
+	delete m_historyManager;
 }
 
+HistoryManager* Application::historyManager()
+{
+	if (!m_historyManager)
+		m_historyManager = new HistoryManager();
+
+	return m_historyManager;
+}
 }

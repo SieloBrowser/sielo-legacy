@@ -33,6 +33,7 @@
 
 namespace Sn {
 class PluginProxy;
+class HistoryManager;
 
 class Application: public QApplication {
 public:
@@ -66,7 +67,9 @@ public:
 	~Application();
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
+
 	PluginProxy* plugins() { return m_plugins; }
+	HistoryManager* historyManager();
 
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
@@ -77,6 +80,7 @@ private:
 	bool m_privateBrowsing{false};
 
 	PluginProxy* m_plugins{nullptr};
+	HistoryManager* m_historyManager{nullptr};
 
 	QWebEngineProfile* m_webProfile{nullptr};
 };
