@@ -40,6 +40,7 @@
 #include <QtCore/QBuffer>
 
 #include "Web/History/HistoryItem.hpp"
+#include "Web/History/HistoryModel.hpp"
 
 #include "Utils/AutoSaver.hpp"
 
@@ -52,7 +53,8 @@ static const unsigned int HISTORY_VERSION = 1;
 HistoryManager::HistoryManager(QObject* parent) :
 	QObject(parent),
 	m_saveTimer(new AutoSaver(this)),
-	m_historyLimit(30)
+	m_historyLimit(30),
+	m_historyModel(nullptr)
 //TODO: History models (...)
 {
 	m_expiredTimer.setSingleShot(true);
@@ -64,6 +66,7 @@ HistoryManager::HistoryManager(QObject* parent) :
 
 	load();
 
+	m_historyModel = new HistoryModel(this, this);
 	//TODO: History models new() (...)
 
 }
