@@ -22,41 +22,54 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "TreeView.hpp"
+#pragma once
+#ifndef SIELOBROWSER_HISTORYDIALOG_HPP
+#define SIELOBROWSER_HISTORYDIALOG_HPP
 
-#include <QAbstractItemView>
+#include <QDialog>
+#include <QPoint>
 
-#include "Core/Application.hpp"
+#include <QUrl>
 
-#include "Core/History/HistoryManager.hpp"
-#include "Core/History/HistoryModel.hpp"
+#include <QButtonGroup>
+#include <QDialogButtonBox>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QHeaderView>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpacerItem>
+
+#include "View/TreeView.hpp"
 
 namespace Sn {
-TreeView::TreeView(QWidget* parent) :
-	QTreeView(parent) {}
+class HistoryManager;
 
-void TreeView::keyPressEvent(QKeyEvent* event)
-{
-	if ((event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace) && model())
-		removeOne();
-	else
-		QAbstractItemView::keyPressEvent(event);
+class HistoryDialog: public QDialog {
+Q_OBJECT
+public:
+	HistoryDialog(QWidget* parent = nullptr, HistoryManager* setHistory = nullptr);
+
+signals:
+	void openUrl(const QUrl& url);
+
+private slots:
+	void setupUi();
+
+	void customContextMenuRequested(const QPoint& pos);
+	void open();
+	void copy();
+
+private:
+	QGridLayout* m_layout{nullptr};
+	QSpacerItem* m_searchSpacer{nullptr};
+	QLineEdit* m_searchLineEdit{nullptr};
+	TreeView* m_tree{nullptr};
+	QHBoxLayout* m_buttonLayout{nullptr};
+	QPushButton* m_removeButton{nullptr};
+	QPushButton* m_removeAllButton{nullptr};
+	QSpacerItem* m_buttonSpacer{nullptr};
+	QDialogButtonBox* m_buttonBox{nullptr};
+};
 }
-
-void TreeView::removeOne()
-{
-	if (!model())
-		return;
-
-	QModelIndex ci{currentIndex()};
-	Application::instance()->historyManager()->removeHistoryEntry(model()->data(ci, HistoryModel::UrlStringRole).toString());
-}
-
-void TreeView::removeAll()
-{
-	if (!model())
-		return;
-
-	Application::instance()->historyManager()->clear();
-}
-}
+#endif //SIELOBROWSER_HISTORYDIALOG_HPP

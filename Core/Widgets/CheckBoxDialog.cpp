@@ -22,47 +22,77 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Utils/HorizontalListWidget.hpp"
+#include "CheckBoxDialog.hpp"
 
 namespace Sn {
 
-HorizontalListWidget::HorizontalListWidget(QWidget* parent) :
-	QListWidget(parent),
-	m_mouseDown(false)
+CheckBoxDialog::CheckBoxDialog(const QDialogButtonBox::StandardButtons& buttons, QWidget* parent) :
+	QDialog(parent,
+			Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint
+			| Qt::WindowCloseButtonHint)
 {
-	setFocusPolicy(Qt::NoFocus);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setMovement(QListView::Static);
-	setResizeMode(QListView::Adjust);
-	setViewMode(QListView::IconMode);
-	setSelectionRectVisible(false);
+	setupUi();
+
+	m_buttonBox->setStandardButtons(buttons);
 }
 
-void HorizontalListWidget::mousePressEvent(QMouseEvent* event)
+void CheckBoxDialog::setIcon(const QIcon& icon)
 {
-	m_mouseDown = true;
-
-	QListWidget::mousePressEvent(event);
+	m_iconLabel->setPixmap(icon.pixmap(48, 48));
+	m_iconLabel->setFixedWidth(48);
 }
 
-void HorizontalListWidget::mouseMoveEvent(QMouseEvent* event)
+void CheckBoxDialog::setText(const QString& text)
 {
-	if (!itemAt(event->pos()))
-		return;
-
-	QListWidget::mouseMoveEvent(event);
+	m_textLabel->setText(text);
 }
 
-void HorizontalListWidget::mouseReleaseEvent(QMouseEvent* event)
+void CheckBoxDialog::setCheckBoxText(const QString& text)
 {
-	m_mouseDown = false;
-
-	QListWidget::mouseReleaseEvent(event);
+	m_checkBox->setText(text);
 }
 
-void HorizontalListWidget::wheelEvent(QWheelEvent* event)
+bool CheckBoxDialog::isChecked() const
 {
-	Q_UNUSED(event);
+	return m_checkBox->isChecked();
+}
+
+void CheckBoxDialog::setDefaultCheckState(Qt::CheckState state)
+{
+	m_checkBox->setChecked(state == Qt::Checked);
+}
+
+int CheckBoxDialog::exec()
+{
+	m_buttonBox->setFocus();
+	setMaximumSize(size());
+
+	return QDialog::exec();
+}
+
+void CheckBoxDialog::setupUi()
+{
+	m_layout = new QVBoxLayout(this);
+	m_textLayout = new QHBoxLayout();
+	m_buttonLayout = new QHBoxLayout();
+
+	m_iconLabel = new QLabel(this);
+	m_textLabel = new QLabel(this);
+
+	m_textLayout->addWidget(m_iconLabel);
+	m_textLayout->addWidget(m_textLabel);
+
+	m_buttonBox = new QDialogButtonBox(this);
+	m_checkBox = new QCheckBox(this);
+	m_spacerItem = new QSpacerItem(10, 10, QSizePolicy::Expanding);
+
+	m_buttonLayout->addItem(m_spacerItem);
+	m_buttonLayout->addWidget(m_checkBox);
+	m_buttonLayout->addWidget(m_buttonBox);
+
+	m_layout->addLayout(m_textLayout);
+	m_layout->addLayout(m_buttonLayout);
+	setLayout(m_layout);
 }
 
 }

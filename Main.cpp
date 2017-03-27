@@ -26,7 +26,7 @@
 
 #include "Core/Application.hpp"
 
-#include "Display/History/HistoryDialog.hpp"
+#include "Core/History/HistoryDialog.hpp"
 
 int main(int argc, char** argv)
 {

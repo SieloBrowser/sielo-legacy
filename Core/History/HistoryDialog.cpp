@@ -32,12 +32,12 @@
 
 #include <QMenu>
 
-#include "Core/Application.hpp"
+#include "Application.hpp"
 
-#include "Core/History/HistoryManager.hpp"
-#include "Core/History/HistoryFilterModel.hpp"
-#include "Core/History/TreeProxyModel.hpp"
-#include "Core/History/HistoryModel.hpp"
+#include "History/HistoryManager.hpp"
+#include "History/HistoryFilterModel.hpp"
+#include "History/TreeProxyModel.hpp"
+#include "History/HistoryModel.hpp"
 
 namespace Sn {
 HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :

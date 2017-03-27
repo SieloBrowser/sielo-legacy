@@ -15,8 +15,12 @@ file(
         History/*.hpp
         Utils/*.cpp
         Utils/*.hpp
+        View/*.cpp
+        View/*.hpp
         Web/*.cpp
         Web/*.hpp
+        Widgets/*.cpp
+        Widgets/*.hpp
         Plugins/*.cpp
         Plugins/*.hpp
 )

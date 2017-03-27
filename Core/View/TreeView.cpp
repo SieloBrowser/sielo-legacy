@@ -22,54 +22,41 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_HISTORYDIALOG_HPP
-#define SIELOBROWSER_HISTORYDIALOG_HPP
+#include "TreeView.hpp"
 
-#include <QDialog>
-#include <QPoint>
+#include <QAbstractItemView>
 
-#include <QUrl>
+#include "Application.hpp"
 
-#include <QButtonGroup>
-#include <QDialogButtonBox>
-#include <QGridLayout>
-#include <QHBoxLayout>
-#include <QHeaderView>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QSpacerItem>
-
-#include "Display/View/TreeView.hpp"
+#include "History/HistoryManager.hpp"
+#include "History/HistoryModel.hpp"
 
 namespace Sn {
-class HistoryManager;
+TreeView::TreeView(QWidget* parent) :
+	QTreeView(parent) {}
 
-class HistoryDialog: public QDialog {
-Q_OBJECT
-public:
-	HistoryDialog(QWidget* parent = nullptr, HistoryManager* setHistory = nullptr);
-
-signals:
-	void openUrl(const QUrl& url);
-
-private slots:
-	void setupUi();
-
-	void customContextMenuRequested(const QPoint& pos);
-	void open();
-	void copy();
-
-private:
-	QGridLayout* m_layout{nullptr};
-	QSpacerItem* m_searchSpacer{nullptr};
-	QLineEdit* m_searchLineEdit{nullptr};
-	TreeView* m_tree{nullptr};
-	QHBoxLayout* m_buttonLayout{nullptr};
-	QPushButton* m_removeButton{nullptr};
-	QPushButton* m_removeAllButton{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
-};
+void TreeView::keyPressEvent(QKeyEvent* event)
+{
+	if ((event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace) && model())
+		removeOne();
+	else
+		QAbstractItemView::keyPressEvent(event);
 }
-#endif //SIELOBROWSER_HISTORYDIALOG_HPP
+
+void TreeView::removeOne()
+{
+	if (!model())
+		return;
+
+	QModelIndex ci{currentIndex()};
+	Application::instance()->historyManager()->removeHistoryEntry(model()->data(ci, HistoryModel::UrlStringRole).toString());
+}
+
+void TreeView::removeAll()
+{
+	if (!model())
+		return;
+
+	Application::instance()->historyManager()->clear();
+}
+}

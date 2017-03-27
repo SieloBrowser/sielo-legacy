@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Utils/CertificateInformation.hpp"
+#include "CertificateInformation.hpp"
 
 namespace Sn {
 

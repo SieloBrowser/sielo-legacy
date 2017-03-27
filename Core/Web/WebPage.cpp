@@ -36,7 +36,7 @@
 #include "Web/WebHitTestResult.hpp"
 #include "Web/WebView.hpp"
 
-#include "Utils/CheckBoxDialog.hpp"
+#include "Widgets/CheckBoxDialog.hpp"
 #include "Utils/DelayedFileWatcher.hpp"
 
 #include "Plugins/PluginProxy.hpp"
