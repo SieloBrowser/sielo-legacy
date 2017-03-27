@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.6)
 project(SieloBrowser)
 
 add_subdirectory(Core)
+add_subdirectory(Display)
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/Core)
+include_directories(${CMAKE_SOURCE_DIR}/Display)
 
 file(
         GLOB_RECURSE

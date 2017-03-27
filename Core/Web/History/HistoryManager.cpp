@@ -50,7 +50,7 @@
 
 namespace Sn {
 
-static const unsigned int HISTORY_VERSION = 1;
+static const unsigned int HISTORY_VERSION = 23;
 
 HistoryManager::HistoryManager(QObject* parent) :
 	QObject(parent),

@@ -40,7 +40,7 @@
 #include <QPushButton>
 #include <QSpacerItem>
 
-#include "Utils/TreeView.hpp"
+#include "Display/View/TreeView.hpp"
 
 namespace Sn {
 class HistoryManager;

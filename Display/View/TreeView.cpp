@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Utils/TreeView.hpp"
+#include "TreeView.hpp"
 
 #include <QAbstractItemView>
 
