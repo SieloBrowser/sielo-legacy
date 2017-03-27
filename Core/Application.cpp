@@ -28,7 +28,7 @@
 #include <QStandardPaths>
 #include <QDir>
 
-#include "Web/History/HistoryManager.hpp"
+#include "History/HistoryManager.hpp"
 
 namespace Sn {
 

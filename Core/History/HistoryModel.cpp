@@ -22,14 +22,14 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Web/History/HistoryModel.hpp"
+#include "History/HistoryModel.hpp"
 
 #include <QList>
 
 #include <QFileInfo>
 
-#include "Web/History/HistoryItem.hpp"
-#include "Web/History/HistoryManager.hpp"
+#include "History/HistoryItem.hpp"
+#include "History/HistoryManager.hpp"
 
 namespace Sn {
 

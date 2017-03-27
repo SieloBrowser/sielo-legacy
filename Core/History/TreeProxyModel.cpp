@@ -22,9 +22,9 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Web/History/TreeProxyModel.hpp"
+#include "History/TreeProxyModel.hpp"
 
-#include "Web/History/HistoryModel.hpp"
+#include "History/HistoryModel.hpp"
 
 namespace Sn {
 

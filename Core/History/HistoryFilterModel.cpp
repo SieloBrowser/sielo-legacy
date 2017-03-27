@@ -22,9 +22,9 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Web/History/HistoryFilterModel.hpp"
+#include "History/HistoryFilterModel.hpp"
 
-#include "Web/History/HistoryModel.hpp"
+#include "History/HistoryModel.hpp"
 
 namespace Sn {
 

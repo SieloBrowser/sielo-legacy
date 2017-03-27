@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Web/History/HistoryManager.hpp"
+#include "History/HistoryManager.hpp"
 
 #include <QSettings>
 
@@ -39,10 +39,10 @@
 #include <QtDebug>
 #include <QtCore/QBuffer>
 
-#include "Web/History/HistoryItem.hpp"
-#include "Web/History/HistoryModel.hpp"
-#include "Web/History/HistoryFilterModel.hpp"
-#include "Web/History/HistoryTreeModel.hpp"
+#include "History/HistoryItem.hpp"
+#include "History/HistoryModel.hpp"
+#include "History/HistoryFilterModel.hpp"
+#include "History/HistoryTreeModel.hpp"
 
 #include "Utils/AutoSaver.hpp"
 

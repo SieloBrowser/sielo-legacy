@@ -22,13 +22,13 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Web/History/HistoryTreeModel.hpp"
+#include "History/HistoryTreeModel.hpp"
 
 #include <QDate>
 
 #include <QIcon>
 
-#include "Web/History/HistoryModel.hpp"
+#include "History/HistoryModel.hpp"
 
 namespace Sn {
 HistoryTreeModel::HistoryTreeModel(QAbstractItemModel* sourceModel, QObject* parent) :
