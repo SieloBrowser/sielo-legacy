@@ -22,17 +22,18 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include <QApplication>
 #include <QtWidgets>
 
-#include "Application.hpp"
+#include "Core/Application.hpp"
+
+#include "Display/History/HistoryDialog.hpp"
 
 int main(int argc, char** argv)
 {
 	Sn::Application app(argc, argv);
 
-	QPushButton button{ QObject::tr("Hello World!") };
-	button.show();
+	Sn::HistoryDialog* dialog{ new Sn::HistoryDialog()};
+	dialog->show();
 
 	return app.exec();
 }

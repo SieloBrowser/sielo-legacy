@@ -7,13 +7,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/Core)
 include_directories(${CMAKE_SOURCE_DIR}/Display)
 
-file(
-        GLOB_RECURSE
-        SOURCE_FILES
-        Main/*.cpp
-        Main/*.hpp
-)
-
+set(SOURCE_FILES Main.cpp)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -24,6 +18,7 @@ find_package(Qt5WebEngineWidgets REQUIRED)
 
 add_executable(SieloBrowser ${SOURCE_FILES})
 target_link_libraries(SieloBrowser Core)
+target_link_libraries(SieloBrowser Display)
 target_link_libraries(SieloBrowser Qt5::Widgets)
 target_link_libraries(SieloBrowser Qt5::WebEngine)
 target_link_libraries(SieloBrowser Qt5::WebEngineWidgets)

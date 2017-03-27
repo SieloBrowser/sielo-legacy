@@ -11,6 +11,8 @@ file(
         SOURCE_FILES
         Application.cpp
         Application.hpp
+        History/*.cpp
+        History/*.hpp
         Utils/*.cpp
         Utils/*.hpp
         Web/*.cpp
