@@ -11,6 +11,8 @@ file(
         SOURCE_FILES
         View/*.cpp
         View/*.hpp
+        History/*.cpp
+        History/*.hpp
 )
 
 find_package(Qt5Widgets REQUIRED)

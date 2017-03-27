@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Web/History/HistoryDialog.hpp"
+#include "HistoryDialog.hpp"
 
 #include <QAbstractItemModel>
 
@@ -38,7 +38,7 @@
 #include "Web/History/HistoryFilterModel.hpp"
 #include "Web/History/HistoryTreeModel.hpp"
 #include "Web/History/TreeProxyModel.hpp"
-#include "HistoryModel.hpp"
+#include "Web/History/HistoryModel.hpp"
 
 namespace Sn {
 HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :
