@@ -29,6 +29,7 @@
 #include <QDir>
 
 #include "History/HistoryManager.hpp"
+#include "Bookmarks/BookmarkManager.hpp"
 
 namespace Sn {
 
@@ -70,5 +71,13 @@ HistoryManager* Application::historyManager()
 		m_historyManager = new HistoryManager();
 
 	return m_historyManager;
+}
+
+BookmarksManager* Application::bookmarksManager()
+{
+	if (!m_bookmarksManager)
+		m_bookmarksManager = new BookmarksManager();
+
+	return m_bookmarksManager;
 }
 }

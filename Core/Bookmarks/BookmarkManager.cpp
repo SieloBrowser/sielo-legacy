@@ -39,6 +39,7 @@
 #include "Utils/AutoSaver.hpp"
 
 #include "Bookmarks/BookmarkNode.hpp"
+#include "Bookmarks/BookmarksModel.hpp"
 #include "Bookmarks/XBelReader.hpp"
 #include "Bookmarks/XBelWriter.hpp"
 #include "Bookmarks/BookmarksCommands.hpp"
@@ -48,8 +49,8 @@ BookmarksManager::BookmarksManager(QObject* parent) :
 	QObject(parent),
 	m_loaded(false),
 	m_saveTimer(new AutoSaver(this)),
-	m_bookmarkRootNode(nullptr)
-//TODO: Model
+	m_bookmarkRootNode(nullptr),
+	m_bookmarksModel(nullptr)
 {
 	connect(this, &BookmarksManager::entryAdded, m_saveTimer, &AutoSaver::changeOccurred);
 	connect(this, &BookmarksManager::entryRemoved, m_saveTimer, &AutoSaver::changeOccurred);
@@ -120,6 +121,15 @@ BookmarkNode* BookmarksManager::bookmarks()
 
 	return m_bookmarkRootNode;
 }
+
+BookmarksModel* BookmarksManager::bookmarksModel()
+{
+	if (!m_bookmarksModel)
+		m_bookmarksModel = new BookmarksModel(this, this);
+
+	return m_bookmarksModel;
+}
+
 void BookmarksManager::importBookmarks()
 {
 	QString fileName{QFileDialog::getOpenFileName(nullptr, tr("Open File"), QString(), tr("XBEL (*.xbel *.xml)"))};

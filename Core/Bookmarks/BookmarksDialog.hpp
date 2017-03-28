@@ -23,66 +23,62 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_BOOKMARKMANAGER_HPP
-#define SIELOBROWSER_BOOKMARKMANAGER_HPP
+#ifndef SIELOBROWSER_BOOKMARKSDIALOG_HPP
+#define SIELOBROWSER_BOOKMARKSDIALOG_HPP
 
-#include <QObject>
+#include <QWidget>
+#include <QDialog>
 
-#include <QUndoStack>
+#include <QGridLayout>
+#include <QHBoxLayout>
+
+#include <QLineEdit>
+#include <QSpacerItem>
+#include <QPushButton>
+#include <QDialogButtonBox>
 
 namespace Sn {
-class AutoSaver;
+class TreeProxyModel;
+
+class TreeView;
+
+class BookmarksManager;
 class BookmarkNode;
 class BookmarksModel;
-class RemoveBookmarksCommand;
-class ChangeBookmarksCommand;
 
-class BookmarksManager: public QObject {
+class BookmarksDialog: public QDialog {
 Q_OBJECT
-
 public:
-	BookmarksManager(QObject* parent = nullptr);
-	~BookmarksManager();
-
-	void addBookmark(BookmarkNode* parent, BookmarkNode* node, int row = -1);
-	void removeBookmark(BookmarkNode* node);
-
-	void setTitle(BookmarkNode* node, const QString& newTitle);
-	void setUrl(BookmarkNode* node, const QString& newUrl);
-	void changeExpanded();
-
-	BookmarkNode* bookmarks();
-	//TODO: why not bookmarks in a menu?
-	BookmarksModel* bookmarksModel();
-
-	QUndoStack* undoRedoStack() { return &m_commands; }
+	BookmarksDialog(QWidget* parent = nullptr, BookmarksManager* manager = nullptr);
+	~BookmarksDialog();
 
 signals:
-	void entryAdded(BookmarkNode* item);
-	void entryRemoved(BookmarkNode* parent, int row, BookmarkNode* item);
-	void entryChanged(BookmarkNode* item);
-
-public slots:
-	void importBookmarks();
-	void exportBookmarks();
+	void openUrl(const QUrl& url);
 
 private slots:
-	void save() const;
+	void customContextMenuRequested(const QPoint& pos);
+	void open();
+	void newFolder();
 
 private:
-	void load();
+	void expandNodes(BookmarkNode* node);
+	bool saveExpandedNodes(const QModelIndex& parent);
 
-	bool m_loaded{false};
+	void setupUi();
 
-	AutoSaver* m_saveTimer{nullptr};
-	BookmarkNode* m_bookmarkRootNode{nullptr};
+	BookmarksManager* m_bookmarksManager{nullptr};
 	BookmarksModel* m_bookmarksModel{nullptr};
+	TreeProxyModel* m_proxyModel{nullptr};
 
-	QUndoStack m_commands;
-
-	friend class RemoveBookmarksCommand;
-	friend class ChangeBookmarksCommand;
+	QGridLayout* m_layout{nullptr};
+	QSpacerItem* m_searchSpacer{nullptr};
+	QLineEdit* m_search{nullptr};
+	TreeView* m_tree{nullptr};
+	QHBoxLayout* m_buttonLayout{nullptr};
+	QPushButton* m_removeButton{nullptr};
+	QPushButton* m_addFolderButton{nullptr};
+	QSpacerItem* m_buttonSpacer{nullptr};
+	QDialogButtonBox* m_buttonBox{nullptr};
 };
-
 }
-#endif //SIELOBROWSER_BOOKMARKMANAGER_HPP
+#endif //SIELOBROWSER_BOOKMARKSDIALOG_HPP

@@ -34,6 +34,7 @@
 namespace Sn {
 class PluginProxy;
 class HistoryManager;
+class BookmarksManager;
 
 class Application: public QApplication {
 public:
@@ -70,6 +71,7 @@ public:
 
 	PluginProxy* plugins() { return m_plugins; }
 	HistoryManager* historyManager();
+	BookmarksManager* bookmarksManager();
 
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
@@ -81,6 +83,7 @@ private:
 
 	PluginProxy* m_plugins{nullptr};
 	HistoryManager* m_historyManager{nullptr};
+	BookmarksManager* m_bookmarksManager{nullptr};
 
 	QWebEngineProfile* m_webProfile{nullptr};
 };
