@@ -11,6 +11,8 @@ file(
         SOURCE_FILES
         Application.cpp
         Application.hpp
+        Bookmarks/*.cpp
+        Bookmarks/*.hpp
         History/*.cpp
         History/*.hpp
         Utils/*.cpp
