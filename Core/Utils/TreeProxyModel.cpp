@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "History/TreeProxyModel.hpp"
+#include "Utils/TreeProxyModel.hpp"
 
 #include "History/HistoryModel.hpp"
 

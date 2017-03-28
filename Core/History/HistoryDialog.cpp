@@ -36,7 +36,7 @@
 
 #include "History/HistoryManager.hpp"
 #include "History/HistoryFilterModel.hpp"
-#include "History/TreeProxyModel.hpp"
+#include "Utils/TreeProxyModel.hpp"
 #include "History/HistoryModel.hpp"
 
 namespace Sn {
