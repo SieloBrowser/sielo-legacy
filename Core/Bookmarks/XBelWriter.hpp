@@ -38,7 +38,7 @@ public:
 	XBelWriter();
 
 	bool write(const QString& fileName, const BookmarkNode* root);
-	bool write(const QIODevice* device, const BookmarkNode* root);
+	bool write(QIODevice* device, const BookmarkNode* root);
 
 private:
 	void writeItem(const BookmarkNode* parent);

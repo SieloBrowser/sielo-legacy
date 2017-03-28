@@ -43,7 +43,7 @@ bool XBelWriter::write(const QString& fileName, const BookmarkNode* root)
 	return write(&file, root);
 }
 
-bool XBelWriter::write(const QIODevice* device, const BookmarkNode* root)
+bool XBelWriter::write(QIODevice* device, const BookmarkNode* root)
 {
 	setDevice(device);
 
@@ -75,7 +75,7 @@ void XBelWriter::writeItem(const BookmarkNode* parent)
 			writeItem(child);
 
 		writeEndElement();
-		break:
+		break;
 	case BookmarkNode::Bookmark:
 		writeStartElement(QLatin1String("bookmark"));
 

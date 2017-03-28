@@ -71,7 +71,7 @@ void BookmarkNode::remove(BookmarkNode* child)
 	m_children.removeAll(child);
 }
 
-bool bool BookmarkNode::operator==(const BookmarkNode& other)
+bool BookmarkNode::operator==(const BookmarkNode& other)
 {
 	if (url != other.url || title != other.title || descritption != other.descritption || expanded != other.expanded
 		|| m_type != other.m_type || m_children.count() != other.m_children.count())
