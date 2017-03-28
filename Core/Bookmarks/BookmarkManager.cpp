@@ -41,6 +41,7 @@
 #include "Bookmarks/BookmarkNode.hpp"
 #include "Bookmarks/XBelReader.hpp"
 #include "Bookmarks/XBelWriter.hpp"
+#include "Bookmarks/BookmarksCommands.hpp"
 
 namespace Sn {
 BookmarksManager::BookmarksManager(QObject* parent) :
@@ -67,7 +68,8 @@ void BookmarksManager::addBookmark(BookmarkNode* parent, BookmarkNode* node, int
 
 	Q_ASSERT(parent);
 
-	//TODO: Use InsertBookmarks command
+	InsertBookmarksCommand* command{new InsertBookmarksCommand(this, parent, node, row)};
+	m_commands.push(command);
 }
 
 void BookmarksManager::removeBookmark(BookmarkNode* node)
@@ -79,7 +81,9 @@ void BookmarksManager::removeBookmark(BookmarkNode* node)
 
 	BookmarkNode* parent{node->parent()};
 	int row{parent->children().indexOf(node)};
-	//TODO: Use RemoveBookmarks commande
+
+	RemoveBookmarksCommand* command{new RemoveBookmarksCommand(this, parent, row)};
+	m_commands.push(command);
 }
 
 void BookmarksManager::setTitle(BookmarkNode* node, const QString& newTitle)
@@ -89,7 +93,8 @@ void BookmarksManager::setTitle(BookmarkNode* node, const QString& newTitle)
 
 	Q_ASSERT(node);
 
-	//TODO: Use ChangeBookmarks command
+	ChangeBookmarksCommand* command{new ChangeBookmarksCommand(this, node, newTitle, true)};
+	m_commands.push(command);
 }
 
 void BookmarksManager::setUrl(BookmarkNode* node, const QString& newUrl)
@@ -99,7 +104,8 @@ void BookmarksManager::setUrl(BookmarkNode* node, const QString& newUrl)
 
 	Q_ASSERT(node);
 
-	//TODO: Use ChangeBookmarks commande
+	ChangeBookmarksCommand* command{new ChangeBookmarksCommand(this, node, newUrl, false)};
+	m_commands.push(command);
 }
 
 void BookmarksManager::changeExpanded()

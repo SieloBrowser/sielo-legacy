@@ -33,6 +33,8 @@
 namespace Sn {
 class AutoSaver;
 class BookmarkNode;
+class RemoveBookmarksCommand;
+class ChangeBookmarksCommand;
 
 class BookmarksManager: public QObject {
 Q_OBJECT
@@ -52,7 +54,7 @@ public:
 	//TODO: why not bookmarks in a menu?
 
 	//TODO: model getter
-	QUndoStack* undoRedoStack() { return &m_commande; }
+	QUndoStack* undoRedoStack() { return &m_commands; }
 
 signals:
 	void entryAdded(BookmarkNode* item);
@@ -75,9 +77,10 @@ private:
 	BookmarkNode* m_bookmarkRootNode{nullptr};
 	//TODO: Model
 
-	QUndoStack m_commande;
+	QUndoStack m_commands;
 
-	//TODO: Add commands as friend class
+	friend class RemoveBookmarksCommand;
+	friend class ChangeBookmarksCommand;
 };
 
 }
