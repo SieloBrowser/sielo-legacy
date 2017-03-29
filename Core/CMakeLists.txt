@@ -11,6 +11,8 @@ file(
         SOURCE_FILES
         Application.cpp
         Application.hpp
+        BrowserWindow.hpp
+        BrowserWindow.cpp
         Bookmarks/*.cpp
         Bookmarks/*.hpp
         History/*.cpp
