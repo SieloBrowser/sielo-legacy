@@ -242,7 +242,8 @@ void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePag
 
 bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame)
 {
-	//TODO: Plugins implementation
+	if (!Application::instance()->plugins()->acceptNavigationRequest(this, url, type, isMainFrame))
+		return false;
 
 	return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
 }
