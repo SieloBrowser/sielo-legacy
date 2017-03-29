@@ -163,7 +163,7 @@ QModelIndex BookmarksModel::parent(const QModelIndex& index) const
 	BookmarkNode* grandParentNode{parentNode->parent()};
 	int parentRow{grandParentNode->children().indexOf(parentNode)};
 
-	Q_ASSERT(parentRow > 0);
+	Q_ASSERT(parentRow >= 0);
 
 	return createIndex(parentRow, 0, parentNode);
 }
