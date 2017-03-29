@@ -44,6 +44,11 @@ public:
 		ON_BrowserWindow
 	};
 
+	enum WindowType {
+		WT_FirstAppWindow,
+		WT_NewWindow
+	};
+
 	enum NewTabType {
 		NTT_SelectedTab = 1,
 		NTT_NotSelectedTab = 2,
