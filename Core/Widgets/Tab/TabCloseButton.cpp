@@ -39,6 +39,8 @@ namespace Sn {
 TabCloseButton::TabCloseButton(QWidget* parent) :
 	QAbstractButton(parent)
 {
+	setObjectName(QLatin1String("combotabbar_tabs_close_button"));
+
 	setFocusPolicy(Qt::NoFocus);
 	setCursor(Qt::ArrowCursor);
 }
