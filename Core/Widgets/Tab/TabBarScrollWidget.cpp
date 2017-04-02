@@ -81,10 +81,10 @@ TabBarScrollWidget::TabBarScrollWidget(QTabBar* tabBar, QWidget* parent) :
 
 	connect(m_leftScrollButton, &ToolButton::pressed, this, &TabBarScrollWidget::scrollStart);
 	connect(m_leftScrollButton, &ToolButton::doubleClicked, this, &TabBarScrollWidget::scrollToLeftEdge);
-	connect(m_leftScrollButton, &ToolButton::middleMouseCkicked, this, &TabBarScrollWidget::ensureVisible);
+	connect(m_leftScrollButton, SIGNAL(middleMouseClicked()), this, SLOT(ensureVisible()));
 	connect(m_rightScrollButton, &ToolButton::pressed, this, &TabBarScrollWidget::scrollStart);
 	connect(m_rightScrollButton, &ToolButton::doubleClicked, this, &TabBarScrollWidget::scrollToLeftEdge);
-	connect(m_rightScrollButton, &ToolButton::middleMouseCkicked, this, &TabBarScrollWidget::ensureVisible);
+	connect(m_rightScrollButton, SIGNAL(middleMouseClicked()), this, SLOT(ensureVisible()));
 	connect(m_scrollBar, &TabScrollBar::valueChanged, this, &TabBarScrollWidget::updateScrollButtonState);
 
 	updateScrollButtonState();
