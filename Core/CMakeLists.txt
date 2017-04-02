@@ -33,7 +33,7 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5WebEngine REQUIRED)
 find_package(Qt5WebEngineWidgets REQUIRED)
 
-add_library(Core ${SOURCE_FILES} ../icons.qrc)
+add_library(Core ${SOURCE_FILES} ../icons.qrc/)
 target_link_libraries(Core Qt5::Widgets)
 target_link_libraries(Core Qt5::WebEngine)
 target_link_libraries(Core Qt5::WebEngineWidgets)

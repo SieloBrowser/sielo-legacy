@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/tabs/loading.png</file>
+        <file>icons/tabs/audioplaying.svg</file>
+        <file>icons/tabs/audiomuted.svg</file>
+    </qresource>
+</RCC>
