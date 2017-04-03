@@ -45,7 +45,7 @@ TabStackedWidget::TabStackedWidget(QWidget* parent) :
 
 	m_layout->addWidget(m_stack);
 
-	connect(m_stack, &QStackedWidget::widgetRemoved, this, TabStackedWidget::tabWasRemoved);
+	connect(m_stack, &QStackedWidget::widgetRemoved, this, &TabStackedWidget::tabWasRemoved);
 }
 
 TabStackedWidget::~TabStackedWidget()
