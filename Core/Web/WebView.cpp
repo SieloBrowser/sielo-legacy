@@ -202,7 +202,7 @@ void WebView::load(const QUrl& url)
 	}
 }
 
-void WebView::load(LoadRequest& request)
+void WebView::load(const LoadRequest& request)
 {
 	const QUrl requestUrl{request.url()};
 

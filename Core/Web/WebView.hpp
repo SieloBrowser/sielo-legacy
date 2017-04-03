@@ -69,7 +69,7 @@ public:
 	void setPage(WebPage* page);
 
 	void load(const QUrl& url);
-	void load(LoadRequest& request);
+	void load(const LoadRequest& request);
 	bool isLoading() const;
 
 	int loadingProgress() const;

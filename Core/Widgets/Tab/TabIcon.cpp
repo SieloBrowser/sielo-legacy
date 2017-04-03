@@ -191,7 +191,7 @@ void TabIcon::paintEvent(QPaintEvent* event)
 void TabIcon::mousePressEvent(QMouseEvent* event)
 {
 	if (m_audioIconDisplayed && event->button() == Qt::LeftButton)
-		m_tab->toogleMuted();
+		m_tab->toggleMuted();
 	else
 		QWidget::mousePressEvent(event);
 }
