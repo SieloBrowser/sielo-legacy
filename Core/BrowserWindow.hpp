@@ -37,6 +37,9 @@
 
 namespace Sn {
 class WebTab; //TODO: do this class
+class TabbedWebView;
+
+class TabWidget;
 
 class BrowserWindow: public QMainWindow {
 Q_OBJECT
@@ -45,18 +48,27 @@ public:
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
 	~BrowserWindow();
 
+	TabbedWebView* webView() const;
+	TabbedWebView* webView(int index) const;
 public slots:
 	void enterHtmlFullScreen();
+
+	void bookmarkAllTabs();
+
+private slots:
+	void addTab();
 
 private:
 	QUrl m_startUrl{};
 	QUrl m_homePage{};
 	Application::WindowType m_windowType{};
-	WebTab* m_startTab{};
-	WebTab* m_startPage{};
+	WebTab* m_startTab{nullptr};
+	WebTab* m_startPage{nullptr};
 
-	QVBoxLayout* m_layout{};
-	QSplitter* m_mainSplitter{};
+	QVBoxLayout* m_layout{nullptr};
+	QSplitter* m_mainSplitter{nullptr};
+
+	TabWidget* m_tabWidget{nullptr};
 };
 
 }

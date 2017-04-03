@@ -63,6 +63,7 @@ public:
 		NTT_CleanSelectedTab = NTT_CleanTab | NTT_SelectedTab,
 		NTT_CleanNotSelectedTab = NTT_CleanTab | NTT_NotSelectedTab
 	};
+	Q_DECLARE_FLAGS(NewTabTypeFlags, NewTabType);
 
 	enum Path {
 		P_Data = 0,
@@ -92,6 +93,8 @@ private:
 
 	QWebEngineProfile* m_webProfile{nullptr};
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
 
 }
 #endif // CORE_APPLICATION_HPP
