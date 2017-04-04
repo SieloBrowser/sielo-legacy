@@ -33,7 +33,7 @@
 namespace Sn {
 class WebTab;
 
-class CloseTabsManager {
+class ClosedTabsManager {
 public:
 	struct Tab {
 		QUrl url{};
@@ -50,7 +50,7 @@ public:
 		}
 	};
 
-	CloseTabsManager();
+	ClosedTabsManager();
 
 	void saveTab(WebTab* tab, int position);
 	bool isClosedTabAvailable() { return !m_closedTabs.isEmpty(); }
@@ -65,6 +65,6 @@ private:
 	QLinkedList<Tab> m_closedTabs;
 };
 }
-Q_DECLARE_TYPEINFO(Sn::CloseTabsManager::Tab, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO(Sn::ClosedTabsManager::Tab, Q_MOVABLE_TYPE);
 
 #endif //SIELOBROWSER_CLOSETABSMANAGER_HPP

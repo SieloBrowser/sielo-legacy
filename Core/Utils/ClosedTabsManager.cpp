@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Utils/CloseTabsManager.hpp"
+#include "Utils/ClosedTabsManager.hpp"
 
 #include <QWebEngineHistory>
 #include <QWebEngineSettings>
@@ -33,12 +33,12 @@
 
 namespace Sn {
 
-CloseTabsManager::CloseTabsManager()
+ClosedTabsManager::ClosedTabsManager()
 {
 	// Empty
 }
 
-void CloseTabsManager::saveTab(WebTab* tab, int position)
+void ClosedTabsManager::saveTab(WebTab* tab, int position)
 {
 	if (Application::instance()->privateBrowsing())
 		return;
@@ -58,7 +58,7 @@ void CloseTabsManager::saveTab(WebTab* tab, int position)
 
 }
 
-CloseTabsManager::Tab CloseTabsManager::takeLastClosedTab()
+ClosedTabsManager::Tab ClosedTabsManager::takeLastClosedTab()
 {
 	Tab tab;
 	tab.position = -1;
@@ -69,7 +69,7 @@ CloseTabsManager::Tab CloseTabsManager::takeLastClosedTab()
 	return tab;
 }
 
-CloseTabsManager::Tab CloseTabsManager::takeTabAt(int index)
+ClosedTabsManager::Tab ClosedTabsManager::takeTabAt(int index)
 {
 	Tab tab;
 	tab.position = -1;
@@ -88,7 +88,7 @@ CloseTabsManager::Tab CloseTabsManager::takeTabAt(int index)
 	return tab;
 }
 
-void CloseTabsManager::clearList()
+void ClosedTabsManager::clearList()
 {
 	m_closedTabs.clear();
 }
