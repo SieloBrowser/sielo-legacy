@@ -46,7 +46,7 @@ class WebPage: public QWebEnginePage {
 Q_OBJECT
 
 public:
-	WebPage(QObject* parent, DelayedFileWatcher* m_fileWatcher);
+	WebPage(QObject* parent = nullptr);
 	~WebPage();
 
 	WebView* view() const;

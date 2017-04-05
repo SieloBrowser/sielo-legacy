@@ -44,9 +44,8 @@
 #include "Application.hpp"
 
 namespace Sn {
-WebPage::WebPage(QObject* parent, DelayedFileWatcher* m_fileWatcher) :
+WebPage::WebPage(QObject* parent) :
 	QWebEnginePage(Application::instance()->webProfile(), parent),
-	m_fileWatcher(m_fileWatcher),
 	m_runningLoop(nullptr),
 	m_loadProgress(-1),
 	m_blockAlerts(false),
