@@ -55,6 +55,8 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 {
 	setObjectName(QLatin1String("tabwidget"));
 
+	m_closedTabsManager = new ClosedTabsManager;
+
 	m_tabBar = new MainTabBar(m_window, this);
 	m_menuTabs = new MenuTabs(this);
 	m_menuClosedTabs = new QMenu(this);
