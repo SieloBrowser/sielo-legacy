@@ -36,6 +36,7 @@ static const int ANIMATION_DURATION = 250;
 
 TabBar::TabBar(bool isPinnedTabBar, ComboTabBar* comboTabBar) :
 	QTabBar(comboTabBar),
+	m_comboTabBar(comboTabBar),
 	m_pressedIndex(-1),
 	m_pressedGlobalX(-1),
 	m_dragInProgress(false),
