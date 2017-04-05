@@ -3,5 +3,6 @@
         <file>icons/tabs/loading.png</file>
         <file>icons/tabs/audioplaying.svg</file>
         <file>icons/tabs/audiomuted.svg</file>
+        <file>icons/other/webpage.svg</file>
     </qresource>
 </RCC>
