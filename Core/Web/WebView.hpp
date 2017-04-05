@@ -60,7 +60,7 @@ public:
 	bool event(QEvent* event);
 	bool eventFilter(QObject* watched, QEvent* event);
 
-//	QIcon icon(bool allowNull = false) const;
+	QIcon icon(bool allowNull = false) const;
 
 	QString title() const;
 	bool isTitleEmpty() const;
@@ -79,7 +79,8 @@ public:
 
 	QPointF mapToViewport(const QPointF& pos) const;
 
-	//TODO: History & Notification & ...
+	void restoreHistory(const QByteArray& data);
+	//TODO: Notification, ...
 
 	QWidget* inputWidget() const;
 	virtual QWidget* overlayWidget() = 0;
@@ -113,7 +114,7 @@ public slots:
 	void forward();
 
 	//TODO: Show sources
-	virtual void openUrlInNewTab(const QUrl& url, Application::NewTabType position) = 0;
+	virtual void openUrlInNewTab(const QUrl& url, Application::NewTabType position);
 
 	virtual void closeView() = 0;
 	virtual void loadInNewTab(const LoadRequest& request, Application::NewTabType position) = 0;

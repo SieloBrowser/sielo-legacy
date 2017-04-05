@@ -95,6 +95,15 @@ WebView::~WebView()
 	// Empty
 }
 
+QIcon WebView::icon(bool allowNull) const
+{
+	if (!QWebEngineView::icon().isNull())
+		return QWebEngineView::icon();
+
+	return allowNull ? QIcon() : QIcon(QStringLiteral(":icons/other/webpage.svg"));
+
+}
+
 bool WebView::event(QEvent* event)
 {
 	if (event->type() == QEvent::ChildAdded) {
@@ -268,6 +277,12 @@ void WebView::setZoomLevel(int level)
 QPointF WebView::mapToViewport(const QPointF& pos) const
 {
 	return m_page->mapToViewport(pos);
+}
+
+void WebView::restoreHistory(const QByteArray& data)
+{
+	QDataStream stream{data};
+	stream >> *history();
 }
 
 QWidget* WebView::inputWidget() const
@@ -643,6 +658,15 @@ void WebView::applyZoom()
 }
 
 //TODO: Context menu
+void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
+{
+	int spellCheckAction{0};
+
+	const QWebEngineContextMenuData& contextMenuData{page()->contextMenuData()};
+	hitTest.updateWithContextMenuData(contextMenuData);
+
+	//TODO: do
+}
 
 void WebView::initActions()
 {
