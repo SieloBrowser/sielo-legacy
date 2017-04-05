@@ -603,9 +603,9 @@ int ComboTabBar::pinTabBarWidth() const
 bool ComboTabBar::eventFilter(QObject* obj, QEvent* event)
 {
 	if (obj == m_mainTabBar && event->type() == QEvent::Resize) {
-		QResizeEvent* event{static_cast<QResizeEvent*>(event)};
+		QResizeEvent* evnt = static_cast<QResizeEvent*>(event);
 
-		if (event->oldSize().height() != event->size().height())
+		if (evnt->oldSize().height() != evnt->size().height())
 			setUpLayout();
 	}
 
