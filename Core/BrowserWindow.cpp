@@ -22,3 +22,118 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
+#include "BrowserWindow.hpp"
+
+#include <QToolTip>
+
+#include "Web/WebPage.hpp"
+#include "Web/Tab/WebTab.hpp"
+#include "Web/Tab/TabbedWebView.hpp"
+
+#include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/Tab/MainTabBar.hpp"
+
+namespace Sn {
+
+BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
+	QMainWindow(nullptr),
+	m_startUrl(url),
+	m_windowType(type)
+{
+	setAttribute(Qt::WA_DeleteOnClose);
+	setAttribute(Qt::WA_DontCreateNativeAncestors);
+
+	setObjectName(QLatin1String("mainwindow"));
+	setWindowTitle(tr("Sielo"));
+	setProperty("private", Application::instance()->privateBrowsing());
+
+	setupUi();
+
+}
+
+BrowserWindow::~BrowserWindow()
+{
+	//TODO: emit window deleted to plugins
+}
+
+void BrowserWindow::setStartTab(WebTab* tab)
+{
+	m_startTab = tab;
+}
+
+void BrowserWindow::setStartPage(WebPage* page)
+{
+	m_startPage = page;
+}
+
+void BrowserWindow::currentTabChanged()
+{
+	TabbedWebView* view{webView()};
+	if (!view)
+		return;
+
+	setWindowTitle(tr("%1 - Sielo").arg(view->webTab()->title()));
+
+	view->setFocus();
+}
+
+TabbedWebView* BrowserWindow::webView() const
+{
+	return webView(m_tabWidget->currentIndex());
+}
+
+TabbedWebView* BrowserWindow::webView(int index) const
+{
+	WebTab* webTab = qobject_cast<WebTab*>(m_tabWidget->widget(index));
+	if (!webTab)
+		return 0;
+
+	return webTab->webView();
+}
+
+void BrowserWindow::enterHtmlFullScreen()
+{
+	// Empty
+}
+
+void BrowserWindow::bookmarkAllTabs()
+{
+	// Empty
+}
+
+void BrowserWindow::addTab()
+{
+	m_tabWidget->addView(QUrl(), Application::NTT_SelectedNewEmptyTab, true);
+	m_tabWidget->setCurrentTabFresh(true);
+}
+
+void BrowserWindow::setupUi()
+{
+	QWidget* widget{new QWidget(this)};
+	widget->setCursor(Qt::ArrowCursor);
+
+	m_layout = new QVBoxLayout(widget);
+	m_layout->setSpacing(0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+
+	m_tabWidget = new TabWidget(this);
+
+	m_mainSplitter = new QSplitter(this);
+	m_mainSplitter->addWidget(m_tabWidget);
+
+	m_layout->addWidget(m_tabWidget->tabBar());
+	m_layout->addWidget(m_mainSplitter);
+
+	QPalette palette{QToolTip::palette()};
+	QColor color{palette.window().color()};
+
+	color.setAlpha(0);
+	palette.setColor(QPalette::Window, color);
+
+	QToolTip::setPalette(palette);
+
+	setMinimumWidth(300);
+	setCentralWidget(widget);
+}
+
+}

@@ -36,7 +36,8 @@
 #include "Application.hpp"
 
 namespace Sn {
-class WebTab; //TODO: do this class
+class WebPage;
+class WebTab;
 class TabbedWebView;
 
 class TabWidget;
@@ -48,8 +49,15 @@ public:
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
 	~BrowserWindow();
 
+	void setStartTab(WebTab* tab);
+	void setStartPage(WebPage* page);
+
+	void currentTabChanged();
+
 	TabbedWebView* webView() const;
 	TabbedWebView* webView(int index) const;
+
+	TabWidget* tabWidget() const { return m_tabWidget; }
 public slots:
 	void enterHtmlFullScreen();
 
@@ -59,11 +67,13 @@ private slots:
 	void addTab();
 
 private:
+	void setupUi();
+
 	QUrl m_startUrl{};
 	QUrl m_homePage{};
 	Application::WindowType m_windowType{};
 	WebTab* m_startTab{nullptr};
-	WebTab* m_startPage{nullptr};
+	WebPage* m_startPage{nullptr};
 
 	QVBoxLayout* m_layout{nullptr};
 	QSplitter* m_mainSplitter{nullptr};
