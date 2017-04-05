@@ -28,8 +28,12 @@
 #include <QStandardPaths>
 #include <QDir>
 
+#include "BrowserWindow.hpp"
+
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
+
+#include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
 
@@ -65,6 +69,65 @@ Application::~Application()
 	delete m_historyManager;
 }
 
+int Application::windowCount() const
+{
+	return m_windows.count();
+}
+
+BrowserWindow* Application::getWindow() const
+{
+	if (m_lastActiveWindow)
+		return m_lastActiveWindow.data();
+
+	return m_windows.isEmpty() ? nullptr : m_windows[0];
+}
+
+BrowserWindow* Application::createWindow(Application::WindowType type, const QUrl& startUrl)
+{
+	if (windowCount() == 0)
+		type = Application::WT_FirstAppWindow;
+
+	BrowserWindow* window{new BrowserWindow(type, startUrl)};
+	QObject::connect(window, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
+
+	m_windows.prepend(window);
+	return window;
+}
+
+void Application::saveSession()
+{
+	if (m_privateBrowsing || m_windows.count() == 0)
+		return;
+
+	QByteArray data{};
+	QDataStream stream{&data, QIODevice::WriteOnly};
+
+	stream << QString("0.5");
+	stream << m_windows.count();
+
+		foreach (BrowserWindow* window, m_windows) {
+			stream << window->tabWidget()->saveState();
+			if (window->isFullScreen())
+				stream << QByteArray();
+			else
+				stream << window->saveState();
+		}
+
+	QFile file{paths()[Application::P_Data] + QLatin1String("/session.dat")};
+
+	file.open(QIODevice::WriteOnly);
+	file.write(data);
+	file.close();
+}
+
+void Application::windowDestroyed(QObject* window)
+{
+	Q_ASSERT(static_cast<BrowserWindow*>(window));
+	Q_ASSERT(m_windows.contains(static_cast<BrowserWindow*>(window)));
+
+	m_windows.removeOne(static_cast<BrowserWindow*>(window));
+}
+
 HistoryManager* Application::historyManager()
 {
 	if (!m_historyManager)
@@ -80,4 +143,5 @@ BookmarksManager* Application::bookmarksManager()
 
 	return m_bookmarksManager;
 }
+
 }

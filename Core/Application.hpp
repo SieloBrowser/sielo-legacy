@@ -29,12 +29,16 @@
 #include <QApplication>
 #include <QList>
 
+#include <QPointer>
+
 #include <QWebEngineProfile>
 
 namespace Sn {
 class PluginProxy;
 class HistoryManager;
 class BookmarksManager;
+
+class BrowserWindow;
 
 class Application: public QApplication {
 public:
@@ -75,6 +79,12 @@ public:
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
 
+	int windowCount() const;
+	QList<BrowserWindow*> windows() const { return m_windows; }
+
+	BrowserWindow* getWindow() const;
+	BrowserWindow* createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
+
 	PluginProxy* plugins() { return m_plugins; }
 	HistoryManager* historyManager();
 	BookmarksManager* bookmarksManager();
@@ -84,6 +94,13 @@ public:
 	static QList<QString> paths();
 	static Application* instance();
 
+public slots:
+	void saveSession();
+
+private slots:
+	void windowDestroyed(QObject* window);
+
+
 private:
 	bool m_privateBrowsing{false};
 
@@ -92,6 +109,9 @@ private:
 	BookmarksManager* m_bookmarksManager{nullptr};
 
 	QWebEngineProfile* m_webProfile{nullptr};
+
+	QList<BrowserWindow*> m_windows;
+	QPointer<BrowserWindow> m_lastActiveWindow;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
