@@ -120,6 +120,8 @@ int TabStackedWidget::insertTab(int index, QWidget* widget, const QString& label
 		++m_currentIndex;
 
 	QTimer::singleShot(0, this, &TabStackedWidget::setUpLayout);
+
+	return index;
 }
 
 QString TabStackedWidget::tabText(int index) const
@@ -313,7 +315,7 @@ void TabStackedWidget::selectTabOnRemove()
 	switch (m_comboTabBar->selectionBehaviorOnRemove()) {
 	case QTabBar::SelectPreviousTab:
 		if (validIndex(m_previousIndex)) {
-			index == m_previousIndex;
+			index = m_previousIndex;
 			break;
 		}
 	case QTabBar::SelectLeftTab:
