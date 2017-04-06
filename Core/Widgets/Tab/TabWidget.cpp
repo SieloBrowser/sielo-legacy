@@ -555,7 +555,7 @@ void TabWidget::moveAddTabButton(int posX)
 	if (QApplication::layoutDirection() == Qt::RightToLeft)
 		posX = qMax(posX - m_buttonAddTab->width(), 0);
 	else
-		posX = qMax(posX, m_tabBar->width() - m_buttonAddTab->width());
+		posX = qMin(posX, m_tabBar->width() - m_buttonAddTab->width());
 
 	m_buttonAddTab->move(posX, posY);
 }
