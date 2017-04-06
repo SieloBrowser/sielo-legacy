@@ -30,6 +30,8 @@
 
 #include "BrowserWindow.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
 
@@ -62,10 +64,13 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
+
+	m_plugins = new PluginProxy;
 }
 
 Application::~Application()
 {
+	delete m_plugins;
 	delete m_historyManager;
 }
 
