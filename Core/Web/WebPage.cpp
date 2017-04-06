@@ -216,7 +216,7 @@ void WebPage::windowCloseRequested()
 	if (!view())
 		return;
 
-	//TODO: view()->closeView();
+	view()->closeView();
 }
 
 void WebPage::fullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest)
