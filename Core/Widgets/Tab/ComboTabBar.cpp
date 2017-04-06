@@ -89,13 +89,13 @@ ComboTabBar::ComboTabBar(QWidget* parent) :
 	m_layout->addWidget(m_rightContainer);
 
 	connect(m_mainTabBarWidget->scrollBar(), &TabScrollBar::rangeChanged, this, &ComboTabBar::setMinimumWidth);
-	connect(m_mainTabBarWidget->scrollBar(), &TabScrollBar::valueChanged, this, &ComboTabBar::scrollBarValueChanged);
+	connect(m_mainTabBarWidget->scrollBar(), SIGNAL(valueChanged(int)), this, SIGNAL(scrollBarValueChanged(int)));
 	connect(m_mainTabBar, &TabBar::currentChanged, this, &ComboTabBar::sCurrentChanged);
 	connect(m_mainTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_mainTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);
 
 	connect(m_pinnedTabBarWidget->scrollBar(), &TabScrollBar::rangeChanged, this, &ComboTabBar::setMinimumWidth);
-	connect(m_pinnedTabBarWidget->scrollBar(), &TabScrollBar::valueChanged, this, &ComboTabBar::scrollBarValueChanged);
+	connect(m_pinnedTabBarWidget->scrollBar(), SIGNAL(valueChanged(int)), this, SIGNAL(scrollBarValueChanged(int)));
 	connect(m_pinnedTabBar, &TabBar::currentChanged, this, &ComboTabBar::sCurrentChanged);
 	connect(m_pinnedTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_pinnedTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);

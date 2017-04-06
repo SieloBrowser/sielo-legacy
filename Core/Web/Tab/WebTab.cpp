@@ -137,14 +137,14 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_layout->setSpacing(0);
 	m_layout->setContentsMargins(0, 0, 0, 0);
 
-	m_splitter = new QSplitter(this);
-	m_splitter->setChildrenCollapsible(false);
-	m_splitter->addWidget(m_webView);
-
 	m_webView = new TabbedWebView(this);
 	m_webView->setBrowserWindow(m_window);
 	m_webView->setWebPage(new WebPage);
 	m_webView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+
+	m_splitter = new QSplitter(this);
+	m_splitter->setChildrenCollapsible(false);
+	m_splitter->addWidget(m_webView);
 
 	m_tabIcon = new TabIcon(this);
 	m_tabIcon->setWebTab(this);
@@ -178,7 +178,7 @@ QString WebTab::title() const
 	if (isRestored())
 		return m_webView->title();
 	else
-		return m_webView->title();
+		return m_savedTab.title;
 }
 
 QIcon WebTab::icon(bool allowNull) const
@@ -386,7 +386,7 @@ void WebTab::loadFinished()
 
 void WebTab::titleChanged(const QString& title)
 {
-	if (!m_tabBar || m_window || title.isEmpty())
+	if (!m_tabBar || !m_window || title.isEmpty())
 		return;
 
 	if (isCurrentTab())

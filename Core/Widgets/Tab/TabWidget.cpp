@@ -97,11 +97,11 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_tabBar, &MainTabBar::tabCloseRequested, this, &TabWidget::requestCloseTab);
 	connect(m_tabBar, SIGNAL(reloadTab(int)), this, SLOT(reloadTab(int)));
 	connect(m_tabBar, SIGNAL(stopTab(int)), this, SLOT(stopTab(int)));
-	connect(m_tabBar, SIGNAL(closeAllButCurrent()), this, SLOT(closeAllButCurrent()));
-	connect(m_tabBar, SIGNAL(closeToRight()), this, SLOT(closeToRight()));
-	connect(m_tabBar, SIGNAL(closeToLeft()), this, SLOT(closeToLeft()));
+	connect(m_tabBar, SIGNAL(closeAllButCurrent(int)), this, SLOT(closeAllButCurrent(int)));
+	connect(m_tabBar, SIGNAL(closeToRight(int)), this, SLOT(closeToRight(int)));
+	connect(m_tabBar, SIGNAL(closeToLeft(int)), this, SLOT(closeToLeft(int)));
 	connect(m_tabBar, SIGNAL(duplicateTab(int)), this, SLOT(duplicateTab(int)));
-	connect(m_tabBar, SIGNAL(detachTab(int)), this, SLOT(detachTab()));
+	connect(m_tabBar, SIGNAL(detachTab(int)), this, SLOT(detachTab(int)));
 	connect(m_tabBar, &MainTabBar::tabMoved, this, &TabWidget::tabMoved);
 	connect(m_tabBar, &MainTabBar::moveAddTabButton, this, &TabWidget::moveAddTabButton);
 	connect(m_tabBar, &MainTabBar::overFlowChanged, this, &TabWidget::tabBarOverFlowChanged);
