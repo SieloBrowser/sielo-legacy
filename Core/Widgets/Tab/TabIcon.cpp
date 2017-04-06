@@ -45,7 +45,7 @@ TabIcon::TabIcon(QWidget* parent) :
 	if (!s_data) {
 		s_data = new TabIcon::Data;
 
-		s_data->animationPixmap = QIcon(QLatin1String(":icon/tabs/loading.png")).pixmap(288, 16);
+		s_data->animationPixmap = QIcon(QLatin1String(":icons/tabs/loading.png")).pixmap(288, 16);
 		s_data->framesCount = s_data->animationPixmap.width() / s_data->animationPixmap.height();
 		s_data->audioPlayingPixmap =
 			QIcon::fromTheme(QLatin1String("audio-volume-high"), QIcon(QLatin1String(":icons/tabs/audioplaying.svg")))
