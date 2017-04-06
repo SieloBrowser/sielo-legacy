@@ -244,7 +244,7 @@ void TabBarScrollWidget::scrollStart()
 void TabBarScrollWidget::updateScrollButtonState()
 {
 	m_leftScrollButton->setEnabled(m_scrollBar->value() != m_scrollBar->minimum());
-	m_rightScrollButton->setEnabled(m_scrollBar->value() != m_scrollBar->minimum());
+	m_rightScrollButton->setEnabled(m_scrollBar->value() != m_scrollBar->maximum());
 }
 
 void TabBarScrollWidget::mouseMoveEvent(QMouseEvent* event)
