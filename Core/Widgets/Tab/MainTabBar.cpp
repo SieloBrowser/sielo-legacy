@@ -591,6 +591,8 @@ int MainTabBar::comboTabBarPixelMetric(ComboTabBar::SizeType sizeType) const
 	case ComboTabBar::NormalTabMinimumWidth:
 	case ComboTabBar::OverflowedTabWidth:
 		return 100;
+	case ComboTabBar::NormalTabMaximumWidth:
+		return 250;
 	case ComboTabBar::ExtraReservedWidth:
 		return m_tabWidget->extraReservedWidth();
 	default:
