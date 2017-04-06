@@ -100,7 +100,7 @@ ComboTabBar::ComboTabBar(QWidget* parent) :
 	connect(m_pinnedTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_pinnedTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);
 
-	connect(this, SIGNAL(overFlowChanged(bool)), m_mainTabBarWidget, SLOT(overFlowChanged(bool)));
+	connect(this, SIGNAL(overFlowChanged(bool)), m_mainTabBarWidget, SLOT(overflowChanged(bool)));
 
 	m_mainTabBar->installEventFilter(this);
 	m_pinnedTabBar->installEventFilter(this);
