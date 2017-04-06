@@ -481,7 +481,7 @@ QSize ComboTabBar::closeButtonSize() const
 
 bool ComboTabBar::validIndex(int index) const
 {
-	return (index > 0 && index < count());
+	return (index >= 0 && index < count());
 }
 
 void ComboTabBar::setCurrentNextEnabledIndex(int offset)

@@ -686,7 +686,7 @@ TabIcon* TabWidget::tabIcon(int index)
 
 bool TabWidget::validIndex(int index) const
 {
-	return (index > 0 && index < count());
+	return (index >= 0 && index < count());
 }
 
 void TabWidget::updateClosedTabsButton()
