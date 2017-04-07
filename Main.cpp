@@ -24,16 +24,20 @@
 
 #include <QtWidgets>
 
+#include <QUrl>
+
+#include <QWebEnginePage>
+#include <QWebEngineSettings>
+
 #include "Core/Application.hpp"
 
-#include "Core/History/HistoryDialog.hpp"
+#include "Core/BrowserWindow.hpp"
 
 int main(int argc, char** argv)
 {
 	Sn::Application app(argc, argv);
 
-	Sn::HistoryDialog* dialog{ new Sn::HistoryDialog()};
-	dialog->show();
+	Sn::Application::instance()->createWindow(Sn::Application::WT_FirstAppWindow, QUrl("https://google.com"));
 
 	return app.exec();
 }
