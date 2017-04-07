@@ -26,6 +26,9 @@
 
 #include <QToolTip>
 
+#include <QTimer>
+
+#include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
@@ -48,6 +51,8 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setProperty("private", Application::instance()->privateBrowsing());
 
 	setupUi();
+
+	QTimer::singleShot(0, this, &BrowserWindow::postLaunch);
 
 }
 
@@ -116,13 +121,15 @@ void BrowserWindow::setupUi()
 	m_layout->setSpacing(0);
 	m_layout->setContentsMargins(0, 0, 0, 0);
 
-	m_tabWidget = new TabWidget(this);
+	m_tabWidget = new TabWidget(this, this);
 
 	m_mainSplitter = new QSplitter(this);
 	m_mainSplitter->addWidget(m_tabWidget);
 
 	m_layout->addWidget(m_tabWidget->tabBar());
 	m_layout->addWidget(m_mainSplitter);
+
+	m_tabWidget->tabBar()->show();
 
 	QPalette palette{QToolTip::palette()};
 	QColor color{palette.window().color()};
@@ -133,7 +140,43 @@ void BrowserWindow::setupUi()
 	QToolTip::setPalette(palette);
 
 	setMinimumWidth(300);
+	//TODO: delete this line when settings will be implements
+	resize(1200, 720);
 	setCentralWidget(widget);
+
+}
+
+void BrowserWindow::postLaunch()
+{
+	bool addTab{true};
+	QUrl startUrl{};
+
+	show();
+
+	if (!m_startUrl.isEmpty()) {
+		startUrl = m_startUrl;
+		addTab = true;
+	}
+	if (m_startTab) {
+		addTab = false;
+		m_tabWidget->addView(m_startTab);
+	}
+	if (m_startPage) {
+		addTab = false;
+		m_tabWidget->addView(QUrl());
+		webView()->setPage(m_startPage);
+	}
+
+	if (addTab) {
+		m_tabWidget->addView(startUrl, Application::NTT_CleanSelectedTabAtEnd);
+	}
+
+	if (m_tabWidget->tabBar()->normalTabsCount() <= 0)
+		m_tabWidget->addView(m_homePage, Application::NTT_SelectedTabAtEnd);
+
+	//TODO: emit main window created to plugins
+
+	tabWidget()->tabBar()->ensureVisible();
 }
 
 }

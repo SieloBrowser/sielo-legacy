@@ -65,6 +65,7 @@ public slots:
 
 private slots:
 	void addTab();
+	void postLaunch();
 
 private:
 	void setupUi();
