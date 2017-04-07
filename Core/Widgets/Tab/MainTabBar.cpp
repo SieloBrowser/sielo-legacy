@@ -360,7 +360,7 @@ void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 		menu.addAction(webTab->isPinned() ? tr("Un&pin Tab") : tr("&Pin Tab"), this, SLOT(pinTab()));
 		menu.addAction(webTab->isMuted() ? tr("Un&mute Tab") : tr("&Mute Tab"), this, SLOT(muteTab()));
 		menu.addSeparator();
-		menu.addAction(tr("Re&load All Tabs"), m_tabWidget, SLOT(reloadAllTab()));
+		menu.addAction(tr("Re&load All Tabs"), m_tabWidget, SLOT(reloadAllTabs()));
 		menu.addAction(tr("Bookmark &All Tabs"), m_window, SLOT(bookmarkAllTabs()));
 		menu.addSeparator();
 		menu.addAction(tr("Close Ot&her Tabs"), this, SLOT(closeAllButCurrent()));
