@@ -59,7 +59,6 @@ public:
 	~TabWidget();
 
 	QByteArray saveState();
-	void save();
 	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab);
 	void closeRecoveryTab();
 
@@ -118,6 +117,7 @@ public slots:
 
 private slots:
 	void loadSettings();
+	void save();
 
 	void aboutToShowTabsMenu();
 	void aboutToShowClosedTabsMenu();

@@ -210,9 +210,9 @@ void ToolButton::showMenu()
 		position = mapToGlobal(rect().bottomRight());
 
 		if (QApplication::layoutDirection() == Qt::RightToLeft)
-			position.setX(pos().x() - rect().width());
+			position.setX(position.x() - rect().width());
 		else
-			position.setX(pos().x() - m_menu->sizeHint().width());
+			position.setX(position.x() - m_menu->sizeHint().width());
 	}
 	else
 		position = mapToGlobal(rect().bottomLeft());

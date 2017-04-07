@@ -62,9 +62,12 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_menuClosedTabs = new QMenu(this);
 
 	m_buttonAddTab = new AddTabButton(this, m_tabBar);
+	m_buttonAddTab->setIcon(QIcon(":icons/tabs/tabbar-addtab.png"));
+	m_buttonAddTab->setFixedWidth(24);
 
 	m_buttonAddTab2 = new AddTabButton(this, m_tabBar);
 	m_buttonAddTab2->setProperty("outside-tabbar", true);
+	m_buttonAddTab2->setIcon(QIcon(":icons/tabs/tabbar-addtab.png"));
 	m_buttonAddTab2->hide();
 
 	m_buttonClosedTabs = new ToolButton(m_tabBar);
@@ -77,7 +80,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonClosedTabs->setShowMenuInside(true);
 
 	m_buttonListTabs = new ToolButton(m_tabBar);
-	m_buttonListTabs->setObjectName(QLatin1String("tabwidget-button-opentabs"));
+	m_buttonListTabs->setObjectName(QLatin1String("tabwidget-button-listtabs"));
 	m_buttonListTabs->setMenu(m_menuTabs);
 	m_buttonListTabs->setPopupMode(QToolButton::InstantPopup);
 	m_buttonListTabs->setToolTip(tr("List of Tabs"));
@@ -110,8 +113,8 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 
 	connect(m_buttonAddTab, SIGNAL(clicked()), m_window, SLOT(addTab()));
 	connect(m_buttonAddTab2, SIGNAL(clicked()), m_window, SLOT(addTab()));
-	connect(m_buttonClosedTabs, &ToolButton::clicked, this, &TabWidget::aboutToShowClosedTabsMenu);
-	connect(m_buttonListTabs, &ToolButton::clicked, this, &TabWidget::aboutToShowTabsMenu);
+	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
+	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
 
 	setTabBar(m_tabBar);
 	loadSettings();
@@ -594,7 +597,7 @@ void TabWidget::loadSettings()
 
 void TabWidget::aboutToShowTabsMenu()
 {
-	m_menuTabs->close();
+	m_menuTabs->clear();
 
 	for (int i{0}; i < count(); ++i) {
 		WebTab* webTab = weTab(i);

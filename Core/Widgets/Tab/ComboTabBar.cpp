@@ -560,7 +560,7 @@ void ComboTabBar::setUpLayout()
 	setMinimumWidths();
 
 	if (isVisible() && m_mainTabBar->count() > 0) {
-		m_pinnedTabBar->setFixedHeight(m_mainTabBarWidget->sizeHint().height());
+		m_pinnedTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
 		m_mainTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
 	}
 }
