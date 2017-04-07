@@ -87,6 +87,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonListTabs->setAutoRaise(true);
 	m_buttonListTabs->setFocusPolicy(Qt::NoFocus);
 	m_buttonListTabs->setShowMenuInside(true);
+	m_buttonListTabs->setIcon(QIcon(":icons/tabs/tabbar-tabslist.png"));
 	m_buttonListTabs->hide();
 
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);

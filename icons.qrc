@@ -4,6 +4,9 @@
         <file>icons/tabs/audioplaying.svg</file>
         <file>icons/tabs/audiomuted.svg</file>
         <file>icons/tabs/tabbar-addtab.png</file>
+        <file>icons/tabs/tabbar-tabslist.png</file>
+        <file>icons/tabs/tabbar-left-arrow.png</file>
+        <file>icons/tabs/tabbar-right-arrow.png</file>
         <file>icons/other/webpage.svg</file>
     </qresource>
 </RCC>

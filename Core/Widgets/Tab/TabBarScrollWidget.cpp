@@ -61,12 +61,14 @@ TabBarScrollWidget::TabBarScrollWidget(QTabBar* tabBar, QWidget* parent) :
 	m_leftScrollButton->setAutoRepeat(true);
 	m_leftScrollButton->setAutoRepeatDelay(200);
 	m_leftScrollButton->setAutoRepeatInterval(200);
+	m_leftScrollButton->setIcon(QIcon(":icons/tabs/tabbar-left-arrow.png"));
 
 	m_rightScrollButton = new ToolButton(this);
 	m_rightScrollButton->setAutoRaise(true);
 	m_rightScrollButton->setAutoRepeat(true);
 	m_rightScrollButton->setAutoRepeatDelay(200);
 	m_rightScrollButton->setAutoRepeatInterval(200);
+	m_rightScrollButton->setIcon(QIcon(":icons/tabs/tabbar-right-arrow.png"));
 
 	QHBoxLayout* layout{new QHBoxLayout()};
 	layout->setSpacing(0);

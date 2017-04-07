@@ -27,7 +27,10 @@
 #include <QPainter>
 #include <QRect>
 
+#include "Web/WebPage.hpp"
+#include "Web/WebView.hpp"
 #include "Web/Tab/WebTab.hpp"
+#include "Web/Tab/TabbedWebView.hpp"
 
 namespace Sn {
 
@@ -71,7 +74,10 @@ void TabIcon::setWebTab(WebTab* tab)
 {
 	m_tab = tab;
 
-	//TODO: connection with webview by the tab
+	connect(m_tab->webView(), &TabbedWebView::loadStarted, this, &TabIcon::showLoadingAnimation);
+	connect(m_tab->webView(), &TabbedWebView::loadFinished, this, &TabIcon::hideLoadingAnimation);
+	connect(m_tab->webView(), &TabbedWebView::iconChanged, this, &TabIcon::updateIcon);
+	connect(m_tab->webView()->page(), &WebPage::recentlyAudibleChanged, this, &TabIcon::updateAudioIcon);
 
 	updateIcon();
 }
