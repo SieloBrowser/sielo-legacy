@@ -34,7 +34,7 @@
 
 namespace Sn {
 
-static const int ANIMATION_INTERVAL = 60;
+static const int ANIMATION_INTERVAL = 25;
 
 TabIcon::Data* TabIcon::s_data = Q_NULLPTR;
 
@@ -48,7 +48,7 @@ TabIcon::TabIcon(QWidget* parent) :
 	if (!s_data) {
 		s_data = new TabIcon::Data;
 
-		s_data->animationPixmap = QIcon(QLatin1String(":icons/tabs/loading.png")).pixmap(128, 16);
+		s_data->animationPixmap = QIcon(QLatin1String(":icons/tabs/loading.png")).pixmap(512, 16);
 		s_data->framesCount = s_data->animationPixmap.width() / s_data->animationPixmap.height();
 		s_data->audioPlayingPixmap =
 			QIcon::fromTheme(QLatin1String("audio-volume-igh"), QIcon(QLatin1String(":icons/tabs/audioplaying.png")))
