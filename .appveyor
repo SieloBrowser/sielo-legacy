@@ -18,3 +18,18 @@ before_build:
 build_script:
     - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH=%QT5%
     - cmake --build build
+
+artifacts:
+
+  # pushing a single file
+  - path: Sielo.zip
+
+  # pushing a single file with environment variable in path and "Deployment name" specified
+  - path: SieloNavigateur\bin\$(configuration)
+    name: sielo_navigateur
+
+  # pushing entire folder as a zip archive
+  - path: logs
+
+  # pushing all *.nupkg files in build directory recursively
+  - path: '**\*.nupkg'
