@@ -35,13 +35,17 @@
 
 #include "Web/WebHitTestResult.hpp"
 #include "Web/WebView.hpp"
+#include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/CheckBoxDialog.hpp"
+#include "Widgets/Tab/TabWidget.hpp"
+
 #include "Utils/DelayedFileWatcher.hpp"
 
 #include "Plugins/PluginProxy.hpp"
 
 #include "Application.hpp"
+#include "BrowserWindow.hpp"
 
 namespace Sn {
 WebPage::WebPage(QObject* parent) :
@@ -249,9 +253,34 @@ bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool
 
 QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
 {
-	return Q_NULLPTR;
+	TabbedWebView* tabbedWebView = qobject_cast<TabbedWebView*>(view());
+	BrowserWindow* window = tabbedWebView ? tabbedWebView->browserWindow() : Application::instance()->getWindow();
 
-	//TODO: Implement this methode
+	auto createTab = [=](Application::NewTabTypeFlags tabType)
+	{
+		int index{window->tabWidget()->addView(QUrl(), tabType)};
+		TabbedWebView* view{window->webView(index)};
+		view->setPage(new WebPage);
+		return view->page();
+	};
+
+	switch (type) {
+	case QWebEnginePage::WebBrowserWindow: {
+		BrowserWindow* window{Application::instance()->createWindow(Application::WT_NewWindow)};
+		WebPage* page{new WebPage};
+		window->setStartPage(page);
+		return page;
+	}
+	case QWebEnginePage::WebDialog: //TODO: do
+	case QWebEnginePage::WebBrowserTab:
+		return createTab(Application::NTT_CleanSelectedTab);
+	case QWebEnginePage::WebBrowserBackgroundTab:
+		return createTab(Application::NTT_CleanNotSelectedTab);
+	default:
+		break;
+	}
+
+	return Q_NULLPTR;
 
 }
 
