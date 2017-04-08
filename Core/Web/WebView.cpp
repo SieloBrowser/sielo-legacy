@@ -100,7 +100,7 @@ QIcon WebView::icon(bool allowNull) const
 	if (!QWebEngineView::icon().isNull())
 		return QWebEngineView::icon();
 
-	return allowNull ? QIcon() : QIcon(QStringLiteral(":icons/other/webpage.svg"));
+	return allowNull ? QIcon() : QIcon(QStringLiteral(":icons/other/webpage.png"));
 
 }
 

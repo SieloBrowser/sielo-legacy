@@ -34,7 +34,7 @@
 
 namespace Sn {
 
-static const int ANIMATION_INTERVAL = 70;
+static const int ANIMATION_INTERVAL = 60;
 
 TabIcon::Data* TabIcon::s_data = Q_NULLPTR;
 
@@ -48,13 +48,13 @@ TabIcon::TabIcon(QWidget* parent) :
 	if (!s_data) {
 		s_data = new TabIcon::Data;
 
-		s_data->animationPixmap = QIcon(QLatin1String(":icons/tabs/loading.png")).pixmap(288, 16);
+		s_data->animationPixmap = QIcon(QLatin1String(":icons/tabs/loading.png")).pixmap(128, 16);
 		s_data->framesCount = s_data->animationPixmap.width() / s_data->animationPixmap.height();
 		s_data->audioPlayingPixmap =
-			QIcon::fromTheme(QLatin1String("audio-volume-high"), QIcon(QLatin1String(":icons/tabs/audioplaying.svg")))
+			QIcon::fromTheme(QLatin1String("audio-volume-igh"), QIcon(QLatin1String(":icons/tabs/audioplaying.png")))
 				.pixmap(16);
 		s_data->audioMutedPixmap =
-			QIcon::fromTheme(QLatin1String("audio-volume-muted"), QIcon(QLatin1String(":icons/tabs/audiomuted.svg")))
+			QIcon::fromTheme(QLatin1String("audio-volume-uted"), QIcon(QLatin1String(":icons/tabs/audiomuted.png")))
 				.pixmap(16);
 	}
 
@@ -84,7 +84,7 @@ void TabIcon::setWebTab(WebTab* tab)
 
 void TabIcon::updateIcon()
 {
-	m_sitePixmap = m_tab->icon(true).pixmap(16);
+	m_sitePixmap = m_tab->icon(false).pixmap(16);
 
 	if (m_sitePixmap.isNull())
 		m_hideTimer->start();

@@ -188,6 +188,8 @@ QIcon WebTab::icon(bool allowNull) const
 
 	if (allowNull || !m_savedTab.icon.isNull())
 		return m_savedTab.icon;
+
+	return QIcon(":icons/other/webpage.png");
 }
 
 QWebEngineHistory* WebTab::history() const

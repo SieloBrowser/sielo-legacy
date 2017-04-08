@@ -104,7 +104,8 @@ void TabbedWebView::requestFullScreen(bool enable)
 
 void TabbedWebView::setAsCurrentTab()
 {
-	//TODO: do
+	if (m_window)
+		m_window->tabWidget()->setCurrentWidget(m_webTab);
 }
 
 void TabbedWebView::userLoadAction(const LoadRequest& request)

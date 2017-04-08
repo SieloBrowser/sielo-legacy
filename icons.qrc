@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/tabs/loading.png</file>
-        <file>icons/tabs/audioplaying.svg</file>
-        <file>icons/tabs/audiomuted.svg</file>
+        <file>icons/tabs/audioplaying.png</file>
+        <file>icons/tabs/audiomuted.png</file>
         <file>icons/tabs/tabbar-addtab.png</file>
         <file>icons/tabs/tabbar-tabslist.png</file>
         <file>icons/tabs/tabbar-left-arrow.png</file>
         <file>icons/tabs/tabbar-right-arrow.png</file>
-        <file>icons/other/webpage.svg</file>
+        <file>icons/other/webpage.png</file>
     </qresource>
 </RCC>
