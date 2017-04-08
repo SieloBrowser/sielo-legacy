@@ -26,6 +26,8 @@
 
 #include <QToolTip>
 
+#include <QAction>
+
 #include <QTimer>
 
 #include "Web/LoadRequest.hpp"
@@ -175,6 +177,11 @@ void BrowserWindow::postLaunch()
 		m_tabWidget->addView(m_homePage, Application::NTT_SelectedTabAtEnd);
 
 	//TODO: emit main window created to plugins
+
+	QAction* action{new QAction(tr("Restore Closed Tab"), this)};
+	action->setShortcut(QKeySequence("Ctrl+Shift+T"));
+	this->addAction(action);
+	connect(action, SIGNAL(triggered()), m_tabWidget, SLOT(restoreClosedTab()));
 
 	tabWidget()->tabBar()->ensureVisible();
 }
