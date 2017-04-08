@@ -30,6 +30,8 @@
 
 #include "History/HistoryManager.hpp"
 
+#include "Widgets/Tab/TabWidget.hpp"
+
 #include "Web/WebPage.hpp"
 #include "Web/LoadRequest.hpp"
 #include "Web/WebHitTestResult.hpp"
@@ -78,7 +80,10 @@ void TabbedWebView::closeView()
 
 void TabbedWebView::loadInNewTab(const LoadRequest& request, Application::NewTabType tabType)
 {
-	//TODO: do
+	if (m_window) {
+		int index{m_window->tabWidget()->addView(QUrl(), tabType)};
+		m_window->webView(index)->load(request);
+	}
 }
 
 bool TabbedWebView::isFullScreen()
@@ -133,10 +138,14 @@ void TabbedWebView::urlChanged(const QUrl& url)
 void TabbedWebView::linkHovered(const QString& link)
 {
 	if (m_webTab->isCurrentTab() && m_window) {
-		if (link.isEmpty())
+		if (link.isEmpty()) {
 			m_window->statusBar()->clearMessage();
-		else
+			m_window->statusBar()->hide();
+		}
+		else {
 			m_window->statusBar()->showMessage(link);
+			m_window->statusBar()->show();
+		}
 	}
 }
 
