@@ -20,9 +20,4 @@ build_script:
     - cmake --build build
 
 artifacts:
-
-  - path: build/SieloBrowser.exe
-    name: sielo_navigateur
-
-  # pushing entire folder as a zip archive
   - path: build
