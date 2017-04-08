@@ -21,15 +21,8 @@ build_script:
 
 artifacts:
 
-  # pushing a single file
-  - path: Sielo.zip
-
-  # pushing a single file with environment variable in path and "Deployment name" specified
-  - path: SieloNavigateur\bin\$(configuration)
+  - path: build/SieloBrowser.exe
     name: sielo_navigateur
 
   # pushing entire folder as a zip archive
-  - path: logs
-
-  # pushing all *.nupkg files in build directory recursively
-  - path: '**\*.nupkg'
+  - path: build
