@@ -28,7 +28,11 @@
 
 #include <QSettings>
 
+#include "Widgets/HTML5Permissions/HTML5PermissionsNotification.hpp"
+
 #include "Web/WebPage.hpp"
+#include "Web/WebView.hpp"
+
 
 namespace Sn {
 
@@ -59,7 +63,9 @@ void HTML5PermissionsManager::requestPermissions(WebPage* page, const QUrl& orig
 		return;
 	}
 
-	//TODO: Ask user permission
+	HTML5PermissionsNotification* notification{new HTML5PermissionsNotification(origin, page, feature)};
+	page->view()->addNotification(notification);
+
 }
 
 void HTML5PermissionsManager::rememberPermissions(const QUrl& origin, const QWebEnginePage::Feature& feature,
@@ -118,8 +124,8 @@ void HTML5PermissionsManager::saveSettings()
 	settings.setValue("NotificationsGranted", m_granted[QWebEnginePage::Notifications]);
 	settings.setValue("NotificationsDenied", m_denied[QWebEnginePage::Notifications]);
 
-	settings.setValue("GeolocationGranted", m_granted[QWebEnginePage::Geolocation]);
-	settings.setValue("GeolocationDenied", m_denied[QWebEnginePage::Geolocation]);
+	settings.setValue("GeoLocationGranted", m_granted[QWebEnginePage::Geolocation]);
+	settings.setValue("GeoLocationDenied", m_denied[QWebEnginePage::Geolocation]);
 
 	settings.setValue("MediaAudioCaptureGranted", m_granted[QWebEnginePage::MediaAudioCapture]);
 	settings.setValue("MediaAudioCaptureDenied", m_denied[QWebEnginePage::MediaAudioCapture]);

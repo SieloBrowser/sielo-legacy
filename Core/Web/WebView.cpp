@@ -285,6 +285,11 @@ void WebView::restoreHistory(const QByteArray& data)
 	stream >> *history();
 }
 
+void WebView::addNotification(QWidget* notification)
+{
+	emit showNotification(notification);
+}
+
 QWidget* WebView::inputWidget() const
 {
 	if (m_child)

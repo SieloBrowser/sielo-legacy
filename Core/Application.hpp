@@ -37,6 +37,7 @@ namespace Sn {
 class PluginProxy;
 class HistoryManager;
 class BookmarksManager;
+class HTML5PermissionsManager;
 
 class BrowserWindow;
 
@@ -88,6 +89,7 @@ public:
 	PluginProxy* plugins() { return m_plugins; }
 	HistoryManager* historyManager();
 	BookmarksManager* bookmarksManager();
+	HTML5PermissionsManager* permissionsManager();
 
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
@@ -107,6 +109,7 @@ private:
 	PluginProxy* m_plugins{nullptr};
 	HistoryManager* m_historyManager{nullptr};
 	BookmarksManager* m_bookmarksManager{nullptr};
+	HTML5PermissionsManager* m_permissionsManager{nullptr};
 
 	QWebEngineProfile* m_webProfile{nullptr};
 

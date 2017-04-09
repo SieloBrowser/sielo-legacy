@@ -80,7 +80,8 @@ public:
 	QPointF mapToViewport(const QPointF& pos) const;
 
 	void restoreHistory(const QByteArray& data);
-	//TODO: Notification, ...
+
+	void addNotification(QWidget* notification);
 
 	QWidget* inputWidget() const;
 	virtual QWidget* overlayWidget() = 0;
@@ -90,7 +91,7 @@ signals:
 	void viewportResized(QSize);
 	void privacyChanged(bool);
 	void zoomLevelChanged(int);
-	//TODO: Notifications signal
+	void showNotification(QWidget*);
 
 public slots:
 	void zoomIn();

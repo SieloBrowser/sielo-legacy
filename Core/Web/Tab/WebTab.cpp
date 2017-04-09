@@ -151,7 +151,7 @@ WebTab::WebTab(BrowserWindow* window) :
 
 	m_layout->addWidget(m_splitter);
 
-	//TODO: Show Notifications
+	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
 	connect(m_webView, &TabbedWebView::loadStarted, this, &WebTab::loadStarted);
 	connect(m_webView, &TabbedWebView::loadFinished, this, &WebTab::loadFinished);
 	connect(m_webView, &TabbedWebView::titleChanged, this, &WebTab::titleChanged);

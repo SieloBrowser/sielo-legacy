@@ -34,6 +34,7 @@
 
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
+#include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -147,6 +148,14 @@ BookmarksManager* Application::bookmarksManager()
 		m_bookmarksManager = new BookmarksManager();
 
 	return m_bookmarksManager;
+}
+
+HTML5PermissionsManager* Application::permissionsManager()
+{
+	if (!m_permissionsManager)
+		m_permissionsManager = new HTML5PermissionsManager(this);
+
+	return m_permissionsManager;
 }
 
 }

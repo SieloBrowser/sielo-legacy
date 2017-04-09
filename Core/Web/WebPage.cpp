@@ -36,6 +36,7 @@
 #include "Web/WebHitTestResult.hpp"
 #include "Web/WebView.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
+#include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
 #include "Widgets/CheckBoxDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
@@ -239,8 +240,8 @@ void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePag
 {
 	if (feature == MouseLock && view()->isFullScreen())
 		setFeaturePermission(origin, feature, PermissionGrantedByUser);
-//    else
-//      //TODO: Manage permission by app
+	else
+		Application::instance()->permissionsManager()->requestPermissions(this, origin, feature);
 }
 
 bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame)
