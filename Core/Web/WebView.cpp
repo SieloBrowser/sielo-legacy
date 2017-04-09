@@ -33,6 +33,7 @@
 
 #include <QSettings>
 #include <QAction>
+#include <QMenu>
 
 #include <QWebEngineHistory>
 
@@ -380,7 +381,8 @@ void WebView::sUrlChanged(const QUrl& url)
 
 void WebView::openUrlInNewWindow()
 {
-	//TODO: New window application methode
+	if (QAction* action = qobject_cast<QAction*>(sender()))
+		Application::instance()->createWindow(Application::WT_NewWindow, action->data().toUrl());
 }
 
 void WebView::copyLinkToClipboard()
@@ -670,7 +672,138 @@ void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 	const QWebEngineContextMenuData& contextMenuData{page()->contextMenuData()};
 	hitTest.updateWithContextMenuData(contextMenuData);
 
+	if (!contextMenuData.misspelledWord().isEmpty()) {
+		QFont boldFont{menu->font()};
+		boldFont.setBold(true);
+
+		for (const QString& suggestion : contextMenuData.spellCheckerSuggestions()) {
+			QAction* action{menu->addAction(suggestion)};
+			action->setFont(boldFont);
+
+			connect(action, &QAction::triggered, this, [=]()
+			{
+				page()->replaceMisspelledWord(suggestion);
+			});
+		}
+
+		if (menu->actions().isEmpty())
+			menu->addAction(tr("No suggestions"))->setEnabled(false);
+
+		menu->addSeparator();
+		spellCheckAction = menu->actions().count();
+	}
+
+	if (!hitTest.linkUrl().isEmpty() && hitTest.linkUrl().scheme() != QLatin1String("javascript"))
+		createLinkContextMenu(menu, hitTest);
+	if (!hitTest.imageUrl().isEmpty())
+		createImageContextMenu(menu, hitTest);
+	if (!hitTest.mediaUrl().isEmpty())
+		createMediaContextMenu(menu, hitTest);
+	if (hitTest.isContentEditable()) {
+		if (menu->actions().count() == spellCheckAction) {
+			menu->addAction(pageAction(QWebEnginePage::Undo));
+			menu->addAction(pageAction(QWebEnginePage::Redo));
+			menu->addSeparator();
+			menu->addAction(pageAction(QWebEnginePage::Cut));
+			menu->addAction(pageAction(QWebEnginePage::Copy));
+			menu->addAction(pageAction(QWebEnginePage::Paste));
+		}
+
+	}
+	if (!selectedText().isEmpty())
+		createSelectedTextContextMenu(menu, hitTest);
+	if (menu->isEmpty())
+		createPageContextMenu(menu);
+
+}
+
+void WebView::createPageContextMenu(QMenu* menu)
+{
+	QAction* action{menu->addAction(tr("&Back"), this, &WebView::back)};
+	action->setEnabled(history()->canGoBack());
+
+	action = menu->addAction(tr("&Forward"), this, &WebView::forward);
+	action->setEnabled(history()->canGoForward());
+
+	menu->addAction(pageAction(QWebEnginePage::Reload));
+	menu->addAction(pageAction(QWebEnginePage::Stop));
+
+	menu->addSeparator();
+
+	menu->addAction(tr("Book&mark page"), this, &WebView::bookmarkLink);
+	menu->addAction(tr("&Save page as..."), this, &WebView::savePageAs);
+	menu->addAction(tr("&Copy page link"), this, &WebView::copyLinkToClipboard)->setData(url());
+
+	menu->addSeparator();
+
+	menu->addAction(tr("Select &all"), this, &WebView::editSelectAll);
+
+	menu->addSeparator();
+
+	if (url().scheme() == QLatin1String("http") || url().scheme() == QLatin1String("https")) {
+		//TODO: translate action
+	}
+
+}
+
+void WebView::createLinkContextMenu(QMenu* menu, const WebHitTestResult& hitTest)
+{
+	menu->addSeparator();
+
+	menu->addAction(pageAction(QWebEnginePage::OpenLinkInNewTab));
+	menu->addAction(tr("Open link in new &window"), this, &WebView::openUrlInNewWindow)->setData(hitTest.linkUrl());
+
+	menu->addSeparator();
+
+	QVariantList bookmarkData{};
+	bookmarkData << hitTest.linkUrl() << hitTest.linkTitle();
+
+	menu->addAction(tr("B&ookmark link"), this, &WebView::bookmarkLink)->setData(bookmarkData);
+	menu->addAction(tr("&Save link as..."), this, &WebView::dlLinkToDisk);
+	menu->addAction(tr("&Copy link address"), this, &WebView::copyLinkToClipboard)->setData(hitTest.linkUrl());
+
+	if (!selectedText().isEmpty())
+		menu->addAction(pageAction(QWebEnginePage::Copy));
+
+}
+
+void WebView::createImageContextMenu(QMenu* menu, const WebHitTestResult& hitTest)
+{
+	menu->addSeparator();
+
+	menu->addAction(tr("Show i&mage"), this, &WebView::openActionUrl)->setData(hitTest.imageUrl());
+	menu->addAction(tr("Copy image"), this, &WebView::copyImageToClipboard);
+	menu->addAction(tr("Copy image ad&dress"), this, &WebView::copyLinkToClipboard)->setData(hitTest.imageUrl());
+
+	menu->addSeparator();
+
+	menu->addAction(tr("&Save image as..."), this, &WebView::dlImageToDisk);
+
+	menu->addSeparator();
+
+	if (!selectedText().isEmpty())
+		menu->addAction(pageAction(QWebEnginePage::Copy));
+}
+
+void WebView::createSelectedTextContextMenu(QMenu* menu, const WebHitTestResult& hitTest)
+{
 	//TODO: do
+}
+
+void WebView::createMediaContextMenu(QMenu* menu, const WebHitTestResult& hitTest)
+{
+	bool paused{hitTest.mediaPaused()};
+	bool muted{hitTest.mediaMuted()};
+
+	menu->addSeparator();
+
+	menu->addAction(paused ? tr("&Play") : tr("&Pause"), this, &WebView::toggleMediaPause);
+	menu->addAction(muted ? tr("Un&mute") : tr("&Mute"), this, &WebView::toggleMediaMute);
+
+	menu->addSeparator();
+
+	menu->addAction(tr("&Copy media address"), this, &WebView::copyLinkToClipboard)->setData(hitTest.mediaUrl());
+	menu->addAction(tr("Save media to &disk"), this, &WebView::dlMediaToDisk);
 }
 
 void WebView::initActions()
