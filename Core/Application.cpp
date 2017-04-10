@@ -60,6 +60,7 @@ Application::Application(int& argc, char** argv) :
 	QApplication(argc, argv),
 	m_plugins(nullptr),
 	m_historyManager(nullptr),
+	m_networkManager(nullptr),
 	m_webProfile(nullptr)
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
@@ -67,6 +68,8 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
 
 	m_plugins = new PluginProxy;
+
+	m_networkManager = new QNetworkAccessManager(this);
 }
 
 Application::~Application()

@@ -122,7 +122,7 @@ const Rule* SearchTree::prefixSearch(const QWebEngineUrlRequestInfo& request, co
 		node = node->children[c];
 	}
 
-	if (node->rule && node->rule->networkMatch(request, domain, urlString)
+	if (node->rule && node->rule->networkMatch(request, domain, urlString))
 		return node->rule;
 
 	return nullptr;

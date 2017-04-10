@@ -23,28 +23,76 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADBURLINTERCEPTOR_HPP
-#define SIELOBROWSER_ADBURLINTERCEPTOR_HPP
+#ifndef SIELOBROWSER_ADBSUBSCRIPTION_HPP
+#define SIELOBROWSER_ADBSUBSCRIPTION_HPP
 
-#include <QObject>
+#include <QVector>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QUrl>
+#include <QNetworkReply>
 
 namespace Sn {
 namespace ADB {
-class Manager;
+class Rule;
 
-class UrlInterceptor: public QObject {
+class Subscription: public QObject {
+Q_OBJECT
+
 public:
-	UrlInterceptor(Manager* manager);
+	Subscription(const QString& title, QObject* parent = nullptr);
+	~Subscription();
 
-	void interceptRequest(QWebEngineUrlRequestInfo& info);
+	QString title() const { return m_title; }
+
+	QString filePath() const { return m_filePath; }
+	void setFilePath(const QString& path);
+
+	QUrl url() const { return m_url; }
+	void setUrl(const QUrl& url);
+
+	virtual void loadSubscription(const QStringList& disabledRules);
+	virtual void saveSubscription();
+
+	const Rule* rule(int offset) const;
+	QVector<Rule*> allRulles() const;
+
+	const Rule* enableRule(int offset);
+	const Rule* disableRule(int offset);
+
+	virtual bool canEditRules() const { return false; }
+	virtual bool canBeRemoved() const { return true; }
+
+	virtual int addRule(Rule* rule);
+	virtual bool removeRule(int offset);
+	virtual const Rule* replaceRule(Rule* rule, int offset);
+
+signals:
+	void subscriptionChanged();
+	void subscriptionUpdated();
+	void subscriptionError(const QString& msg);
+
+public slots:
+	void updateSubscription();
+
+protected:
+	virtual bool saveDownloadedData(const QByteArray& data);
+
+	QNetworkReply* m_reply{nullptr};
+	QVector<Rule*> m_rules;
+
+protected slots:
+	void subscriptionDownloaded();
 
 private:
-	Manager* m_manager{nullptr};
+	QString m_title{};
+	QString m_filePath{};
+
+	QUrl m_url{};
+
+	bool m_updated{false};
 };
 
 }
 }
 
-#endif //SIELOBROWSER_ADBURLINTERCEPTOR_HPP
+#endif //SIELOBROWSER_ADBSUBSCRIPTION_HPP
