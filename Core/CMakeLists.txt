@@ -19,6 +19,8 @@ file(
         Bookmarks/*.hpp
         History/*.cpp
         History/*.hpp
+        Network/*.cpp
+        Network/*.hpp
         Utils/*.cpp
         Utils/*.hpp
         View/*.cpp
