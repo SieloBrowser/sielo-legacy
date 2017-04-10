@@ -30,11 +30,13 @@
 
 #include <QWebEngineUrlRequestInfo>
 
+#include "Network/BaseUrlInterceptor.hpp"
+
 namespace Sn {
 namespace ADB {
 class Manager;
 
-class UrlInterceptor: public QObject {
+class UrlInterceptor: public BaseUrlInterceptor {
 public:
 	UrlInterceptor(Manager* manager);
 

@@ -31,7 +31,7 @@ namespace Sn {
 namespace ADB {
 
 UrlInterceptor::UrlInterceptor(Manager* manager) :
-	QObject(manager),
+	BaseUrlInterceptor(manager),
 	m_manager(manager)
 {
 	// Empty
