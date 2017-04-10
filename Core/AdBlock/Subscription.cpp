@@ -30,6 +30,8 @@
 
 #include "Application.hpp"
 
+#include "Network/NetworkManager.hpp"
+
 #include "AdBlock/Manager.hpp"
 #include "AdBlock/Rule.hpp"
 
