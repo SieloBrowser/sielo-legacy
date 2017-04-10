@@ -31,8 +31,6 @@
 
 #include <QPointer>
 
-#include <QNetworkAccessManager>
-
 #include <QWebEngineProfile>
 
 namespace Sn {
@@ -40,6 +38,7 @@ class PluginProxy;
 class HistoryManager;
 class BookmarksManager;
 class HTML5PermissionsManager;
+class NetworkManager;
 
 class BrowserWindow;
 
@@ -93,7 +92,7 @@ public:
 	BookmarksManager* bookmarksManager();
 	HTML5PermissionsManager* permissionsManager();
 
-	QNetworkAccessManager* networkManager() const { return m_networkManager; }
+	NetworkManager* networkManager() const { return m_networkManager; }
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
 	static QList<QString> paths();
@@ -114,7 +113,7 @@ private:
 	BookmarksManager* m_bookmarksManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 
-	QNetworkAccessManager* m_networkManager{nullptr};
+	NetworkManager* m_networkManager{nullptr};
 	QWebEngineProfile* m_webProfile{nullptr};
 
 	QList<BrowserWindow*> m_windows;

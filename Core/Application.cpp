@@ -36,6 +36,8 @@
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
+#include "Network/NetworkManager.hpp"
+
 #include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
@@ -68,8 +70,9 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
 
 	m_plugins = new PluginProxy;
+	m_networkManager = new NetworkManager(this);
 
-	m_networkManager = new QNetworkAccessManager(this);
+	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 }
 
 Application::~Application()
