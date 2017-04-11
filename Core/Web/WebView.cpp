@@ -53,7 +53,7 @@ bool WebView::isUrlValide(const QUrl& url)
 
 QUrl WebView::searchUrl(const QString& searchText)
 {
-	QUrl url{QLatin1String("http://www.google.com/search")};
+	QUrl url{QLatin1String("http://www.ecosia.org/search")};
 	QUrlQuery urlQuery{};
 
 	urlQuery.addQueryItem(QLatin1String("q"), searchText);

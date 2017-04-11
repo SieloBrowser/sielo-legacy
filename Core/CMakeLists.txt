@@ -13,8 +13,8 @@ file(
         Application.hpp
         BrowserWindow.hpp
         BrowserWindow.cpp
-        AdBlock/*.hpp
-        AdBlock/*.cpp
+        #        AdBlock/*.hpp
+        #        AdBlock/*.cpp
         Bookmarks/*.cpp
         Bookmarks/*.hpp
         History/*.cpp

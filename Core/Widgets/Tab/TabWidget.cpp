@@ -589,7 +589,7 @@ void TabWidget::loadSettings()
 	settings.beginGroup("Web-URL-Settings");
 
 	//TODO: Modify for a custom Sielo start page
-	m_urlOnNewTab = settings.value("newTabUrl", "https://google.com").toUrl();
+	m_urlOnNewTab = settings.value("newTabUrl", "https://ecosia.org").toUrl();
 
 	settings.endGroup();
 

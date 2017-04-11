@@ -70,9 +70,9 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
 
 	m_plugins = new PluginProxy;
+	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
 
-	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 }
 
 Application::~Application()
