@@ -95,6 +95,8 @@ public:
 	NetworkManager* networkManager() const { return m_networkManager; }
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
+	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
+
 	static QList<QString> paths();
 	static Application* instance();
 

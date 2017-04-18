@@ -164,4 +164,35 @@ HTML5PermissionsManager* Application::permissionsManager()
 	return m_permissionsManager;
 }
 
+QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
+{
+	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
+
+	QFileInfo info{name};
+
+	if (!info.exists())
+		return name;
+
+	const QDir directory{info.absoluteFilePath()};
+	const QString fileName{info.fileName()};
+	int i{1};
+
+	while (info.exists()) {
+		QString file{fileName};
+		int index{file.lastIndexOf(QLatin1Char('.'))};
+		const QString appendString{appendFormat.arg(i)};
+
+		if (index == -1)
+			file.append(appendString);
+		else
+			file = file.left(index) + appendString + file.mid(index);
+
+		info.setFile(directory, file);
+		++i;
+	}
+
+	return info.absoluteFilePath();
+
+}
+
 }
