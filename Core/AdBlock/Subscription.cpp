@@ -136,6 +136,9 @@ const Rule* Subscription::enableRule(int offset)
 
 	emit subscriptionChanged();
 
+	if (rule->isCSSRule())
+		Application::instance()->reloadUserStyleSheet();
+
 	return rule;
 };
 
@@ -150,6 +153,9 @@ const Rule* Subscription::disableRule(int offset)
 	Manager::instance()->addDisabledRule(rule->filter());
 
 	emit subscriptionChanged();
+
+	if (rule->isCSSRule())
+		Application::instance()->reloadUserStyleSheet();
 
 	return rule;
 }

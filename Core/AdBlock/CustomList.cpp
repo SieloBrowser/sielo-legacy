@@ -95,6 +95,9 @@ int CustomList::addRule(Rule* rule)
 
 	emit subscriptionChanged();
 
+	if (rule->isCSSRule())
+		Application::instance()->reloadUserStyleSheet();
+
 	return m_rules.count() - 1;
 }
 
@@ -109,6 +112,9 @@ bool CustomList::removeRule(int offset)
 	m_rules.remove(offset);
 
 	emit subscriptionChanged();
+
+	if (rule->isCSSRule())
+		Application::instance()->reloadUserStyleSheet();
 
 	Manager::instance()->removeDisabledRule(filter);
 
@@ -126,6 +132,9 @@ const Rule* CustomList::replaceRule(Rule* rule, int offset)
 	m_rules[offset] = rule;
 
 	emit subscriptionChanged();
+
+	if (rule->isCSSRule())
+		Application::instance()->reloadUserStyleSheet();
 
 	delete oldRule;
 

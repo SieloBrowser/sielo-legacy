@@ -28,12 +28,19 @@
 #include <QStandardPaths>
 #include <QDir>
 
+#include <QSettings>
+
+#include <QWebEngineScript>
+#include <QWebEngineScriptCollection>
+
 #include "BrowserWindow.hpp"
 
 #include "Plugins/PluginProxy.hpp"
 
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
+
+#include "Web/WebPage.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
 #include "Network/NetworkManager.hpp"
@@ -132,12 +139,52 @@ void Application::saveSession()
 	file.close();
 }
 
+void Application::reloadUserStyleSheet()
+{
+	QSettings setting{};
+	QString userCSSFile{setting.value("Settings/userStyleSheet", QString()).toString()};
+
+	setUserStyleSheet(userCSSFile);
+}
+
 void Application::windowDestroyed(QObject* window)
 {
 	Q_ASSERT(static_cast<BrowserWindow*>(window));
 	Q_ASSERT(m_windows.contains(static_cast<BrowserWindow*>(window)));
 
 	m_windows.removeOne(static_cast<BrowserWindow*>(window));
+}
+
+void Application::setUserStyleSheet(const QString& filePath)
+{
+	QString userCSS{};
+	QFile file{filePath};
+	QByteArray array{};
+
+	if (!filePath.isEmpty() && file.open(QFile::ReadOnly)) {
+		array = file.readAll();
+		file.close();
+	}
+
+	userCSS += QString::fromUtf8(array).remove(QLatin1Char('\n'));
+
+	const QString name{QStringLiteral("_sielo_userstylesheet")};
+	QWebEngineScript oldScript = m_webProfile->scripts()->findScript(name);
+
+	if (!oldScript.isNull())
+		m_webProfile->scripts()->remove(oldScript);
+
+	if (userCSS.isEmpty())
+		return;
+
+	QWebEngineScript script{};
+	script.setName(name);
+	script.setInjectionPoint(QWebEngineScript::DocumentReady);
+	script.setWorldId(QWebEngineScript::ApplicationWorld);
+	script.setRunsOnSubFrames(true);
+	script.setSourceCode(WebPage::setCSS(userCSS));
+
+	m_webProfile->scripts()->insert(script);
 }
 
 HistoryManager* Application::historyManager()

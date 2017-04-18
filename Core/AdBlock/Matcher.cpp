@@ -170,7 +170,7 @@ void Matcher::update()
 			const Rule* originalRule{CSSRulesHash.value(rule->CSSSelector())};
 
 			if (!originalRule)
-				return;
+				continue;
 
 			Rule* copiedRule{originalRule->copy()};
 

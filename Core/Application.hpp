@@ -103,11 +103,15 @@ public:
 public slots:
 	void saveSession();
 
+	void reloadUserStyleSheet();
+
 private slots:
 	void windowDestroyed(QObject* window);
 
 
 private:
+	void setUserStyleSheet(const QString& filePath);
+
 	bool m_privateBrowsing{false};
 
 	PluginProxy* m_plugins{nullptr};

@@ -68,6 +68,7 @@ public:
 
 	bool isLoading() const;
 
+	static QString setCSS(const QString& css);
 signals:
 	void privacyChanged(bool status);
 
@@ -90,7 +91,6 @@ private:
 	void handleUnknowProtocol(const QUrl& url);
 	void desktopServiceOpen(const QUrl& url);
 
-	QString setCSS(const QString& css);
 
 	DelayedFileWatcher* m_fileWatcher{nullptr};
 	QEventLoop* m_runningLoop{nullptr};

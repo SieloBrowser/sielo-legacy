@@ -141,6 +141,10 @@ void Manager::load()
 		foreach (Subscription* subscription, m_subscriptions) {
 			subscription->loadSubscription(m_disabledRules);
 
+			connect(subscription,
+					&Subscription::subscriptionUpdated,
+					Application::instance(),
+					&Application::reloadUserStyleSheet);
 			connect(subscription, &Subscription::subscriptionChanged, m_matcher, &Matcher::update);
 		}
 
@@ -297,6 +301,10 @@ Subscription* Manager::addSubscription(const QString& title, const QString& url)
 
 	m_subscriptions.insert(m_subscriptions.count() - 1, subscription);
 
+	connect(subscription,
+			&Subscription::subscriptionUpdated,
+			Application::instance(),
+			&Application::reloadUserStyleSheet);
 	connect(subscription, &Subscription::subscriptionChanged, m_matcher, &Matcher::update);
 
 	return subscription;
@@ -386,6 +394,7 @@ void Manager::setEnabled(bool enabled)
 	settings.endGroup();
 
 	load();
+	Application::instance()->reloadUserStyleSheet();
 }
 
 void Manager::showRule()
