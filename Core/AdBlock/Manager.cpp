@@ -409,6 +409,7 @@ void Manager::updateAllSubscriptions()
 Dialog* Manager::showDialog()
 {
 	//TODO: do
+	return nullptr;
 }
 
 bool Manager::canBeBlocked(const QUrl& url) const
