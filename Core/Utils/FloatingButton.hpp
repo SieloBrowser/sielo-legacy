@@ -28,6 +28,8 @@
 
 #include <QMouseEvent>
 
+#include <QVector>
+
 #include "Utils/ToolButton.hpp"
 
 namespace Sn {
@@ -35,16 +37,30 @@ class WebTab;
 
 class FloatingButton: public ToolButton {
 public:
-	FloatingButton(WebTab* parent);
+	FloatingButton(WebTab* parent, QString text);
+
+	QVector<FloatingButton*> children() { return m_children; }
+	void setChildren(QVector<FloatingButton*> children);
+	void addChildren(QVector<FloatingButton*> children);
+	void addChild(FloatingButton* button);
 
 protected:
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
+
+private slots:
+	void showChildren(QPoint position);
+	void hideChildren();
 
 private:
 	QPoint m_offset{};
 
 	WebTab* m_parent{nullptr};
+
+	QVector<FloatingButton*> m_children;
+
+	bool m_childrenExpanded{false};
 };
 }
 

@@ -32,16 +32,47 @@
 
 namespace Sn {
 
-FloatingButton::FloatingButton(WebTab* parent) :
+FloatingButton::FloatingButton(WebTab* parent, QString text) :
 	ToolButton(parent),
 	m_parent(parent)
 {
-	this->setText("Test button");
+	this->setText(text);
+	setShowMenuInside(true);
+}
+
+void FloatingButton::setChildren(QVector<FloatingButton*> children)
+{
+		foreach (FloatingButton* child, children) {
+			child->setParent(m_parent);
+			child->hide();
+		}
+
+	m_children = children;
+}
+
+void FloatingButton::addChildren(QVector<FloatingButton*> children)
+{
+		foreach (FloatingButton* child, children) {
+			child->setParent(m_parent);
+			child->hide();
+		}
+
+	m_children.append(children);
+}
+
+void FloatingButton::addChild(FloatingButton* button)
+{
+	button->setParent(m_parent);
+	button->hide();
+	m_children.append(button);
 }
 
 void FloatingButton::mousePressEvent(QMouseEvent* event)
 {
 	m_offset = event->pos();
+
+	if (m_childrenExpanded)
+		hideChildren();
 
 	ToolButton::mousePressEvent(event);
 }
@@ -59,6 +90,54 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 		move(QPoint(x, y));
 		QCursor::setPos(event->globalPos());
 	}
+
+	ToolButton::mouseMoveEvent(event);
+}
+
+void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (!m_children.isEmpty()) {
+		if (m_childrenExpanded) {
+			hideChildren();
+			m_childrenExpanded = false;
+		}
+		else {
+			showChildren(event->pos());
+			m_childrenExpanded = true;
+		}
+	}
+
+	ToolButton::mouseReleaseEvent(event);
+}
+
+void FloatingButton::showChildren(QPoint position)
+{
+	if (m_children.isEmpty() || m_childrenExpanded)
+		return;
+
+	position = mapToParent(position - m_offset);
+
+	for (int i{0}; i < m_children.size(); ++i) {
+		FloatingButton* child = m_children[i];
+		if (i < m_children.size() / 2) {
+			child->move(QPoint(position.x() - (width() + 5), (position.y() - height() * (m_children.size() / 2 - i))));
+		}
+		else if (i == m_children.size() / 2) {
+			child->move(QPoint(position.x() - (width() + 5), position.y()));
+		}
+		else {
+			child->move(QPoint(position.x() - (width() + 5), (position.y() + height() * (i - m_children.size() / 2))));
+		}
+		child->show();
+	}
+}
+
+void FloatingButton::hideChildren()
+{
+	if (m_children.isEmpty() || !m_childrenExpanded)
+		return;
+
+		foreach (FloatingButton* child, m_children) child->hide();
 }
 
 }
