@@ -76,6 +76,7 @@ protected slots:
 	void finished();
 
 private slots:
+	void cleanBlockedObject();
 	void urlChanged(const QUrl& url);
 	void watchedFileChanged(const QString& file);
 	void windowCloseRequested();
@@ -88,6 +89,8 @@ private:
 
 	void handleUnknowProtocol(const QUrl& url);
 	void desktopServiceOpen(const QUrl& url);
+
+	QString setCSS(const QString& css);
 
 	DelayedFileWatcher* m_fileWatcher{nullptr};
 	QEventLoop* m_runningLoop{nullptr};

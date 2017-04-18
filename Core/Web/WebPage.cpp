@@ -38,6 +38,8 @@
 #include "Web/Tab/TabbedWebView.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
+#include "AdBlock/Manager.hpp"
+
 #include "Widgets/CheckBoxDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -200,10 +202,28 @@ void WebPage::finished()
 		else if (m_fileWatcher && !m_fileWatcher->files().isEmpty())
 			m_fileWatcher->removePaths(m_fileWatcher->files());
 	}
+
+	cleanBlockedObject();
+}
+
+void WebPage::cleanBlockedObject()
+{
+	ADB::Manager* manager = ADB::Manager::instance();
+
+	const QString elementHiding{manager->elementHidingRules(url())};
+
+	if (!elementHiding.isEmpty())
+		runJavaScript(setCSS(elementHiding), QWebEngineScript::ApplicationWorld);
+
+	const QString siteElementHiding{manager->elementHidingRulesForDomain(url())};
+
+	if (!siteElementHiding.isEmpty())
+		runJavaScript(setCSS(siteElementHiding), QWebEngineScript::ApplicationWorld);
 }
 
 void WebPage::urlChanged(const QUrl& url)
 {
+
 	Q_UNUSED(url)
 
 	if (isLoading())
@@ -247,6 +267,9 @@ void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePag
 bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame)
 {
 	if (!Application::instance()->plugins()->acceptNavigationRequest(this, url, type, isMainFrame))
+		return false;
+
+	if (url.scheme() == QLatin1String("abp") && ADB::Manager::instance()->addSubscriptionFromUrl(url))
 		return false;
 
 	return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
@@ -339,6 +362,23 @@ void WebPage::desktopServiceOpen(const QUrl& url)
 {
 	//TODO: do some actions
 	QDesktopServices::openUrl(url);
+}
+
+QString WebPage::setCSS(const QString& css)
+{
+	QString source = QLatin1String("(function() {"
+									   "var head = document.getElementsByTagName('head')[0];"
+									   "if (!head) return;"
+									   "var css = document.createElement('style');"
+									   "css.setAttribute('type', 'text/css');"
+									   "css.appendChild(document.createTextNode('%1'));"
+									   "head.appendChild(css);"
+									   "})()");
+
+	QString style = css;
+	style.replace(QLatin1String("'"), QLatin1String("\\'"));
+	style.replace(QLatin1String("\n"), QLatin1String("\\n"));
+	return source.arg(style);
 }
 
 }
