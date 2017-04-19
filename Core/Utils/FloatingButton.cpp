@@ -98,6 +98,89 @@ void FloatingButton::setPositionID(int newPositionID)
 	m_positionID = newPositionID;
 }
 
+void FloatingButton::showChildren(QPoint position)
+{
+	if (m_children.isEmpty() || m_childrenExpanded)
+		return;
+
+	position = mapToParent(position - m_offset);
+
+	int current{-(m_children.size() / 8)};
+
+	if (m_pattern == FloatingButton::Quad) {
+		for (int i{0}; i < m_children.size(); ++i) {
+			FloatingButton* child = m_children[i];
+			child->move(position);
+			child->setPositionID(i);
+
+			if (i < m_children.size() / 8) {
+				child->moveButton(QPoint(position.x() + current * width(),
+										 position.y() - height() * m_children.size() / 8));
+				++current;
+				continue;
+			}
+			if (i == m_children.size() / 8) {
+				child->moveButton(QPoint(position.x(), position.y() - height() * m_children.size() / 8));
+				current = 0;
+				continue;
+			}
+			if (i < m_children.size() / 4) {
+				++current;
+				child->moveButton(QPoint(position.x() + current * width(),
+										 position.y() - height() * m_children.size() / 8));
+				continue;
+			}
+			if (i < m_children.size() / 2) {
+				child->moveButton(QPoint(position.x() + width() * m_children.size() / 8,
+										 position.y() - (current + 1) * height()));
+				--current;
+				continue;
+			}
+			if (i < m_children.size() - m_children.size() / 4) {
+				++current;
+				child->moveButton(QPoint(position.x() - current * width(),
+										 position.y() + height() * m_children.size() / 8));
+				continue;
+			}
+			if (i == m_children.size() - m_children.size() / 4) {
+				current = m_children.size() / 8;
+				child->moveButton(QPoint(position.x() - width() * m_children.size() / 8,
+										 position.y() + current * height()));
+				continue;
+			}
+
+			--current;
+			child
+				->moveButton(QPoint(position.x() - width() * m_children.size() / 8, position.y() + current * height()));
+		}
+
+	}
+}
+
+void FloatingButton::hideChildren()
+{
+	if (m_children.isEmpty() || !m_childrenExpanded)
+		return;
+
+	QVector<FloatingButton*> newChildren;
+
+	for (int i{0}; i < m_children.size(); ++i) {
+		for (int j{0}; j < m_children.size(); ++j) {
+			FloatingButton* child = m_children[j];
+
+			if (child->positionID() == i) {
+				newChildren.append(child);
+				continue;
+			}
+		}
+	}
+
+	m_children.clear();
+	m_children = newChildren;
+
+		foreach (FloatingButton* child, m_children) child->hideButton(pos());
+}
+
 void FloatingButton::mousePressEvent(QMouseEvent* event)
 {
 	m_offset = event->pos();
@@ -166,89 +249,6 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 	QPushButton::mouseReleaseEvent(event);
 }
 
-void FloatingButton::showChildren(QPoint position)
-{
-	if (m_children.isEmpty() || m_childrenExpanded)
-		return;
-
-	position = mapToParent(position - m_offset);
-
-	int current{-(m_children.size() / 8)};
-
-	if (m_pattern == FloatingButton::Quad) {
-		for (int i{0}; i < m_children.size(); ++i) {
-			FloatingButton* child = m_children[i];
-			child->move(position);
-			child->setPositionID(i);
-
-			if (i < m_children.size() / 8) {
-				child->moveButton(QPoint(position.x() + current * width(),
-										 position.y() - height() * m_children.size() / 8));
-				++current;
-				continue;
-			}
-			if (i == m_children.size() / 8) {
-				child->moveButton(QPoint(position.x(), position.y() - height() * m_children.size() / 8));
-				current = 0;
-				continue;
-			}
-			if (i < m_children.size() / 4) {
-				++current;
-				child->moveButton(QPoint(position.x() + current * width(),
-										 position.y() - height() * m_children.size() / 8));
-				continue;
-			}
-			if (i < m_children.size() / 2) {
-				child->moveButton(QPoint(position.x() + width() * m_children.size() / 8,
-								   position.y() - (current + 1) * height()));
-				--current;
-				continue;
-			}
-			if (i < m_children.size() - m_children.size() / 4) {
-				++current;
-				child->moveButton(QPoint(position.x() - current * width(),
-										 position.y() + height() * m_children.size() / 8));
-				continue;
-			}
-			if (i == m_children.size() - m_children.size() / 4) {
-				current = m_children.size() / 8;
-				child->moveButton(QPoint(position.x() - width() * m_children.size() / 8,
-										 position.y() + current * height()));
-				continue;
-			}
-
-			--current;
-			child
-				->moveButton(QPoint(position.x() - width() * m_children.size() / 8, position.y() + current * height()));
-		}
-
-	}
-}
-
-void FloatingButton::hideChildren()
-{
-	if (m_children.isEmpty() || !m_childrenExpanded)
-		return;
-
-	QVector<FloatingButton*> newChildren;
-
-	for (int i{0}; i < m_children.size(); ++i) {
-		for (int j{0}; j < m_children.size(); ++j) {
-			FloatingButton* child = m_children[j];
-
-			if (child->positionID() == i) {
-				newChildren.append(child);
-				continue;
-			}
-		}
-	}
-
-	m_children.clear();
-	m_children = newChildren;
-
-		foreach (FloatingButton* child, m_children) child->hide();
-}
-
 void FloatingButton::moveButton(QPoint destination)
 {
 	if (!isVisible())
@@ -268,6 +268,27 @@ void FloatingButton::moveButton(QPoint destination)
 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 	});
 
+}
+
+void FloatingButton::hideButton(QPoint destination)
+{
+	if (!isVisible())
+		show();
+
+	setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
+	QPropertyAnimation* animation = new QPropertyAnimation(this, "geometry");
+
+	animation->setDuration(ANIMATION_DURATION);
+	animation->setStartValue(QRect(pos().x(), pos().y(), width(), height()));
+	animation->setEndValue(QRect(destination.x(), destination.y(), width(), height()));
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
+
+	connect(animation, &QPropertyAnimation::finished, this, [this]()
+	{
+		setAttribute(Qt::WA_TransparentForMouseEvents, false);
+		hide();
+	});
 }
 
 }

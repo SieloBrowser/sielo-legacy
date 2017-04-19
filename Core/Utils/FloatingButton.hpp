@@ -65,17 +65,18 @@ public:
 	int positionID() const { return m_positionID; }
 	void setPositionID(int newPositionID);
 
+public slots:
+	void showChildren(QPoint position);
+	void hideChildren();
+
 protected:
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
 
-private slots:
-	void showChildren(QPoint position);
-	void hideChildren();
-
 private:
 	void moveButton(QPoint destination);
+	void hideButton(QPoint destination);
 
 	QPoint m_offset{};
 	QPoint m_oldPosition{};
