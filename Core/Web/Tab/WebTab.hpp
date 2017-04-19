@@ -32,6 +32,8 @@
 #include <QIcon>
 #include <QSplitter>
 
+#include <QMenu>
+
 #include <QWebEngineHistory>
 
 #include <QUrl>
@@ -74,6 +76,7 @@ public:
 
 	TabbedWebView* webView() const { return m_webView; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
+	FloatingButton* floatingButton() const { return m_fButton; }
 
 	QUrl url() const;
 	QString title() const;
@@ -116,6 +119,10 @@ private slots:
 	void loadFinished();
 	void titleChanged(const QString& title);
 
+	void sNewWindow();
+	void sNewTab();
+	void sGoHome();
+//	void aboutToShowHistoryNextMenu();
 	void sRestore();
 
 private:
@@ -123,6 +130,8 @@ private:
 
 	QVBoxLayout* m_layout{nullptr};
 	QSplitter* m_splitter{nullptr};
+
+	QMenu* m_menuForward{nullptr};
 
 	BrowserWindow* m_window{nullptr};
 	TabbedWebView* m_webView{nullptr};
