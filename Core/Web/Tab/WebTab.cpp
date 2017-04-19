@@ -34,6 +34,10 @@
 #include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
+#include "Bookmarks/BookmarkManager.hpp"
+
+#include "History/HistoryManager.hpp"
+
 #include "Utils/FloatingButton.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
@@ -159,6 +163,8 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_layout->addWidget(teste);
 	m_layout->addWidget(m_splitter);
 
+	m_menuForward = new QMenu(this);
+
 	m_fButton = new FloatingButton(this, FloatingButton::Root);
 	m_fButton->setObjectName("fbutton-root");
 
@@ -179,6 +185,7 @@ WebTab::WebTab(BrowserWindow* window) :
 
 	m_fButtonNext = new FloatingButton(this);
 	m_fButtonNext->setObjectName("fbutton-next");
+//	m_fButtonNext->setMenu(m_menuForward);
 
 	m_fButtonBack = new FloatingButton(this);
 	m_fButtonBack->setObjectName("fbutton-back");
@@ -194,6 +201,21 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_fButton->addChild(m_fButtonNext);
 	m_fButton->addChild(m_fButtonBack);
 	m_fButton->addChild(m_fButtonNewTab);
+
+//	connect(m_fButtonAddBookmark, &FloatingButton::clicked, Application::instance()->)
+	connect(m_fButtonViewBookmarks,
+			&FloatingButton::clicked,
+			Application::instance()->bookmarksManager(),
+			&BookmarksManager::showBookmarks);
+	connect(m_fButtonViewHistory,
+			&FloatingButton::clicked,
+			Application::instance()->historyManager(),
+			&HistoryManager::showDialog);
+	connect(m_fButtonNewWindow, &FloatingButton::clicked, this, &WebTab::sNewWindow);
+	connect(m_fButtonHome, &FloatingButton::clicked, this, &WebTab::sGoHome);
+	connect(m_fButtonNext, &FloatingButton::clicked, m_webView, &TabbedWebView::forward);
+	connect(m_fButtonBack, &FloatingButton::clicked, m_webView, &TabbedWebView::back);
+	connect(m_fButtonNewTab, &FloatingButton::clicked, this, &WebTab::sNewTab);
 
 	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
 	connect(m_webView, &TabbedWebView::loadStarted, this, &WebTab::loadStarted);
@@ -442,6 +464,23 @@ void WebTab::titleChanged(const QString& title)
 
 }
 
+void WebTab::sNewWindow()
+{
+	Application::instance()->createWindow(Application::WT_NewWindow, QUrl("https://ecosia.org"));
+}
+
+void WebTab::sNewTab()
+{
+	LoadRequest request{};
+	request.setUrl(QUrl("https://ecosia.org"));
+	m_webView->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
+}
+
+void WebTab::sGoHome()
+{
+	m_webView->load(QUrl("https://ecosia.org"));
+}
+
 void WebTab::sRestore()
 {
 	Q_ASSERT(m_tabBar);
@@ -451,6 +490,34 @@ void WebTab::sRestore()
 
 	m_tabBar->restoreTabTextColor(tabIndex());
 }
+
+/*void WebTab::aboutToShowHistoryNextMenu()
+{
+	if (!m_menuForward || !m_webView)
+		return;
+
+	m_menuForward->clear();
+
+	QWebEngineHistory* history{m_webView->history()};
+	int currentIndex{history->currentItemIndex()};
+	int count{0};
+
+	for (int i{currentIndex + 1}; i < history->count(); ++i) {
+		QWebEngineHistoryItem item{history->itemAt(i)};
+
+		if (item.isValid()) {
+			QString title{item.title()};
+			if (title.isEmpty())
+				title = item.url().toString(QUrl::RemoveFragment);
+
+			if (title.isEmpty())
+				title = tr("Empty Page");
+			else if (title.length() > 40)
+				title = title.left(40) + QLatin1String("...");
+
+		}
+	}
+}*/
 
 void WebTab::showEvent(QShowEvent* event)
 {

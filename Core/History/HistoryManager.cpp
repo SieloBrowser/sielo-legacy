@@ -41,6 +41,7 @@
 
 #include "History/HistoryItem.hpp"
 #include "History/HistoryModel.hpp"
+#include "History/HistoryDialog.hpp"
 #include "History/HistoryFilterModel.hpp"
 #include "History/HistoryTreeModel.hpp"
 
@@ -170,6 +171,13 @@ void HistoryManager::loadSettings()
 	settings.beginGroup(QLatin1String("history"));
 
 	m_historyLimit = settings.value(QLatin1String("historyLimit"), 30).toInt();
+}
+
+void HistoryManager::showDialog()
+{
+	HistoryDialog* dialog{new HistoryDialog(nullptr, this)};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	dialog->show();
 }
 
 void HistoryManager::addHistoryItem(const HistoryItem& item)

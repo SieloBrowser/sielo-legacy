@@ -40,6 +40,7 @@
 
 #include "Bookmarks/BookmarkNode.hpp"
 #include "Bookmarks/BookmarksModel.hpp"
+#include "Bookmarks/BookmarksDialog.hpp"
 #include "Bookmarks/XBelReader.hpp"
 #include "Bookmarks/XBelWriter.hpp"
 #include "Bookmarks/BookmarksCommands.hpp"
@@ -165,6 +166,13 @@ void BookmarksManager::exportBookmarks()
 
 	if (!writer.write(fileName, m_bookmarkRootNode))
 		QMessageBox::critical(nullptr, tr("Export error"), tr("Error saving bookmarks"));
+}
+
+void BookmarksManager::showBookmarks()
+{
+	BookmarksDialog* dialog{new BookmarksDialog(nullptr, this)};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+	dialog->show();
 }
 
 void BookmarksManager::save() const

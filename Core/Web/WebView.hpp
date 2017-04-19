@@ -149,7 +149,7 @@ protected:
 	void contextMenuEvent(QContextMenuEvent* event);
 
 	virtual void newWheelEvent(QWheelEvent* event);
-	virtual void newMousePessEvent(QMouseEvent* event);
+	virtual void newMousePressEvent(QMouseEvent* event);
 	virtual void newMouseReleaseEvent(QMouseEvent* event);
 	virtual void newMouseMoveEvent(QMouseEvent* event);
 	virtual void newKeyPressEvent(QKeyEvent* event);

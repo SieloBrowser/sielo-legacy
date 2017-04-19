@@ -41,6 +41,8 @@
 #include "Web/WebHitTestResult.hpp"
 #include "Web/Scripts.hpp"
 
+#include "History/HistoryManager.hpp"
+
 #include "Plugins/PluginProxy.hpp"
 
 namespace Sn {
@@ -131,7 +133,7 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 		case QEvent::Wheel:
 			newWheelEvent(static_cast<QWheelEvent*>(event));
 		case QEvent::MouseButtonPress:
-			newMousePessEvent(static_cast<QMouseEvent*>(event));
+			newMousePressEvent(static_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::MouseButtonRelease:
 			newMouseReleaseEvent(static_cast<QMouseEvent*>(event));
@@ -369,7 +371,7 @@ void WebView::sLoadFinished(bool ok)
 
 	m_progress = 100;
 
-	//TODO: Manage history entry
+	Application::instance()->historyManager()->addHistoryEntry(url().toString());
 }
 
 void WebView::sUrlChanged(const QUrl& url)
@@ -500,7 +502,7 @@ void WebView::newWheelEvent(QWheelEvent* event)
 	}
 }
 
-void WebView::newMousePessEvent(QMouseEvent* event)
+void WebView::newMousePressEvent(QMouseEvent* event)
 {
 	m_clickedUrl = QUrl();
 	m_clickedPos = QPointF();

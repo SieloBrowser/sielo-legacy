@@ -66,6 +66,8 @@ public slots:
 	void importBookmarks();
 	void exportBookmarks();
 
+	void showBookmarks();
+
 private slots:
 	void save() const;
 

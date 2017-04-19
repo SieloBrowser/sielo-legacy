@@ -78,6 +78,8 @@ public slots:
 	void clear();
 	void loadSettings();
 
+	void showDialog();
+
 protected:
 	void addHistoryItem(const HistoryItem& item);
 	void removeHistoryItem(const HistoryItem& item);
