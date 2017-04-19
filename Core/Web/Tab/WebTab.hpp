@@ -128,7 +128,17 @@ private:
 	TabbedWebView* m_webView{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	MainTabBar* m_tabBar{nullptr};
+
 	FloatingButton* m_fButton{nullptr};
+
+	FloatingButton* m_fButtonAddBookmark{nullptr};
+	FloatingButton* m_fButtonViewBookmarks{nullptr};
+	FloatingButton* m_fButtonViewHistory{nullptr};
+	FloatingButton* m_fButtonNewWindow{nullptr};
+	FloatingButton* m_fButtonHome{nullptr};
+	FloatingButton* m_fButtonNext{nullptr};
+	FloatingButton* m_fButtonBack{nullptr};
+	FloatingButton* m_fButtonNewTab{nullptr};
 
 	SavedTab m_savedTab{};
 	bool m_isPinned{false};

@@ -159,23 +159,41 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_layout->addWidget(teste);
 	m_layout->addWidget(m_splitter);
 
-	m_fButton = new FloatingButton(this, "Button", FloatingButton::Root);
-	m_fButton->addChild(new FloatingButton(this, "BTN1"));
-	m_fButton->addChild(new FloatingButton(this, "BTN2"));
-	m_fButton->addChild(new FloatingButton(this, "BTN3"));
-	m_fButton->addChild(new FloatingButton(this, "BTN4"));
-	m_fButton->addChild(new FloatingButton(this, "BTN5"));
-	m_fButton->addChild(new FloatingButton(this, "BTN6"));
-	m_fButton->addChild(new FloatingButton(this, "BTN7"));
-	m_fButton->addChild(new FloatingButton(this, "BTN8"));
-	m_fButton->addChild(new FloatingButton(this, "BTN1"));
-	m_fButton->addChild(new FloatingButton(this, "BTN2"));
-	m_fButton->addChild(new FloatingButton(this, "BTN3"));
-	m_fButton->addChild(new FloatingButton(this, "BTN4"));
-	m_fButton->addChild(new FloatingButton(this, "BTN5"));
-	m_fButton->addChild(new FloatingButton(this, "BTN6"));
-	m_fButton->addChild(new FloatingButton(this, "BTN7"));
-	m_fButton->addChild(new FloatingButton(this, "BTN8"));
+	m_fButton = new FloatingButton(this, FloatingButton::Root);
+	m_fButton->setObjectName("fbutton-root");
+
+	m_fButtonAddBookmark = new FloatingButton(this);
+	m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
+
+	m_fButtonViewBookmarks = new FloatingButton(this);
+	m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
+
+	m_fButtonViewHistory = new FloatingButton(this);
+	m_fButtonViewHistory->setObjectName("fbutton-view-history");
+
+	m_fButtonNewWindow = new FloatingButton(this);
+	m_fButtonNewWindow->setObjectName("fbutton-new-window");
+
+	m_fButtonHome = new FloatingButton(this);
+	m_fButtonHome->setObjectName("fbutton-home");
+
+	m_fButtonNext = new FloatingButton(this);
+	m_fButtonNext->setObjectName("fbutton-next");
+
+	m_fButtonBack = new FloatingButton(this);
+	m_fButtonBack->setObjectName("fbutton-back");
+
+	m_fButtonNewTab = new FloatingButton(this);
+	m_fButtonNewTab->setObjectName("fbutton-new-tab");
+
+	m_fButton->addChild(m_fButtonAddBookmark);
+	m_fButton->addChild(m_fButtonViewBookmarks);
+	m_fButton->addChild(m_fButtonViewHistory);
+	m_fButton->addChild(m_fButtonNewWindow);
+	m_fButton->addChild(m_fButtonHome);
+	m_fButton->addChild(m_fButtonNext);
+	m_fButton->addChild(m_fButtonBack);
+	m_fButton->addChild(m_fButtonNewTab);
 
 	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
 	connect(m_webView, &TabbedWebView::loadStarted, this, &WebTab::loadStarted);
