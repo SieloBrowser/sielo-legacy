@@ -73,6 +73,8 @@ private slots:
 	void hideChildren();
 
 private:
+	void moveButton(QPoint destination);
+
 	QPoint m_offset{};
 	QPoint m_oldPosition{};
 

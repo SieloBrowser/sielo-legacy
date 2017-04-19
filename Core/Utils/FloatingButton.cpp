@@ -28,11 +28,15 @@
 
 #include <QMessageBox>
 
+#include <QPropertyAnimation>
+
 #include "Application.hpp"
 
 #include "Web/Tab/WebTab.hpp"
 
 namespace Sn {
+
+static const int ANIMATION_DURATION = 1000 * 0.2;
 
 FloatingButton::FloatingButton(WebTab* parent, QString text, Type type) :
 	ToolButton(parent),
@@ -42,7 +46,6 @@ FloatingButton::FloatingButton(WebTab* parent, QString text, Type type) :
 {
 	this->setText(text);
 	setFixedSize(QSize(48, 48));
-	setShowMenuInside(true);
 	setObjectName("floating_button");
 }
 
@@ -136,13 +139,13 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 			QPoint newPosition{button->pos()};
 			int newPositionID{button->positionID()};
 
-			button->move(m_oldPosition);
+			button->moveButton(m_oldPosition);
 			button->setPositionID(m_positionID);
-			move(newPosition);
+			moveButton(newPosition);
 			m_positionID = newPositionID;
 		}
 		else {
-			move(m_oldPosition);
+			moveButton(m_oldPosition);
 		}
 
 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
@@ -174,49 +177,48 @@ void FloatingButton::showChildren(QPoint position)
 	if (m_pattern == FloatingButton::Quad) {
 		for (int i{0}; i < m_children.size(); ++i) {
 			FloatingButton* child = m_children[i];
+			child->move(position);
 			child->setPositionID(i);
 
 			if (i < m_children.size() / 8) {
-				child->move(QPoint(position.x() + current * width(), position.y() - height() * m_children.size() / 8));
+				child->moveButton(QPoint(position.x() + current * width(),
+										 position.y() - height() * m_children.size() / 8));
 				++current;
-				child->show();
 				continue;
 			}
 			if (i == m_children.size() / 8) {
-				child->move(QPoint(position.x(), position.y() - height() * m_children.size() / 8));
+				child->moveButton(QPoint(position.x(), position.y() - height() * m_children.size() / 8));
 				current = 0;
-				child->show();
 				continue;
 			}
 			if (i < m_children.size() / 4) {
 				++current;
-				child->move(QPoint(position.x() + current * width(), position.y() - height() * m_children.size() / 8));
-				child->show();
+				child->moveButton(QPoint(position.x() + current * width(),
+										 position.y() - height() * m_children.size() / 8));
 				continue;
 			}
 			if (i < m_children.size() / 2) {
-				child->move(QPoint(position.x() + width() * m_children.size() / 8,
+				child->moveButton(QPoint(position.x() + width() * m_children.size() / 8,
 								   position.y() - (current + 1) * height()));
-				child->show();
 				--current;
 				continue;
 			}
 			if (i < m_children.size() - m_children.size() / 4) {
 				++current;
-				child->move(QPoint(position.x() - current * width(), position.y() + height() * m_children.size() / 8));
-				child->show();
+				child->moveButton(QPoint(position.x() - current * width(),
+										 position.y() + height() * m_children.size() / 8));
 				continue;
 			}
 			if (i == m_children.size() - m_children.size() / 4) {
 				current = m_children.size() / 8;
-				child->move(QPoint(position.x() - width() * m_children.size() / 8, position.y() + current * height()));
-				child->show();
+				child->moveButton(QPoint(position.x() - width() * m_children.size() / 8,
+										 position.y() + current * height()));
 				continue;
 			}
 
 			--current;
-			child->move(QPoint(position.x() - width() * m_children.size() / 8, position.y() + current * height()));
-			child->show();
+			child
+				->moveButton(QPoint(position.x() - width() * m_children.size() / 8, position.y() + current * height()));
 		}
 
 	}
@@ -244,6 +246,20 @@ void FloatingButton::hideChildren()
 	m_children = newChildren;
 
 		foreach (FloatingButton* child, m_children) child->hide();
+}
+
+void FloatingButton::moveButton(QPoint destination)
+{
+	if (!isVisible())
+		show();
+
+	QPropertyAnimation* animation = new QPropertyAnimation(this, "geometry");
+
+	animation->setDuration(ANIMATION_DURATION);
+	animation->setStartValue(QRect(pos().x(), pos().y(), width(), height()));
+	animation->setEndValue(QRect(destination.x(), destination.y(), width(), height()));
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
+
 }
 
 }
