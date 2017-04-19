@@ -30,6 +30,8 @@
 
 #include "History/HistoryManager.hpp"
 
+#include "Utils/FloatingButton.hpp"
+
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "Web/WebPage.hpp"
@@ -177,6 +179,13 @@ void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 	}
 
 	WebView::newContextMenuEvent(event);
+}
+
+void TabbedWebView::newMousePressEvent(QMouseEvent* event)
+{
+	m_webTab->floatingButton()->hideChildren();
+
+	WebView::newMousePressEvent(event);
 }
 
 void TabbedWebView::newMouseMoveEvent(QMouseEvent* event)

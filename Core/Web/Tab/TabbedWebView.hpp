@@ -84,6 +84,7 @@ private slots:
 
 private:
 	void newContextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+	void newMousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	void newMouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
 	BrowserWindow* m_window{nullptr};
