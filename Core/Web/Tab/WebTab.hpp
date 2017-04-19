@@ -46,6 +46,8 @@ class TabbedWebView;
 class TabIcon;
 class MainTabBar;
 
+class FloatingButton;
+
 class WebTab: public QWidget {
 Q_OBJECT
 
@@ -126,6 +128,7 @@ private:
 	TabbedWebView* m_webView{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	MainTabBar* m_tabBar{nullptr};
+	FloatingButton* m_fButton{nullptr};
 
 	SavedTab m_savedTab{};
 	bool m_isPinned{false};

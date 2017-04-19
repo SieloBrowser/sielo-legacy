@@ -27,11 +27,14 @@
 #include <QSettings>
 
 #include <QColor>
+#include <QtWidgets/QLineEdit>
 
 #include "BrowserWindow.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
+
+#include "Utils/FloatingButton.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
@@ -149,7 +152,30 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_tabIcon = new TabIcon(this);
 	m_tabIcon->setWebTab(this);
 
+	QLineEdit* teste{new QLineEdit(this)};
+	teste->setText("http://ecosia.org");
+	teste->show();
+
+	m_layout->addWidget(teste);
 	m_layout->addWidget(m_splitter);
+
+	m_fButton = new FloatingButton(this, "Button", FloatingButton::Root);
+	m_fButton->addChild(new FloatingButton(this, "BTN1"));
+	m_fButton->addChild(new FloatingButton(this, "BTN2"));
+	m_fButton->addChild(new FloatingButton(this, "BTN3"));
+	m_fButton->addChild(new FloatingButton(this, "BTN4"));
+	m_fButton->addChild(new FloatingButton(this, "BTN5"));
+	m_fButton->addChild(new FloatingButton(this, "BTN6"));
+	m_fButton->addChild(new FloatingButton(this, "BTN7"));
+	m_fButton->addChild(new FloatingButton(this, "BTN8"));
+	m_fButton->addChild(new FloatingButton(this, "BTN1"));
+	m_fButton->addChild(new FloatingButton(this, "BTN2"));
+	m_fButton->addChild(new FloatingButton(this, "BTN3"));
+	m_fButton->addChild(new FloatingButton(this, "BTN4"));
+	m_fButton->addChild(new FloatingButton(this, "BTN5"));
+	m_fButton->addChild(new FloatingButton(this, "BTN6"));
+	m_fButton->addChild(new FloatingButton(this, "BTN7"));
+	m_fButton->addChild(new FloatingButton(this, "BTN8"));
 
 	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
 	connect(m_webView, &TabbedWebView::loadStarted, this, &WebTab::loadStarted);
