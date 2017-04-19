@@ -28,6 +28,8 @@
 
 #include <QMouseEvent>
 
+#include <QPushButton>
+
 #include <QVector>
 
 #include "Utils/ToolButton.hpp"
@@ -35,7 +37,7 @@
 namespace Sn {
 class WebTab;
 
-class FloatingButton: public ToolButton {
+class FloatingButton: public QPushButton {
 public:
 	enum Type {
 		Root,
@@ -47,7 +49,7 @@ public:
 		Line
 	};
 
-	FloatingButton(WebTab* parent, QString text, Type type = Child);
+	FloatingButton(WebTab* parent, Type type = Child);
 
 	QVector<FloatingButton*> children() { return m_children; }
 	void setChildren(QVector<FloatingButton*> children);

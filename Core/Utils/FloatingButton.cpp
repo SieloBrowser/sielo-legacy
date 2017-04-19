@@ -38,15 +38,16 @@ namespace Sn {
 
 static const int ANIMATION_DURATION = 1000 * 0.2;
 
-FloatingButton::FloatingButton(WebTab* parent, QString text, Type type) :
-	ToolButton(parent),
+FloatingButton::FloatingButton(WebTab* parent, Type type) :
+	QPushButton(parent),
 	m_parent(parent),
 	m_type(type),
 	m_pattern(FloatingButton::Quad)
 {
-	this->setText(text);
 	setFixedSize(QSize(48, 48));
-	setObjectName("floating_button");
+	setIconSize(QSize(48, 48));
+	setFlat(true);
+	setObjectName("fbutton");
 }
 
 void FloatingButton::setChildren(QVector<FloatingButton*> children)
@@ -105,7 +106,7 @@ void FloatingButton::mousePressEvent(QMouseEvent* event)
 	if (m_childrenExpanded)
 		hideChildren();
 
-	ToolButton::mousePressEvent(event);
+	QPushButton::mousePressEvent(event);
 }
 
 void FloatingButton::mouseMoveEvent(QMouseEvent* event)
@@ -122,7 +123,7 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 		QCursor::setPos(event->globalPos());
 	}
 
-	ToolButton::mouseMoveEvent(event);
+	QPushButton::mouseMoveEvent(event);
 }
 
 void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
@@ -131,7 +132,7 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
 		if (Application::widgetAt(mapToGlobal(event->pos()))
-			&& Application::widgetAt(mapToGlobal(event->pos()))->objectName() == "floating_button"
+			&& Application::widgetAt(mapToGlobal(event->pos()))->objectName().contains(QLatin1String("fbutton"))
 			&& static_cast<FloatingButton*>(Application::widgetAt(mapToGlobal(event->pos())))->pattern()
 			   != FloatingButton::Quad) {
 			FloatingButton* button = static_cast<FloatingButton*>(Application::widgetAt(mapToGlobal(event->pos())));
@@ -162,7 +163,7 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 		}
 	}
 
-	ToolButton::mouseReleaseEvent(event);
+	QPushButton::mouseReleaseEvent(event);
 }
 
 void FloatingButton::showChildren(QPoint position)
