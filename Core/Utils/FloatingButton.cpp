@@ -253,12 +253,19 @@ void FloatingButton::moveButton(QPoint destination)
 	if (!isVisible())
 		show();
 
+	setAttribute(Qt::WA_TransparentForMouseEvents, true);
+
 	QPropertyAnimation* animation = new QPropertyAnimation(this, "geometry");
 
 	animation->setDuration(ANIMATION_DURATION);
 	animation->setStartValue(QRect(pos().x(), pos().y(), width(), height()));
 	animation->setEndValue(QRect(destination.x(), destination.y(), width(), height()));
 	animation->start(QAbstractAnimation::DeleteWhenStopped);
+
+	connect(animation, &QPropertyAnimation::finished, this, [this]()
+	{
+		setAttribute(Qt::WA_TransparentForMouseEvents, false);
+	});
 
 }
 
