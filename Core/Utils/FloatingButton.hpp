@@ -37,12 +37,31 @@ class WebTab;
 
 class FloatingButton: public ToolButton {
 public:
-	FloatingButton(WebTab* parent, QString text);
+	enum Type {
+		Root,
+		Child
+	};
+
+	enum Pattern {
+		Quad,
+		Line
+	};
+
+	FloatingButton(WebTab* parent, QString text, Type type = Child);
 
 	QVector<FloatingButton*> children() { return m_children; }
 	void setChildren(QVector<FloatingButton*> children);
 	void addChildren(QVector<FloatingButton*> children);
 	void addChild(FloatingButton* button);
+
+	Type type() const { return m_type; }
+	void setType(Type type);
+
+	Pattern pattern() const { return m_pattern; }
+	void setPattern(Pattern pattern);
+
+	int positionID() const { return m_positionID; }
+	void setPositionID(int newPositionID);
 
 protected:
 	void mousePressEvent(QMouseEvent* event);
@@ -55,12 +74,17 @@ private slots:
 
 private:
 	QPoint m_offset{};
+	QPoint m_oldPosition{};
 
 	WebTab* m_parent{nullptr};
 
 	QVector<FloatingButton*> m_children;
 
+	Type m_type{Child};
+	Pattern m_pattern{Quad};
+
 	bool m_childrenExpanded{false};
+	int m_positionID{0};
 };
 }
 
