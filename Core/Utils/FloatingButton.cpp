@@ -183,6 +183,7 @@ void FloatingButton::hideChildren()
 
 void FloatingButton::mousePressEvent(QMouseEvent* event)
 {
+	emit updateMenu();
 	m_offset = event->pos();
 	m_oldPosition = pos();
 

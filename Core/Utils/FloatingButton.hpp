@@ -38,6 +38,7 @@ namespace Sn {
 class WebTab;
 
 class FloatingButton: public QPushButton {
+Q_OBJECT
 public:
 	enum Type {
 		Root,
@@ -64,6 +65,9 @@ public:
 
 	int positionID() const { return m_positionID; }
 	void setPositionID(int newPositionID);
+
+signals:
+	void updateMenu();
 
 public slots:
 	void showChildren(QPoint position);
