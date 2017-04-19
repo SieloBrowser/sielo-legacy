@@ -112,6 +112,8 @@ private slots:
 private:
 	void setUserStyleSheet(const QString& filePath);
 
+	void loadTheme(const QString& name);
+
 	bool m_privateBrowsing{false};
 
 	PluginProxy* m_plugins{nullptr};

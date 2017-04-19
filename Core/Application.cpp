@@ -28,6 +28,8 @@
 #include <QStandardPaths>
 #include <QDir>
 
+#include <QMessageBox>
+
 #include <QSettings>
 
 #include <QWebEngineScript>
@@ -39,6 +41,8 @@
 
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
+
+#include "Utils/RegExp.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
@@ -79,6 +83,8 @@ Application::Application(int& argc, char** argv) :
 	m_plugins = new PluginProxy;
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
+
+	loadTheme("sielo");
 
 }
 
@@ -240,6 +246,28 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 
 	return info.absoluteFilePath();
 
+}
+
+void Application::loadTheme(const QString& name)
+{
+	QString activeThemePath{Application::instance()->paths()[Application::P_Data] + QLatin1String("/themes/") + name};
+	QFile theme{activeThemePath + QLatin1String("/main.sss")};
+	QByteArray array{};
+
+	if (theme.open(QFile::ReadOnly)) {
+		array = theme.readAll();
+		theme.close();
+	}
+
+	QString sss{QString::fromUtf8(array)};
+	QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
+
+	sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
+				QString("url(%1/\\1)").arg(relativePath));
+	sss.replace("sproperty", "qproperty");
+	sss.replace("slineargradient", "qlineargradient");
+
+	setStyleSheet(sss);
 }
 
 }
