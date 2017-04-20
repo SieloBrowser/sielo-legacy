@@ -204,18 +204,18 @@ WebTab::WebTab(BrowserWindow* window) :
 
 //	connect(m_fButtonAddBookmark, &FloatingButton::clicked, Application::instance()->)
 	connect(m_fButtonViewBookmarks,
-			&FloatingButton::clicked,
+			&FloatingButton::isClicked,
 			Application::instance()->bookmarksManager(),
 			&BookmarksManager::showBookmarks);
 	connect(m_fButtonViewHistory,
-			&FloatingButton::clicked,
+			&FloatingButton::isClicked,
 			Application::instance()->historyManager(),
 			&HistoryManager::showDialog);
-	connect(m_fButtonNewWindow, &FloatingButton::clicked, this, &WebTab::sNewWindow);
-	connect(m_fButtonHome, &FloatingButton::clicked, this, &WebTab::sGoHome);
-	connect(m_fButtonNext, &FloatingButton::clicked, m_webView, &TabbedWebView::forward);
-	connect(m_fButtonBack, &FloatingButton::clicked, m_webView, &TabbedWebView::back);
-	connect(m_fButtonNewTab, &FloatingButton::clicked, this, &WebTab::sNewTab);
+	connect(m_fButtonNewWindow, &FloatingButton::isClicked, this, &WebTab::sNewWindow);
+	connect(m_fButtonHome, &FloatingButton::isClicked, this, &WebTab::sGoHome);
+	connect(m_fButtonNext, &FloatingButton::isClicked, m_webView, &TabbedWebView::forward);
+	connect(m_fButtonBack, &FloatingButton::isClicked, m_webView, &TabbedWebView::back);
+	connect(m_fButtonNewTab, &FloatingButton::isClicked, this, &WebTab::sNewTab);
 
 	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
 	connect(m_webView, &TabbedWebView::loadStarted, this, &WebTab::loadStarted);

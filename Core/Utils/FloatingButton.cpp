@@ -196,6 +196,8 @@ void FloatingButton::mousePressEvent(QMouseEvent* event)
 void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton) {
+		m_blockClick = true;
+
 		QPoint position{mapToParent(event->pos() - m_offset)};
 		int x{};
 		int y{};
@@ -241,11 +243,16 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 			hideChildren();
 			m_childrenExpanded = false;
 		}
-		else {
+		else if (!m_blockClick) {
 			showChildren(event->pos());
 			m_childrenExpanded = true;
 		}
 	}
+
+	if (!m_blockClick)
+		emit isClicked();
+
+	m_blockClick = false;
 
 	QPushButton::mouseReleaseEvent(event);
 }

@@ -68,6 +68,7 @@ public:
 
 signals:
 	void updateMenu();
+	void isClicked();
 
 public slots:
 	void showChildren(QPoint position);
@@ -93,6 +94,7 @@ private:
 	Pattern m_pattern{Quad};
 
 	bool m_childrenExpanded{false};
+	bool m_blockClick{false};
 	int m_positionID{0};
 };
 }
