@@ -30,6 +30,7 @@
 #include <QVector>
 
 #include <QMenu>
+#include <QToolBar>
 
 #include "Application.hpp"
 
@@ -161,7 +162,18 @@ private:
 	FloatingButton* m_fButtonBack{nullptr};
 	FloatingButton* m_fButtonNewTab{nullptr};
 
+	QAction* m_actionBack{nullptr};
+	QAction* m_actionNext{nullptr};
+	QAction* m_actionHome{nullptr};
+	QAction* m_actionUrl{nullptr};
+	QAction* m_actionAddBookmark{nullptr};
+	QAction* m_actionViewBookmarks{nullptr};
+	QAction* m_actionViewHistory{nullptr};
+	QAction* m_actionNewTab{nullptr};
+	QAction* m_actionNewWindow{nullptr};
+
 	QMenu* m_menuClosedTabs{nullptr};
+	QToolBar* m_topToolBar{nullptr};
 	QUrl m_urlOnNewTab{};
 
 	int m_lastTabIndex{-1};

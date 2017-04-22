@@ -163,7 +163,9 @@ WebTab::WebTab(BrowserWindow* window) :
 
 	m_urlBar = new UrlBar(this);
 	m_urlBar->setText("https://ecosia.org");
-	m_urlBar->setVisible(false);
+
+	if (!Application::instance()->useTopToolBar())
+		m_urlBar->setVisible(false);
 
 	m_layout->addWidget(m_urlBar);
 	m_layout->addWidget(m_splitter);
@@ -244,6 +246,16 @@ void WebTab::attach(BrowserWindow* window)
 	m_webView->setBrowserWindow(m_window);
 	m_tabBar->setTabButton(tabIndex(), m_tabBar->iconButtonPosition(), m_tabIcon);
 	m_tabBar->setTabText(tabIndex(), title());
+}
+
+void WebTab::addToolBar(QToolBar* toolBar)
+{
+	m_layout->insertWidget(0, toolBar);
+}
+
+void WebTab::removeToolBar(QToolBar* toolBar)
+{
+	m_layout->removeWidget(toolBar);
 }
 
 QByteArray WebTab::historyData() const

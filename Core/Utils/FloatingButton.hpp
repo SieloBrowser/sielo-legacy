@@ -66,6 +66,9 @@ public:
 	Pattern pattern() const { return m_pattern; }
 	void setPattern(Pattern pattern);
 
+	bool isMovable() const { return m_movable; }
+	void setMovable(bool movable);
+
 	int positionID() const { return m_positionID; }
 	void setPositionID(int newPositionID);
 
@@ -99,6 +102,7 @@ private:
 
 	bool m_childrenExpanded{false};
 	bool m_blockClick{false};
+	bool m_movable{true};
 	int m_positionID{0};
 };
 }

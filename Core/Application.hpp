@@ -79,6 +79,8 @@ public:
 	Application(int& argc, char** argv);
 	~Application();
 
+	void loadSettings();
+
 	bool privateBrowsing() const { return m_privateBrowsing; }
 
 	int windowCount() const;
@@ -94,6 +96,8 @@ public:
 
 	NetworkManager* networkManager() const { return m_networkManager; }
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
+
+	bool useTopToolBar() const { return m_useTopToolBar; }
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
@@ -115,6 +119,7 @@ private:
 	void loadTheme(const QString& name);
 
 	bool m_privateBrowsing{false};
+	bool m_useTopToolBar{false};
 
 	PluginProxy* m_plugins{nullptr};
 	HistoryManager* m_historyManager{nullptr};

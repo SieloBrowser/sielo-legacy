@@ -80,11 +80,13 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
 
+	loadSettings();
+
 	m_plugins = new PluginProxy;
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
 
-	loadTheme("sielo");
+	loadTheme("sielo_colorful_flat");
 
 }
 
@@ -92,6 +94,13 @@ Application::~Application()
 {
 	delete m_plugins;
 	delete m_historyManager;
+}
+
+void Application::loadSettings()
+{
+	QSettings settings;
+
+	m_useTopToolBar = settings.value("preferences/useTopToolBar", false).toBool();
 }
 
 int Application::windowCount() const

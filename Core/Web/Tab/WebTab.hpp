@@ -33,6 +33,7 @@
 #include <QSplitter>
 
 #include <QMenu>
+#include <QToolBar>
 
 #include <QWebEngineHistory>
 
@@ -89,6 +90,9 @@ public:
 
 	void detach();
 	void attach(BrowserWindow* window);
+
+	void addToolBar(QToolBar* toolBar);
+	void removeToolBar(QToolBar* toolBar);
 
 	QByteArray historyData() const;
 	void setHistoryData(const QByteArray& data);

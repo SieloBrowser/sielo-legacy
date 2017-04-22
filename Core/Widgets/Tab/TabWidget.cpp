@@ -105,42 +105,98 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonShowUrlBar, Qt::TopRightCorner);
 
-	m_fButton = new FloatingButton(this, FloatingButton::Root);
-	m_fButton->setObjectName("fbutton-root");
+	if (Application::instance()->useTopToolBar()) {
+		m_topToolBar = new QToolBar(this);
 
-	m_fButtonAddBookmark = new FloatingButton(this);
-	m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
+		m_fButtonAddBookmark = new FloatingButton(this);
+		m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
+		m_fButtonAddBookmark->setMovable(false);
+		m_fButtonAddBookmark->setFixedSize(QSize(32, 32));
 
-	m_fButtonViewBookmarks = new FloatingButton(this);
-	m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
+		m_fButtonViewBookmarks = new FloatingButton(this);
+		m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
+		m_fButtonViewBookmarks->setMovable(false);
+		m_fButtonViewBookmarks->setFixedSize(QSize(32, 32));
 
-	m_fButtonViewHistory = new FloatingButton(this);
-	m_fButtonViewHistory->setObjectName("fbutton-view-history");
+		m_fButtonViewHistory = new FloatingButton(this);
+		m_fButtonViewHistory->setObjectName("fbutton-view-history");
+		m_fButtonViewHistory->setMovable(false);
+		m_fButtonViewHistory->setFixedSize(QSize(32, 32));
 
-	m_fButtonNewWindow = new FloatingButton(this);
-	m_fButtonNewWindow->setObjectName("fbutton-new-window");
+		m_fButtonNewWindow = new FloatingButton(this);
+		m_fButtonNewWindow->setObjectName("fbutton-new-window");
+		m_fButtonNewWindow->setMovable(false);
+		m_fButtonNewWindow->setFixedSize(QSize(32, 32));
 
-	m_fButtonHome = new FloatingButton(this);
-	m_fButtonHome->setObjectName("fbutton-home");
+		m_fButtonHome = new FloatingButton(this);
+		m_fButtonHome->setObjectName("fbutton-home");
+		m_fButtonHome->setMovable(false);
+		m_fButtonHome->setFixedSize(QSize(32, 32));
 
-	m_fButtonNext = new FloatingButton(this);
-	m_fButtonNext->setObjectName("fbutton-next");
+		m_fButtonNext = new FloatingButton(this);
+		m_fButtonNext->setObjectName("fbutton-next");
+		m_fButtonNext->setMovable(false);
+		m_fButtonNext->setFixedSize(QSize(32, 32));
 //	m_fButtonNext->setMenu(m_menuForward);
 
-	m_fButtonBack = new FloatingButton(this);
-	m_fButtonBack->setObjectName("fbutton-back");
+		m_fButtonBack = new FloatingButton(this);
+		m_fButtonBack->setObjectName("fbutton-back");
+		m_fButtonBack->setMovable(false);
+		m_fButtonBack->setFixedSize(QSize(32, 32));
 
-	m_fButtonNewTab = new FloatingButton(this);
-	m_fButtonNewTab->setObjectName("fbutton-new-tab");
+		m_fButtonNewTab = new FloatingButton(this);
+		m_fButtonNewTab->setObjectName("fbutton-new-tab");
+		m_fButtonNewTab->setMovable(false);
+		m_fButtonNewTab->setFixedSize(QSize(32, 32));
 
-	m_fButton->addChild(m_fButtonAddBookmark);
-	m_fButton->addChild(m_fButtonViewBookmarks);
-	m_fButton->addChild(m_fButtonViewHistory);
-	m_fButton->addChild(m_fButtonNewWindow);
-	m_fButton->addChild(m_fButtonHome);
-	m_fButton->addChild(m_fButtonNext);
-	m_fButton->addChild(m_fButtonBack);
-	m_fButton->addChild(m_fButtonNewTab);
+		m_actionBack = m_topToolBar->addWidget(m_fButtonBack);
+		m_actionNext = m_topToolBar->addWidget(m_fButtonNext);
+		m_actionHome = m_topToolBar->addWidget(m_fButtonHome);
+		m_actionAddBookmark = m_topToolBar->addWidget(m_fButtonAddBookmark);
+		m_actionViewBookmarks = m_topToolBar->addWidget(m_fButtonViewBookmarks);
+		m_actionViewHistory = m_topToolBar->addWidget(m_fButtonViewHistory);
+		m_topToolBar->addSeparator();
+		m_actionNewTab = m_topToolBar->addWidget(m_fButtonNewTab);
+		m_actionNewWindow = m_topToolBar->addWidget(m_fButtonNewWindow);
+	}
+	else {
+		m_fButton = new FloatingButton(this, FloatingButton::Root);
+		m_fButton->setObjectName("fbutton-root");
+
+		m_fButtonAddBookmark = new FloatingButton(this);
+		m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
+
+		m_fButtonViewBookmarks = new FloatingButton(this);
+		m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
+
+		m_fButtonViewHistory = new FloatingButton(this);
+		m_fButtonViewHistory->setObjectName("fbutton-view-history");
+
+		m_fButtonNewWindow = new FloatingButton(this);
+		m_fButtonNewWindow->setObjectName("fbutton-new-window");
+
+		m_fButtonHome = new FloatingButton(this);
+		m_fButtonHome->setObjectName("fbutton-home");
+
+		m_fButtonNext = new FloatingButton(this);
+		m_fButtonNext->setObjectName("fbutton-next");
+//	m_fButtonNext->setMenu(m_menuForward);
+
+		m_fButtonBack = new FloatingButton(this);
+		m_fButtonBack->setObjectName("fbutton-back");
+
+		m_fButtonNewTab = new FloatingButton(this);
+		m_fButtonNewTab->setObjectName("fbutton-new-tab");
+
+		m_fButton->addChild(m_fButtonAddBookmark);
+		m_fButton->addChild(m_fButtonViewBookmarks);
+		m_fButton->addChild(m_fButtonViewHistory);
+		m_fButton->addChild(m_fButtonNewWindow);
+		m_fButton->addChild(m_fButtonHome);
+		m_fButton->addChild(m_fButtonNext);
+		m_fButton->addChild(m_fButtonBack);
+		m_fButton->addChild(m_fButtonNewTab);
+	}
 
 	//TODO: History connection
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
@@ -776,9 +832,17 @@ void TabWidget::updateFloatingButton(int index)
 	WebTab* tab{weTab(index)};
 	WebTab* lastTab{weTab(m_lastTabIndex)};
 
-//	m_fButton->setParent(tab);
-	m_fButton->setWebTab(tab);
-	m_fButton->raise();
+	if (Application::instance()->useTopToolBar()) {
+		if (lastTab) {
+			m_topToolBar->removeAction(m_actionUrl);
+			lastTab->removeToolBar(m_topToolBar);
+		}
+
+		tab->urlBar()->setVisible(true);
+		tab->addToolBar(m_topToolBar);
+		m_actionUrl = m_topToolBar->insertWidget(m_actionAddBookmark, tab->urlBar());
+
+	}
 
 	if (lastTab) {
 		disconnect(m_fButtonNewWindow, &FloatingButton::isClicked, lastTab, &WebTab::sNewWindow);

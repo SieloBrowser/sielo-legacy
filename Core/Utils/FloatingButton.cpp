@@ -42,7 +42,10 @@ FloatingButton::FloatingButton(QWidget* parent, Type type) :
 	QPushButton(parent),
 	m_parent(parent),
 	m_type(type),
-	m_pattern(FloatingButton::Toolbar)
+	m_pattern(FloatingButton::Toolbar),
+	m_childrenExpanded(false),
+	m_blockClick(false),
+	m_movable(true)
 {
 	setFixedSize(QSize(48, 48));
 	setIconSize(QSize(48, 48));
@@ -99,6 +102,11 @@ void FloatingButton::setType(Type type)
 void FloatingButton::setPattern(Pattern pattern)
 {
 	m_pattern = pattern;
+}
+
+void FloatingButton::setMovable(bool movable)
+{
+	m_movable = movable;
 }
 
 void FloatingButton::setPositionID(int newPositionID)
@@ -167,7 +175,7 @@ void FloatingButton::showChildren(QPoint position)
 		for (int i{0}; i < m_children.count(); ++i) {
 			FloatingButton* child = m_children[i];
 
-			child->moveButton(QPoint(QPoint(0, 24).x(), QPoint(0, 24).y() + (i + 1) * height()), true);
+			child->moveButton(QPoint(QPoint(0, 28).x(), QPoint(0, 28).y() + (i + 1) * height()), true);
 			child->show();
 		}
 
@@ -214,6 +222,9 @@ void FloatingButton::mousePressEvent(QMouseEvent* event)
 void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton) {
+		if (!m_movable)
+			return;
+
 		m_blockClick = true;
 
 		QPoint position{mapToParent(event->pos() - m_offset)};
@@ -228,14 +239,14 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 
 		if (m_type == Type::Root) {
 			if ((mapToParent(pos()).x() >= 0 && mapToParent(pos()).x() <= width())
-				&& (mapToParent(pos()).y() >= 24 && mapToParent(pos()).y() <= height() + 24)
+				&& (mapToParent(pos()).y() >= 28 && mapToParent(pos()).y() <= height() + 28)
 				&& m_pattern == Pattern::Floating) {
 				setPattern(Pattern::Toolbar);
-				m_oldPosition = (QPoint(0, 24));
-				showChildren(QPoint(0, 24));
+				m_oldPosition = (QPoint(0, 28));
+				showChildren(QPoint(0, 28));
 			}
 			else if (!(mapToParent(pos()).x() >= 0 && mapToParent(pos()).x() <= width())
-					 && !(mapToParent(pos()).y() >= 24 && mapToParent(pos()).y() <= height() + 24)
+					 && !(mapToParent(pos()).y() >= 28 && mapToParent(pos()).y() <= height() + 28)
 					 && m_pattern == Pattern::Toolbar) {
 				if (m_childrenExpanded)
 					hideChildren();
@@ -253,7 +264,7 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 
 	if (m_type == Type::Root) {
 		if ((mapToParent(pos()).x() >= 0 && mapToParent(pos()).x() <= width())
-			&& (mapToParent(pos()).y() >= 24) && mapToParent(pos()).y() <= height() + 24) {
+			&& (mapToParent(pos()).y() >= 28) && mapToParent(pos()).y() <= height() + 28) {
 			m_pattern = Pattern::Toolbar;
 			if (!m_childrenExpanded)
 				showChildren(QPoint(0, 24));
@@ -262,10 +273,12 @@ void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 			m_pattern = Pattern::Floating;
 		}
 
-		if (m_childrenExpanded && !m_blockClick)
-			hideChildren();
-		else if (!m_blockClick)
-			showChildren(event->pos());
+		if (m_pattern != Pattern::Toolbar) {
+			if (m_childrenExpanded && !m_blockClick)
+				hideChildren();
+			else if (!m_blockClick)
+				showChildren(event->pos());
+		}
 	}
 
 	if (m_type != FloatingButton::Root) {
