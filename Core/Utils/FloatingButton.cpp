@@ -253,6 +253,10 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 
 				setPattern(Pattern::Floating);
 			}
+			else if (m_pattern != Pattern::Toolbar) {
+				if (m_childrenExpanded)
+					hideChildren();
+			}
 		}
 	}
 
