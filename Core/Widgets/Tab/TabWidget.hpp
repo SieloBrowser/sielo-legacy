@@ -49,6 +49,8 @@ class ClosedTabsManager;
 class ToolButton;
 class AutoSaver;
 
+class FloatingButton;
+
 class TabbedWebView;
 
 class TabWidget: public TabStackedWidget {
@@ -134,6 +136,7 @@ private:
 
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
+	void updateFloatingButton(int index);
 
 	AutoSaver* m_saveTimer{nullptr};
 
@@ -146,6 +149,17 @@ private:
 	AddTabButton* m_buttonAddTab{nullptr};
 	AddTabButton* m_buttonAddTab2{nullptr};
 	ToolButton* m_buttonShowUrlBar{nullptr};
+
+	FloatingButton* m_fButton{nullptr};
+
+	FloatingButton* m_fButtonAddBookmark{nullptr};
+	FloatingButton* m_fButtonViewBookmarks{nullptr};
+	FloatingButton* m_fButtonViewHistory{nullptr};
+	FloatingButton* m_fButtonNewWindow{nullptr};
+	FloatingButton* m_fButtonHome{nullptr};
+	FloatingButton* m_fButtonNext{nullptr};
+	FloatingButton* m_fButtonBack{nullptr};
+	FloatingButton* m_fButtonNewTab{nullptr};
 
 	QMenu* m_menuClosedTabs{nullptr};
 	QUrl m_urlOnNewTab{};

@@ -38,7 +38,7 @@ namespace Sn {
 
 static const int ANIMATION_DURATION = 1000 * 0.2;
 
-FloatingButton::FloatingButton(WebTab* parent, Type type) :
+FloatingButton::FloatingButton(QWidget* parent, Type type) :
 	QPushButton(parent),
 	m_parent(parent),
 	m_type(type),
@@ -54,6 +54,7 @@ void FloatingButton::setChildren(QVector<FloatingButton*> children)
 {
 		foreach (FloatingButton* child, children) {
 			child->setParent(m_parent);
+			child->setWebTab(m_webTab);
 			child->setPattern(FloatingButton::Toolbar);
 			child->setType(FloatingButton::Child);
 			child->hide();
@@ -66,6 +67,7 @@ void FloatingButton::addChildren(QVector<FloatingButton*> children)
 {
 		foreach (FloatingButton* child, children) {
 			child->setParent(m_parent);
+			child->setWebTab(m_webTab);
 			child->setPattern(FloatingButton::Toolbar);
 			child->setType(FloatingButton::Child);
 			child->hide();
@@ -77,10 +79,16 @@ void FloatingButton::addChildren(QVector<FloatingButton*> children)
 void FloatingButton::addChild(FloatingButton* button)
 {
 	button->setParent(m_parent);
+	button->setWebTab(m_webTab);
 	button->setPattern(FloatingButton::Toolbar);
 	button->setType(FloatingButton::Child);
 	button->hide();
 	m_children.append(button);
+}
+
+void FloatingButton::setWebTab(WebTab* webTab)
+{
+	m_webTab = webTab;
 }
 
 void FloatingButton::setType(Type type)

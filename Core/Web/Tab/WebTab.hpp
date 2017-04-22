@@ -77,7 +77,6 @@ public:
 
 	TabbedWebView* webView() const { return m_webView; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
-	FloatingButton* floatingButton() const { return m_fButton; }
 	UrlBar* urlBar() const { return m_urlBar; }
 
 	QUrl url() const;
@@ -115,15 +114,17 @@ public:
 	void p_restoreTab(const SavedTab& tab);
 	void p_restoreTab(const QUrl& url, const QByteArray& history, int zoomLevel);
 
+public slots:
+	void sNewWindow();
+	void sNewTab();
+	void sGoHome();
+
 private slots:
 	void showNotification(QWidget* notif);
 	void loadStarted();
 	void loadFinished();
 	void titleChanged(const QString& title);
 
-	void sNewWindow();
-	void sNewTab();
-	void sGoHome();
 //	void aboutToShowHistoryNextMenu();
 	void sRestore();
 
@@ -139,17 +140,6 @@ private:
 	TabbedWebView* m_webView{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	MainTabBar* m_tabBar{nullptr};
-
-	FloatingButton* m_fButton{nullptr};
-
-	FloatingButton* m_fButtonAddBookmark{nullptr};
-	FloatingButton* m_fButtonViewBookmarks{nullptr};
-	FloatingButton* m_fButtonViewHistory{nullptr};
-	FloatingButton* m_fButtonNewWindow{nullptr};
-	FloatingButton* m_fButtonHome{nullptr};
-	FloatingButton* m_fButtonNext{nullptr};
-	FloatingButton* m_fButtonBack{nullptr};
-	FloatingButton* m_fButtonNewTab{nullptr};
 
 	UrlBar* m_urlBar{nullptr};
 

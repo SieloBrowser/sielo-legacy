@@ -159,43 +159,6 @@ WebTab::WebTab(BrowserWindow* window) :
 
 	m_menuForward = new QMenu(this);
 
-	m_fButton = new FloatingButton(this, FloatingButton::Root);
-	m_fButton->setObjectName("fbutton-root");
-
-	m_fButtonAddBookmark = new FloatingButton(this);
-	m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
-
-	m_fButtonViewBookmarks = new FloatingButton(this);
-	m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
-
-	m_fButtonViewHistory = new FloatingButton(this);
-	m_fButtonViewHistory->setObjectName("fbutton-view-history");
-
-	m_fButtonNewWindow = new FloatingButton(this);
-	m_fButtonNewWindow->setObjectName("fbutton-new-window");
-
-	m_fButtonHome = new FloatingButton(this);
-	m_fButtonHome->setObjectName("fbutton-home");
-
-	m_fButtonNext = new FloatingButton(this);
-	m_fButtonNext->setObjectName("fbutton-next");
-//	m_fButtonNext->setMenu(m_menuForward);
-
-	m_fButtonBack = new FloatingButton(this);
-	m_fButtonBack->setObjectName("fbutton-back");
-
-	m_fButtonNewTab = new FloatingButton(this);
-	m_fButtonNewTab->setObjectName("fbutton-new-tab");
-
-	m_fButton->addChild(m_fButtonAddBookmark);
-	m_fButton->addChild(m_fButtonViewBookmarks);
-	m_fButton->addChild(m_fButtonViewHistory);
-	m_fButton->addChild(m_fButtonNewWindow);
-	m_fButton->addChild(m_fButtonHome);
-	m_fButton->addChild(m_fButtonNext);
-	m_fButton->addChild(m_fButtonBack);
-	m_fButton->addChild(m_fButtonNewTab);
-
 //	m_fButton->setPattern(FloatingButton::Toolbar);
 
 	m_urlBar = new UrlBar(this);
@@ -204,20 +167,6 @@ WebTab::WebTab(BrowserWindow* window) :
 
 	m_layout->addWidget(m_urlBar);
 	m_layout->addWidget(m_splitter);
-
-	connect(m_fButtonViewBookmarks,
-			&FloatingButton::isClicked,
-			Application::instance()->bookmarksManager(),
-			&BookmarksManager::showBookmarks);
-	connect(m_fButtonViewHistory,
-			&FloatingButton::isClicked,
-			Application::instance()->historyManager(),
-			&HistoryManager::showDialog);
-	connect(m_fButtonNewWindow, &FloatingButton::isClicked, this, &WebTab::sNewWindow);
-	connect(m_fButtonHome, &FloatingButton::isClicked, this, &WebTab::sGoHome);
-	connect(m_fButtonNext, &FloatingButton::isClicked, m_webView, &TabbedWebView::forward);
-	connect(m_fButtonBack, &FloatingButton::isClicked, m_webView, &TabbedWebView::back);
-	connect(m_fButtonNewTab, &FloatingButton::isClicked, this, &WebTab::sNewTab);
 
 	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
 	connect(m_webView, &TabbedWebView::loadStarted, this, &WebTab::loadStarted);
@@ -432,6 +381,23 @@ void WebTab::p_restoreTab(const QUrl& url, const QByteArray& history, int zoomLe
 	m_webView->setFocus();
 }
 
+void WebTab::sNewWindow()
+{
+	Application::instance()->createWindow(Application::WT_NewWindow, QUrl("https://ecosia.org"));
+}
+
+void WebTab::sNewTab()
+{
+	LoadRequest request{};
+	request.setUrl(QUrl("https://ecosia.org"));
+	m_webView->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
+}
+
+void WebTab::sGoHome()
+{
+	m_webView->load(QUrl("https://ecosia.org"));
+}
+
 void WebTab::showNotification(QWidget* notif)
 {
 	const int notifPos{0};
@@ -464,23 +430,6 @@ void WebTab::titleChanged(const QString& title)
 
 	m_tabBar->setTabText(tabIndex(), title);
 
-}
-
-void WebTab::sNewWindow()
-{
-	Application::instance()->createWindow(Application::WT_NewWindow, QUrl("https://ecosia.org"));
-}
-
-void WebTab::sNewTab()
-{
-	LoadRequest request{};
-	request.setUrl(QUrl("https://ecosia.org"));
-	m_webView->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
-}
-
-void WebTab::sGoHome()
-{
-	m_webView->load(QUrl("https://ecosia.org"));
 }
 
 void WebTab::sRestore()

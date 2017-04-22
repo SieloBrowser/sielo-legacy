@@ -50,12 +50,15 @@ public:
 		Toolbar
 	};
 
-	FloatingButton(WebTab* parent, Type type = Child);
+	FloatingButton(QWidget* parent, Type type = Child);
 
 	QVector<FloatingButton*> children() { return m_children; }
 	void setChildren(QVector<FloatingButton*> children);
 	void addChildren(QVector<FloatingButton*> children);
 	void addChild(FloatingButton* button);
+
+	WebTab* webTab() const { return m_webTab; }
+	void setWebTab(WebTab* webTab);
 
 	Type type() const { return m_type; }
 	void setType(Type type);
@@ -86,7 +89,8 @@ private:
 	QPoint m_offset{};
 	QPoint m_oldPosition{};
 
-	WebTab* m_parent{nullptr};
+	QWidget* m_parent{nullptr};
+	WebTab* m_webTab{nullptr};
 
 	QVector<FloatingButton*> m_children;
 
