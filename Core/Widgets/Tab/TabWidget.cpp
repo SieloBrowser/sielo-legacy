@@ -39,6 +39,7 @@
 
 #include "Web/Tab/TabbedWebView.hpp"
 
+#include "Widgets/UrlBar.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
@@ -90,9 +91,14 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonListTabs->setIcon(QIcon(":icons/tabs/tabbar-tabslist.png"));
 	m_buttonListTabs->hide();
 
+	m_buttonShowUrlBar = new ToolButton(m_tabBar);
+	m_buttonShowUrlBar->setObjectName(QLatin1String("tabwidget-button-showurlbar"));
+	m_buttonShowUrlBar->setText("V");
+
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonClosedTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
+	m_tabBar->addCornerWidget(m_buttonShowUrlBar, Qt::TopRightCorner);
 
 	//TODO: History connection
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
@@ -116,6 +122,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonAddTab2, SIGNAL(clicked()), m_window, SLOT(addTab()));
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
+	connect(m_buttonShowUrlBar, &ToolButton::clicked, this, &TabWidget::toggleUrlBar);
 
 	setTabBar(m_tabBar);
 	loadSettings();
@@ -648,6 +655,16 @@ void TabWidget::aboutToShowClosedTabsMenu()
 		m_menuClosedTabs->addSeparator();
 		m_menuClosedTabs->addAction(tr("Restore All Closed Tabs"), this, &TabWidget::restoreAllClosedTabs);
 		m_menuClosedTabs->addAction(tr("Clear List"), this, &TabWidget::clearClosedTabsList);
+	}
+}
+
+void TabWidget::toggleUrlBar()
+{
+	if (weTab()->urlBar()->isVisible()) {
+		weTab()->urlBar()->hide();
+	}
+	else {
+		weTab()->urlBar()->startAnimation();
 	}
 }
 

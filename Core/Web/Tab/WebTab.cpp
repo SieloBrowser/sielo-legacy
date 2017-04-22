@@ -40,6 +40,7 @@
 
 #include "Utils/FloatingButton.hpp"
 
+#include "Widgets/UrlBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
@@ -156,13 +157,6 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_tabIcon = new TabIcon(this);
 	m_tabIcon->setWebTab(this);
 
-	QLineEdit* teste{new QLineEdit(this)};
-	teste->setText("http://ecosia.org");
-	teste->show();
-
-	m_layout->addWidget(teste);
-	m_layout->addWidget(m_splitter);
-
 	m_menuForward = new QMenu(this);
 
 	m_fButton = new FloatingButton(this, FloatingButton::Root);
@@ -202,7 +196,15 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_fButton->addChild(m_fButtonBack);
 	m_fButton->addChild(m_fButtonNewTab);
 
-//	connect(m_fButtonAddBookmark, &FloatingButton::clicked, Application::instance()->)
+//	m_fButton->setPattern(FloatingButton::Toolbar);
+
+	m_urlBar = new UrlBar(this);
+	m_urlBar->setText("https://ecosia.org");
+	m_urlBar->setVisible(false);
+
+	m_layout->addWidget(m_urlBar);
+	m_layout->addWidget(m_splitter);
+
 	connect(m_fButtonViewBookmarks,
 			&FloatingButton::isClicked,
 			Application::instance()->bookmarksManager(),
