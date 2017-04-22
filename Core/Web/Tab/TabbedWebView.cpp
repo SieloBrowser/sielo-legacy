@@ -183,7 +183,9 @@ void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 
 void TabbedWebView::newMousePressEvent(QMouseEvent* event)
 {
-	m_webTab->floatingButton()->hideChildren();
+	if (m_webTab->floatingButton()->pattern() != FloatingButton::Toolbar) {
+		m_webTab->floatingButton()->hideChildren();
+	}
 
 	WebView::newMousePressEvent(event);
 }

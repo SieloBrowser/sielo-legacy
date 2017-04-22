@@ -46,8 +46,8 @@ public:
 	};
 
 	enum Pattern {
-		Quad,
-		Line
+		Floating,
+		Toolbar
 	};
 
 	FloatingButton(WebTab* parent, Type type = Child);
@@ -80,7 +80,7 @@ protected:
 	void mouseReleaseEvent(QMouseEvent* event);
 
 private:
-	void moveButton(QPoint destination);
+	void moveButton(QPoint destination, bool toolBar = false);
 	void hideButton(QPoint destination);
 
 	QPoint m_offset{};
@@ -91,7 +91,7 @@ private:
 	QVector<FloatingButton*> m_children;
 
 	Type m_type{Child};
-	Pattern m_pattern{Quad};
+	Pattern m_pattern{Toolbar};
 
 	bool m_childrenExpanded{false};
 	bool m_blockClick{false};
