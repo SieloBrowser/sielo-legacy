@@ -39,12 +39,12 @@
 
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/ToolButton.hpp"
-#include "Utils/FloatingButton.hpp"
 #include "Utils/AutoSaver.hpp"
 
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/UrlBar.hpp"
+#include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"

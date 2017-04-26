@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Utils/FloatingButton.hpp"
+#include "Widgets/FloatingButton.hpp"
 
 #include <QCursor>
 

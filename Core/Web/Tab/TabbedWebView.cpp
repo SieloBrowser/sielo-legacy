@@ -30,8 +30,7 @@
 
 #include "History/HistoryManager.hpp"
 
-#include "Utils/FloatingButton.hpp"
-
+#include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "Web/WebPage.hpp"

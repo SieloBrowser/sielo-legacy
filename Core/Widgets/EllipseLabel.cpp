@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Utils/EllipseLabel.hpp"
+#include "Widgets/EllipseLabel.hpp"
 
 #include <QApplication>
 
@@ -63,7 +63,8 @@ void EllipseLabel::setText(const QString& text)
 
 void EllipseLabel::contextMenuEvent(QContextMenuEvent* event)
 {
-	if (!(textInteractionFlags() & Qt::TextSelectableByMouse) && !(textInteractionFlags() & Qt::TextSelectableByKeyboard)) {
+	if (!(textInteractionFlags() & Qt::TextSelectableByMouse)
+		&& !(textInteractionFlags() & Qt::TextSelectableByKeyboard)) {
 		event->ignore();
 		return;
 	}
