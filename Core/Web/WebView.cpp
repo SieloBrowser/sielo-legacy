@@ -253,7 +253,8 @@ void WebView::load(const LoadRequest& request)
 		}
 	}
 
-	//TODO: manage search
+	const LoadRequest searchRequest{searchUrl(request.url().toString())};
+	loadRequest(searchRequest);
 }
 
 bool WebView::isLoading() const
