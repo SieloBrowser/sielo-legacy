@@ -30,6 +30,8 @@
 #include <QTextLayout>
 #include <QAction>
 
+#include <QCompleter>
+
 #include <QHBoxLayout>
 
 #include <QEvent>
@@ -49,6 +51,7 @@ class LoadRequest;
 
 class BrowserWindow;
 
+class AddressCompleter;
 class ToolButton;
 
 class SideWidget: public QWidget {
@@ -129,6 +132,9 @@ public:
 	int minHeight() const { return m_minHeight; }
 	void setMinHeight(int height);
 
+	AddressCompleter* addressCompleter() const { return m_completer; }
+	void setCompleter(AddressCompleter* completer);
+
 	void setTextFormat(const TextFormat& format);
 	void clearTextFormat();
 
@@ -163,6 +169,9 @@ private slots:
 	void updatePasteActions();
 	void sDelete();
 
+	void insertCompletion(const QString& url);
+	void insertHighlighted(const QString& url);
+
 	void textEdited(const QString& text);
 	void requestLoadUrl();
 	void pasteAndGo();
@@ -178,11 +187,13 @@ private slots:
 	void loadFinished();
 	void hideProgress();
 
+	void loadFromCompleter(QString& text);
 	void loadSettings();
 
 private:
 	LoadRequest createLoadRequest() const;
 	void refreshTextFormat();
+	void refreshCompleter();
 
 	ToolButton* m_siteIcon{nullptr};
 	ToolButton* m_reloadStopButton{nullptr};
@@ -194,9 +205,13 @@ private:
 	SideWidget* m_leftWidget{nullptr};
 	SideWidget* m_rightWidget{nullptr};
 
+	AddressCompleter* m_completer{nullptr};
+
 	QHBoxLayout* m_layout{nullptr};
 	QHBoxLayout* m_leftLayout{nullptr};
 	QHBoxLayout* m_rightLayout{nullptr};
+
+	QString m_lastHighlighted{};
 
 	std::array<QAction*, 9> m_editActions;
 

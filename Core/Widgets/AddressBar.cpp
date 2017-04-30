@@ -28,6 +28,7 @@
 #include <QMenu>
 
 #include <QMimeData>
+#include <QAbstractItemView>
 
 #include <QSettings>
 #include <QApplication>
@@ -37,11 +38,15 @@
 
 #include <QStyle>
 
+#include "History/HistoryManager.hpp"
+#include "History/HistoryItem.hpp"
+
 #include "Web/LoadRequest.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
 
+#include "Utils/AddressCompleter.hpp"
 #include "Utils/ToolButton.hpp"
 
 #include "BrowserWindow.hpp"
@@ -229,6 +234,16 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	updatePasteActions();
 	loadSettings();
 	updateSiteIcon();
+
+	QStringList suggestionList{};
+		foreach (HistoryItem item, Application::instance()->historyManager()->history()) {
+			suggestionList << item.url;
+		}
+
+	AddressCompleter* completer{new AddressCompleter(suggestionList, this)};
+	completer->setCaseSensitivity(Qt::CaseInsensitive);
+
+	setCompleter(completer);
 }
 
 void AddressBar::setWebView(TabbedWebView* view)
@@ -287,6 +302,23 @@ void AddressBar::setWidgetSpacing(int spacing)
 void AddressBar::setMinHeight(int height)
 {
 	m_minHeight = height;
+}
+
+void AddressBar::setCompleter(AddressCompleter* completer)
+{
+	if (m_completer)
+		disconnect(m_completer, nullptr, this, nullptr);
+
+	m_completer = completer;
+
+	if (!m_completer)
+		return;
+
+	m_completer->setWidget(this);
+	connect(m_completer, SIGNAL(activated(
+									const QString&)), this, SLOT(insertCompletion(
+																	 const QString&)));
+//	connect(m_completer, SIGNAL(highlighted(const QString&)), this, SLOT(insertHighlighted(const QString&)));
 }
 
 void AddressBar::setTextFormat(const AddressBar::TextFormat& format)
@@ -451,6 +483,8 @@ void AddressBar::mousePressEvent(QMouseEvent* event)
 		return;
 	}
 
+	refreshCompleter();
+
 	QLineEdit::mousePressEvent(event);
 }
 
@@ -600,7 +634,35 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 		m_holdingAlt = false;
 	}
 
-	QLineEdit::keyPressEvent(event);
+	if (m_completer && m_completer->popup()->isVisible()) {
+// The following keys are forwarded by the completer to the widget
+		switch (event->key()) {
+		case Qt::Key_Enter:
+		case Qt::Key_Return:
+		case Qt::Key_Escape:
+		case Qt::Key_Tab:
+		case Qt::Key_Backtab:
+			event->ignore();
+			return; // Let the completer do default behavior
+		}
+	}
+
+	bool isShortcut = (event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E;
+	if (!isShortcut)
+		QLineEdit::keyPressEvent(event); // Don't send the shortcut (CTRL-E) to the text edit.
+
+	if (!m_completer)
+		return;
+
+	bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+	if (!isShortcut && !ctrlOrShift && event->modifiers() != Qt::NoModifier) {
+		m_completer->popup()->hide();
+		return;
+	}
+
+	m_completer->update(text());
+	m_completer->popup()->setCurrentIndex(m_completer->completionModel()->index(0, 0));
+
 }
 
 QMenu* AddressBar::createContextMenu()
@@ -665,6 +727,18 @@ void AddressBar::sDelete()
 {
 	if (hasSelectedText())
 		del();
+}
+
+void AddressBar::insertCompletion(const QString& url)
+{
+	setText(url);
+	requestLoadUrl();
+}
+
+void AddressBar::insertHighlighted(const QString& url)
+{
+	int completePosition{text().size()};
+
 }
 
 void AddressBar::textEdited(const QString& text)
@@ -742,6 +816,11 @@ void AddressBar::loadFinished()
 
 	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
 	m_reloadStopButton->style()->polish(m_reloadStopButton);
+}
+
+void AddressBar::loadFromCompleter(QString& text)
+{
+
 }
 
 void AddressBar::loadSettings()
@@ -830,6 +909,19 @@ void AddressBar::refreshTextFormat()
 	}
 
 	setTextFormat(textFormat);
+}
+
+void AddressBar::refreshCompleter()
+{
+	if (!m_completer)
+		return;
+
+	QStringList suggestionList{};
+		foreach (HistoryItem item, Application::instance()->historyManager()->history()) {
+			suggestionList << item.url;
+		}
+
+	m_completer->setModel(new QStringListModel(suggestionList));
 }
 
 }
