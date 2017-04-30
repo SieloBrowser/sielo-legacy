@@ -43,7 +43,7 @@
 
 #include "Web/Tab/TabbedWebView.hpp"
 
-#include "Widgets/UrlBar.hpp"
+#include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
@@ -96,14 +96,9 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonListTabs->setIcon(QIcon(":icons/tabs/tabbar-tabslist.png"));
 	m_buttonListTabs->hide();
 
-	m_buttonShowUrlBar = new ToolButton(m_tabBar);
-	m_buttonShowUrlBar->setObjectName(QLatin1String("tabwidget-button-showurlbar"));
-	m_buttonShowUrlBar->setText("V");
-
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonClosedTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
-	m_tabBar->addCornerWidget(m_buttonShowUrlBar, Qt::TopRightCorner);
 
 	if (Application::instance()->useTopToolBar()) {
 		m_topToolBar = new QToolBar(this);
@@ -220,7 +215,6 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonAddTab2, SIGNAL(clicked()), m_window, SLOT(addTab()));
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
-	connect(m_buttonShowUrlBar, &ToolButton::clicked, this, &TabWidget::toggleUrlBar);
 
 	connect(m_fButtonViewBookmarks,
 			&FloatingButton::isClicked,
@@ -408,6 +402,7 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	}
 
 	WebTab* webTab{new WebTab(m_window)};
+	webTab->addressBar()->showUrl(url);
 	int index{insertTab(position == -1 ? count() : position, webTab, QString(), pinned)};
 
 	webTab->attach(m_window);
@@ -767,16 +762,6 @@ void TabWidget::aboutToShowClosedTabsMenu()
 	}
 }
 
-void TabWidget::toggleUrlBar()
-{
-	if (weTab()->urlBar()->isVisible()) {
-		weTab()->urlBar()->hide();
-	}
-	else {
-		weTab()->urlBar()->startAnimation();
-	}
-}
-
 void TabWidget::actionChangeIndex()
 {
 	if (QAction* action = qobject_cast<QAction*>(sender())) {
@@ -838,9 +823,9 @@ void TabWidget::updateFloatingButton(int index)
 			lastTab->removeToolBar(m_topToolBar);
 		}
 
-		tab->urlBar()->setVisible(true);
+		tab->addressBar()->setVisible(true);
 		tab->addToolBar(m_topToolBar);
-		m_actionUrl = m_topToolBar->insertWidget(m_actionAddBookmark, tab->urlBar());
+		m_actionUrl = m_topToolBar->insertWidget(m_actionAddBookmark, tab->addressBar());
 
 	}
 

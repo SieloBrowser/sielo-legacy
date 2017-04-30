@@ -39,7 +39,7 @@
 #include "History/HistoryManager.hpp"
 
 #include "Widgets/FloatingButton.hpp"
-#include "Widgets/UrlBar.hpp"
+#include "Widgets/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
@@ -160,13 +160,12 @@ WebTab::WebTab(BrowserWindow* window) :
 
 //	m_fButton->setPattern(FloatingButton::Toolbar);
 
-	m_urlBar = new UrlBar(this);
-	m_urlBar->setText("https://ecosia.org");
+	m_addressBar = new AddressBar(m_window);
+	m_addressBar->setWebView(m_webView);
+	m_addressBar->setText("https://ecosia.org");
 
-	if (!Application::instance()->useTopToolBar())
-		m_urlBar->setVisible(false);
 
-	m_layout->addWidget(m_urlBar);
+	m_layout->addWidget(m_addressBar);
 	m_layout->addWidget(m_splitter);
 
 	connect(m_webView, &TabbedWebView::showNotification, this, &WebTab::showNotification);
@@ -358,6 +357,7 @@ void WebTab::restoreTab(const SavedTab& tab)
 		int index = tabIndex();
 
 		m_tabBar->setTabText(index, tab.title);
+		m_addressBar->showUrl(tab.url);
 		m_tabIcon->updateIcon();
 
 		if (!tab.url.isEmpty()) {

@@ -30,6 +30,7 @@
 
 #include "History/HistoryManager.hpp"
 
+#include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -83,6 +84,7 @@ void TabbedWebView::loadInNewTab(const LoadRequest& request, Application::NewTab
 {
 	if (m_window) {
 		int index{m_window->tabWidget()->addView(QUrl(), tabType)};
+		m_window->webView(index)->webTab()->addressBar()->showUrl(request.url());
 		m_window->webView(index)->load(request);
 	}
 }

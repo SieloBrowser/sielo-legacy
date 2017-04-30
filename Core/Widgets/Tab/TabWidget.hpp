@@ -85,7 +85,6 @@ public:
 
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
-	ToolButton* buttonShowUrlBar() const { return m_buttonShowUrlBar; }
 
 signals:
 	void changed();
@@ -125,7 +124,6 @@ private slots:
 
 	void aboutToShowTabsMenu();
 	void aboutToShowClosedTabsMenu();
-	void toggleUrlBar();
 
 	void actionChangeIndex();
 	void tabMoved(int before, int after);
@@ -149,7 +147,6 @@ private:
 	ToolButton* m_buttonClosedTabs{nullptr};
 	AddTabButton* m_buttonAddTab{nullptr};
 	AddTabButton* m_buttonAddTab2{nullptr};
-	ToolButton* m_buttonShowUrlBar{nullptr};
 
 	FloatingButton* m_fButton{nullptr};
 

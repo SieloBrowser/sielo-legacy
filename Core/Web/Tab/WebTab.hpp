@@ -50,7 +50,7 @@ class TabIcon;
 class MainTabBar;
 
 class FloatingButton;
-class UrlBar;
+class AddressBar;
 
 class WebTab: public QWidget {
 Q_OBJECT
@@ -78,7 +78,7 @@ public:
 
 	TabbedWebView* webView() const { return m_webView; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
-	UrlBar* urlBar() const { return m_urlBar; }
+	AddressBar* addressBar() const { return m_addressBar; }
 
 	QUrl url() const;
 	QString title() const;
@@ -145,7 +145,7 @@ private:
 	TabIcon* m_tabIcon{nullptr};
 	MainTabBar* m_tabBar{nullptr};
 
-	UrlBar* m_urlBar{nullptr};
+	AddressBar* m_addressBar{nullptr};
 
 	SavedTab m_savedTab{};
 	bool m_isPinned{false};
