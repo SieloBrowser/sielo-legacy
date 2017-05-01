@@ -110,6 +110,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	m_siteIcon->setAutoRaise(true);
 	m_siteIcon->setFocusPolicy(Qt::NoFocus);
 	m_siteIcon->setIcon(QIcon(":icons/other/webpage.png"));
+	m_siteIcon->setObjectName("addressbar-website-icon");
 
 	m_reloadStopButton = new ToolButton(this);
 	m_reloadStopButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -117,7 +118,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	m_reloadStopButton->setAutoRaise(true);
 	m_reloadStopButton->setToolTip(tr("Reload"));
 	m_reloadStopButton->setFocusPolicy(Qt::NoFocus);
-	m_reloadStopButton->setObjectName("button-reload");
+	m_reloadStopButton->setObjectName("addressbar-button-reload");
 
 	m_goButton = new ToolButton(this);
 	m_goButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -125,7 +126,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	m_goButton->setAutoRaise(true);
 	m_goButton->setToolTip(tr("Load"));
 	m_goButton->setFocusPolicy(Qt::NoFocus);
-	m_goButton->setObjectName("button-go");
+	m_goButton->setObjectName("addressbar-button-go");
 
 	m_layout = new QHBoxLayout(this);
 	m_layout->setContentsMargins(0, 0, 0, 0);
@@ -150,7 +151,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	m_layout->addWidget(m_rightWidget, 0, Qt::AlignRight);
 	m_layout->setDirection(isRightToLeft() ? QBoxLayout::RightToLeft : QBoxLayout::LeftToRight);
 
-	setWidgetSpacing(3);
+	setWidgetSpacing(0);
 
 	connect(m_leftWidget, &SideWidget::sizeHintChanged, this, &AddressBar::updateTextMargins);
 	connect(m_rightWidget, &SideWidget::sizeHintChanged, this, &AddressBar::updateTextMargins);
@@ -796,7 +797,7 @@ void AddressBar::loadStarted()
 	m_siteIcon->setIcon(QIcon(":icons/other/webpage.png"));
 
 	m_reloadStopButton->setToolTip(tr("Stop"));
-	m_reloadStopButton->setObjectName("button-stop");
+	m_reloadStopButton->setObjectName("addressbar-button-stop");
 
 	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
 	m_reloadStopButton->style()->polish(m_reloadStopButton);
@@ -812,7 +813,7 @@ void AddressBar::loadFinished()
 	updateSiteIcon();
 
 	m_reloadStopButton->setToolTip(tr("Reload"));
-	m_reloadStopButton->setObjectName("button-reload");
+	m_reloadStopButton->setObjectName("addressbar-button-reload");
 
 	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
 	m_reloadStopButton->style()->polish(m_reloadStopButton);
