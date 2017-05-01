@@ -134,6 +134,7 @@ private:
 	WebTab* weTab(int index);
 	TabIcon* tabIcon(int index);
 
+	void openAddBookmarkDialog();
 	void openBookmarkDialog();
 
 	bool validIndex(int index) const;

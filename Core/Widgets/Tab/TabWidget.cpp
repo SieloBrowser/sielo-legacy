@@ -37,6 +37,7 @@
 
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarksDialog.hpp"
+#include "Bookmarks/AddBookmarkDialog.hpp"
 
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/ToolButton.hpp"
@@ -217,6 +218,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
 
+	connect(m_fButtonAddBookmark, &FloatingButton::isClicked, this, &TabWidget::openAddBookmarkDialog);
 	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, this, &TabWidget::openBookmarkDialog);
 	connect(m_fButtonViewHistory,
 			&FloatingButton::isClicked,
@@ -808,10 +810,22 @@ TabIcon* TabWidget::tabIcon(int index)
 void TabWidget::openBookmarkDialog()
 {
 	BookmarksDialog* dialog{new BookmarksDialog(this)};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 	connect(dialog, SIGNAL(openUrl(
 							   const QUrl&)), this, SLOT(addView(
 															 const QUrl&)));
+
+	dialog->show();
+}
+
+void TabWidget::openAddBookmarkDialog()
+{
+	QString url = weTab()->url().toString();
+	QString title = weTab()->title();
+
+	AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 	dialog->show();
 }
