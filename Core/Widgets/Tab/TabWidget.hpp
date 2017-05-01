@@ -90,6 +90,7 @@ signals:
 	void changed();
 
 public slots:
+	int addView(const QUrl& url);
 	int addView(const LoadRequest& request, const Application::NewTabTypeFlags& openFlags, bool selectLine = false,
 				bool pinned = false);
 	int addView(const LoadRequest& request, const QString& title = tr("New Tab"),
@@ -132,6 +133,8 @@ private:
 	WebTab* weTab();
 	WebTab* weTab(int index);
 	TabIcon* tabIcon(int index);
+
+	void openBookmarkDialog();
 
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();

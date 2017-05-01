@@ -36,6 +36,7 @@
 #include "History/HistoryManager.hpp"
 
 #include "Bookmarks/BookmarkManager.hpp"
+#include "Bookmarks/BookmarksDialog.hpp"
 
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/ToolButton.hpp"
@@ -216,10 +217,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
 
-	connect(m_fButtonViewBookmarks,
-			&FloatingButton::isClicked,
-			Application::instance()->bookmarksManager(),
-			&BookmarksManager::showBookmarks);
+	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, this, &TabWidget::openBookmarkDialog);
 	connect(m_fButtonViewHistory,
 			&FloatingButton::isClicked,
 			Application::instance()->historyManager(),
@@ -371,6 +369,14 @@ bool TabWidget::canRestoreTab() const
 void TabWidget::setCurrentTabFresh(bool currentTabFresh)
 {
 	m_currentTabFresh = currentTabFresh;
+}
+
+int TabWidget::addView(const QUrl& url)
+{
+	LoadRequest request{};
+	request.setUrl(url);
+
+	return addView(request);
 }
 
 int TabWidget::addView(const LoadRequest& request, const Application::NewTabTypeFlags& openFlags, bool selectLine,
@@ -797,6 +803,17 @@ WebTab* TabWidget::weTab(int index)
 TabIcon* TabWidget::tabIcon(int index)
 {
 	return weTab(index)->tabIcon();
+}
+
+void TabWidget::openBookmarkDialog()
+{
+	BookmarksDialog* dialog{new BookmarksDialog(this)};
+
+	connect(dialog, SIGNAL(openUrl(
+							   const QUrl&)), this, SLOT(addView(
+															 const QUrl&)));
+
+	dialog->show();
 }
 
 bool TabWidget::validIndex(int index) const
