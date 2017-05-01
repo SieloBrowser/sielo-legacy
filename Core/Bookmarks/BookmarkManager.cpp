@@ -71,7 +71,7 @@ void BookmarksManager::addBookmark(BookmarkNode* parent, BookmarkNode* node, int
 	Q_ASSERT(parent);
 
 	InsertBookmarksCommand* command{new InsertBookmarksCommand(this, parent, node, row)};
-	m_commands.push(command);
+	command->undo();
 }
 
 void BookmarksManager::removeBookmark(BookmarkNode* node)
@@ -85,7 +85,7 @@ void BookmarksManager::removeBookmark(BookmarkNode* node)
 	int row{parent->children().indexOf(node)};
 
 	RemoveBookmarksCommand* command{new RemoveBookmarksCommand(this, parent, row)};
-	m_commands.push(command);
+	command->redo();
 }
 
 void BookmarksManager::setTitle(BookmarkNode* node, const QString& newTitle)

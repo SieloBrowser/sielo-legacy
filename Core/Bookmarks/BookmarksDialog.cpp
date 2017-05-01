@@ -76,8 +76,9 @@ BookmarksDialog::BookmarksDialog(QWidget* parent, BookmarksManager* manager) :
 
 	setAttribute(Qt::WA_DeleteOnClose);
 
-	connect(m_removeButton, &QPushButton::clicked, m_tree, &TreeView::removeOne);
-	connect(m_addFolderButton, &QPushButton::click, this, &BookmarksDialog::newFolder);
+	connect(m_removeButton, &QPushButton::clicked, this, &BookmarksDialog::removeBookmark);
+	connect(m_addFolderButton, &QPushButton::clicked, this, &BookmarksDialog::newFolder);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &BookmarksDialog::accept);
 	connect(m_tree, &TreeView::activated, this, &BookmarksDialog::open);
 	connect(m_tree, &TreeView::customContextMenuRequested, this, &BookmarksDialog::customContextMenuRequested);
 }
@@ -100,7 +101,7 @@ void BookmarksDialog::customContextMenuRequested(const QPoint& pos)
 		menu.addSeparator();
 	}
 
-	menu.addAction(tr("Delete"), m_tree, &TreeView::removeOne);
+	menu.addAction(tr("Delete"), this, &BookmarksDialog::removeBookmark);
 
 	menu.exec(QCursor::pos());
 }
@@ -133,6 +134,18 @@ void BookmarksDialog::newFolder()
 
 	node->title = tr("New Folder");
 	m_bookmarksManager->addBookmark(parent, node, currentIndex.row() + 1);
+}
+
+void BookmarksDialog::removeBookmark()
+{
+	QModelIndex currentIndex{m_tree->currentIndex()};
+
+	if (!currentIndex.isValid() || currentIndex == m_tree->rootIndex())
+		return;
+
+	currentIndex = m_proxyModel->mapToSource(currentIndex);
+
+	m_bookmarksManager->removeBookmark(m_bookmarksManager->bookmarksModel()->node(currentIndex));
 }
 
 void BookmarksDialog::expandNodes(BookmarkNode* node)

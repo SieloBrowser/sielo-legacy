@@ -197,8 +197,11 @@ bool BookmarksModel::removeRows(int row, int count, const QModelIndex& parent)
 
 	BookmarkNode* bookmarkNode{node(parent)};
 
-	for (BookmarkNode* node : bookmarkNode->children())
+	for (int i{row + count - 1}; i >= row; --i) {
+		BookmarkNode* node{bookmarkNode->children()[i]};
+
 		m_bookmarksManager->removeBookmark(node);
+	}
 
 	if (m_endMacro) {
 		m_bookmarksManager->undoRedoStack()->endMacro();
