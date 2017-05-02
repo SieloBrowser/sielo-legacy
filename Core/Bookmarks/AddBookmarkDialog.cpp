@@ -69,7 +69,7 @@ AddBookmarkDialog::AddBookmarkDialog(const QString& url, const QString& title, Q
 	m_name->setText(title);
 
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &AddBookmarkDialog::accept);
-
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &AddBookmarkDialog::reject);
 }
 
 void AddBookmarkDialog::accept()
