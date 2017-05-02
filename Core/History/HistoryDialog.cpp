@@ -73,6 +73,7 @@ HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :
 
 	connect(m_tree, &TreeView::activated, this, &HistoryDialog::open);
 	connect(m_tree, &TreeView::customContextMenuRequested, this, &HistoryDialog::customContextMenuRequested);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &HistoryDialog::accept);
 	connect(m_removeButton, &QPushButton::clicked, m_tree, &TreeView::removeOne);
 	connect(m_removeAllButton, &QPushButton::clicked, m_tree, &TreeView::removeAll);
 }
@@ -143,9 +144,6 @@ void HistoryDialog::open()
 void HistoryDialog::copy()
 {
 	QModelIndex index{m_tree->currentIndex()};
-
-	if (!index.parent().isValid())
-		return;
 
 	QString url{index.data(HistoryModel::UrlStringRole).toString()};
 
