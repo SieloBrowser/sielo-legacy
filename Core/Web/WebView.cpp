@@ -321,7 +321,7 @@ void WebView::zoomOut()
 void WebView::zoomReset()
 {
 	QSettings settings{};
-	int defaultZoomLevel{settings.value("Preferences/ZoomLevel", zoomLevels().indexOf(100)).toInt()};
+	int defaultZoomLevel{settings.value("Settings/zoomLevel", zoomLevels().indexOf(100)).toInt()};
 
 	if (m_currentZoomLevel != defaultZoomLevel) {
 		m_currentZoomLevel = defaultZoomLevel;

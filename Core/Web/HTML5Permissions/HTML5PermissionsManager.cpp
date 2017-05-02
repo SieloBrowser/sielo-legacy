@@ -86,7 +86,7 @@ void HTML5PermissionsManager::loadSettings()
 {
 	QSettings settings{};
 
-	settings.beginGroup("HTML5Permissions");
+	settings.beginGroup("HTML5-Permissions");
 
 	m_granted[QWebEnginePage::Notifications] = settings.value("NotificationsGranted", QStringList()).toStringList();
 	m_denied[QWebEnginePage::Notifications] = settings.value("NotificationsDenied", QStringList()).toStringList();
@@ -119,7 +119,7 @@ void HTML5PermissionsManager::saveSettings()
 {
 	QSettings settings{};
 
-	settings.beginGroup("HTML5Permissions");
+	settings.beginGroup("HTML5-Permissions");
 
 	settings.setValue("NotificationsGranted", m_granted[QWebEnginePage::Notifications]);
 	settings.setValue("NotificationsDenied", m_denied[QWebEnginePage::Notifications]);

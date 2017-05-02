@@ -331,8 +331,9 @@ void WebPage::handleUnknowProtocol(const QUrl& url)
 	QSettings settings{};
 
 	const QString protocol = url.scheme();
-	QStringList autoOpenProtocols{settings.value("AutomaticalyOpenProtocols", QStringList()).toStringList()};
-	QStringList blockedProtocols{settings.value("BlockedProtocols", QStringList()).toStringList()};
+	QStringList
+		autoOpenProtocols{settings.value("Web-Settings/AutomaticallyOpenProtocols", QStringList()).toStringList()};
+	QStringList blockedProtocols{settings.value("Web-Settings/BlockedProtocols", QStringList()).toStringList()};
 
 	if (protocol == QLatin1String("mailto")) {
 		desktopServiceOpen(url);
@@ -360,7 +361,7 @@ void WebPage::handleUnknowProtocol(const QUrl& url)
 	case QDialog::Accepted:
 		if (dialog.isChecked()) {
 			autoOpenProtocols.append(protocol);
-			settings.setValue("AutomaticalyOpenProtocols", autoOpenProtocols);
+			settings.setValue("Web-Settings/AutomaticallyOpenProtocols", autoOpenProtocols);
 		}
 
 		QDesktopServices::openUrl(url);
@@ -368,7 +369,7 @@ void WebPage::handleUnknowProtocol(const QUrl& url)
 	case QDialog::Rejected:
 		if (dialog.isChecked()) {
 			blockedProtocols.append(protocol);
-			settings.setValue("BlockedProtocols", blockedProtocols);
+			settings.setValue("Web-Settings/BlockedProtocols", blockedProtocols);
 		}
 	default:
 		break;

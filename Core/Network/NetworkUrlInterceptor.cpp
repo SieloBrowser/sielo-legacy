@@ -62,7 +62,7 @@ void NetworkUrlInterceptor::loadSettings()
 {
 	QSettings settings{};
 
-	settings.beginGroup("Settings");
+	settings.beginGroup("Web-Settings");
 
 	m_sendDNT = settings.value("DoNotTrack", false).toBool();
 

@@ -88,9 +88,9 @@ void MainTabBar::loadSettings()
 
 	settings.beginGroup("Tabs-Settings");
 
-	bool activateLastTab = settings.value("activateLastTabWheneClosingActual", false).toBool();
+	bool activateLastTab = settings.value("activateLastTabWhenClosingActual", true).toBool();
 	m_hideTabBarWithOneTab = settings.value("hideTabsWithOneTab", false).toBool();
-	m_showCloseOnInactive = settings.value("showCloseOnInavtiveTabs", 0).toInt(0);
+	m_showCloseOnInactive = settings.value("showCloseOnInactiveTabs", 0).toInt(0);
 
 	settings.endGroup();
 

@@ -168,9 +168,11 @@ void HistoryManager::loadSettings()
 {
 	QSettings settings{};
 
-	settings.beginGroup(QLatin1String("history"));
+	settings.beginGroup(QLatin1String("History-Settings"));
 
 	m_historyLimit = settings.value(QLatin1String("historyLimit"), 30).toInt();
+
+	settings.endGroup();
 }
 
 void HistoryManager::showDialog()
@@ -203,7 +205,8 @@ void HistoryManager::save()
 {
 	QSettings settings{};
 
-	settings.beginGroup(QLatin1String("history"));
+	settings.beginGroup(QLatin1String("History-Settings"));
+
 	settings.setValue(QLatin1String("historyLimit"), m_historyLimit);
 
 	bool saveAll{m_lastSavedUrl.isEmpty()};
@@ -266,6 +269,7 @@ void HistoryManager::save()
 					   << historyFile.fileName();
 	}
 
+	settings.endGroup();
 	m_lastSavedUrl = m_history.value(0).url;
 }
 
