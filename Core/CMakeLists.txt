@@ -17,6 +17,8 @@ file(
         AdBlock/*.cpp
         Bookmarks/*.cpp
         Bookmarks/*.hpp
+        Download/*.cpp
+        Download/*.hpp
         History/*.cpp
         History/*.hpp
         Network/*.cpp
