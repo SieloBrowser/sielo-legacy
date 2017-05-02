@@ -38,6 +38,8 @@
 #include "Web/Tab/TabbedWebView.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
+#include "Download/DownloadManager.hpp"
+
 #include "AdBlock/Manager.hpp"
 
 #include "Widgets/CheckBoxDialog.hpp"
@@ -83,6 +85,7 @@ WebPage::WebPage(QObject* parent) :
 	connect(this, &QWebEnginePage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
 	connect(this, &QWebEnginePage::windowCloseRequested, this, &WebPage::windowCloseRequested);
 	connect(this, &QWebEnginePage::fullScreenRequested, this, &WebPage::fullScreenRequested);
+	connect(this->profile(), &QWebEngineProfile::downloadRequested, this, &WebPage::downloadRequested);
 
 	//TODO: Connect with network manager
 }
@@ -178,6 +181,13 @@ bool WebPage::isRunningLoop()
 bool WebPage::isLoading() const
 {
 	return m_loadProgress < 100;
+}
+
+void WebPage::downloadRequested(QWebEngineDownloadItem* item)
+{
+	Application::instance()->downloadManager()->downlaod(item);
+	item->accept();
+
 }
 
 void WebPage::progress(int progression)

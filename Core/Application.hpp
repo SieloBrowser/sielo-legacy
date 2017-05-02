@@ -37,6 +37,7 @@ namespace Sn {
 class PluginProxy;
 class HistoryManager;
 class BookmarksManager;
+class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
 
@@ -92,6 +93,7 @@ public:
 	PluginProxy* plugins() { return m_plugins; }
 	HistoryManager* historyManager();
 	BookmarksManager* bookmarksManager();
+	DownloadManager* downloadManager();
 	HTML5PermissionsManager* permissionsManager();
 
 	NetworkManager* networkManager() const { return m_networkManager; }
@@ -124,6 +126,7 @@ private:
 	PluginProxy* m_plugins{nullptr};
 	HistoryManager* m_historyManager{nullptr};
 	BookmarksManager* m_bookmarksManager{nullptr};
+	DownloadManager* m_downloadManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 
 	NetworkManager* m_networkManager{nullptr};

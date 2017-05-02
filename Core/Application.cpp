@@ -41,6 +41,7 @@
 
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
+#include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
 
@@ -94,6 +95,7 @@ Application::~Application()
 {
 	delete m_plugins;
 	delete m_historyManager;
+	delete m_downloadManager;
 }
 
 void Application::loadSettings()
@@ -216,6 +218,14 @@ BookmarksManager* Application::bookmarksManager()
 		m_bookmarksManager = new BookmarksManager();
 
 	return m_bookmarksManager;
+}
+
+DownloadManager* Application::downloadManager()
+{
+	if (!m_downloadManager)
+		m_downloadManager = new DownloadManager();
+
+	return m_downloadManager;
 }
 
 HTML5PermissionsManager* Application::permissionsManager()

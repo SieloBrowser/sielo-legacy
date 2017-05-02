@@ -72,6 +72,9 @@ public:
 signals:
 	void privacyChanged(bool status);
 
+public slots:
+	void downloadRequested(QWebEngineDownloadItem* item);
+
 protected slots:
 	void progress(int progression);
 	void finished();
