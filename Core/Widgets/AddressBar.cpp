@@ -738,8 +738,15 @@ void AddressBar::insertCompletion(const QString& url)
 
 void AddressBar::insertHighlighted(const QString& url)
 {
-	int completePosition{text().size()};
+	QString selection{selectedText()};
+	QString originalText{text()};
 
+	originalText.remove(selection);
+
+	setText(url);
+
+	setCursorPosition(url.indexOf(originalText) + originalText.size());
+	setSelection(url.indexOf(originalText) + originalText.size(), url.size());
 }
 
 void AddressBar::textEdited(const QString& text)
