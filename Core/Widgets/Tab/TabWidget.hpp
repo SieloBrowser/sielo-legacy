@@ -136,6 +136,7 @@ private:
 
 	void openAddBookmarkDialog();
 	void openBookmarkDialog();
+	void openHistoryDialog();
 
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();

@@ -34,6 +34,7 @@
 #include "BrowserWindow.hpp"
 
 #include "History/HistoryManager.hpp"
+#include "History/HistoryDialog.hpp"
 
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarksDialog.hpp"
@@ -220,10 +221,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 
 	connect(m_fButtonAddBookmark, &FloatingButton::isClicked, this, &TabWidget::openAddBookmarkDialog);
 	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, this, &TabWidget::openBookmarkDialog);
-	connect(m_fButtonViewHistory,
-			&FloatingButton::isClicked,
-			Application::instance()->historyManager(),
-			&HistoryManager::showDialog);
+	connect(m_fButtonViewHistory, &FloatingButton::isClicked, this, &TabWidget::openHistoryDialog);
 
 	setTabBar(m_tabBar);
 	loadSettings();
@@ -807,6 +805,17 @@ TabIcon* TabWidget::tabIcon(int index)
 	return weTab(index)->tabIcon();
 }
 
+void TabWidget::openAddBookmarkDialog()
+{
+	QString url = weTab()->url().toString();
+	QString title = weTab()->title();
+
+	AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+	dialog->show();
+}
+
 void TabWidget::openBookmarkDialog()
 {
 	BookmarksDialog* dialog{new BookmarksDialog(this)};
@@ -819,13 +828,14 @@ void TabWidget::openBookmarkDialog()
 	dialog->show();
 }
 
-void TabWidget::openAddBookmarkDialog()
+void TabWidget::openHistoryDialog()
 {
-	QString url = weTab()->url().toString();
-	QString title = weTab()->title();
-
-	AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
+	HistoryDialog* dialog(new HistoryDialog(this));
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+	connect(dialog, SIGNAL(openUrl(
+							   const QUrl&)), this, SLOT(addView(
+															 const QUrl&)));
 
 	dialog->show();
 }
