@@ -135,9 +135,6 @@ void HistoryDialog::open()
 {
 	QModelIndex index{m_tree->currentIndex()};
 
-	if (!index.parent().isValid())
-		return;
-
 	emit openUrl(index.data(HistoryModel::UrlRole).toUrl());
 }
 
