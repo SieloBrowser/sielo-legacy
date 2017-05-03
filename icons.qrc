@@ -8,6 +8,8 @@
         <file>icons/tabs/tabbar-left-arrow.png</file>
         <file>icons/tabs/tabbar-right-arrow.png</file>
 
+        <file>icons/preferences/adblock.png</file>
+
         <file>icons/other/audiocapture.png</file>
         <file>icons/other/geolocation.png</file>
         <file>icons/other/mouselock.png</file>

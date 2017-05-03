@@ -23,90 +23,40 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADBMANAGER_HPP
-#define SIELOBROWSER_ADBMANAGER_HPP
+#ifndef SIELOBROWSER_ADBLOCKPAGE_HPP
+#define SIELOBROWSER_ADBLOCKPAGE_HPP
 
-#include <QObject>
-#include <QPointer>
+#include <QWidget>
 
-#include <QStringList>
-#include <QUrl>
+#include <QGridLayout>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QLabel>
+#include <QCheckBox>
+#include <QSpacerItem>
 
 namespace Sn {
-namespace ADB {
-class Rule;
-class Dialog;
-class Matcher;
-class CustomList;
-class Subscription;
-class UrlInterceptor;
 
-class Manager: public QObject {
+class AdBlockPage: public QWidget {
 Q_OBJECT
 
 public:
-	Manager(QObject* parent = nullptr);
-	~Manager();
+	AdBlockPage(QWidget* parent = nullptr);
+	~AdBlockPage();
 
-	void load();
+	void loadSettings();
 	void save();
 
-	bool isEnabled() const;
-	bool canRunOnScheme(const QString& scheme) const;
-
-	bool useLimitedEasyList() const;
-	void setUseLimitedEasyList(bool useLimited);
-
-	QString elementHidingRules(const QUrl& url) const;
-	QString elementHidingRulesForDomain(const QUrl& url) const;
-
-	Subscription* subscriptionByName(const QString& name) const;
-	QList<Subscription*> subscriptions() const;
-
-	bool addSubscriptionFromUrl(const QUrl& url);
-
-	Subscription* addSubscription(const QString& title, const QString& url);
-	bool removeSubscription(Subscription* subscription);
-
-	bool block(QWebEngineUrlRequestInfo& request);
-
-	QStringList disabledRules() const { return m_disabledRules; }
-	void addDisabledRule(const QString& filter);
-	void removeDisabledRule(const QString& filter);
-
-	CustomList* customList() const;
-
-	static Manager* instance();
-
-signals:
-	void enabledChanged(bool enabled);
-
-public slots:
-	void setEnabled(bool enabled);
-	void showRule();
-
-	void updateAllSubscriptions();
-
-	Dialog* showDialog();
-
 private:
-	inline bool canBeBlocked(const QUrl& url) const;
+	QGridLayout* m_layout{nullptr};
 
-	bool m_loaded{false};
-	bool m_enabled{false};
-	bool m_useLimitedEasyList{true};
+	QLabel* m_warning{nullptr};
+	QLabel* m_adBlockIcon{nullptr};
+	QCheckBox* m_enableAdBlock{nullptr};
 
-	QList<Subscription*> m_subscriptions;
-	QPointer<Dialog> m_adBlockDialog;
-	Matcher* m_matcher{nullptr};
-	UrlInterceptor* m_interceptor{nullptr};
+	QSpacerItem* m_spacer{nullptr};
 
-	QStringList m_disabledRules;
 };
 
 }
-}
 
-#endif //SIELOBROWSER_ADBMANAGER_HPP
+#endif //SIELOBROWSER_ADBLOCKPAGE_HPP

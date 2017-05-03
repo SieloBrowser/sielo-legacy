@@ -22,91 +22,79 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_ADBMANAGER_HPP
-#define SIELOBROWSER_ADBMANAGER_HPP
+#include "Widgets/Preferences/AdBlockPage.hpp"
 
-#include <QObject>
-#include <QPointer>
+#include <QSettings>
 
-#include <QStringList>
-#include <QUrl>
-
-#include <QWebEngineUrlRequestInfo>
+#include "AdBlock/Manager.hpp"
 
 namespace Sn {
-namespace ADB {
-class Rule;
-class Dialog;
-class Matcher;
-class CustomList;
-class Subscription;
-class UrlInterceptor;
 
-class Manager: public QObject {
-Q_OBJECT
+AdBlockPage::AdBlockPage(QWidget* parent) :
+	QWidget(parent)
+{
+	m_layout = new QGridLayout(this);
 
-public:
-	Manager(QObject* parent = nullptr);
-	~Manager();
+	m_warning = new QLabel(tr(
+		"<html><head/><body><p><span style=\" font-weight:600;\">Warning! This is an experimental AdBlock!</span></p></body></html>"),
+						   this);
+	m_warning->setAlignment(Qt::AlignCenter);
 
-	void load();
-	void save();
+	m_adBlockIcon = new QLabel(tr("AdBlock icon"), this);
+	m_adBlockIcon->setPixmap(QIcon(QLatin1String(":icons/preferences/adblock.png")).pixmap(32, 32));
 
-	bool isEnabled() const;
-	bool canRunOnScheme(const QString& scheme) const;
+	m_enableAdBlock = new QCheckBox(tr("Enable Ad block"), this);
 
-	bool useLimitedEasyList() const;
-	void setUseLimitedEasyList(bool useLimited);
+	QSizePolicy sizePolicy{QSizePolicy::Expanding, QSizePolicy::Minimum};
 
-	QString elementHidingRules(const QUrl& url) const;
-	QString elementHidingRulesForDomain(const QUrl& url) const;
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(m_enableAdBlock->sizePolicy().hasHeightForWidth());
 
-	Subscription* subscriptionByName(const QString& name) const;
-	QList<Subscription*> subscriptions() const;
+	m_enableAdBlock->setSizePolicy(sizePolicy);
 
-	bool addSubscriptionFromUrl(const QUrl& url);
+	m_spacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-	Subscription* addSubscription(const QString& title, const QString& url);
-	bool removeSubscription(Subscription* subscription);
+	m_layout->addWidget(m_warning, 0, 0, 1, 2);
+	m_layout->addWidget(m_adBlockIcon, 1, 0, 1, 1);
+	m_layout->addWidget(m_enableAdBlock, 1, 1, 1, 1);
+	m_layout->addItem(m_spacer, 2, 0, 1, 1);
 
-	bool block(QWebEngineUrlRequestInfo& request);
-
-	QStringList disabledRules() const { return m_disabledRules; }
-	void addDisabledRule(const QString& filter);
-	void removeDisabledRule(const QString& filter);
-
-	CustomList* customList() const;
-
-	static Manager* instance();
-
-signals:
-	void enabledChanged(bool enabled);
-
-public slots:
-	void setEnabled(bool enabled);
-	void showRule();
-
-	void updateAllSubscriptions();
-
-	Dialog* showDialog();
-
-private:
-	inline bool canBeBlocked(const QUrl& url) const;
-
-	bool m_loaded{false};
-	bool m_enabled{false};
-	bool m_useLimitedEasyList{true};
-
-	QList<Subscription*> m_subscriptions;
-	QPointer<Dialog> m_adBlockDialog;
-	Matcher* m_matcher{nullptr};
-	UrlInterceptor* m_interceptor{nullptr};
-
-	QStringList m_disabledRules;
-};
-
-}
+	loadSettings();
 }
 
-#endif //SIELOBROWSER_ADBMANAGER_HPP
+AdBlockPage::~AdBlockPage()
+{
+	// Empty
+}
+
+void AdBlockPage::loadSettings()
+{
+	QSettings settings{};
+
+	settings.beginGroup("AdBlock-Settings");
+
+	m_enableAdBlock->setChecked(settings.value(QLatin1String("enabled"), false).toBool());
+
+	settings.endGroup();
+}
+
+void AdBlockPage::save()
+{
+	QSettings settings{};
+
+	settings.beginGroup("AdBlock-Settings");
+
+	if (ADB::Manager::instance()->isEnabled() != m_enableAdBlock->isChecked()) {
+		bool enabled{m_enableAdBlock->isChecked()};
+
+		ADB::Manager::instance()->setEnabled(enabled);
+
+		settings.setValue(QLatin1String("enabled"), enabled);
+
+	}
+
+	settings.endGroup();
+}
+
+}

@@ -52,7 +52,7 @@ Q_GLOBAL_STATIC(Manager, sn_adblock_manager)
 Manager::Manager(QObject* parent) :
 	QObject(parent),
 	m_loaded(false),
-	m_enabled(true),
+	m_enabled(false),
 	m_useLimitedEasyList(true),
 	m_matcher(new Matcher(this)),
 	m_interceptor(new UrlInterceptor(this))
@@ -77,7 +77,7 @@ void Manager::load()
 
 	QSettings settings{};
 
-	settings.beginGroup("AdBlock");
+	settings.beginGroup("AdBlock-Settings");
 
 	QDateTime lastUpdate{settings.value("lastUpdate", QDateTime()).toDateTime()};
 
@@ -166,7 +166,7 @@ void Manager::save()
 
 	QSettings settings{};
 
-	settings.beginGroup("AdBlock");
+	settings.beginGroup("AdBlock-Settings");
 
 	settings.setValue("enabled", m_enabled);
 	settings.setValue("useLimitedEasyList", m_useLimitedEasyList);
@@ -387,13 +387,17 @@ void Manager::setEnabled(bool enabled)
 
 	QSettings settings{};
 
-	settings.beginGroup("AdBlock");
+	settings.beginGroup("AdBlock-Settings");
 
 	settings.setValue("enabled", m_enabled);
 
 	settings.endGroup();
 
-	load();
+	if (enabled == false)
+		m_loaded = false;
+	else
+		load();
+
 	Application::instance()->reloadUserStyleSheet();
 }
 
@@ -408,7 +412,7 @@ void Manager::updateAllSubscriptions()
 
 	QSettings settings{};
 
-	settings.beginGroup("AdBlock");
+	settings.beginGroup("AdBlock-Settings");
 
 	settings.setValue("lastUpdate", QDateTime::currentDateTime());
 
