@@ -22,77 +22,49 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Widgets/Preferences/PreferencesDialog.hpp"
+#pragma once
+#ifndef SIELOBROWSER_DOWNLOADPAGE_HPP
+#define SIELOBROWSER_DOWNLOADPAGE_HPP
 
+#include <QWidget>
 
-#include "Widgets/Preferences/DownloadPage.hpp"
-#include "Widgets/Preferences/AdBlockPage.hpp"
+#include <QVBoxLayout>
+
+#include <QRadioButton>
+#include <QRadioButton>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpacerItem>
 
 namespace Sn {
 
-PreferencesDialog::PreferencesDialog(QWidget* parent) :
-	QDialog(parent)
-{
-	setAttribute(Qt::WA_DeleteOnClose);
+class DownloadPage: public QWidget {
+Q_OBJECT
 
-	setupUI();
+public:
+	DownloadPage(QWidget* parent = nullptr);
+	~DownloadPage();
 
-	connect(m_buttonBox, &QDialogButtonBox::clicked, this, &PreferencesDialog::buttonClicked);
-}
+	void loadSettings();
+	void save();
 
-PreferencesDialog::~PreferencesDialog()
-{
-	// Empty
-}
+private slots:
+	void choosePath();
 
-void PreferencesDialog::saveSettings()
-{
-	m_pageDownload->save();
-	m_pageAdBlock->save();
-}
+	void radioAlwaysAskChanged(bool enabled);
 
-void PreferencesDialog::buttonClicked(QAbstractButton* button)
-{
-	switch (m_buttonBox->buttonRole(button)) {
-	case QDialogButtonBox::ApplyRole:
-		saveSettings();
-		break;
-	case QDialogButtonBox::AcceptRole:
-		saveSettings();
-		close();
-		break;
-	case QDialogButtonBox::RejectRole:
-		close();
-		break;
-	default:
-		break;
-	}
-}
+private:
+	void setupUI();
 
-void PreferencesDialog::setupUI()
-{
-	m_layout = new QVBoxLayout(this);
+	QVBoxLayout* m_layout{nullptr};
+	QHBoxLayout* m_layoutPath{nullptr};
 
-	m_layoutButton = new QHBoxLayout();
-
-	m_pages = new QTabWidget(this);
-
-	m_pageDownload = new DownloadPage(m_pages);
-	m_pageAdBlock = new AdBlockPage(m_pages);
-
-	m_pages->addTab(m_pageDownload, tr("Downloads"));
-	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
-
-	m_buttonSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-	m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::Ok, this);
-
-	m_layoutButton->addItem(m_buttonSpacer);
-	m_layoutButton->addWidget(m_buttonBox);
-
-	m_layout->addWidget(m_pages);
-	m_layout->addLayout(m_layoutButton);
+	QRadioButton* m_radioAlwaysAsk{nullptr};
+	QRadioButton* m_radioCustomPath{nullptr};
+	QLineEdit* m_path{nullptr};
+	QPushButton* m_choosePath{nullptr};
+	QSpacerItem* m_spacer{nullptr};
+};
 
 }
-
-}
+#endif //SIELOBROWSER_DOWNLOADPAGE_HPP

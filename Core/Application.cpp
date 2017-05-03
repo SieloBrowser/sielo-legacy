@@ -102,7 +102,7 @@ void Application::loadSettings()
 {
 	QSettings settings;
 
-	m_useTopToolBar = settings.value("preferences/useTopToolBar", false).toBool();
+	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 }
 
 int Application::windowCount() const

@@ -35,6 +35,7 @@
 #include <QTabWidget>
 
 namespace Sn {
+class DownloadPage;
 class AdBlockPage;
 
 class PreferencesDialog: public QDialog {
@@ -59,6 +60,7 @@ private:
 	QSpacerItem* m_buttonSpacer{nullptr};
 	QDialogButtonBox* m_buttonBox{nullptr};
 
+	DownloadPage* m_pageDownload{nullptr};
 	AdBlockPage* m_pageAdBlock{nullptr};
 };
 

@@ -91,6 +91,7 @@ bool DownloadWidget::getFileName(bool promptForFileName)
 
 	settings.beginGroup(QLatin1String("Download-Settings"));
 
+	bool alwaysAsk{settings.value(QLatin1String("alwaysAsk"), true).toBool()};
 	QString defaultLocation{QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)};
 
 	if (m_file.absoluteDir().exists())
@@ -104,7 +105,7 @@ bool DownloadWidget::getFileName(bool promptForFileName)
 	QString defaultFileName{QFileInfo(downloadDirectory, m_file.fileName()).absoluteFilePath()};
 	QString fileName{defaultFileName};
 
-	if (promptForFileName) {
+	if (promptForFileName || alwaysAsk) {
 		fileName = QFileDialog::getSaveFileName(this, tr("Save File"), defaultFileName);
 		if (fileName.isEmpty()) {
 			if (m_download)
