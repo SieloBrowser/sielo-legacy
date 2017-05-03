@@ -40,10 +40,13 @@
 #include "Bookmarks/BookmarksDialog.hpp"
 #include "Bookmarks/AddBookmarkDialog.hpp"
 
+#include "Download/DownloadManager.hpp"
+
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/ToolButton.hpp"
 #include "Utils/AutoSaver.hpp"
 
+#include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/AddressBar.hpp"
@@ -313,6 +316,18 @@ void TabWidget::currentTabChanged(int index)
 {
 	if (!validIndex(index))
 		return;
+
+	WebTab* currentTab{weTab(index)};
+	WebTab* oldTab{weTab()};
+
+	disconnect(oldTab->webView()->page()->profile(),
+			   &QWebEngineProfile::downloadRequested,
+			   this,
+			   &TabWidget::downloadRequested);
+	connect(currentTab->webView()->page()->profile(),
+			&QWebEngineProfile::downloadRequested,
+			this,
+			&TabWidget::downloadRequested);
 
 	updateFloatingButton(index);
 
@@ -667,6 +682,13 @@ void TabWidget::clearClosedTabsList()
 {
 	m_closedTabsManager->clearList();
 	updateClosedTabsButton();
+}
+
+void TabWidget::downloadRequested(QWebEngineDownloadItem* download)
+{
+	Application::instance()->downloadManager()->downlaod(download);
+	Application::instance()->downloadManager()->show();
+	download->accept();
 }
 
 void TabWidget::moveAddTabButton(int posX)

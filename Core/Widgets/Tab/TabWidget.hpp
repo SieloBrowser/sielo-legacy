@@ -32,6 +32,8 @@
 #include <QMenu>
 #include <QToolBar>
 
+#include <QWebEngineDownloadItem>
+
 #include "Application.hpp"
 
 #include "Widgets/Tab/TabStackedWidget.hpp"
@@ -114,6 +116,8 @@ public slots:
 	void restoreClosedTab(QObject* obj = nullptr);
 	void restoreAllClosedTabs();
 	void clearClosedTabsList();
+
+	void downloadRequested(QWebEngineDownloadItem* download);
 
 	void moveAddTabButton(int posX);
 

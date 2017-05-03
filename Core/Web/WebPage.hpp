@@ -72,9 +72,6 @@ public:
 signals:
 	void privacyChanged(bool status);
 
-public slots:
-	void downloadRequested(QWebEngineDownloadItem* item);
-
 protected slots:
 	void progress(int progression);
 	void finished();
@@ -93,7 +90,6 @@ private:
 
 	void handleUnknowProtocol(const QUrl& url);
 	void desktopServiceOpen(const QUrl& url);
-
 
 	DelayedFileWatcher* m_fileWatcher{nullptr};
 	QEventLoop* m_runningLoop{nullptr};
