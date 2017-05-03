@@ -24,6 +24,11 @@
 
 #include "Widgets/Tab/TabWidget.hpp"
 
+#include <QWindow>
+#include <QScreen>
+
+#include <QRect>
+
 #include <QDataStream>
 #include <QSettings>
 
@@ -324,10 +329,12 @@ void TabWidget::currentTabChanged(int index)
 			   &QWebEngineProfile::downloadRequested,
 			   this,
 			   &TabWidget::downloadRequested);
+	disconnect(oldTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 	connect(currentTab->webView()->page()->profile(),
 			&QWebEngineProfile::downloadRequested,
 			this,
 			&TabWidget::downloadRequested);
+	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
 	updateFloatingButton(index);
 
@@ -443,6 +450,11 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 		if (url != m_urlOnNewTab)
 			m_currentTabFresh = false;
 	});
+	connect(webTab->webView()->page()->profile(),
+			&QWebEngineProfile::downloadRequested,
+			this,
+			&TabWidget::downloadRequested);
+	connect(webTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
 	if (url.isValid() && url != request.url()) {
 		LoadRequest req{request};
@@ -682,6 +694,51 @@ void TabWidget::clearClosedTabsList()
 {
 	m_closedTabsManager->clearList();
 	updateClosedTabsButton();
+}
+
+void TabWidget::fullScreenRequested(QWebEngineFullScreenRequest request)
+{
+	WebPage* webPage = qobject_cast<WebPage*>(sender());
+
+	if (request.toggleOn()) {
+		if (!m_fullScreenView) {
+			m_fullScreenView = new QWebEngineView();
+
+			QAction* exitFullScreenAction = new QAction(m_fullScreenView);
+			exitFullScreenAction->setShortcut(Qt::Key_Escape);
+
+			connect(exitFullScreenAction, &QAction::triggered, [webPage]
+			{
+				webPage->triggerAction(QWebEnginePage::ExitFullScreen);
+			});
+
+			m_fullScreenView->addAction(exitFullScreenAction);
+		}
+
+		webPage->setView(m_fullScreenView);
+
+		request.accept();
+
+		QScreen* screen{m_window->windowHandle()->screen()};
+
+		m_fullScreenView->move(screen->geometry().x(), screen->geometry().y());
+		m_fullScreenView->resize(screen->geometry().width(), screen->geometry().height());
+
+		m_fullScreenView->showFullScreen();
+		m_fullScreenView->raise();
+	}
+	else {
+		if (!m_fullScreenView)
+			return;
+
+		TabbedWebView* oldWebView{weTab()->webView()};
+		webPage->setView(oldWebView);
+
+		request.accept();
+
+		delete m_fullScreenView;
+		m_fullScreenView = nullptr;
+	}
 }
 
 void TabWidget::downloadRequested(QWebEngineDownloadItem* download)

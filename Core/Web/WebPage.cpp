@@ -79,12 +79,14 @@ WebPage::WebPage(QObject* parent) :
 	m_secureStatus(false),
 	m_adjustingSheduled(false)
 {
+
+	settings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+
 	connect(this, &QWebEnginePage::loadProgress, this, &WebPage::progress);
 	connect(this, &QWebEnginePage::loadFinished, this, &WebPage::finished);
 	connect(this, &QWebEnginePage::urlChanged, this, &WebPage::urlChanged);
 	connect(this, &QWebEnginePage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
 	connect(this, &QWebEnginePage::windowCloseRequested, this, &WebPage::windowCloseRequested);
-	connect(this, &QWebEnginePage::fullScreenRequested, this, &WebPage::fullScreenRequested);
 
 	//TODO: Connect with network manager
 }
@@ -230,6 +232,9 @@ void WebPage::cleanBlockedObject()
 {
 	ADB::Manager* manager = ADB::Manager::instance();
 
+	if (!manager->isEnabled())
+		return;
+
 	const QString elementHiding{manager->elementHidingRules(url())};
 
 	if (!elementHiding.isEmpty())
@@ -262,18 +267,6 @@ void WebPage::windowCloseRequested()
 		return;
 
 	view()->closeView();
-}
-
-void WebPage::fullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest)
-{
-	//TODO: view()->requestFullScreen(fullScreenRequest.toggleOn());
-
-	const bool accepted = fullScreenRequest.toggleOn() == view()->isFullScreen();
-
-	if (accepted)
-		fullScreenRequest.accept();
-	else
-		fullScreenRequest.reject();
 }
 
 void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePage::Feature& feature)

@@ -81,7 +81,6 @@ private slots:
 	void urlChanged(const QUrl& url);
 	void watchedFileChanged(const QString& file);
 	void windowCloseRequested();
-	void fullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest);
 	void featurePermissionRequested(const QUrl& origine, const QWebEnginePage::Feature& feature);
 
 private:

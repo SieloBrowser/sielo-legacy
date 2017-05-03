@@ -32,7 +32,9 @@
 #include <QMenu>
 #include <QToolBar>
 
+#include <QWebEngineFullScreenRequest>
 #include <QWebEngineDownloadItem>
+#include <QWebEngineView>
 
 #include "Application.hpp"
 
@@ -117,6 +119,7 @@ public slots:
 	void restoreAllClosedTabs();
 	void clearClosedTabsList();
 
+	void fullScreenRequested(QWebEngineFullScreenRequest request);
 	void downloadRequested(QWebEngineDownloadItem* download);
 
 	void moveAddTabButton(int posX);
@@ -189,6 +192,8 @@ private:
 	bool m_newTabAfterActive{false};
 	bool m_newEmptyTabAfterActive{false};
 	bool m_currentTabFresh{false};
+
+	QWebEngineView* m_fullScreenView{nullptr};
 
 };
 
