@@ -273,7 +273,7 @@ void DownloadWidget::setupUI()
 
 void DownloadWidget::updateInfoLabel()
 {
-	quint64 byteTotal{m_progress->maximum()};
+	quint64 byteTotal{static_cast<quint64>(m_progress->maximum())};
 	double speed{m_bytesReceived * 1000.0 / m_downloadTime.elapsed()};
 	double timeRemaining{(static_cast<double>(byteTotal - m_bytesReceived)) / speed};
 	QString timeRemainingString{tr("seconds")};
