@@ -56,6 +56,7 @@
 
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
+#include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
@@ -107,9 +108,16 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonListTabs->setIcon(QIcon(":icons/tabs/tabbar-tabslist.png"));
 	m_buttonListTabs->hide();
 
+	m_buttonPreferences = new ToolButton(m_tabBar);
+	m_buttonPreferences->setObjectName(QLatin1String("tabwidget-button-preferences"));
+	m_buttonPreferences->setToolButtonStyle(Qt::ToolButtonIconOnly);
+	m_buttonPreferences->setToolBarButtonLook(true);
+	m_buttonPreferences->setIcon(QIcon(QLatin1String(":icons/preferences/preferences.png")));
+
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonClosedTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
+	m_tabBar->addCornerWidget(m_buttonPreferences, Qt::TopRightCorner);
 
 	if (Application::instance()->useTopToolBar()) {
 		m_topToolBar = new QToolBar(this);
@@ -226,6 +234,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonAddTab2, SIGNAL(clicked()), m_window, SLOT(addTab()));
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
+	connect(m_buttonPreferences, &ToolButton::clicked, this, &TabWidget::openPreferencesDialog);
 
 	connect(m_fButtonAddBookmark, &FloatingButton::isClicked, this, &TabWidget::openAddBookmarkDialog);
 	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, this, &TabWidget::openBookmarkDialog);
@@ -237,6 +246,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 
 TabWidget::~TabWidget()
 {
+	m_saveTimer->saveIfNeccessary();
 	delete m_closedTabsManager;
 }
 
@@ -257,10 +267,12 @@ QByteArray TabWidget::saveState()
 	QByteArray data;
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	stream << tabList.count();
+	int tabListCount = tabList.count();
+	stream << tabListCount;
 
 		foreach (const WebTab::SavedTab& tab, tabList) stream << tab;
 
+	int intCurrentIndex = currentIndex();
 	stream << currentIndex();
 
 	return data;
@@ -450,11 +462,6 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 		if (url != m_urlOnNewTab)
 			m_currentTabFresh = false;
 	});
-	connect(webTab->webView()->page()->profile(),
-			&QWebEngineProfile::downloadRequested,
-			this,
-			&TabWidget::downloadRequested);
-	connect(webTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
 	if (url.isValid() && url != request.url()) {
 		LoadRequest req{request};
@@ -916,6 +923,12 @@ void TabWidget::openHistoryDialog()
 							   const QUrl&)), this, SLOT(addView(
 															 const QUrl&)));
 
+	dialog->show();
+}
+
+void TabWidget::openPreferencesDialog()
+{
+	PreferencesDialog* dialog{new PreferencesDialog(this)};
 	dialog->show();
 }
 

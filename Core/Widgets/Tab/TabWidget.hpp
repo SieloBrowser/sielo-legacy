@@ -144,6 +144,7 @@ private:
 	void openAddBookmarkDialog();
 	void openBookmarkDialog();
 	void openHistoryDialog();
+	void openPreferencesDialog();
 
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
@@ -159,6 +160,7 @@ private:
 	ToolButton* m_buttonClosedTabs{nullptr};
 	AddTabButton* m_buttonAddTab{nullptr};
 	AddTabButton* m_buttonAddTab2{nullptr};
+	ToolButton* m_buttonPreferences{nullptr};
 
 	FloatingButton* m_fButton{nullptr};
 
