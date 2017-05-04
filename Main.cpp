@@ -37,7 +37,6 @@ int main(int argc, char** argv)
 {
 	Sn::Application app(argc, argv);
 
-	Sn::Application::instance()->createWindow(Sn::Application::WT_FirstAppWindow, QUrl("https://ecosia.org"));
 
 	return app.exec();
 }

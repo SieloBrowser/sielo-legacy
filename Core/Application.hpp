@@ -33,6 +33,8 @@
 
 #include <QWebEngineProfile>
 
+#include "Utils/RestoreManager.hpp"
+
 namespace Sn {
 class PluginProxy;
 class HistoryManager;
@@ -53,7 +55,8 @@ public:
 
 	enum WindowType {
 		WT_FirstAppWindow,
-		WT_NewWindow
+		WT_NewWindow,
+		WT_OtherRestoredWindow
 	};
 
 	enum NewTabType {
@@ -77,6 +80,12 @@ public:
 		P_Plugin = 1
 	};
 
+	enum AfterLaunch {
+		OpenBlankPage = 0,
+		OpenHomePage = 1,
+		RestoreSession = 2
+	};
+
 	Application(int& argc, char** argv);
 	~Application();
 
@@ -90,6 +99,11 @@ public:
 	BrowserWindow* getWindow() const;
 	BrowserWindow* createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
 
+	AfterLaunch afterLaunch() const;
+
+	bool restoreSession(BrowserWindow* window, RestoreData restoreData);
+	void destroyRestoreManager();
+
 	PluginProxy* plugins() { return m_plugins; }
 	HistoryManager* historyManager();
 	BookmarksManager* bookmarksManager();
@@ -97,6 +111,7 @@ public:
 	HTML5PermissionsManager* permissionsManager();
 
 	NetworkManager* networkManager() const { return m_networkManager; }
+	RestoreManager* restoreManager() const { return m_restoreManager; }
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
 	bool useTopToolBar() const { return m_useTopToolBar; }
@@ -114,13 +129,13 @@ public slots:
 private slots:
 	void windowDestroyed(QObject* window);
 
-
 private:
 	void setUserStyleSheet(const QString& filePath);
 
 	void loadTheme(const QString& name);
 
 	bool m_privateBrowsing{false};
+	bool m_isRestoring{false};
 	bool m_useTopToolBar{false};
 
 	PluginProxy* m_plugins{nullptr};
@@ -131,6 +146,8 @@ private:
 
 	NetworkManager* m_networkManager{nullptr};
 	QWebEngineProfile* m_webProfile{nullptr};
+
+	RestoreManager* m_restoreManager{nullptr};
 
 	QList<BrowserWindow*> m_windows;
 	QPointer<BrowserWindow> m_lastActiveWindow;

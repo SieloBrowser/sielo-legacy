@@ -89,10 +89,23 @@ Application::Application(int& argc, char** argv) :
 
 	loadTheme("sielo_colorful_flat");
 
+	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, QUrl())};
+
+	if (afterLaunch() == RestoreSession) {
+		m_restoreManager = new RestoreManager();
+		if (!m_restoreManager->isValid())
+			destroyRestoreManager();
+		else
+			QFile::remove(paths()[Application::P_Data] + QLatin1String("/pinnedtabs.dat"));
+	}
+
 }
 
 Application::~Application()
 {
+	if (m_windows.count() > 0)
+		saveSession();
+
 	delete m_plugins;
 	delete m_historyManager;
 	delete m_downloadManager;
@@ -130,19 +143,84 @@ BrowserWindow* Application::createWindow(Application::WindowType type, const QUr
 	return window;
 }
 
+Application::AfterLaunch Application::afterLaunch() const
+{
+	QSettings settings{};
+
+	return static_cast<AfterLaunch>(settings.value(QStringLiteral("Settings/afterLaunch"), RestoreSession).toInt());
+}
+
+bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
+{
+	if (m_privateBrowsing || restoreData.isEmpty())
+		return false;
+
+	m_isRestoring = true;
+	setOverrideCursor(Qt::BusyCursor);
+
+	window->setUpdatesEnabled(false);
+	window->tabWidget()->closeRecoveryTab();
+
+	if (window->tabWidget()->normalTabsCount() > 1) {
+		BrowserWindow* newWindow{createWindow(Application::WT_OtherRestoredWindow)};
+		newWindow->setUpdatesEnabled(false);
+		newWindow->restoreWindowState(restoreData[0]);
+		newWindow->setUpdatesEnabled(true);
+
+		restoreData.remove(0);
+	}
+	else {
+		int tabCount{window->tabWidget()->pinnedTabsCount()};
+		RestoreManager::WindowData data = restoreData[0];
+
+		data.currentTab += tabCount;
+		restoreData.remove(0);
+
+		window->restoreWindowState(data);
+	}
+
+	window->setUpdatesEnabled(true);
+
+	processEvents();
+
+		foreach (const RestoreManager::WindowData& data, restoreData) {
+			BrowserWindow* window{createWindow(Application::WT_OtherRestoredWindow)};
+
+			window->setUpdatesEnabled(false);
+			window->restoreWindowState(data);
+			window->setUpdatesEnabled(true);
+
+			processEvents();
+		}
+
+	destroyRestoreManager();
+	restoreOverrideCursor();
+
+	m_isRestoring = false;
+
+	return true;
+}
+
+void Application::destroyRestoreManager()
+{
+	delete m_restoreManager;
+	m_restoreManager = nullptr;
+}
+
 void Application::saveSession()
 {
-	if (m_privateBrowsing || m_windows.count() == 0)
+	if (m_privateBrowsing || m_isRestoring || m_windows.count() == 0 || m_restoreManager)
 		return;
 
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	stream << QString("0.5");
+	stream << 0x0001;
 	stream << m_windows.count();
 
 		foreach (BrowserWindow* window, m_windows) {
 			stream << window->tabWidget()->saveState();
+
 			if (window->isFullScreen())
 				stream << QByteArray();
 			else

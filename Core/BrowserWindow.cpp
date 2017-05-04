@@ -26,6 +26,8 @@
 
 #include <QToolTip>
 
+#include <QSettings>
+
 #include <QAction>
 
 #include <QTimer>
@@ -35,6 +37,7 @@
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
+#include "Widgets/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -53,6 +56,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setProperty("private", Application::instance()->privateBrowsing());
 
 	setupUi();
+	loadSettings();
 
 	QTimer::singleShot(0, this, &BrowserWindow::postLaunch);
 
@@ -73,6 +77,12 @@ void BrowserWindow::setStartPage(WebPage* page)
 	m_startPage = page;
 }
 
+void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
+{
+	restoreState(data.windowState);
+	m_tabWidget->restoreState(data.tabsState, data.currentTab);
+}
+
 void BrowserWindow::currentTabChanged()
 {
 	TabbedWebView* view{webView()};
@@ -83,6 +93,7 @@ void BrowserWindow::currentTabChanged()
 
 	view->setFocus();
 }
+
 
 TabbedWebView* BrowserWindow::webView() const
 {
@@ -153,6 +164,36 @@ void BrowserWindow::postLaunch()
 	bool addTab{true};
 	QUrl startUrl{};
 
+	switch (Application::instance()->afterLaunch()) {
+	case Application::OpenBlankPage:
+		startUrl = QUrl();
+		break;
+	case Application::OpenHomePage:
+	case Application::RestoreSession:
+		startUrl = m_homePage;
+		break;
+
+	default:
+		break;
+	}
+
+	switch (m_windowType) {
+	case Application::WT_FirstAppWindow:
+		if (Application::instance()->afterLaunch() == Application::RestoreSession
+			&& Application::instance()->restoreManager()) {
+			addTab = !Application::instance()
+				->restoreSession(this, Application::instance()->restoreManager()->restoreData());
+		}
+		break;
+	case Application::WT_NewWindow:
+		addTab = true;
+		break;
+	case Application::WT_OtherRestoredWindow:
+		addTab = false;
+		break;
+
+	}
+
 	show();
 
 	if (!m_startUrl.isEmpty()) {
@@ -171,6 +212,9 @@ void BrowserWindow::postLaunch()
 
 	if (addTab) {
 		m_tabWidget->addView(startUrl, Application::NTT_CleanSelectedTabAtEnd);
+
+		if (startUrl.isEmpty())
+			webView()->webTab()->addressBar()->setFocus();
 	}
 
 	if (m_tabWidget->tabBar()->normalTabsCount() <= 0)
@@ -184,6 +228,16 @@ void BrowserWindow::postLaunch()
 	connect(action, SIGNAL(triggered()), m_tabWidget, SLOT(restoreClosedTab()));
 
 	tabWidget()->tabBar()->ensureVisible();
+}
+
+void BrowserWindow::loadSettings()
+{
+	QSettings settings{};
+
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://www.ecosia.org")).toUrl();
+
+	settings.endGroup();
+
 }
 
 }

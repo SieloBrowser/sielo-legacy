@@ -33,6 +33,8 @@
 
 #include <QUrl>
 
+#include "Utils/RestoreManager.hpp"
+
 #include "Application.hpp"
 
 namespace Sn {
@@ -52,7 +54,11 @@ public:
 	void setStartTab(WebTab* tab);
 	void setStartPage(WebPage* page);
 
+	void restoreWindowState(const RestoreManager::WindowData& data);
+
 	void currentTabChanged();
+
+	QUrl homePageUrl() const { return m_homePage; }
 
 	TabbedWebView* webView() const;
 	TabbedWebView* webView(int index) const;
@@ -69,6 +75,8 @@ private slots:
 
 private:
 	void setupUi();
+
+	void loadSettings();
 
 	QUrl m_startUrl{};
 	QUrl m_homePage{};

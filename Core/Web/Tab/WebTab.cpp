@@ -63,7 +63,7 @@ WebTab::SavedTab::SavedTab(WebTab* webTab)
 {
 	title = webTab->title();
 	url = webTab->url();
-	icon = webTab->icon(true);
+	icon = webTab->icon(false);
 	history = webTab->historyData();
 	isPinned = webTab->isPinned();
 	zoomLevel = webTab->zoomLevel();
@@ -91,7 +91,7 @@ QDataStream& operator<<(QDataStream& stream, const WebTab::SavedTab& tab)
 	stream << SAVED_TAB_VERSION;
 	stream << tab.title;
 	stream << tab.url;
-	stream << tab.icon.pixmap(16);
+//	stream << tab.icon.pixmap(16);
 	stream << tab.history;
 	stream << tab.isPinned;
 	stream << tab.zoomLevel;
@@ -122,12 +122,12 @@ QDataStream& operator>>(QDataStream& stream, WebTab::SavedTab& tab)
 
 	stream >> tab.title;
 	stream >> tab.url;
-	stream >> pixmap;
+//	stream >> pixmap;
 	stream >> tab.history;
 	stream >> tab.isPinned;
 	stream >> tab.zoomLevel;
 
-	tab.icon = QIcon(pixmap);
+	tab.icon = QIcon(":icons/other/webpage.png");
 
 	return stream;
 }
@@ -484,6 +484,13 @@ void WebTab::sRestore()
 void WebTab::showEvent(QShowEvent* event)
 {
 	QWidget::showEvent(event);
+
+	if (!isRestored() && !s_pinningTab) {
+		if (Application::instance()->isSessionRestored())
+			sRestore();
+		else
+			QTimer::singleShot(0, this, &WebTab::sRestore);
+	}
 }
 
 }
