@@ -28,6 +28,8 @@
 #include <QStandardPaths>
 #include <QDir>
 
+#include <QDesktopServices>
+
 #include <QMessageBox>
 
 #include <QSettings>
@@ -44,6 +46,7 @@
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
+#include "Utils/CommandLineOption.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
@@ -60,7 +63,8 @@ QList<QString> Application::paths()
 	QList<QString> paths{};
 
 	paths.append(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-	paths.append(paths[Application::P_Data] + "/plugins");
+	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
 
 	return paths;
 }
@@ -83,13 +87,58 @@ Application::Application(int& argc, char** argv) :
 
 	loadSettings();
 
+	QUrl startUrl{};
+
+	bool newInstance{false};
+
+	if (argc > 1) {
+		CommandLineOption command{};
+
+			foreach (const CommandLineOption::ActionPair& pair, command.getActions()) {
+				switch (pair.action) {
+				case Application::CL_NewTab:
+					m_postLaunchActions.append(OpenNewTab);
+					break;
+				case Application::CL_NewWindow:
+					break;
+				case Application::CL_StartPrivateBrowsing:
+					m_privateBrowsing = true;
+					break;
+				case Application::CL_StartNewInstance:
+					newInstance = true;
+					break;
+				case Application::CL_OpenUrlInCurrentTab:
+					startUrl = QUrl::fromUserInput(pair.text);
+					break;
+				case Application::CL_OpenUrlInNewWindow:
+					startUrl = QUrl::fromUserInput(pair.text);
+					break;
+				case Application::CL_OpenUrl:
+					startUrl = QUrl::fromUserInput(pair.text);
+					break;
+				default:
+					break;
+
+				}
+			}
+	}
+
+
+	QDesktopServices::setUrlHandler("http", this, "addNewTab");
+	QDesktopServices::setUrlHandler("ftp", this, "addNewTab");
+
 	m_plugins = new PluginProxy;
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
 
-	loadTheme("sielo_colorful_flat");
+	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1String("/sielo_colorful_flat/main.sss")};
 
-	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, QUrl())};
+	if (themeInfo.exists())
+		loadTheme("sielo_colorful_flat");
+	else
+		loadThemeFromResources();
+
+	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
 	if (afterLaunch() == RestoreSession) {
 		m_restoreManager = new RestoreManager();
@@ -244,6 +293,12 @@ void Application::reloadUserStyleSheet()
 	setUserStyleSheet(userCSSFile);
 }
 
+void Application::postLaunch()
+{
+	if (m_postLaunchActions.contains(OpenNewTab))
+		getWindow()->tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab);
+}
+
 void Application::windowDestroyed(QObject* window)
 {
 	Q_ASSERT(static_cast<BrowserWindow*>(window));
@@ -349,7 +404,7 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 
 void Application::loadTheme(const QString& name)
 {
-	QString activeThemePath{Application::instance()->paths()[Application::P_Data] + QLatin1String("/themes/") + name};
+	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
 	QFile theme{activeThemePath + QLatin1String("/main.sss")};
 	QByteArray array{};
 
@@ -367,6 +422,45 @@ void Application::loadTheme(const QString& name)
 	sss.replace("slineargradient", "qlineargradient");
 
 	setStyleSheet(sss);
+}
+
+void Application::loadThemeFromResources()
+{
+	QString defaultThemePath{paths()[Application::P_Themes]};
+
+	defaultThemePath += QLatin1String("/sielo_colorful_flat");
+
+	if (!QDir().exists(defaultThemePath) || !QDir().exists(defaultThemePath + QLatin1String("/images")))
+		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
+
+	QFile::copy(":data/themes/sielo_colorful_flat/main.sss", defaultThemePath + QLatin1String("/main.sss"));
+
+
+	QFile::copy(":data/themes/sielo_colorful_flat/images/icon.png",
+				defaultThemePath + QLatin1String("/images/icon.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/add-bookmark.png",
+				defaultThemePath + QLatin1String("/images/add-bookmark.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/view-bookmarks.png",
+				defaultThemePath + QLatin1String("/images/view-bookmarks.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/history.png",
+				defaultThemePath + QLatin1String("/images/history.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/back.png",
+				defaultThemePath + QLatin1String("/images/back.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/next.png",
+				defaultThemePath + QLatin1String("/images/next.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/new-tab.png",
+				defaultThemePath + QLatin1String("/images/new-tab.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/new-window.png",
+				defaultThemePath + QLatin1String("/images/new-window.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/home.png",
+				defaultThemePath + QLatin1String("/images/home.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/go.png", defaultThemePath + QLatin1String("/images/go.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/refresh.png",
+				defaultThemePath + QLatin1String("/images/refresh.png"));
+	QFile::copy(":data/themes/sielo_colorful_flat/images/stop.png",
+				defaultThemePath + QLatin1String("/images/stop.png"));
+
+	loadTheme("sielo_colorful_flat");
 }
 
 }

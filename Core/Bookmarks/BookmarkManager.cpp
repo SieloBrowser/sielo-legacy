@@ -198,7 +198,8 @@ void BookmarksManager::load()
 	QString directory{Application::instance()->paths()[Application::P_Data]};
 	QString bookmarksFile{directory + QLatin1String("/bookmarks.xbel")};
 
-	//TODO: default bookmarks file
+	if (!QFile::exists(bookmarksFile))
+		QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory + QLatin1String("/bookmarks.xbel"));
 
 	XBelReader reader{};
 

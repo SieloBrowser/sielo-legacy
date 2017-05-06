@@ -88,7 +88,8 @@ public:
 
 	enum Path {
 		P_Data = 0,
-		P_Plugin = 1
+		P_Plugin = 1,
+		P_Themes = 2
 	};
 
 	enum AfterLaunch {
@@ -138,12 +139,19 @@ public slots:
 	void reloadUserStyleSheet();
 
 private slots:
+	void postLaunch();
+
 	void windowDestroyed(QObject* window);
 
 private:
+	enum PostLaunchAction {
+		OpenNewTab
+	};
+
 	void setUserStyleSheet(const QString& filePath);
 
 	void loadTheme(const QString& name);
+	void loadThemeFromResources();
 
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};
@@ -162,6 +170,8 @@ private:
 
 	QList<BrowserWindow*> m_windows;
 	QPointer<BrowserWindow> m_lastActiveWindow;
+
+	QList<PostLaunchAction> m_postLaunchActions;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);

@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>data/bookmarks.xbel</file>
+
+        <!-- Colorful flat theme files -->
+        <file>data/themes/sielo_colorful_flat/main.sss</file>
+        <file>data/themes/sielo_colorful_flat/images/icon.png</file>
+        <file>data/themes/sielo_colorful_flat/images/add-bookmark.png</file>
+        <file>data/themes/sielo_colorful_flat/images/view-bookmarks.png</file>
+        <file>data/themes/sielo_colorful_flat/images/history.png</file>
+        <file>data/themes/sielo_colorful_flat/images/back.png</file>
+        <file>data/themes/sielo_colorful_flat/images/next.png</file>
+        <file>data/themes/sielo_colorful_flat/images/new-tab.png</file>
+        <file>data/themes/sielo_colorful_flat/images/new-window.png</file>
+        <file>data/themes/sielo_colorful_flat/images/home.png</file>
+        <file>data/themes/sielo_colorful_flat/images/go.png</file>
+        <file>data/themes/sielo_colorful_flat/images/refresh.png</file>
+        <file>data/themes/sielo_colorful_flat/images/stop.png</file>
+    </qresource>
+</RCC>
