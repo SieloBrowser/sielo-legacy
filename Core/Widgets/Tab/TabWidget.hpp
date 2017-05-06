@@ -68,6 +68,7 @@ public:
 	void loadSettings();
 
 	QByteArray saveState();
+	void saveButtonState();
 	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab);
 	void closeRecoveryTab();
 

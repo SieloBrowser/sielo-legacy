@@ -76,6 +76,8 @@ signals:
 	void updateMenu();
 	void isClicked();
 
+	void statusChanged();
+
 public slots:
 	void showChildren(QPoint position);
 	void hideChildren();

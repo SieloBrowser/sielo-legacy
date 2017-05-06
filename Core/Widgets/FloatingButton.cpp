@@ -182,6 +182,7 @@ void FloatingButton::showChildren(QPoint position)
 	}
 
 	m_childrenExpanded = true;
+	emit statusChanged();
 }
 
 void FloatingButton::hideChildren()
@@ -208,6 +209,7 @@ void FloatingButton::hideChildren()
 		foreach (FloatingButton* child, m_children) child->hideButton(pos());
 
 	m_childrenExpanded = false;
+	emit statusChanged();
 }
 
 void FloatingButton::mousePressEvent(QMouseEvent* event)

@@ -202,14 +202,58 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 		m_fButtonNewTab = new FloatingButton(this);
 		m_fButtonNewTab->setObjectName("fbutton-new-tab");
 
-		m_fButton->addChild(m_fButtonAddBookmark);
-		m_fButton->addChild(m_fButtonViewBookmarks);
-		m_fButton->addChild(m_fButtonViewHistory);
-		m_fButton->addChild(m_fButtonNewWindow);
-		m_fButton->addChild(m_fButtonHome);
-		m_fButton->addChild(m_fButtonNext);
-		m_fButton->addChild(m_fButtonBack);
-		m_fButton->addChild(m_fButtonNewTab);
+		QFile fButtonDataFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
+
+		if (fButtonDataFile.exists()) {
+
+			fButtonDataFile.open(QIODevice::ReadOnly);
+
+			QDataStream fButtonData{&fButtonDataFile};
+			int version{0};
+
+			fButtonData >> version;
+
+			if (version == 0x0001) {
+				int buttonCount{0};
+
+				fButtonData >> buttonCount;
+
+				for (int i{0}; i < buttonCount; ++i) {
+					QString button{""};
+
+					fButtonData >> button;
+
+					if (button == m_fButtonBack->objectName())
+						m_fButton->addChild(m_fButtonBack);
+					else if (button == m_fButtonNext->objectName())
+						m_fButton->addChild(m_fButtonNext);
+					else if (button == m_fButtonHome->objectName())
+						m_fButton->addChild(m_fButtonHome);
+					else if (button == m_fButtonAddBookmark->objectName())
+						m_fButton->addChild(m_fButtonAddBookmark);
+					else if (button == m_fButtonViewBookmarks->objectName())
+						m_fButton->addChild(m_fButtonViewBookmarks);
+					else if (button == m_fButtonViewHistory->objectName())
+						m_fButton->addChild(m_fButtonViewHistory);
+					else if (button == m_fButtonNewWindow->objectName())
+						m_fButton->addChild(m_fButtonNewWindow);
+					else if (button == m_fButtonNewTab->objectName())
+						m_fButton->addChild(m_fButtonNewTab);
+				}
+			}
+		}
+		else {
+			m_fButton->addChild(m_fButtonBack);
+			m_fButton->addChild(m_fButtonNext);
+			m_fButton->addChild(m_fButtonHome);
+			m_fButton->addChild(m_fButtonAddBookmark);
+			m_fButton->addChild(m_fButtonViewBookmarks);
+			m_fButton->addChild(m_fButtonViewHistory);
+			m_fButton->addChild(m_fButtonNewWindow);
+			m_fButton->addChild(m_fButtonNewTab);
+		}
+
+		connect(m_fButton, &FloatingButton::statusChanged, this, &TabWidget::saveButtonState);
 	}
 
 	//TODO: History connection
@@ -301,9 +345,28 @@ QByteArray TabWidget::saveState()
 	return data;
 }
 
+void TabWidget::saveButtonState()
+{
+	QByteArray data{};
+	QDataStream stream{&data, QIODevice::WriteOnly};
+
+	stream << 0x0001;
+	stream << m_fButton->children().count();
+
+		foreach (FloatingButton* button, m_fButton->children()) stream << button->objectName();
+
+	QFile fButtonFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
+
+	fButtonFile.open(QIODevice::WriteOnly);
+	fButtonFile.write(data);
+	fButtonFile.close();
+}
+
 void TabWidget::save()
 {
 	Application::instance()->saveSession();
+
+	saveButtonState();
 }
 
 bool TabWidget::restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab)
