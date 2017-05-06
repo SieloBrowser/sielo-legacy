@@ -394,19 +394,19 @@ void WebTab::p_restoreTab(const QUrl& url, const QByteArray& history, int zoomLe
 
 void WebTab::sNewWindow()
 {
-	Application::instance()->createWindow(Application::WT_NewWindow, QUrl("https://ecosia.org"));
+	Application::instance()->createWindow(Application::WT_NewWindow, m_window->homePageUrl());
 }
 
 void WebTab::sNewTab()
 {
 	LoadRequest request{};
-	request.setUrl(QUrl("https://ecosia.org"));
+	request.setUrl(m_tabBar->tabWidget()->urlOnNewTab());
 	m_webView->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
 }
 
 void WebTab::sGoHome()
 {
-	m_webView->load(QUrl("https://ecosia.org"));
+	m_webView->load(m_window->homePageUrl());
 }
 
 void WebTab::showNotification(QWidget* notif)

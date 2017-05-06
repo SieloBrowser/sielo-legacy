@@ -250,6 +250,29 @@ TabWidget::~TabWidget()
 	delete m_closedTabsManager;
 }
 
+void TabWidget::loadSettings()
+{
+	QSettings settings{};
+
+	settings.beginGroup("Tabs-Settings");
+
+	m_dontCloseWithOneTab = settings.value("dontCloseWidthOneTab", false).toBool();
+	m_showClosedTabsButton = settings.value("showClosedTabsButton", false).toBool();
+	m_newTabAfterActive = settings.value("newTabAfterActive", true).toBool();
+	m_newEmptyTabAfterActive = settings.value("newEmptyTabsAfterActive", false).toBool();
+
+	settings.endGroup();
+
+	settings.beginGroup("Web-Settings");
+
+	//TODO: Modify for a custom Sielo start page
+	m_urlOnNewTab = settings.value("urlOnNewTab", "https://ecosia.org").toUrl();
+
+	settings.endGroup();
+
+	updateClosedTabsButton();
+}
+
 QByteArray TabWidget::saveState()
 {
 	QVector<WebTab::SavedTab> tabList;
@@ -774,29 +797,6 @@ void TabWidget::tabBarOverFlowChanged(bool overflowed)
 	m_buttonAddTab2->setVisible(overflowed);
 	m_buttonListTabs->setVisible(overflowed);
 	m_buttonClosedTabs->setVisible(m_showClosedTabsButton);
-}
-
-void TabWidget::loadSettings()
-{
-	QSettings settings{};
-
-	settings.beginGroup("Tabs-Settings");
-
-	m_dontCloseWithOneTab = settings.value("dontCloseWidthOneTab", false).toBool();
-	m_showClosedTabsButton = settings.value("showClosedTabsButton", false).toBool();
-	m_newTabAfterActive = settings.value("newTabAfterActive", true).toBool();
-	m_newEmptyTabAfterActive = settings.value("newEmptyTabsAfterActive", false).toBool();
-
-	settings.endGroup();
-
-	settings.beginGroup("Web-URL-Settings");
-
-	//TODO: Modify for a custom Sielo start page
-	m_urlOnNewTab = settings.value("newTabUrl", "https://ecosia.org").toUrl();
-
-	settings.endGroup();
-
-	updateClosedTabsButton();
 }
 
 void TabWidget::aboutToShowTabsMenu()

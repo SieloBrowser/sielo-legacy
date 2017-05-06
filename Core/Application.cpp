@@ -116,6 +116,8 @@ void Application::loadSettings()
 	QSettings settings;
 
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
+
+		foreach (BrowserWindow* window, m_windows) window->loadSettings();
 }
 
 int Application::windowCount() const

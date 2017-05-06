@@ -67,6 +67,18 @@ BrowserWindow::~BrowserWindow()
 	//TODO: emit window deleted to plugins
 }
 
+void BrowserWindow::loadSettings()
+{
+	QSettings settings{};
+
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://www.ecosia.org")).toUrl();
+
+	settings.endGroup();
+
+	m_tabWidget->loadSettings();
+
+}
+
 void BrowserWindow::setStartTab(WebTab* tab)
 {
 	m_startTab = tab;
@@ -230,14 +242,5 @@ void BrowserWindow::postLaunch()
 	tabWidget()->tabBar()->ensureVisible();
 }
 
-void BrowserWindow::loadSettings()
-{
-	QSettings settings{};
-
-	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://www.ecosia.org")).toUrl();
-
-	settings.endGroup();
-
-}
 
 }

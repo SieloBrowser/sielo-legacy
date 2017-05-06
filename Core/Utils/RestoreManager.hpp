@@ -59,7 +59,7 @@ private:
 	QVector<RestoreManager::WindowData> m_data;
 };
 
-typedef QVector<RestoreManager::WindowData> RestoreData;
+using RestoreData = QVector<RestoreManager::WindowData>;
 
 }
 Q_DECLARE_TYPEINFO(Sn::RestoreManager::WindowData, Q_MOVABLE_TYPE);

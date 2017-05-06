@@ -51,6 +51,8 @@ public:
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
 	~BrowserWindow();
 
+	void loadSettings();
+
 	void setStartTab(WebTab* tab);
 	void setStartPage(WebPage* page);
 
@@ -75,8 +77,6 @@ private slots:
 
 private:
 	void setupUi();
-
-	void loadSettings();
 
 	QUrl m_startUrl{};
 	QUrl m_homePage{};

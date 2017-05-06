@@ -47,6 +47,17 @@ class BrowserWindow;
 
 class Application: public QApplication {
 public:
+	enum CommandLineAction {
+		CL_NoAction,
+		CL_OpenUrl,
+		CL_OpenUrlInCurrentTab,
+		CL_OpenUrlInNewWindow,
+		CL_NewTab,
+		CL_NewWindow,
+		CL_StartPrivateBrowsing,
+		CL_StartNewInstance,
+		CL_ExitAction
+	};
 	enum ObjectName {
 		ON_WebView,
 		ON_TabBar,

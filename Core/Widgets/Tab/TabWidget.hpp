@@ -65,6 +65,8 @@ public:
 	TabWidget(BrowserWindow* window, QWidget* parent = nullptr);
 	~TabWidget();
 
+	void loadSettings();
+
 	QByteArray saveState();
 	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab);
 	void closeRecoveryTab();
@@ -86,6 +88,8 @@ public:
 	bool canRestoreTab() const;
 	bool isCurrentTabFresh() const { return m_currentTabFresh; }
 	void setCurrentTabFresh(bool currentTabFresh);
+
+	QUrl urlOnNewTab() const { return m_urlOnNewTab; }
 
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
@@ -127,7 +131,6 @@ public slots:
 	void tabBarOverFlowChanged(bool overflowed);
 
 private slots:
-	void loadSettings();
 	void save();
 
 	void aboutToShowTabsMenu();
