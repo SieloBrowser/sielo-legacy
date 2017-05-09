@@ -47,6 +47,7 @@
 
 #include "Utils/RegExp.hpp"
 #include "Utils/CommandLineOption.hpp"
+#include "Utils/Updater.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
@@ -56,6 +57,8 @@
 #include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
+
+QString Application::currentVersion = QString("1.0.2e");
 
 // Static member
 QList<QString> Application::paths()
@@ -134,7 +137,7 @@ Application::Application(int& argc, char** argv) :
 	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1String("/sielo_colorful_flat/main.sss")};
 
 	if (themeInfo.exists())
-		loadTheme("sielo_colorful_flat");
+		loadTheme("sielo_default");
 	else
 		loadThemeFromResources();
 
@@ -147,6 +150,8 @@ Application::Application(int& argc, char** argv) :
 		else
 			QFile::remove(paths()[Application::P_Data] + QLatin1String("/pinnedtabs.dat"));
 	}
+
+	Updater* updater{new Updater(window)};
 
 }
 
@@ -198,7 +203,7 @@ Application::AfterLaunch Application::afterLaunch() const
 {
 	QSettings settings{};
 
-	return static_cast<AfterLaunch>(settings.value(QStringLiteral("Settings/afterLaunch"), RestoreSession).toInt());
+	return static_cast<AfterLaunch>(settings.value(QStringLiteral("Settings/afterLaunch"), OpenHomePage).toInt());
 }
 
 bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
@@ -427,40 +432,41 @@ void Application::loadTheme(const QString& name)
 void Application::loadThemeFromResources()
 {
 	QString defaultThemePath{paths()[Application::P_Themes]};
+	QString defaultThemeDataPath{":data/themes/sielo_colorful_flat"};
 
-	defaultThemePath += QLatin1String("/sielo_colorful_flat");
+	defaultThemePath += QLatin1String("/sielo_default");
 
 	if (!QDir().exists(defaultThemePath) || !QDir().exists(defaultThemePath + QLatin1String("/images")))
 		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
 
-	QFile::copy(":data/themes/sielo_colorful_flat/main.sss", defaultThemePath + QLatin1String("/main.sss"));
+	QFile::copy(defaultThemeDataPath + "/main.sss", defaultThemePath + QLatin1String("/main.sss"));
 
 
-	QFile::copy(":data/themes/sielo_colorful_flat/images/icon.png",
+	QFile::copy(defaultThemeDataPath + "/images/icon.png",
 				defaultThemePath + QLatin1String("/images/icon.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/add-bookmark.png",
+	QFile::copy(defaultThemeDataPath + "/images/add-bookmark.png",
 				defaultThemePath + QLatin1String("/images/add-bookmark.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/view-bookmarks.png",
+	QFile::copy(defaultThemeDataPath + "/images/view-bookmarks.png",
 				defaultThemePath + QLatin1String("/images/view-bookmarks.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/history.png",
+	QFile::copy(defaultThemeDataPath + "/images/history.png",
 				defaultThemePath + QLatin1String("/images/history.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/back.png",
+	QFile::copy(defaultThemeDataPath + "/images/back.png",
 				defaultThemePath + QLatin1String("/images/back.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/next.png",
+	QFile::copy(defaultThemeDataPath + "/images/next.png",
 				defaultThemePath + QLatin1String("/images/next.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/new-tab.png",
+	QFile::copy(defaultThemeDataPath + "/images/new-tab.png",
 				defaultThemePath + QLatin1String("/images/new-tab.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/new-window.png",
+	QFile::copy(defaultThemeDataPath + "/images/new-window.png",
 				defaultThemePath + QLatin1String("/images/new-window.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/home.png",
+	QFile::copy(defaultThemeDataPath + "/images/home.png",
 				defaultThemePath + QLatin1String("/images/home.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/go.png", defaultThemePath + QLatin1String("/images/go.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/refresh.png",
+	QFile::copy(defaultThemeDataPath + "/images/go.png", defaultThemePath + QLatin1String("/images/go.png"));
+	QFile::copy(defaultThemeDataPath + "/images/refresh.png",
 				defaultThemePath + QLatin1String("/images/refresh.png"));
-	QFile::copy(":data/themes/sielo_colorful_flat/images/stop.png",
+	QFile::copy(defaultThemeDataPath + "/images/stop.png",
 				defaultThemePath + QLatin1String("/images/stop.png"));
 
-	loadTheme("sielo_colorful_flat");
+	loadTheme("sielo_default");
 }
 
 }

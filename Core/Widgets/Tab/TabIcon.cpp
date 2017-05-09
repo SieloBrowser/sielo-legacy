@@ -45,6 +45,7 @@ TabIcon::TabIcon(QWidget* parent) :
 	m_animationRunning(false),
 	m_audioIconDisplayed(false)
 {
+	setObjectName("tab-icon");
 	if (!s_data) {
 		s_data = new TabIcon::Data;
 

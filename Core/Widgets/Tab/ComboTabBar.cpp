@@ -74,6 +74,9 @@ ComboTabBar::ComboTabBar(QWidget* parent) :
 	m_mainTabBarWidget = new TabBarScrollWidget(m_mainTabBar, this);
 	m_pinnedTabBarWidget = new TabBarScrollWidget(m_pinnedTabBar, this);
 
+	m_mainTabBar->setObjectName("tabbar");
+	m_pinnedTabBar->setObjectName("pinnedtabbar");
+
 	m_mainTabBar->setScrollArea(m_mainTabBarWidget->scrollArea());
 	m_mainTabBar->setActiveTabBar(true);
 	m_pinnedTabBar->setScrollArea(m_pinnedTabBarWidget->scrollArea());

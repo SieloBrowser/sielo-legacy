@@ -81,6 +81,8 @@ WebPage::WebPage(QObject* parent) :
 {
 
 	settings()->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+	settings()->setAttribute(QWebEngineSettings::PluginsEnabled, true);
+	settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
 
 	connect(this, &QWebEnginePage::loadProgress, this, &WebPage::progress);
 	connect(this, &QWebEnginePage::loadFinished, this, &WebPage::finished);

@@ -45,7 +45,7 @@ class NetworkManager;
 
 class BrowserWindow;
 
-class Application: public QApplication {
+class Q_DECL_EXPORT Application: public QApplication {
 public:
 	enum CommandLineAction {
 		CL_NoAction,
@@ -130,6 +130,7 @@ public:
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
+	static QString currentVersion;
 	static QList<QString> paths();
 	static Application* instance();
 
