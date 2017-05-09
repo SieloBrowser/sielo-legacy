@@ -1,0 +1,50 @@
+#tabbarwidget
+{
+    background-image: rgb(230, 230, 230);
+    background-repeat: repeat-x;
+    border: none
+}
+
+/* Main tab bar */
+#tabbar
+{
+    min-height: 27px;
+    max-height: 27px;
+    border: none;
+}
+
+#tabbar::tab
+{
+    height: 26px;
+    padding-right: -1px;
+    padding-left: -1px;
+}
+
+#tabbar::tab:selected
+{
+    background: rgb(240, 240, 240) repeat-x;
+    margin-top: 2px;
+    margin-bottom: -3px;
+    border: 1px solid #3c7fb1;
+}
+
+#tabbar::tab:!selected
+{
+    background: rgb(230, 230, 230) repeat-x;
+    margin-top: 2px;
+    border: none;
+    border-bottom:  1px solid #ababab;
+}
+
+#tabbar::tab:!selected:hover
+{
+    background: rgb(216, 234, 249) repeat-x;
+    margin-top: 2px;
+    margin-bottom: -3px;
+    border: 1px solid #3c7fb1;
+}
+
+#tabbar::tab:last
+{
+    margin-right: -1px;
+}
