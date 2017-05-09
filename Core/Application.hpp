@@ -154,6 +154,8 @@ private:
 	void loadTheme(const QString& name);
 	void loadThemeFromResources();
 
+	QString readSSSFile(const QString& filename);
+
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};
 	bool m_useTopToolBar{false};

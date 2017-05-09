@@ -410,21 +410,23 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 void Application::loadTheme(const QString& name)
 {
 	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
-	QFile theme{activeThemePath + QLatin1String("/main.sss")};
-	QByteArray array{};
+	QString sss{readSSSFile(activeThemePath + QLatin1String("/main.sss"))};
 
-	if (theme.open(QFile::ReadOnly)) {
-		array = theme.readAll();
-		theme.close();
-	}
+#if defined(Q_OS_MAC)
+	sss.append(readSSSFile(activeThemePath + QLatin1String("/mac.sss")));
+#elif defined(Q_OS_LINUX)
+	sss.append(readSSSFile(activeThemePath + QLatin1String("/linux.sss")));
+#elif defined(Q_OS_WIN)
+	sss.append(readSSSFile(activeThemePath + QLatin1String("/windows.sss")));
+#endif
 
-	QString sss{QString::fromUtf8(array)};
 	QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
 
 	sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
 				QString("url(%1/\\1)").arg(relativePath));
 	sss.replace("sproperty", "qproperty");
 	sss.replace("slineargradient", "qlineargradient");
+
 
 	setStyleSheet(sss);
 }
@@ -440,6 +442,7 @@ void Application::loadThemeFromResources()
 		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
 
 	QFile::copy(defaultThemeDataPath + "/main.sss", defaultThemePath + QLatin1String("/main.sss"));
+	QFile::copy(defaultThemeDataPath + "/windows.sss", defaultThemePath + QLatin1String("/windows.sss"));
 
 
 	QFile::copy(defaultThemeDataPath + "/images/icon.png",
@@ -467,6 +470,21 @@ void Application::loadThemeFromResources()
 				defaultThemePath + QLatin1String("/images/stop.png"));
 
 	loadTheme("sielo_default");
+}
+
+QString Application::readSSSFile(const QString& filename)
+{
+	QFile file{filename};
+
+	if (!filename.isEmpty() && file.open(QFile::ReadOnly)) {
+		const QByteArray array{file.readAll()};
+
+		file.close();
+
+		return QString::fromUtf8(array);
+	}
+
+	return QString();
 }
 
 }

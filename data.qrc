@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>data/bookmarks.xbel</file>
-
-        <!-- Colorful flat theme files -->
+        <!-- Colorful default theme -->
         <file>data/themes/sielo_colorful_flat/main.sss</file>
+        <file>data/themes/sielo_colorful_flat/windows.sss</file>
         <file>data/themes/sielo_colorful_flat/images/icon.png</file>
         <file>data/themes/sielo_colorful_flat/images/add-bookmark.png</file>
         <file>data/themes/sielo_colorful_flat/images/view-bookmarks.png</file>
