@@ -33,6 +33,7 @@
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/Tab/MainTabBar.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/LoadRequest.hpp"
@@ -194,5 +195,12 @@ void TabbedWebView::newMousePressEvent(QMouseEvent* event)
 void TabbedWebView::newMouseMoveEvent(QMouseEvent* event)
 {
 	WebView::newMouseMoveEvent(event);
+}
+
+void TabbedWebView::enterEvent(QEvent* event)
+{
+	event->accept();
+
+	emit m_webTab->tabBar()->tabWidget()->focusIn(m_webTab->tabBar()->tabWidget());
 }
 }

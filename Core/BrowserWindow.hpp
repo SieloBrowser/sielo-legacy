@@ -31,6 +31,8 @@
 #include <QVBoxLayout>
 #include <QSplitter>
 
+#include <QVector>
+
 #include <QUrl>
 
 #include "Utils/RestoreManager.hpp"
@@ -48,6 +50,13 @@ class BrowserWindow: public QMainWindow {
 Q_OBJECT
 
 public:
+	enum TabsSpacePosition {
+		TSP_Left,
+		TSP_Right,
+		TSP_Top,
+		TSP_Bottom
+	};
+
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
 	~BrowserWindow();
 
@@ -60,12 +69,18 @@ public:
 
 	void currentTabChanged();
 
+	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab);
+	void closeTabsSpace(TabWidget* tabWidget);
+
 	QUrl homePageUrl() const { return m_homePage; }
 
 	TabbedWebView* webView() const;
 	TabbedWebView* webView(int index) const;
 
-	TabWidget* tabWidget() const { return m_tabWidget; }
+	TabWidget* tabWidget() const;
+	TabWidget* tabWidget(int index) const;
+	int tabWidgetsCount() const;
+
 public slots:
 	void enterHtmlFullScreen();
 
@@ -75,8 +90,14 @@ private slots:
 	void addTab();
 	void postLaunch();
 
+	void tabWidgetIndexChanged(TabWidget* tabWidget);
+
 private:
 	void setupUi();
+
+	QAction* m_restoreAction{nullptr};
+
+	QWidget* createWidgetTabWidget(WebTab* tab = nullptr);
 
 	QUrl m_startUrl{};
 	QUrl m_homePage{};
@@ -87,7 +108,9 @@ private:
 	QVBoxLayout* m_layout{nullptr};
 	QSplitter* m_mainSplitter{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
+	QVector<TabWidget*> m_tabWidgets;
+
+	int m_currentTabWidget{0};
 };
 
 }

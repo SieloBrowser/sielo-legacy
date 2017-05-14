@@ -79,6 +79,7 @@ public:
 	TabbedWebView* webView() const { return m_webView; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
 	AddressBar* addressBar() const { return m_addressBar; }
+	MainTabBar* tabBar() const { return m_tabBar; }
 
 	QUrl url() const;
 	QString title() const;

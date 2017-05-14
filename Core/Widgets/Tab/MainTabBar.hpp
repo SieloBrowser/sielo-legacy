@@ -35,6 +35,7 @@
 #include <QWheelEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QFocusEvent>
 
 #include "Widgets/Tab/ComboTabBar.hpp"
 
@@ -95,6 +96,11 @@ private slots:
 	void closeToLeft();
 	void closeTabFromButton();
 
+	void createNewLeftTabsSpace();
+	void createNewRightTabsSpace();
+	void createNewTopTabsSpace();
+	void createNewBottomTabsSpace();
+
 private:
 	inline bool validIndex(int index) const { return (index >= 0 && index < count()); }
 
@@ -109,6 +115,7 @@ private:
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
+	void enterEvent(QEvent* event);
 
 	void dragEnterEvent(QDragEnterEvent* event);
 	void dropEvent(QDropEvent* event);

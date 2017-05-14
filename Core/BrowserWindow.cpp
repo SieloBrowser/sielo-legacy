@@ -75,7 +75,7 @@ void BrowserWindow::loadSettings()
 
 	settings.endGroup();
 
-	m_tabWidget->loadSettings();
+		foreach (TabWidget* tabWidget, m_tabWidgets) tabWidget->loadSettings();
 
 }
 
@@ -92,7 +92,8 @@ void BrowserWindow::setStartPage(WebPage* page)
 void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 {
 	restoreState(data.windowState);
-	m_tabWidget->restoreState(data.tabsState, data.currentTab);
+	// TODO: Tabs space save management
+	tabWidget()->restoreState(data.tabsState, data.currentTab);
 }
 
 void BrowserWindow::currentTabChanged()
@@ -106,19 +107,95 @@ void BrowserWindow::currentTabChanged()
 	view->setFocus();
 }
 
+void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab)
+{
+	QWidget* widgetTabWidget{createWidgetTabWidget(tab)};
+
+	if (position == BrowserWindow::TSP_Left || position == BrowserWindow::TSP_Right) {
+		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
+		if (position == BrowserWindow::TSP_Left) {
+			verticalSplitter->addWidget(widgetTabWidget);
+
+			m_mainSplitter->insertWidget(m_mainSplitter
+											 ->indexOf(static_cast<QSplitter*>(m_tabWidgets[m_currentTabWidget]
+												 ->parent()->parent())), verticalSplitter);
+		}
+		else {
+			verticalSplitter->addWidget(widgetTabWidget);
+
+			m_mainSplitter->insertWidget(
+				m_mainSplitter->indexOf(static_cast<QSplitter*>(m_tabWidgets[m_currentTabWidget]->parent()->parent()))
+				+ 1, verticalSplitter);
+		}
+
+		QList<int> size;
+
+		for (int i{0}; i < m_mainSplitter->count(); ++i)
+			size.append(m_mainSplitter->width() / m_mainSplitter->count());
+
+		m_mainSplitter->setSizes(size);
+	}
+	else {
+		QSplitter* verticalSplitter = static_cast<QSplitter*>(tabWidget()->parent()->parent());
+		if (position == BrowserWindow::TSP_Top)
+			verticalSplitter->insertWidget(verticalSplitter->indexOf(static_cast<QWidget*>(tabWidget()->parent())),
+										   widgetTabWidget);
+		else if (position == BrowserWindow::TSP_Bottom)
+			verticalSplitter->insertWidget(verticalSplitter->indexOf(static_cast<QWidget*>(tabWidget()->parent())) + 1,
+										   widgetTabWidget);
+
+		QList<int> size;
+
+		for (int i{0}; i < verticalSplitter->count(); ++i)
+			size.append(verticalSplitter->width() / verticalSplitter->count());
+
+		verticalSplitter->setSizes(size);
+	}
+
+}
+
+void BrowserWindow::closeTabsSpace(TabWidget* tabWidget)
+{
+	QWidget* widgetTabWidget = static_cast<QWidget*>(tabWidget->parent());
+	QSplitter* verticalSplitter = static_cast<QSplitter*>(tabWidget->parent()->parent());
+
+	m_tabWidgets.removeOne(tabWidget);
+
+	if (verticalSplitter->count() <= 1)
+		verticalSplitter->deleteLater();
+	else
+		widgetTabWidget->deleteLater();
+
+	m_currentTabWidget = 0;
+}
 
 TabbedWebView* BrowserWindow::webView() const
 {
-	return webView(m_tabWidget->currentIndex());
+	return webView(tabWidget()->currentIndex());
 }
 
 TabbedWebView* BrowserWindow::webView(int index) const
 {
-	WebTab* webTab = qobject_cast<WebTab*>(m_tabWidget->widget(index));
+	WebTab* webTab = qobject_cast<WebTab*>(tabWidget()->widget(index));
 	if (!webTab)
 		return 0;
 
 	return webTab->webView();
+}
+
+TabWidget* BrowserWindow::tabWidget() const
+{
+	return m_tabWidgets[m_currentTabWidget];
+}
+
+TabWidget* BrowserWindow::tabWidget(int index) const
+{
+	return m_tabWidgets[index];
+}
+
+int BrowserWindow::tabWidgetsCount() const
+{
+	return m_tabWidgets.count();
 }
 
 void BrowserWindow::enterHtmlFullScreen()
@@ -133,42 +210,8 @@ void BrowserWindow::bookmarkAllTabs()
 
 void BrowserWindow::addTab()
 {
-	m_tabWidget->addView(QUrl(), Application::NTT_SelectedNewEmptyTab, true);
-	m_tabWidget->setCurrentTabFresh(true);
-}
-
-void BrowserWindow::setupUi()
-{
-	QWidget* widget{new QWidget(this)};
-	widget->setCursor(Qt::ArrowCursor);
-
-	m_layout = new QVBoxLayout(widget);
-	m_layout->setSpacing(0);
-	m_layout->setContentsMargins(0, 0, 0, 0);
-
-	m_tabWidget = new TabWidget(this, this);
-
-	m_mainSplitter = new QSplitter(this);
-	m_mainSplitter->addWidget(m_tabWidget);
-
-	m_layout->addWidget(m_tabWidget->tabBar());
-	m_layout->addWidget(m_mainSplitter);
-
-	m_tabWidget->tabBar()->show();
-
-	QPalette palette{QToolTip::palette()};
-	QColor color{palette.window().color()};
-
-	color.setAlpha(0);
-	palette.setColor(QPalette::Window, color);
-
-	QToolTip::setPalette(palette);
-
-	setMinimumWidth(300);
-	//TODO: delete this line when settings will be implements
-	resize(1200, 720);
-	setCentralWidget(widget);
-
+	tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab, true);
+	tabWidget()->setCurrentTabFresh(true);
 }
 
 void BrowserWindow::postLaunch()
@@ -214,33 +257,111 @@ void BrowserWindow::postLaunch()
 	}
 	if (m_startTab) {
 		addTab = false;
-		m_tabWidget->addView(m_startTab);
+		tabWidget()->addView(m_startTab);
 	}
 	if (m_startPage) {
 		addTab = false;
-		m_tabWidget->addView(QUrl());
+		tabWidget()->addView(QUrl());
 		webView()->setPage(m_startPage);
 	}
 
 	if (addTab) {
-		m_tabWidget->addView(startUrl, Application::NTT_CleanSelectedTabAtEnd);
+		tabWidget()->addView(startUrl, Application::NTT_CleanSelectedTabAtEnd);
 
 		if (startUrl.isEmpty())
 			webView()->webTab()->addressBar()->setFocus();
 	}
 
-	if (m_tabWidget->tabBar()->normalTabsCount() <= 0)
-		m_tabWidget->addView(m_homePage, Application::NTT_SelectedTabAtEnd);
+	if (tabWidget()->tabBar()->normalTabsCount() <= 0)
+		tabWidget()->addView(m_homePage, Application::NTT_SelectedTabAtEnd);
 
 	//TODO: emit main window created to plugins
 
-	QAction* action{new QAction(tr("Restore Closed Tab"), this)};
-	action->setShortcut(QKeySequence("Ctrl+Shift+T"));
-	this->addAction(action);
-	connect(action, SIGNAL(triggered()), m_tabWidget, SLOT(restoreClosedTab()));
+	m_restoreAction = new QAction(tr("Restore Closed Tab"), this);
+	m_restoreAction->setShortcut(QKeySequence("Ctrl+Shift+T"));
+	this->addAction(m_restoreAction);
+	connect(m_restoreAction, SIGNAL(triggered()), tabWidget(), SLOT(restoreClosedTab()));
 
 	tabWidget()->tabBar()->ensureVisible();
 }
 
+void BrowserWindow::tabWidgetIndexChanged(TabWidget* tabWidget)
+{
+	if (m_currentTabWidget == m_tabWidgets.indexOf(tabWidget))
+		return;
+
+	disconnect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
+
+	m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+
+	connect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
+
+}
+
+void BrowserWindow::setupUi()
+{
+	QWidget* widget{new QWidget(this)};
+	QWidget* widgetTabWidget{createWidgetTabWidget()};
+	QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
+
+	widget->setCursor(Qt::ArrowCursor);
+
+	verticalSplitter->addWidget(widgetTabWidget);
+
+	m_layout = new QVBoxLayout(widget);
+	m_layout->setSpacing(0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+
+	m_mainSplitter = new QSplitter(this);
+	m_mainSplitter->addWidget(verticalSplitter);
+
+	m_layout->addWidget(m_mainSplitter);
+
+	QPalette palette{QToolTip::palette()};
+	QColor color{palette.window().color()};
+
+	color.setAlpha(0);
+	palette.setColor(QPalette::Window, color);
+
+	QToolTip::setPalette(palette);
+
+	setMinimumWidth(300);
+	//TODO: delete this line when settings will be implements
+	resize(1200, 720);
+	setCentralWidget(widget);
+
+}
+
+QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab)
+{
+	QWidget* widget{new QWidget(this)};
+	QVBoxLayout* layout{new QVBoxLayout(widget)};
+	TabWidget* tabWidget{new TabWidget(this, widget)};
+
+	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
+
+	m_tabWidgets.append(tabWidget);
+
+	if (tab) {
+		int previousCurrentTabWidget{m_currentTabWidget};
+		m_currentTabWidget = m_tabWidgets.count() - 1;
+
+		tab->detach();
+		tabWidget->addView(tab);
+
+		m_currentTabWidget = previousCurrentTabWidget;
+	}
+
+	tabWidget->tabBar()->show();
+
+	layout->addWidget(tabWidget->tabBar());
+	layout->addWidget(tabWidget);
+
+	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
+
+	return widget;
+
+}
 
 }

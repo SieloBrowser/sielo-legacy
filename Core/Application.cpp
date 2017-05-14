@@ -58,7 +58,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.0.2e");
+QString Application::currentVersion = QString("1.0.4e");
 
 // Static member
 QList<QString> Application::paths()
@@ -134,13 +134,6 @@ Application::Application(int& argc, char** argv) :
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
 
-	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1String("/sielo_colorful_flat/main.sss")};
-
-	if (themeInfo.exists())
-		loadTheme("sielo_default");
-	else
-		loadThemeFromResources();
-
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
 	if (afterLaunch() == RestoreSession) {
@@ -172,6 +165,15 @@ void Application::loadSettings()
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 
 		foreach (BrowserWindow* window, m_windows) window->loadSettings();
+
+	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
+						+ settings.value("Themes/currentTheme", "sielo_default").toString()
+						+ QLatin1String("/main.sss")};
+
+	if (themeInfo.exists())
+		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
+	else
+		loadThemeFromResources();
 }
 
 int Application::windowCount() const

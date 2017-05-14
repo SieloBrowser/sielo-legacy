@@ -642,7 +642,7 @@ void TabWidget::requestCloseTab(int index)
 
 	//TODO: block close of restore tab
 
-	if (count() == 1) {
+	if (count() == 1 && m_window->tabWidgetsCount() == 1) {
 		if (m_dontCloseWithOneTab) {
 			if (webView->url() == m_urlOnNewTab)
 				m_closedTabsManager->takeLastClosedTab();
@@ -651,6 +651,9 @@ void TabWidget::requestCloseTab(int index)
 		}
 		m_window->close();
 		return;
+	}
+	else if (count() == 1) {
+		m_window->closeTabsSpace(this);
 	}
 
 	webView->triggerPageAction(QWebEnginePage::RequestClose);

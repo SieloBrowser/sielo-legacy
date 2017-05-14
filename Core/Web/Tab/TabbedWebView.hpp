@@ -87,6 +87,8 @@ private:
 	void newMousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	void newMouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
+	void enterEvent(QEvent* event);
+
 	BrowserWindow* m_window{nullptr};
 	WebTab* m_webTab{nullptr};
 	QMenu* m_menu{nullptr};

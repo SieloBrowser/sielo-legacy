@@ -98,6 +98,7 @@ public:
 signals:
 	void changed();
 
+	void focusIn(TabWidget*);
 public slots:
 	int addView(const QUrl& url);
 	int addView(const LoadRequest& request, const Application::NewTabTypeFlags& openFlags, bool selectLine = false,

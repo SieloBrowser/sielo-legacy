@@ -77,6 +77,8 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 		//TODO: QLabel* privateBrowsing{new QLabel(this)};
 	}
 
+	setFocusPolicy(Qt::WheelFocus);
+
 	connect(this, &MainTabBar::currentChanged, this, &MainTabBar::currentTabChanged);
 	connect(this, &MainTabBar::overflowChanged, this, &MainTabBar::overflowChanged);
 }
@@ -276,6 +278,34 @@ void MainTabBar::closeTabFromButton()
 		m_tabWidget->requestCloseTab(tabToClose);
 }
 
+void MainTabBar::createNewLeftTabsSpace()
+{
+	WebTab* tab{webTab(m_clickedTab)};
+
+	m_window->createNewTabsSpace(BrowserWindow::TSP_Left, tab);
+}
+
+void MainTabBar::createNewRightTabsSpace()
+{
+	WebTab* tab{webTab(m_clickedTab)};
+
+	m_window->createNewTabsSpace(BrowserWindow::TSP_Right, tab);
+}
+
+void MainTabBar::createNewTopTabsSpace()
+{
+	WebTab* tab{webTab(m_clickedTab)};
+
+	m_window->createNewTabsSpace(BrowserWindow::TSP_Top, tab);
+}
+
+void MainTabBar::createNewBottomTabsSpace()
+{
+	WebTab* tab{webTab(m_clickedTab)};
+
+	m_window->createNewTabsSpace(BrowserWindow::TSP_Bottom, tab);
+}
+
 void MainTabBar::tabInserted(int index)
 {
 	Q_UNUSED(index);
@@ -353,8 +383,15 @@ void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 
 		menu.addAction(QIcon::fromTheme("tab-duplicate"), tr("&Duplicate Tab"), this, SLOT(duplicateTab()));
 
-		if (count() > 1 && !webTab->isPinned())
+		if (count() > 1 && !webTab->isPinned()) {
 			menu.addAction(QIcon::fromTheme("tab-detach"), tr("D&etach Tab"), this, SLOT(detachTab()));
+			menu.addSeparator();
+			menu.addAction(tr("Add To New Left Tabs Space"), this, &MainTabBar::createNewLeftTabsSpace);
+			menu.addAction(tr("Add To New Right Tabs Space"), this, &MainTabBar::createNewRightTabsSpace);
+			menu.addAction(tr("Add To New Top Tabs Space"), this, &MainTabBar::createNewTopTabsSpace);
+			menu.addAction(tr("Add To New Bottom Tabs Space"), this, &MainTabBar::createNewBottomTabsSpace);
+			menu.addSeparator();
+		}
 
 		menu.addAction(webTab->isPinned() ? tr("Un&pin Tab") : tr("&Pin Tab"), this, SLOT(pinTab()));
 		menu.addAction(webTab->isMuted() ? tr("Un&mute Tab") : tr("&Mute Tab"), this, SLOT(muteTab()));
@@ -453,6 +490,13 @@ void MainTabBar::mouseReleaseEvent(QMouseEvent* event)
 	ComboTabBar::mouseReleaseEvent(event);
 }
 
+void MainTabBar::enterEvent(QEvent* event)
+{
+	event->accept();
+
+	emit m_tabWidget->focusIn(m_tabWidget);
+}
+
 void MainTabBar::dragEnterEvent(QDragEnterEvent* event)
 {
 	const QMimeData* mime{event->mimeData()};
@@ -488,12 +532,14 @@ void MainTabBar::dropEvent(QDropEvent* event)
 
 QSize MainTabBar::tabSizeHint(int index, bool fast) const
 {
-	if (!m_window->isVisible())
+	if (!m_window->isVisible()) {
 		return QSize(-1, -1);
+	}
 
-	const int pinnedTabWidth{comboTabBarPixelMetric(ComboTabBar::PinnedTabWidth)};
-	const int minTabWidth{comboTabBarPixelMetric(ComboTabBar::NormalTabMinimumWidth)};
-	QSize size{ComboTabBar::tabSizeHint(index)};
+	const int pinnedTabWidth = comboTabBarPixelMetric(ComboTabBar::PinnedTabWidth);
+	const int minTabWidth = comboTabBarPixelMetric(ComboTabBar::NormalTabMinimumWidth);
+
+	QSize size = ComboTabBar::tabSizeHint(index);
 
 	if (fast) {
 		size.setWidth(index >= pinnedTabsCount() ? minTabWidth : pinnedTabWidth);
