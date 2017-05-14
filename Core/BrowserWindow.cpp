@@ -79,6 +79,33 @@ void BrowserWindow::loadSettings()
 
 }
 
+QByteArray BrowserWindow::saveTabs()
+{
+	QByteArray data{};
+	QDataStream stream{&data, QIODevice::WriteOnly};
+
+	int count = m_mainSplitter->count();
+	stream << m_mainSplitter->count();
+
+	for (int i{0}; i < m_mainSplitter->count(); ++i) {
+		QSplitter* verticalSplitter = static_cast<QSplitter*>(m_mainSplitter->widget(i));
+
+		stream << verticalSplitter->count();
+
+		for (int j{0}; j < verticalSplitter->count(); ++j)
+			stream << static_cast<TabWidget*>(verticalSplitter->widget(j)->findChild<TabWidget*>(QString("tabwidget")))
+				->saveState();
+
+	}
+
+	return data;
+}
+
+void BrowserWindow::restoreTabs()
+{
+
+}
+
 void BrowserWindow::setStartTab(WebTab* tab)
 {
 	m_startTab = tab;
@@ -92,8 +119,47 @@ void BrowserWindow::setStartPage(WebPage* page)
 void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 {
 	restoreState(data.windowState);
-	// TODO: Tabs space save management
-	tabWidget()->restoreState(data.tabsState, data.currentTab);
+	int mainSplitterCount{data.spaceTabsCount[0]};
+	int tabWidgetToRestore{0};
+
+	for (int i{0}; i < mainSplitterCount; ++i) {
+		int verticalSplitterCount{data.spaceTabsCount[i + 1]};
+		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
+
+		if (i == 0) {
+			m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0]);
+			++tabWidgetToRestore;
+		}
+		else {
+			for (int j{0}; j < verticalSplitterCount; ++j) {
+				QWidget* widget{new QWidget(this)};
+				QVBoxLayout* layout{new QVBoxLayout(widget)};
+				TabWidget* tabWidget{new TabWidget(this, widget)};
+
+				layout->setSpacing(0);
+				layout->setContentsMargins(0, 0, 0, 0);
+
+				m_tabWidgets.append(tabWidget);
+				m_currentTabWidget = tabWidgetToRestore;
+
+				tabWidget->restoreState(data.tabsState[tabWidgetToRestore], data.currentTabs[tabWidgetToRestore]);
+				tabWidget->tabBar()->show();
+
+				layout->addWidget(tabWidget->tabBar());
+				layout->addWidget(tabWidget);
+
+				connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
+
+				verticalSplitter->addWidget(widget);
+
+				++tabWidgetToRestore;
+			}
+			m_mainSplitter->addWidget(verticalSplitter);
+
+		}
+	}
+
+	autoResizeTabsSpace();
 }
 
 void BrowserWindow::currentTabChanged()
@@ -147,7 +213,7 @@ void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab)
 		QList<int> size;
 
 		for (int i{0}; i < verticalSplitter->count(); ++i)
-			size.append(verticalSplitter->width() / verticalSplitter->count());
+			size.append(verticalSplitter->height() / verticalSplitter->count());
 
 		verticalSplitter->setSizes(size);
 	}
@@ -167,6 +233,27 @@ void BrowserWindow::closeTabsSpace(TabWidget* tabWidget)
 		widgetTabWidget->deleteLater();
 
 	m_currentTabWidget = 0;
+}
+
+void BrowserWindow::autoResizeTabsSpace()
+{
+	QList<int> mainSizes;
+	QList<int> verticalSizes;
+	for (int i{0}; i < m_mainSplitter->count(); ++i)
+		mainSizes.append(m_mainSplitter->width() / m_mainSplitter->count());
+
+	m_mainSplitter->setSizes(mainSizes);
+
+	for (int i{0}; i < m_mainSplitter->count(); ++i) {
+		mainSizes.clear();
+
+		QSplitter* verticalSplitter = static_cast<QSplitter*>(m_mainSplitter->widget(i));
+
+		for (int j{0}; j < verticalSplitter->count(); ++j)
+			verticalSizes.append(verticalSplitter->height() / verticalSplitter->count());
+
+		verticalSplitter->setSizes(verticalSizes);
+	}
 }
 
 TabbedWebView* BrowserWindow::webView() const
@@ -301,6 +388,13 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tabWidget)
 void BrowserWindow::setupUi()
 {
 	QWidget* widget{new QWidget(this)};
+
+	m_layout = new QVBoxLayout(widget);
+	m_layout->setSpacing(0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+
+	m_mainSplitter = new QSplitter(this);
+
 	QWidget* widgetTabWidget{createWidgetTabWidget()};
 	QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
 
@@ -308,11 +402,6 @@ void BrowserWindow::setupUi()
 
 	verticalSplitter->addWidget(widgetTabWidget);
 
-	m_layout = new QVBoxLayout(widget);
-	m_layout->setSpacing(0);
-	m_layout->setContentsMargins(0, 0, 0, 0);
-
-	m_mainSplitter = new QSplitter(this);
 	m_mainSplitter->addWidget(verticalSplitter);
 
 	m_layout->addWidget(m_mainSplitter);

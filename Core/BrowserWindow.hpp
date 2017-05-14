@@ -62,6 +62,9 @@ public:
 
 	void loadSettings();
 
+	QByteArray saveTabs();
+	void restoreTabs();
+
 	void setStartTab(WebTab* tab);
 	void setStartPage(WebPage* page);
 
@@ -70,7 +73,9 @@ public:
 	void currentTabChanged();
 
 	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab);
+	void createNewTabsSpace(TabsSpacePosition position, TabWidget* tabWidget);
 	void closeTabsSpace(TabWidget* tabWidget);
+	void autoResizeTabsSpace();
 
 	QUrl homePageUrl() const { return m_homePage; }
 

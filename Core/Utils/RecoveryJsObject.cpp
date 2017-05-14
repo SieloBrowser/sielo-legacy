@@ -58,7 +58,7 @@ QJsonArray RecoveryJsObject::restoreData() const
 
 	int i{0};
 
-		foreach (const RestoreManager::WindowData& window, m_manager->restoreData()) {
+	/*	foreach (const RestoreManager::WindowData& window, m_manager->restoreData()) {
 			int j{0};
 			QJsonArray tabs;
 				foreach (const WebTab::SavedTab& tab, window.tabsState) {
@@ -100,7 +100,7 @@ QJsonArray RecoveryJsObject::restoreData() const
 
 			out.append(jsnWindow);
 		}
-
+*/
 	return out;
 }
 
@@ -120,7 +120,7 @@ void RecoveryJsObject::restoreSession(const QStringList& excludeWindows, const Q
 {
 	Q_ASSERT(excludeWindows.size() == excluedTabs.size());
 
-	RestoreData data = m_manager->restoreData();
+/*	RestoreData data = m_manager->restoreData();
 
 	for (int i{0}; i < excludeWindows.size(); ++i) {
 		int win{excludeWindows[i].toInt()};
@@ -152,6 +152,7 @@ void RecoveryJsObject::restoreSession(const QStringList& excludeWindows, const Q
 
 	if (!Application::instance()->restoreSession(window, data))
 		startNewSession();
+		*/
 }
 
 BrowserWindow* RecoveryJsObject::getBrowserWindow() const

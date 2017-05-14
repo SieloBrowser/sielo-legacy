@@ -39,9 +39,10 @@ class RecoveryJsObject;
 class RestoreManager {
 public:
 	struct WindowData {
-		int currentTab{};
+		QVector<int> currentTabs{};
 		QByteArray windowState{};
-		QVector<WebTab::SavedTab> tabsState;
+		QVector<int> spaceTabsCount{};
+		QVector<QVector<WebTab::SavedTab>> tabsState;
 	};
 
 	RestoreManager();

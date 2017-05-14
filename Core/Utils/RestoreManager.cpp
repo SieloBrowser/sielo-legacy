@@ -81,40 +81,59 @@ void RestoreManager::createFromFile(const QString& file)
 	stream >> windowCount;
 
 	for (int win{0}; win < windowCount; ++win) {
-		QByteArray tabState{};
+		QByteArray tabWidgetState{};
 		QByteArray windowState{};
 
-		stream >> tabState;
+		stream >> tabWidgetState;
 		stream >> windowState;
 
 		WindowData windowData{};
 
 		windowData.windowState = windowState;
 
-		QDataStream tabStream{tabState};
+		QDataStream tabWidgetStream{tabWidgetState};
 
-		if (tabStream.atEnd())
+		if (tabWidgetStream.atEnd())
 			continue;
 
-		QVector<WebTab::SavedTab> tabs;
-		int tabListCount{0};
+		int mainSplitterCount{0};
+		tabWidgetStream >> mainSplitterCount;
 
-		tabStream >> tabListCount;
+		windowData.spaceTabsCount.append(mainSplitterCount);
 
-		for (int i{0}; i < tabListCount; ++i) {
-			WebTab::SavedTab tab{};
+		for (int j{0}; j < mainSplitterCount; ++j) {
+			int verticalSplitterCount{0};
+			tabWidgetStream >> verticalSplitterCount;
 
-			tabStream >> tab;
-			tabs.append(tab);
+			windowData.spaceTabsCount.append(verticalSplitterCount);
+			for (int k{0}; k < verticalSplitterCount; ++k) {
+				QVector<WebTab::SavedTab> tabs;
+				QByteArray tabState{};
+				int tabListCount{0};
+
+				tabWidgetStream >> tabState;
+
+				QDataStream tabStream{tabState};
+
+				tabStream >> tabListCount;
+
+				for (int l{0}; l < tabListCount; ++l) {
+					WebTab::SavedTab tab{};
+
+					tabStream >> tab;
+					tabs.append(tab);
+				}
+
+				windowData.tabsState.append(tabs);
+
+				int currentTab{};
+
+				tabStream >> currentTab;
+
+				windowData.currentTabs.append(currentTab);
+
+			}
 		}
-
-		windowData.tabsState = tabs;
-
-		int currentTab{};
-
-		tabStream >> currentTab;
-
-		windowData.currentTab = currentTab;
 
 		m_data.append(windowData);
 	}

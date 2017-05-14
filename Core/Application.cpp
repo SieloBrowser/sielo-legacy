@@ -58,7 +58,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.0.4e");
+QString Application::currentVersion = QString("1.0.5e");
 
 // Static member
 QList<QString> Application::paths()
@@ -231,7 +231,7 @@ bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
 		int tabCount{window->tabWidget()->pinnedTabsCount()};
 		RestoreManager::WindowData data = restoreData[0];
 
-		data.currentTab += tabCount;
+		data.currentTabs[0] += tabCount;
 		restoreData.remove(0);
 
 		window->restoreWindowState(data);
@@ -277,7 +277,7 @@ void Application::saveSession()
 	stream << m_windows.count();
 
 		foreach (BrowserWindow* window, m_windows) {
-			stream << window->tabWidget()->saveState();
+			stream << window->saveTabs();
 
 			if (window->isFullScreen())
 				stream << QByteArray();
