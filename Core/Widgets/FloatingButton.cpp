@@ -51,6 +51,9 @@ FloatingButton::FloatingButton(QWidget* parent, Type type) :
 	setIconSize(QSize(48, 48));
 	setFlat(true);
 	setObjectName("fbutton");
+
+	setToolTip(tr("Floating button"));
+	setCursor(Qt::PointingHandCursor);
 }
 
 void FloatingButton::setChildren(QVector<FloatingButton*> children)

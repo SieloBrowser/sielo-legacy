@@ -34,6 +34,7 @@
 
 #include <QKeyEvent>
 #include <QClipboard>
+#include <QtWidgets/QMessageBox>
 
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
@@ -61,6 +62,7 @@
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
 #include "Widgets/Tab/AddTabButton.hpp"
+#include "Widgets/Tab/TabLabel.hpp"
 
 namespace Sn {
 
@@ -110,8 +112,9 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 
 	m_buttonPreferences = new ToolButton(m_tabBar);
 	m_buttonPreferences->setObjectName(QLatin1String("tabwidget-button-preferences"));
-	m_buttonPreferences->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	m_buttonPreferences->setToolBarButtonLook(true);
+	m_buttonPreferences->setToolTip(tr("Preferences"));
+	m_buttonPreferences->setAutoRaise(true);
+	m_buttonPreferences->setFocusPolicy(Qt::NoFocus);
 	m_buttonPreferences->setIcon(QIcon(QLatin1String(":icons/preferences/preferences.png")));
 
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);
@@ -268,6 +271,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_tabBar, SIGNAL(closeToLeft(int)), this, SLOT(closeToLeft(int)));
 	connect(m_tabBar, SIGNAL(duplicateTab(int)), this, SLOT(duplicateTab(int)));
 	connect(m_tabBar, SIGNAL(detachTab(int)), this, SLOT(detachTab(int)));
+//	connect(m_tabBar, SIGNAL(detachTab(int, QPoint)), this, SLOT(detachTab(int, QPoint)));
 	connect(m_tabBar, &MainTabBar::tabMoved, this, &TabWidget::tabMoved);
 	connect(m_tabBar, &MainTabBar::moveAddTabButton, this, &TabWidget::moveAddTabButton);
 	connect(m_tabBar, &MainTabBar::overFlowChanged, this, &TabWidget::tabBarOverFlowChanged);
@@ -744,6 +748,14 @@ void TabWidget::detachTab(int index)
 	window->setStartTab(webTab);
 }
 
+/*
+void TabWidget::detachTab(int index, QPoint position)
+{
+	WebTab* webTab{weTab(index)};
+
+	TabLabel* tabLabel{new TabLabel(webTab, position)};
+}
+*/
 void TabWidget::restoreClosedTab(QObject* obj)
 {
 	if (!obj)

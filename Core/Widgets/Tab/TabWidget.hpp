@@ -95,6 +95,9 @@ public:
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
 
+	FloatingButton* fButtonBack() const { return m_fButtonBack; }
+	FloatingButton* fButtonNext() const { return m_fButtonNext; }
+
 signals:
 	void changed();
 
@@ -121,6 +124,7 @@ public slots:
 	void closeToRight(int index);
 	void closeToLeft(int index);
 	void detachTab(int index);
+//	void detachTab(int index, QPoint position);
 	void restoreClosedTab(QObject* obj = nullptr);
 	void restoreAllClosedTabs();
 	void clearClosedTabsList();

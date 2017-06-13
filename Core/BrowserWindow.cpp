@@ -126,37 +126,40 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 		int verticalSplitterCount{data.spaceTabsCount[i + 1]};
 		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
 
-		if (i == 0) {
-			m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0]);
-			++tabWidgetToRestore;
-		}
-		else {
 			for (int j{0}; j < verticalSplitterCount; ++j) {
-				QWidget* widget{new QWidget(this)};
-				QVBoxLayout* layout{new QVBoxLayout(widget)};
-				TabWidget* tabWidget{new TabWidget(this, widget)};
+				if (i == 0 && j == 0) {
+					m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0]);
+					verticalSplitter->addWidget(m_tabWidgets[0]->parentWidget());
+					m_mainSplitter->widget(0)->deleteLater();
+					++tabWidgetToRestore;
+				}
+				else {
+					QWidget* widget{new QWidget(this)};
+					QVBoxLayout* layout{new QVBoxLayout(widget)};
+					TabWidget* tabWidget{new TabWidget(this, widget)};
 
-				layout->setSpacing(0);
-				layout->setContentsMargins(0, 0, 0, 0);
+					layout->setSpacing(0);
+					layout->setContentsMargins(0, 0, 0, 0);
 
-				m_tabWidgets.append(tabWidget);
-				m_currentTabWidget = tabWidgetToRestore;
+					m_tabWidgets.append(tabWidget);
+					m_currentTabWidget = tabWidgetToRestore;
 
-				tabWidget->restoreState(data.tabsState[tabWidgetToRestore], data.currentTabs[tabWidgetToRestore]);
-				tabWidget->tabBar()->show();
+					tabWidget->restoreState(data.tabsState[tabWidgetToRestore], data.currentTabs[tabWidgetToRestore]);
+					tabWidget->tabBar()->show();
 
-				layout->addWidget(tabWidget->tabBar());
-				layout->addWidget(tabWidget);
+					layout->addWidget(tabWidget->tabBar());
+					layout->addWidget(tabWidget);
 
-				connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
+					connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
 
-				verticalSplitter->addWidget(widget);
+					verticalSplitter->addWidget(widget);
 
-				++tabWidgetToRestore;
-			}
-			m_mainSplitter->addWidget(verticalSplitter);
+					++tabWidgetToRestore;
+				}
+
 
 		}
+		m_mainSplitter->addWidget(verticalSplitter);
 	}
 
 	autoResizeTabsSpace();
