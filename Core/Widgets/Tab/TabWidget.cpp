@@ -62,7 +62,7 @@
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
 #include "Widgets/Tab/AddTabButton.hpp"
-#include "Widgets/Tab/TabLabel.hpp"
+//#include "Widgets/Tab/TabLabel.hpp"
 
 namespace Sn {
 
