@@ -127,6 +127,7 @@ public:
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
 	bool useTopToolBar() const { return m_useTopToolBar; }
+	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
@@ -159,6 +160,7 @@ private:
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};
 	bool m_useTopToolBar{false};
+	bool m_floatingButtonFoloweMouse{true};
 
 	PluginProxy* m_plugins{nullptr};
 	HistoryManager* m_historyManager{nullptr};

@@ -31,6 +31,7 @@
 #include <QAction>
 
 #include <QTimer>
+#include <QtWidgets/QMessageBox>
 
 #include "Bookmarks/AddBookmarkDialog.hpp"
 
@@ -392,8 +393,26 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
-	if (m_fButton)
+	if (m_fButton) {
 		m_fButton->setTabWidget(tabWidget());
+		QRect tabWidgetRect = tabWidget()->geometry();
+
+		if (!tabWidgetRect.contains(tabWidget()->mapFromGlobal(mapToGlobal(m_fButton->pos())))
+			&& Application::instance()->floatingButtonFoloweMouse()) {
+			if (m_fButton->childrenExpanded())
+				m_fButton->hideChildren();
+
+			QPoint newFloatingButtonPos{0, mapFromGlobal(QCursor::pos()).y()};
+
+			if (tbWidget->mapFromGlobal(QCursor::pos()).x() <= tbWidget->width()
+				&& tbWidget->mapFromGlobal(QCursor::pos()).x() >= tbWidget->width() - 50)
+				newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() - 40);
+			else
+				newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() + 15);
+
+			m_fButton->move(newFloatingButtonPos);
+		}
+	}
 }
 
 void BrowserWindow::newWindow()

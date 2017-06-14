@@ -77,6 +77,8 @@ public:
 	int positionID() const { return m_positionID; }
 	void setPositionID(int newPositionID);
 
+	bool childrenExpanded() const { return m_childrenExpanded; };
+
 signals:
 	void updateMenu();
 	void isClicked();

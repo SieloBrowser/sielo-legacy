@@ -163,6 +163,7 @@ void Application::loadSettings()
 	QSettings settings;
 
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
+	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
 		foreach (BrowserWindow* window, m_windows) window->loadSettings();
 

@@ -53,6 +53,8 @@ private slots:
 	void homePageActionChanged(bool enabled);
 	void newTabActionChanged(bool enabled);
 
+	void useRealToolBarChanged(bool enabled);
+
 private:
 	void setupUI();
 
@@ -77,6 +79,7 @@ private:
 	QComboBox* m_comboActionOnNewSession{nullptr};
 
 	QCheckBox* m_useRealToolBar{nullptr};
+	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
 
 };
 
