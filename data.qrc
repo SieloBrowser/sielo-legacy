@@ -17,5 +17,14 @@
         <file>data/themes/sielo_colorful_flat/images/go.png</file>
         <file>data/themes/sielo_colorful_flat/images/refresh.png</file>
         <file>data/themes/sielo_colorful_flat/images/stop.png</file>
+        <!-- Tool bar -->
+        <file>data/toolbar/add-bookmark.png</file>
+        <file>data/toolbar/view-bookmarks.png</file>
+        <file>data/toolbar/history.png</file>
+        <file>data/toolbar/back.png</file>
+        <file>data/toolbar/next.png</file>
+        <file>data/toolbar/new-tab.png</file>
+        <file>data/toolbar/new-window.png</file>
+        <file>data/toolbar/home.png</file>
     </qresource>
 </RCC>

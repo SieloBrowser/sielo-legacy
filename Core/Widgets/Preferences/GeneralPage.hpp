@@ -35,6 +35,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QComboBox>
+#include <QCheckBox>
 
 namespace Sn {
 
@@ -74,6 +75,8 @@ private:
 
 	QLabel* m_descActionOnNewSession{nullptr};
 	QComboBox* m_comboActionOnNewSession{nullptr};
+
+	QCheckBox* m_useRealToolBar{nullptr};
 
 };
 

@@ -26,6 +26,8 @@
 
 #include <QSettings>
 
+#include <QMessageBox>
+
 #include "Application.hpp"
 
 #include "BrowserWindow.hpp"
@@ -59,6 +61,9 @@ void GeneralPage::loadSettings()
 
 	m_comboActionOnNewSession
 		->setCurrentIndex(settings.value(QLatin1String("afterLaunch"), Application::RestoreSession).toInt());
+
+	m_useRealToolBar
+		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
 
 	settings.endGroup();
 
@@ -104,6 +109,11 @@ void GeneralPage::save()
 	settings.beginGroup("Settings");
 
 	settings.setValue(QLatin1String("afterLaunch"), m_comboActionOnNewSession->currentIndex());
+	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
+
+	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
+		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
+	}
 
 	settings.endGroup();
 
@@ -178,6 +188,8 @@ void GeneralPage::setupUI()
 													  << tr("Open home page")
 													  << tr("Restore session"));
 
+	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
+
 	m_groupHomePage->setLayout(m_layoutGroup1);
 
 	m_layoutGroup1->addWidget(m_radioHPBlank);
@@ -195,6 +207,7 @@ void GeneralPage::setupUI()
 	m_layout->addWidget(m_groupNewTab);
 	m_layout->addWidget(m_descActionOnNewSession);
 	m_layout->addWidget(m_comboActionOnNewSession);
+	m_layout->addWidget(m_useRealToolBar);
 }
 
 }

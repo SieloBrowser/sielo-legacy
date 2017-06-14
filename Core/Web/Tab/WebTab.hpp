@@ -121,6 +121,7 @@ public:
 
 public slots:
 	void sNewWindow();
+	void sNewTab();
 	void sGoHome();
 
 private slots:

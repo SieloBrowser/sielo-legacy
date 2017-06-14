@@ -179,6 +179,29 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	else { */
 	//}
 
+	if (Application::instance()->useTopToolBar()) {
+		m_topToolBar = new QToolBar(this);
+
+		m_actionBack = new QAction(QIcon(":data/toolbar/back.png"), tr("&Back"), this);
+		m_actionNext = new QAction(QIcon(":data/toolbar/next.png"), tr("&Next"), this);
+		m_actionHome = new QAction(QIcon(":data/toolbar/home.png"), tr("Home"), this);
+		m_actionAddBookmark = new QAction(QIcon(":data/toolbar/add-bookmark.png"), tr("Add Bookmark"), this);
+		m_actionViewBookmarks = new QAction(QIcon(":data/toolbar/view-bookmarks.png"), tr("View Bookmarks"), this);
+		m_actionViewHistory = new QAction(QIcon(":data/toolbar/history.png"), tr("History"), this);
+		m_actionNewTab = new QAction(QIcon(":data/toolbar/new-tab.png"), tr("New Tab"), this);
+		m_actionNewWindow = new QAction(QIcon(":data/toolbar/new-window.png"), tr("New Window"), this);
+
+		m_topToolBar->addAction(m_actionBack);
+		m_topToolBar->addAction(m_actionNext);
+		m_topToolBar->addAction(m_actionHome);
+		m_topToolBar->addAction(m_actionAddBookmark);
+		m_topToolBar->addAction(m_actionViewBookmarks);
+		m_topToolBar->addAction(m_actionViewHistory);
+		m_topToolBar->addSeparator();
+		m_topToolBar->addAction(m_actionNewTab);
+		m_topToolBar->addAction(m_actionNewWindow);
+	}
+
 	//TODO: History connection
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
 	connect(this, &TabStackedWidget::pinStateChanged, this, &TabWidget::changed);
@@ -334,6 +357,9 @@ void TabWidget::currentTabChanged(int index)
 			this,
 			&TabWidget::downloadRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
+
+	if (Application::instance()->useTopToolBar())
+		updateToolBar(index);
 
 	m_lastBackgroundTabIndex = -1;
 	m_lastTabIndex = index;
@@ -864,6 +890,17 @@ TabIcon* TabWidget::tabIcon(int index)
 	return weTab(index)->tabIcon();
 }
 
+void TabWidget::openAddBookmarkDialog()
+{
+	QString url = weTab()->url().toString();
+	QString title = weTab()->title();
+
+	AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
+	dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+	dialog->show();
+}
+
 void TabWidget::openBookmarkDialog()
 {
 	BookmarksDialog* dialog{new BookmarksDialog(this)};
@@ -907,4 +944,35 @@ void TabWidget::updateClosedTabsButton()
 	m_buttonClosedTabs->setEnabled(canRestoreTab());
 }
 
+void TabWidget::updateToolBar(int index)
+{
+	if (!m_topToolBar)
+		return;
+
+	WebTab* tab{weTab(index)};
+	WebTab* lastTab{weTab(m_lastTabIndex)};
+
+	if (lastTab) {
+		m_topToolBar->removeAction(m_actionUrl);
+		lastTab->removeToolBar(m_topToolBar);
+	}
+
+	tab->addressBar()->setVisible(true);
+	tab->addToolBar(m_topToolBar);
+	m_actionUrl = m_topToolBar->insertWidget(m_actionAddBookmark, tab->addressBar());
+
+	if (lastTab) {
+		disconnect(m_actionBack, &QAction::triggered, lastTab->webView(), &TabbedWebView::back);
+		disconnect(m_actionNext, &QAction::triggered, lastTab->webView(), &TabbedWebView::forward);
+		disconnect(m_actionHome, &QAction::triggered, lastTab, &WebTab::sGoHome);
+		disconnect(m_actionNewTab, &QAction::triggered, lastTab, &WebTab::sNewTab);
+		disconnect(m_actionNewWindow, &QAction::triggered, lastTab, &WebTab::sNewWindow);
+	}
+
+	connect(m_actionBack, &QAction::triggered, tab->webView(), &TabbedWebView::back);
+	connect(m_actionNext, &QAction::triggered, tab->webView(), &TabbedWebView::forward);
+	connect(m_actionHome, &QAction::triggered, tab, &WebTab::sGoHome);
+	connect(m_actionNewTab, &QAction::triggered, tab, &WebTab::sNewTab);
+	connect(m_actionNewWindow, &QAction::triggered, tab, &WebTab::sNewWindow);
+}
 }

@@ -137,6 +137,7 @@ public slots:
 
 	void tabBarOverFlowChanged(bool overflowed);
 
+	void openAddBookmarkDialog();
 	void openBookmarkDialog();
 	void openHistoryDialog();
 	void openPreferencesDialog();
@@ -152,6 +153,7 @@ private slots:
 private:
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
+	void updateToolBar(int index);
 
 	AutoSaver* m_saveTimer{nullptr};
 

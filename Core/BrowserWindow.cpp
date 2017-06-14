@@ -59,7 +59,8 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setProperty("private", Application::instance()->privateBrowsing());
 
 	setupUi();
-	setupFloatingButton();
+	if (!Application::instance()->useTopToolBar())
+		setupFloatingButton();
 	loadSettings();
 
 	QTimer::singleShot(0, this, &BrowserWindow::postLaunch);
@@ -391,7 +392,8 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
-	m_fButton->setTabWidget(tabWidget());
+	if (m_fButton)
+		m_fButton->setTabWidget(tabWidget());
 }
 
 void BrowserWindow::newWindow()
