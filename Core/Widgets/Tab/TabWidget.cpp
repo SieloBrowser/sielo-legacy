@@ -122,7 +122,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonPreferences, Qt::TopRightCorner);
 
-	if (Application::instance()->useTopToolBar()) {
+	/*if (Application::instance()->useTopToolBar()) {
 		m_topToolBar = new QToolBar(this);
 
 		m_fButtonAddBookmark = new FloatingButton(this);
@@ -176,88 +176,8 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 		m_actionNewTab = m_topToolBar->addWidget(m_fButtonNewTab);
 		m_actionNewWindow = m_topToolBar->addWidget(m_fButtonNewWindow);
 	}
-	else {
-		m_fButton = new FloatingButton(this, FloatingButton::Root);
-		m_fButton->setObjectName("fbutton-root");
-
-		m_fButtonAddBookmark = new FloatingButton(this);
-		m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
-
-		m_fButtonViewBookmarks = new FloatingButton(this);
-		m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
-
-		m_fButtonViewHistory = new FloatingButton(this);
-		m_fButtonViewHistory->setObjectName("fbutton-view-history");
-
-		m_fButtonNewWindow = new FloatingButton(this);
-		m_fButtonNewWindow->setObjectName("fbutton-new-window");
-
-		m_fButtonHome = new FloatingButton(this);
-		m_fButtonHome->setObjectName("fbutton-home");
-
-		m_fButtonNext = new FloatingButton(this);
-		m_fButtonNext->setObjectName("fbutton-next");
-//	m_fButtonNext->setMenu(m_menuForward);
-
-		m_fButtonBack = new FloatingButton(this);
-		m_fButtonBack->setObjectName("fbutton-back");
-
-		m_fButtonNewTab = new FloatingButton(this);
-		m_fButtonNewTab->setObjectName("fbutton-new-tab");
-
-		QFile fButtonDataFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
-
-		if (fButtonDataFile.exists()) {
-
-			fButtonDataFile.open(QIODevice::ReadOnly);
-
-			QDataStream fButtonData{&fButtonDataFile};
-			int version{0};
-
-			fButtonData >> version;
-
-			if (version == 0x0001) {
-				int buttonCount{0};
-
-				fButtonData >> buttonCount;
-
-				for (int i{0}; i < buttonCount; ++i) {
-					QString button{""};
-
-					fButtonData >> button;
-
-					if (button == m_fButtonBack->objectName())
-						m_fButton->addChild(m_fButtonBack);
-					else if (button == m_fButtonNext->objectName())
-						m_fButton->addChild(m_fButtonNext);
-					else if (button == m_fButtonHome->objectName())
-						m_fButton->addChild(m_fButtonHome);
-					else if (button == m_fButtonAddBookmark->objectName())
-						m_fButton->addChild(m_fButtonAddBookmark);
-					else if (button == m_fButtonViewBookmarks->objectName())
-						m_fButton->addChild(m_fButtonViewBookmarks);
-					else if (button == m_fButtonViewHistory->objectName())
-						m_fButton->addChild(m_fButtonViewHistory);
-					else if (button == m_fButtonNewWindow->objectName())
-						m_fButton->addChild(m_fButtonNewWindow);
-					else if (button == m_fButtonNewTab->objectName())
-						m_fButton->addChild(m_fButtonNewTab);
-				}
-			}
-		}
-		else {
-			m_fButton->addChild(m_fButtonBack);
-			m_fButton->addChild(m_fButtonNext);
-			m_fButton->addChild(m_fButtonHome);
-			m_fButton->addChild(m_fButtonAddBookmark);
-			m_fButton->addChild(m_fButtonViewBookmarks);
-			m_fButton->addChild(m_fButtonViewHistory);
-			m_fButton->addChild(m_fButtonNewWindow);
-			m_fButton->addChild(m_fButtonNewTab);
-		}
-
-		connect(m_fButton, &FloatingButton::statusChanged, this, &TabWidget::saveButtonState);
-	}
+	else { */
+	//}
 
 	//TODO: History connection
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
@@ -283,10 +203,6 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
 	connect(m_buttonPreferences, &ToolButton::clicked, this, &TabWidget::openPreferencesDialog);
-
-	connect(m_fButtonAddBookmark, &FloatingButton::isClicked, this, &TabWidget::openAddBookmarkDialog);
-	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, this, &TabWidget::openBookmarkDialog);
-	connect(m_fButtonViewHistory, &FloatingButton::isClicked, this, &TabWidget::openHistoryDialog);
 
 	setTabBar(m_tabBar);
 	loadSettings();
@@ -349,28 +265,9 @@ QByteArray TabWidget::saveState()
 	return data;
 }
 
-void TabWidget::saveButtonState()
-{
-	QByteArray data{};
-	QDataStream stream{&data, QIODevice::WriteOnly};
-
-	stream << 0x0001;
-	stream << m_fButton->children().count();
-
-		foreach (FloatingButton* button, m_fButton->children()) stream << button->objectName();
-
-	QFile fButtonFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
-
-	fButtonFile.open(QIODevice::WriteOnly);
-	fButtonFile.write(data);
-	fButtonFile.close();
-}
-
 void TabWidget::save()
 {
 	Application::instance()->saveSession();
-
-	saveButtonState();
 }
 
 bool TabWidget::restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab)
@@ -438,13 +335,11 @@ void TabWidget::currentTabChanged(int index)
 			&TabWidget::downloadRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
-	updateFloatingButton(index);
-
 	m_lastBackgroundTabIndex = -1;
 	m_lastTabIndex = index;
 	m_currentTabFresh = false;
 
-	m_window->currentTabChanged();
+	m_window->currentTabChanged(oldTab);
 
 	emit changed();
 }
@@ -969,17 +864,6 @@ TabIcon* TabWidget::tabIcon(int index)
 	return weTab(index)->tabIcon();
 }
 
-void TabWidget::openAddBookmarkDialog()
-{
-	QString url = weTab()->url().toString();
-	QString title = weTab()->title();
-
-	AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
-	dialog->setAttribute(Qt::WA_DeleteOnClose);
-
-	dialog->show();
-}
-
 void TabWidget::openBookmarkDialog()
 {
 	BookmarksDialog* dialog{new BookmarksDialog(this)};
@@ -1021,39 +905,6 @@ void TabWidget::updateClosedTabsButton()
 		m_buttonClosedTabs->hide();
 
 	m_buttonClosedTabs->setEnabled(canRestoreTab());
-}
-
-void TabWidget::updateFloatingButton(int index)
-{
-	WebTab* tab{weTab(index)};
-	WebTab* lastTab{weTab(m_lastTabIndex)};
-
-	if (Application::instance()->useTopToolBar()) {
-		if (lastTab) {
-			m_topToolBar->removeAction(m_actionUrl);
-			lastTab->removeToolBar(m_topToolBar);
-		}
-
-		tab->addressBar()->setVisible(true);
-		tab->addToolBar(m_topToolBar);
-		m_actionUrl = m_topToolBar->insertWidget(m_actionAddBookmark, tab->addressBar());
-
-	}
-
-	if (lastTab) {
-		disconnect(m_fButtonNewWindow, &FloatingButton::isClicked, lastTab, &WebTab::sNewWindow);
-		disconnect(m_fButtonHome, &FloatingButton::isClicked, lastTab, &WebTab::sGoHome);
-		disconnect(m_fButtonNext, &FloatingButton::isClicked, lastTab->webView(), &TabbedWebView::forward);
-		disconnect(m_fButtonBack, &FloatingButton::isClicked, lastTab->webView(), &TabbedWebView::back);
-		disconnect(m_fButtonNewTab, &FloatingButton::isClicked, lastTab, &WebTab::sNewTab);
-	}
-
-	connect(m_fButtonNewWindow, &FloatingButton::isClicked, tab, &WebTab::sNewWindow);
-	connect(m_fButtonHome, &FloatingButton::isClicked, tab, &WebTab::sGoHome);
-	connect(m_fButtonNext, &FloatingButton::isClicked, tab->webView(), &TabbedWebView::forward);
-	connect(m_fButtonBack, &FloatingButton::isClicked, tab->webView(), &TabbedWebView::back);
-	connect(m_fButtonNewTab, &FloatingButton::isClicked, tab, &WebTab::sNewTab);
-
 }
 
 }

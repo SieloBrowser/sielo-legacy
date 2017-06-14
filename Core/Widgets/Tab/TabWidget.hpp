@@ -83,6 +83,10 @@ public:
 	int lastTabIndex() const;
 	int extraReservedWidth() const;
 
+	WebTab* weTab();
+	WebTab* weTab(int index);
+	TabIcon* tabIcon(int index);
+
 	MainTabBar* tabBar() const { return m_tabBar; }
 	ClosedTabsManager* closedTabsManager() const { return m_closedTabsManager; }
 	QList<WebTab*> allTabs(bool withPinned = true);
@@ -94,9 +98,6 @@ public:
 
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
-
-	FloatingButton* fButtonBack() const { return m_fButtonBack; }
-	FloatingButton* fButtonNext() const { return m_fButtonNext; }
 
 signals:
 	void changed();
@@ -136,6 +137,9 @@ public slots:
 
 	void tabBarOverFlowChanged(bool overflowed);
 
+	void openBookmarkDialog();
+	void openHistoryDialog();
+	void openPreferencesDialog();
 private slots:
 	void save();
 
@@ -146,18 +150,8 @@ private slots:
 	void tabMoved(int before, int after);
 
 private:
-	WebTab* weTab();
-	WebTab* weTab(int index);
-	TabIcon* tabIcon(int index);
-
-	void openAddBookmarkDialog();
-	void openBookmarkDialog();
-	void openHistoryDialog();
-	void openPreferencesDialog();
-
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
-	void updateFloatingButton(int index);
 
 	AutoSaver* m_saveTimer{nullptr};
 
@@ -170,17 +164,6 @@ private:
 	AddTabButton* m_buttonAddTab{nullptr};
 	AddTabButton* m_buttonAddTab2{nullptr};
 	ToolButton* m_buttonPreferences{nullptr};
-
-	FloatingButton* m_fButton{nullptr};
-
-	FloatingButton* m_fButtonAddBookmark{nullptr};
-	FloatingButton* m_fButtonViewBookmarks{nullptr};
-	FloatingButton* m_fButtonViewHistory{nullptr};
-	FloatingButton* m_fButtonNewWindow{nullptr};
-	FloatingButton* m_fButtonHome{nullptr};
-	FloatingButton* m_fButtonNext{nullptr};
-	FloatingButton* m_fButtonBack{nullptr};
-	FloatingButton* m_fButtonNewTab{nullptr};
 
 	QAction* m_actionBack{nullptr};
 	QAction* m_actionNext{nullptr};

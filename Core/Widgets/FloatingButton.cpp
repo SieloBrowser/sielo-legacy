@@ -34,6 +34,8 @@
 
 #include "Web/Tab/WebTab.hpp"
 
+#include "Widgets/Tab/TabWidget.hpp"
+
 namespace Sn {
 
 static const int ANIMATION_DURATION = 1000 * 0.2;
@@ -95,6 +97,11 @@ void FloatingButton::addChild(FloatingButton* button)
 void FloatingButton::setWebTab(WebTab* webTab)
 {
 	m_webTab = webTab;
+}
+
+void FloatingButton::setTabWidget(TabWidget* tabWidget)
+{
+	m_tabWidget = tabWidget;
 }
 
 void FloatingButton::setType(Type type)
@@ -243,15 +250,19 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 		QCursor::setPos(event->globalPos());
 
 		if (m_type == Type::Root) {
-			if ((mapToParent(pos()).x() >= 0 && mapToParent(pos()).x() <= width())
-				&& (mapToParent(pos()).y() >= 28 && mapToParent(pos()).y() <= height() + 28)
+			QPoint posFromTabWidget{};
+
+			posFromTabWidget = mapToParent(pos());
+
+			if ((posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
+				&& (posFromTabWidget.y() >= 28 && posFromTabWidget.y() <= height() + 28)
 				&& m_pattern == Pattern::Floating) {
 				setPattern(Pattern::Toolbar);
 				m_oldPosition = (QPoint(0, 28));
 				showChildren(QPoint(0, 28));
 			}
-			else if (!(mapToParent(pos()).x() >= 0 && mapToParent(pos()).x() <= width())
-					 && !(mapToParent(pos()).y() >= 28 && mapToParent(pos()).y() <= height() + 28)
+			else if (!(posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
+					 && !(posFromTabWidget.y() >= 28 && posFromTabWidget.y() <= height() + 28)
 					 && m_pattern == Pattern::Toolbar) {
 				if (m_childrenExpanded)
 					hideChildren();

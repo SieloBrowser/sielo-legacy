@@ -37,6 +37,8 @@
 namespace Sn {
 class WebTab;
 
+class TabWidget;
+
 class FloatingButton: public QPushButton {
 Q_OBJECT
 public:
@@ -59,6 +61,9 @@ public:
 
 	WebTab* webTab() const { return m_webTab; }
 	void setWebTab(WebTab* webTab);
+
+	TabWidget* tabWidget() const { return m_tabWidget; }
+	void setTabWidget(TabWidget* tabWidget);
 
 	Type type() const { return m_type; }
 	void setType(Type type);
@@ -96,6 +101,8 @@ private:
 
 	QWidget* m_parent{nullptr};
 	WebTab* m_webTab{nullptr};
+
+	TabWidget* m_tabWidget{nullptr};
 
 	QVector<FloatingButton*> m_children;
 

@@ -397,13 +397,6 @@ void WebTab::sNewWindow()
 	Application::instance()->createWindow(Application::WT_NewWindow, m_window->homePageUrl());
 }
 
-void WebTab::sNewTab()
-{
-	LoadRequest request{};
-	request.setUrl(m_tabBar->tabWidget()->urlOnNewTab());
-	m_webView->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
-}
-
 void WebTab::sGoHome()
 {
 	m_webView->load(m_window->homePageUrl());

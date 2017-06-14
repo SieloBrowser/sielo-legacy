@@ -32,12 +32,15 @@
 
 #include <QTimer>
 
+#include "Bookmarks/AddBookmarkDialog.hpp"
+
 #include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/AddressBar.hpp"
+#include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -56,6 +59,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setProperty("private", Application::instance()->privateBrowsing());
 
 	setupUi();
+	setupFloatingButton();
 	loadSettings();
 
 	QTimer::singleShot(0, this, &BrowserWindow::postLaunch);
@@ -125,38 +129,38 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 	for (int i{0}; i < mainSplitterCount; ++i) {
 		int verticalSplitterCount{data.spaceTabsCount[i + 1]};
 		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
+		verticalSplitter->setObjectName("vertical-splitter");
 
-			for (int j{0}; j < verticalSplitterCount; ++j) {
-				if (i == 0 && j == 0) {
-					m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0]);
-					verticalSplitter->addWidget(m_tabWidgets[0]->parentWidget());
-					m_mainSplitter->widget(0)->deleteLater();
-					++tabWidgetToRestore;
-				}
-				else {
-					QWidget* widget{new QWidget(this)};
-					QVBoxLayout* layout{new QVBoxLayout(widget)};
-					TabWidget* tabWidget{new TabWidget(this, widget)};
+		for (int j{0}; j < verticalSplitterCount; ++j) {
+			if (i == 0 && j == 0) {
+				m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0]);
+				verticalSplitter->addWidget(m_tabWidgets[0]->parentWidget());
+				m_mainSplitter->widget(0)->deleteLater();
+				++tabWidgetToRestore;
+			}
+			else {
+				QWidget* widget{new QWidget(this)};
+				QVBoxLayout* layout{new QVBoxLayout(widget)};
+				TabWidget* tabWidget{new TabWidget(this, widget)};
 
-					layout->setSpacing(0);
-					layout->setContentsMargins(0, 0, 0, 0);
+				layout->setSpacing(0);
+				layout->setContentsMargins(0, 0, 0, 0);
 
-					m_tabWidgets.append(tabWidget);
-					m_currentTabWidget = tabWidgetToRestore;
+				m_tabWidgets.append(tabWidget);
+				m_currentTabWidget = tabWidgetToRestore;
 
-					tabWidget->restoreState(data.tabsState[tabWidgetToRestore], data.currentTabs[tabWidgetToRestore]);
-					tabWidget->tabBar()->show();
+				tabWidget->restoreState(data.tabsState[tabWidgetToRestore], data.currentTabs[tabWidgetToRestore]);
+				tabWidget->tabBar()->show();
 
-					layout->addWidget(tabWidget->tabBar());
-					layout->addWidget(tabWidget);
+				layout->addWidget(tabWidget->tabBar());
+				layout->addWidget(tabWidget);
 
-					connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
+				connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
 
-					verticalSplitter->addWidget(widget);
+				verticalSplitter->addWidget(widget);
 
-					++tabWidgetToRestore;
-				}
-
+				++tabWidgetToRestore;
+			}
 
 		}
 		m_mainSplitter->addWidget(verticalSplitter);
@@ -165,9 +169,10 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 	autoResizeTabsSpace();
 }
 
-void BrowserWindow::currentTabChanged()
+void BrowserWindow::currentTabChanged(WebTab* oldTab)
 {
 	TabbedWebView* view{webView()};
+
 	if (!view)
 		return;
 
@@ -375,17 +380,104 @@ void BrowserWindow::postLaunch()
 	tabWidget()->tabBar()->ensureVisible();
 }
 
-void BrowserWindow::tabWidgetIndexChanged(TabWidget* tabWidget)
+void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 {
-	if (m_currentTabWidget == m_tabWidgets.indexOf(tabWidget))
+	if (m_currentTabWidget == m_tabWidgets.indexOf(tbWidget))
 		return;
 
 	disconnect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
-	m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+	m_currentTabWidget = m_tabWidgets.indexOf(tbWidget);
 
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
+	m_fButton->setTabWidget(tabWidget());
+}
+
+void BrowserWindow::newWindow()
+{
+		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			QRect tabWidgetRect = tabWidget->geometry();
+
+			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
+				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+				tabWidget->weTab()->sNewWindow();
+				return;
+			}
+		}
+}
+
+void BrowserWindow::goHome()
+{
+		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			QRect tabWidgetRect = tabWidget->geometry();
+
+			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
+				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+				tabWidget->weTab()->sGoHome();
+				return;
+			}
+		}
+}
+
+void BrowserWindow::forward()
+{
+		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			QRect tabWidgetRect = tabWidget->geometry();
+
+			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
+				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+				tabWidget->weTab()->webView()->forward();
+				return;
+			}
+		}
+}
+
+void BrowserWindow::back()
+{
+		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			QRect tabWidgetRect = tabWidget->geometry();
+
+			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
+				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+				tabWidget->weTab()->webView()->back();
+				return;
+			}
+		}
+}
+
+void BrowserWindow::newTab()
+{
+		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			QRect tabWidgetRect = tabWidget->geometry();
+
+			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
+				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+				LoadRequest request{};
+				request.setUrl(tabWidget->urlOnNewTab());
+				tabWidget->weTab()->webView()->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
+				return;
+			}
+		}
+}
+
+void BrowserWindow::openAddBookmarkDialog()
+{
+		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			QRect tabWidgetRect = tabWidget->geometry();
+
+			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
+				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
+				QString url = tabWidget->weTab()->url().toString();
+				QString title = tabWidget->weTab()->title();
+
+				AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
+				dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+				dialog->show();
+				return;
+			}
+		}
 }
 
 void BrowserWindow::setupUi()
@@ -400,6 +492,7 @@ void BrowserWindow::setupUi()
 
 	QWidget* widgetTabWidget{createWidgetTabWidget()};
 	QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
+	verticalSplitter->setObjectName("vertical-splitter");
 
 	widget->setCursor(Qt::ArrowCursor);
 
@@ -422,6 +515,119 @@ void BrowserWindow::setupUi()
 	resize(1200, 720);
 	setCentralWidget(widget);
 
+}
+
+void BrowserWindow::setupFloatingButton()
+{
+	m_fButton = new FloatingButton(this, FloatingButton::Root);
+	m_fButton->setObjectName("fbutton-root");
+
+	m_fButtonAddBookmark = new FloatingButton(this);
+	m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
+
+	m_fButtonViewBookmarks = new FloatingButton(this);
+	m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
+
+	m_fButtonViewHistory = new FloatingButton(this);
+	m_fButtonViewHistory->setObjectName("fbutton-view-history");
+
+	m_fButtonNewWindow = new FloatingButton(this);
+	m_fButtonNewWindow->setObjectName("fbutton-new-window");
+
+	m_fButtonHome = new FloatingButton(this);
+	m_fButtonHome->setObjectName("fbutton-home");
+
+	m_fButtonNext = new FloatingButton(this);
+	m_fButtonNext->setObjectName("fbutton-next");
+//	m_fButtonNext->setMenu(m_menuForward);
+
+	m_fButtonBack = new FloatingButton(this);
+	m_fButtonBack->setObjectName("fbutton-back");
+
+	m_fButtonNewTab = new FloatingButton(this);
+	m_fButtonNewTab->setObjectName("fbutton-new-tab");
+
+	QFile fButtonDataFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
+
+	if (fButtonDataFile.exists()) {
+
+		fButtonDataFile.open(QIODevice::ReadOnly);
+
+		QDataStream fButtonData{&fButtonDataFile};
+		int version{0};
+
+		fButtonData >> version;
+
+		if (version == 0x0001) {
+			int buttonCount{0};
+
+			fButtonData >> buttonCount;
+
+			for (int i{0}; i < buttonCount; ++i) {
+				QString button{""};
+
+				fButtonData >> button;
+
+				if (button == m_fButtonBack->objectName())
+					m_fButton->addChild(m_fButtonBack);
+				else if (button == m_fButtonNext->objectName())
+					m_fButton->addChild(m_fButtonNext);
+				else if (button == m_fButtonHome->objectName())
+					m_fButton->addChild(m_fButtonHome);
+				else if (button == m_fButtonAddBookmark->objectName())
+					m_fButton->addChild(m_fButtonAddBookmark);
+				else if (button == m_fButtonViewBookmarks->objectName())
+					m_fButton->addChild(m_fButtonViewBookmarks);
+				else if (button == m_fButtonViewHistory->objectName())
+					m_fButton->addChild(m_fButtonViewHistory);
+				else if (button == m_fButtonNewWindow->objectName())
+					m_fButton->addChild(m_fButtonNewWindow);
+				else if (button == m_fButtonNewTab->objectName())
+					m_fButton->addChild(m_fButtonNewTab);
+			}
+		}
+	}
+	else {
+		m_fButton->addChild(m_fButtonBack);
+		m_fButton->addChild(m_fButtonNext);
+		m_fButton->addChild(m_fButtonHome);
+		m_fButton->addChild(m_fButtonAddBookmark);
+		m_fButton->addChild(m_fButtonViewBookmarks);
+		m_fButton->addChild(m_fButtonViewHistory);
+		m_fButton->addChild(m_fButtonNewWindow);
+		m_fButton->addChild(m_fButtonNewTab);
+	}
+
+	m_fButton->setTabWidget(tabWidget());
+
+	connect(m_fButton, &FloatingButton::statusChanged, this, &BrowserWindow::saveButtonState);
+
+	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, tabWidget(), &TabWidget::openBookmarkDialog);
+	connect(m_fButtonViewHistory, &FloatingButton::isClicked, tabWidget(), &TabWidget::openHistoryDialog);
+	connect(m_fButtonAddBookmark, &FloatingButton::isClicked, this, &BrowserWindow::openAddBookmarkDialog);
+	connect(m_fButtonNewWindow, &FloatingButton::isClicked, this, &BrowserWindow::newWindow);
+	connect(m_fButtonHome, &FloatingButton::isClicked, this, &BrowserWindow::goHome);
+	connect(m_fButtonNext, &FloatingButton::isClicked, this, &BrowserWindow::forward);
+	connect(m_fButtonBack, &FloatingButton::isClicked, this, &BrowserWindow::back);
+	connect(m_fButtonNewTab, &FloatingButton::isClicked, this, &BrowserWindow::newTab);
+
+}
+
+void BrowserWindow::saveButtonState()
+{
+	QByteArray data{};
+	QDataStream stream{&data, QIODevice::WriteOnly};
+
+	stream << 0x0001;
+	stream << m_fButton->children().count();
+
+		foreach (FloatingButton* button, m_fButton->children()) stream << button->objectName();
+
+	QFile fButtonFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
+
+	fButtonFile.open(QIODevice::WriteOnly);
+	fButtonFile.write(data);
+	fButtonFile.close();
 }
 
 QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab)

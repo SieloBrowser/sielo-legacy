@@ -44,6 +44,8 @@ class WebPage;
 class WebTab;
 class TabbedWebView;
 
+class FloatingButton;
+
 class TabWidget;
 
 class BrowserWindow: public QMainWindow {
@@ -70,7 +72,7 @@ public:
 
 	void restoreWindowState(const RestoreManager::WindowData& data);
 
-	void currentTabChanged();
+	void currentTabChanged(WebTab* oldTab);
 
 	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab);
 	void createNewTabsSpace(TabsSpacePosition position, TabWidget* tabWidget);
@@ -86,6 +88,14 @@ public:
 	TabWidget* tabWidget(int index) const;
 	int tabWidgetsCount() const;
 
+	FloatingButton* fButton() const { return m_fButton; }
+
+	FloatingButton* fButtonNewWindow() const { return m_fButtonNewWindow; }
+	FloatingButton* fButtonHome() const { return m_fButtonHome; }
+	FloatingButton* fButtonNext() const { return m_fButtonNext; }
+	FloatingButton* fButtonBack() const { return m_fButtonBack; }
+	FloatingButton* fButtonNewTab() const { return m_fButtonNewTab; }
+
 public slots:
 	void enterHtmlFullScreen();
 
@@ -95,14 +105,23 @@ private slots:
 	void addTab();
 	void postLaunch();
 
-	void tabWidgetIndexChanged(TabWidget* tabWidget);
+	void tabWidgetIndexChanged(TabWidget* tbWidget);
 
+	void newWindow();
+	void goHome();
+	void forward();
+	void back();
+	void newTab();
+	void openAddBookmarkDialog();
 private:
 	void setupUi();
+	void setupFloatingButton();
 
-	QAction* m_restoreAction{nullptr};
+	void saveButtonState();
 
 	QWidget* createWidgetTabWidget(WebTab* tab = nullptr);
+
+	QAction* m_restoreAction{nullptr};
 
 	QUrl m_startUrl{};
 	QUrl m_homePage{};
@@ -116,6 +135,18 @@ private:
 	QVector<TabWidget*> m_tabWidgets;
 
 	int m_currentTabWidget{0};
+
+	FloatingButton* m_fButton{nullptr};
+
+	FloatingButton* m_fButtonAddBookmark{nullptr};
+	FloatingButton* m_fButtonViewBookmarks{nullptr};
+	FloatingButton* m_fButtonViewHistory{nullptr};
+	FloatingButton* m_fButtonNewWindow{nullptr};
+	FloatingButton* m_fButtonHome{nullptr};
+	FloatingButton* m_fButtonNext{nullptr};
+	FloatingButton* m_fButtonBack{nullptr};
+	FloatingButton* m_fButtonNewTab{nullptr};
+
 };
 
 }
