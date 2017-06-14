@@ -410,6 +410,10 @@ void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 		menu.addSeparator();
 		menu.addAction(tr("Reloa&d All Tabs"), m_tabWidget, SLOT(reloadAllTabs()));
 		menu.addAction(tr("Bookmark &All Tabs"), m_window, SLOT(bookmarkAllTabs()));
+		menu.addSeparator();
+		menu.addAction(m_tabWidget->isMuted() ? tr("Un&mute Tabs Space") : tr("&Mute Tabs Space"),
+					   m_tabWidget,
+					   &TabWidget::toggleMuted);
 	}
 
 	const QPoint position{event->globalPos()};

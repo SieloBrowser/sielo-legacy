@@ -93,6 +93,8 @@ public:
 	bool canRestoreTab() const;
 	bool isCurrentTabFresh() const { return m_currentTabFresh; }
 	void setCurrentTabFresh(bool currentTabFresh);
+	bool isMuted() const { return m_isMutted; }
+	void toggleMuted();
 
 	QUrl urlOnNewTab() const { return m_urlOnNewTab; }
 
@@ -188,6 +190,7 @@ private:
 	bool m_newTabAfterActive{false};
 	bool m_newEmptyTabAfterActive{false};
 	bool m_currentTabFresh{false};
+	bool m_isMutted{false};
 
 	QWebEngineView* m_fullScreenView{nullptr};
 

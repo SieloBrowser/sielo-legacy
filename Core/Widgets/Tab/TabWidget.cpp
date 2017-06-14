@@ -416,6 +416,22 @@ void TabWidget::setCurrentTabFresh(bool currentTabFresh)
 	m_currentTabFresh = currentTabFresh;
 }
 
+void TabWidget::toggleMuted()
+{
+	if (m_isMutted) {
+		for (int i{0}; i < count(); ++i)
+			weTab(i)->setMuted(false);
+
+		m_isMutted = false;
+	}
+	else {
+		for (int i{0}; i < count(); ++i)
+			weTab(i)->setMuted(true);
+
+		m_isMutted = true;
+	}
+}
+
 int TabWidget::addView(const QUrl& url)
 {
 	LoadRequest request{};
@@ -457,6 +473,7 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	int index{insertTab(position == -1 ? count() : position, webTab, QString(), pinned)};
 
 	webTab->attach(m_window);
+	webTab->setMuted(m_isMutted);
 
 	if (!title.isEmpty())
 		m_tabBar->setTabText(index, title);
