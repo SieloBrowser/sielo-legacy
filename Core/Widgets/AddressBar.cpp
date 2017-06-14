@@ -105,24 +105,18 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	setDragEnabled(true);
 
 	m_siteIcon = new ToolButton(this);
-	m_siteIcon->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	m_siteIcon->setToolBarButtonLook(true);
 	m_siteIcon->setAutoRaise(true);
 	m_siteIcon->setFocusPolicy(Qt::NoFocus);
 	m_siteIcon->setIcon(QIcon(":icons/other/webpage.png"));
 	m_siteIcon->setObjectName("addressbar-website-icon");
 
 	m_reloadStopButton = new ToolButton(this);
-	m_reloadStopButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	m_reloadStopButton->setToolBarButtonLook(true);
 	m_reloadStopButton->setAutoRaise(true);
 	m_reloadStopButton->setToolTip(tr("Reload"));
 	m_reloadStopButton->setFocusPolicy(Qt::NoFocus);
 	m_reloadStopButton->setObjectName("addressbar-button-reload");
 
 	m_goButton = new ToolButton(this);
-	m_goButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	m_goButton->setToolBarButtonLook(true);
 	m_goButton->setAutoRaise(true);
 	m_goButton->setToolTip(tr("Load"));
 	m_goButton->setFocusPolicy(Qt::NoFocus);
