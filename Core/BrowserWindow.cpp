@@ -406,9 +406,12 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 
 			if (tbWidget->mapFromGlobal(QCursor::pos()).x() <= tbWidget->width()
 				&& tbWidget->mapFromGlobal(QCursor::pos()).x() >= tbWidget->width() - 50)
-				newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() - 40);
+				newFloatingButtonPos
+					.setX(tbWidget->mapTo(this, tabWidget()->pos()).x() + tabWidget()->width() - m_fButton->width());
+				//newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() - (15 + m_fButton->width()));
 			else
-				newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() + 15);
+				newFloatingButtonPos.setX(tbWidget->mapTo(this, tabWidget()->pos()).x());
+			//newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() + 15);
 
 			m_fButton->move(newFloatingButtonPos);
 		}
