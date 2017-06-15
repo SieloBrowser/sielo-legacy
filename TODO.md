@@ -1,6 +1,6 @@
  - Add possibility to navigate between tabs spaces with keyboard
  - ~~Make the floating button move to the focused tabs space~~ **[DONE]**
- - In home option, add possibility to create/save a configuration of tabs spaces at startup
+ - ~~In home option, add possibility to create/save a configuration of tabs spaces at startup~~ **[DONE]**
  - Create a different behavior for the button according to the tabs space
  - Add possibility to move real toolbar, like old Sielo versions
  - On full screen, add possibility to choose between a full screen only in tabs space, or a complete full scree
