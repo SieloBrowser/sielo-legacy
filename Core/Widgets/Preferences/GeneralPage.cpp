@@ -62,7 +62,7 @@ void GeneralPage::loadSettings()
 	settings.beginGroup("Settings");
 
 	m_comboActionOnNewSession
-		->setCurrentIndex(settings.value(QLatin1String("afterLaunch"), Application::RestoreSession).toInt());
+		->setCurrentIndex(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
 
 	m_useRealToolBar
 		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
@@ -201,7 +201,7 @@ void GeneralPage::setupUI()
 	m_comboActionOnNewSession->clear();
 	m_comboActionOnNewSession->addItems(QStringList() << tr("Open blank page")
 													  << tr("Open home page")
-													  << tr("Restore session"));
+													  << tr("Restore session")
 
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
