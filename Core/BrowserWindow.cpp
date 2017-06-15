@@ -321,6 +321,7 @@ void BrowserWindow::postLaunch()
 		startUrl = QUrl();
 		break;
 	case Application::OpenHomePage:
+	case Application::OpenSavedSession:
 	case Application::RestoreSession:
 		startUrl = m_homePage;
 		break;
@@ -331,7 +332,8 @@ void BrowserWindow::postLaunch()
 
 	switch (m_windowType) {
 	case Application::WT_FirstAppWindow:
-		if (Application::instance()->afterLaunch() == Application::RestoreSession
+		if ((Application::instance()->afterLaunch() == Application::RestoreSession
+			 || Application::instance()->afterLaunch() == Application::OpenSavedSession)
 			&& Application::instance()->restoreManager()) {
 			addTab = !Application::instance()
 				->restoreSession(this, Application::instance()->restoreManager()->restoreData());

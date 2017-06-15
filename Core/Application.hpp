@@ -95,7 +95,8 @@ public:
 	enum AfterLaunch {
 		OpenBlankPage = 0,
 		OpenHomePage = 1,
-		RestoreSession = 2
+		RestoreSession = 2,
+		OpenSavedSession = 3
 	};
 
 	Application(int& argc, char** argv);
@@ -136,7 +137,7 @@ public:
 	static Application* instance();
 
 public slots:
-	void saveSession();
+	void saveSession(bool saveForHome = false);
 
 	void reloadUserStyleSheet();
 

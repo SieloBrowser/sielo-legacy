@@ -36,7 +36,11 @@ namespace Sn {
 RestoreManager::RestoreManager() :
 	m_recoveryObject(new RecoveryJsObject(this))
 {
-	createFromFile(Application::instance()->paths()[Application::P_Data] + QLatin1String("/session.dat"));
+	if (Application::instance()->afterLaunch() == Application::RestoreSession)
+		createFromFile(Application::instance()->paths()[Application::P_Data] + QLatin1String("/session.dat"));
+	else if (Application::instance()->afterLaunch() == Application::OpenSavedSession)
+		createFromFile(Application::instance()->paths()[Application::P_Data] + QLatin1String("/home-session.dat"));
+
 }
 
 RestoreManager::~RestoreManager()

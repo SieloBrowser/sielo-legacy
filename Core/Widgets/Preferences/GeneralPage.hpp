@@ -35,6 +35,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QComboBox>
+#include <QPushButton>
 #include <QCheckBox>
 
 namespace Sn {
@@ -52,6 +53,9 @@ public:
 private slots:
 	void homePageActionChanged(bool enabled);
 	void newTabActionChanged(bool enabled);
+	void startupActionChanged(const QString& currentIndex);
+
+	void saveCurrentSession();
 
 	void useRealToolBarChanged(bool enabled);
 
@@ -76,6 +80,7 @@ private:
 	QLineEdit* m_newTabUrl{nullptr};
 
 	QLabel* m_descActionOnNewSession{nullptr};
+	QPushButton* m_btnSaveCurrentSession{nullptr};
 	QComboBox* m_comboActionOnNewSession{nullptr};
 
 	QCheckBox* m_useRealToolBar{nullptr};

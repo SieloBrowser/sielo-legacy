@@ -136,7 +136,7 @@ Application::Application(int& argc, char** argv) :
 
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
-	if (afterLaunch() == RestoreSession) {
+	if (afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession) {
 		m_restoreManager = new RestoreManager();
 		if (!m_restoreManager->isValid())
 			destroyRestoreManager();
@@ -266,7 +266,7 @@ void Application::destroyRestoreManager()
 	m_restoreManager = nullptr;
 }
 
-void Application::saveSession()
+void Application::saveSession(bool saveForHome)
 {
 	if (m_privateBrowsing || m_isRestoring || m_windows.count() == 0 || m_restoreManager)
 		return;
@@ -286,7 +286,11 @@ void Application::saveSession()
 				stream << window->saveState();
 		}
 
-	QFile file{paths()[Application::P_Data] + QLatin1String("/session.dat")};
+	QFile file{};
+	if (saveForHome)
+		file.setFileName(paths()[Application::P_Data] + QLatin1String("/home-session.dat"));
+	else
+		file.setFileName(paths()[Application::P_Data] + QLatin1String("/session.dat"));
 
 	file.open(QIODevice::WriteOnly);
 	file.write(data);

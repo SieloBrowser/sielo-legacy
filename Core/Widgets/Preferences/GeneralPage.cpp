@@ -27,6 +27,7 @@
 #include <QSettings>
 
 #include <QMessageBox>
+#include <QtCore/QFileInfo>
 
 #include "Application.hpp"
 
@@ -47,6 +48,11 @@ GeneralPage::GeneralPage(QWidget* parent) :
 
 	connect(m_radioNTOpenCutomUrl, &QRadioButton::toggled, this, &GeneralPage::newTabActionChanged);
 
+	connect(m_btnSaveCurrentSession, &QPushButton::clicked, this, &GeneralPage::saveCurrentSession);
+	connect(m_comboActionOnNewSession, SIGNAL(currentIndexChanged(
+												  const QString&)), this, SLOT(startupActionChanged(
+																				   const QString&)));
+
 	connect(m_useRealToolBar, &QCheckBox::toggled, this, &GeneralPage::useRealToolBarChanged);
 };
 
@@ -63,6 +69,9 @@ void GeneralPage::loadSettings()
 
 	m_comboActionOnNewSession
 		->setCurrentIndex(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
+
+	m_btnSaveCurrentSession->setEnabled(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt()
+										== Application::OpenSavedSession);
 
 	m_useRealToolBar
 		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
@@ -163,6 +172,23 @@ void GeneralPage::newTabActionChanged(bool enabled)
 		m_newTabUrl->setEnabled(false);
 }
 
+void GeneralPage::startupActionChanged(const QString& currentIndex)
+{
+	m_btnSaveCurrentSession->setEnabled(currentIndex == tr("Open saved session"));
+
+	if (!QFileInfo(Application::instance()->paths()[Application::P_Data] + QLatin1String("/home-session.dat")).exists()
+		&& currentIndex == tr("Open saved session")) {
+		saveCurrentSession();
+	}
+}
+
+void GeneralPage::saveCurrentSession()
+{
+	Application::instance()->saveSession(true);
+
+	QMessageBox::information(this, tr("Saved"), tr("Your session will be restored at startup"));
+}
+
 void GeneralPage::useRealToolBarChanged(bool enabled)
 {
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
@@ -197,11 +223,14 @@ void GeneralPage::setupUI()
 
 	m_descActionOnNewSession = new QLabel(tr("Action to do on new session"), this);
 
+	m_btnSaveCurrentSession = new QPushButton(tr("Save current session"), this);
+
 	m_comboActionOnNewSession = new QComboBox(this);
 	m_comboActionOnNewSession->clear();
 	m_comboActionOnNewSession->addItems(QStringList() << tr("Open blank page")
 													  << tr("Open home page")
 													  << tr("Restore session")
+													  << tr("Open saved session"));
 
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
@@ -222,6 +251,7 @@ void GeneralPage::setupUI()
 	m_layout->addWidget(m_groupHomePage);
 	m_layout->addWidget(m_groupNewTab);
 	m_layout->addWidget(m_descActionOnNewSession);
+	m_layout->addWidget(m_btnSaveCurrentSession);
 	m_layout->addWidget(m_comboActionOnNewSession);
 	m_layout->addWidget(m_useRealToolBar);
 	m_layout->addWidget(m_floatingButtonFoloweMouse);
