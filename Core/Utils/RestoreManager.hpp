@@ -41,6 +41,7 @@ public:
 	struct WindowData {
 		QVector<int> currentTabs{};
 		QByteArray windowState{};
+		QVector<QUrl> homeUrls{};
 		QVector<int> spaceTabsCount{};
 		QVector<QVector<WebTab::SavedTab>> tabsState;
 	};

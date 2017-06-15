@@ -406,7 +406,7 @@ void WebTab::sNewTab()
 
 void WebTab::sGoHome()
 {
-	m_webView->load(m_window->homePageUrl());
+	m_webView->load(m_tabBar->tabWidget()->homeUrl());
 }
 
 void WebTab::showNotification(QWidget* notif)

@@ -78,7 +78,7 @@ void RestoreManager::createFromFile(const QString& file)
 	int version{0};
 	stream >> version;
 
-	if (version != 0x0001)
+	if (version != 0x0001 && version != 0x0002)
 		return;
 
 	int windowCount{};
@@ -113,12 +113,18 @@ void RestoreManager::createFromFile(const QString& file)
 			for (int k{0}; k < verticalSplitterCount; ++k) {
 				QVector<WebTab::SavedTab> tabs;
 				QByteArray tabState{};
+				QUrl homePageUrl{};
 				int tabListCount{0};
 
 				tabWidgetStream >> tabState;
 
 				QDataStream tabStream{tabState};
 
+
+				if (version != 0x0001)
+					tabStream >> homePageUrl;
+
+				windowData.homeUrls.append(homePageUrl);
 				tabStream >> tabListCount;
 
 				for (int l{0}; l < tabListCount; ++l) {

@@ -274,7 +274,7 @@ void Application::saveSession(bool saveForHome)
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	stream << 0x0001;
+	stream << 0x0002;
 	stream << m_windows.count();
 
 		foreach (BrowserWindow* window, m_windows) {

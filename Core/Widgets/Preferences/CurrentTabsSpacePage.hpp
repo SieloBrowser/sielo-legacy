@@ -23,55 +23,42 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_CURRENTTABSSPACEPAGE_HPP
+#define SIELO_BROWSER_CURRENTTABSSPACEPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
-#include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QLabel>
+#include <QLineEdit>
+
+#include <QSpacerItem>
 
 namespace Sn {
-class GeneralPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
-
 class TabWidget;
 
-class PreferencesDialog: public QDialog {
+class CurrentTabsSpacePage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	CurrentTabsSpacePage(TabWidget* tabWidget, QWidget* parent);
+	~CurrentTabsSpacePage();
 
-private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
+	void loadSettings();
+	void save();
 
 private:
 	void setupUI();
 
 	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QLabel* m_descHomePageUrl{nullptr};
+	QLineEdit* m_lineHomePageUrl{nullptr};
 
-	GeneralPage* m_pageGeneral{nullptr};
-	DownloadPage* m_pageDownload{nullptr};
-	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_pageCurrentTabsSpace{nullptr};
-
+	QSpacerItem* m_spacer{nullptr};
 	TabWidget* m_tabWidget{nullptr};
 };
-
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_CURRENTTABSSPACEPAGE_HPP

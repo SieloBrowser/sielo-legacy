@@ -22,56 +22,52 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#include "CurrentTabsSpacePage.hpp"
 
-#include <QDialog>
 
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
-class GeneralPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
-
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
-Q_OBJECT
-
-public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
-
-private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
-
-private:
-	void setupUI();
-
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
-
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
-
-	GeneralPage* m_pageGeneral{nullptr};
-	DownloadPage* m_pageDownload{nullptr};
-	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_pageCurrentTabsSpace{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-};
-
+CurrentTabsSpacePage::CurrentTabsSpacePage(TabWidget* tabWidget, QWidget* parent) :
+	QWidget(parent),
+	m_tabWidget(tabWidget)
+{
+	setupUI();
+	loadSettings();
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+CurrentTabsSpacePage::~CurrentTabsSpacePage()
+{
+	// Empty
+}
+
+void CurrentTabsSpacePage::loadSettings()
+{
+	m_lineHomePageUrl->setText(m_tabWidget->homeUrl().toString());
+}
+
+void CurrentTabsSpacePage::save()
+{
+	QString newUrl{m_lineHomePageUrl->text()};
+	if ((newUrl.left(7) != "http://") && (newUrl.left(8) != "https://"))
+		newUrl.insert(0, "http://");
+
+	m_tabWidget->setHomeUrl(newUrl);
+}
+
+void CurrentTabsSpacePage::setupUI()
+{
+	m_layout = new QVBoxLayout(this);
+
+	m_descHomePageUrl = new QLabel(tr("Home page url for current tabs space"), this);
+
+	m_lineHomePageUrl = new QLineEdit(this);
+	m_lineHomePageUrl->setPlaceholderText(tr("Enter url"));
+
+	m_spacer = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+	m_layout->addWidget(m_descHomePageUrl);
+	m_layout->addWidget(m_lineHomePageUrl);
+	m_layout->addItem(m_spacer);
+}
+}

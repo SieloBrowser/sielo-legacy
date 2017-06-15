@@ -69,7 +69,7 @@ public:
 
 	QByteArray saveState();
 	void saveButtonState();
-	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab);
+	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab, const QUrl& homeUrl);
 	void closeRecoveryTab();
 
 	void setCurrentIndex(int index);
@@ -97,6 +97,8 @@ public:
 	void toggleMuted();
 
 	QUrl urlOnNewTab() const { return m_urlOnNewTab; }
+	QUrl homeUrl() const { return m_homeUrl; }
+	void setHomeUrl(const QString& newUrl);
 
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
@@ -182,6 +184,7 @@ private:
 	QMenu* m_menuClosedTabs{nullptr};
 	QToolBar* m_topToolBar{nullptr};
 	QUrl m_urlOnNewTab{};
+	QUrl m_homeUrl{};
 
 	int m_lastTabIndex{-1};
 	int m_lastBackgroundTabIndex{-1};

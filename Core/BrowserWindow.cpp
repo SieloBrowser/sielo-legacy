@@ -135,7 +135,7 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 
 		for (int j{0}; j < verticalSplitterCount; ++j) {
 			if (i == 0 && j == 0) {
-				m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0]);
+				m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0], data.homeUrls[0]);
 				verticalSplitter->addWidget(m_tabWidgets[0]->parentWidget());
 				m_mainSplitter->widget(0)->deleteLater();
 				++tabWidgetToRestore;
@@ -151,7 +151,9 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 				m_tabWidgets.append(tabWidget);
 				m_currentTabWidget = tabWidgetToRestore;
 
-				tabWidget->restoreState(data.tabsState[tabWidgetToRestore], data.currentTabs[tabWidgetToRestore]);
+				tabWidget->restoreState(data.tabsState[tabWidgetToRestore],
+										data.currentTabs[tabWidgetToRestore],
+										data.homeUrls[tabWidgetToRestore]);
 				tabWidget->tabBar()->show();
 
 				layout->addWidget(tabWidget->tabBar());

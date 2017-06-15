@@ -254,6 +254,8 @@ void TabWidget::loadSettings()
 
 	//TODO: Modify for a custom Sielo start page
 	m_urlOnNewTab = settings.value("urlOnNewTab", "https://ecosia.org").toUrl();
+	if (m_homeUrl.isEmpty())
+		m_homeUrl = m_window->homePageUrl();
 
 	settings.endGroup();
 
@@ -277,6 +279,8 @@ QByteArray TabWidget::saveState()
 	QByteArray data;
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
+	stream << m_homeUrl;
+
 	int tabListCount = tabList.count();
 	stream << tabListCount;
 
@@ -293,8 +297,13 @@ void TabWidget::save()
 	Application::instance()->saveSession();
 }
 
-bool TabWidget::restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab)
+bool TabWidget::restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab, const QUrl& homeUrl)
 {
+	m_homeUrl = homeUrl;
+
+	if (m_homeUrl.isEmpty())
+		m_homeUrl = m_window->homePageUrl();
+
 	for (WebTab::SavedTab tab : tabs) {
 		int index{addView(QUrl(), Application::NTT_CleanSelectedTab, false, tab.isPinned)};
 		weTab(index)->restoreTab(tab);
@@ -430,6 +439,11 @@ void TabWidget::toggleMuted()
 
 		m_isMutted = true;
 	}
+}
+
+void TabWidget::setHomeUrl(const QString& newUrl)
+{
+	m_homeUrl = QUrl(newUrl);
 }
 
 int TabWidget::addView(const QUrl& url)
@@ -944,7 +958,7 @@ void TabWidget::openHistoryDialog()
 
 void TabWidget::openPreferencesDialog()
 {
-	PreferencesDialog* dialog{new PreferencesDialog(this)};
+	PreferencesDialog* dialog{new PreferencesDialog(this, this)};
 	dialog->show();
 }
 
