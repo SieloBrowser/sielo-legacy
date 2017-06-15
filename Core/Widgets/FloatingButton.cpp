@@ -185,7 +185,12 @@ void FloatingButton::showChildren(QPoint position)
 		for (int i{0}; i < m_children.count(); ++i) {
 			FloatingButton* child = m_children[i];
 
-			child->moveButton(QPoint(QPoint(0, 28).x(), QPoint(0, 28).y() + (i + 1) * height()), true);
+			QPoint positionRelative{0, 0};
+
+			if (m_tabWidget)
+				positionRelative = m_tabWidget->mapTo(m_parent, m_tabWidget->pos());
+
+			child->moveButton(QPoint(positionRelative.x(), positionRelative.y() + (i + 1) * height()), true);
 			child->show();
 		}
 
@@ -252,14 +257,17 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 		if (m_type == Type::Root) {
 			QPoint posFromTabWidget{};
 
-			posFromTabWidget = mapToParent(pos());
+			if (m_tabWidget)
+				posFromTabWidget = m_tabWidget->mapFrom(m_parent, pos());
+			else
+				posFromTabWidget = mapToParent(pos());
 
 			if ((posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
 				&& (posFromTabWidget.y() >= 28 && posFromTabWidget.y() <= height() + 28)
 				&& m_pattern == Pattern::Floating) {
 				setPattern(Pattern::Toolbar);
-				m_oldPosition = (QPoint(0, 28));
-				showChildren(QPoint(0, 28));
+				m_oldPosition = m_tabWidget->mapTo(m_parent, m_tabWidget->pos());
+				showChildren(m_tabWidget->mapTo(m_parent, m_tabWidget->pos()));
 			}
 			else if (!(posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
 					 && !(posFromTabWidget.y() >= 28 && posFromTabWidget.y() <= height() + 28)
@@ -282,9 +290,15 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 {
 
+	QPoint posFromTabWidget{};
+
+	if (m_tabWidget)
+		posFromTabWidget = m_tabWidget->mapFrom(m_parent, pos());
+	else
+		posFromTabWidget = mapToParent(pos());
 	if (m_type == Type::Root) {
-		if ((mapToParent(pos()).x() >= 0 && mapToParent(pos()).x() <= width())
-			&& (mapToParent(pos()).y() >= 28) && mapToParent(pos()).y() <= height() + 28) {
+		if ((posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
+			&& (posFromTabWidget.y() >= 28) && posFromTabWidget.y() <= height() + 28) {
 			m_pattern = Pattern::Toolbar;
 			if (!m_childrenExpanded)
 				showChildren(QPoint(0, 24));
