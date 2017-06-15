@@ -29,6 +29,7 @@
 #include <QDir>
 
 #include <QDesktopServices>
+#include <QFontDatabase>
 
 #include <QMessageBox>
 
@@ -87,6 +88,12 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
+
+	int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
+	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+	m_morpheusFont = QFont(family);
+	m_normalFont = font();
+
 
 	loadSettings();
 
@@ -164,6 +171,9 @@ void Application::loadSettings()
 
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
+
+	if (settings.value("Settings/useMorpheusFont", false).toBool())
+		setFont(m_morpheusFont);
 
 		foreach (BrowserWindow* window, m_windows) window->loadSettings();
 

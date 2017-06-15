@@ -45,6 +45,8 @@
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/Tab/TabBar.hpp"
 
 #include "Utils/AddressCompleter.hpp"
 #include "Utils/ToolButton.hpp"
@@ -590,23 +592,56 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 		break;
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
-		switch (event->modifiers()) {
-		case Qt::ControlModifier:
-			if (!text().endsWith(QLatin1String(".com")))
-				setText(text().append(QLatin1String(".com")));
+		if (text().left(1) == "!") {
+			QSettings settings{};
 
-			requestLoadUrl();
-			m_holdingAlt = false;
-			break;
-		case Qt::AltModifier:
-			m_window->tabWidget()->addView(createLoadRequest());
-			m_holdingAlt = false;
-			break;
-		default:
-			requestLoadUrl();
-			m_holdingAlt = false;
+			if (text() == "!witcher") {
+				Application::instance()->setFont(Application::instance()->morpheusFont());
+					foreach (BrowserWindow* window, Application::instance()->windows()) {
+						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
+								window->tabWidget(i)->weTab(j)->addressBar()
+									->setFont(Application::instance()->morpheusFont());
+							}
+							window->tabWidget(i)->tabBar()->qtabBar()->setFont(Application::instance()->morpheusFont());
+						}
+					}
+				settings.setValue("Settings/useMorpheusFont", true);
+			}
+			else if (text() == "!undowitcher") {
+				Application::instance()->setFont(Application::instance()->normalFont());
+					foreach (BrowserWindow* window, Application::instance()->windows()) {
+						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
+								window->tabWidget(i)->weTab(j)->addressBar()
+									->setFont(Application::instance()->normalFont());
+							}
+							window->tabWidget(i)->tabBar()->qtabBar()->setFont(Application::instance()->normalFont());
+						}
+					}
+				settings.setValue("Settings/useMorpheusFont", false);
+			}
+
+			showUrl(m_webView->url());
 		}
+		else {
+			switch (event->modifiers()) {
+			case Qt::ControlModifier:
+				if (!text().endsWith(QLatin1String(".com")))
+					setText(text().append(QLatin1String(".com")));
 
+				requestLoadUrl();
+				m_holdingAlt = false;
+				break;
+			case Qt::AltModifier:
+				m_window->tabWidget()->addView(createLoadRequest());
+				m_holdingAlt = false;
+				break;
+			default:
+				requestLoadUrl();
+				m_holdingAlt = false;
+			}
+		}
 		break;
 	case Qt::Key_0:
 	case Qt::Key_1:

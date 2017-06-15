@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>data/bookmarks.xbel</file>
+        <file>data/fonts/morpheus.ttf</file>
         <!-- Colorful default theme -->
         <file>data/themes/sielo_colorful_flat/main.sss</file>
         <file>data/themes/sielo_colorful_flat/windows.sss</file>

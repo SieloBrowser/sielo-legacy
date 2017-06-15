@@ -31,6 +31,8 @@
 
 #include <QPointer>
 
+#include <QFont>
+
 #include <QWebEngineProfile>
 
 #include "Utils/RestoreManager.hpp"
@@ -132,6 +134,9 @@ public:
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
+	QFont morpheusFont() const { return m_morpheusFont; }
+	QFont normalFont() const { return m_normalFont; }
+
 	static QString currentVersion;
 	static QList<QString> paths();
 	static Application* instance();
@@ -178,6 +183,9 @@ private:
 	QPointer<BrowserWindow> m_lastActiveWindow;
 
 	QList<PostLaunchAction> m_postLaunchActions;
+
+	QFont m_morpheusFont{};
+	QFont m_normalFont{};
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
