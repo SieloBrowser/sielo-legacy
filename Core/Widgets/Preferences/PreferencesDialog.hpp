@@ -66,7 +66,7 @@ private:
 
 	GeneralPage* m_pageGeneral{nullptr};
 	DownloadPage* m_pageDownload{nullptr};
-	AdBlockPage* m_pageAdBlock{nullptr};
+//	AdBlockPage* m_pageAdBlock{nullptr};
 	CurrentTabsSpacePage* m_pageCurrentTabsSpace{nullptr};
 
 	TabWidget* m_tabWidget{nullptr};
