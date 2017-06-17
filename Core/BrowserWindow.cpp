@@ -406,15 +406,8 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 			if (m_fButton->childrenExpanded())
 				m_fButton->hideChildren();
 
-			QPoint newFloatingButtonPos{0, mapFromGlobal(QCursor::pos()).y()};
-
-			if (tbWidget->mapFromGlobal(QCursor::pos()).x() <= tbWidget->width()
-				&& tbWidget->mapFromGlobal(QCursor::pos()).x() >= tbWidget->width() - 50)
-				newFloatingButtonPos
-					.setX(tbWidget->mapTo(this, tabWidget()->pos()).x() + tabWidget()->width() - m_fButton->width());
-				//newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() - (15 + m_fButton->width()));
-			else
-				newFloatingButtonPos.setX(tbWidget->mapTo(this, tabWidget()->pos()).x());
+			QPoint newFloatingButtonPos
+				{QPoint(tbWidget->mapTo(this, tabWidget()->pos()).x(), tbWidget->mapTo(this, tabWidget()->pos()).y())};
 			//newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() + 15);
 
 			m_fButton->move(newFloatingButtonPos);
