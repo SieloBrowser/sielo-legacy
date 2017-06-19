@@ -433,11 +433,11 @@ void Application::loadTheme(const QString& name)
 	QString sss{readFile(activeThemePath + QLatin1String("/main.sss"))};
 
 #if defined(Q_OS_MAC)
-	sss.append(readSSSFile(activeThemePath + QLatin1String("/mac.sss")));
+	sss.append(readFile(activeThemePath + QLatin1String("/mac.sss")));
 #elif defined(Q_OS_LINUX)
 	sss.append(readFile(activeThemePath + QLatin1String("/linux.sss")));
 #elif defined(Q_OS_WIN)
-	sss.append(readSSSFile(activeThemePath + QLatin1String("/windows.sss")));
+	sss.append(readFile(activeThemePath + QLatin1String("/windows.sss")));
 #endif
 
 	QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
