@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.6)
 project(sielo-browser)
 
 add_subdirectory(Core)
+add_subdirectory(SNCompiler)
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/Core)
-include_directories(${CMAKE_SOURCE_DIR}/Display)
 
 set(SOURCE_FILES Main.cpp)
 set(CMAKE_CXX_STANDARD 14)
