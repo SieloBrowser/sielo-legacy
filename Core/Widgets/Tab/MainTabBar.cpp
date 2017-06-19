@@ -61,6 +61,7 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 	m_activeTabWidth(0),
 	m_forceHidden(false)
 {
+	setObjectName("maintabbar");
 	setElideMode(Qt::ElideRight);
 	setFocusPolicy(Qt::NoFocus);
 	setTabsClosable(false);
