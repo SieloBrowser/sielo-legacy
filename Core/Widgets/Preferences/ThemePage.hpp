@@ -49,9 +49,12 @@ public:
 	void save();
 
 private slots:
+	void loadSettings();
+
 	void currentChanged();
 	void showLicense();
 
+	void addTheme();
 private:
 	struct Theme {
 		bool isValid{};
@@ -65,7 +68,6 @@ private:
 
 	Theme parseTheme(const QString& path, const QString& name);
 
-	void loadSettings();
 	void setupUI();
 
 	QString m_activeTheme{};
@@ -85,6 +87,7 @@ private:
 	QLabel* m_author{nullptr};
 	QLabel* m_descLabel{nullptr};
 	QLabel* m_desc{nullptr};
+	QPushButton* m_addThemeButton{nullptr};
 
 };
 }

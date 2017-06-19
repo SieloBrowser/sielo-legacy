@@ -26,6 +26,12 @@
 
 #include <QSettings>
 
+#include <QProcess>
+#include <QTimer>
+
+#include <QMessageBox>
+#include <QFileDialog>
+
 #include <QDir>
 
 #include "Application.hpp"
@@ -41,6 +47,7 @@ ThemePage::ThemePage(QWidget* parent) :
 	loadSettings();
 
 	connect(m_themeList, &QListWidget::currentItemChanged, this, &ThemePage::currentChanged);
+	connect(m_addThemeButton, &QPushButton::clicked, this, &ThemePage::addTheme);
 
 	currentChanged();
 }
@@ -83,6 +90,38 @@ void ThemePage::currentChanged()
 
 void ThemePage::showLicense()
 {
+
+}
+
+void ThemePage::addTheme()
+{
+#if defined(Q_OS_WIN)
+	QString compilerName = "sielo-compiler.exe"
+#elif defined(Q_OS_LINUX)
+	QString compilerName = "sielo-compiler";
+#endif
+	if (!QFile(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName)
+		.exists()) {
+		QMessageBox::critical(this,
+							  tr("Error"),
+							  tr("Can't decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser."));
+		return;
+	}
+
+	QString themeFile{QFileDialog::getOpenFileName(this, tr("Open a theme"), QString(), "Themes (*.snthm)")};
+
+	if (themeFile.isEmpty())
+		return;
+
+	QStringList decompileArgs{};
+	decompileArgs << "decompile" << themeFile
+				  << Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/')
+					 + QFileInfo(themeFile).baseName() << "Theme successfully decompiled";
+
+	QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName,
+					  decompileArgs);
+
+	QTimer::singleShot(500, this, &ThemePage::loadSettings);
 
 }
 
@@ -223,6 +262,8 @@ void ThemePage::setupUI()
 	m_desc->setWordWrap(true);
 	//m_desc->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
+	m_addThemeButton = new QPushButton(tr("Add a theme"), this);
+
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
 
@@ -235,5 +276,6 @@ void ThemePage::setupUI()
 
 	m_layout->addWidget(m_themeList);
 	m_layout->addWidget(m_areaWidget);
+	m_layout->addWidget(m_addThemeButton);
 }
 }
