@@ -34,6 +34,7 @@
 
 #include <QOpenGLWidget>
 #include <QWidget>
+#include <QLabel>
 
 #include <QWebEngineView>
 #include <QWebEnginePage>
@@ -176,12 +177,17 @@ private:
 	// Actually, this class is more for add shortcuts
 	void initActions();
 
+	void updateLabel(const QString& zoomLevel);
+
 	int m_currentZoomLevel{};
 	int m_progress{100};
 	bool m_firstLoad{false};
 
 	QUrl m_clickedUrl{};
 	QPointF m_clickedPos{};
+
+	QLabel* m_zoomLabel{nullptr};
+	QTimer* m_zoomTimer{nullptr};
 
 	WebPage* m_page{nullptr};
 	QPointer<QOpenGLWidget> m_child{};

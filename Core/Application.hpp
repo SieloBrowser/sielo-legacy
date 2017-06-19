@@ -105,6 +105,7 @@ public:
 	~Application();
 
 	void loadSettings();
+	void loadTheme(const QString& name);
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
 
@@ -137,6 +138,8 @@ public:
 	QFont morpheusFont() const { return m_morpheusFont; }
 	QFont normalFont() const { return m_normalFont; }
 
+	QString readFile(const QString& filename);
+
 	static QString currentVersion;
 	static QList<QString> paths();
 	static Application* instance();
@@ -158,10 +161,7 @@ private:
 
 	void setUserStyleSheet(const QString& filePath);
 
-	void loadTheme(const QString& name);
 	void loadThemeFromResources();
-
-	QString readSSSFile(const QString& filename);
 
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};

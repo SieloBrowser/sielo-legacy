@@ -33,7 +33,9 @@
 
 #include <QSettings>
 #include <QAction>
+
 #include <QMenu>
+#include <QLabel>
 
 #include <QWebEngineHistory>
 
@@ -91,6 +93,10 @@ WebView::WebView(QWidget* parent) :
 
 	if (parentWidget())
 		parentWidget()->installEventFilter(this);
+
+	m_zoomLabel = new QLabel(this);
+	m_zoomLabel->setWindowFlags(m_zoomLabel->windowFlags() | Qt::WindowStaysOnTopHint);
+	m_zoomTimer = new QTimer(this);
 }
 
 WebView::~WebView()
@@ -308,6 +314,13 @@ void WebView::zoomIn()
 		++m_currentZoomLevel;
 		applyZoom();
 	}
+
+	updateLabel(QString::number(zoomLevels()[m_currentZoomLevel]) + "%");
+/*	QLabel* zoomLabel{new QLabel(QString::number(zoomLevels()[m_currentZoomLevel]) + "%", this)};
+	zoomLabel->show();
+	zoomLabel->raise();
+	zoomLabel->move(0, 0);
+ */
 }
 
 void WebView::zoomOut()
@@ -316,6 +329,7 @@ void WebView::zoomOut()
 		--m_currentZoomLevel;
 		applyZoom();
 	}
+	updateLabel(QString::number(zoomLevels()[m_currentZoomLevel]) + "%");
 }
 
 void WebView::zoomReset()
@@ -327,6 +341,7 @@ void WebView::zoomReset()
 		m_currentZoomLevel = defaultZoomLevel;
 		applyZoom();
 	}
+	updateLabel(QString::number(zoomLevels()[m_currentZoomLevel]) + "%");
 }
 
 void WebView::back()
@@ -861,5 +876,40 @@ void WebView::initActions()
 	addAction(a_copy);
 	addAction(a_past);
 	addAction(a_selectAll);
+}
+
+void WebView::updateLabel(const QString& zoomLevel)
+{
+	m_zoomTimer->stop();
+	disconnect(m_zoomTimer, &QTimer::timeout, m_zoomLabel, &QLabel::hide);
+
+	QPalette palette{};
+	QBrush textBrush{QColor(0, 0, 0, 255)};
+	QBrush backgroundBrush{QColor(255, 255, 255, 255)};
+
+	textBrush.setStyle(Qt::SolidPattern);
+	backgroundBrush.setStyle(Qt::SolidPattern);
+
+	palette.setBrush(QPalette::Active, QPalette::WindowText, textBrush);
+	palette.setBrush(QPalette::Inactive, QPalette::WindowText, textBrush);
+	palette.setBrush(QPalette::Active, QPalette::Window, backgroundBrush);
+	palette.setBrush(QPalette::Inactive, QPalette::Window, backgroundBrush);
+
+	QFont font;
+	font.setPointSize(24);
+	font.setBold(false);
+
+	m_zoomLabel->setFont(font);
+	m_zoomLabel->setPalette(palette);
+	m_zoomLabel->setAlignment(Qt::AlignCenter);
+	m_zoomLabel->setAutoFillBackground(true);
+	m_zoomLabel->setFocusPolicy(Qt::NoFocus);
+	m_zoomLabel->setText(zoomLevel);
+	m_zoomLabel->move(width() / 2 - m_zoomLabel->width() / 2, height() / 2 - m_zoomLabel->height() / 2);
+	m_zoomLabel->raise();
+	m_zoomLabel->show();
+
+	m_zoomTimer->start(3 * 1000);
+	connect(m_zoomTimer, &QTimer::timeout, m_zoomLabel, &QLabel::hide);
 }
 }

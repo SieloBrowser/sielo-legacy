@@ -28,6 +28,8 @@
 #include <QStandardPaths>
 #include <QDir>
 
+#include <QStyle>
+
 #include <QDesktopServices>
 #include <QFontDatabase>
 
@@ -55,6 +57,7 @@
 
 #include "Network/NetworkManager.hpp"
 
+#include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
@@ -427,12 +430,12 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 void Application::loadTheme(const QString& name)
 {
 	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
-	QString sss{readSSSFile(activeThemePath + QLatin1String("/main.sss"))};
+	QString sss{readFile(activeThemePath + QLatin1String("/main.sss"))};
 
 #if defined(Q_OS_MAC)
 	sss.append(readSSSFile(activeThemePath + QLatin1String("/mac.sss")));
 #elif defined(Q_OS_LINUX)
-	sss.append(readSSSFile(activeThemePath + QLatin1String("/linux.sss")));
+	sss.append(readFile(activeThemePath + QLatin1String("/linux.sss")));
 #elif defined(Q_OS_WIN)
 	sss.append(readSSSFile(activeThemePath + QLatin1String("/windows.sss")));
 #endif
@@ -443,7 +446,6 @@ void Application::loadTheme(const QString& name)
 				QString("url(%1/\\1)").arg(relativePath));
 	sss.replace("sproperty", "qproperty");
 	sss.replace("slineargradient", "qlineargradient");
-
 
 	setStyleSheet(sss);
 }
@@ -489,7 +491,7 @@ void Application::loadThemeFromResources()
 	loadTheme("sielo_default");
 }
 
-QString Application::readSSSFile(const QString& filename)
+QString Application::readFile(const QString& filename)
 {
 	QFile file{filename};
 

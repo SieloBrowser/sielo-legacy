@@ -27,6 +27,7 @@
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "Widgets/Preferences/GeneralPage.hpp"
+#include "Widgets/Preferences/ThemePage.hpp"
 #include "Widgets/Preferences/DownloadPage.hpp"
 #include "Widgets/Preferences/AdBlockPage.hpp"
 #include "Widgets/Preferences/CurrentTabsSpacePage.hpp"
@@ -52,6 +53,7 @@ PreferencesDialog::~PreferencesDialog()
 void PreferencesDialog::saveSettings()
 {
 	m_pageGeneral->save();
+	m_themePage->save();
 	m_pageDownload->save();
 //	m_pageAdBlock->save();
 	m_pageCurrentTabsSpace->save();
@@ -85,10 +87,12 @@ void PreferencesDialog::setupUI()
 
 	m_pageGeneral = new GeneralPage(m_pages);
 	m_pageDownload = new DownloadPage(m_pages);
+	m_themePage = new ThemePage(m_pages);
 //	m_pageAdBlock = new AdBlockPage(m_pages);
 	m_pageCurrentTabsSpace = new CurrentTabsSpacePage(m_tabWidget, m_pages);
 
 	m_pages->addTab(m_pageGeneral, tr("General"));
+	m_pages->addTab(m_themePage, tr("Themes"));
 	m_pages->addTab(m_pageDownload, tr("Downloads"));
 //	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
 	m_pages->addTab(m_pageCurrentTabsSpace, tr("Current Tabs Space"));

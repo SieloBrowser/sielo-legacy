@@ -23,57 +23,70 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_THEMEPAGE_HPP
+#define SIELO_BROWSER_THEMEPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
-#include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QFormLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QListWidget>
+#include <QLabel>
+#include <QPushButton>
+
+#include <QHash>
 
 namespace Sn {
-class GeneralPage;
-class ThemePage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
-
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
+class ThemePage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	ThemePage(QWidget* parent);
+	~ThemePage();
+
+	void save();
 
 private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
+	void currentChanged();
+	void showLicense();
 
 private:
+	struct Theme {
+		bool isValid{};
+		QIcon icon{};
+		QString name{};
+		QString author{};
+		QString shortDesc{};
+		QString longDesc{};
+		QString license{};
+	};
+
+	Theme parseTheme(const QString& path, const QString& name);
+
+	void loadSettings();
 	void setupUI();
 
+	QString m_activeTheme{};
+	QHash<QString, Theme> m_themeHash;
+
 	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
+	QHBoxLayout* m_nameLayout{nullptr};
+	QFormLayout* m_areaLayout{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QListWidget* m_themeList{nullptr};
+	QWidget* m_areaWidget{nullptr};
 
-	GeneralPage* m_pageGeneral{nullptr};
-	ThemePage* m_themePage{nullptr};
-	DownloadPage* m_pageDownload{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_pageCurrentTabsSpace{nullptr};
+	QLabel* m_nameLabel{nullptr};
+	QLabel* m_name{nullptr};
+	QPushButton* m_licenseBtn{nullptr};
+	QLabel* m_authorLabel{nullptr};
+	QLabel* m_author{nullptr};
+	QLabel* m_descLabel{nullptr};
+	QLabel* m_desc{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
 };
-
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_THEMEPAGE_HPP
