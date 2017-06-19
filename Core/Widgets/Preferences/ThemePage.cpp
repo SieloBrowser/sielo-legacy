@@ -96,7 +96,7 @@ void ThemePage::showLicense()
 void ThemePage::addTheme()
 {
 #if defined(Q_OS_WIN)
-	QString compilerName = "sielo-compiler.exe"
+	QString compilerName = "sielo-compiler.exe";
 #elif defined(Q_OS_LINUX)
 	QString compilerName = "sielo-compiler";
 #endif
