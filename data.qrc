@@ -20,6 +20,11 @@
         <file>data/themes/sielo_colorful_flat/images/go.png</file>
         <file>data/themes/sielo_colorful_flat/images/refresh.png</file>
         <file>data/themes/sielo_colorful_flat/images/stop.png</file>
+        <file>data/themes/sielo_colorful_flat/images/addtab.png</file>
+        <file>data/themes/sielo_colorful_flat/images/menu.png</file>
+        <file>data/themes/sielo_colorful_flat/images/preferences.png</file>
+        <file>data/themes/sielo_colorful_flat/images/tab-left-arrow.png</file>
+        <file>data/themes/sielo_colorful_flat/images/tab-right-arrow.png</file>
         <!-- Tool bar -->
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>

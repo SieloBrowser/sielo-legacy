@@ -123,6 +123,13 @@ public:
 		return false;
 	}
 
+	virtual bool processCommand(const QString& command, const QStringList& args)
+	{
+		Q_UNUSED(command);
+
+		return false;
+	}
+
 	virtual bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type,
 										 bool isMainFrame)
 	{

@@ -140,6 +140,8 @@ public:
 
 	QString readFile(const QString& filename);
 
+	void processCommand(const QString& command, const QStringList args);
+
 	static QString currentVersion;
 	static QList<QString> paths();
 	static Application* instance();

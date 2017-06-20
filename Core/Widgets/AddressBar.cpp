@@ -37,12 +37,14 @@
 #include <QIcon>
 
 #include <QStyle>
+#include <QtWidgets/QMessageBox>
 
 #include "History/HistoryManager.hpp"
 #include "History/HistoryItem.hpp"
 
 #include "Web/LoadRequest.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
+#include "Web/Tab/WebTab.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
@@ -593,34 +595,23 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 	case Qt::Key_Return:
 	case Qt::Key_Enter:
 		if (text().left(1) == "!") {
-			QSettings settings{};
+			QString fullCommand = text();
+			fullCommand = fullCommand.right(fullCommand.count() - 1);
 
-			if (text() == "!witcher") {
-				Application::instance()->setFont(Application::instance()->morpheusFont());
-					foreach (BrowserWindow* window, Application::instance()->windows()) {
-						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
-								window->tabWidget(i)->weTab(j)->addressBar()
-									->setFont(Application::instance()->morpheusFont());
-							}
-							window->tabWidget(i)->tabBar()->qtabBar()->setFont(Application::instance()->morpheusFont());
-						}
-					}
-				settings.setValue("Settings/useMorpheusFont", true);
-			}
-			else if (text() == "!undowitcher") {
-				Application::instance()->setFont(Application::instance()->normalFont());
-					foreach (BrowserWindow* window, Application::instance()->windows()) {
-						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
-								window->tabWidget(i)->weTab(j)->addressBar()
-									->setFont(Application::instance()->normalFont());
-							}
-							window->tabWidget(i)->tabBar()->qtabBar()->setFont(Application::instance()->normalFont());
-						}
-					}
-				settings.setValue("Settings/useMorpheusFont", false);
-			}
+			QStringList args = fullCommand.split(" ");
+			QString command = args[0];
+
+			args.removeAt(0);
+				foreach (const QString& str, args) {
+					QMessageBox::information(nullptr, "DEBUG", str);
+					if (str == " ")
+						args.removeOne(str);
+					else if (str.isEmpty())
+						args.removeOne(str);
+				}
+
+			if (!processMainCommand(command, args))
+				Application::instance()->processCommand(command, args);
 
 			showUrl(m_webView->url());
 		}
@@ -959,6 +950,38 @@ void AddressBar::refreshCompleter()
 		}
 
 	m_completer->setModel(new QStringListModel(suggestionList));
+}
+
+bool AddressBar::processMainCommand(const QString& command, const QStringList& args)
+{
+
+	bool succes{false};
+
+	if (command == "newtab") {
+		LoadRequest request{};
+		if (args.count() == 1)
+			request.setUrl(args[0]);
+		else
+			request.setUrl(webView()->webTab()->tabBar()->tabWidget()->urlOnNewTab());
+
+		webView()->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
+
+		succes = true;
+	}
+	else if (command == "closetab") {
+		webView()->webTab()->tabBar()->tabWidget()
+			->requestCloseTab(webView()->webTab()->tabBar()->tabWidget()->currentIndex());
+
+		succes = true;
+	}
+	else if (command == "reload") {
+		if (args.count() == 1)
+			webView()->webTab()->tabBar()->tabWidget()->reloadAllTabs();
+		else
+			webView()->reload();
+	}
+
+	return succes;
 }
 
 }

@@ -71,6 +71,11 @@ void PluginProxy::registerAppEventHandler(const EventHandlerType& type, PluginIn
 			m_wheelEventHandlers.append(obj);
 		break;
 
+	case CommandsHandler:
+		if (!m_commandHandlers.contains(obj))
+			m_commandHandlers.append(obj);
+		break;
+
 	default:
 		qWarning("Registering unknown event handler type");
 		break;
@@ -164,6 +169,18 @@ bool PluginProxy::processWheelEvent(const Application::ObjectName& type, QObject
 
 		foreach (PluginInterface* iPlugin, m_wheelEventHandlers) {
 			if (iPlugin->wheelEvent(type, obj, event))
+				accepted = true;
+		}
+
+	return accepted;
+}
+
+bool PluginProxy::processCommand(const QString& command, const QStringList& args)
+{
+	bool accepted{false};
+
+		foreach (PluginInterface* iPlugin, m_commandHandlers) {
+			if (iPlugin->processCommand(command, args))
 				accepted = true;
 		}
 

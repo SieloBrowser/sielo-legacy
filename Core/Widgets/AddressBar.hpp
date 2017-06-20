@@ -195,6 +195,8 @@ private:
 	void refreshTextFormat();
 	void refreshCompleter();
 
+	bool processMainCommand(const QString& command, const QStringList& args);
+
 	ToolButton* m_siteIcon{nullptr};
 	ToolButton* m_reloadStopButton{nullptr};
 	ToolButton* m_goButton{nullptr};

@@ -49,7 +49,8 @@ public:
 		MouseMoveHandler,
 		KeyPressHandler,
 		KeyReleaseHandler,
-		WheelEventHandler
+		WheelEventHandler,
+		CommandsHandler
 	};
 
 	explicit PluginProxy();
@@ -66,7 +67,10 @@ public:
 	bool processKeyPress(const Application::ObjectName& type, QObject* obj, QKeyEvent* event);
 	bool processKeyRelease(const Application::ObjectName& type, QObject* obj, QKeyEvent* event);
 
+	bool processCommand(const QString& command, const QStringList& args);
+
 	bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type, bool isMainFrame);
+
 
 	void emitWebPageCreated(WebPage* page);
 	void emitWebPageDeleted(WebPage* page);
@@ -93,6 +97,8 @@ private:
 
 	QList<PluginInterface*> m_keyPressHandlers;
 	QList<PluginInterface*> m_keyReleaseHandlers;
+
+	QList<PluginInterface*> m_commandHandlers;
 };
 }
 

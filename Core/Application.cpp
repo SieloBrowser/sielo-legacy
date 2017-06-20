@@ -54,11 +54,14 @@
 
 #include "Web/WebPage.hpp"
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
+#include "Web/Tab/TabbedWebView.hpp"
 
 #include "Network/NetworkManager.hpp"
 
 #include "Widgets/FloatingButton.hpp"
+#include "Widgets/AddressBar.cpp"
 #include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/Tab/TabBar.hpp"
 
 namespace Sn {
 
@@ -427,6 +430,52 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 
 }
 
+void Application::processCommand(const QString& command, const QStringList args)
+{
+	if (m_plugins->processCommand(command, args))
+		return;
+
+	if (command == "witcher") {
+		if (args.count() == 1) {
+			QSettings settings{};
+			if (args[0] == "enable") {
+				setFont(m_morpheusFont);
+					foreach (BrowserWindow* window, m_windows) {
+						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
+								window->tabWidget(i)->weTab(j)->addressBar()
+									->setFont(m_morpheusFont);
+							}
+							window->tabWidget(i)->tabBar()->qtabBar()->setFont(m_morpheusFont);
+						}
+					}
+				settings.setValue("Settings/useMorpheusFont", true);
+			}
+			else if (args[0] == "disable") {
+				setFont(m_normalFont);
+					foreach (BrowserWindow* window, m_windows) {
+						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
+								window->tabWidget(i)->weTab(j)->addressBar()
+									->setFont(m_normalFont);
+							}
+							window->tabWidget(i)->tabBar()->qtabBar()->setFont(m_normalFont);
+						}
+					}
+				settings.setValue("Settings/useMorpheusFont", false);
+			}
+			else
+				QMessageBox::critical(getWindow(),
+									  QApplication::tr("Failed"),
+									  QApplication::tr("The argument is unknow"));
+		}
+		else
+			QMessageBox::critical(getWindow(),
+								  QApplication::tr("Failed"),
+								  QApplication::tr("This command need one argument!"));
+	}
+}
+
 void Application::loadTheme(const QString& name)
 {
 	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
@@ -462,6 +511,9 @@ void Application::loadThemeFromResources()
 
 	QFile::copy(defaultThemeDataPath + "/main.sss", defaultThemePath + QLatin1String("/main.sss"));
 	QFile::copy(defaultThemeDataPath + "/windows.sss", defaultThemePath + QLatin1String("/windows.sss"));
+	QFile::copy(defaultThemeDataPath + "/linux.sss", defaultThemePath + QLatin1String("/linux.sss"));
+	QFile::copy(defaultThemeDataPath + "/theme.info", defaultThemePath + QLatin1String("/theme.info"));
+	QFile::copy(defaultThemeDataPath + "/theme.png", defaultThemePath + QLatin1String("/theme.png"));
 
 
 	QFile::copy(defaultThemeDataPath + "/images/icon.png",
@@ -487,6 +539,17 @@ void Application::loadThemeFromResources()
 				defaultThemePath + QLatin1String("/images/refresh.png"));
 	QFile::copy(defaultThemeDataPath + "/images/stop.png",
 				defaultThemePath + QLatin1String("/images/stop.png"));
+	QFile::copy(defaultThemeDataPath + "/images/addtab.png",
+				defaultThemePath + QLatin1String("/images/addtab.png"));
+	QFile::copy(defaultThemeDataPath + "/images/menu.png",
+				defaultThemePath + QLatin1String("/images/menu.png"));
+	QFile::copy(defaultThemeDataPath + "/images/preferences.png",
+				defaultThemePath + QLatin1String("/images/preferences.png"));
+	QFile::copy(defaultThemeDataPath + "/images/tab-left-arrow.png",
+				defaultThemePath + QLatin1String("/images/tab-left-arrow.png"));
+	QFile::copy(defaultThemeDataPath + "/images/tab-right-arrow.png",
+				defaultThemePath + QLatin1String("/images/tab-right-arrow.png"));
+
 
 	loadTheme("sielo_default");
 }
