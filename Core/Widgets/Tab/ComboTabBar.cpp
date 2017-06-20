@@ -551,6 +551,8 @@ void ComboTabBar::addCornerWidget(QWidget* widget, Qt::Corner corner)
 void ComboTabBar::setUpLayout()
 {
 	int height{qMax(m_mainTabBar->height(), m_pinnedTabBar->height())};
+	height -= 4;
+
 	height = qMax(5, height);
 
 	setFixedHeight(height);

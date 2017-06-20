@@ -82,10 +82,12 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_menuClosedTabs = new QMenu(this);
 
 	m_buttonAddTab = new AddTabButton(this, m_tabBar);
+	m_buttonAddTab->setObjectName("tabwidget-button-addtab");
 	m_buttonAddTab->setIcon(QIcon(":icons/tabs/tabbar-addtab.png"));
 	m_buttonAddTab->setFixedWidth(24);
 
 	m_buttonAddTab2 = new AddTabButton(this, m_tabBar);
+	m_buttonAddTab2->setObjectName("tabwidget-button-addtab");
 	m_buttonAddTab2->setProperty("outside-tabbar", true);
 	m_buttonAddTab2->setIcon(QIcon(":icons/tabs/tabbar-addtab.png"));
 	m_buttonAddTab2->hide();

@@ -510,10 +510,12 @@ void BrowserWindow::setupUi()
 	m_layout->setContentsMargins(0, 0, 0, 0);
 
 	m_mainSplitter = new QSplitter(this);
+	m_mainSplitter->setContentsMargins(0, 0, 0, 0);
 
 	QWidget* widgetTabWidget{createWidgetTabWidget()};
 	QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
 	verticalSplitter->setObjectName("vertical-splitter");
+	verticalSplitter->setContentsMargins(0, 0, 0, 0);
 
 	widget->setCursor(Qt::ArrowCursor);
 
