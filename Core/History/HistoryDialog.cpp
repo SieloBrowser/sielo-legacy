@@ -30,6 +30,8 @@
 #include <QCursor>
 #include <QClipboard>
 
+#include <QSettings>
+
 #include <QMenu>
 
 #include "Application.hpp"
@@ -76,6 +78,11 @@ HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &HistoryDialog::accept);
 	connect(m_removeButton, &QPushButton::clicked, m_tree, &TreeView::removeOne);
 	connect(m_removeAllButton, &QPushButton::clicked, m_tree, &TreeView::removeAll);
+
+	QSettings settings{};
+
+	if (!settings.value("Web-Settings/allowHistory", true).toBool())
+		m_tree->setModel(nullptr);
 }
 
 void HistoryDialog::setupUi()

@@ -147,6 +147,7 @@ public:
 	static Application* instance();
 
 public slots:
+	void saveSettings();
 	void saveSession(bool saveForHome = false);
 
 	void reloadUserStyleSheet();

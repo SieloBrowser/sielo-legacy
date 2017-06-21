@@ -160,6 +160,7 @@ Application::Application(int& argc, char** argv) :
 
 	Updater* updater{new Updater(window)};
 
+	QTimer::singleShot(0, this, &Application::postLaunch);
 }
 
 Application::~Application()
@@ -189,6 +190,7 @@ void Application::loadSettings()
 						+ QLatin1String("/main.sss")};
 
 	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
+	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
 
 	settings.beginGroup("Web-Settings");
 
@@ -206,6 +208,12 @@ void Application::loadSettings()
 	webSettings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
+
+	const bool allowCache{settings.value("allowLocalCache", true).toBool()};
+	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
+	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
+
+	settings.endGroup();
 
 	if (themeInfo.exists())
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
@@ -302,6 +310,21 @@ void Application::destroyRestoreManager()
 	m_restoreManager = nullptr;
 }
 
+void Application::saveSettings()
+{
+	QSettings settings{};
+
+	settings.beginGroup("Web-Settings");
+
+	bool deleteHistory
+		{settings.value("deleteHistoryOnClose", false).toBool() || !settings.value("allowHistory", true).toBool()};
+
+	settings.endGroup();
+
+	if (deleteHistory)
+		m_historyManager->clear();
+}
+
 void Application::saveSession(bool saveForHome)
 {
 	if (m_privateBrowsing || m_isRestoring || m_windows.count() == 0 || m_restoreManager)
@@ -345,6 +368,8 @@ void Application::postLaunch()
 {
 	if (m_postLaunchActions.contains(OpenNewTab))
 		getWindow()->tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab);
+
+	connect(this, &Application::aboutToQuit, this, &Application::saveSettings);
 }
 
 void Application::windowDestroyed(QObject* window)

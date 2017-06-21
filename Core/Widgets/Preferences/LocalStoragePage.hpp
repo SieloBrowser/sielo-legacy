@@ -23,61 +23,76 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_LOCALSTORAGEPAGE_HPP
+#define SIELO_BROWSER_LOCALSTORAGEPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QCheckBox>
+#include <QLabel>
+#include <QSlider>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSpacerItem>
 
 namespace Sn {
-class GeneralPage;
-class AppearancePage;
-class WebConfigPage;
-class LocalStoragePage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
 
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
+class LocalStoragePage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	LocalStoragePage(QWidget* parent);
+	~LocalStoragePage();
+
+	void loadSettings();
+	void save();
 
 private slots:
-	void saveSettings();
+	void allowNetworkStorageChanged(bool allow);
+	void allowSavingHistoryChanged(bool allow);
+	void allowHTML5StorageChanged(bool allow);
 
-	void buttonClicked(QAbstractButton* button);
+	void cacheValueChanged(int value);
+
+	void changeStorageLocationClicked();
+	void deleteHTML5StorageClicked();
 
 private:
 	void setupUI();
 
 	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QGridLayout* m_networkStorageLayout{nullptr};
+	QHBoxLayout* m_MBLayout{nullptr};
+	QHBoxLayout* m_storageLocationLayout{nullptr};
 
-	GeneralPage* m_generalPage{nullptr};
-	AppearancePage* m_appearancePage{nullptr};
-	WebConfigPage* m_webConfigPage{nullptr};
-	LocalStoragePage* m_localStoragePage{nullptr};
-	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
+	QCheckBox* m_networkStorageCheck{nullptr};
+	QLabel* m_maxLabel{nullptr};
+	QLabel* m_MBLabel{nullptr};
+	QSlider* m_cacheSlider{nullptr};
+	QLabel* m_storageLabel{nullptr};
+	QLineEdit* m_storageLocationEdit{nullptr};
+	QPushButton* m_changeStorageLocationButton{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
+	QGridLayout* m_otherStorageLayout{nullptr};
+
+	QCheckBox* m_savingHistoryCheck{nullptr};
+	QCheckBox* m_deleteHistoryOnCloseCheck{nullptr};
+	QCheckBox* m_localHTML5StorageCheck{nullptr};
+	QCheckBox* m_deleteHTML5Check{nullptr};
+	QPushButton* m_deleteHTML5Button{nullptr};
+
+	QSpacerItem* m_leftSpacer{nullptr};
+	QSpacerItem* m_rightSpacer{nullptr};
+
+	QSpacerItem* m_spacer{nullptr};
+
 };
 
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_LOCALSTORAGEPAGE_HPP

@@ -205,6 +205,9 @@ void HistoryManager::save()
 {
 	QSettings settings{};
 
+	if (!settings.value("Web-Settings/allowHistory", true).toBool())
+		return;
+
 	settings.beginGroup(QLatin1String("History-Settings"));
 
 	settings.setValue(QLatin1String("historyLimit"), m_historyLimit);
