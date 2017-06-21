@@ -88,6 +88,9 @@ WebView::WebView(QWidget* parent) :
 	connect(this, &QWebEngineView::loadFinished, this, &WebView::sLoadFinished);
 	connect(this, &QWebEngineView::urlChanged, this, &WebView::sUrlChanged);
 
+	QSettings settings{};
+	m_currentZoomLevel = settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt();
+
 	setAcceptDrops(true);
 	installEventFilter(this);
 
@@ -335,7 +338,7 @@ void WebView::zoomOut()
 void WebView::zoomReset()
 {
 	QSettings settings{};
-	int defaultZoomLevel{settings.value("Settings/zoomLevel", zoomLevels().indexOf(100)).toInt()};
+	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", zoomLevels().indexOf(100)).toInt()};
 
 	if (m_currentZoomLevel != defaultZoomLevel) {
 		m_currentZoomLevel = defaultZoomLevel;

@@ -54,7 +54,7 @@ WebTab::SavedTab::SavedTab() :
 	isPinned(false)
 {
 	QSettings settings{};
-	int defaultZoomLevel{settings.value("Preferences/ZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
+	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
 
 	zoomLevel = defaultZoomLevel;
 }
@@ -77,7 +77,7 @@ bool WebTab::SavedTab::isValide() const
 void WebTab::SavedTab::clear()
 {
 	QSettings settings{};
-	int defaultZoomLevel{settings.value("Preferences/ZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
+	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
 
 	title.clear();
 	url.clear();

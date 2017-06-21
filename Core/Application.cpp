@@ -37,6 +37,7 @@
 
 #include <QSettings>
 
+#include <QWebEngineSettings>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
 
@@ -186,6 +187,25 @@ void Application::loadSettings()
 	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
 						+ settings.value("Themes/currentTheme", "sielo_default").toString()
 						+ QLatin1String("/main.sss")};
+
+	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
+
+	settings.beginGroup("Web-Settings");
+
+	webSettings->setAttribute(QWebEngineSettings::PluginsEnabled, settings.value("allowPlugins", true).toBool());
+	webSettings->setAttribute(QWebEngineSettings::JavascriptEnabled, settings.value("allowJavaScript", true).toBool());
+	webSettings->setAttribute(QWebEngineSettings::LinksIncludedInFocusChain,
+							  settings.value("includeLinkInFocusChain", false).toBool());
+	webSettings->setAttribute(QWebEngineSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
+	webSettings
+		->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled, settings.value("animateScrolling", true).toBool());
+	webSettings->setAttribute(QWebEngineSettings::SpatialNavigationEnabled,
+							  settings.value("spatialNavigation", false).toBool());
+	webSettings->setAttribute(QWebEngineSettings::HyperlinkAuditingEnabled, false);
+	webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+	webSettings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+
+	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
 	if (themeInfo.exists())
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());

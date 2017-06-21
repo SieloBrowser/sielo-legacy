@@ -28,6 +28,7 @@
 
 #include "Widgets/Preferences/GeneralPage.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
+#include "Widgets/Preferences/WebConfigPage.hpp"
 #include "Widgets/Preferences/DownloadPage.hpp"
 #include "Widgets/Preferences/AdBlockPage.hpp"
 #include "Widgets/Preferences/CurrentTabsSpacePage.hpp"
@@ -52,11 +53,12 @@ PreferencesDialog::~PreferencesDialog()
 
 void PreferencesDialog::saveSettings()
 {
-	m_pageGeneral->save();
+	m_generalPage->save();
 	m_appearancePage->save();
-	m_pageDownload->save();
+	m_webConfigPage->save();
+	m_downloadPage->save();
 //	m_pageAdBlock->save();
-	m_pageCurrentTabsSpace->save();
+	m_currentTabsSpacePage->save();
 
 	Application::instance()->loadSettings();
 }
@@ -87,17 +89,19 @@ void PreferencesDialog::setupUI()
 
 	m_pages = new QTabWidget(this);
 
-	m_pageGeneral = new GeneralPage(m_pages);
-	m_pageDownload = new DownloadPage(m_pages);
+	m_generalPage = new GeneralPage(m_pages);
+	m_downloadPage = new DownloadPage(m_pages);
+	m_webConfigPage = new WebConfigPage(m_pages);
 	m_appearancePage = new AppearancePage(m_pages);
 //	m_pageAdBlock = new AdBlockPage(m_pages);
-	m_pageCurrentTabsSpace = new CurrentTabsSpacePage(m_tabWidget, m_pages);
+	m_currentTabsSpacePage = new CurrentTabsSpacePage(m_tabWidget, m_pages);
 
-	m_pages->addTab(m_pageGeneral, tr("General"));
+	m_pages->addTab(m_generalPage, tr("General"));
 	m_pages->addTab(m_appearancePage, tr("Appearance"));
-	m_pages->addTab(m_pageDownload, tr("Downloads"));
+	m_pages->addTab(m_webConfigPage, tr("Web Configuration"));
+	m_pages->addTab(m_downloadPage, tr("Downloads"));
 //	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
-	m_pages->addTab(m_pageCurrentTabsSpace, tr("Current Tabs Space"));
+	m_pages->addTab(m_currentTabsSpacePage, tr("Current Tabs Space"));
 
 	m_buttonSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 

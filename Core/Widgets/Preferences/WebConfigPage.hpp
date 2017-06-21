@@ -23,59 +23,63 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_WEBCONFIGPAGE_HPP
+#define SIELO_BROWSER_WEBCONFIGPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
-#include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QCheckBox>
+#include <QLabel>
+#include <QSpinBox>
+#include <QComboBox>
+#include <QFrame>
+
+#include <QSpacerItem>
 
 namespace Sn {
-class GeneralPage;
-class AppearancePage;
-class WebConfigPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
 
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
+class WebConfigPage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	WebConfigPage(QWidget* parent = nullptr);
+	~WebConfigPage();
 
-private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
+	void loadSettings();
+	void save();
 
 private:
 	void setupUI();
 
 	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
+	QHBoxLayout* m_wheelLayout{nullptr};
+	QHBoxLayout* m_defaultZoomLayout{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QCheckBox* m_allowPeeper{nullptr};
+	QCheckBox* m_allowJavaScript{nullptr};
+	QCheckBox* m_includeLinksInFocusChain{nullptr};
+	QCheckBox* m_enableXSS{nullptr};
+	QCheckBox* m_animatedScrolling{nullptr};
+	QCheckBox* m_enableSpacialAnimation{nullptr};
 
-	GeneralPage* m_generalPage{nullptr};
-	AppearancePage* m_appearancePage{nullptr};
-	WebConfigPage* m_webConfigPage{nullptr};
-	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
+	QFrame* m_line1{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
+	QLabel* m_descWheel{nullptr};
+	QSpinBox* m_wheelSpin{nullptr};
+	QLabel* m_lineLabel{nullptr};
+
+	QFrame* m_line2{nullptr};
+
+	QLabel* m_descDefaultZoom{nullptr};
+	QComboBox* m_defaultZoom{nullptr};
+	QSpacerItem* m_defaultZoomSpacer{nullptr};
+
+	QSpacerItem* m_layoutSpacer{nullptr};
 };
 
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_WEBCONFIGPAGE_HPP
