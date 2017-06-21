@@ -53,7 +53,6 @@ GeneralPage::GeneralPage(QWidget* parent) :
 												  const QString&)), this, SLOT(startupActionChanged(
 																				   const QString&)));
 
-	connect(m_useRealToolBar, &QCheckBox::toggled, this, &GeneralPage::useRealToolBarChanged);
 };
 
 GeneralPage::~GeneralPage()
@@ -72,14 +71,6 @@ void GeneralPage::loadSettings()
 
 	m_btnSaveCurrentSession->setEnabled(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt()
 										== Application::OpenSavedSession);
-
-	m_useRealToolBar
-		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
-
-	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
-														   Application::instance()->floatingButtonFoloweMouse())
-												.toBool());
-	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
 
 	settings.endGroup();
 
@@ -125,14 +116,6 @@ void GeneralPage::save()
 	settings.beginGroup("Settings");
 
 	settings.setValue(QLatin1String("afterLaunch"), m_comboActionOnNewSession->currentIndex());
-	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
-
-	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
-					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
-
-	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
-		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
-	}
 
 	settings.endGroup();
 
@@ -152,7 +135,6 @@ void GeneralPage::save()
 		settings.setValue(QLatin1String("urlOnNewTab"), QUrl(m_newTabUrl->text()));
 	}
 
-	Application::instance()->loadSettings();
 
 }
 
@@ -187,11 +169,6 @@ void GeneralPage::saveCurrentSession()
 	Application::instance()->saveSession(true);
 
 	QMessageBox::information(this, tr("Saved"), tr("Your session will be restored at startup"));
-}
-
-void GeneralPage::useRealToolBarChanged(bool enabled)
-{
-	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
 }
 
 void GeneralPage::setupUI()
@@ -232,9 +209,6 @@ void GeneralPage::setupUI()
 													  << tr("Restore session")
 													  << tr("Open saved session"));
 
-	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
-	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
-
 	m_groupHomePage->setLayout(m_layoutGroup1);
 
 	m_layoutGroup1->addWidget(m_radioHPBlank);
@@ -253,8 +227,6 @@ void GeneralPage::setupUI()
 	m_layout->addWidget(m_descActionOnNewSession);
 	m_layout->addWidget(m_btnSaveCurrentSession);
 	m_layout->addWidget(m_comboActionOnNewSession);
-	m_layout->addWidget(m_useRealToolBar);
-	m_layout->addWidget(m_floatingButtonFoloweMouse);
 }
 
 }

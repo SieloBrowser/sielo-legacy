@@ -57,8 +57,6 @@ private slots:
 
 	void saveCurrentSession();
 
-	void useRealToolBarChanged(bool enabled);
-
 private:
 	void setupUI();
 
@@ -83,8 +81,6 @@ private:
 	QPushButton* m_btnSaveCurrentSession{nullptr};
 	QComboBox* m_comboActionOnNewSession{nullptr};
 
-	QCheckBox* m_useRealToolBar{nullptr};
-	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
 
 };
 

@@ -23,8 +23,8 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_THEMEPAGE_HPP
-#define SIELO_BROWSER_THEMEPAGE_HPP
+#ifndef SIELO_BROWSER_APPEARANCE_HPP
+#define SIELO_BROWSER_APPEARANCE_HPP
 
 #include <QWidget>
 
@@ -32,19 +32,22 @@
 #include <QHBoxLayout>
 #include <QFormLayout>
 
+#include <QGroupBox>
+
 #include <QListWidget>
 #include <QLabel>
+#include <QCheckBox>
 #include <QPushButton>
 
 #include <QHash>
 
 namespace Sn {
-class ThemePage: public QWidget {
+class AppearancePage: public QWidget {
 Q_OBJECT
 
 public:
-	ThemePage(QWidget* parent);
-	~ThemePage();
+	AppearancePage(QWidget* parent);
+	~AppearancePage();
 
 	void save();
 
@@ -54,7 +57,11 @@ private slots:
 	void currentChanged();
 	void showLicense();
 
+	void openGallery();
+
 	void addTheme();
+
+	void useRealToolBarChanged(bool enabled);
 private:
 	struct Theme {
 		bool isValid{};
@@ -73,9 +80,13 @@ private:
 	QString m_activeTheme{};
 	QHash<QString, Theme> m_themeHash;
 
+	QGroupBox* m_themeBox{nullptr};
+
 	QVBoxLayout* m_layout{nullptr};
+	QVBoxLayout* m_themeLayout{nullptr};
 	QHBoxLayout* m_nameLayout{nullptr};
 	QFormLayout* m_areaLayout{nullptr};
+	QHBoxLayout* m_themeActionLayout{nullptr};
 
 	QListWidget* m_themeList{nullptr};
 	QWidget* m_areaWidget{nullptr};
@@ -87,9 +98,13 @@ private:
 	QLabel* m_author{nullptr};
 	QLabel* m_descLabel{nullptr};
 	QLabel* m_desc{nullptr};
-	QPushButton* m_addThemeButton{nullptr};
 
+	QPushButton* m_addThemeButton{nullptr};
+	QPushButton* m_viewGalleryButton{nullptr};
+
+	QCheckBox* m_useRealToolBar{nullptr};
+	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
 };
 }
 
-#endif //SIELO_BROWSER_THEMEPAGE_HPP
+#endif //SIELO_BROWSER_APPEARANCE_HPP

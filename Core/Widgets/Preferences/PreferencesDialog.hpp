@@ -36,7 +36,7 @@
 
 namespace Sn {
 class GeneralPage;
-class ThemePage;
+class AppearancePage;
 class DownloadPage;
 class AdBlockPage;
 class CurrentTabsSpacePage;
@@ -66,7 +66,7 @@ private:
 	QDialogButtonBox* m_buttonBox{nullptr};
 
 	GeneralPage* m_pageGeneral{nullptr};
-	ThemePage* m_themePage{nullptr};
+	AppearancePage* m_appearancePage{nullptr};
 	DownloadPage* m_pageDownload{nullptr};
 //	AdBlockPage* m_pageAdBlock{nullptr};
 	CurrentTabsSpacePage* m_pageCurrentTabsSpace{nullptr};

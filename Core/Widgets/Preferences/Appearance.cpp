@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Widgets/Preferences/ThemePage.hpp"
+#include "Widgets/Preferences/Appearance.hpp"
 
 #include <QSettings>
 
@@ -40,32 +40,47 @@
 
 namespace Sn {
 
-ThemePage::ThemePage(QWidget* parent) :
+AppearancePage::AppearancePage(QWidget* parent) :
 	QWidget(parent)
 {
 	setupUI();
 	loadSettings();
 
-	connect(m_themeList, &QListWidget::currentItemChanged, this, &ThemePage::currentChanged);
-	connect(m_addThemeButton, &QPushButton::clicked, this, &ThemePage::addTheme);
+	connect(m_themeList, &QListWidget::currentItemChanged, this, &AppearancePage::currentChanged);
+	connect(m_addThemeButton, &QPushButton::clicked, this, &AppearancePage::addTheme);
+	connect(m_viewGalleryButton, &QPushButton::clicked, this, &AppearancePage::openGallery);
+	connect(m_useRealToolBar, &QCheckBox::toggled, this, &AppearancePage::useRealToolBarChanged);
 
 	currentChanged();
 }
 
-ThemePage::~ThemePage()
+AppearancePage::~AppearancePage()
 {
 	delete m_nameLayout;
 }
 
-void ThemePage::save()
+void AppearancePage::save()
 {
+	QSettings settings;
+
+	settings.beginGroup("Settings");
+
+	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
+	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
+					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
+
+	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
+		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
+	}
+
+	settings.endGroup();
+
 	QListWidgetItem* currentItem = m_themeList->currentItem();
 
 	if (m_activeTheme == currentItem->data(Qt::UserRole).toString())
 		return;
 
 	m_activeTheme = currentItem->data(Qt::UserRole).toString();
-	QSettings settings;
 
 	settings.setValue("Themes/currentTheme", m_activeTheme);
 
@@ -73,7 +88,7 @@ void ThemePage::save()
 
 }
 
-void ThemePage::currentChanged()
+void AppearancePage::currentChanged()
 {
 	QListWidgetItem* currentItem = m_themeList->currentItem();
 
@@ -88,12 +103,17 @@ void ThemePage::currentChanged()
 	m_licenseBtn->setHidden(currentTheme.license.isEmpty());
 }
 
-void ThemePage::showLicense()
+void AppearancePage::showLicense()
 {
-
+	// Empty
 }
 
-void ThemePage::addTheme()
+void AppearancePage::openGallery()
+{
+	QMessageBox::critical(this, tr("Unavailable"), tr("The gallery is currently unavailable."));
+}
+
+void AppearancePage::addTheme()
 {
 #if defined(Q_OS_WIN)
 	QString compilerName = "sielo-compiler.exe";
@@ -121,11 +141,16 @@ void ThemePage::addTheme()
 	QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName,
 					  decompileArgs);
 
-	QTimer::singleShot(500, this, &ThemePage::loadSettings);
+	QTimer::singleShot(500, this, &AppearancePage::loadSettings);
 
 }
 
-ThemePage::Theme ThemePage::parseTheme(const QString& path, const QString& name)
+void AppearancePage::useRealToolBarChanged(bool enabled)
+{
+	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
+}
+
+AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
 {
 	Theme info{};
 
@@ -182,10 +207,22 @@ ThemePage::Theme ThemePage::parseTheme(const QString& path, const QString& name)
 	return info;
 }
 
-void ThemePage::loadSettings()
+void AppearancePage::loadSettings()
 {
 	QSettings settings{};
 
+	settings.beginGroup("Settings");
+
+	m_useRealToolBar
+		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
+
+	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
+														   Application::instance()->floatingButtonFoloweMouse())
+												.toBool());
+	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
+
+
+	settings.endGroup();
 	m_activeTheme = settings.value("Themes/currentTheme", "sielo_default").toString();
 
 	m_themeList->clear();
@@ -212,7 +249,7 @@ void ThemePage::loadSettings()
 
 }
 
-void ThemePage::setupUI()
+void AppearancePage::setupUI()
 {
 
 	m_areaWidget = new QWidget(this);
@@ -222,10 +259,13 @@ void ThemePage::setupUI()
 	sizePolicy.setHeightForWidth(m_areaWidget->sizePolicy().hasHeightForWidth());
 	m_areaWidget->setSizePolicy(sizePolicy);
 
+	m_themeBox = new QGroupBox(tr("Themes"), this);
 
 	m_layout = new QVBoxLayout(this);
+	m_themeLayout = new QVBoxLayout(m_themeBox);
 	m_areaLayout = new QFormLayout(m_areaWidget);
 	m_nameLayout = new QHBoxLayout();
+	m_themeActionLayout = new QHBoxLayout();
 
 	m_areaLayout->setContentsMargins(4, 4, 4, 4);
 	m_areaLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -262,7 +302,11 @@ void ThemePage::setupUI()
 	m_desc->setWordWrap(true);
 	//m_desc->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
-	m_addThemeButton = new QPushButton(tr("Add a theme"), this);
+	m_addThemeButton = new QPushButton(tr("Add a Theme"), this);
+	m_viewGalleryButton = new QPushButton(tr("Open Gallery"), this);
+
+	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
+	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
 
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
@@ -274,8 +318,15 @@ void ThemePage::setupUI()
 	m_areaLayout->setWidget(2, QFormLayout::FieldRole, m_desc);
 	m_areaLayout->setLayout(0, QFormLayout::FieldRole, m_nameLayout);
 
-	m_layout->addWidget(m_themeList);
-	m_layout->addWidget(m_areaWidget);
-	m_layout->addWidget(m_addThemeButton);
+	m_themeActionLayout->addWidget(m_addThemeButton);
+	m_themeActionLayout->addWidget(m_viewGalleryButton);
+
+	m_themeLayout->addWidget(m_themeList);
+	m_themeLayout->addWidget(m_areaWidget);
+	m_themeLayout->addLayout(m_themeActionLayout);
+
+	m_layout->addWidget(m_themeBox);
+	m_layout->addWidget(m_useRealToolBar);
+	m_layout->addWidget(m_floatingButtonFoloweMouse);
 }
 }
