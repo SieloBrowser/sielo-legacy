@@ -162,7 +162,7 @@ WebTab::WebTab(BrowserWindow* window) :
 
 	m_addressBar = new AddressBar(m_window);
 	m_addressBar->setWebView(m_webView);
-	m_addressBar->setText("https://ecosia.org");
+	m_addressBar->setText("https://google.com");
 
 
 	m_layout->addWidget(m_addressBar);

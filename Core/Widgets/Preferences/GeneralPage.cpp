@@ -85,11 +85,11 @@ void GeneralPage::loadSettings()
 
 	settings.beginGroup("Web-Settings");
 
-	QUrl homePageUrl{settings.value(QLatin1String("homePage"), QUrl("https://www.ecosia.org")).toUrl()};
+	QUrl homePageUrl{settings.value(QLatin1String("homePage"), QUrl("https://www.google.com")).toUrl()};
 
 	if (homePageUrl == QUrl("about:blank")) {
 		m_radioHPBlank->setChecked(true);
-		m_homePageUrl->setText("https://www.ecosia.org");
+		m_homePageUrl->setText("https://www.google.com");
 		m_homePageUrl->setEnabled(false);
 	}
 	else {
@@ -97,11 +97,11 @@ void GeneralPage::loadSettings()
 		m_homePageUrl->setText(homePageUrl.toString());
 	}
 
-	QUrl newTabUrl{settings.value(QLatin1String("urlOnNewTab"), QUrl("https://www.ecosia.org")).toUrl()};
+	QUrl newTabUrl{settings.value(QLatin1String("urlOnNewTab"), QUrl("https://www.google.com")).toUrl()};
 
 	if (newTabUrl == QUrl("about:blank")) {
 		m_radioNTOpenBlankPage->setChecked(true);
-		m_newTabUrl->setText("https://www.ecosia.org");
+		m_newTabUrl->setText("https://www.google.com");
 		m_newTabUrl->setEnabled(false);
 	}
 	else if (newTabUrl == homePageUrl) {

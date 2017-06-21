@@ -77,7 +77,7 @@ void BrowserWindow::loadSettings()
 {
 	QSettings settings{};
 
-	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://www.ecosia.org")).toUrl();
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://www.google.com")).toUrl();
 
 	settings.endGroup();
 
