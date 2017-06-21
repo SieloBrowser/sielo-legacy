@@ -105,6 +105,8 @@ void GeneralPage::loadSettings()
 		m_newTabUrl->setText(newTabUrl.toString());
 	}
 
+	m_dontLoadTabsUntilSelect->setChecked(settings.value(QLatin1String("LoadTabsOnActivation"), true).toBool());
+
 	settings.endGroup();
 }
 
@@ -135,6 +137,7 @@ void GeneralPage::save()
 		settings.setValue(QLatin1String("urlOnNewTab"), QUrl(m_newTabUrl->text()));
 	}
 
+	settings.setValue(QLatin1String("LoadTabsOnActivation"), m_dontLoadTabsUntilSelect->isChecked());
 
 }
 
@@ -209,6 +212,8 @@ void GeneralPage::setupUI()
 													  << tr("Restore session")
 													  << tr("Open saved session"));
 
+	m_dontLoadTabsUntilSelect = new QCheckBox(tr("Don't load tabs until selected"), this);
+
 	m_groupHomePage->setLayout(m_layoutGroup1);
 
 	m_layoutGroup1->addWidget(m_radioHPBlank);
@@ -227,6 +232,7 @@ void GeneralPage::setupUI()
 	m_layout->addWidget(m_descActionOnNewSession);
 	m_layout->addWidget(m_btnSaveCurrentSession);
 	m_layout->addWidget(m_comboActionOnNewSession);
+	m_layout->addWidget(m_dontLoadTabsUntilSelect);
 }
 
 }

@@ -352,7 +352,7 @@ void WebTab::restoreTab(const SavedTab& tab)
 
 	m_isPinned = tab.isPinned;
 
-	if (!isPinned() && settings.value("Web-Sielo-Settings/LoadTabsOnActivation", true).toBool()) {
+	if (!isPinned() && settings.value("Web-Settings/LoadTabsOnActivation", true).toBool()) {
 		m_savedTab = tab;
 		int index = tabIndex();
 

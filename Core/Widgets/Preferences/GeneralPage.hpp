@@ -80,6 +80,7 @@ private:
 	QLabel* m_descActionOnNewSession{nullptr};
 	QPushButton* m_btnSaveCurrentSession{nullptr};
 	QComboBox* m_comboActionOnNewSession{nullptr};
+	QCheckBox* m_dontLoadTabsUntilSelect{nullptr};
 
 
 };
