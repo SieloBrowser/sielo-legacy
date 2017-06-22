@@ -23,46 +23,42 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_PASSWORDMANAGER_HPP
-#define SIELO_BROWSER_PASSWORDMANAGER_HPP
+#ifndef SIELO_BROWSER_PASSWORDBACKEND_HPP
+#define SIELO_BROWSER_PASSWORDBACKEND_HPP
 
-#include <QVariant>
-#include <QString>
-#include <QByteArray>
+#include <QWidget>
+
+#include <QVector>
+
+#include "Password/PasswordManager.hpp"
 
 namespace Sn {
+class PasswordBackend {
+public:
+	PasswordBackend();
+	virtual ~PasswordBackend();
 
-struct PasswordEntry {
-	QVariant id{};
-	QString host{};
-	QString username{};
-	QString password{};
-	QByteArray data{};
-	int updated{-1};
+	virtual QString name() const = 0;
 
-	PasswordEntry() :
-		updated(-1) {}
+	virtual QVector<PasswordEntry> getEntries(const QUrl& url) = 0;
+	virtual QVector<PasswordEntry> getAllEntries() = 0;
 
-	bool isValid() const
-	{
-		return !password.isEmpty() && !host.isEmpty();
-	}
+	virtual void addEntry(const PasswordEntry& entry) = 0;
+	virtual bool updateEntry(const PasswordEntry& entry) = 0;
+	virtual void updateLastUsed(PasswordEntry& entry) = 0;
 
-	bool operator==(const PasswordEntry& other) const
-	{
-		return id == other.id;
-	}
+	virtual void removeEntry(const PasswordEntry& entry) = 0;
+	virtual void removeAll() = 0;
 
-	bool operator<(const PasswordEntry& other) const
-	{
-		return updated > other.updated;
-	}
+	virtual void setActive(bool active);
+	bool isActive() const { return m_active; }
 
-	friend QDataStream& operator<<(QDataStream& stream, const PasswordEntry& entry);
-	friend QDataStream& operator>>(QDataStream& stream, PasswordEntry& entry);
-
+	virtual bool hasSettings() const;
+	virtual void showSettings(QWidget* parent);
+private:
+	bool m_active{false};
 };
 
 }
 
-#endif //SIELO_BROWSER_PASSWORDMANAGER_HPP
+#endif //SIELO_BROWSER_PASSWORDBACKEND_HPP
