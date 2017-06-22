@@ -25,11 +25,22 @@
 #include "Network/NetworkManager.hpp"
 
 #include <QNetworkRequest>
+#include <QNetworkProxy>
+
+#include <QSettings>
+
+#include <QDialog>
+
+#include <QFormLayout>
+
+#include <QLabel>
+#include <QLineEdit>
+#include <QDialogButtonBox>
 
 #include "Application.hpp"
 
 #include "Network/BaseUrlInterceptor.hpp"
-#include <Network/NetworkUrlInterceptor.hpp>
+#include "Network/NetworkUrlInterceptor.hpp"
 
 namespace Sn {
 
@@ -38,6 +49,55 @@ NetworkManager::NetworkManager(QObject* parent) :
 {
 	m_urlInterceptor = new NetworkUrlInterceptor(this);
 	Application::instance()->webProfile()->setRequestInterceptor(m_urlInterceptor);
+}
+
+void NetworkManager::proxyAuthentication(const QString& proxyHost, QAuthenticator* auth, QWidget* parent)
+{
+	const QNetworkProxy proxy = QNetworkProxy::applicationProxy();
+
+	if (!proxy.user().isEmpty() && !proxy.password().isEmpty()) {
+		auth->setUser(proxy.user());
+		auth->setPassword(proxy.password());
+		return;
+	}
+
+	QDialog* dialog{new QDialog(parent)};
+
+	dialog->setWindowTitle(tr("Proxy authorisation required"));
+
+	QFormLayout* formLayout{new QFormLayout(dialog)};
+
+	QLabel
+		* descLabel{new QLabel(tr("A username and password are being requested by proxy %1. ").arg(proxyHost), dialog)};
+	QLabel* userLabel{new QLabel(tr("Username: "), dialog)};
+	QLabel* passwordLabel{new QLabel(tr("Password: "), dialog)};
+
+	QLineEdit* user{new QLineEdit(dialog)};
+	QLineEdit* password{new QLineEdit(dialog)};
+
+	password->setEchoMode(QLineEdit::Password);
+
+	QDialogButtonBox* buttonBox{new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, dialog)};
+
+	connect(buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
+
+	formLayout->addRow(descLabel);
+	formLayout->addRow(userLabel, user);
+	formLayout->addRow(passwordLabel, password);
+	formLayout->addWidget(buttonBox);
+
+	if (dialog->exec() != QDialog::Accepted) {
+		*auth = QAuthenticator();
+		delete dialog;
+		return;
+	}
+
+	auth->setUser(user->text());
+	auth->setPassword(password->text());
+
+	delete dialog;
+
 }
 
 void NetworkManager::installUrlInterceptor(BaseUrlInterceptor* interceptor)
@@ -53,6 +113,22 @@ void NetworkManager::removeUrlInterceptor(BaseUrlInterceptor* interceptor)
 void NetworkManager::loadSettings()
 {
 	m_urlInterceptor->loadSettings();
+
+	QSettings settings{};
+
+	settings.beginGroup("Proxy-Settings");
+
+	QNetworkProxy proxy{};
+
+	proxy.setType(QNetworkProxy::ProxyType(settings.value("proxyType", QNetworkProxy::NoProxy).toInt()));
+	proxy.setHostName(settings.value("hostName", QString()).toString());
+	proxy.setPort(settings.value("port", 8080).toInt());
+	proxy.setUser(settings.value("username", QString()).toString());
+	proxy.setPassword(settings.value("password", QString()).toString());
+
+	settings.endGroup();
+
+	QNetworkProxy::setApplicationProxy(proxy);
 }
 
 QNetworkReply* NetworkManager::createRequest(Operation operation, const QNetworkRequest& request,

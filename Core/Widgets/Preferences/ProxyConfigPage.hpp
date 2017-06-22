@@ -23,63 +23,61 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_PROXYCONFIGPAGE_HPP
+#define SIELO_BROWSER_PROXYCONFIGPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
+#include <QGridLayout>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QLabel>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QRadioButton>
+#include <QSpacerItem>
 
 namespace Sn {
-class GeneralPage;
-class AppearancePage;
-class WebConfigPage;
-class LocalStoragePage;
-class ProxyConfigPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
 
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
+class ProxyConfigPage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	ProxyConfigPage(QWidget* parent = nullptr);
+	~ProxyConfigPage();
+
+	void loadSettings();
+	void save();
 
 private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
+	void useManualProxyChanged(bool enabled);
 
 private:
 	void setupUI();
 
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
+	QGridLayout* m_layout{nullptr};
+	QHBoxLayout* m_serverLayout{nullptr};
+	QHBoxLayout* m_userLayout{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QRadioButton* m_systemProxyRadio{nullptr};
+	QRadioButton* m_manualProxyRadio{nullptr};
 
-	GeneralPage* m_generalPage{nullptr};
-	AppearancePage* m_appearancePage{nullptr};
-	WebConfigPage* m_webConfigPage{nullptr};
-	LocalStoragePage* m_localStoragePage{nullptr};
-	ProxyConfigPage* m_proxyConfigPage{nullptr};
-	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
+	QComboBox* m_proxyType{nullptr};
+	QLineEdit* m_proxyServer{nullptr};
+	QLabel* m_descProxyPort{nullptr};
+	QLineEdit* m_proxyPort{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
+	QLabel* m_descProxyUsername{nullptr};
+	QLineEdit* m_proxyUsername{nullptr};
+	QLabel* m_descProxyPassword{nullptr};
+	QLineEdit* m_proxyPassword{nullptr};
+
+	QSpacerItem* m_leftSpacer{nullptr};
+	QSpacerItem* m_rightSpacer{nullptr};
+	QSpacerItem* m_spacer{nullptr};
+
 };
 
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_PROXYCONFIGPAGE_HPP

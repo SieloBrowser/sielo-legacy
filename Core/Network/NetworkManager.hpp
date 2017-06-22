@@ -28,6 +28,8 @@
 
 #include <QNetworkAccessManager>
 
+#include <QAuthenticator>
+
 #include <QHash>
 
 namespace Sn {
@@ -39,6 +41,8 @@ Q_OBJECT
 
 public:
 	NetworkManager(QObject* parent = nullptr);
+
+	void proxyAuthentication(const QString& proxyHost, QAuthenticator* auth, QWidget* parent = nullptr);
 
 	void installUrlInterceptor(BaseUrlInterceptor* interceptor);
 	void removeUrlInterceptor(BaseUrlInterceptor* interceptor);

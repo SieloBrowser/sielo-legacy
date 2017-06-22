@@ -30,6 +30,7 @@
 #include "Widgets/Preferences/Appearance.hpp"
 #include "Widgets/Preferences/WebConfigPage.hpp"
 #include "Widgets/Preferences/LocalStoragePage.hpp"
+#include "Widgets/Preferences/ProxyConfigPage.hpp"
 #include "Widgets/Preferences/DownloadPage.hpp"
 #include "Widgets/Preferences/AdBlockPage.hpp"
 #include "Widgets/Preferences/CurrentTabsSpacePage.hpp"
@@ -58,6 +59,7 @@ void PreferencesDialog::saveSettings()
 	m_appearancePage->save();
 	m_webConfigPage->save();
 	m_localStoragePage->save();
+	m_proxyConfigPage->save();
 	m_downloadPage->save();
 //	m_pageAdBlock->save();
 	m_currentTabsSpacePage->save();
@@ -95,6 +97,7 @@ void PreferencesDialog::setupUI()
 	m_downloadPage = new DownloadPage(m_pages);
 	m_webConfigPage = new WebConfigPage(m_pages);
 	m_localStoragePage = new LocalStoragePage(m_pages);
+	m_proxyConfigPage = new ProxyConfigPage(m_pages);
 	m_appearancePage = new AppearancePage(m_pages);
 //	m_pageAdBlock = new AdBlockPage(m_pages);
 	m_currentTabsSpacePage = new CurrentTabsSpacePage(m_tabWidget, m_pages);
@@ -103,6 +106,7 @@ void PreferencesDialog::setupUI()
 	m_pages->addTab(m_appearancePage, tr("Appearance"));
 	m_pages->addTab(m_webConfigPage, tr("Web Configuration"));
 	m_pages->addTab(m_localStoragePage, tr("Local Storage"));
+	m_pages->addTab(m_proxyConfigPage, tr("Proxy"));
 	m_pages->addTab(m_downloadPage, tr("Downloads"));
 //	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
 	m_pages->addTab(m_currentTabsSpacePage, tr("Current Tabs Space"));
