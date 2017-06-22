@@ -15,8 +15,8 @@ file(
         BrowserWindow.cpp
         AdBlock/*.hpp
         AdBlock/*.cpp
-        AutoFill/*.hpp
-        AutoFill/*.cpp
+        Password/*.hpp
+        Password/*.cpp
         Bookmarks/*.cpp
         Bookmarks/*.hpp
         Download/*.cpp
