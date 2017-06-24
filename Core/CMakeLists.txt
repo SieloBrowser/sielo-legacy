@@ -9,14 +9,8 @@ set(CMAKE_AUTORCC ON)
 file(
         GLOB_RECURSE
         SOURCE_FILES
-        Application.cpp
-        Application.hpp
-        BrowserWindow.hpp
-        BrowserWindow.cpp
         AdBlock/*.hpp
         AdBlock/*.cpp
-        Password/*.hpp
-        Password/*.cpp
         Bookmarks/*.cpp
         Bookmarks/*.hpp
         Download/*.cpp
@@ -25,6 +19,8 @@ file(
         History/*.hpp
         Network/*.cpp
         Network/*.hpp
+        Plugins/*.cpp
+        Plugins/*.hpp
         Utils/*.cpp
         Utils/*.hpp
         View/*.cpp
@@ -33,15 +29,21 @@ file(
         Web/*.hpp
         Widgets/*.cpp
         Widgets/*.hpp
-        Plugins/*.cpp
-        Plugins/*.hpp
+        Application.cpp
+        Application.hpp
+        BrowserWindow.hpp
+        BrowserWindow.cpp
 )
 
+find_package(OpenSSL REQUIRED)
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Sql REQUIRED)
 find_package(Qt5WebEngine REQUIRED)
 find_package(Qt5WebEngineWidgets REQUIRED)
 
 add_library(Core ${SOURCE_FILES} ../icons.qrc/)
+target_link_libraries(Core openssl)
 target_link_libraries(Core Qt5::Widgets)
+target_link_libraries(Core Qt5::Sql)
 target_link_libraries(Core Qt5::WebEngine)
 target_link_libraries(Core Qt5::WebEngineWidgets)

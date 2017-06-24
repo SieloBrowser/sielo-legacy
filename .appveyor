@@ -5,8 +5,10 @@ environment:
     matrix:
     - PLATFORM: x86
       QT5: C:\Qt\5.8\msvc2015
+      OPENSSL: C:\OpenSSL-Win32\bin
     - PLATFORM: x86_amd64
       QT5: C:\Qt\5.8\msvc2015_64
+      OPENSSL: C:\OpenSSL-Win64\bin
 
 install:
     - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
