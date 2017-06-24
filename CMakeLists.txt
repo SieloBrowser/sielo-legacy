@@ -5,7 +5,7 @@ add_subdirectory(Core)
 add_subdirectory(SNCompiler)
 include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/Core)
-include_directories(${OPENSSL_INCLUDE_DIRS})
+include_directories(${CMAKE_SOURCE_DIR}/Deps/includes)
 
 set(SOURCE_FILES Main.cpp)
 set(CMAKE_CXX_STANDARD 14)
