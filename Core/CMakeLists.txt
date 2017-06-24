@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6)
 project(Core)
 
 include_directories(${CMAKE_SOURCE_DIR}/Core)
-include_directories(${CMAKE_SOURCE_DIR}/Deps/includes)
+include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)

@@ -291,7 +291,7 @@ DEPRECATEDIN_0_9_8(BIGNUM* BN_generate_prime(BIGNUM* ret, int bits, int safe,
 DEPRECATEDIN_0_9_8(int
 				   BN_is_prime(const BIGNUM* p, int nchecks,
 							   void (* callback)(int, int, void*),
-					   BN_CTX* ctx,
+							   BN_CTX* ctx,
 					   void* cb_arg))
 DEPRECATEDIN_0_9_8(int
 				   BN_is_prime_fasttest(const BIGNUM* p, int nchecks,
