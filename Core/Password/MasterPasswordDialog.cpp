@@ -190,7 +190,16 @@ void MasterPasswordDialog::clearMasterPasswordAddConvert(bool forcedAskPass)
 	reject();
 }
 
-bool MasterPasswordDialog::samePasswordEntry(const PasswordEntry& entry1, const PasswordEntry& entry2) {}
+bool MasterPasswordDialog::samePasswordEntry(const PasswordEntry& entry1, const PasswordEntry& entry2)
+{
+	if ((entry1.data.isEmpty() || entry2.data.isEmpty()) && entry1.host == entry2.host)
+		return true;
+
+	if (entry1.host != entry2.host || entry1.username != entry2.username)
+		return false;
+
+	return true;
+}
 
 void MasterPasswordDialog::setupUI()
 {
