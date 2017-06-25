@@ -85,8 +85,7 @@ void MasterPasswordDialog::accept()
 	}
 
 	if (m_newPassword->text() != m_confirmPassword->text()) {
-		QMessageBox::critical(this, tr("Error");
-		tr("New/Confirm password fields do not match!"));
+		QMessageBox::critical(this, tr("Error"), tr("New/Confirm password fields do not match!"));
 		return;
 	}
 
