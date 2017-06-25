@@ -21,6 +21,8 @@ file(
         History/*.hpp
         Network/*.cpp
         Network/*.hpp
+        Password/*.cpp
+        Password/*.hpp
         Plugins/*.cpp
         Plugins/*.hpp
         Utils/*.cpp

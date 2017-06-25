@@ -45,6 +45,8 @@
 
 #include "Plugins/PluginProxy.hpp"
 
+#include "Password/AutoFill/AutoFill.hpp"
+
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Download/DownloadManager.hpp"
@@ -88,6 +90,7 @@ Application* Application::instance()
 Application::Application(int& argc, char** argv) :
 	QApplication(argc, argv),
 	m_plugins(nullptr),
+	m_autoFill(nullptr),
 	m_historyManager(nullptr),
 	m_networkManager(nullptr),
 	m_webProfile(nullptr)
@@ -145,6 +148,9 @@ Application::Application(int& argc, char** argv) :
 	QDesktopServices::setUrlHandler("ftp", this, "addNewTab");
 
 	m_plugins = new PluginProxy;
+
+	m_autoFill = new AutoFill;
+
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
 

@@ -38,6 +38,7 @@
 #include "Utils/RestoreManager.hpp"
 
 namespace Sn {
+class AutoFill;
 class PluginProxy;
 class HistoryManager;
 class BookmarksManager;
@@ -120,7 +121,8 @@ public:
 	bool restoreSession(BrowserWindow* window, RestoreData restoreData);
 	void destroyRestoreManager();
 
-	PluginProxy* plugins() { return m_plugins; }
+	PluginProxy* plugins() const { return m_plugins; }
+	AutoFill* autoFill() const { return m_autoFill; }
 	HistoryManager* historyManager();
 	BookmarksManager* bookmarksManager();
 	DownloadManager* downloadManager();
@@ -172,6 +174,7 @@ private:
 	bool m_floatingButtonFoloweMouse{true};
 
 	PluginProxy* m_plugins{nullptr};
+	AutoFill* m_autoFill{nullptr};
 	HistoryManager* m_historyManager{nullptr};
 	BookmarksManager* m_bookmarksManager{nullptr};
 	DownloadManager* m_downloadManager{nullptr};
