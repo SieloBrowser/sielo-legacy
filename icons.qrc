@@ -17,5 +17,6 @@
         <file>icons/other/notification.png</file>
         <file>icons/other/webcam.png</file>
         <file>icons/other/webpage.png</file>
+        <file>icons/other/login.png</file>
     </qresource>
 </RCC>
