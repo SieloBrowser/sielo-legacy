@@ -317,12 +317,16 @@ QByteArray AutoFill::exportPasswords()
 {
 	//TODO: do
 	QMessageBox::critical(nullptr, tr("No"), tr("You can't export password yet"));
+
+	return QByteArray();
 }
 
 bool AutoFill::importPasswords(const QByteArray& data)
 {
 	//TODO: do
 	QMessageBox::critical(nullptr, tr("No"), tr("You can't import password yet"));
+
+	return false;
 }
 
 }
