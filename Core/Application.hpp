@@ -135,6 +135,8 @@ public:
 	bool useTopToolBar() const { return m_useTopToolBar; }
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
+	void connectDatabase();
+
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
 	QFont morpheusFont() const { return m_morpheusFont; }
@@ -172,6 +174,7 @@ private:
 	bool m_isRestoring{false};
 	bool m_useTopToolBar{false};
 	bool m_floatingButtonFoloweMouse{true};
+	bool m_databaseConnected{false};
 
 	PluginProxy* m_plugins{nullptr};
 	AutoFill* m_autoFill{nullptr};

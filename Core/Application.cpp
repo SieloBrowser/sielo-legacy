@@ -30,6 +30,8 @@
 
 #include <QStyle>
 
+#include <QSqlDatabase>
+
 #include <QDesktopServices>
 #include <QFontDatabase>
 
@@ -99,6 +101,15 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
 
+	// QSQLITE database plugin is required
+	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
+		QMessageBox::critical(0,
+							  QStringLiteral("Error"),
+							  QStringLiteral(
+								  "Qt SQLite database plugin is not available. Please install it and restart the application."));
+		return;
+	}
+
 	int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
@@ -147,12 +158,58 @@ Application::Application(int& argc, char** argv) :
 	QDesktopServices::setUrlHandler("http", this, "addNewTab");
 	QDesktopServices::setUrlHandler("ftp", this, "addNewTab");
 
-	m_plugins = new PluginProxy;
+	connectDatabase();
 
-	m_autoFill = new AutoFill;
+	m_plugins = new PluginProxy;
 
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	m_networkManager = new NetworkManager(this);
+	m_autoFill = new AutoFill;
+
+	QString webChannelScriptSrc = QLatin1String("(function() {"
+													"%1"
+													""
+													"function registerExternal(e) {"
+													"    window.external = e;"
+													"    if (window.external) {"
+													"        var event = document.createEvent('Event');"
+													"        event.initEvent('_sielo_external_created', true, true);"
+													"        document.dispatchEvent(event);"
+													"    }"
+													"}"
+													""
+													"if (self !== top) {"
+													"    if (top.external)"
+													"        registerExternal(top.external);"
+													"    else"
+													"        top.document.addEventListener('_sielo_external_created', function() {"
+													"            registerExternal(top.external);"
+													"        });"
+													"    return;"
+													"}"
+													""
+													"function registerWebChannel() {"
+													"    try {"
+													"        new QWebChannel(qt.webChannelTransport, function(channel) {"
+													"            registerExternal(channel.objects.sielo_object);"
+													"        });"
+													"    } catch (e) {"
+													"        setTimeout(registerWebChannel, 100);"
+													"    }"
+													"}"
+													"registerWebChannel();"
+													""
+													"})()");
+
+	QWebEngineScript script{};
+
+	script.setName(QStringLiteral("_sielo_webchannel"));
+	script.setInjectionPoint(QWebEngineScript::DocumentCreation);
+	script.setWorldId(QWebEngineScript::MainWorld);
+	script.setRunsOnSubFrames(true);
+	script.setSourceCode(webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))));
+
+	m_webProfile->scripts()->insert(script);
 
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
@@ -220,6 +277,9 @@ void Application::loadSettings()
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
 
 	settings.endGroup();
+
+	if (m_autoFill)
+		m_autoFill->loadSettings();
 
 	if (themeInfo.exists())
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
@@ -448,6 +508,35 @@ HTML5PermissionsManager* Application::permissionsManager()
 		m_permissionsManager = new HTML5PermissionsManager(this);
 
 	return m_permissionsManager;
+}
+
+void Application::connectDatabase()
+{
+	const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
+
+	if (m_databaseConnected)
+		QSqlDatabase::removeDatabase(QSqlDatabase::database().connectionName());
+
+	QSqlDatabase db{QSqlDatabase::addDatabase(QLatin1String("QSQLITE"))};
+
+	db.setDatabaseName(dbFile);
+
+	if (!QFile::exists(dbFile)) {
+		qWarning() << "Cannot find SQLite database file! Copying and using the defaults!";
+
+		QFile(":data/browsedata.db").copy(dbFile);
+		QFile(dbFile).setPermissions(QFile::ReadUser | QFile::WriteUser);
+
+		db.setDatabaseName(dbFile);
+	}
+
+	if (m_privateBrowsing)
+		db.setConnectOptions("QSQLITE_OPEN_READONLY");
+
+	if (!db.open())
+		qWarning() << "Cannot open SQLite database! Continuing without database...";
+
+	m_databaseConnected = true;
 }
 
 QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
