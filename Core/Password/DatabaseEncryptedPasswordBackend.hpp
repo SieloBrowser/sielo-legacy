@@ -88,8 +88,8 @@ private:
 	MasterPasswordState m_stateOfMasterPassword{};
 	QByteArray m_someDataStoredOnDatabase{};
 
-	bool m_askPasswordDialogVisible{};
-	bool m_askMasterPassword{};
+	bool m_askPasswordDialogVisible{false};
+	bool m_askMasterPassword{false};
 	QByteArray m_masterPassword{};
 };
 

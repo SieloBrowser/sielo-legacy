@@ -41,7 +41,11 @@ const QLatin1String INTERNAL_SERVER_ID = QLatin1String("sielo.internal");
 
 namespace Sn {
 
-DatabaseEncryptedPasswordBackend::DatabaseEncryptedPasswordBackend()
+DatabaseEncryptedPasswordBackend::DatabaseEncryptedPasswordBackend() :
+	PasswordBackend(),
+	m_stateOfMasterPassword(UnknownState),
+	m_askPasswordDialogVisible(false),
+	m_askMasterPassword(false)
 {
 	QSqlDatabase db{QSqlDatabase::database()};
 
@@ -256,7 +260,7 @@ bool DatabaseEncryptedPasswordBackend::hasPermission()
 	if (!m_askMasterPassword)
 		return true;
 
-	if (!m_askPasswordDialogVisible)
+	if (m_askPasswordDialogVisible)
 		return false;
 
 	m_askPasswordDialogVisible = true;
