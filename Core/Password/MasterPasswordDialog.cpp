@@ -206,6 +206,8 @@ void MasterPasswordDialog::setupUI()
 	resize(436, 230);
 	m_layout = new QVBoxLayout(this);
 
+	m_pages = new QStackedWidget(this);
+
 	m_settingsPage = new QWidget(this);
 	m_setMasterPage = new QWidget(this);
 
@@ -269,7 +271,7 @@ AskMasterPasswordDialog::AskMasterPasswordDialog(DatabaseEncryptedPasswordBacken
 
 	connect(m_password, &QLineEdit::returnPressed, this, &AskMasterPasswordDialog::verifyPassword);
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &AskMasterPasswordDialog::verifyPassword);
-	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &AskMasterPasswordDialog::verifyPassword);
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &AskMasterPasswordDialog::reject);
 }
 
 AskMasterPasswordDialog::~AskMasterPasswordDialog()
