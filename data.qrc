@@ -34,5 +34,7 @@
         <file>data/toolbar/new-tab.png</file>
         <file>data/toolbar/new-window.png</file>
         <file>data/toolbar/home.png</file>
+
+        <file>data/browsedata.db</file>
     </qresource>
 </RCC>
