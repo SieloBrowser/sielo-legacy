@@ -36,8 +36,12 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QDialogButtonBox>
+#include <QCheckBox>
 
 #include "Application.hpp"
+
+#include "Password/PasswordManager.hpp"
+#include "Password/AutoFill/AutoFill.hpp"
 
 #include "Network/BaseUrlInterceptor.hpp"
 #include "Network/NetworkUrlInterceptor.hpp"
@@ -49,6 +53,75 @@ NetworkManager::NetworkManager(QObject* parent) :
 {
 	m_urlInterceptor = new NetworkUrlInterceptor(this);
 	Application::instance()->webProfile()->setRequestInterceptor(m_urlInterceptor);
+}
+
+void NetworkManager::authentication(const QUrl& url, QAuthenticator* auth, QWidget* parent)
+{
+	QDialog* dialog{new QDialog(parent)};
+
+	dialog->setWindowTitle(tr("Authorisation required"));
+
+	QFormLayout* formLayout{new QFormLayout(dialog)};
+	QLabel* descLabel{new QLabel(tr("A username and password are being requested by %1. The site says: \"%2\"")
+									 .arg(url.host(), auth->realm().toHtmlEscaped()), dialog)};
+	QLabel* userLabel{new QLabel(tr("Username: "), dialog)};
+	QLabel* passwordLabel{new QLabel(tr("Password: "), dialog)};
+	QLineEdit* userLineEdit{new QLineEdit(dialog)};
+	QLineEdit* passwordLineEdit{new QLineEdit(dialog)};
+	passwordLineEdit->setEchoMode(QLineEdit::Password);
+	QCheckBox* save{new QCheckBox(tr("Save username and password for this site"))};
+	QDialogButtonBox* buttonBox{new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, dialog)};
+
+	connect(buttonBox, &QDialogButtonBox::rejected, dialog, &QDialog::reject);
+	connect(buttonBox, &QDialogButtonBox::accepted, dialog, &QDialog::accept);
+
+	formLayout->addRow(descLabel);
+	formLayout->addRow(userLabel, userLineEdit);
+	formLayout->addRow(passwordLabel, passwordLineEdit);
+	formLayout->addRow(save);
+	formLayout->addWidget(buttonBox);
+
+	AutoFill* fill{Application::instance()->autoFill()};
+	QString storedUser{};
+	QString storedPassword{};
+	bool shouldUpdateEntry{false};
+
+	if (fill->isStored(url)) {
+		const QVector<PasswordEntry>& data = fill->getFormData(url);
+
+		if (!data.isEmpty()) {
+			save->setChecked(true);
+			shouldUpdateEntry = true;
+			storedUser = data[0].username;
+			storedPassword = data[0].password;
+
+			userLineEdit->setText(storedUser);
+			passwordLineEdit->setText(storedPassword);
+		}
+	}
+
+	if (Application::instance()->privateBrowsing())
+		save->setVisible(false);
+
+	if (dialog->exec() != QDialog::Accepted) {
+		*auth = QAuthenticator();
+		delete dialog;
+		return;
+	}
+
+	auth->setUser(userLineEdit->text());
+	auth->setPassword(passwordLineEdit->text());
+
+	if (save->isChecked()) {
+		if (shouldUpdateEntry) {
+			if (storedUser != userLineEdit->text() || storedPassword != passwordLineEdit->text())
+				fill->updateEntry(url, userLineEdit->text(), passwordLineEdit->text());
+		}
+		else
+			fill->addEntry(url, userLineEdit->text(), passwordLineEdit->text());
+	}
+
+	delete dialog;
 }
 
 void NetworkManager::proxyAuthentication(const QString& proxyHost, QAuthenticator* auth, QWidget* parent)

@@ -42,6 +42,7 @@ Q_OBJECT
 public:
 	NetworkManager(QObject* parent = nullptr);
 
+	void authentication(const QUrl& url, QAuthenticator* auth, QWidget* parent = nullptr);
 	void proxyAuthentication(const QString& proxyHost, QAuthenticator* auth, QWidget* parent = nullptr);
 
 	void installUrlInterceptor(BaseUrlInterceptor* interceptor);
