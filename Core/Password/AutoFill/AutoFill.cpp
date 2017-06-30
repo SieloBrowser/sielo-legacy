@@ -144,6 +144,10 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 		return false;
 
 	QString server{url.host()};
+
+	if (server.isEmpty())
+		server = url.toString();
+
 	QSqlQuery query{};
 
 	query.prepare("SELECT count(id) FROM autofill_exceptions WHERE server=?");
@@ -165,7 +169,7 @@ void AutoFill::blockStoringForUrl(const QUrl& url)
 
 	QSqlQuery query{};
 
-	query.prepare("INSERT INTO autofill_exceptions (sever) VALUES (?)");
+	query.prepare("INSERT INTO autofill_exceptions (server) VALUES (?)");
 	query.addBindValue(server);
 
 	SqlDatabase::instance()->execAsync(query);
