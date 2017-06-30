@@ -42,6 +42,27 @@ AutoFillNotification::AutoFillNotification(const QUrl& url, const PageFormData& 
 
 	setupUI();
 
+	QString hostPart{};
+	QString userPart{};
+
+	if (!url.host().isEmpty())
+		hostPart = tr("on %1").arg(url.host());
+
+	if (!m_formData.username.isEmpty())
+		userPart = tr("for <b>%1</b>").arg(m_formData.username);
+
+	if (m_updateData.isValid()) {
+		m_desc->setText(tr("Do you want Sielo to update saved password %1?").arg(userPart));
+
+		m_rememberButton->setVisible(false);
+		m_neverButton->setVisible(false);
+	}
+	else {
+		m_desc->setText(tr("Do you want Sielo to remember the password %1 %2?").arg(userPart, hostPart));
+
+		m_updateButton->setVisible(false);
+	}
+
 	connect(m_updateButton, &QPushButton::clicked, this, &AutoFillNotification::update);
 	connect(m_rememberButton, &QPushButton::clicked, this, &AutoFillNotification::remember);
 	connect(m_neverButton, &QPushButton::clicked, this, &AutoFillNotification::never);
@@ -73,12 +94,14 @@ void AutoFillNotification::never()
 
 void AutoFillNotification::setupUI()
 {
+	setFixedHeight(64);
+
 	m_layout = new QHBoxLayout(this);
 	m_layout->setSpacing(3);
 	m_buttonLayout = new QHBoxLayout();
 
 	m_icon = new QLabel(this);
-	m_icon->setPixmap(QPixmap(":/icons/other/login.png"));
+	m_icon->setPixmap(QIcon(":/icons/other/login.png").pixmap(32));
 	m_desc = new QLabel(this);
 
 	QSizePolicy descSizePolicy{QSizePolicy::Expanding, QSizePolicy::Preferred};
