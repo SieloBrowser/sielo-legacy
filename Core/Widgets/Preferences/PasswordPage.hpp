@@ -23,65 +23,50 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_PASSWORDPAGE_HPP
+#define SIELO_BROWSER_PASSWORDPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QGridLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QLabel>
+#include <QCheckBox>
+#include <QFrame>
+#include <QSpacerItem>
+
+#include "Password/AutoFill/AutoFillManager.hpp"
 
 namespace Sn {
-class GeneralPage;
-class AppearancePage;
-class WebConfigPage;
-class LocalStoragePage;
-class ProxyConfigPage;
-class PasswordPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
 
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
+class PasswordPage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	PasswordPage(QWidget* parent);
+	~PasswordPage();
+
+	void loadSettings();
+	void save();
 
 private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
+	void allowChanged(bool allow);
 
 private:
 	void setupUI();
 
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
+	QGridLayout* m_layout{nullptr};
+	QHBoxLayout* m_autoFillLayout{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QLabel* m_desc{nullptr};
+	QCheckBox* m_allowCheck{nullptr};
+	QFrame* m_autoFillFrame{nullptr};
+	AutoFillManager* m_autoFillManager{nullptr};
 
-	GeneralPage* m_generalPage{nullptr};
-	AppearancePage* m_appearancePage{nullptr};
-	WebConfigPage* m_webConfigPage{nullptr};
-	LocalStoragePage* m_localStoragePage{nullptr};
-	ProxyConfigPage* m_proxyConfigPage{nullptr};
-	PasswordPage* m_passwordPage{nullptr};
-	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
+	QSpacerItem* m_leftSpacer{nullptr};
+	QSpacerItem* m_rightSpacer{nullptr};
 };
 
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_PASSWORDPAGE_HPP

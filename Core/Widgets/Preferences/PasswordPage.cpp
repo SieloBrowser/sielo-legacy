@@ -22,66 +22,75 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#include "PasswordPage.hpp"
 
-#include <QDialog>
-
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QSettings>
 
 namespace Sn {
-class GeneralPage;
-class AppearancePage;
-class WebConfigPage;
-class LocalStoragePage;
-class ProxyConfigPage;
-class PasswordPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
 
-class TabWidget;
+PasswordPage::PasswordPage(QWidget* parent) :
+	QWidget(parent)
+{
+	setAttribute(Qt::WA_DeleteOnClose);
 
-class PreferencesDialog: public QDialog {
-Q_OBJECT
+	setupUI();
+	loadSettings();
 
-public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
-
-private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
-
-private:
-	void setupUI();
-
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
-
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
-
-	GeneralPage* m_generalPage{nullptr};
-	AppearancePage* m_appearancePage{nullptr};
-	WebConfigPage* m_webConfigPage{nullptr};
-	LocalStoragePage* m_localStoragePage{nullptr};
-	ProxyConfigPage* m_proxyConfigPage{nullptr};
-	PasswordPage* m_passwordPage{nullptr};
-	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-};
-
+	connect(m_allowCheck, &QCheckBox::toggled, this, &PasswordPage::allowChanged);
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+PasswordPage::~PasswordPage()
+{
+	// Empty
+}
+
+void PasswordPage::loadSettings()
+{
+	QSettings settings{};
+
+	m_allowCheck->setChecked(settings.value("Settings/savePasswordsOnSites", true).toBool());
+	allowChanged(m_allowCheck->isChecked());
+}
+
+void PasswordPage::save()
+{
+	QSettings settings{};
+
+	settings.setValue("Settings/savePasswordsOnSites", m_allowCheck->isChecked());
+}
+
+void PasswordPage::allowChanged(bool allow)
+{
+	m_autoFillManager->setVisible(m_allowCheck->isChecked());
+}
+
+void PasswordPage::setupUI()
+{
+	m_autoFillFrame = new QFrame(this);
+
+	m_layout = new QGridLayout(this);
+	m_autoFillLayout = new QHBoxLayout(m_autoFillFrame);
+
+	m_desc = new QLabel(tr("<b>AutoFill options</b>"), this);
+	m_allowCheck = new QCheckBox(tr("Allow saving passwords from sites"));
+	m_autoFillManager = new AutoFillManager(this);
+
+	QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(m_autoFillFrame->sizePolicy().hasHeightForWidth());
+	m_autoFillFrame->setSizePolicy(sizePolicy);
+
+	m_leftSpacer = new QSpacerItem(20, 20, QSizePolicy::Fixed, QSizePolicy::Preferred);
+	m_rightSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+	m_autoFillLayout->addWidget(m_autoFillManager);
+
+	m_layout->addWidget(m_desc, 0, 0, 1, 3);
+	m_layout->addItem(m_leftSpacer, 1, 0, 1, 1);
+	m_layout->addWidget(m_allowCheck, 1, 1, 1, 1);
+	m_layout->addItem(m_rightSpacer, 1, 2, 1, 1);
+	m_layout->addWidget(m_autoFillFrame, 2, 0, 1, 3);
+}
+
+}
