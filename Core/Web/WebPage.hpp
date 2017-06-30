@@ -35,6 +35,8 @@
 
 #include <QEventLoop>
 
+#include "Password/PasswordManager.hpp"
+
 namespace Sn {
 
 class WebView;
@@ -68,6 +70,8 @@ public:
 
 	bool isLoading() const;
 
+	void setupWebChannel();
+
 	static QString setCSS(const QString& css);
 signals:
 	void privacyChanged(bool status);
@@ -92,6 +96,8 @@ private:
 
 	DelayedFileWatcher* m_fileWatcher{nullptr};
 	QEventLoop* m_runningLoop{nullptr};
+
+	QVector<PasswordEntry> m_passwordEntries;
 
 	int m_loadProgress{-1};
 	bool m_blockAlerts{false};

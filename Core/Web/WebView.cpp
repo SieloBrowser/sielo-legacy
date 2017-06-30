@@ -296,6 +296,8 @@ void WebView::restoreHistory(const QByteArray& data)
 {
 	QDataStream stream{data};
 	stream >> *history();
+
+	page()->setupWebChannel();
 }
 
 void WebView::addNotification(QWidget* notification)

@@ -411,7 +411,7 @@ void WebTab::sGoHome()
 
 void WebTab::showNotification(QWidget* notif)
 {
-	const int notifPos{0};
+	const int notifPos{1};
 
 	if (m_layout->count() > notifPos + 1)
 		delete m_layout->itemAt(notifPos)->widget();

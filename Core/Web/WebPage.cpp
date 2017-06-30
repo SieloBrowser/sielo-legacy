@@ -30,6 +30,7 @@
 #include <QFileInfo>
 
 #include <QWebEngineSettings>
+#include <QWebChannel>
 
 #include <QSettings>
 
@@ -42,10 +43,13 @@
 
 #include "AdBlock/Manager.hpp"
 
+#include "Password/AutoFill/AutoFill.hpp"
+
 #include "Widgets/CheckBoxDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "Utils/DelayedFileWatcher.hpp"
+#include "Utils/ExternalJsObject.hpp"
 
 #include "Plugins/PluginProxy.hpp"
 
@@ -79,6 +83,8 @@ WebPage::WebPage(QObject* parent) :
 	m_secureStatus(false),
 	m_adjustingSheduled(false)
 {
+
+	setupWebChannel();
 
 	connect(this, &QWebEnginePage::loadProgress, this, &WebPage::progress);
 	connect(this, &QWebEnginePage::loadFinished, this, &WebPage::finished);
@@ -182,6 +188,21 @@ bool WebPage::isLoading() const
 	return m_loadProgress < 100;
 }
 
+void WebPage::setupWebChannel()
+{
+	QWebChannel* old = webChannel();
+	const QString objectName = QStringLiteral("sielo_object");
+	QWebChannel* channel{new QWebChannel(this)};
+
+	channel->registerObject(QStringLiteral("sielo_object"), new ExternalJsObject(this));
+	setWebChannel(channel);
+
+	if (old) {
+		delete old->registeredObjects().value(objectName);
+		delete old;
+	}
+}
+
 void WebPage::progress(int progression)
 {
 	m_loadProgress = progression;
@@ -224,6 +245,8 @@ void WebPage::finished()
 	}
 
 	cleanBlockedObject();
+
+	m_passwordEntries = Application::instance()->autoFill()->completePage(this, url());
 }
 
 void WebPage::cleanBlockedObject()
