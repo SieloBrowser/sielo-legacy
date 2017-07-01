@@ -234,10 +234,13 @@ void MasterPasswordDialog::setupUI()
 	m_descLabel->setWordWrap(true);
 	m_currentPasswordLabel = new QLabel(tr("Current Password"), m_setMasterPage);
 	m_currentPassword = new QLineEdit();
+	m_currentPassword->setEchoMode(QLineEdit::Password);
 	m_newPasswordLabel = new QLabel(tr("New Password"), m_setMasterPage);
 	m_newPassword = new QLineEdit();
+	m_newPassword->setEchoMode(QLineEdit::Password);
 	m_confirmPasswordLabel = new QLabel(tr("Confirm Password"), m_setMasterPage);
 	m_confirmPassword = new QLineEdit();
+	m_confirmPassword->setEchoMode(QLineEdit::Password);
 	m_noteLabel = new QLabel(tr("<b>Note:</b> The Master Password is not resettable. Do not forget it, please."),
 							 m_setMasterPage);
 	m_setMasterButtonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, m_setMasterPage);
