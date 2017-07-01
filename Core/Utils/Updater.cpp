@@ -32,6 +32,8 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
+#include <QMessageBox>
+
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
@@ -55,13 +57,41 @@ void Updater::downloadUpdateInfoCompleted()
 	if (!m_versionReply)
 		return;
 
-	QString newVersion = m_versionReply->readAll();
-	newVersion.remove("\n");
+	QByteArray updateInfo = m_versionReply->readAll();
+	QTextStream in{&updateInfo};
+	QString newVersion{};
+	bool readLastVersion{true};
+
+	while (!in.atEnd()) {
+		QString line{in.readLine()};
+		QStringList versionInfo{line.split(QLatin1Char(','))};
+
+		if (readLastVersion) {
+			QString newVersion = versionInfo[0];
+			readLastVersion = false;
+		}
+
+		for (int i{1}; i < versionInfo.count(); ++i) {
+			if (versionInfo[i] == "fullUpdate")
+				m_fullUpdate = true;
+			if (versionInfo[i] == "themeUpdate")
+				m_themeUpdate = true;
+		}
+	}
 
 	if (newVersion != Application::currentVersion) {
 #if defined(Q_OS_WIN)
 		QMessageBox::information(m_window, tr("Update"), tr("A new version of Sielo will be download in background!"));
-		QUrl updaterUrl{QUrl("http://feldrise.com/Sielo/SN_update_setup.exe")};
+		QString updaterName{};
+
+		if (m_fullUpdate)
+			updaterName = "sielo_full_update_setup.exe";
+		else if (m_themeUpdate)
+			updaterName = "sielo_theme_update_setup.exe";
+		else
+			updaterName = "sielo_update_setup.exe"
+
+		QUrl updaterUrl{QUrl("http://feldrise.com/Sielo/" + updaterName)};
 		startDownloadNewVersion(updaterUrl);
 #elif defined(Q_OS_LINUX)
 		QMessageBox::information(m_window,
@@ -95,7 +125,7 @@ void Updater::downloadCompleted()
 
 void Updater::start()
 {
-	QUrl newVersionUrl{QUrl("http://feldrise.com/Sielo/version.txt")};
+	QUrl newVersionUrl{QUrl("http://feldrise.com/Sielo/versions.txt")};
 
 	startDownloadingUpdateInfo(newVersionUrl);
 }

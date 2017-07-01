@@ -154,9 +154,6 @@ AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QStr
 {
 	Theme info{};
 
-	std::string string = path.toStdString();
-	std::string restring = name.toStdString();
-
 	if (!QFile(path + "main.sss").exists() || !QFile(path + "theme.info").exists()) {
 		info.isValid = false;
 		return info;

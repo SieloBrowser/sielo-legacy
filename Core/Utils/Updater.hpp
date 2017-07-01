@@ -54,6 +54,9 @@ private:
 	QNetworkReply* m_versionReply{nullptr};
 
 	BrowserWindow* m_window{nullptr};
+
+	bool m_fullUpdate{false};
+	bool m_themeUpdate{false};
 };
 
 }
