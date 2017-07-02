@@ -614,6 +614,34 @@ void Application::processCommand(const QString& command, const QStringList args)
 								  QApplication::tr("Failed"),
 								  QApplication::tr("This command need one argument!"));
 	}
+	if (command == "easteregg") {
+		QStringList eastereggs{};
+		eastereggs << "http://feldrise.com"
+				   << "http://www.perdu.com/"
+				   << "http://po.ta.to/"
+				   << "https://procatinator.com/"
+				   << "http://tholman.com/texter/"
+				   << "http://hristu.net/"
+				   << "https://omfgdogs.com/"
+				   << "http://fallingfalling.com/"
+				   << "http://zombo.com/"
+				   << "http://thenicestplaceontheinter.net/"
+				   << "http://pointerpointer.com/"
+				   << "http://ducksarethebest.com/"
+				   << "http://www.koalastothemax.com/"
+				   << "http://ninjaflex.com/"
+				   << "http://www.taghua.com/"
+				   << "https://www.staggeringbeauty.com/";
+
+		int sitesCount{eastereggs.count()};
+		int easteregg{qrand() % ((sitesCount) - 0) + 0};
+
+		LoadRequest eastereggRequest{};
+		eastereggRequest.setUrl(eastereggs[easteregg]);
+
+		getWindow()->tabWidget()->weTab()->webView()
+			->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
+	}
 }
 
 void Application::loadTheme(const QString& name)
