@@ -89,7 +89,7 @@ void Updater::downloadUpdateInfoCompleted()
 		else if (m_themeUpdate)
 			updaterName = "sielo_theme_update_setup.exe";
 		else
-			updaterName = "sielo_update_setup.exe"
+			updaterName = "sielo_update_setup.exe";
 
 		QUrl updaterUrl{QUrl("http://feldrise.com/Sielo/" + updaterName)};
 		startDownloadNewVersion(updaterUrl);
