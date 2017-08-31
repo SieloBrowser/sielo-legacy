@@ -36,6 +36,7 @@
 #include <QFontDatabase>
 
 #include <QMessageBox>
+#include <QWidget>
 
 #include <QSettings>
 
@@ -90,7 +91,7 @@ Application* Application::instance()
 
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
-	QApplication(argc, argv),
+	SingleApplication(argc, argv, true),
 	m_plugins(nullptr),
 	m_autoFill(nullptr),
 	m_historyManager(nullptr),
@@ -119,6 +120,7 @@ Application::Application(int& argc, char** argv) :
 	loadSettings();
 
 	QUrl startUrl{};
+	QStringList messages;
 
 	bool newInstance{false};
 
@@ -128,9 +130,11 @@ Application::Application(int& argc, char** argv) :
 			foreach (const CommandLineOption::ActionPair& pair, command.getActions()) {
 				switch (pair.action) {
 				case Application::CL_NewTab:
+					messages.append(QLatin1String("ACTION:NewTab"));
 					m_postLaunchActions.append(OpenNewTab);
 					break;
 				case Application::CL_NewWindow:
+					messages.append(QLatin1String("ACTION:NewWindow"));
 					break;
 				case Application::CL_StartPrivateBrowsing:
 					m_privateBrowsing = true;
@@ -140,13 +144,18 @@ Application::Application(int& argc, char** argv) :
 					break;
 				case Application::CL_OpenUrlInCurrentTab:
 					startUrl = QUrl::fromUserInput(pair.text);
+					messages.append("ACTION:OpenUrlInCurrentTab" + pair.text);
 					break;
 				case Application::CL_OpenUrlInNewWindow:
 					startUrl = QUrl::fromUserInput(pair.text);
+					messages.append("ACTION:OpenUrlInNewWindow" + pair.text);
 					break;
 				case Application::CL_OpenUrl:
 					startUrl = QUrl::fromUserInput(pair.text);
+					messages.append("URL:" + pair.text);
 					break;
+				case Application::CL_ExitAction:
+					m_isClosing = true;
 				default:
 					break;
 
@@ -154,8 +163,21 @@ Application::Application(int& argc, char** argv) :
 			}
 	}
 
+	if (messages.isEmpty()) {
+		messages.append(QLatin1String(" "));
+	}
+
+	if (isSecondary()) {
+		m_isClosing = true;
+			foreach (const QString& message, messages) {
+				sendMessage(message.toUtf8());
+			}
+
+		return;
+	}
 
 	QDesktopServices::setUrlHandler("http", this, "addNewTab");
+	QDesktopServices::setUrlHandler("https", this, "addNewTab");
 	QDesktopServices::setUrlHandler("ftp", this, "addNewTab");
 
 	connectDatabase();
@@ -430,11 +452,19 @@ void Application::reloadUserStyleSheet()
 	setUserStyleSheet(userCSSFile);
 }
 
+void Application::quitApplication()
+{
+	m_isClosing = true;
+
+	quit();
+}
+
 void Application::postLaunch()
 {
 	if (m_postLaunchActions.contains(OpenNewTab))
 		getWindow()->tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab);
 
+	connect(this, &Application::receivedMessage, this, &Application::messageReceived);
 	connect(this, &Application::aboutToQuit, this, &Application::saveSettings);
 }
 
@@ -444,6 +474,53 @@ void Application::windowDestroyed(QObject* window)
 	Q_ASSERT(m_windows.contains(static_cast<BrowserWindow*>(window)));
 
 	m_windows.removeOne(static_cast<BrowserWindow*>(window));
+}
+
+void Application::messageReceived(quint32 instanceId, QByteArray messageBytes)
+{
+	QWidget* actualWindow = getWindow();
+	QUrl actualUrl{};
+	QString message{QString::fromUtf8(messageBytes)};
+
+	if (message.startsWith(QLatin1String("URL:"))) {
+		const QUrl url{QUrl::fromUserInput(message.mid(4))};
+		addNewTab(url);
+		actualWindow = getWindow();
+	}
+	else if (message.startsWith(QLatin1String("ACTION:"))) {
+		const QString text{message.mid(7)};
+
+		if (text == QLatin1String("NewTab"))
+			addNewTab();
+		else if (text == QLatin1String("NewWindow"))
+			actualWindow = createWindow(Application::WT_NewWindow);
+		else if (text.startsWith(QLatin1String("OpenUrlInCurrentTab")))
+			actualUrl = QUrl::fromUserInput(text.mid(19));
+		else if (text.startsWith(QLatin1String("OpenUrlInNewWindow"))) {
+			createWindow(Application::WT_NewWindow, QUrl::fromUserInput(text.mid(18)));
+			return;
+		}
+	}
+	else
+		actualWindow = createWindow(Application::WT_NewWindow);
+
+	if (!actualWindow) {
+		if (!isClosing()) {
+			createWindow(Application::WT_NewWindow, actualUrl);
+		}
+
+		return;
+	}
+
+	actualWindow->setWindowState(actualWindow->windowState() & ~Qt::WindowMinimized);
+	actualWindow->raise();
+	actualWindow->activateWindow();
+	actualWindow->setFocus();
+
+	BrowserWindow* window = qobject_cast<BrowserWindow*>(actualWindow);
+
+	if (window && !actualUrl.isEmpty())
+		window->loadUrl(actualUrl);
 }
 
 void Application::setUserStyleSheet(const QString& filePath)
@@ -641,6 +718,16 @@ void Application::processCommand(const QString& command, const QStringList args)
 
 		getWindow()->tabWidget()->weTab()->webView()
 			->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
+	}
+}
+
+void Application::addNewTab(const QUrl& url)
+{
+	BrowserWindow* window = getWindow();
+
+	if (window) {
+		window->tabWidget()
+			->addView(url, url.isEmpty() ? Application::NTT_SelectedNewEmptyTab : Application::NTT_SelectedTabAtEnd);
 	}
 }
 

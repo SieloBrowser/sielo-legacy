@@ -79,6 +79,8 @@ public:
 	void closeTabsSpace(TabWidget* tabWidget);
 	void autoResizeTabsSpace();
 
+	void loadUrl(const QUrl& url);
+
 	QUrl homePageUrl() const { return m_homePage; }
 
 	TabbedWebView* webView() const;

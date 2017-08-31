@@ -268,6 +268,18 @@ void BrowserWindow::autoResizeTabsSpace()
 	}
 }
 
+void BrowserWindow::loadUrl(const QUrl& url)
+{
+	if (webView()->webTab()->isPinned()) {
+		int index{tabWidget()->addView(url, Application::NTT_CleanSelectedTab)};
+		webView(index)->setFocus();
+	}
+	else {
+		webView()->setFocus();
+		webView()->load(url);
+	}
+}
+
 TabbedWebView* BrowserWindow::webView() const
 {
 	return webView(tabWidget()->currentIndex());

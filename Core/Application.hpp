@@ -36,6 +36,7 @@
 #include <QWebEngineProfile>
 
 #include "Utils/RestoreManager.hpp"
+#include "3rdparty/singleapplication.h"
 
 namespace Sn {
 class AutoFill;
@@ -48,7 +49,7 @@ class NetworkManager;
 
 class BrowserWindow;
 
-class Q_DECL_EXPORT Application: public QApplication {
+class Q_DECL_EXPORT Application: public SingleApplication {
 public:
 	enum CommandLineAction {
 		CL_NoAction,
@@ -109,6 +110,7 @@ public:
 	void loadTheme(const QString& name);
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
+	bool isClosing() const { return m_isClosing; }
 
 	int windowCount() const;
 	QList<BrowserWindow*> windows() const { return m_windows; }
@@ -151,14 +153,19 @@ public:
 	static Application* instance();
 
 public slots:
+	void addNewTab(const QUrl& url = QUrl());
+
 	void saveSettings();
 	void saveSession(bool saveForHome = false);
 
 	void reloadUserStyleSheet();
 
+	void quitApplication();
+
 private slots:
 	void postLaunch();
 
+	void messageReceived(quint32 instanceId, QByteArray messageBytes);
 	void windowDestroyed(QObject* window);
 
 private:
@@ -172,6 +179,7 @@ private:
 
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};
+	bool m_isClosing{false};
 	bool m_useTopToolBar{false};
 	bool m_floatingButtonFoloweMouse{true};
 	bool m_databaseConnected{false};
