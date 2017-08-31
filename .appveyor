@@ -14,11 +14,11 @@ install:
     - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
 
 before_build:
-    - set Path=%QT5%\bin;%Path%
+    - set Path=%QT5%\bin;%OPENSSL%;%Path%
     - mkdir build
 
 build_script:
-    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH=%QT5%
+    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%;%OPENSSL%"
     - cmake --build build
 
 artifacts:
