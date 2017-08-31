@@ -19,6 +19,7 @@ find_package(Qt5WebEngine REQUIRED)
 find_package(Qt5WebEngineWidgets REQUIRED)
 
 add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
+
 target_link_libraries(sielo-browser Core)
 target_link_libraries(sielo-browser ${OPENSSL_LIBRARIES})
 target_link_libraries(sielo-browser Qt5::Widgets)

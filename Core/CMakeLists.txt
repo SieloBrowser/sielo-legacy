@@ -11,6 +11,8 @@ set(CMAKE_AUTORCC ON)
 file(
         GLOB_RECURSE
         SOURCE_FILES
+        3rdparty/*.h
+        3rdparty/*.cpp
         AdBlock/*.hpp
         AdBlock/*.cpp
         Bookmarks/*.cpp
@@ -46,6 +48,7 @@ find_package(Qt5WebEngine REQUIRED)
 find_package(Qt5WebEngineWidgets REQUIRED)
 
 add_library(Core ${SOURCE_FILES} ../icons.qrc/)
+
 target_link_libraries(Core ${OPENSSL_LIBRARIES})
 target_link_libraries(Core Qt5::Widgets)
 target_link_libraries(Core Qt5::Sql)
