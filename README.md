@@ -1,7 +1,7 @@
 
 Platform | Build Status
 ------------ | -------------
-Windows | [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/39am5xkwb5r6kgc1/branch/maynapeh?svg=true)](https://ci.appveyor.com/project/Feldrise/sielonavigateur/branch/maynapeh)
+Windows | Indeterminé
 
 Bonjour à vous ! Vous êtes sur le repository de Sielo version 1. Vous pouvez découvrir ce que Sielo est sur la branche master, et les nouveautés de cette version ici.
 
