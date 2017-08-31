@@ -1,7 +1,7 @@
 
 Platform | Build Status
 ------------ | -------------
-Windows | Indeterminé
+Windows | Indéterminé
 
 Bonjour à vous ! Vous êtes sur le repository de Sielo version 1. Vous pouvez découvrir ce que Sielo est sur la branche master, et les nouveautés de cette version ici.
 
