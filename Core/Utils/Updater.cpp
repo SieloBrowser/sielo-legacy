@@ -91,7 +91,7 @@ void Updater::downloadUpdateInfoCompleted()
 		else
 			updaterName = "sielo_update_setup.exe";
 
-		QUrl updaterUrl{QUrl("http://feldrise.com/Sielo/" + updaterName)};
+		QUrl updaterUrl{QUrl("http://www.feldrise.com/Sielo/" + updaterName)};
 		startDownloadNewVersion(updaterUrl);
 #elif defined(Q_OS_LINUX)
 		QMessageBox::information(m_window,
@@ -125,7 +125,7 @@ void Updater::downloadCompleted()
 
 void Updater::start()
 {
-	QUrl newVersionUrl{QUrl("http://feldrise.com/Sielo/versions.txt")};
+	QUrl newVersionUrl{QUrl("http://www.feldrise.com/Sielo/versions.txt")};
 
 	startDownloadingUpdateInfo(newVersionUrl);
 }
