@@ -284,7 +284,12 @@ void DownloadManager::load()
 			widget->m_url = url;
 			widget->m_buttonStop->setVisible(false);
 			widget->m_buttonStop->setEnabled(false);
-			widget->m_progress->hide();
+			widget->m_buttonOpen->setVisible(true);
+			widget->m_buttonOpen->setEnabled(true);
+			widget->m_progress->setMaximum(100);
+			widget->m_progress->setValue(widget->m_progress->maximum());
+			widget->m_progress->setTextVisible(true);
+			widget->m_progress->setFormat(tr("Download completed"));
 
 			addItem(widget);
 		}

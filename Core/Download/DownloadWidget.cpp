@@ -68,13 +68,16 @@ DownloadWidget::DownloadWidget(QWebEngineDownloadItem* download, QWidget* parent
 
 	m_downloadTime.start();
 
+	m_buttonOpen->setEnabled(false);
+	m_buttonOpen->hide();
+
 	connect(m_buttonStop, &QPushButton::clicked, this, &DownloadWidget::stop);
 	connect(m_buttonOpen, &QPushButton::clicked, this, &DownloadWidget::open);
 }
 
 bool DownloadWidget::downloading() const
 {
-	return m_progress->isVisible();
+	return m_buttonOpen->isVisible();
 }
 
 bool DownloadWidget::downloadedSuccessfully() const
@@ -197,7 +200,12 @@ void DownloadWidget::finished()
 		}
 	}
 
-	m_progress->hide();
+	//m_progress->hide();
+	m_progress->setTextVisible(true);
+	m_progress->setFormat(tr("Download completed"));
+
+	m_buttonOpen->setEnabled(true);
+	m_buttonOpen->show();
 
 	m_buttonStop->setEnabled(false);
 	m_buttonStop->hide();
