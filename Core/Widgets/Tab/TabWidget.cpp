@@ -358,15 +358,7 @@ void TabWidget::currentTabChanged(int index)
 	WebTab* currentTab{weTab(index)};
 	WebTab* oldTab{weTab()};
 
-	disconnect(oldTab->webView()->page()->profile(),
-			   &QWebEngineProfile::downloadRequested,
-			   this,
-			   &TabWidget::downloadRequested);
 	disconnect(oldTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
-	connect(currentTab->webView()->page()->profile(),
-			&QWebEngineProfile::downloadRequested,
-			this,
-			&TabWidget::downloadRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
 	if (Application::instance()->useTopToolBar())
@@ -801,13 +793,6 @@ void TabWidget::fullScreenRequested(QWebEngineFullScreenRequest request)
 		delete m_fullScreenView;
 		m_fullScreenView = nullptr;
 	}
-}
-
-void TabWidget::downloadRequested(QWebEngineDownloadItem* download)
-{
-	Application::instance()->downloadManager()->downlaod(download);
-	Application::instance()->downloadManager()->show();
-	download->accept();
 }
 
 void TabWidget::moveAddTabButton(int posX)

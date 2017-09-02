@@ -135,7 +135,6 @@ public slots:
 	void clearClosedTabsList();
 
 	void fullScreenRequested(QWebEngineFullScreenRequest request);
-	void downloadRequested(QWebEngineDownloadItem* download);
 
 	void moveAddTabButton(int posX);
 

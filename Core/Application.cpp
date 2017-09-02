@@ -185,6 +185,8 @@ Application::Application(int& argc, char** argv) :
 	m_plugins = new PluginProxy;
 
 	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
+	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
+
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
 
@@ -474,6 +476,13 @@ void Application::windowDestroyed(QObject* window)
 	Q_ASSERT(m_windows.contains(static_cast<BrowserWindow*>(window)));
 
 	m_windows.removeOne(static_cast<BrowserWindow*>(window));
+}
+
+void Application::downloadRequested(QWebEngineDownloadItem* download)
+{
+	downloadManager()->downlaod(download);
+	downloadManager()->show();
+	download->accept();
 }
 
 void Application::messageReceived(quint32 instanceId, QByteArray messageBytes)

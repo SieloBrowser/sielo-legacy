@@ -168,6 +168,7 @@ private slots:
 	void messageReceived(quint32 instanceId, QByteArray messageBytes);
 	void windowDestroyed(QObject* window);
 
+	void downloadRequested(QWebEngineDownloadItem* download);
 private:
 	enum PostLaunchAction {
 		OpenNewTab
