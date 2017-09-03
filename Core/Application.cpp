@@ -267,8 +267,17 @@ void Application::loadSettings()
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
-	if (settings.value("Settings/useMorpheusFont", false).toBool())
+	if (settings.value("Settings/useMorpheusFont", false).toBool()) {
+		QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
+
 		setFont(m_morpheusFont);
+		webSettings->setFontFamily(QWebEngineSettings::StandardFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::FixedFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
+	}
 
 		foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
@@ -664,8 +673,17 @@ void Application::processCommand(const QString& command, const QStringList args)
 	if (command == "witcher") {
 		if (args.count() == 1) {
 			QSettings settings{};
+			QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
+
 			if (args[0] == "enable") {
 				setFont(m_morpheusFont);
+				webSettings->setFontFamily(QWebEngineSettings::StandardFont, "Z003");
+				webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "Z003");
+				webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "Z003");
+				webSettings->setFontFamily(QWebEngineSettings::FixedFont, "Z003");
+				webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
+				webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
+
 					foreach (BrowserWindow* window, m_windows) {
 						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
@@ -679,6 +697,13 @@ void Application::processCommand(const QString& command, const QStringList args)
 			}
 			else if (args[0] == "disable") {
 				setFont(m_normalFont);
+				webSettings->setFontFamily(QWebEngineSettings::StandardFont, "DejaVu Serif");
+				webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "DejaVu Sans");
+				webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "DejaVu Sans");
+				webSettings->setFontFamily(QWebEngineSettings::FixedFont, "DejaVu Sans Mono");
+				webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "DejaVu Sans");
+				webSettings->setFontFamily(QWebEngineSettings::SerifFont, "DejaVu Serif");
+
 					foreach (BrowserWindow* window, m_windows) {
 						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
