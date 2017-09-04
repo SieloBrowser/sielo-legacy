@@ -23,67 +23,58 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
-#define SIELOBROWSER_PREFERENCESDIALOG_HPP
+#ifndef SIELO_BROWSER_PRIVACYPAGE_HPP
+#define SIELO_BROWSER_PRIVACYPAGE_HPP
 
-#include <QDialog>
+#include <QWidget>
 
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QGridLayout>
 
-#include <QDialogButtonBox>
-#include <QTabWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QSpacerItem>
 
 namespace Sn {
-class GeneralPage;
-class AppearancePage;
-class WebConfigPage;
-class LocalStoragePage;
-class ProxyConfigPage;
-class PasswordPage;
-class PrivacyPage;
-class DownloadPage;
-class AdBlockPage;
-class CurrentTabsSpacePage;
-
-class TabWidget;
-
-class PreferencesDialog: public QDialog {
+class PrivacyPage: public QWidget {
 Q_OBJECT
 
 public:
-	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
-	~PreferencesDialog();
+	PrivacyPage(QWidget* parent = nullptr);
+	~PrivacyPage();
+
+	void loadSettings();
+	void save();
 
 private slots:
-	void saveSettings();
-
-	void buttonClicked(QAbstractButton* button);
+	void showCookieManager();
+	void showJSOptions();
+	void showHTML5Permissions();
 
 private:
 	void setupUI();
 
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
+	QGridLayout* m_layout{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
-	QDialogButtonBox* m_buttonBox{nullptr};
+	QLabel* m_labelCookies{nullptr};
+	QLabel* m_descCookies{nullptr};
+	QPushButton* m_cookieManager{nullptr};
 
-	GeneralPage* m_generalPage{nullptr};
-	AppearancePage* m_appearancePage{nullptr};
-	WebConfigPage* m_webConfigPage{nullptr};
-	LocalStoragePage* m_localStoragePage{nullptr};
-	ProxyConfigPage* m_proxyConfigPage{nullptr};
-	PasswordPage* m_passwordPage{nullptr};
-	PrivacyPage* m_privacyPage{nullptr};
-	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
-	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
+	QLabel* m_labelJS{nullptr};
+	QLabel* m_descJS{nullptr};
+	QPushButton* m_JSOptions{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
+	QLabel* m_labelHTML5Permissions{nullptr};
+	QLabel* m_descHTML5Permissions{nullptr};
+	QPushButton* m_HTML5Permissions{nullptr};
+
+	QLabel* m_labelOther{nullptr};
+	QCheckBox* m_doNotTrack{nullptr};
+
+	QSpacerItem* m_cookiesSpacer{nullptr};
+	QSpacerItem* m_doNotTrackSpacer{nullptr};
+	QSpacerItem* m_spacer{nullptr};
 };
-
 }
 
-#endif //SIELOBROWSER_PREFERENCESDIALOG_HPP
+#endif //SIELO_BROWSER_PRIVACYPAGE_HPP
