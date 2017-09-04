@@ -44,6 +44,9 @@ JSOptions::JSOptions(QWidget* parent) :
 	m_jscanAccessClipboard->setChecked(settings.value("allowJavaScriptAccessClipboard", false).toBool());
 
 	settings.endGroup();
+
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &JSOptions::accept);
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &JSOptions::reject);
 }
 
 JSOptions::~JSOptions()
