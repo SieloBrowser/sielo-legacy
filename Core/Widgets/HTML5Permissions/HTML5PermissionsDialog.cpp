@@ -161,6 +161,10 @@ void HTML5PermissionsDialog::setupUI()
 	m_permissionsTree->setAllColumnsShowFocus(true);
 	m_permissionsTree->header()->resizeSection(0, 220);
 
+	QTreeWidgetItem* treeHeader = m_permissionsTree->headerItem();
+	treeHeader->setText(0, tr("Site"));
+	treeHeader->setText(1, tr("Behaviour"));
+
 	m_removeSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 	m_remove = new QPushButton(this);

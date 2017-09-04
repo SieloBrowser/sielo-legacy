@@ -53,6 +53,8 @@ NetworkManager::NetworkManager(QObject* parent) :
 {
 	m_urlInterceptor = new NetworkUrlInterceptor(this);
 	Application::instance()->webProfile()->setRequestInterceptor(m_urlInterceptor);
+
+	Application::instance()->cookieJar();
 }
 
 void NetworkManager::authentication(const QUrl& url, QAuthenticator* auth, QWidget* parent)

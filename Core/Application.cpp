@@ -313,6 +313,8 @@ void Application::loadSettings()
 	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
 
+	webProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
+
 	settings.endGroup();
 
 	if (m_autoFill)
@@ -428,8 +430,8 @@ void Application::saveSettings()
 
 	if (deleteHistory)
 		m_historyManager->clear();
-	if (deleteCookies)
-		m_cookieJar->deleteAllCookies();
+//	if (deleteCookies)
+//		m_cookieJar->deleteAllCookies();
 }
 
 void Application::saveSession(bool saveForHome)
