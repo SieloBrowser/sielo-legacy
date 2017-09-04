@@ -34,7 +34,7 @@
 
 #include <QKeyEvent>
 #include <QClipboard>
-#include <QtWidgets/QMessageBox>
+#include <QShortcut>
 
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
@@ -231,6 +231,26 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonAddTab2, SIGNAL(clicked()), m_window, SLOT(addTab()));
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
+
+	QShortcut* reloadBypassCacheAction = new QShortcut(QKeySequence("Ctrl+F5"), this);
+	QShortcut* reloadBypassCacheAction2 = new QShortcut(QKeySequence("Ctrl+Shift+R"), this);
+	QShortcut* reloadAction = new QShortcut(QKeySequence("F5"), this);
+	QShortcut* reloadAction2 = new QShortcut(QKeySequence("Ctrl+R"), this);
+	QShortcut* closeTabAction = new QShortcut(QKeySequence("Ctrl+F4"), this);
+	QShortcut* closeTabAction2 = new QShortcut(QKeySequence("Ctrl+W"), this);
+	reloadBypassCacheAction->setContext(Qt::WidgetWithChildrenShortcut);
+	reloadBypassCacheAction2->setContext(Qt::WidgetWithChildrenShortcut);
+	reloadAction->setContext(Qt::WidgetWithChildrenShortcut);
+	reloadAction2->setContext(Qt::WidgetWithChildrenShortcut);
+	closeTabAction->setContext(Qt::WidgetWithChildrenShortcut);
+	closeTabAction2->setContext(Qt::WidgetWithChildrenShortcut);
+
+	connect(reloadBypassCacheAction, &QShortcut::activated, this, &TabWidget::reloadBypassCach);
+	connect(reloadBypassCacheAction2, &QShortcut::activated, this, &TabWidget::reloadBypassCach);
+	connect(reloadAction, &QShortcut::activated, this, &TabWidget::reload);
+	connect(reloadAction2, &QShortcut::activated, this, &TabWidget::reload);
+	connect(closeTabAction, SIGNAL(activated()), this, SLOT(closeTab()));
+	connect(closeTabAction2, SIGNAL(activated()), this, SLOT(closeTab()));
 
 	setTabBar(m_tabBar);
 	loadSettings();
@@ -624,6 +644,16 @@ void TabWidget::reloadAllTabs()
 {
 	for (int i{0}; i < count(); ++i)
 		reloadTab(i);
+}
+
+void TabWidget::reload()
+{
+	weTab()->reload();
+}
+
+void TabWidget::reloadBypassCach()
+{
+	weTab()->webView()->reloadBypassCache();
 }
 
 void TabWidget::stopTab(int index)

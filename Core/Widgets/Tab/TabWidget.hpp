@@ -125,6 +125,8 @@ public slots:
 
 	void reloadTab(int index);
 	void reloadAllTabs();
+	void reload();
+	void reloadBypassCach();
 	void stopTab(int index);
 	void closeAllButCurrent(int index);
 	void closeToRight(int index);
