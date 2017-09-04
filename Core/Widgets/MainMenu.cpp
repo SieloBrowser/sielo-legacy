@@ -30,6 +30,12 @@
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
 
+#include "Bookmarks/BookmarksMenu.hpp"
+#include "Bookmarks/BookmarksDialog.hpp"
+#include "Bookmarks/AddBookmarkDialog.hpp"
+#include "Bookmarks/BookmarkManager.hpp"
+#include "Bookmarks/BookmarksModel.hpp"
+
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -41,12 +47,23 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QMenu(parent),
 	m_tabWidget(tabWidget)
 {
+	QAction* showAllBookmarksAction = new QAction(tr("Show All Bookmarks"), this);
+	QAction* addBookmarksAction = new QAction(tr("Add Bookmark..."), this);
+	addBookmarksAction->setShortcut(QKeySequence("Ctrl+D"));
+	addBookmarksAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+	m_bookmarksMenu = new BookmarksMenu(this);
+	m_bookmarksMenu->setTitle(tr("&Bookmarks"));
+	m_bookmarksMenu->setInitialActions(QList<QAction*>() << showAllBookmarksAction << addBookmarksAction);
+
 	QAction* newTabAction = createAction("NewTab", this, QIcon(), tr("New Tab"), "Ctrl+T");
 	QAction* newWindowAction = createAction("NewWindow", this, QIcon(), tr("&New Window"), "Ctrl+N");
 	QAction* openFileAction = createAction("OpenFile", this, QIcon(), tr("Open &File"), "Ctrl+O");
 	addSeparator();
 	QAction* selectAllAction = createAction("SelectAll", this, QIcon(), tr("Select &All"), "Ctrl+A");
 	QAction* findAction = createAction("Find", this, QIcon(), tr("&Find"), "Ctrl+F");
+	addSeparator();
+	addMenu(m_bookmarksMenu);
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
 											   this,
@@ -63,6 +80,10 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	connect(selectAllAction, &QAction::triggered, this, &MainMenu::selectAll);
 	connect(findAction, &QAction::triggered, this, &MainMenu::find);
+
+	connect(showAllBookmarksAction, &QAction::triggered, this, &MainMenu::showAllBookmarks);
+	connect(addBookmarksAction, &QAction::triggered, this, &MainMenu::addBookmarks);
+	connect(m_bookmarksMenu, &BookmarksMenu::openUrl, this, &MainMenu::openBookmark);
 
 	connect(showSettingsAction, &QAction::triggered, this, &MainMenu::showSettings);
 	connect(showAboutSieloAction, &QAction::triggered, this, &MainMenu::showAboutSielo);
@@ -126,6 +147,26 @@ void MainMenu::selectAll()
 void MainMenu::find()
 {
 	QMessageBox::critical(m_tabWidget->window(), tr("Error"), tr("Currently unavailable. We are working on it."));
+}
+
+void MainMenu::showAllBookmarks()
+{
+	BookmarksDialog* dialog{new BookmarksDialog(m_tabWidget, Application::instance()->bookmarksManager())};
+	dialog->show();
+}
+
+void MainMenu::addBookmarks()
+{
+	AddBookmarkDialog* dialog{new AddBookmarkDialog(m_tabWidget->weTab()->url().toString(),
+													m_tabWidget->weTab()->title(),
+													m_tabWidget,
+													Application::instance()->bookmarksManager())};
+	dialog->show();
+}
+
+void MainMenu::openBookmark(const QUrl& url)
+{
+	m_tabWidget->addView(url);
 }
 
 void MainMenu::showSettings()

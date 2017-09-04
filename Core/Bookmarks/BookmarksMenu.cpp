@@ -22,62 +22,53 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#include "BookmarksMenu.hpp"
 
-#include <QMenu>
-#include <QAction>
 
-#include <QHash>
+#include "Bookmarks/BookmarkManager.hpp"
+#include "Bookmarks/BookmarksModel.hpp"
+
+#include "Application.hpp"
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
 
-class BookmarksMenu;
+BookmarksMenu::BookmarksMenu(QWidget* parent) :
+	ModelMenu(parent)
+{
+	connect(this, &ModelMenu::activated, this, &BookmarksMenu::activated);
 
-class MainMenu: public QMenu {
-Q_OBJECT
-
-public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
-
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-
-private slots:
-	void newTab();
-	void newWindow();
-	//void newPrivateWindow();
-	void openFile();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-	void openBookmark(const QUrl& url);
-
-	void showSettings();
-	void showAboutSielo();
-
-	void quit();
-
-private:
-	void addActionsToTabWidget();
-
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-
-	PreferencesDialog* m_preferences{nullptr};
-
-	QHash<QString, QAction*> m_actions{};
-};
+	setMaxRows(-1);
+	setHoverRole(BookmarksModel::UrlStringRole);
+	setSeparatorRole(BookmarksModel::SeparatorRole);
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+void BookmarksMenu::setInitialActions(QList<QAction*> actions)
+{
+	m_initialActions = actions;
+
+	for (int i{0}; i < m_initialActions.count(); ++i)
+		addAction(m_initialActions[i]);
+}
+
+bool BookmarksMenu::prePopulated()
+{
+	m_bookmarksManager = Application::instance()->bookmarksManager();
+
+	setModel(m_bookmarksManager->bookmarksModel());
+	setRootIndex(QModelIndex());
+
+	for (int i{0}; i < m_initialActions.count(); ++i)
+		addAction(m_initialActions[i]);
+
+	if (!m_initialActions.isEmpty())
+		addSeparator();
+
+	return true;
+}
+
+void BookmarksMenu::activated(const QModelIndex& index)
+{
+	emit openUrl(index.data(BookmarksModel::UrlRole).toUrl());
+}
+
+}

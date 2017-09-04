@@ -26,6 +26,7 @@
 
 #include <QFontMetrics>
 
+Q_DECLARE_METATYPE(QModelIndex)
 namespace Sn {
 
 ModelMenu::ModelMenu(QWidget* parent) :
@@ -36,7 +37,7 @@ ModelMenu::ModelMenu(QWidget* parent) :
 	m_hoverRole(0),
 	m_separatorRole(0)
 {
-	connect(this, &QMenu::aboutToShow, this, &ModelMenu::aboutToShow);
+	connect(this, SIGNAL(aboutToShow()), this, SLOT(aboutToShow()));
 }
 
 void ModelMenu::setModel(QAbstractItemModel* model)
@@ -95,7 +96,7 @@ void ModelMenu::createMenu(const QModelIndex& parent, int max, QMenu* parentMenu
 {
 	if (!menu) {
 		QString title{parent.data().toString()};
-		QIcon icon{qvariant_cast<QIcon>(parent.data(Qt::DecorationRole))};
+		QIcon icon = qvariant_cast<QIcon>(parent.data(Qt::DecorationRole));
 
 		menu = new QMenu(title, this);
 		menu->setIcon(icon);
@@ -107,7 +108,7 @@ void ModelMenu::createMenu(const QModelIndex& parent, int max, QMenu* parentMenu
 
 		menu->menuAction()->setData(variant);
 
-		connect(menu, &QMenu::aboutToShow, this, &ModelMenu::aboutToShow);
+		connect(menu, SIGNAL(aboutToShow()), this, SLOT(aboutToShow()));
 
 		return;
 	}
@@ -117,7 +118,9 @@ void ModelMenu::createMenu(const QModelIndex& parent, int max, QMenu* parentMenu
 	if (max != -1)
 		end = qMin(max, end);
 
-	connect(menu, &QMenu::triggered, this, &ModelMenu::triggered);
+	disconnect(menu, SIGNAL(triggered(QAction * )), this, SLOT(triggered(QAction * )));
+	disconnect(menu, SIGNAL(hovered(QAction * )), this, SLOT(hovered(QAction * )));
+	connect(menu, SIGNAL(triggered(QAction * )), this, SLOT(triggered(QAction * )));
 	connect(menu, SIGNAL(hovered(QAction * )), this, SLOT(hovered(QAction * )));
 
 	for (int i{0}; i < end; ++i) {
@@ -146,7 +149,9 @@ void ModelMenu::aboutToShow()
 			QModelIndex index = qvariant_cast<QModelIndex>(variant);
 
 			createMenu(index, -1, menu, menu);
-			disconnect(menu, &QMenu::aboutToShow, this, &ModelMenu::aboutToShow);
+			disconnect(menu, SIGNAL(aboutToShow()), this, SLOT(aboutToShow()));
+			disconnect(menu, SIGNAL(triggered(QAction * )), this, SLOT(triggered(QAction * )));
+			disconnect(menu, SIGNAL(hovered(QAction * )), this, SLOT(hovered(QAction * )));
 
 			return;
 		}

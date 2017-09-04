@@ -23,61 +23,42 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#ifndef SIELO_BROWSER_BOOKMARKSMENU_HPP
+#define SIELO_BROWSER_BOOKMARKSMENU_HPP
 
-#include <QMenu>
+#include "Widgets/ModelMenu.hpp"
+
+#include <QWidget>
+
 #include <QAction>
+#include <QModelIndex>
 
-#include <QHash>
+#include <QList>
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
+class BookmarksManager;
 
-class BookmarksMenu;
-
-class MainMenu: public QMenu {
+class BookmarksMenu: public ModelMenu {
 Q_OBJECT
 
 public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
+	BookmarksMenu(QWidget* parent = nullptr);
 
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
+	void setInitialActions(QList<QAction*> actions);
+
+signals:
+	void openUrl(const QUrl& url);
+
+protected:
+	bool prePopulated();
 
 private slots:
-	void newTab();
-	void newWindow();
-	//void newPrivateWindow();
-	void openFile();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-	void openBookmark(const QUrl& url);
-
-	void showSettings();
-	void showAboutSielo();
-
-	void quit();
+	void activated(const QModelIndex& index);
 
 private:
-	void addActionsToTabWidget();
-
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-
-	PreferencesDialog* m_preferences{nullptr};
-
-	QHash<QString, QAction*> m_actions{};
+	BookmarksManager* m_bookmarksManager{nullptr};
+	QList<QAction*> m_initialActions{};
 };
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+#endif //SIELO_BROWSER_BOOKMARKSMENU_HPP
