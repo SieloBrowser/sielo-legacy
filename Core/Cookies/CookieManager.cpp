@@ -58,7 +58,7 @@ CookieManager::CookieManager() :
 	// Cookie filtering
 	connect(m_whiteListAdd, &QPushButton::clicked, this, &CookieManager::addWhiteList);
 	connect(m_whiteListRemove, &QPushButton::clicked, this, &CookieManager::removeWhiteList);
-	connect(m_blackListAdd, &QPushButton::clicked, this, &CookieManager::addBlackList);
+	connect(m_blackListAdd, SIGNAL(clicked()), this, SLOT(addBlackList()));
 	connect(m_blackListRemove, &QPushButton::clicked, this, &CookieManager::removeBlackList);
 
 	// Cookie settings
@@ -292,7 +292,7 @@ void CookieManager::closeEvent(QCloseEvent* event)
 	settings.setValue("whiteList", whiteList);
 	settings.setValue("blackList", blackList);
 
-	settings.endGroup()
+	settings.endGroup();
 
 	Application::instance()->cookieJar()->loadSettings();
 
@@ -365,7 +365,7 @@ void CookieManager::setupUI()
 	descNameSizePolicy.setVerticalStretch(0);
 	descNameSizePolicy.setHeightForWidth(m_descName->sizePolicy().hasHeightForWidth());
 	m_descName->setSizePolicy(descNameSizePolicy);
-	m_descName->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignVCenter);
+	//m_descName->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignVCenter);
 
 	m_descValue = new QLabel(m_storedCookieFrame);
 	m_descValue->setText(tr("Value:"));
@@ -384,27 +384,27 @@ void CookieManager::setupUI()
 
 	m_name = new EllipseLabel(m_storedCookieFrame);
 	m_name->setText(tr("<cookie not selected>"));
-	m_name->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+	//m_name->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_value = new EllipseLabel(m_storedCookieFrame);
 	m_value->setText(tr("<cookie not selected>"));
-	m_value->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+	//m_value->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_server = new EllipseLabel(m_storedCookieFrame);
 	m_server->setText(tr("<cookie not selected>"));
-	m_server->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+	//m_server->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_path = new QLabel(m_storedCookieFrame);
 	m_path->setText(tr("<cookie not selected>"));
-	m_path->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+	//m_path->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_secure = new EllipseLabel(m_storedCookieFrame);
 	m_secure->setText(tr("<cookie not selected>"));
-	m_secure->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+	//m_secure->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_expiration = new EllipseLabel(m_storedCookieFrame);
 	m_expiration->setText(tr("<cookie not selected>"));
-	m_expiration->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
+	//m_expiration->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_removeAllCookies = new QPushButton(m_buttonFrame);
 	m_removeAllCookies->setText(tr("Remove all cookies"));
