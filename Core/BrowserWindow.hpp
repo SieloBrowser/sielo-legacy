@@ -99,6 +99,8 @@ public:
 	FloatingButton* fButtonNewTab() const { return m_fButtonNewTab; }
 
 public slots:
+	void setWindowTitle(const QString& title);
+
 	void enterHtmlFullScreen();
 
 	void bookmarkAllTabs();

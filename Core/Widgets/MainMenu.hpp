@@ -52,7 +52,7 @@ public slots:
 private slots:
 	void newTab();
 	void newWindow();
-	//void newPrivateWindow();
+	void newPrivateWindow();
 	void openFile();
 
 	void selectAll();

@@ -309,6 +309,16 @@ int BrowserWindow::tabWidgetsCount() const
 	return m_tabWidgets.count();
 }
 
+void BrowserWindow::setWindowTitle(const QString& title)
+{
+	QString t{title};
+
+	if (Application::instance()->privateBrowsing())
+		t.append(tr(" (Private Browsing)"));
+
+	QMainWindow::setWindowTitle(t);
+}
+
 void BrowserWindow::enterHtmlFullScreen()
 {
 	// Empty

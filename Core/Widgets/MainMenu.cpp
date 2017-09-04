@@ -58,6 +58,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	QAction* newTabAction = createAction("NewTab", this, QIcon(), tr("New Tab"), "Ctrl+T");
 	QAction* newWindowAction = createAction("NewWindow", this, QIcon(), tr("&New Window"), "Ctrl+N");
+	QAction* newPrivateWindowAction =
+		createAction("NewPrivateWindow", this, QIcon(), tr("New &Private Window"), "Ctrl+Shift+P");
 	QAction* openFileAction = createAction("OpenFile", this, QIcon(), tr("Open &File"), "Ctrl+O");
 	addSeparator();
 	QAction* selectAllAction = createAction("SelectAll", this, QIcon(), tr("Select &All"), "Ctrl+A");
@@ -76,6 +78,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	connect(newTabAction, &QAction::triggered, this, &MainMenu::newTab);
 	connect(newWindowAction, &QAction::triggered, this, &MainMenu::newWindow);
+	connect(newPrivateWindowAction, &QAction::triggered, this, &MainMenu::newPrivateWindow);
 	connect(openFileAction, &QAction::triggered, this, &MainMenu::openFile);
 
 	connect(selectAllAction, &QAction::triggered, this, &MainMenu::selectAll);
@@ -122,6 +125,11 @@ void MainMenu::newTab()
 void MainMenu::newWindow()
 {
 	Application::instance()->createWindow(Application::WT_NewWindow);
+}
+
+void MainMenu::newPrivateWindow()
+{
+	Application::instance()->startPrivateBrowsing();
 }
 
 void MainMenu::openFile()

@@ -156,6 +156,7 @@ public:
 
 public slots:
 	void addNewTab(const QUrl& url = QUrl());
+	void startPrivateBrowsing(const QUrl& startUrl = QUrl());
 
 	void saveSettings();
 	void saveSession(bool saveForHome = false);

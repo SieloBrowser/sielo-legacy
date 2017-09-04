@@ -82,6 +82,15 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 
 	connect(this, &MainTabBar::currentChanged, this, &MainTabBar::currentTabChanged);
 	connect(this, &MainTabBar::overflowChanged, this, &MainTabBar::overflowChanged);
+
+	if (Application::instance()->privateBrowsing()) {
+		QLabel* privateBrowsing{new QLabel(this)};
+		privateBrowsing->setPixmap(QIcon(QLatin1String(":icons/tabs/anonymous.png")).pixmap(24));
+		privateBrowsing->setAlignment(Qt::AlignCenter);
+		privateBrowsing->setFixedWidth(30);
+
+		addCornerWidget(privateBrowsing, Qt::TopLeftCorner);
+	}
 }
 
 void MainTabBar::loadSettings()

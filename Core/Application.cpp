@@ -31,6 +31,7 @@
 #include <QStyle>
 
 #include <QSqlDatabase>
+#include <QProcess>
 
 #include <QDesktopServices>
 #include <QFontDatabase>
@@ -170,7 +171,7 @@ Application::Application(int& argc, char** argv) :
 		messages.append(QLatin1String(" "));
 	}
 
-	if (isSecondary()) {
+	if (isSecondary() && !newInstance && !privateBrowsing()) {
 		m_isClosing = true;
 			foreach (const QString& message, messages) {
 				sendMessage(message.toUtf8());
@@ -187,7 +188,7 @@ Application::Application(int& argc, char** argv) :
 
 	m_plugins = new PluginProxy;
 
-	m_webProfile = m_privateBrowsing ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
+	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
 
 	m_networkManager = new NetworkManager(this);
@@ -324,6 +325,10 @@ void Application::loadSettings()
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
 	else
 		loadThemeFromResources();
+
+	if (privateBrowsing()) {
+		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
+	}
 }
 
 int Application::windowCount() const
@@ -417,6 +422,9 @@ void Application::destroyRestoreManager()
 
 void Application::saveSettings()
 {
+	if (privateBrowsing())
+		return;
+
 	QSettings settings{};
 
 	settings.beginGroup("Web-Settings");
@@ -430,8 +438,8 @@ void Application::saveSettings()
 
 	if (deleteHistory)
 		m_historyManager->clear();
-//	if (deleteCookies)
-//		m_cookieJar->deleteAllCookies();
+	if (deleteCookies)
+		m_cookieJar->deleteAllCookies();
 }
 
 void Application::saveSession(bool saveForHome)
@@ -781,6 +789,25 @@ void Application::addNewTab(const QUrl& url)
 		window->tabWidget()
 			->addView(url, url.isEmpty() ? Application::NTT_SelectedNewEmptyTab : Application::NTT_SelectedTabAtEnd);
 	}
+}
+
+void Application::startPrivateBrowsing(const QUrl& startUrl)
+{
+	QUrl url{startUrl};
+
+	if (QAction* action = qobject_cast<QAction*>(sender()))
+		url = action->data().toUrl();
+
+	QStringList args{};
+	args.append(QStringLiteral("--private-browsing"));
+
+	if (!url.isEmpty())
+		args << url.toEncoded();
+
+	if (!QProcess::startDetached(applicationFilePath(), args))
+		QMessageBox::warning(nullptr,
+							 "Failed",
+							 "Cannot start new browser process for private browsing! " + applicationFilePath());
 }
 
 void Application::loadTheme(const QString& name)
