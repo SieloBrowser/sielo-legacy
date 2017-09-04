@@ -98,12 +98,12 @@ void CookieManager::currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem
 		return;
 
 	if (current->text(1).isEmpty()) {
-		m_name->setText(tr("<b>Cookie whitelist</b>"));
-		m_value->setText(tr("<b>Cookie whitelist</b>"));
-		m_server->setText(tr("<b>Cookie whitelist</b>"));
-		m_path->setText(tr("<b>Cookie whitelist</b>"));
-		m_secure->setText(tr("<b>Cookie whitelist</b>"));
-		m_expiration->setText(tr("<b>Cookie whitelist</b>"));
+		m_name->setText(tr("<cookie not selected>"));
+		m_value->setText(tr("<cookie not selected>"));
+		m_server->setText(tr("<cookie not selected>"));
+		m_path->setText(tr("<cookie not selected>"));
+		m_secure->setText(tr("<cookie not selected>"));
+		m_expiration->setText(tr("<cookie not selected>"));
 
 		m_removeCookie->setText(tr("Remove cookies"));
 		return;
