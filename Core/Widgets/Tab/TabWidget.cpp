@@ -57,6 +57,7 @@
 
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
+#include "Widgets/MainMenu.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
@@ -112,17 +113,20 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonListTabs->setIcon(QIcon(":icons/tabs/tabbar-tabslist.png"));
 	m_buttonListTabs->hide();
 
-	m_buttonPreferences = new ToolButton(m_tabBar);
-	m_buttonPreferences->setObjectName(QLatin1String("tabwidget-button-preferences"));
-	m_buttonPreferences->setToolTip(tr("Preferences"));
-	m_buttonPreferences->setAutoRaise(true);
-	m_buttonPreferences->setFocusPolicy(Qt::NoFocus);
-	m_buttonPreferences->setIcon(QIcon(QLatin1String(":icons/preferences/preferences.png")));
+	m_buttonMainMenu = new ToolButton(m_tabBar);
+	m_buttonMainMenu->setObjectName(QLatin1String("tabwidget-button-preferences"));
+	m_buttonMainMenu->setMenu(new MainMenu(this, this));
+	m_buttonMainMenu->setPopupMode(QToolButton::InstantPopup);
+	m_buttonMainMenu->setToolTip(tr("Preferences"));
+	m_buttonMainMenu->setAutoRaise(true);
+	m_buttonMainMenu->setFocusPolicy(Qt::NoFocus);
+	m_buttonMainMenu->setIcon(QIcon(QLatin1String(":icons/preferences/preferences.png")));
+	m_buttonMainMenu->setShowMenuInside(true);
 
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonClosedTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
-	m_tabBar->addCornerWidget(m_buttonPreferences, Qt::TopRightCorner);
+	m_tabBar->addCornerWidget(m_buttonMainMenu, Qt::TopRightCorner);
 
 	/*if (Application::instance()->useTopToolBar()) {
 		m_topToolBar = new QToolBar(this);
@@ -227,7 +231,6 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(m_buttonAddTab2, SIGNAL(clicked()), m_window, SLOT(addTab()));
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
-	connect(m_buttonPreferences, &ToolButton::clicked, this, &TabWidget::openPreferencesDialog);
 
 	setTabBar(m_tabBar);
 	loadSettings();
@@ -940,12 +943,6 @@ void TabWidget::openHistoryDialog()
 							   const QUrl&)), this, SLOT(addView(
 															 const QUrl&)));
 
-	dialog->show();
-}
-
-void TabWidget::openPreferencesDialog()
-{
-	PreferencesDialog* dialog{new PreferencesDialog(this, this)};
 	dialog->show();
 }
 

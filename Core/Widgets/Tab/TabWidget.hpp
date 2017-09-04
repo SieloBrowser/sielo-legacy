@@ -87,6 +87,7 @@ public:
 	WebTab* weTab(int index);
 	TabIcon* tabIcon(int index);
 
+	BrowserWindow* window() const { return m_window; }
 	MainTabBar* tabBar() const { return m_tabBar; }
 	ClosedTabsManager* closedTabsManager() const { return m_closedTabsManager; }
 	QList<WebTab*> allTabs(bool withPinned = true);
@@ -143,7 +144,6 @@ public slots:
 	void openAddBookmarkDialog();
 	void openBookmarkDialog();
 	void openHistoryDialog();
-	void openPreferencesDialog();
 private slots:
 	void save();
 
@@ -168,7 +168,7 @@ private:
 	ToolButton* m_buttonClosedTabs{nullptr};
 	AddTabButton* m_buttonAddTab{nullptr};
 	AddTabButton* m_buttonAddTab2{nullptr};
-	ToolButton* m_buttonPreferences{nullptr};
+	ToolButton* m_buttonMainMenu{nullptr};
 
 	QAction* m_actionBack{nullptr};
 	QAction* m_actionNext{nullptr};
