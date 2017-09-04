@@ -50,6 +50,8 @@
 
 #include "Password/AutoFill/AutoFill.hpp"
 
+#include "Cookies/CookieJar.hpp"
+
 #include "History/HistoryManager.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Download/DownloadManager.hpp"
@@ -94,6 +96,7 @@ Application::Application(int& argc, char** argv) :
 	SingleApplication(argc, argv, true),
 	m_plugins(nullptr),
 	m_autoFill(nullptr),
+	m_cookieJar(nullptr),
 	m_historyManager(nullptr),
 	m_networkManager(nullptr),
 	m_webProfile(nullptr)
@@ -256,6 +259,7 @@ Application::~Application()
 		saveSession();
 
 	delete m_plugins;
+	delete m_cookieJar;
 	delete m_historyManager;
 	delete m_downloadManager;
 }
@@ -420,8 +424,12 @@ void Application::saveSettings()
 
 	settings.endGroup();
 
+	bool deleteCookies{settings.value("Cookie-Settings/deleteCookiesOnClose", false).toBool()};
+
 	if (deleteHistory)
 		m_historyManager->clear();
+	if (deleteCookies)
+		m_cookieJar->deleteAllCookies();
 }
 
 void Application::saveSession(bool saveForHome)
@@ -571,6 +579,14 @@ void Application::setUserStyleSheet(const QString& filePath)
 	script.setSourceCode(WebPage::setCSS(userCSS));
 
 	m_webProfile->scripts()->insert(script);
+}
+
+CookieJar* Application::cookieJar()
+{
+	if (!m_cookieJar)
+		m_cookieJar = new CookieJar();
+
+	return m_cookieJar;
 }
 
 HistoryManager* Application::historyManager()

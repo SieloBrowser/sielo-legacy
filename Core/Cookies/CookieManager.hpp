@@ -28,6 +28,8 @@
 
 #include <QWidget>
 
+#include <QNetworkCookie>
+
 #include <QGridLayout>
 #include <QHBoxLayout>
 
@@ -41,9 +43,13 @@
 #include <QDialogButtonBox>
 #include <QLineEdit>
 
-#include "Widgets/EllipseLabel.hpp"
+#include <QCloseEvent>
+#include <QKeyEvent>
+
+#include <QHash>
 
 namespace Sn {
+class EllipseLabel;
 
 class CookieManager: public QWidget {
 Q_OBJECT
@@ -52,8 +58,32 @@ public:
 	CookieManager();
 	~CookieManager();
 
+private slots:
+	void currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* parent);
+	void remove();
+	void removeAll();
+
+	void addWhiteList();
+	void removeWhiteList();
+	void addBlackList();
+	void removeBlackList();
+
+	void deletePressed();
+
+	void filterString(const QString& string);
+
+	void addCookie(const QNetworkCookie& cookie);
+	void removeCookie(const QNetworkCookie& cookie);
+
 private:
 	void setupUI();
+
+	void closeEvent(QCloseEvent* event);
+	void keyPressEvent(QKeyEvent* event);
+
+	void addBlackList(const QString& server);
+	QString cookieDomain(const QNetworkCookie& cookie) const;
+	QTreeWidgetItem* cookieItem(const QNetworkCookie& cookie) const;
 
 	QHBoxLayout* m_layout{nullptr};
 
@@ -121,6 +151,9 @@ private:
 	QCheckBox* m_deleteCookiesOnClose{nullptr};
 	QDialogButtonBox* m_settingsCloseButtonBox{nullptr};
 	QSpacerItem* m_settingsVSpacer{nullptr};
+
+	QHash<QString, QTreeWidgetItem*> m_domainHash{};
+	QHash<QTreeWidgetItem*, QNetworkCookie> m_itemHash{};
 };
 
 }
