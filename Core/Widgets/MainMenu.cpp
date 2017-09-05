@@ -36,6 +36,12 @@
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarksModel.hpp"
 
+#include "History/HistoryMenu.hpp"
+
+#include "Download/DownloadManager.hpp"
+
+#include "Cookies/CookieManager.hpp"
+
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -56,6 +62,23 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_bookmarksMenu->setTitle(tr("&Bookmarks"));
 	m_bookmarksMenu->setInitialActions(QList<QAction*>() << showAllBookmarksAction << addBookmarksAction);
 
+	QAction* backAction = new QAction(tr("Back"), this);
+	QAction* nextAction = new QAction(tr("Forward"), this);
+	QAction* homeAction = new QAction(tr("Home"), this);
+	backAction->setShortcuts(QKeySequence::keyBindings(QKeySequence::Back));
+	backAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+	nextAction->setShortcuts(QKeySequence::keyBindings(QKeySequence::Forward));
+	nextAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
+	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
+	m_historyMenu = new HistoryMenu(this);
+	m_historyMenu->setTitle(tr("&History"));
+	m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
+
+	m_toolsMenu = new QMenu(this);
+	m_toolsMenu->setTitle(tr("&Tools"));
+
 	QAction* newTabAction = createAction("NewTab", this, QIcon(), tr("New Tab"), "Ctrl+T");
 	QAction* newWindowAction = createAction("NewWindow", this, QIcon(), tr("&New Window"), "Ctrl+N");
 	QAction* newPrivateWindowAction =
@@ -66,6 +89,12 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction* findAction = createAction("Find", this, QIcon(), tr("&Find"), "Ctrl+F");
 	addSeparator();
 	addMenu(m_bookmarksMenu);
+	addMenu(m_historyMenu);
+	addMenu(m_toolsMenu);
+	QAction* showDownloadManagerAction =
+		createAction("ShowDownloadManager", m_toolsMenu, QIcon(), tr("Download Manager"), "Ctrl+Y");
+	QAction
+		* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(), tr("&Cookies Manager"));
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
 											   this,
@@ -86,7 +115,13 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	connect(showAllBookmarksAction, &QAction::triggered, this, &MainMenu::showAllBookmarks);
 	connect(addBookmarksAction, &QAction::triggered, this, &MainMenu::addBookmarks);
-	connect(m_bookmarksMenu, &BookmarksMenu::openUrl, this, &MainMenu::openBookmark);
+	connect(m_bookmarksMenu, &BookmarksMenu::openUrl, this, &MainMenu::openUrl);
+	connect(backAction, &QAction::triggered, this, &MainMenu::webBack);
+	connect(nextAction, &QAction::triggered, this, &MainMenu::webForward);
+	connect(homeAction, &QAction::triggered, this, &MainMenu::webHome);
+	connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
+	connect(showDownloadManagerAction, &QAction::triggered, this, &MainMenu::showDownloadManager);
+	connect(showCookiesManagerAction, &QAction::triggered, this, &MainMenu::showCookiesManager);
 
 	connect(showSettingsAction, &QAction::triggered, this, &MainMenu::showSettings);
 	connect(showAboutSieloAction, &QAction::triggered, this, &MainMenu::showAboutSielo);
@@ -172,9 +207,39 @@ void MainMenu::addBookmarks()
 	dialog->show();
 }
 
-void MainMenu::openBookmark(const QUrl& url)
+void MainMenu::webBack()
+{
+	if (m_tabWidget)
+		m_tabWidget->weTab()->webView()->back();
+}
+
+void MainMenu::webForward()
+{
+	if (m_tabWidget)
+		m_tabWidget->weTab()->webView()->forward();
+}
+
+void MainMenu::webHome()
+{
+	if (m_tabWidget)
+		m_tabWidget->weTab()->sGoHome();
+}
+
+void MainMenu::openUrl(const QUrl& url)
 {
 	m_tabWidget->addView(url);
+}
+
+void MainMenu::showDownloadManager()
+{
+	DownloadManager* dialog{new DownloadManager(m_tabWidget)};
+	dialog->show();
+}
+
+void MainMenu::showCookiesManager()
+{
+	CookieManager* dialog{new CookieManager()};
+	dialog->show();
 }
 
 void MainMenu::showSettings()

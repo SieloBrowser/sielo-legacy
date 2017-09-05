@@ -36,6 +36,7 @@ class TabWidget;
 class PreferencesDialog;
 
 class BookmarksMenu;
+class HistoryMenu;
 
 class MainMenu: public QMenu {
 Q_OBJECT
@@ -60,7 +61,15 @@ private slots:
 
 	void showAllBookmarks();
 	void addBookmarks();
-	void openBookmark(const QUrl& url);
+
+	void webBack();
+	void webForward();
+	void webHome();
+
+	void openUrl(const QUrl& url);
+
+	void showDownloadManager();
+	void showCookiesManager();
 
 	void showSettings();
 	void showAboutSielo();
@@ -71,6 +80,8 @@ private:
 	void addActionsToTabWidget();
 
 	BookmarksMenu* m_bookmarksMenu{nullptr};
+	HistoryMenu* m_historyMenu{nullptr};
+	QMenu* m_toolsMenu{nullptr};
 
 	TabWidget* m_tabWidget{nullptr};
 
