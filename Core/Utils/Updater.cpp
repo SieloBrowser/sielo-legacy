@@ -67,7 +67,7 @@ void Updater::downloadUpdateInfoCompleted()
 		QStringList versionInfo{line.split(QLatin1Char(','))};
 
 		if (readLastVersion) {
-			QString newVersion = versionInfo[0];
+			newVersion = versionInfo[0];
 			readLastVersion = false;
 		}
 
@@ -96,7 +96,8 @@ void Updater::downloadUpdateInfoCompleted()
 #elif defined(Q_OS_LINUX)
 		QMessageBox::information(m_window,
 								 tr("Update"),
-								 tr("A new version of Sielo is available! We advise you to download it."));
+								 tr("A new version of Sielo is available (%1)! We advise you to download it.")
+									 .arg(newVersion));
 #endif
 	}
 
