@@ -145,6 +145,8 @@ QAction* MainMenu::createAction(const QString& name, QMenu* menu, const QIcon& i
 	action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
 	m_actions[name] = action;
+
+	return action;
 }
 
 void MainMenu::setTabWidget(TabWidget* tabWidget)
