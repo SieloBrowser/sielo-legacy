@@ -40,6 +40,7 @@
 
 #include "Widgets/FloatingButton.hpp"
 #include "Widgets/AddressBar.hpp"
+#include "Widgets/SearchToolBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
@@ -337,6 +338,24 @@ int WebTab::tabIndex() const
 bool WebTab::isCurrentTab() const
 {
 	return m_tabBar && tabIndex() == m_tabBar->currentIndex();
+}
+
+void WebTab::showSearchToolBar()
+{
+	const int index{2};
+	SearchToolBar* toolBar{nullptr};
+
+	if (m_layout->count() == 2) {
+		toolBar = new SearchToolBar(m_webView, this);
+		m_layout->insertWidget(index, toolBar);
+	}
+	else if (m_layout->count() == 3) {
+		Q_ASSERT(qobject_cast<SearchToolBar*>(m_layout->itemAt(index)->widget()));
+		toolBar = static_cast<SearchToolBar*>(m_layout->itemAt(index)->widget());
+	}
+
+	Q_ASSERT(toolBar);
+	toolBar->focusSearchLine();
 }
 
 bool WebTab::isRestored() const

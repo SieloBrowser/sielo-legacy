@@ -114,6 +114,8 @@ public:
 
 	bool isCurrentTab() const;
 
+	void showSearchToolBar();
+
 	bool isRestored() const;
 	void restoreTab(const SavedTab& tab);
 	void p_restoreTab(const SavedTab& tab);
