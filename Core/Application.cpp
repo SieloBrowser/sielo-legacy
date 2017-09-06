@@ -509,6 +509,7 @@ void Application::downloadRequested(QWebEngineDownloadItem* download)
 {
 	downloadManager()->downlaod(download);
 	downloadManager()->show();
+	downloadManager()->raise();
 	download->accept();
 }
 

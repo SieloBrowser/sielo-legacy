@@ -189,7 +189,8 @@ void MainMenu::selectAll()
 
 void MainMenu::find()
 {
-	QMessageBox::critical(m_tabWidget->window(), tr("Error"), tr("Currently unavailable. We are working on it."));
+	if (m_tabWidget)
+		m_tabWidget->weTab()->showSearchToolBar();
 }
 
 void MainMenu::showAllBookmarks()
