@@ -19,5 +19,7 @@
         <file>icons/other/webcam.png</file>
         <file>icons/other/webpage.png</file>
         <file>icons/other/login.png</file>
+        <file>icons/other/ic_sielo.png</file>
+        <file>icons/other/aboutsielo.png</file>
     </qresource>
 </RCC>

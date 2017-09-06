@@ -42,6 +42,7 @@
 
 #include "Cookies/CookieManager.hpp"
 
+#include "Widgets/AboutDialog.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -255,10 +256,8 @@ void MainMenu::showSettings()
 
 void MainMenu::showAboutSielo()
 {
-	QMessageBox::information(m_tabWidget->window(),
-							 tr("Sielo information"),
-							 tr("You are using Sielo %1. More information details will come in newer versions.")
-								 .arg(Application::currentVersion));
+	AboutDialog* dialog{new AboutDialog(m_tabWidget)};
+	dialog->show();
 }
 
 void MainMenu::quit()
