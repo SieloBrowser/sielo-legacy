@@ -30,6 +30,7 @@
 #include <QAction>
 
 #include <QHash>
+#include <QPointer>
 
 namespace Sn {
 class TabWidget;
@@ -85,7 +86,7 @@ private:
 
 	TabWidget* m_tabWidget{nullptr};
 
-	PreferencesDialog* m_preferences{nullptr};
+	QPointer<PreferencesDialog> m_preferences{};
 
 	QHash<QString, QAction*> m_actions{};
 };

@@ -99,6 +99,7 @@ WebView::WebView(QWidget* parent) :
 
 	m_zoomLabel = new QLabel(this);
 	m_zoomLabel->setWindowFlags(m_zoomLabel->windowFlags() | Qt::WindowStaysOnTopHint);
+	m_zoomLabel->hide();
 	m_zoomTimer = new QTimer(this);
 }
 
@@ -346,7 +347,7 @@ void WebView::zoomReset()
 		m_currentZoomLevel = defaultZoomLevel;
 		applyZoom();
 	}
-	updateLabel(QString::number(zoomLevels()[m_currentZoomLevel]) + "%");
+	//updateLabel(QString::number(zoomLevels()[m_currentZoomLevel]) + "%");
 }
 
 void WebView::back()
