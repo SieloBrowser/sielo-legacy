@@ -11,21 +11,31 @@
 
 #addressbar-button-reload
 {
-    sproperty-icon: url(images/refresh.png);
+    sproperty-icon: url(images/other/reload.png);
     sproperty-iconSize: 16px;
 }
 
 #addressbar-button-stop
 {
-    sproperty-icon: url(images/stop.png);
+    sproperty-icon: url(images/other/stop.png);
     sproperty-iconSize: 16px;
 }
 
 #addressbar-button-go
 {
-    sproperty-icon: url(images/go.png);
     sproperty-iconSize: 16px;
 }
+
+#tabwidget-button-addtab
+{
+    sproperty-iconSize: 16px;
+}
+
+#tabwidget-button-preferences
+{
+    sproperty-iconSize: 16px;
+}
+
 
 #fbutton-root
 {
@@ -146,4 +156,31 @@ background-color: rgb(39, 39, 231);
 #fbutton-new-tab:pressed
 {
     background-color: rgb(103, 39, 231);
+}
+
+#tabbarwidget
+{
+    background-color: rgb(230, 230, 230);
+    background-repeat: repeat-x;
+}
+
+#tabbar::tab
+{
+    margin-top: -6px;
+    height: 38px;
+}
+
+#tabbar::tab:selected
+{
+    background: rgb(255, 255, 255) repeat-x;
+}
+
+#tabbar::tab:!selected
+{
+    background: rgb(230, 230, 230) repeat-x;
+}
+
+#tabbar::tab:!selected:hover
+{
+    background: rgb(216, 234, 249) repeat-x;
 }

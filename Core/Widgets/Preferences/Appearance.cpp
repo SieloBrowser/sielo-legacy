@@ -133,6 +133,18 @@ void AppearancePage::addTheme()
 	if (themeFile.isEmpty())
 		return;
 
+	QFileInfo themeInfo{Application::paths()[Application::P_Themes] + QLatin1Char('/')
+						+ QFileInfo(themeFile).baseName()
+						+ QLatin1String("/main.sss")};
+
+	if (themeInfo.exists()) {
+		QMessageBox::warning(this,
+							 tr("Theme exist"),
+							 tr("The theme already exist and is going to be update with the new version."));
+		QDir(Application::paths()[Application::P_Themes] + QLatin1Char('/') + QFileInfo(themeFile).baseName())
+			.removeRecursively();
+	}
+
 	QStringList decompileArgs{};
 	decompileArgs << "decompile" << themeFile
 				  << Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/')

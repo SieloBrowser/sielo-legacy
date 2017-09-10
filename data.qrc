@@ -2,30 +2,7 @@
     <qresource prefix="/">
         <file>data/bookmarks.xbel</file>
         <file>data/fonts/morpheus.ttf</file>
-        <!-- Colorful default theme -->
-        <file>data/themes/sielo_colorful_flat/main.sss</file>
-        <file>data/themes/sielo_colorful_flat/windows.sss</file>
-        <file>data/themes/sielo_colorful_flat/linux.sss</file>
-        <file>data/themes/sielo_colorful_flat/theme.info</file>
-        <file>data/themes/sielo_colorful_flat/theme.png</file>
-        <file>data/themes/sielo_colorful_flat/images/icon.png</file>
-        <file>data/themes/sielo_colorful_flat/images/add-bookmark.png</file>
-        <file>data/themes/sielo_colorful_flat/images/view-bookmarks.png</file>
-        <file>data/themes/sielo_colorful_flat/images/history.png</file>
-        <file>data/themes/sielo_colorful_flat/images/back.png</file>
-        <file>data/themes/sielo_colorful_flat/images/next.png</file>
-        <file>data/themes/sielo_colorful_flat/images/new-tab.png</file>
-        <file>data/themes/sielo_colorful_flat/images/new-window.png</file>
-        <file>data/themes/sielo_colorful_flat/images/home.png</file>
-        <file>data/themes/sielo_colorful_flat/images/go.png</file>
-        <file>data/themes/sielo_colorful_flat/images/refresh.png</file>
-        <file>data/themes/sielo_colorful_flat/images/stop.png</file>
-        <file>data/themes/sielo_colorful_flat/images/addtab.png</file>
-        <file>data/themes/sielo_colorful_flat/images/menu.png</file>
-        <file>data/themes/sielo_colorful_flat/images/preferences.png</file>
-        <file>data/themes/sielo_colorful_flat/images/tab-left-arrow.png</file>
-        <file>data/themes/sielo_colorful_flat/images/tab-right-arrow.png</file>
-        <!-- Tool bar -->
+
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>
         <file>data/toolbar/history.png</file>
@@ -36,5 +13,55 @@
         <file>data/toolbar/home.png</file>
 
         <file>data/browsedata.db</file>
+
+        <file>data/themes/sielo_default/images/add-bookmark.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-clear.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-copy.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-cut.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-delete.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-past.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-redo.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-select-all.png</file>
+        <file>data/themes/sielo_default/images/edit/edit-undo.png</file>
+        <file>data/themes/sielo_default/images/other/aboutsielo.png</file>
+        <file>data/themes/sielo_default/images/other/arrow-down.png</file>
+        <file>data/themes/sielo_default/images/other/arrow-left.png</file>
+        <file>data/themes/sielo_default/images/other/arrow-right.png</file>
+        <file>data/themes/sielo_default/images/other/arrow-up.png</file>
+        <file>data/themes/sielo_default/images/other/audiocapture.png</file>
+        <file>data/themes/sielo_default/images/other/close.png</file>
+        <file>data/themes/sielo_default/images/other/geolocation.png</file>
+        <file>data/themes/sielo_default/images/other/go.png</file>
+        <file>data/themes/sielo_default/images/other/ic_sielo.png</file>
+        <file>data/themes/sielo_default/images/other/login.png</file>
+        <file>data/themes/sielo_default/images/other/mouselock.png</file>
+        <file>data/themes/sielo_default/images/other/notification.png</file>
+        <file>data/themes/sielo_default/images/other/reload.png</file>
+        <file>data/themes/sielo_default/images/other/stop.png</file>
+        <file>data/themes/sielo_default/images/other/webcam.png</file>
+        <file>data/themes/sielo_default/images/other/webpage.png</file>
+        <file>data/themes/sielo_default/images/preferences/adblock.png</file>
+        <file>data/themes/sielo_default/images/preferences/preferences.png</file>
+        <file>data/themes/sielo_default/images/tabs/anonymous.png</file>
+        <file>data/themes/sielo_default/images/tabs/audiomuted.png</file>
+        <file>data/themes/sielo_default/images/tabs/audioplaying.png</file>
+        <file>data/themes/sielo_default/images/tabs/duplicate.png</file>
+        <file>data/themes/sielo_default/images/tabs/loading.png</file>
+        <file>data/themes/sielo_default/images/tabs/tabbar-addtab.png</file>
+        <file>data/themes/sielo_default/images/tabs/tabbar-left-arrow.png</file>
+        <file>data/themes/sielo_default/images/tabs/tabbar-right-arrow.png</file>
+        <file>data/themes/sielo_default/images/tabs/tabbar-tabslist.png</file>
+        <file>data/themes/sielo_default/index.theme</file>
+        <file>data/themes/sielo_default/main.sss</file>
+        <file>data/themes/sielo_default/theme.info</file>
+        <file>data/themes/sielo_default/theme.png</file>
+        <file>data/themes/sielo_default/images/back.png</file>
+        <file>data/themes/sielo_default/images/history.png</file>
+        <file>data/themes/sielo_default/images/home.png</file>
+        <file>data/themes/sielo_default/images/icon.png</file>
+        <file>data/themes/sielo_default/images/new-tab.png</file>
+        <file>data/themes/sielo_default/images/new-window.png</file>
+        <file>data/themes/sielo_default/images/next.png</file>
+        <file>data/themes/sielo_default/images/view-bookmarks.png</file>
     </qresource>
 </RCC>

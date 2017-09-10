@@ -329,10 +329,26 @@ void Application::loadSettings()
 	if (m_autoFill)
 		m_autoFill->loadSettings();
 
-	if (themeInfo.exists())
+	if (themeInfo.exists()) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 2) {
+			QString defaultThemePath{paths()[Application::P_Themes]};
+			QString defaultThemeDataPath{":data/themes/sielo_default"};
+
+			defaultThemePath += QLatin1String("/sielo_default");
+
+			QDir(defaultThemePath).removeRecursively();
+			copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
+
+			settings.setValue("Themes/defaultThemeVersion", 2);
+		}
+
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
-	else
+
+	}
+	else {
 		loadThemeFromResources();
+		settings.setValue("Themes/defaultThemeVersion", 2);
+	}
 
 	if (privateBrowsing()) {
 		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
@@ -847,13 +863,13 @@ void Application::loadTheme(const QString& name)
 void Application::loadThemeFromResources()
 {
 	QString defaultThemePath{paths()[Application::P_Themes]};
-	QString defaultThemeDataPath{":data/themes/sielo_colorful_flat"};
+	QString defaultThemeDataPath{":data/themes/sielo_default"};
 
 	defaultThemePath += QLatin1String("/sielo_default");
 
 	if (!QDir().exists(defaultThemePath) || !QDir().exists(defaultThemePath + QLatin1String("/images")))
 		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
-
+/*
 	QFile::copy(defaultThemeDataPath + "/main.sss", defaultThemePath + QLatin1String("/main.sss"));
 	QFile::copy(defaultThemeDataPath + "/windows.sss", defaultThemePath + QLatin1String("/windows.sss"));
 	QFile::copy(defaultThemeDataPath + "/linux.sss", defaultThemePath + QLatin1String("/linux.sss"));
@@ -894,9 +910,27 @@ void Application::loadThemeFromResources()
 				defaultThemePath + QLatin1String("/images/tab-left-arrow.png"));
 	QFile::copy(defaultThemeDataPath + "/images/tab-right-arrow.png",
 				defaultThemePath + QLatin1String("/images/tab-right-arrow.png"));
-
+*/
+	copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
 	loadTheme("sielo_default");
+}
+
+void Application::copyPath(QString src, QString dst)
+{
+	QDir dir(src);
+	if (!dir.exists())
+		return;
+
+		foreach (const QString& d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+			QString dst_path = dst + QDir::separator() + d;
+			dir.mkpath(dst_path);
+			copyPath(src + QDir::separator() + d, dst_path);
+		}
+
+		foreach (const QString& f, dir.entryList(QDir::Files)) {
+			QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+		}
 }
 
 QString Application::readFile(const QString& filename)
