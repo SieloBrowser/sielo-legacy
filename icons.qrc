@@ -1,25 +1,43 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/tabs/loading.png</file>
+        <file>icons/edit/edit-clear.png</file>
+        <file>icons/edit/edit-copy.png</file>
+        <file>icons/edit/edit-cut.png</file>
+        <file>icons/edit/edit-delete.png</file>
+        <file>icons/edit/edit-past.png</file>
+        <file>icons/edit/edit-redo.png</file>
+        <file>icons/edit/edit-select-all.png</file>
+        <file>icons/edit/edit-undo.png</file>
+
+        <file>icons/other/aboutsielo.png</file>
+        <file>icons/other/arrow-left.png</file>
+        <file>icons/other/arrow-right.png</file>
+        <file>icons/other/arrow-up.png</file>
+        <file>icons/other/arrow-down.png</file>
+        <file>icons/other/audiocapture.png</file>
+        <file>icons/other/close.png</file>
+        <file>icons/other/geolocation.png</file>
+        <file>icons/other/go.png</file>
+        <file>icons/other/login.png</file>
+        <file>icons/other/ic_sielo.png</file>
+        <file>icons/other/mouselock.png</file>
+        <file>icons/other/notification.png</file>
+        <file>icons/other/notification.png</file>
+        <file>icons/other/reload.png</file>
+        <file>icons/other/webcam.png</file>
+        <file>icons/other/webpage.png</file>
+
+        <file>icons/tabs/anonymous.png</file>
         <file>icons/tabs/audioplaying.png</file>
         <file>icons/tabs/audiomuted.png</file>
+        <file>icons/tabs/duplicate.png</file>
+        <file>icons/tabs/loading.png</file>
         <file>icons/tabs/tabbar-addtab.png</file>
-        <file>icons/tabs/tabbar-tabslist.png</file>
         <file>icons/tabs/tabbar-left-arrow.png</file>
         <file>icons/tabs/tabbar-right-arrow.png</file>
-        <file>icons/tabs/anonymous.png</file>
+        <file>icons/tabs/tabbar-tabslist.png</file>
 
         <file>icons/preferences/adblock.png</file>
         <file>icons/preferences/preferences.png</file>
-
-        <file>icons/other/audiocapture.png</file>
-        <file>icons/other/geolocation.png</file>
-        <file>icons/other/mouselock.png</file>
-        <file>icons/other/notification.png</file>
-        <file>icons/other/webcam.png</file>
-        <file>icons/other/webpage.png</file>
-        <file>icons/other/login.png</file>
-        <file>icons/other/ic_sielo.png</file>
-        <file>icons/other/aboutsielo.png</file>
     </qresource>
 </RCC>

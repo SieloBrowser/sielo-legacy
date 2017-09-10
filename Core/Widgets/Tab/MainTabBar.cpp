@@ -85,7 +85,7 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 
 	if (Application::instance()->privateBrowsing()) {
 		QLabel* privateBrowsing{new QLabel(this)};
-		privateBrowsing->setPixmap(QIcon(QLatin1String(":icons/tabs/anonymous.png")).pixmap(24));
+		privateBrowsing->setPixmap(Application::getAppIcon("anonymous", "tabs").pixmap(24));
 		privateBrowsing->setAlignment(Qt::AlignCenter);
 		privateBrowsing->setFixedWidth(30);
 
@@ -381,20 +381,20 @@ void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 			return;
 
 		if (m_window->webView(m_clickedTab)->isLoading())
-			menu.addAction(QIcon::fromTheme(QStringLiteral("process-stop")),
+			menu.addAction(Application::getAppIcon("stop"),
 						   tr("&Stop Tab"),
 						   this,
 						   SLOT(stopTab()));
 		else
-			menu.addAction(QIcon::fromTheme(QStringLiteral("view-refresh")),
+			menu.addAction(Application::getAppIcon("refresh"),
 						   tr("&Reload Tab"),
 						   this,
 						   SLOT(reloadTab()));
 
-		menu.addAction(QIcon::fromTheme("tab-duplicate"), tr("&Duplicate Tab"), this, SLOT(duplicateTab()));
+		menu.addAction(Application::getAppIcon("duplicate", "tabs"), tr("&Duplicate Tab"), this, SLOT(duplicateTab()));
 
 		if (count() > 1 && !webTab->isPinned()) {
-			menu.addAction(QIcon::fromTheme("tab-detach"), tr("D&etach Tab"), this, SLOT(detachTab()));
+			menu.addAction(QIcon::fromTheme("detach"), tr("D&etach Tab"), this, SLOT(detachTab()));
 			menu.addSeparator();
 			menu.addAction(tr("Add To New Left Tabs Space"), this, &MainTabBar::createNewLeftTabsSpace);
 			menu.addAction(tr("Add To New Right Tabs Space"), this, &MainTabBar::createNewRightTabsSpace);
@@ -413,7 +413,7 @@ void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 		menu.addAction(tr("Close Tabs To The Right"), this, SLOT(closeToRight()));
 		menu.addAction(tr("Close Tabs To The Left"), this, SLOT(closeToLeft()));
 		menu.addSeparator();
-		menu.addAction(QIcon::fromTheme("window-close"), tr("&Close"), this, SLOT(closeTab()));
+		menu.addAction(Application::getAppIcon("close"), tr("&Close"), this, SLOT(closeTab()));
 	}
 	else {
 		menu.addAction(tr("&New Tab"), m_window, SLOT(addTab()));

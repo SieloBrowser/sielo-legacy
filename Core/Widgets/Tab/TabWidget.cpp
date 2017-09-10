@@ -84,13 +84,13 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 
 	m_buttonAddTab = new AddTabButton(this, m_tabBar);
 	m_buttonAddTab->setObjectName("tabwidget-button-addtab");
-	m_buttonAddTab->setIcon(QIcon(":icons/tabs/tabbar-addtab.png"));
+	m_buttonAddTab->setIcon(Application::getAppIcon("tabbar-addtab", "tabs"));
 	m_buttonAddTab->setFixedWidth(24);
 
 	m_buttonAddTab2 = new AddTabButton(this, m_tabBar);
 	m_buttonAddTab2->setObjectName("tabwidget-button-addtab");
 	m_buttonAddTab2->setProperty("outside-tabbar", true);
-	m_buttonAddTab2->setIcon(QIcon(":icons/tabs/tabbar-addtab.png"));
+	m_buttonAddTab2->setIcon(Application::getAppIcon("tabbar-addtab", "tabs"));
 	m_buttonAddTab2->hide();
 
 	m_buttonClosedTabs = new ToolButton(m_tabBar);
@@ -110,7 +110,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonListTabs->setAutoRaise(true);
 	m_buttonListTabs->setFocusPolicy(Qt::NoFocus);
 	m_buttonListTabs->setShowMenuInside(true);
-	m_buttonListTabs->setIcon(QIcon(":icons/tabs/tabbar-tabslist.png"));
+	m_buttonListTabs->setIcon(Application::getAppIcon("tabbar-tabslist", "tabs"));
 	m_buttonListTabs->hide();
 
 	m_buttonMainMenu = new ToolButton(m_tabBar);
@@ -120,7 +120,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_buttonMainMenu->setToolTip(tr("Preferences"));
 	m_buttonMainMenu->setAutoRaise(true);
 	m_buttonMainMenu->setFocusPolicy(Qt::NoFocus);
-	m_buttonMainMenu->setIcon(QIcon(QLatin1String(":icons/preferences/preferences.png")));
+	m_buttonMainMenu->setIcon(Application::getAppIcon("preferences", "preferences"));
 	m_buttonMainMenu->setShowMenuInside(true);
 
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);

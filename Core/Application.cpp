@@ -92,6 +92,11 @@ Application* Application::instance()
 	return (static_cast<Application*>(QCoreApplication::instance()));
 }
 
+QIcon Application::getAppIcon(const QString& name, const QString& directory, const QString& format)
+{
+	return QIcon::fromTheme(name, QIcon(":icons/" + directory + '/' + name + format));
+}
+
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
 	SingleApplication(argc, argv, true),
@@ -105,6 +110,9 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.0.0"));
+
+	QIcon::setThemeSearchPaths(
+		QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -815,6 +823,8 @@ void Application::loadTheme(const QString& name)
 {
 	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
 	QString sss{readFile(activeThemePath + QLatin1String("/main.sss"))};
+
+	QIcon::setThemeName(name);
 
 #if defined(Q_OS_MAC)
 	sss.append(readFile(activeThemePath + QLatin1String("/mac.sss")));

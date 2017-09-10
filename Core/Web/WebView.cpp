@@ -113,7 +113,7 @@ QIcon WebView::icon(bool allowNull) const
 	if (!QWebEngineView::icon().isNull())
 		return QWebEngineView::icon();
 
-	return allowNull ? QIcon() : QIcon(QStringLiteral(":icons/other/webpage.png"));
+	return allowNull ? QIcon() : Application::getAppIcon("webpage");
 
 }
 
@@ -836,45 +836,45 @@ void WebView::initActions()
 	a_undo->setText(tr("&Undo"));
 	a_undo->setShortcut(QKeySequence("Ctrl+Z"));
 	a_undo->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	a_undo->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
+	a_undo->setIcon(Application::getAppIcon("edit-undo", "edit"));
 
 	QAction* a_redo{pageAction(QWebEnginePage::Redo)};
 	a_redo->setText(tr("&Redo"));
 	a_redo->setShortcut(QKeySequence("Ctrl+Shift+Z"));
 	a_redo->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	a_redo->setIcon(QIcon::fromTheme(QStringLiteral("edit-redo")));
+	a_redo->setIcon(Application::getAppIcon("edit-redo", "edit"));
 
 	QAction* a_cut{pageAction(QWebEnginePage::Cut)};
 	a_cut->setText(tr("&Cut"));
 	a_cut->setShortcut(QKeySequence("Ctrl+X"));
 	a_cut->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	a_cut->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
+	a_cut->setIcon(Application::getAppIcon("edit-cut", "edit"));
 
 	QAction* a_copy{pageAction(QWebEnginePage::Copy)};
 	a_copy->setText(tr("&Copy"));
 	a_copy->setShortcut(QKeySequence("Ctrl+C"));
 	a_copy->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	a_copy->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+	a_copy->setIcon(Application::getAppIcon("edit-copy", "edit"));
 
 	QAction* a_past{pageAction(QWebEnginePage::Paste)};
 	a_past->setText(tr("&Paste"));
 	a_past->setShortcut(QKeySequence("Ctrl+V"));
 	a_past->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	a_past->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
+	a_past->setIcon(Application::getAppIcon("edit-past", "edit"));
 
 	QAction* a_selectAll{pageAction(QWebEnginePage::SelectAll)};
 	a_selectAll->setText(tr("Select All"));
 	a_selectAll->setShortcut(QKeySequence("Ctrl+A"));
 	a_selectAll->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	a_selectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-all")));
+	a_selectAll->setIcon(Application::getAppIcon("edit-select-all", "edit"));
 
 	QAction* reloadAction{pageAction(QWebEnginePage::Reload)};
 	reloadAction->setText(tr("&Reload"));
-	reloadAction->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
+	reloadAction->setIcon(Application::getAppIcon("reload"));
 
 	QAction* stopAction{pageAction(QWebEnginePage::Stop)};
 	stopAction->setText(tr("S&top"));
-	stopAction->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
+	stopAction->setIcon(Application::getAppIcon("stop"));
 
 	addAction(a_undo);
 	addAction(a_redo);

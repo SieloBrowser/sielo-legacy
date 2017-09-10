@@ -28,6 +28,8 @@
 
 #include "AdBlock/Manager.hpp"
 
+#include "Application.hpp"
+
 namespace Sn {
 
 AdBlockPage::AdBlockPage(QWidget* parent) :
@@ -41,7 +43,7 @@ AdBlockPage::AdBlockPage(QWidget* parent) :
 	m_warning->setAlignment(Qt::AlignCenter);
 
 	m_adBlockIcon = new QLabel(tr("AdBlock icon"), this);
-	m_adBlockIcon->setPixmap(QIcon(QLatin1String(":icons/preferences/adblock.png")).pixmap(32, 32));
+	m_adBlockIcon->setPixmap(Application::getAppIcon("adblock", "preferences").pixmap(32, 32));
 
 	m_enableAdBlock = new QCheckBox(tr("Enable Ad block"), this);
 

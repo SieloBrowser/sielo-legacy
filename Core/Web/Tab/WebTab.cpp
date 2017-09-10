@@ -128,7 +128,7 @@ QDataStream& operator>>(QDataStream& stream, WebTab::SavedTab& tab)
 	stream >> tab.isPinned;
 	stream >> tab.zoomLevel;
 
-	tab.icon = QIcon(":icons/other/webpage.png");
+	tab.icon = Application::getAppIcon("webpage");
 
 	return stream;
 }
@@ -207,7 +207,7 @@ QIcon WebTab::icon(bool allowNull) const
 	if (allowNull || !m_savedTab.icon.isNull())
 		return m_savedTab.icon;
 
-	return QIcon(":icons/other/webpage.png");
+	return Application::getAppIcon("webpage");
 }
 
 QWebEngineHistory* WebTab::history() const

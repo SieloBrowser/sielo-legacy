@@ -203,7 +203,7 @@ void SearchToolBar::setupUI()
 
 	m_closeButton = new QPushButton(this);
 	m_closeButton->setFlat(true);
-	m_closeButton->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogCloseButton));
+	m_closeButton->setIcon(Application::getAppIcon("close"));
 	sizePolicy.setHeightForWidth(m_closeButton->sizePolicy().hasHeightForWidth());
 	m_closeButton->setSizePolicy(sizePolicy);
 
@@ -216,14 +216,14 @@ void SearchToolBar::setupUI()
 
 	m_previous = new QPushButton(this);
 	m_previous->setFlat(true);
-	m_previous->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowUp));
+	m_previous->setIcon(Application::getAppIcon("arrow-up"));
 	sizePolicy.setHeightForWidth(m_previous->sizePolicy().hasHeightForWidth());
 	m_previous->setSizePolicy(sizePolicy);
 	m_previous->setShortcut(QStringLiteral("Ctrl+Shift+G"));
 
 	m_next = new QPushButton(this);
 	m_next->setFlat(true);
-	m_next->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowDown));
+	m_next->setIcon(Application::getAppIcon("arrow-up"));
 	sizePolicy.setHeightForWidth(m_next->sizePolicy().hasHeightForWidth());
 	m_next->setSizePolicy(sizePolicy);
 	m_next->setShortcut(QStringLiteral("Ctrl+G"));

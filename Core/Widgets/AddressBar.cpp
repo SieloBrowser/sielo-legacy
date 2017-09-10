@@ -111,7 +111,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	m_siteIcon = new ToolButton(this);
 	m_siteIcon->setAutoRaise(true);
 	m_siteIcon->setFocusPolicy(Qt::NoFocus);
-	m_siteIcon->setIcon(QIcon(":icons/other/webpage.png"));
+	m_siteIcon->setIcon(Application::getAppIcon("webpage"));
 	m_siteIcon->setObjectName("addressbar-website-icon");
 
 	m_reloadStopButton = new ToolButton(this);
@@ -125,6 +125,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	m_goButton->setToolTip(tr("Load"));
 	m_goButton->setFocusPolicy(Qt::NoFocus);
 	m_goButton->setObjectName("addressbar-button-go");
+	m_goButton->setIcon(Application::getAppIcon("go"));
 
 	m_layout = new QHBoxLayout(this);
 	m_layout->setContentsMargins(0, 0, 0, 0);
@@ -160,35 +161,35 @@ AddressBar::AddressBar(BrowserWindow* window) :
 
 	connect(m_reloadStopButton, &ToolButton::clicked, this, &AddressBar::reloadStopClicked);
 
-	QAction* undoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), tr("&Undo"), this);
+	QAction* undoAction = new QAction(Application::getAppIcon("edit-undo", "edit"), tr("&Undo"), this);
 	undoAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+Z")));
 	undoAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	QAction* redoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-redo")), tr("&Redo"), this);
+	QAction* redoAction = new QAction(Application::getAppIcon("edit-redo", "edit"), tr("&Redo"), this);
 	redoAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+Shift+Z")));
 	redoAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	QAction* cutAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-cut")), tr("Cu&t"), this);
+	QAction* cutAction = new QAction(Application::getAppIcon("edit-cut", "edit"), tr("Cu&t"), this);
 	cutAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+X")));
 	cutAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	QAction* copyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), tr("&Copy"), this);
+	QAction* copyAction = new QAction(Application::getAppIcon("edit-copy", "edit"), tr("&Copy"), this);
 	copyAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+C")));
 	copyAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	QAction* pasteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), tr("&Paste"), this);
+	QAction* pasteAction = new QAction(Application::getAppIcon("edit-past", "edit"), tr("&Paste"), this);
 	pasteAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+V")));
 	pasteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	QAction* pasteAndGoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), tr("Paste and &Go"), this);
+	QAction* pasteAndGoAction = new QAction(Application::getAppIcon("edit-past", "edit"), tr("Paste and &Go"), this);
 	pasteAndGoAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+Shift+V")));
 	pasteAndGoAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	QAction* deleteAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), tr("Delete"), this);
+	QAction* deleteAction = new QAction(Application::getAppIcon("edit-delete", "edit"), tr("Delete"), this);
 
-	QAction* clearAllAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), tr("Clear All"), this);
+	QAction* clearAllAction = new QAction(Application::getAppIcon("edit-clear", "edit"), tr("Clear All"), this);
 
-	QAction* selectAllAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-select-all")), tr("Select All"), this);
+	QAction* selectAllAction = new QAction(Application::getAppIcon("edit-select-all", "edit"), tr("Select All"), this);
 	selectAllAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+A")));
 	selectAllAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
@@ -807,7 +808,7 @@ void AddressBar::reloadStopClicked()
 
 void AddressBar::updateSiteIcon()
 {
-	QIcon icon{m_webView ? m_webView->icon() : QIcon(":icons/other/webpage.png")};
+	QIcon icon{m_webView ? m_webView->icon() : Application::getAppIcon("webpage")};
 
 	m_siteIcon->setIcon(icon);
 }
@@ -821,7 +822,7 @@ void AddressBar::setGoButtonVisible(bool state)
 
 void AddressBar::loadStarted()
 {
-	m_siteIcon->setIcon(QIcon(":icons/other/webpage.png"));
+	m_siteIcon->setIcon(Application::getAppIcon("webpage"));
 
 	m_reloadStopButton->setToolTip(tr("Stop"));
 	m_reloadStopButton->setObjectName("addressbar-button-stop");

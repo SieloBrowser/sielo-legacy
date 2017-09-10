@@ -52,10 +52,10 @@ TabIcon::TabIcon(QWidget* parent) :
 		s_data->animationPixmap = QIcon(QLatin1String(":icons/tabs/loading.png")).pixmap(512, 16);
 		s_data->framesCount = s_data->animationPixmap.width() / s_data->animationPixmap.height();
 		s_data->audioPlayingPixmap =
-			QIcon::fromTheme(QLatin1String("audio-volume-igh"), QIcon(QLatin1String(":icons/tabs/audioplaying.png")))
+			Application::getAppIcon("audioplaying", "tabs")
 				.pixmap(16);
 		s_data->audioMutedPixmap =
-			QIcon::fromTheme(QLatin1String("audio-volume-uted"), QIcon(QLatin1String(":icons/tabs/audiomuted.png")))
+			Application::getAppIcon("audiomuted", "tabs")
 				.pixmap(16);
 	}
 

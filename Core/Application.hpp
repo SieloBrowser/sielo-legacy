@@ -153,6 +153,7 @@ public:
 	static QString currentVersion;
 	static QList<QString> paths();
 	static Application* instance();
+	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
 
 public slots:
 	void addNewTab(const QUrl& url = QUrl());

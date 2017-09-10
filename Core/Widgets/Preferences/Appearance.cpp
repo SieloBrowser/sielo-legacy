@@ -162,7 +162,7 @@ AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QStr
 	if (QFile(path + "theme.png").exists())
 		info.icon = QIcon(path + "theme.png");
 	else
-		info.icon = QIcon(":icons/other/webpage.png");
+		info.icon = Application::getAppIcon("webpage");
 
 	if (QFile(path + "theme.license").exists())
 		info.license = Application::instance()->readFile(path + "theme.license");
