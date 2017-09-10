@@ -25,6 +25,7 @@
 #include "Network/NetworkManager.hpp"
 
 #include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QNetworkProxy>
 
 #include <QSettings>
@@ -55,6 +56,22 @@ NetworkManager::NetworkManager(QObject* parent) :
 	Application::instance()->webProfile()->setRequestInterceptor(m_urlInterceptor);
 
 	Application::instance()->cookieJar();
+
+	connect(this,
+			&QNetworkAccessManager::authenticationRequired,
+			this,
+			[this](QNetworkReply* reply, QAuthenticator* authenticator)
+			{
+				authentication(reply->url(), authenticator);
+			});
+
+	connect(this,
+			&QNetworkAccessManager::proxyAuthenticationRequired,
+			this,
+			[this](const QNetworkProxy& proxy, QAuthenticator* authenticator)
+			{
+				proxyAuthentication(proxy.hostName(), authenticator);
+			});
 }
 
 void NetworkManager::authentication(const QUrl& url, QAuthenticator* auth, QWidget* parent)

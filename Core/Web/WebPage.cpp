@@ -45,6 +45,8 @@
 
 #include "Password/AutoFill/AutoFill.hpp"
 
+#include "Network/NetworkManager.hpp"
+
 #include "Widgets/CheckBoxDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -92,7 +94,18 @@ WebPage::WebPage(QObject* parent) :
 	connect(this, &QWebEnginePage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
 	connect(this, &QWebEnginePage::windowCloseRequested, this, &WebPage::windowCloseRequested);
 
-	//TODO: Connect with network manager
+	connect(this, &QWebEnginePage::authenticationRequired, this, [this](const QUrl& url, QAuthenticator* authenticator)
+	{
+		Application::instance()->networkManager()->authentication(url, authenticator, view());
+	});
+
+	connect(this,
+			&QWebEnginePage::proxyAuthenticationRequired,
+			this,
+			[this](const QUrl& url, QAuthenticator* authenticator, const QString& proxyHost)
+			{
+				Application::instance()->networkManager()->proxyAuthentication(proxyHost, authenticator, view());
+			});
 }
 
 WebPage::~WebPage()
