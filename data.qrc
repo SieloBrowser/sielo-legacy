@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>data/bookmarks.xbel</file>
         <file>data/fonts/morpheus.ttf</file>
-
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>
         <file>data/toolbar/history.png</file>
@@ -11,9 +10,7 @@
         <file>data/toolbar/new-tab.png</file>
         <file>data/toolbar/new-window.png</file>
         <file>data/toolbar/home.png</file>
-
         <file>data/browsedata.db</file>
-
         <file>data/themes/sielo_default/images/add-bookmark.png</file>
         <file>data/themes/sielo_default/images/edit/edit-clear.png</file>
         <file>data/themes/sielo_default/images/edit/edit-copy.png</file>
@@ -40,6 +37,15 @@
         <file>data/themes/sielo_default/images/other/stop.png</file>
         <file>data/themes/sielo_default/images/other/webcam.png</file>
         <file>data/themes/sielo_default/images/other/webpage.png</file>
+        <file>data/themes/sielo_default/images/other/add-bookmark.png</file>
+        <file>data/themes/sielo_default/images/other/bookmarks.png</file>
+        <file>data/themes/sielo_default/images/other/downloads.png</file>
+        <file>data/themes/sielo_default/images/other/exit.png</file>
+        <file>data/themes/sielo_default/images/other/history.png</file>
+        <file>data/themes/sielo_default/images/other/home.png</file>
+        <file>data/themes/sielo_default/images/other/new-window.png</file>
+        <file>data/themes/sielo_default/images/other/open-file.png</file>
+        <file>data/themes/sielo_default/images/other/search.png</file>
         <file>data/themes/sielo_default/images/preferences/adblock.png</file>
         <file>data/themes/sielo_default/images/preferences/preferences.png</file>
         <file>data/themes/sielo_default/images/tabs/anonymous.png</file>
