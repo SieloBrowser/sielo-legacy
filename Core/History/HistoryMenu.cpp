@@ -75,7 +75,7 @@ void HistoryMenu::postPopulated()
 	if (m_history->history().count() > 0)
 		addSeparator();
 
-	QAction* showAllAction{new QAction(tr("Show All History"), this)};
+	QAction* showAllAction{new QAction(Application::getAppIcon("history"), tr("Show All History"), this)};
 	QAction* clearAction{new QAction(tr("Clear History"), this)};
 
 	connect(showAllAction, &QAction::triggered, this, &HistoryMenu::showHistoryDialog);

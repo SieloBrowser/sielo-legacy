@@ -54,8 +54,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QMenu(parent),
 	m_tabWidget(tabWidget)
 {
-	QAction* showAllBookmarksAction = new QAction(tr("Show All Bookmarks"), this);
-	QAction* addBookmarksAction = new QAction(tr("Add Bookmark..."), this);
+	QAction* showAllBookmarksAction = new QAction(Application::getAppIcon("bookmarks"), tr("Show All Bookmarks"), this);
+	QAction* addBookmarksAction = new QAction(Application::getAppIcon("add-bookmark"), tr("Add Bookmark..."), this);
 	addBookmarksAction->setShortcut(QKeySequence("Ctrl+D"));
 	addBookmarksAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
@@ -63,9 +63,9 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_bookmarksMenu->setTitle(tr("&Bookmarks"));
 	m_bookmarksMenu->setInitialActions(QList<QAction*>() << showAllBookmarksAction << addBookmarksAction);
 
-	QAction* backAction = new QAction(tr("Back"), this);
-	QAction* nextAction = new QAction(tr("Forward"), this);
-	QAction* homeAction = new QAction(tr("Home"), this);
+	QAction* backAction = new QAction(Application::getAppIcon("arrow-left"), tr("Back"), this);
+	QAction* nextAction = new QAction(Application::getAppIcon("arrow-right"), tr("Forward"), this);
+	QAction* homeAction = new QAction(Application::getAppIcon("home"), tr("Home"), this);
 	backAction->setShortcuts(QKeySequence::keyBindings(QKeySequence::Back));
 	backAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 	nextAction->setShortcuts(QKeySequence::keyBindings(QKeySequence::Forward));
@@ -80,31 +80,47 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_toolsMenu = new QMenu(this);
 	m_toolsMenu->setTitle(tr("&Tools"));
 
-	QAction* newTabAction = createAction("NewTab", this, QIcon(), tr("New Tab"), "Ctrl+T");
-	QAction* newWindowAction = createAction("NewWindow", this, QIcon(), tr("&New Window"), "Ctrl+N");
+	QAction* newTabAction =
+		createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
+	QAction* newWindowAction =
+		createAction("NewWindow", this, Application::getAppIcon("new-window"), tr("&New Window"), "Ctrl+N");
 	QAction* newPrivateWindowAction =
-		createAction("NewPrivateWindow", this, QIcon(), tr("New &Private Window"), "Ctrl+Shift+P");
-	QAction* openFileAction = createAction("OpenFile", this, QIcon(), tr("Open &File"), "Ctrl+O");
+		createAction("NewPrivateWindow",
+					 this,
+					 Application::getAppIcon("anonymous", "tabs"),
+					 tr("New &Private Window"),
+					 "Ctrl+Shift+P");
+	QAction* openFileAction =
+		createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
 	addSeparator();
-	QAction* selectAllAction = createAction("SelectAll", this, QIcon(), tr("Select &All"), "Ctrl+A");
-	QAction* findAction = createAction("Find", this, QIcon(), tr("&Find"), "Ctrl+F");
+	QAction* selectAllAction = createAction("SelectAll",
+											this,
+											Application::getAppIcon("edit-select-all", "edit"),
+											tr("Select &All"),
+											"Ctrl+A");
+	QAction* findAction = createAction("Find", this, Application::getAppIcon("search"), tr("&Find"), "Ctrl+F");
 	addSeparator();
 	addMenu(m_bookmarksMenu);
 	addMenu(m_historyMenu);
 	addMenu(m_toolsMenu);
 	QAction* showDownloadManagerAction =
-		createAction("ShowDownloadManager", m_toolsMenu, QIcon(), tr("Download Manager"), "Ctrl+Y");
+		createAction("ShowDownloadManager",
+					 m_toolsMenu,
+					 Application::getAppIcon("downloads"),
+					 tr("Download Manager"),
+					 "Ctrl+Y");
 	QAction
 		* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(), tr("&Cookies Manager"));
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
 											   this,
-											   QIcon(),
+											   Application::getAppIcon("preferences", "preferences"),
 											   tr("Pr&eferences"),
 											   QKeySequence(QKeySequence::Preferences).toString());
-	QAction* showAboutSieloAction = createAction("ShowAboutSielo", this, QIcon(), tr("&About Sielo"));
+	QAction* showAboutSieloAction =
+		createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
 	addSeparator();
-	QAction* quitAction = createAction("Quit", this, QIcon(), tr("Quit"), "Ctrl+Q");
+	QAction* quitAction = createAction("Quit", this, Application::getAppIcon("exit"), tr("Quit"), "Ctrl+Q");
 
 	connect(newTabAction, &QAction::triggered, this, &MainMenu::newTab);
 	connect(newWindowAction, &QAction::triggered, this, &MainMenu::newWindow);

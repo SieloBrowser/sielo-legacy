@@ -26,6 +26,19 @@
         <file>icons/other/reload.png</file>
         <file>icons/other/webcam.png</file>
         <file>icons/other/webpage.png</file>
+        <file>icons/other/add-bookmark.png</file>
+        <file>icons/other/bookmarks.png</file>
+        <file>icons/other/downloads.png</file>
+        <file>icons/other/exit.png</file>
+        <file>icons/other/history.png</file>
+        <file>icons/other/home.png</file>
+        <file>icons/other/new-window.png</file>
+        <file>icons/other/open-file.png</file>
+        <file>icons/other/search.png</file>
+        <file>icons/other/stop.png</file>
+
+        <file>icons/preferences/adblock.png</file>
+        <file>icons/preferences/preferences.png</file>
 
         <file>icons/tabs/anonymous.png</file>
         <file>icons/tabs/audioplaying.png</file>
@@ -36,8 +49,5 @@
         <file>icons/tabs/tabbar-left-arrow.png</file>
         <file>icons/tabs/tabbar-right-arrow.png</file>
         <file>icons/tabs/tabbar-tabslist.png</file>
-
-        <file>icons/preferences/adblock.png</file>
-        <file>icons/preferences/preferences.png</file>
     </qresource>
 </RCC>
