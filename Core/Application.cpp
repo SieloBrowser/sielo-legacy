@@ -74,7 +74,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.4.00b");
+QString Application::currentVersion = QString("1.5.00b");
 
 // Static member
 QList<QString> Application::paths()
@@ -337,6 +337,8 @@ void Application::loadSettings()
 			defaultThemePath += QLatin1String("/sielo_default");
 
 			QDir(defaultThemePath).removeRecursively();
+			QDir().mkpath(defaultThemePath + QLatin1String("/images"));
+
 			copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
 			settings.setValue("Themes/defaultThemeVersion", 2);
@@ -869,68 +871,45 @@ void Application::loadThemeFromResources()
 
 	if (!QDir().exists(defaultThemePath) || !QDir().exists(defaultThemePath + QLatin1String("/images")))
 		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
-/*
-	QFile::copy(defaultThemeDataPath + "/main.sss", defaultThemePath + QLatin1String("/main.sss"));
-	QFile::copy(defaultThemeDataPath + "/windows.sss", defaultThemePath + QLatin1String("/windows.sss"));
-	QFile::copy(defaultThemeDataPath + "/linux.sss", defaultThemePath + QLatin1String("/linux.sss"));
-	QFile::copy(defaultThemeDataPath + "/theme.info", defaultThemePath + QLatin1String("/theme.info"));
-	QFile::copy(defaultThemeDataPath + "/theme.png", defaultThemePath + QLatin1String("/theme.png"));
 
-
-	QFile::copy(defaultThemeDataPath + "/images/icon.png",
-				defaultThemePath + QLatin1String("/images/icon.png"));
-	QFile::copy(defaultThemeDataPath + "/images/add-bookmark.png",
-				defaultThemePath + QLatin1String("/images/add-bookmark.png"));
-	QFile::copy(defaultThemeDataPath + "/images/view-bookmarks.png",
-				defaultThemePath + QLatin1String("/images/view-bookmarks.png"));
-	QFile::copy(defaultThemeDataPath + "/images/history.png",
-				defaultThemePath + QLatin1String("/images/history.png"));
-	QFile::copy(defaultThemeDataPath + "/images/back.png",
-				defaultThemePath + QLatin1String("/images/back.png"));
-	QFile::copy(defaultThemeDataPath + "/images/next.png",
-				defaultThemePath + QLatin1String("/images/next.png"));
-	QFile::copy(defaultThemeDataPath + "/images/new-tab.png",
-				defaultThemePath + QLatin1String("/images/new-tab.png"));
-	QFile::copy(defaultThemeDataPath + "/images/new-window.png",
-				defaultThemePath + QLatin1String("/images/new-window.png"));
-	QFile::copy(defaultThemeDataPath + "/images/home.png",
-				defaultThemePath + QLatin1String("/images/home.png"));
-	QFile::copy(defaultThemeDataPath + "/images/go.png", defaultThemePath + QLatin1String("/images/go.png"));
-	QFile::copy(defaultThemeDataPath + "/images/refresh.png",
-				defaultThemePath + QLatin1String("/images/refresh.png"));
-	QFile::copy(defaultThemeDataPath + "/images/stop.png",
-				defaultThemePath + QLatin1String("/images/stop.png"));
-	QFile::copy(defaultThemeDataPath + "/images/addtab.png",
-				defaultThemePath + QLatin1String("/images/addtab.png"));
-	QFile::copy(defaultThemeDataPath + "/images/menu.png",
-				defaultThemePath + QLatin1String("/images/menu.png"));
-	QFile::copy(defaultThemeDataPath + "/images/preferences.png",
-				defaultThemePath + QLatin1String("/images/preferences.png"));
-	QFile::copy(defaultThemeDataPath + "/images/tab-left-arrow.png",
-				defaultThemePath + QLatin1String("/images/tab-left-arrow.png"));
-	QFile::copy(defaultThemeDataPath + "/images/tab-right-arrow.png",
-				defaultThemePath + QLatin1String("/images/tab-right-arrow.png"));
-*/
 	copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
 	loadTheme("sielo_default");
 }
 
-void Application::copyPath(QString src, QString dst)
+bool Application::copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist)
 {
-	QDir dir(src);
-	if (!dir.exists())
-		return;
+	QDir sourceDir(fromDir);
+	QDir targetDir(toDir);
+	if (!targetDir.exists()) {    /* if directory don't exists, build it */
+		if (!targetDir.mkdir(targetDir.absolutePath()))
+			return false;
+	}
 
-		foreach (const QString& d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-			QString dst_path = dst + QDir::separator() + d;
-			dir.mkpath(dst_path);
-			copyPath(src + QDir::separator() + d, dst_path);
-		}
+	QFileInfoList fileInfoList = sourceDir.entryInfoList();
+		foreach(QFileInfo fileInfo, fileInfoList) {
+			if (fileInfo.fileName() == "." || fileInfo.fileName() == "..")
+				continue;
 
-		foreach (const QString& f, dir.entryList(QDir::Files)) {
-			QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+			if (fileInfo.isDir()) {    /* if it is directory, copy recursively*/
+				if (!copyPath(fileInfo.filePath(),
+							  targetDir.filePath(fileInfo.fileName()),
+							  coverFileIfExist))
+					return false;
+			}
+			else {            /* if coverFileIfExist == true, remove old file first */
+				if (coverFileIfExist && targetDir.exists(fileInfo.fileName())) {
+					targetDir.remove(fileInfo.fileName());
+				}
+
+				// files copy
+				if (!QFile::copy(fileInfo.filePath(),
+								 targetDir.filePath(fileInfo.fileName()))) {
+					return false;
+				}
+			}
 		}
+	return true;
 }
 
 QString Application::readFile(const QString& filename)

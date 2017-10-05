@@ -146,7 +146,7 @@ public:
 	QFont morpheusFont() const { return m_morpheusFont; }
 	QFont normalFont() const { return m_normalFont; }
 
-	void copyPath(QString src, QString dst);
+	bool copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist = true);
 	QString readFile(const QString& filename);
 
 	void processCommand(const QString& command, const QStringList args);
