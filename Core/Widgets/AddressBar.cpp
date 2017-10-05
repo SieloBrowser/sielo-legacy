@@ -826,6 +826,7 @@ void AddressBar::loadStarted()
 
 	m_reloadStopButton->setToolTip(tr("Stop"));
 	m_reloadStopButton->setObjectName("addressbar-button-stop");
+	m_reloadStopButton->setIcon(Application::getAppIcon("stop"));
 
 	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
 	m_reloadStopButton->style()->polish(m_reloadStopButton);
@@ -842,6 +843,7 @@ void AddressBar::loadFinished()
 
 	m_reloadStopButton->setToolTip(tr("Reload"));
 	m_reloadStopButton->setObjectName("addressbar-button-reload");
+	m_reloadStopButton->setIcon(Application::getAppIcon("reload"));
 
 	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
 	m_reloadStopButton->style()->polish(m_reloadStopButton);
