@@ -52,7 +52,6 @@ public:
 	void changeExpanded();
 
 	BookmarkNode* bookmarks();
-	//TODO: why not bookmarks in a menu?
 	BookmarksModel* bookmarksModel();
 
 	QUndoStack* undoRedoStack() { return &m_commands; }

@@ -74,10 +74,6 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 	setUsesScrollButtons(true);
 	setCloseButtonsToolTip(BrowserWindow::tr("Close Tab"));
 
-	if (Application::instance()->privateBrowsing()) {
-		//TODO: QLabel* privateBrowsing{new QLabel(this)};
-	}
-
 	setFocusPolicy(Qt::WheelFocus);
 
 	connect(this, &MainTabBar::currentChanged, this, &MainTabBar::currentTabChanged);

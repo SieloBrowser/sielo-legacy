@@ -208,7 +208,6 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 		m_topToolBar->addAction(m_actionNewWindow);
 	}
 
-	//TODO: History connection
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
 	connect(this, &TabStackedWidget::pinStateChanged, this, &TabWidget::changed);
 
