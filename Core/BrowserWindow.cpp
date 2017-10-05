@@ -569,28 +569,36 @@ void BrowserWindow::setupFloatingButton()
 
 	m_fButtonAddBookmark = new FloatingButton(this);
 	m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
+	m_fButtonAddBookmark->setToolTip(tr("Add This Page to Bookmarks"));
 
 	m_fButtonViewBookmarks = new FloatingButton(this);
 	m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
+	m_fButtonViewBookmarks->setToolTip(tr("View Bookmarks"));
 
 	m_fButtonViewHistory = new FloatingButton(this);
 	m_fButtonViewHistory->setObjectName("fbutton-view-history");
+	m_fButtonViewHistory->setToolTip(tr("View History"));
 
 	m_fButtonNewWindow = new FloatingButton(this);
 	m_fButtonNewWindow->setObjectName("fbutton-new-window");
+	m_fButtonNewWindow->setToolTip(tr("New Window"));
 
 	m_fButtonHome = new FloatingButton(this);
 	m_fButtonHome->setObjectName("fbutton-home");
+	m_fButtonHome->setToolTip(tr("Go Home"));
 
 	m_fButtonNext = new FloatingButton(this);
 	m_fButtonNext->setObjectName("fbutton-next");
+	m_fButtonNext->setToolTip(tr("Go Forward"));
 //	m_fButtonNext->setMenu(m_menuForward);
 
 	m_fButtonBack = new FloatingButton(this);
 	m_fButtonBack->setObjectName("fbutton-back");
+	m_fButtonBack->setToolTip(tr("Go Back"));
 
 	m_fButtonNewTab = new FloatingButton(this);
 	m_fButtonNewTab->setObjectName("fbutton-new-tab");
+	m_fButtonNewTab->setToolTip(tr("Add New Tab"));
 
 	QFile fButtonDataFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
 
