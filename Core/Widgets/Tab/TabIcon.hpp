@@ -28,6 +28,7 @@
 
 #include <QWidget>
 #include <QImage>
+#include <QIcon>
 
 #include <QTimer>
 
@@ -76,8 +77,8 @@ private:
 	struct Data {
 		int framesCount{};
 		QPixmap animationPixmap{};
-		QPixmap audioPlayingPixmap{};
-		QPixmap audioMutedPixmap{};
+		QIcon audioPlayingPixmap{};
+		QIcon audioMutedPixmap{};
 	};
 
 	static Data* s_data;
