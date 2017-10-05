@@ -24,7 +24,6 @@
 
 #include "AdBlock/CustomList.hpp"
 
-
 #include "Application.hpp"
 
 #include "AdBlock/Manager.hpp"
