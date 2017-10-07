@@ -149,7 +149,11 @@ void NavigationToolBar::setSplitterSize(int addressBar, int bookmarksHistoryButt
 
 	if (addressBar == 0) {
 		int splitterWidth{m_splitter->width()};
-		sizes << static_cast<int>(splitterWidth * 0.80) << static_cast<int>(static_cast<double>(splitterWidth) * 0.20);
+		sizes << static_cast<int>(splitterWidth * 6 / 7)
+			  << static_cast<int>(static_cast<double>(splitterWidth) * 1 / 7);
+	}
+	else if (bookmarksHistoryButtons == -1) {
+		sizes << m_splitter->width() << 0;
 	}
 	else {
 		sizes << addressBar << bookmarksHistoryButtons;

@@ -68,6 +68,8 @@ void AppearancePage::save()
 	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
 					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
+	settings
+		.setValue(QLatin1String("hideBookmarksHistoryByDefault"), m_hideBookmarksHistoryActionsByDefault->isChecked());
 
 	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
 		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
@@ -160,6 +162,7 @@ void AppearancePage::addTheme()
 void AppearancePage::useRealToolBarChanged(bool enabled)
 {
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
+	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 }
 
 AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
@@ -224,11 +227,14 @@ void AppearancePage::loadSettings()
 
 	m_useRealToolBar
 		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
-
+	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
+																	  Application::instance()
+																		  ->hideBookmarksHistoryActions()).toBool());
 	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
 														   Application::instance()->floatingButtonFoloweMouse())
 												.toBool());
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
+	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 
 
 	settings.endGroup();
@@ -315,6 +321,8 @@ void AppearancePage::setupUI()
 	m_viewGalleryButton = new QPushButton(tr("Open Gallery"), this);
 
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
+	m_hideBookmarksHistoryActionsByDefault =
+		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
 
 	m_nameLayout->addWidget(m_name);
@@ -336,6 +344,7 @@ void AppearancePage::setupUI()
 
 	m_layout->addWidget(m_themeBox);
 	m_layout->addWidget(m_useRealToolBar);
+	m_layout->addWidget(m_hideBookmarksHistoryActionsByDefault);
 	m_layout->addWidget(m_floatingButtonFoloweMouse);
 }
 }

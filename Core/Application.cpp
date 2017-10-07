@@ -278,6 +278,7 @@ void Application::loadSettings()
 	QSettings settings;
 
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
+	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
 	if (settings.value("Settings/useMorpheusFont", false).toBool()) {

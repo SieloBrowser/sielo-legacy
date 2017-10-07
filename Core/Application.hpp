@@ -137,6 +137,7 @@ public:
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
 	bool useTopToolBar() const { return m_useTopToolBar; }
+	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; };
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
 	void connectDatabase();
@@ -187,6 +188,7 @@ private:
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
 	bool m_useTopToolBar{false};
+	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};
 	bool m_databaseConnected{false};
 

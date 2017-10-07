@@ -189,7 +189,10 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 
 	if (Application::instance()->useTopToolBar()) {
 		m_navigationToolBar = new NavigationToolBar(this);
-		m_navigationToolBar->setSplitterSize(532, 24);
+		if (Application::instance()->hideBookmarksHistoryActions())
+			m_navigationToolBar->setSplitterSize(532, -1);
+		else
+			m_navigationToolBar->setSplitterSize(532, 24);
 	}
 
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
