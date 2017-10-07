@@ -130,63 +130,6 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonMainMenu, Qt::TopRightCorner);
 
-	/*if (Application::instance()->useTopToolBar()) {
-		m_topToolBar = new QToolBar(this);
-
-		m_fButtonAddBookmark = new FloatingButton(this);
-		m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
-		m_fButtonAddBookmark->setMovable(false);
-		m_fButtonAddBookmark->setFixedSize(QSize(32, 32));
-
-		m_fButtonViewBookmarks = new FloatingButton(this);
-		m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
-		m_fButtonViewBookmarks->setMovable(false);
-		m_fButtonViewBookmarks->setFixedSize(QSize(32, 32));
-
-		m_fButtonViewHistory = new FloatingButton(this);
-		m_fButtonViewHistory->setObjectName("fbutton-view-history");
-		m_fButtonViewHistory->setMovable(false);
-		m_fButtonViewHistory->setFixedSize(QSize(32, 32));
-
-		m_fButtonNewWindow = new FloatingButton(this);
-		m_fButtonNewWindow->setObjectName("fbutton-new-window");
-		m_fButtonNewWindow->setMovable(false);
-		m_fButtonNewWindow->setFixedSize(QSize(32, 32));
-
-		m_fButtonHome = new FloatingButton(this);
-		m_fButtonHome->setObjectName("fbutton-home");
-		m_fButtonHome->setMovable(false);
-		m_fButtonHome->setFixedSize(QSize(32, 32));
-
-		m_fButtonNext = new FloatingButton(this);
-		m_fButtonNext->setObjectName("fbutton-next");
-		m_fButtonNext->setMovable(false);
-		m_fButtonNext->setFixedSize(QSize(32, 32));
-//	m_fButtonNext->setMenu(m_menuForward);
-
-		m_fButtonBack = new FloatingButton(this);
-		m_fButtonBack->setObjectName("fbutton-back");
-		m_fButtonBack->setMovable(false);
-		m_fButtonBack->setFixedSize(QSize(32, 32));
-
-		m_fButtonNewTab = new FloatingButton(this);
-		m_fButtonNewTab->setObjectName("fbutton-new-tab");
-		m_fButtonNewTab->setMovable(false);
-		m_fButtonNewTab->setFixedSize(QSize(32, 32));
-
-		m_actionBack = m_topToolBar->addWidget(m_fButtonBack);
-		m_actionNext = m_topToolBar->addWidget(m_fButtonNext);
-		m_actionHome = m_topToolBar->addWidget(m_fButtonHome);
-		m_actionAddBookmark = m_topToolBar->addWidget(m_fButtonAddBookmark);
-		m_actionViewBookmarks = m_topToolBar->addWidget(m_fButtonViewBookmarks);
-		m_actionViewHistory = m_topToolBar->addWidget(m_fButtonViewHistory);
-		m_topToolBar->addSeparator();
-		m_actionNewTab = m_topToolBar->addWidget(m_fButtonNewTab);
-		m_actionNewWindow = m_topToolBar->addWidget(m_fButtonNewWindow);
-	}
-	else { */
-	//}
-
 	if (Application::instance()->useTopToolBar()) {
 		m_navigationToolBar = new NavigationToolBar(this);
 		if (Application::instance()->hideBookmarksHistoryActions())

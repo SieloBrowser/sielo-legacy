@@ -102,6 +102,7 @@ private:
 	QPushButton* m_addThemeButton{nullptr};
 	QPushButton* m_viewGalleryButton{nullptr};
 
+	QCheckBox* m_fullyLoadThemes{nullptr};
 	QCheckBox* m_useRealToolBar{nullptr};
 	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
 	QCheckBox* m_floatingButtonFoloweMouse{nullptr};

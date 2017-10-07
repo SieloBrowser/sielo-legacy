@@ -65,6 +65,8 @@ void AppearancePage::save()
 
 	settings.beginGroup("Settings");
 
+	settings.setValue(QLatin1String("fullyLoadThemes"), m_fullyLoadThemes->isChecked());
+
 	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
 					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
@@ -225,6 +227,9 @@ void AppearancePage::loadSettings()
 
 	settings.beginGroup("Settings");
 
+	m_fullyLoadThemes
+		->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
+						 .toBool());
 	m_useRealToolBar
 		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
 	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
@@ -320,6 +325,7 @@ void AppearancePage::setupUI()
 	m_addThemeButton = new QPushButton(tr("Add a Theme"), this);
 	m_viewGalleryButton = new QPushButton(tr("Open Gallery"), this);
 
+	m_fullyLoadThemes = new QCheckBox(tr("Fully load theme (otherwise it will only load theme's icons)"));
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
 	m_hideBookmarksHistoryActionsByDefault =
 		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
@@ -343,6 +349,7 @@ void AppearancePage::setupUI()
 	m_themeLayout->addLayout(m_themeActionLayout);
 
 	m_layout->addWidget(m_themeBox);
+	m_layout->addWidget(m_fullyLoadThemes);
 	m_layout->addWidget(m_useRealToolBar);
 	m_layout->addWidget(m_hideBookmarksHistoryActionsByDefault);
 	m_layout->addWidget(m_floatingButtonFoloweMouse);

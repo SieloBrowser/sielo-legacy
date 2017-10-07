@@ -136,6 +136,7 @@ public:
 	RestoreManager* restoreManager() const { return m_restoreManager; }
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
+	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool useTopToolBar() const { return m_useTopToolBar; }
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; };
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
@@ -187,6 +188,7 @@ private:
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
+	bool m_fullyLoadThemes{true};
 	bool m_useTopToolBar{false};
 	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};

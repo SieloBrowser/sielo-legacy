@@ -277,6 +277,7 @@ void Application::loadSettings()
 {
 	QSettings settings;
 
+	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
@@ -845,22 +846,27 @@ void Application::loadTheme(const QString& name)
 
 	QIcon::setThemeName(name);
 
+	if (m_fullyLoadThemes) {
 #if defined(Q_OS_MAC)
-	sss.append(readFile(activeThemePath + QLatin1String("/mac.sss")));
+		sss.append(readFile(activeThemePath + QLatin1String("/mac.sss")));
 #elif defined(Q_OS_LINUX)
-	sss.append(readFile(activeThemePath + QLatin1String("/linux.sss")));
+		sss.append(readFile(activeThemePath + QLatin1String("/linux.sss")));
 #elif defined(Q_OS_WIN)
-	sss.append(readFile(activeThemePath + QLatin1String("/windows.sss")));
+		sss.append(readFile(activeThemePath + QLatin1String("/windows.sss")));
 #endif
 
-	QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
+		QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
 
-	sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
-				QString("url(%1/\\1)").arg(relativePath));
-	sss.replace("sproperty", "qproperty");
-	sss.replace("slineargradient", "qlineargradient");
+		sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
+					QString("url(%1/\\1)").arg(relativePath));
+		sss.replace("sproperty", "qproperty");
+		sss.replace("slineargradient", "qlineargradient");
 
-	setStyleSheet(sss);
+		setStyleSheet(sss);
+	}
+	else {
+		setStyleSheet("");
+	}
 }
 
 void Application::loadThemeFromResources()
