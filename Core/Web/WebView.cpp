@@ -686,7 +686,6 @@ void WebView::applyZoom()
 	emit zoomLevelChanged(m_currentZoomLevel);
 }
 
-//TODO: Context menu
 void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 {
 	int spellCheckAction{0};
@@ -809,7 +808,38 @@ void WebView::createImageContextMenu(QMenu* menu, const WebHitTestResult& hitTes
 
 void WebView::createSelectedTextContextMenu(QMenu* menu, const WebHitTestResult& hitTest)
 {
-	//TODO: do
+	Q_UNUSED(hitTest)
+
+	QString selectedText{page()->selectedText()};
+
+	menu->addSeparator();
+
+	if (!menu->actions().contains(pageAction(QWebEnginePage::Copy)))
+		menu->addAction(pageAction(QWebEnginePage::Copy));
+
+	menu->addSeparator();
+
+	QAction* actionDictionary{new QAction(Application::getAppIcon("disctionary"), tr("Dictionary"))};
+	actionDictionary->setData(QUrl("https://wiktionary.org/wiki/Special:Search?search=" + selectedText));
+	connect(actionDictionary, &QAction::triggered, this, &WebView::openUrlInSelectedTab);
+	menu->addAction(actionDictionary);
+
+	QString selectedString{selectedText.trimmed().remove(QLatin1Char('\n'))};
+
+	if (!selectedString.contains(QLatin1Char('.')))
+		selectedString.append(QLatin1String(".com"));
+
+	QUrl guessedUrl{QUrl::fromUserInput(selectedString)};
+
+	if (isUrlValide(guessedUrl)) {
+		QAction* actionGoToWebAddress{new QAction(Application::getAppIcon("open-remote"), tr("Go to &web address"))};
+		actionGoToWebAddress->setData(guessedUrl);
+
+		connect(actionGoToWebAddress, &QAction::triggered, this, &WebView::openUrlInSelectedTab);
+		menu->addAction(actionGoToWebAddress);
+	}
+
+	// TODO: action to search selected text on google
 }
 
 void WebView::createMediaContextMenu(QMenu* menu, const WebHitTestResult& hitTest)
