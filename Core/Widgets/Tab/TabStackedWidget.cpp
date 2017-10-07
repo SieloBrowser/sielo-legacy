@@ -28,6 +28,7 @@
 
 #include <QTimer>
 
+#include "Widgets/NavigationBar.hpp"
 #include "Widgets/Tab/ComboTabBar.hpp"
 
 namespace Sn {
@@ -78,6 +79,12 @@ void TabStackedWidget::setTabBar(ComboTabBar* tab)
 	setDocumentMode(m_comboTabBar->documentMode());
 
 	m_comboTabBar->installEventFilter(this);
+	setUpLayout();
+}
+
+void TabStackedWidget::setNavigationToolBar(NavigationToolBar* navigationToolBar)
+{
+	m_layout->insertWidget(0, navigationToolBar);
 	setUpLayout();
 }
 

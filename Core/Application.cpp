@@ -330,7 +330,7 @@ void Application::loadSettings()
 		m_autoFill->loadSettings();
 
 	if (themeInfo.exists()) {
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 2) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 3) {
 			QString defaultThemePath{paths()[Application::P_Themes]};
 			QString defaultThemeDataPath{":data/themes/sielo_default"};
 
@@ -341,7 +341,7 @@ void Application::loadSettings()
 
 			copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
-			settings.setValue("Themes/defaultThemeVersion", 2);
+			settings.setValue("Themes/defaultThemeVersion", 3);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
@@ -349,7 +349,7 @@ void Application::loadSettings()
 	}
 	else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 2);
+		settings.setValue("Themes/defaultThemeVersion", 3);
 	}
 
 	if (privateBrowsing()) {

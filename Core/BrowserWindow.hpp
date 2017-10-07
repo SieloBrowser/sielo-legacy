@@ -90,14 +90,6 @@ public:
 	TabWidget* tabWidget(int index) const;
 	int tabWidgetsCount() const;
 
-	FloatingButton* fButton() const { return m_fButton; }
-
-	FloatingButton* fButtonNewWindow() const { return m_fButtonNewWindow; }
-	FloatingButton* fButtonHome() const { return m_fButtonHome; }
-	FloatingButton* fButtonNext() const { return m_fButtonNext; }
-	FloatingButton* fButtonBack() const { return m_fButtonBack; }
-	FloatingButton* fButtonNewTab() const { return m_fButtonNewTab; }
-
 public slots:
 	void setWindowTitle(const QString& title);
 

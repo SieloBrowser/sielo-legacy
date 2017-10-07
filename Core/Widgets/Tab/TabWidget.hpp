@@ -55,6 +55,7 @@ class ToolButton;
 class AutoSaver;
 
 class FloatingButton;
+class NavigationToolBar;
 
 class TabbedWebView;
 
@@ -89,6 +90,7 @@ public:
 
 	BrowserWindow* window() const { return m_window; }
 	MainTabBar* tabBar() const { return m_tabBar; }
+	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 	ClosedTabsManager* closedTabsManager() const { return m_closedTabsManager; }
 	QList<WebTab*> allTabs(bool withPinned = true);
 	bool canRestoreTab() const;
@@ -101,6 +103,7 @@ public:
 	QUrl homeUrl() const { return m_homeUrl; }
 	void setHomeUrl(const QString& newUrl);
 
+	QStackedWidget* addressBars() const { return m_addressBars; }
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
 
@@ -158,13 +161,14 @@ private slots:
 private:
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
-	void updateToolBar(int index);
 
 	AutoSaver* m_saveTimer{nullptr};
 
 	BrowserWindow* m_window{nullptr};
 	MainTabBar* m_tabBar{nullptr};
+	QStackedWidget* m_addressBars{nullptr};
 	ClosedTabsManager* m_closedTabsManager;
+
 	MenuTabs* m_menuTabs{nullptr};
 	ToolButton* m_buttonListTabs{nullptr};
 	ToolButton* m_buttonClosedTabs{nullptr};
@@ -172,18 +176,8 @@ private:
 	AddTabButton* m_buttonAddTab2{nullptr};
 	ToolButton* m_buttonMainMenu{nullptr};
 
-	QAction* m_actionBack{nullptr};
-	QAction* m_actionNext{nullptr};
-	QAction* m_actionHome{nullptr};
-	QAction* m_actionUrl{nullptr};
-	QAction* m_actionAddBookmark{nullptr};
-	QAction* m_actionViewBookmarks{nullptr};
-	QAction* m_actionViewHistory{nullptr};
-	QAction* m_actionNewTab{nullptr};
-	QAction* m_actionNewWindow{nullptr};
-
 	QMenu* m_menuClosedTabs{nullptr};
-	QToolBar* m_topToolBar{nullptr};
+	NavigationToolBar* m_navigationToolBar{nullptr};
 	QUrl m_urlOnNewTab{};
 	QUrl m_homeUrl{};
 
@@ -197,7 +191,6 @@ private:
 	bool m_isMutted{false};
 
 	QWebEngineView* m_fullScreenView{nullptr};
-
 };
 
 }

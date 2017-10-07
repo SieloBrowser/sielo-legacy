@@ -32,6 +32,7 @@
 
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
+#include "Widgets/NavigationBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -47,10 +48,10 @@ TabbedWebView::TabbedWebView(WebTab* tab) :
 	m_webTab(tab),
 	m_menu(new QMenu(this))
 {
-	connect(this, &TabbedWebView::loadStarted, this, &TabbedWebView::sLoadStarted);
-	connect(this, &TabbedWebView::loadProgress, this, &TabbedWebView::sLoadProgress);
-	connect(this, &TabbedWebView::loadFinished, this, &TabbedWebView::sLoadFinished);
-	connect(this, &TabbedWebView::urlChanged, this, &TabbedWebView::urlChanged);
+	connect(this, &WebView::loadStarted, this, &TabbedWebView::sLoadStarted);
+	connect(this, &WebView::loadProgress, this, &TabbedWebView::sLoadProgress);
+	connect(this, &WebView::loadFinished, this, &TabbedWebView::sLoadFinished);
+	connect(this, &WebView::urlChanged, this, &TabbedWebView::urlChanged);
 }
 
 void TabbedWebView::setWebPage(WebPage* page)
@@ -138,6 +139,10 @@ void TabbedWebView::urlChanged(const QUrl& url)
 		HistoryManager* manager = Application::instance()->historyManager();
 		manager->addHistoryEntry(url.toString());
 	}
+
+	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabBar()->tabWidget()))
+		m_webTab->tabBar()->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
+
 }
 
 void TabbedWebView::linkHovered(const QString& link)

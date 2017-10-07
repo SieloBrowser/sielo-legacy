@@ -828,8 +828,8 @@ void AddressBar::loadStarted()
 	m_reloadStopButton->setObjectName("addressbar-button-stop");
 	m_reloadStopButton->setIcon(Application::getAppIcon("stop"));
 
-	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
-	m_reloadStopButton->style()->polish(m_reloadStopButton);
+	Application::style()->unpolish(m_reloadStopButton);
+	Application::style()->polish(m_reloadStopButton);
 }
 
 void AddressBar::loadProgress(int progress)
@@ -845,8 +845,8 @@ void AddressBar::loadFinished()
 	m_reloadStopButton->setObjectName("addressbar-button-reload");
 	m_reloadStopButton->setIcon(Application::getAppIcon("reload"));
 
-	m_reloadStopButton->style()->unpolish(m_reloadStopButton);
-	m_reloadStopButton->style()->polish(m_reloadStopButton);
+	Application::style()->unpolish(m_reloadStopButton);
+	Application::style()->polish(m_reloadStopButton);
 }
 
 void AddressBar::loadFromCompleter(QString& text)

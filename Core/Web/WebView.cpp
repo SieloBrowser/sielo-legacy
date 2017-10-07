@@ -392,8 +392,6 @@ void WebView::sLoadFinished(bool ok)
 	Q_UNUSED(ok);
 
 	m_progress = 100;
-
-	Application::instance()->historyManager()->addHistoryEntry(url().toString());
 }
 
 void WebView::sUrlChanged(const QUrl& url)

@@ -57,6 +57,7 @@
 
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/FloatingButton.hpp"
+#include "Widgets/NavigationBar.hpp"
 #include "Widgets/MainMenu.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
@@ -71,6 +72,7 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	TabStackedWidget(parent),
 	m_saveTimer(new AutoSaver(this)),
 	m_window(window),
+	m_addressBars(new QStackedWidget(this)),
 	m_lastTabIndex(-1),
 	m_lastBackgroundTabIndex(-1)
 {
@@ -186,26 +188,8 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	//}
 
 	if (Application::instance()->useTopToolBar()) {
-		m_topToolBar = new QToolBar(this);
-
-		m_actionBack = new QAction(QIcon(":data/toolbar/back.png"), tr("&Back"), this);
-		m_actionNext = new QAction(QIcon(":data/toolbar/next.png"), tr("&Next"), this);
-		m_actionHome = new QAction(QIcon(":data/toolbar/home.png"), tr("Home"), this);
-		m_actionAddBookmark = new QAction(QIcon(":data/toolbar/add-bookmark.png"), tr("Add Bookmark"), this);
-		m_actionViewBookmarks = new QAction(QIcon(":data/toolbar/view-bookmarks.png"), tr("View Bookmarks"), this);
-		m_actionViewHistory = new QAction(QIcon(":data/toolbar/history.png"), tr("History"), this);
-		m_actionNewTab = new QAction(QIcon(":data/toolbar/new-tab.png"), tr("New Tab"), this);
-		m_actionNewWindow = new QAction(QIcon(":data/toolbar/new-window.png"), tr("New Window"), this);
-
-		m_topToolBar->addAction(m_actionBack);
-		m_topToolBar->addAction(m_actionNext);
-		m_topToolBar->addAction(m_actionHome);
-		m_topToolBar->addAction(m_actionAddBookmark);
-		m_topToolBar->addAction(m_actionViewBookmarks);
-		m_topToolBar->addAction(m_actionViewHistory);
-		m_topToolBar->addSeparator();
-		m_topToolBar->addAction(m_actionNewTab);
-		m_topToolBar->addAction(m_actionNewWindow);
+		m_navigationToolBar = new NavigationToolBar(this);
+		m_navigationToolBar->setSplitterSize(532, 24);
 	}
 
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
@@ -252,6 +236,9 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	connect(closeTabAction2, SIGNAL(activated()), this, SLOT(closeTab()));
 
 	setTabBar(m_tabBar);
+	if (Application::instance()->useTopToolBar())
+		setNavigationToolBar(m_navigationToolBar);
+
 	loadSettings();
 }
 
@@ -383,8 +370,11 @@ void TabWidget::currentTabChanged(int index)
 	disconnect(oldTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
-	if (Application::instance()->useTopToolBar())
-		updateToolBar(index);
+	if (Application::instance()->useTopToolBar()) {
+		AddressBar* addressBar = currentTab->addressBar();
+		if (addressBar && m_addressBars->indexOf(addressBar) != -1)
+			m_addressBars->setCurrentWidget(addressBar);
+	}
 
 	m_lastBackgroundTabIndex = -1;
 	m_lastTabIndex = index;
@@ -500,6 +490,9 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 
 	WebTab* webTab{new WebTab(m_window)};
 	webTab->addressBar()->showUrl(url);
+	if (Application::instance()->useTopToolBar())
+		m_addressBars->addWidget(webTab->addressBar());
+
 	int index{insertTab(position == -1 ? count() : position, webTab, QString(), pinned)};
 
 	webTab->attach(m_window);
@@ -538,6 +531,9 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 
 int TabWidget::addView(WebTab* tab)
 {
+	if (Application::instance()->useTopToolBar())
+		m_addressBars->addWidget(tab->addressBar());
+
 	int index{addTab(tab, QString())};
 	tab->attach(m_window);
 
@@ -582,6 +578,9 @@ void TabWidget::closeTab(int index)
 
 	if (webView->url().toString() != QLatin1String("sielo:restore"))
 		m_closedTabsManager->saveTab(webTab, index);
+
+	if (Application::instance()->useTopToolBar())
+		m_addressBars->removeWidget(webView->webTab()->addressBar());
 
 	disconnect(webView, &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	disconnect(webView, SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
@@ -716,6 +715,9 @@ void TabWidget::detachTab(int index)
 
 	if (webTab->isPinned() || count() == 1)
 		return;
+
+	if (Application::instance()->useTopToolBar())
+		m_addressBars->removeWidget(webTab->addressBar());
 
 	disconnect(webTab->webView(), &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	disconnect(webTab->webView(), SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
@@ -986,37 +988,5 @@ void TabWidget::updateClosedTabsButton()
 		m_buttonClosedTabs->hide();
 
 	m_buttonClosedTabs->setEnabled(canRestoreTab());
-}
-
-void TabWidget::updateToolBar(int index)
-{
-	if (!m_topToolBar)
-		return;
-
-	WebTab* tab{weTab(index)};
-	WebTab* lastTab{weTab(m_lastTabIndex)};
-
-	if (lastTab) {
-		m_topToolBar->removeAction(m_actionUrl);
-		lastTab->removeToolBar(m_topToolBar);
-	}
-
-	tab->addressBar()->setVisible(true);
-	tab->addToolBar(m_topToolBar);
-	m_actionUrl = m_topToolBar->insertWidget(m_actionAddBookmark, tab->addressBar());
-
-	if (lastTab) {
-		disconnect(m_actionBack, &QAction::triggered, lastTab->webView(), &TabbedWebView::back);
-		disconnect(m_actionNext, &QAction::triggered, lastTab->webView(), &TabbedWebView::forward);
-		disconnect(m_actionHome, &QAction::triggered, lastTab, &WebTab::sGoHome);
-		disconnect(m_actionNewTab, &QAction::triggered, lastTab, &WebTab::sNewTab);
-		disconnect(m_actionNewWindow, &QAction::triggered, lastTab, &WebTab::sNewWindow);
-	}
-
-	connect(m_actionBack, &QAction::triggered, tab->webView(), &TabbedWebView::back);
-	connect(m_actionNext, &QAction::triggered, tab->webView(), &TabbedWebView::forward);
-	connect(m_actionHome, &QAction::triggered, tab, &WebTab::sGoHome);
-	connect(m_actionNewTab, &QAction::triggered, tab, &WebTab::sNewTab);
-	connect(m_actionNewWindow, &QAction::triggered, tab, &WebTab::sNewWindow);
 }
 }

@@ -23,89 +23,78 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_TABSTACKEDWIDGET_HPP
-#define SIELOBROWSER_TABSTACKEDWIDGET_HPP
+#ifndef SIELO_BROWSER_NAVIGATIONBAR_HPP
+#define SIELO_BROWSER_NAVIGATIONBAR_HPP
 
 #include <QWidget>
-#include <QStackedWidget>
-#include <QVBoxLayout>
 
-#include <QEvent>
-#include <QKeyEvent>
+#include <QHBoxLayout>
+#include <QSplitter>
 
 namespace Sn {
-class ComboTabBar;
 
-class NavigationToolBar;
+class ToolButton;
 
-class TabStackedWidget: public QWidget {
+class TabWidget;
+
+class NavigationToolBar: public QWidget {
 Q_OBJECT
 
 public:
-	TabStackedWidget(QWidget* parent = nullptr);
-	~TabStackedWidget();
+	NavigationToolBar(TabWidget* tabWidget);
 
-	ComboTabBar* tabBar() { return m_comboTabBar; }
-	void setTabBar(ComboTabBar* tab);
+	Q_PROPERTY(int layoutMargin
+				   READ
+				   layoutMargin
+				   WRITE
+				   setLayoutMargin)
+	Q_PROPERTY(int layoutSpacing
+				   READ
+				   layoutSpacing
+				   WRITE
+				   setLayoutSpacing)
 
-	void setNavigationToolBar(NavigationToolBar* navigationToolBar);
+	void setSplitterSize(int addressBar, int bookmarksHistoryButtons);
 
-	bool documentMode() const;
-	void setDocumentMode(bool enable);
+	int layoutMargin() const;
+	void setLayoutMargin(int margin);
 
-	int addTab(QWidget* widget, const QString& label, bool pinned = false);
-	int insertTab(int index, QWidget* widget, const QString& label, bool pinned = false);
-
-	QString tabText(int index) const;
-	void setTabText(int index, const QString& label);
-
-	QString tabToolTip(int index) const;
-	void setTabToolTip(int index, const QString& tip);
-
-	int pinUnPinTab(int index, const QString& title = QString());
-
-	void removeTab(int index);
-
-	int currentIndex() const;
-	int indexOf(QWidget* widget) const;
-	int count() const;
-	QWidget* currentWidget() const;
-	QWidget* widget(int index) const;
-
-signals:
-	void currentChanged(int index);
-	void tabCloseRequested(int index);
-	void pinStateChanged(int index, bool pinned);
+	int layoutSpacing() const;
+	void setLayoutSpacing(int layoutSpacing);
 
 public slots:
-	void setCurrentIndex(int index);
-	void setCurrentWidget(QWidget* widget);
-	void setUpLayout();
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
-	void keyPressEvent(QKeyEvent* event);
+	void refreshBackForwardButtons();
 
 private slots:
-	void showTab(int index);
-	void tabWasMoved(int from, int to);
-	void tabWasRemoved(int index);
+	void goBack();
+	void goBackInNewTab();
+	void goForward();
+	void goForwardInNewTab();
+	void goHome();
+	void goHomeInNewTab();
+	void showBookmarksDialog();
+	void showAddBookmarkDialog();
+	void showHistoryDialog();
+
+	void contextMenuRequested(const QPoint& pos);
 
 private:
-	bool validIndex(int index) const;
-	void selectTabOnRemove();
+	TabWidget* m_tabWidget{nullptr};
 
-	QStackedWidget* m_stack{nullptr};
-	QVBoxLayout* m_layout{nullptr};
+	QHBoxLayout* m_layout{nullptr};
+	QHBoxLayout* m_bookmarksHistoryLayout{nullptr};
+	QWidget* m_bookmarksHistoryWidget{nullptr};
+	QSplitter* m_splitter{nullptr};
 
-	ComboTabBar* m_comboTabBar{nullptr};
+	ToolButton* m_buttonBack{nullptr};
+	ToolButton* m_buttonForward{nullptr};
+	ToolButton* m_buttonHome{nullptr};
 
-	bool m_dirtyTabBar{false};
-	int m_currentIndex{-1};
-	int m_previousIndex{-1};
-
+	ToolButton* m_buttonViewBookmarks{nullptr};
+	ToolButton* m_buttonAddBookmark{nullptr};
+	ToolButton* m_buttonViewHistory{nullptr};
 };
 
 }
 
-#endif //SIELOBROWSER_TABSTACKEDWIDGET_HPP
+#endif //SIELO_BROWSER_NAVIGATIONBAR_HPP
