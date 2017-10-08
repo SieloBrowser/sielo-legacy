@@ -30,20 +30,23 @@
 #include <QTextLayout>
 #include <QAction>
 
-#include <QCompleter>
+#include <QStandardItemModel>
+#include <QStyledItemDelegate>
+#include <QTreeView>
 
 #include <QHBoxLayout>
+
+#include <QSize>
 
 #include <QEvent>
 #include <QContextMenuEvent>
 #include <QShowEvent>
 #include <QPaintEvent>
 #include <QDropEvent>
+#include <QResizeEvent>
 #include <QFocusEvent>
 #include <QKeyEvent>
 #include <QMouseEvent>
-
-#include <array>
 
 namespace Sn {
 class TabbedWebView;
@@ -51,8 +54,65 @@ class LoadRequest;
 
 class BrowserWindow;
 
-class AddressCompleter;
+class AddressCompletionModel;
 class ToolButton;
+
+class AddressBar;
+
+class AddressDelegate final: public QStyledItemDelegate {
+Q_OBJECT
+
+public:
+	explicit AddressDelegate(const QString& highlight, QObject* parent = nullptr);
+
+	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE;
+	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE;
+
+protected:
+	QString highlightText(const QString& text, QString html = QString()) const;
+	int calculateLength(const QStyleOptionViewItem& option, const QString& text, int length = 0) const;
+
+private:
+	QString m_highlight;
+};
+
+class PopupViewWidget: public QTreeView {
+Q_OBJECT
+
+public:
+	explicit PopupViewWidget(AddressBar* parent);
+
+	void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+	QSize sizeHint() const;
+	QModelIndex getCurrentIndex(int column = 0) const;
+	QModelIndex getIndex(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
+	int getCurrentRow() const;
+	int getRowCount(const QModelIndex& parent = QModelIndex()) const;
+	int getColumnCount(const QModelIndex& parent = QModelIndex()) const;
+
+	bool event(QEvent* event) override;
+
+	bool canMoveUp() const;
+	bool canMoveDown() const;
+
+signals:
+	void canMoveUpChanged(bool isAllowed);
+	void canMoveDownChanged(bool isAllowed);
+	void needsActionsUpdate();
+
+public slots:
+	void updateHeight();
+
+protected:
+	void keyPressEvent(QKeyEvent* event) override;
+
+protected slots:
+	void handleIndexEntered(const QModelIndex& index);
+
+private:
+	AddressBar* m_addressBar;
+	QStandardItemModel* m_sourceModel;
+};
 
 class SideWidget: public QWidget {
 Q_OBJECT
@@ -119,6 +179,11 @@ public:
 
 	AddressBar(BrowserWindow* window);
 
+	void showPopup();
+	void hidePopup();
+	bool isPopupVisible() const;
+	PopupViewWidget* getPopup();
+
 	TabbedWebView* webView() const { return m_webView; }
 	void setWebView(TabbedWebView* view);
 
@@ -132,15 +197,17 @@ public:
 	int minHeight() const { return m_minHeight; }
 	void setMinHeight(int height);
 
-	AddressCompleter* addressCompleter() const { return m_completer; }
-	void setCompleter(AddressCompleter* completer);
-
 	void setTextFormat(const TextFormat& format);
 	void clearTextFormat();
 
 	QSize sizeHint() const;
 
 	QAction* editAction(EditAction action) const;
+
+	bool event(QEvent* event);
+
+//signals:
+//	void textEdited(const QString& text);
 
 public slots:
 	void setLeftMargin(int margin);
@@ -150,17 +217,19 @@ public slots:
 	void showUrl(const QUrl& url);
 
 protected:
-	bool event(QEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 	void showEvent(QShowEvent* event);
 	void focusInEvent(QFocusEvent* event);
 	void focusOutEvent(QFocusEvent* event);
 	void keyPressEvent(QKeyEvent* event);
+	void resizeEvent(QResizeEvent* event);
 	void mousePressEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
 	void dropEvent(QDropEvent* event);
 	void paintEvent(QPaintEvent* event);
+
+	void showCompletion();
 
 	QMenu* createContextMenu();
 
@@ -169,10 +238,10 @@ private slots:
 	void updatePasteActions();
 	void sDelete();
 
-	void insertCompletion(const QString& url);
-	void insertHighlighted(const QString& url);
+	void setCompletion(const QString& filter);
 
-	void textEdited(const QString& text);
+	void sTextEdited(const QString& text);
+	void openUrl(const QModelIndex& index);
 	void requestLoadUrl();
 	void pasteAndGo();
 
@@ -193,7 +262,6 @@ private slots:
 private:
 	LoadRequest createLoadRequest() const;
 	void refreshTextFormat();
-	void refreshCompleter();
 
 	bool processMainCommand(const QString& command, const QStringList& args);
 
@@ -207,7 +275,10 @@ private:
 	SideWidget* m_leftWidget{nullptr};
 	SideWidget* m_rightWidget{nullptr};
 
-	AddressCompleter* m_completer{nullptr};
+	PopupViewWidget* m_popupViewWidget{nullptr};
+	AddressCompletionModel* m_completionModel{};
+	QString m_completion{};
+	bool m_shouldIgnoreCompletion{false};
 
 	QHBoxLayout* m_layout{nullptr};
 	QHBoxLayout* m_leftLayout{nullptr};

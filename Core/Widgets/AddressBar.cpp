@@ -36,11 +36,17 @@
 
 #include <QIcon>
 
+#include <QAbstractTextDocumentLayout>
+#include <QTextBlock>
 #include <QStyle>
-#include <QtWidgets/QMessageBox>
+#include <QMessageBox>
+
+#include <QHeaderView>
 
 #include "History/HistoryManager.hpp"
 #include "History/HistoryItem.hpp"
+
+#include "Utils/AddressCompletionModel.hpp"
 
 #include "Web/LoadRequest.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
@@ -50,12 +56,396 @@
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
 
-#include "Utils/AddressCompleter.hpp"
+#include "Utils/AddressCompletionModel.hpp"
 #include "Utils/ToolButton.hpp"
 
 #include "BrowserWindow.hpp"
 
 namespace Sn {
+
+AddressDelegate::AddressDelegate(const QString& highlight, QObject* parent) :
+	QStyledItemDelegate(parent),
+	m_highlight(highlight)
+{
+	// Empty
+}
+
+void AddressDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	QRect titleRectangle(option.rect);
+	const bool isRightToLeft(option.direction == Qt::RightToLeft);
+
+	if (static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
+		== AddressCompletionModel::HeaderType) {
+		QStyleOptionViewItem headerOption(option);
+		headerOption.rect = titleRectangle.marginsRemoved(QMargins(0, 2, (isRightToLeft ? 3 : 0), 2));
+		headerOption.text = index.data(AddressCompletionModel::TitleRole).toString();
+
+		if (index.row() > 0) {
+			QPen pen(option.palette.color(QPalette::Disabled, QPalette::Text).lighter());
+			pen.setWidth(1);
+			pen.setStyle(Qt::SolidLine);
+
+			painter->save();
+			painter->setPen(pen);
+			painter->drawLine((option.rect.left() + 5),
+							  (option.rect.top() + 3),
+							  (option.rect.right() - 5),
+							  (option.rect.top() + 3));
+			painter->restore();
+		}
+
+		QStyledItemDelegate::paint(painter, headerOption, index);
+
+		return;
+	}
+
+	QAbstractTextDocumentLayout::PaintContext paintContext;
+	QTextDocument document;
+	document.setDefaultFont(option.font);
+
+	QString url(index.data(Qt::DisplayRole).toString());
+	QString description(index.data(AddressCompletionModel::TitleRole).toString());
+	const int topPosition(titleRectangle.top() - ((titleRectangle.height() - painter->clipBoundingRect()
+		.united(document.documentLayout()->blockBoundingRect(document.firstBlock())).height()) / 2));
+	const bool isSearchSuggestion
+		{static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
+		 == AddressCompletionModel::SearchSuggestionType};
+
+	if (option.state.testFlag(QStyle::State_Selected)) {
+		painter->fillRect(option.rect, option.palette.color(QPalette::Highlight));
+
+		paintContext.palette.setColor(QPalette::Text, option.palette.color(QPalette::HighlightedText));
+	}
+	else if (!isSearchSuggestion) {
+		paintContext.palette.setColor(QPalette::Text, option.palette.color(QPalette::Link));
+	}
+
+	QRect decorationRectangle(option.rect);
+
+	if (isRightToLeft) {
+		decorationRectangle.setLeft(option.rect.width() - option.rect.height() - 5);
+
+		titleRectangle.setRight(option.rect.width() - option.rect.height() - 10);
+	}
+	else {
+		decorationRectangle.setRight(option.rect.height());
+
+		titleRectangle.setLeft(option.rect.height());
+	}
+
+	decorationRectangle = decorationRectangle.marginsRemoved(QMargins(2, 2, 2, 2));
+
+	QIcon icon(index.data(Qt::DecorationRole).value<QIcon>());
+
+	if (icon.isNull()) {
+		icon = Application::getAppIcon("webpage");
+	}
+
+	icon.paint(painter, decorationRectangle, option.decorationAlignment);
+
+	painter->save();
+
+	url = option.fontMetrics.elidedText(url, Qt::ElideRight, (option.rect.width() - 40));
+
+	if (isRightToLeft) {
+		painter->translate((titleRectangle.right() - calculateLength(option, url)), topPosition);
+	}
+	else {
+		painter->translate(titleRectangle.left(), topPosition);
+	}
+
+	document.setHtml(isSearchSuggestion ? url : highlightText(url));
+	document.documentLayout()->draw(painter, paintContext);
+
+	painter->restore();
+
+	if (!description.isEmpty()) {
+		const int urlLength(calculateLength(option, url + QLatin1Char(' ')));
+
+		if ((urlLength + 40) < titleRectangle.width()) {
+			painter->save();
+
+			description = option.fontMetrics.elidedText(description,
+														(isRightToLeft ? Qt::ElideLeft : Qt::ElideRight),
+														(option.rect.width() - urlLength - 50));
+
+			if (isRightToLeft) {
+				description.append(QLatin1String(" -"));
+
+				titleRectangle.setRight(option.rect.width() - calculateLength(option, description) - (urlLength + 33));
+
+				painter->translate(titleRectangle.right(), topPosition);
+			}
+			else {
+				description.insert(0, QLatin1String("- "));
+
+				titleRectangle.setLeft(urlLength + 33);
+
+				painter->translate(titleRectangle.left(), topPosition);
+			}
+
+			document.setHtml(highlightText(description));
+
+			if (option.state.testFlag(QStyle::State_Selected)) {
+				document.documentLayout()->draw(painter, paintContext);
+			}
+			else {
+				document.drawContents(painter);
+			}
+
+			painter->restore();
+		}
+	}
+}
+
+QSize AddressDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
+{
+	QSize size(index.data(Qt::SizeHintRole).toSize());
+
+	if (index.row() != 0
+		&& static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
+		   == AddressCompletionModel::HeaderType) {
+		size.setHeight(option.fontMetrics.lineSpacing() * 1.75);
+	}
+	else {
+		size.setHeight(option.fontMetrics.lineSpacing() * 1.25);
+	}
+
+	return size;
+}
+
+QString AddressDelegate::highlightText(const QString& text, QString html) const
+{
+	const int index(text.indexOf(m_highlight, 0, Qt::CaseInsensitive));
+
+	if (m_highlight.isEmpty() || index < 0) {
+		return (html + text);
+	}
+
+	html += text.left(index);
+	html += QStringLiteral("<b>%1</b>").arg(text.mid(index, m_highlight.length()));
+
+	return highlightText(text.mid(index + m_highlight.length()), html);
+}
+
+int AddressDelegate::calculateLength(const QStyleOptionViewItem& option, const QString& text, int length) const
+{
+	const int index(text.indexOf(m_highlight, 0, Qt::CaseInsensitive));
+
+	if (m_highlight.isEmpty() || index < 0) {
+		return (length + option.fontMetrics.width(text));
+	}
+
+	length += option.fontMetrics.width(text.left(index));
+
+	QStyleOptionViewItem highlightedOption(option);
+	highlightedOption.font.setBold(true);
+
+	length += highlightedOption.fontMetrics.width(text.mid(index, m_highlight.length()));
+
+	return calculateLength(option, text.mid(index + m_highlight.length()), length);
+}
+
+PopupViewWidget::PopupViewWidget(AddressBar* parent) :
+	QTreeView(nullptr),
+	m_addressBar(parent)
+{
+	setEditTriggers(QAbstractItemView::NoEditTriggers);
+	setFocusPolicy(Qt::NoFocus);
+	setWindowFlags(Qt::Popup);
+	header()->setStretchLastSection(true);
+	header()->hide();
+	viewport()->setAttribute(Qt::WA_Hover);
+	viewport()->setMouseTracking(true);
+	viewport()->installEventFilter(this);
+
+	connect(this, &PopupViewWidget::needsActionsUpdate, this, &PopupViewWidget::updateHeight);
+	connect(this, &PopupViewWidget::entered, this, &PopupViewWidget::handleIndexEntered);
+}
+
+void PopupViewWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+	QTreeView::currentChanged(current, previous);
+
+	if (selectionModel() && selectionModel()->hasSelection()) {
+		if (m_sourceModel) {
+			emit canMoveUpChanged(canMoveUp());
+			emit canMoveDownChanged(canMoveDown());
+		}
+
+		emit needsActionsUpdate();
+	}
+}
+
+QSize PopupViewWidget::sizeHint() const
+{
+	/*const QSize size(QTreeView::sizeHint());
+
+	if (m_sourceModel && m_sourceModel->columnCount() == 1)
+	{
+		return QSize((sizeHintForColumn(0) + (frameWidth() * 2)), size.height());
+	}
+
+	return size;*/
+}
+
+QModelIndex PopupViewWidget::getCurrentIndex(int column) const
+{
+	if (!selectionModel() || !selectionModel()->hasSelection()) {
+		return QModelIndex();
+	}
+
+	if (column >= 0) {
+		return currentIndex().sibling(currentIndex().row(), column);
+	}
+
+	return currentIndex();
+}
+
+QModelIndex PopupViewWidget::getIndex(int row, int column, const QModelIndex& parent) const
+{
+	return (model() ? model()->index(row, column, parent) : QModelIndex());
+}
+
+int PopupViewWidget::getCurrentRow() const
+{
+	return ((selectionModel() && selectionModel()->hasSelection()) ? currentIndex().row() : -1);
+}
+
+int PopupViewWidget::getRowCount(const QModelIndex& parent) const
+{
+	return (model() ? model()->rowCount(parent) : 0);
+}
+
+int PopupViewWidget::getColumnCount(const QModelIndex& parent) const
+{
+	return (model() ? model()->columnCount(parent) : 0);
+}
+
+bool PopupViewWidget::canMoveUp() const
+{
+	return (currentIndex().row() > 0 && getRowCount() > 1);
+}
+
+bool PopupViewWidget::canMoveDown() const
+{
+	const int currentRow(currentIndex().row());
+	const int rowCount(getRowCount());
+
+	return (currentRow >= 0 && rowCount > 1 && currentRow < (rowCount - 1));
+}
+
+void PopupViewWidget::keyPressEvent(QKeyEvent* event)
+{
+	if (!m_addressBar) {
+		QTreeView::keyPressEvent(event);
+
+		return;
+	}
+
+	m_addressBar->event(event);
+
+	if (event->isAccepted()) {
+		if (!m_addressBar->hasFocus()) {
+			m_addressBar->hidePopup();
+		}
+
+		return;
+	}
+
+	switch (event->key()) {
+	case Qt::Key_Up:
+	case Qt::Key_Down:
+	case Qt::Key_PageUp:
+	case Qt::Key_PageDown:
+	case Qt::Key_End:
+		QTreeView::keyPressEvent(event);
+
+		return;
+	case Qt::Key_Enter:
+	case Qt::Key_Return:
+	case Qt::Key_Tab:
+	case Qt::Key_Backtab:
+	case Qt::Key_Escape:
+	case Qt::Key_F4:
+		if (event->key() == Qt::Key_F4 && !event->modifiers().testFlag(Qt::AltModifier)) {
+			break;
+		}
+
+		if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+			const QModelIndex index(getCurrentIndex());
+
+			if (index.isValid()) {
+				emit clicked(index);
+			}
+		}
+
+		m_addressBar->hidePopup();
+
+		break;
+	default:
+		break;
+	}
+}
+
+void PopupViewWidget::handleIndexEntered(const QModelIndex& index)
+{
+	if (index.isValid()) {
+		setCurrentIndex(index);
+	}
+
+	QStatusTipEvent statusTipEvent(index.data(Qt::StatusTipRole).toString());
+
+	QApplication::sendEvent(m_addressBar, &statusTipEvent);
+}
+
+void PopupViewWidget::updateHeight()
+{
+	int completionHeight(5);
+	const int rowCount(qMin(20, getRowCount()));
+
+	for (int i = 0; i < rowCount; ++i) {
+		completionHeight += sizeHintForRow(i);
+	}
+
+	setFixedHeight(completionHeight);
+	viewport()->setFixedHeight(completionHeight - 3);
+}
+
+bool PopupViewWidget::event(QEvent* event)
+{
+	switch (event->type()) {
+	case QEvent::Close:
+	case QEvent::Hide:
+	case QEvent::Leave:
+		if (m_addressBar) {
+			QString statusTip;
+			QStatusTipEvent statusTipEvent(statusTip);
+
+			QApplication::sendEvent(m_addressBar, &statusTipEvent);
+		}
+
+		break;
+	case QEvent::InputMethod:
+	case QEvent::ShortcutOverride:
+		if (m_addressBar) {
+			QApplication::sendEvent(m_addressBar, event);
+		}
+
+		break;
+	case QEvent::MouseButtonPress:
+		if (m_addressBar && !viewport()->underMouse()) {
+			m_addressBar->hidePopup();
+		}
+
+		break;
+	default:
+		break;
+	}
+
+	return QTreeView::event(event);
+}
 
 QString AddressBar::urlToText(const QUrl& url)
 {
@@ -97,6 +487,7 @@ bool SideWidget::event(QEvent* event)
 AddressBar::AddressBar(BrowserWindow* window) :
 	QLineEdit(window),
 	m_window(window),
+	m_completionModel(new AddressCompletionModel(this)),
 	m_minHeight(0),
 	m_leftMargin(-1),
 	m_oldTextLength(0),
@@ -225,25 +616,51 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	addAction(selectAllAction);
 
 	connect(this, &AddressBar::textChanged, this, &AddressBar::updateActions);
-	connect(this, &AddressBar::textChanged, this, &AddressBar::textEdited);
+	connect(this, &AddressBar::textChanged, this, &AddressBar::sTextEdited);
+	connect(this, &AddressBar::textEdited, m_completionModel, &AddressCompletionModel::setFilter);
 	connect(this, &AddressBar::selectionChanged, this, &AddressBar::updateActions);
 	connect(m_goButton, &ToolButton::clicked, this, &AddressBar::requestLoadUrl);
 	connect(QApplication::clipboard(), &QClipboard::dataChanged, this, &AddressBar::updatePasteActions);
+	connect(m_completionModel, &AddressCompletionModel::completionReady, this, &AddressBar::setCompletion);
 
 	updateActions();
 	updatePasteActions();
 	loadSettings();
 	updateSiteIcon();
+}
 
-	QStringList suggestionList{};
-		foreach (HistoryItem item, Application::instance()->historyManager()->history()) {
-			suggestionList << item.url;
-		}
+void AddressBar::showPopup()
+{
+	if (!m_popupViewWidget)
+		m_popupViewWidget = new PopupViewWidget(this);
 
-	AddressCompleter* completer{new AddressCompleter(suggestionList, this)};
-	completer->setCaseSensitivity(Qt::CaseInsensitive);
+	m_popupViewWidget->updateHeight();
+	m_popupViewWidget->move(mapToGlobal(contentsRect().bottomLeft()));
+	m_popupViewWidget->setFixedWidth(width());
+	m_popupViewWidget->setFocusProxy(this);
+	m_popupViewWidget->show();
+}
 
-	setCompleter(completer);
+void AddressBar::hidePopup()
+{
+	if (m_popupViewWidget) {
+		m_popupViewWidget->hide();
+		m_popupViewWidget->deleteLater();
+		m_popupViewWidget = nullptr;
+	}
+}
+
+bool AddressBar::isPopupVisible() const
+{
+	return (m_popupViewWidget && m_popupViewWidget->isVisible());
+}
+
+PopupViewWidget* AddressBar::getPopup()
+{
+	if (!m_popupViewWidget)
+		m_popupViewWidget = new PopupViewWidget(this);
+
+	return m_popupViewWidget;
 }
 
 void AddressBar::setWebView(TabbedWebView* view)
@@ -302,23 +719,6 @@ void AddressBar::setWidgetSpacing(int spacing)
 void AddressBar::setMinHeight(int height)
 {
 	m_minHeight = height;
-}
-
-void AddressBar::setCompleter(AddressCompleter* completer)
-{
-	if (m_completer)
-		disconnect(m_completer, nullptr, this, nullptr);
-
-	m_completer = completer;
-
-	if (!m_completer)
-		return;
-
-	m_completer->setWidget(this);
-	connect(m_completer, SIGNAL(activated(
-									const QString&)), this, SLOT(insertCompletion(
-																	 const QString&)));
-//	connect(m_completer, SIGNAL(highlighted(const QString&)), this, SLOT(insertHighlighted(const QString&)));
 }
 
 void AddressBar::setTextFormat(const AddressBar::TextFormat& format)
@@ -483,8 +883,6 @@ void AddressBar::mousePressEvent(QMouseEvent* event)
 		return;
 	}
 
-	refreshCompleter();
-
 	QLineEdit::mousePressEvent(event);
 }
 
@@ -572,6 +970,9 @@ void AddressBar::paintEvent(QPaintEvent* event)
 
 void AddressBar::keyPressEvent(QKeyEvent* event)
 {
+	if ((event->key() == Qt::Key_Backspace || event->key() == Qt::Key_Delete) && !m_completion.isEmpty())
+		m_shouldIgnoreCompletion = true;
+
 	switch (event->key()) {
 	case Qt::Key_V:
 		if (event->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier)) {
@@ -616,7 +1017,7 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 
 			showUrl(m_webView->url());
 		}
-		else {
+		else if (!isPopupVisible()) {
 			switch (event->modifiers()) {
 			case Qt::ControlModifier:
 				if (!text().endsWith(QLatin1String(".com")))
@@ -656,35 +1057,44 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 		m_holdingAlt = false;
 	}
 
-	if (m_completer && m_completer->popup()->isVisible()) {
-// The following keys are forwarded by the completer to the widget
-		switch (event->key()) {
-		case Qt::Key_Enter:
-		case Qt::Key_Return:
-		case Qt::Key_Escape:
-		case Qt::Key_Tab:
-		case Qt::Key_Backtab:
-			event->ignore();
-			return; // Let the completer do default behavior
-		}
-	}
-
 	bool isShortcut = (event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E;
 	if (!isShortcut)
 		QLineEdit::keyPressEvent(event); // Don't send the shortcut (CTRL-E) to the text edit.
 
-	if (!m_completer)
-		return;
+}
 
-	bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
-	if (!isShortcut && !ctrlOrShift && event->modifiers() != Qt::NoModifier) {
-		m_completer->popup()->hide();
-		return;
+void AddressBar::resizeEvent(QResizeEvent* event)
+{
+	QLineEdit::resizeEvent(event);
+
+	if (m_popupViewWidget) {
+		m_popupViewWidget->move(mapToGlobal(contentsRect().bottomLeft()));
+		m_popupViewWidget->setFixedWidth(width());
+	}
+}
+
+void AddressBar::showCompletion()
+{
+	PopupViewWidget* popupViewWidget{getPopup()};
+	popupViewWidget->setModel(m_completionModel);
+	popupViewWidget->setItemDelegate(new AddressDelegate(text(), popupViewWidget));
+
+	AddressCompletionModel::CompletionTypes types{AddressCompletionModel::UnknownCompletionType};
+
+	types |= AddressCompletionModel::SearchSuggestionCompletionType;
+	types |= AddressCompletionModel::HistoryCompletionType;
+	types |= AddressCompletionModel::LocalPathSuggestionsCompletionType;
+
+	m_completionModel->setTypes(types);
+
+	if (!isPopupVisible()) {
+		connect(popupViewWidget, SIGNAL(clicked(QModelIndex)), this, SLOT(openUrl(QModelIndex)));
+
+		showPopup();
 	}
 
-	m_completer->update(text());
-	m_completer->popup()->setCurrentIndex(m_completer->completionModel()->index(0, 0));
-
+	popupViewWidget->setCurrentIndex(m_completionModel->index(0, 0));
+	popupViewWidget->setFocus();
 }
 
 QMenu* AddressBar::createContextMenu()
@@ -751,31 +1161,50 @@ void AddressBar::sDelete()
 		del();
 }
 
-void AddressBar::insertCompletion(const QString& url)
+void AddressBar::setCompletion(const QString& filter)
 {
-	setText(url);
-	requestLoadUrl();
+	if (filter.isEmpty() || m_completionModel->rowCount() == 0) {
+		hidePopup();
+
+		m_completion = QString();
+
+		if (m_shouldIgnoreCompletion)
+			m_shouldIgnoreCompletion = false;
+
+		return;
+	}
+
+	showCompletion();
 }
 
-void AddressBar::insertHighlighted(const QString& url)
-{
-	QString selection{selectedText()};
-	QString originalText{text()};
-
-	originalText.remove(selection);
-
-	setText(url);
-
-	setCursorPosition(url.indexOf(originalText) + originalText.size());
-	setSelection(url.indexOf(originalText) + originalText.size(), url.size());
-}
-
-void AddressBar::textEdited(const QString& text)
+void AddressBar::sTextEdited(const QString& text)
 {
 	m_oldTextLength = m_currentTextLength;
 	m_currentTextLength = text.length();
 
 	setGoButtonVisible(true);
+
+//	emit textEdited(text);
+}
+
+void AddressBar::openUrl(const QModelIndex& index)
+{
+	hidePopup();
+
+	if (!index.isValid())
+		return;
+
+	QString url{};
+
+	if (static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
+		== AddressCompletionModel::SearchSuggestionType) {
+		url = index.data(AddressCompletionModel::TextRole).toString();
+	}
+	else
+		url = index.data(AddressCompletionModel::UrlRole).toUrl().toString();
+
+	setText(url);
+	requestLoadUrl();
 }
 
 void AddressBar::requestLoadUrl()
@@ -940,19 +1369,6 @@ void AddressBar::refreshTextFormat()
 	}
 
 	setTextFormat(textFormat);
-}
-
-void AddressBar::refreshCompleter()
-{
-	if (!m_completer)
-		return;
-
-	QStringList suggestionList{};
-		foreach (HistoryItem item, Application::instance()->historyManager()->history()) {
-			suggestionList << item.url;
-		}
-
-	m_completer->setModel(new QStringListModel(suggestionList));
 }
 
 bool AddressBar::processMainCommand(const QString& command, const QStringList& args)
