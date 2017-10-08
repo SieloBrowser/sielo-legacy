@@ -278,18 +278,6 @@ void PopupViewWidget::currentChanged(const QModelIndex& current, const QModelInd
 	}
 }
 
-QSize PopupViewWidget::sizeHint() const
-{
-	/*const QSize size(QTreeView::sizeHint());
-
-	if (m_sourceModel && m_sourceModel->columnCount() == 1)
-	{
-		return QSize((sizeHintForColumn(0) + (frameWidth() * 2)), size.height());
-	}
-
-	return size;*/
-}
-
 QModelIndex PopupViewWidget::getCurrentIndex(int column) const
 {
 	if (!selectionModel() || !selectionModel()->hasSelection()) {
