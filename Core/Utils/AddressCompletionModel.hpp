@@ -26,27 +26,102 @@
 #ifndef SIELOBROWSER_ADDRESSCOMPLETER_HPP
 #define SIELOBROWSER_ADDRESSCOMPLETER_HPP
 
-#include <QStringList>
-#include <QStringListModel>
+#include <QVector>
+#include <QUrl>
+#include <QIcon>
 
-#include <QCompleter>
+#include <QTimerEvent>
+
+#include <QAbstractListModel>
+
 
 namespace Sn {
 
-class AddressCompleter: public QCompleter {
+class AddressCompletionModel: public QAbstractListModel {
 Q_OBJECT
 
 public:
-	AddressCompleter(const QStringList& urls, QObject* parent = nullptr);
+	enum CompletionType {
+		UnknownCompletionType = 0,
+		HistoryCompletionType = 1,
+		SearchSuggestionCompletionType = 2,
+		LocalPathSuggestionsCompletionType = 4
+	};
 
-	void update(QString url);
+	Q_DECLARE_FLAGS(CompletionTypes, CompletionType)
 
-	QString url() const { return m_url; }
+	enum EntryType {
+		UnknownType = 0,
+		HeaderType,
+		HistoryType,
+		SearchSuggestionType,
+		LocalPathType
+	};
+
+	enum EntryRole {
+		TextRole = Qt::DisplayRole,
+		UrlRole = Qt::StatusTipRole,
+		TitleRole = Qt::UserRole,
+		MatchRole,
+		KeywordRole,
+		TypeRole
+		// TODO: TimeVisistedRole
+	};
+
+	struct CompletionEntry {
+		QString text{};
+		QString title{};
+		QString match{};
+		QString keyword{};
+		QUrl url{};
+		QIcon icon{};
+		EntryType type = UnknownType;
+
+		explicit CompletionEntry(const QUrl& urlValue, const QString& titleValue, const QString& matchValue,
+								 const QIcon& iconValue, EntryType typeValue) :
+			title(titleValue),
+			match(matchValue),
+			url(urlValue),
+			icon(iconValue),
+			type(typeValue)
+		{
+			// Empty
+		}
+
+		CompletionEntry()
+		{
+			// Empty
+		}
+	};
+
+	AddressCompletionModel(QObject* parent = nullptr);
+
+	void setTypes(CompletionTypes types);
+	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+	Qt::ItemFlags flags(const QModelIndex& index) const Q_DECL_OVERRIDE;
+	int rowCount(const QModelIndex& index = QModelIndex()) const Q_DECL_OVERRIDE;
+
+	bool event(QEvent* event) Q_DECL_OVERRIDE;
+
+signals:
+	void completionReady(const QString& filter);
+
+public slots:
+	void setFilter(const QString& filter = QString());
+
+protected:
+	void timerEvent(QTimerEvent* event) Q_DECL_OVERRIDE;
+	void updateModel();
 
 private:
-	QStringList m_urls{};
-	QStringListModel m_model{};
-	QString m_url{};
+	QVector<CompletionEntry> m_completions;
+
+	QString m_filter{};
+	AddressCompletionModel::CompletionTypes m_types;
+
+	int m_updateTimer{0};
+	bool m_showCompletionCategories{true};
 };
 }
 
