@@ -83,7 +83,6 @@ void AboutDialog::showAbout()
 		m_html += tr("<p><b>Contributors:</b><br />%1</p>").arg(
 			QString::fromUtf8("hotaru70o<br />"
 								  "ilearn32<br />"
-								  "felko<br />"
 								  "gbdivers")
 		);
 		m_html += "</div></center>";
