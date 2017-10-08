@@ -32,8 +32,9 @@
 
 #include <QTimer>
 
+#include "History/HistoryItem.hpp"
+
 namespace Sn {
-struct HistoryItem;
 class HistoryModel;
 class HistoryFilterModel;
 class HistoryTreeModel;
@@ -48,6 +49,11 @@ Q_OBJECT
 				   setHistoryLimit)
 
 public:
+	struct HistoryEntryMatch {
+		HistoryItem item{};
+		QString match{};
+	};
+
 	explicit HistoryManager(QObject* parent = nullptr);
 	~HistoryManager();
 
@@ -64,9 +70,13 @@ public:
 	QList<HistoryItem>& history() { return m_history; }
 	void setHistory(const QList<HistoryItem>& history, bool loadedAndSorted = false);
 
+	QVector<HistoryEntryMatch> findEntries(const QString& prefix) const;
+
 	HistoryModel* historyModel() const { return m_historyModel; }
 	HistoryFilterModel* historyFilterModel() const { return m_historyFilterModel; }
 	HistoryTreeModel* historyTreeModel() const { return m_historyTreeModel; }
+
+	QString matchUrl(const QUrl& url, const QString& prefix) const;
 
 signals:
 	void historyReset();

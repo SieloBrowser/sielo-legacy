@@ -39,7 +39,6 @@
 #include <QtDebug>
 #include <QtCore/QBuffer>
 
-#include "History/HistoryItem.hpp"
 #include "History/HistoryModel.hpp"
 #include "History/HistoryDialog.hpp"
 #include "History/HistoryFilterModel.hpp"
@@ -152,6 +151,63 @@ void HistoryManager::setHistory(const QList<HistoryItem>& history, bool loadedAn
 	}
 
 	emit historyReset();
+}
+
+QVector<HistoryManager::HistoryEntryMatch> HistoryManager::findEntries(const QString& prefix) const
+{
+	QVector<HistoryItem> matchedEntries;
+	QVector<HistoryManager::HistoryEntryMatch> allMatches;
+	QVector<HistoryManager::HistoryEntryMatch> currentMatches;
+	QMultiMap<QDateTime, HistoryManager::HistoryEntryMatch> matchesMap;
+
+	for (int i{0}; i < m_history.count(); ++i) {
+		if (matchedEntries.contains(m_history[i]))
+			continue;
+
+		const QString result{matchUrl(QUrl(m_history[i].url), prefix)};
+
+		if (!result.isEmpty()) {
+			HistoryEntryMatch match;
+			match.item = m_history[i];
+			match.match = result;
+
+			matchesMap.insert(match.item.dateTime, match);
+			matchedEntries.append(match.item);
+		}
+	}
+
+	currentMatches = matchesMap.values().toVector();
+	matchesMap.clear();
+
+	for (int i{currentMatches.count() - 1}; i >= 0; --i)
+		allMatches.append(currentMatches[i]);
+
+	return allMatches;
+}
+
+QString HistoryManager::matchUrl(const QUrl& url, const QString& prefix) const
+{
+	QString match{url.toString()};
+
+	if (match.startsWith(prefix, Qt::CaseInsensitive)) {
+		return match;
+	}
+
+	match = url.toString(QUrl::RemoveScheme).mid(2);
+
+	if (match.startsWith(prefix, Qt::CaseInsensitive)) {
+		return match;
+	}
+
+	if (match.startsWith(QLatin1String("www.")) && url.host().count(QLatin1Char('.')) > 1) {
+		match = match.mid(4);
+
+		if (match.startsWith(prefix, Qt::CaseInsensitive)) {
+			return match;
+		}
+	}
+
+	return QString();
 }
 
 void HistoryManager::clear()
