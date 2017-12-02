@@ -83,7 +83,6 @@ public:
 	explicit PopupViewWidget(AddressBar* parent);
 
 	void currentChanged(const QModelIndex& current, const QModelIndex& previous);
-	QSize sizeHint() const;
 	QModelIndex getCurrentIndex(int column = 0) const;
 	QModelIndex getIndex(int row, int column = 0, const QModelIndex& parent = QModelIndex()) const;
 	int getCurrentRow() const;
