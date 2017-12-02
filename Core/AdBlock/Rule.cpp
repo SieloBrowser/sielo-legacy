@@ -197,6 +197,11 @@ bool Rule::networkMatch(const QWebEngineUrlRequestInfo& request, const QString& 
 			return false;
 		if (hasOption(ObjectSubrequestOption) && !matchObjectSubrequest(request))
 			return false;
+		if (hasOption(PingOption) && !matchPing(request))
+			return false;
+		if (hasOption(MediaOption) && !matchMedia(request))
+			return false;
+
 	}
 
 	return matched;
@@ -204,36 +209,40 @@ bool Rule::networkMatch(const QWebEngineUrlRequestInfo& request, const QString& 
 
 bool Rule::matchDomain(const QString& domain) const
 {
-	if (!m_isEnabled)
+	if (!m_isEnabled) {
 		return false;
+	}
 
-	if (!hasOption(DomainRestrictedOption))
+	if (!hasOption(DomainRestrictedOption)) {
 		return true;
+	}
 
 	if (m_blockedDomains.isEmpty()) {
 			foreach (const QString& d, m_allowedDomains) {
-				if (isMatchingDomain(domain, d))
-					return false;
-
-				return true;
+				if (isMatchingDomain(domain, d)) {
+					return true;
+				}
 			}
 	}
 	else if (m_allowedDomains.isEmpty()) {
 			foreach (const QString& d, m_blockedDomains) {
-				if (isMatchingDomain(domain, d))
+				if (isMatchingDomain(domain, d)) {
 					return false;
-
-				return true;
+				}
 			}
+		return true;
 	}
 	else {
 			foreach (const QString& d, m_blockedDomains) {
-				if (isMatchingDomain(domain, d))
+				if (isMatchingDomain(domain, d)) {
 					return false;
+				}
 			}
+
 			foreach (const QString& d, m_allowedDomains) {
-				if (isMatchingDomain(domain, d))
+				if (isMatchingDomain(domain, d)) {
 					return true;
+				}
 			}
 	}
 
@@ -294,9 +303,39 @@ bool Rule::matchStyleSheet(const QWebEngineUrlRequestInfo& request) const
 
 bool Rule::matchObjectSubrequest(const QWebEngineUrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSubResource};
+	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePluginResource};
 
 	return hasException(ObjectSubrequestOption) == !match;
+}
+
+bool Rule::matchPing(const QWebEngineUrlRequestInfo& request) const
+{
+	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePing};
+
+	return hasException(PingOption) == !match;
+}
+
+bool Rule::matchMedia(const QWebEngineUrlRequestInfo& request) const
+{
+	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeMedia};
+
+	return hasException(MediaOption) == !match;
+}
+
+bool Rule::matchOther(const QWebEngineUrlRequestInfo& request) const
+{
+	bool match{
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFontResource ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSubResource ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeWorker ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSharedWorker ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePrefetch ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFavicon ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeServiceWorker ||
+		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeUnknown
+	};
+
+	return hasException(MediaOption) == !match;
 }
 
 bool Rule::stringMatch(const QString& domain, const QString& encodedUrl) const
@@ -426,7 +465,8 @@ void Rule::parseFilter()
 	int optionsIndex{parsedLine.indexOf(QLatin1Char('$'))};
 
 	if (optionsIndex >= 0) {
-		const QStringList options{parsedLine.mid(optionsIndex + 1).split(QLatin1Char(','), QString::SkipEmptyParts)};
+		const QStringList
+			options{parsedLine.mid(optionsIndex + 1).split(QLatin1Char(','), QString::SkipEmptyParts)};
 		int handledOptions{0};
 
 			foreach (const QString& option, options) {

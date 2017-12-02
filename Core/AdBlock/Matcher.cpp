@@ -50,8 +50,6 @@ const Rule* Matcher::match(const QWebEngineUrlRequestInfo& request, const QStrin
 	if (m_networkExceptionTree.find(request, urlDomain, urlString))
 		return nullptr;
 
-	int count{m_networkExceptionRules.count()};
-
 		foreach (const Rule* rule, m_networkExceptionRules) {
 			if (rule->networkMatch(request, urlDomain, urlString))
 				return nullptr;
@@ -59,8 +57,6 @@ const Rule* Matcher::match(const QWebEngineUrlRequestInfo& request, const QStrin
 
 	if (const Rule* rule = m_networkBlockTree.find(request, urlDomain, urlString))
 		return rule;
-
-	count = m_networkBlockRules.count();
 
 		foreach (const Rule* rule, m_networkBlockRules) {
 			if (rule->networkMatch(request, urlDomain, urlString))
