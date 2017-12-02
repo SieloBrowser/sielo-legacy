@@ -48,6 +48,8 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 
+#include <array>
+
 namespace Sn {
 class TabbedWebView;
 class LoadRequest;
