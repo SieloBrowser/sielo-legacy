@@ -65,7 +65,7 @@ void PreferencesDialog::saveSettings()
 	m_passwordPage->save();
 	m_privacyPage->save();
 	m_downloadPage->save();
-//	m_pageAdBlock->save();
+	m_pageAdBlock->save();
 	m_currentTabsSpacePage->save();
 
 	Application::instance()->loadSettings();
@@ -105,7 +105,7 @@ void PreferencesDialog::setupUI()
 	m_passwordPage = new PasswordPage(m_pages);
 	m_privacyPage = new PrivacyPage(m_pages);
 	m_appearancePage = new AppearancePage(m_pages);
-//	m_pageAdBlock = new AdBlockPage(m_pages);
+	m_pageAdBlock = new AdBlockPage(m_pages);
 	m_currentTabsSpacePage = new CurrentTabsSpacePage(m_tabWidget, m_pages);
 
 	m_pages->addTab(m_generalPage, tr("General"));
@@ -116,7 +116,7 @@ void PreferencesDialog::setupUI()
 	m_pages->addTab(m_passwordPage, tr("Password Manager"));
 	m_pages->addTab(m_privacyPage, tr("Privacy"));
 	m_pages->addTab(m_downloadPage, tr("Downloads"));
-//	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
+	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
 	m_pages->addTab(m_currentTabsSpacePage, tr("Current Tabs Space"));
 
 	m_buttonSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -128,7 +128,6 @@ void PreferencesDialog::setupUI()
 
 	m_layout->addWidget(m_pages);
 	m_layout->addLayout(m_layoutButton);
-
 }
 
 }

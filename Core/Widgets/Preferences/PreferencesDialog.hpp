@@ -78,7 +78,7 @@ private:
 	PasswordPage* m_passwordPage{nullptr};
 	PrivacyPage* m_privacyPage{nullptr};
 	DownloadPage* m_downloadPage{nullptr};
-//	AdBlockPage* m_pageAdBlock{nullptr};
+	AdBlockPage* m_pageAdBlock{nullptr};
 	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};
 
 	TabWidget* m_tabWidget{nullptr};
