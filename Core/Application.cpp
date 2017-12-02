@@ -521,6 +521,14 @@ void Application::postLaunch()
 	if (m_postLaunchActions.contains(OpenNewTab))
 		getWindow()->tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab);
 
+	QSettings settings{};
+
+	if (!settings.value("installed", false).toBool()) {
+		getWindow()->tabWidget()
+			->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTab);
+		settings.setValue("installed", true);
+	}
+
 	connect(this, &Application::receivedMessage, this, &Application::messageReceived);
 	connect(this, &Application::aboutToQuit, this, &Application::saveSettings);
 }
