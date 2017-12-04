@@ -82,6 +82,7 @@ void AboutDialog::showAbout()
 			.arg("Victor DENIS", "<a href=\"mailto:victordenis01@gmail.com\">victordenis01@gmail.com</a>");
 		m_html += tr("<p><b>Contributors:</b><br />%1</p>").arg(
 			QString::fromUtf8("hotaru70o<br />"
+								  "LavaPower (http://github.com/LavaPower)"
 								  "ilearn32<br />"
 								  "gbdivers")
 		);
