@@ -61,7 +61,7 @@ void TabCloseButton::leaveEvent(QEvent* event)
 	QAbstractButton::leaveEvent(event);
 }
 
-void TabCloseButton::paintEvent(QPaintEvent* event)
+void TabCloseButton::paintEvent(QPaintEvent*)
 {
 	bool isUnderMouse{rect().contains(mapFromGlobal(QCursor::pos()))};
 	QPainter painter{this};

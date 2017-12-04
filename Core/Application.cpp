@@ -258,6 +258,7 @@ Application::Application(int& argc, char** argv) :
 	}
 
 	Updater* updater{new Updater(window)};
+	Q_UNUSED(updater);
 
 	QTimer::singleShot(0, this, &Application::postLaunch);
 }
@@ -549,7 +550,7 @@ void Application::downloadRequested(QWebEngineDownloadItem* download)
 	download->accept();
 }
 
-void Application::messageReceived(quint32 instanceId, QByteArray messageBytes)
+void Application::messageReceived(quint32, QByteArray messageBytes)
 {
 	QWidget* actualWindow = getWindow();
 	QUrl actualUrl{};

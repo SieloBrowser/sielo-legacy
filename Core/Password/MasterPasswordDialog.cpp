@@ -40,8 +40,8 @@
 namespace Sn {
 
 MasterPasswordDialog::MasterPasswordDialog(DatabaseEncryptedPasswordBackend* backend, QWidget* parent) :
-	m_backend(backend),
-	QDialog(parent)
+	QDialog(parent),
+	m_backend(backend)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 

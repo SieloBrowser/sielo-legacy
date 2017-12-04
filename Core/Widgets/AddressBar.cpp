@@ -1251,6 +1251,7 @@ void AddressBar::loadStarted()
 
 void AddressBar::loadProgress(int progress)
 {
+	Q_UNUSED(progress);
 	// TODO: show loading in address bar
 }
 
@@ -1268,7 +1269,8 @@ void AddressBar::loadFinished()
 
 void AddressBar::loadFromCompleter(QString& text)
 {
-
+	Q_UNUSED(text);
+	//TODO: do
 }
 
 void AddressBar::loadSettings()
@@ -1285,7 +1287,6 @@ LoadRequest AddressBar::createLoadRequest() const
 {
 	LoadRequest request{};
 	const QString& text = this->text().trimmed();
-	int firstSpacePos = text.indexOf(QLatin1Char(' '));
 
 	//TODO: add shortcuts
 

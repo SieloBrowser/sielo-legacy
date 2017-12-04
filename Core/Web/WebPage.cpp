@@ -104,6 +104,7 @@ WebPage::WebPage(QObject* parent) :
 			this,
 			[this](const QUrl& url, QAuthenticator* authenticator, const QString& proxyHost)
 			{
+				Q_UNUSED(url);
 				Application::instance()->networkManager()->proxyAuthentication(proxyHost, authenticator, view());
 			});
 }

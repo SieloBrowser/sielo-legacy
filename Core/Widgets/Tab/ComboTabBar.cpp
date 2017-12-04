@@ -739,7 +739,7 @@ int ComboTabBar::comboTabBarPixelMetric(SizeType sizeType) const
 
 QSize ComboTabBar::tabSizeHint(int index, bool fast) const
 {
-	Q_UNUSED(false);
+	Q_UNUSED(fast);
 
 	return localTabBar(index)->baseClassTabSizeHint(toLocalIndex(index));
 }

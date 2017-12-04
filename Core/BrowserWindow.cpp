@@ -90,7 +90,6 @@ QByteArray BrowserWindow::saveTabs()
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	int count = m_mainSplitter->count();
 	stream << m_mainSplitter->count();
 
 	for (int i{0}; i < m_mainSplitter->count(); ++i) {
@@ -173,7 +172,7 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 	autoResizeTabsSpace();
 }
 
-void BrowserWindow::currentTabChanged(WebTab* oldTab)
+void BrowserWindow::currentTabChanged(WebTab*)
 {
 	TabbedWebView* view{webView()};
 

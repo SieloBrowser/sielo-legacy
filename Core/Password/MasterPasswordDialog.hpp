@@ -89,7 +89,7 @@ private:
 	QLabel* m_noteLabel{nullptr};
 	QDialogButtonBox* m_setMasterButtonBox{nullptr};
 
-	DatabaseEncryptedPasswordBackend* m_backend;
+	DatabaseEncryptedPasswordBackend* m_backend{nullptr};
 };
 
 class AskMasterPasswordDialog: public QDialog {

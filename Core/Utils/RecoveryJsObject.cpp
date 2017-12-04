@@ -56,9 +56,8 @@ QJsonArray RecoveryJsObject::restoreData() const
 {
 	QJsonArray out{};
 
-	int i{0};
-
-	/*	foreach (const RestoreManager::WindowData& window, m_manager->restoreData()) {
+	/*
+		foreach (const RestoreManager::WindowData& window, m_manager->restoreData()) {
 			int j{0};
 			QJsonArray tabs;
 				foreach (const WebTab::SavedTab& tab, window.tabsState) {

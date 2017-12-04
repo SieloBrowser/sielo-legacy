@@ -163,6 +163,7 @@ void AppearancePage::addTheme()
 
 void AppearancePage::useRealToolBarChanged(bool enabled)
 {
+	Q_UNUSED(enabled);
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 }

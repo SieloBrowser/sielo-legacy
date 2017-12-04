@@ -241,6 +241,7 @@ void NavigationToolBar::showHistoryDialog()
 
 void NavigationToolBar::contextMenuRequested(const QPoint& pos)
 {
+	Q_UNUSED(pos);
 	// TODO: do context menu for navigation tool bar
 }
 }

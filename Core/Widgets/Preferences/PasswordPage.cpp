@@ -61,7 +61,7 @@ void PasswordPage::save()
 
 void PasswordPage::allowChanged(bool allow)
 {
-	m_autoFillManager->setVisible(m_allowCheck->isChecked());
+	m_autoFillManager->setVisible(allow);
 }
 
 void PasswordPage::setupUI()

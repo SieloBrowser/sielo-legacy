@@ -327,6 +327,7 @@ QByteArray AutoFill::exportPasswords()
 
 bool AutoFill::importPasswords(const QByteArray& data)
 {
+	Q_UNUSED(data);
 	//TODO: do
 	QMessageBox::critical(nullptr, tr("No"), tr("You can't import password yet"));
 

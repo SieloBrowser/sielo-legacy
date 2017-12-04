@@ -236,7 +236,7 @@ void TabStackedWidget::setUpLayout()
 
 bool TabStackedWidget::eventFilter(QObject* obj, QEvent* event)
 {
-	if (m_dirtyTabBar & obj == m_comboTabBar && event->type() == QEvent::Show)
+	if (m_dirtyTabBar & (obj == m_comboTabBar) && (event->type() == QEvent::Show))
 		setUpLayout();
 
 	return false;

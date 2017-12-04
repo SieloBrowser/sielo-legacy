@@ -243,7 +243,6 @@ QByteArray TabWidget::saveState()
 
 		foreach (const WebTab::SavedTab& tab, tabList) stream << tab;
 
-	int intCurrentIndex = currentIndex();
 	stream << currentIndex();
 
 	return data;
@@ -467,6 +466,9 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	}
 	else if (request.url().isValid())
 		webTab->webView()->load(request);
+
+	if (selectLine && m_window->webView()->webTab()->addressBar()->text().isEmpty())
+		m_window->webView()->webTab()->addressBar()->setFocus();
 
 	if (!(openFlags & Application::NTT_SelectedTab))
 		m_tabBar->ensureVisible(index);

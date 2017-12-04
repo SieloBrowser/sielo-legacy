@@ -126,6 +126,7 @@ public:
 	virtual bool processCommand(const QString& command, const QStringList& args)
 	{
 		Q_UNUSED(command);
+		Q_UNUSED(args);
 
 		return false;
 	}

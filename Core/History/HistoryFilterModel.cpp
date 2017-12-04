@@ -117,6 +117,7 @@ QModelIndex HistoryFilterModel::index(int row, int column, const QModelIndex& pa
 
 QModelIndex HistoryFilterModel::parent(const QModelIndex& index) const
 {
+	Q_UNUSED(index);
 	return QModelIndex();
 }
 

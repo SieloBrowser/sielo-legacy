@@ -294,7 +294,7 @@ void HistoryTreeModel::sourceRowsRemoved(const QModelIndex& parent, int start, i
 		QModelIndex dateParent{index(row, 0)};
 		int rc{rowCount(dateParent)};
 
-		if (i - rc + 1 == offset & start <= i - rc + 1) {
+		if ((i - rc + 1 == offset) & (start <= i - rc + 1)) {
 			beginRemoveRows(QModelIndex(), row, row);
 			m_sourceRowCache.removeAt(row);
 			i -= rc + 1;

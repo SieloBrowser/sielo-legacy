@@ -80,7 +80,7 @@ void ProxyConfigPage::save()
 	QNetworkProxy::ProxyType proxyType{};
 
 	if (m_systemProxyRadio->isChecked())
-		proxyType == QNetworkProxy::NoProxy;
+		proxyType = QNetworkProxy::NoProxy;
 	else if (m_proxyType->currentIndex() == 0)
 		proxyType = QNetworkProxy::HttpProxy;
 	else
