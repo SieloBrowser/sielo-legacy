@@ -48,8 +48,8 @@ TreeWidget::TreeWidget(Subscription* subscription, QWidget* parent) :
 	setAlternatingRowColors(true);
 	setLayoutDirection(Qt::LeftToRight);
 
-	connect(this, &TreeWidget::customContextMenuRequested, this, &TreeWidget::contextMenuRequested);
-	connect(this, &TreeWidget::itemChanged, this, &TreeWidget::itemChanged);
+	connect(this, &QTreeWidget::customContextMenuRequested, this, &TreeWidget::contextMenuRequested);
+	connect(this, &QTreeWidget::itemChanged, this, &TreeWidget::itemChanged);
 	connect(m_subscription, &Subscription::subscriptionUpdated, this, &TreeWidget::subscriptionUpdated);
 	connect(m_subscription, &Subscription::subscriptionError, this, &TreeWidget::subscriptionError);
 }
@@ -177,7 +177,7 @@ void TreeWidget::itemChanged(QTreeWidgetItem* item)
 
 	// Disable the rule
 	if (item->checkState(0) == Qt::Unchecked && oldRule->isEnabled()) {
-		const Rule* rule{m_subscription->disableRule(offset)};
+		const Rule* rule = m_subscription->disableRule(offset);
 		adjustItemFeature(item, rule);
 	} // Enable the rule
 	else if (item->checkState(0) == Qt::Checked && !oldRule->isEnabled()) {
@@ -241,7 +241,7 @@ void TreeWidget::adjustItemFeature(QTreeWidgetItem* item, const Rule* rule)
 	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
 	item->setCheckState(0, Qt::Checked);
 
-	if (rule->isEnabled()) {
+	if (rule->isException()) {
 		item->setForeground(0, QColor(Qt::darkGreen));
 		item->setFont(0, QFont());
 	}
