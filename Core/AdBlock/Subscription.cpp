@@ -148,7 +148,7 @@ const Rule* Subscription::disableRule(int offset)
 		return nullptr;
 
 	Rule* rule{m_rules[offset]};
-	rule->setEnabled(true);
+	rule->setEnabled(false);
 
 	Manager::instance()->addDisabledRule(rule->filter());
 
