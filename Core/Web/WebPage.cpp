@@ -32,6 +32,8 @@
 #include <QWebEngineSettings>
 #include <QWebChannel>
 
+#include <QMessageBox>
+
 #include <QSettings>
 
 #include "Web/WebHitTestResult.hpp"
@@ -178,10 +180,11 @@ void WebPage::javaScriptAlert(const QUrl& securityOrigin, const QString& msg)
 	if (!url().host().isEmpty())
 		title.append(QString(" - %1").arg(url().host()));
 
-	CheckBoxDialog dialog(QDialogButtonBox::Ok, view());
+	CheckBoxDialog dialog(QMessageBox::Ok, view());
 	dialog.setWindowTitle(title);
 	dialog.setText(msg);
 	dialog.setCheckBoxText(tr("Empêcher la page de créer des boites de dialog supplémentaires."));
+	dialog.setIcon(QMessageBox::Information);
 	dialog.exec();
 
 	m_blockAlerts = dialog.isChecked();
@@ -378,7 +381,7 @@ void WebPage::handleUnknowProtocol(const QUrl& url)
 		return;
 	}
 
-	CheckBoxDialog dialog(QDialogButtonBox::Yes | QDialogButtonBox::No, view());
+	CheckBoxDialog dialog(QMessageBox::Yes | QMessageBox::No, view());
 
 	const QString text{tr("Sielo n'arrive pas à traiter les protocoles <b>%1</b>. "
 							  "Voulez vous que Sielo tente malgré tout d'ouvrir le "

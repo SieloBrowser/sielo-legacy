@@ -26,47 +26,25 @@
 #ifndef CORE_CHECKBOXDIALOG_HPP
 #define CORE_CHECKBOXDIALOG_HPP
 
-#include <QDialog>
-#include <QDialogButtonBox>
+#include <QMessageBox>
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-
-#include <QLabel>
+#include <QWidget>
 #include <QCheckBox>
-#include <QSpacerItem>
 
 namespace Sn {
 
-class CheckBoxDialog: public QDialog {
+class CheckBoxDialog: public QMessageBox {
 Q_OBJECT
 public:
-	CheckBoxDialog(const QDialogButtonBox::StandardButtons& buttons, QWidget* parent = nullptr);
+	CheckBoxDialog(const QMessageBox::StandardButtons& buttons, QWidget* parent = nullptr);
 
-	void setIcon(const QIcon& icon);
-
-	void setText(const QString& text);
 	void setCheckBoxText(const QString& text);
 
 	bool isChecked() const;
 	void setDefaultCheckState(Qt::CheckState state);
 
-public slots:
-	int exec();
-
 private:
-	void setupUi();
-
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_textLayout{nullptr};
-	QHBoxLayout* m_buttonLayout{nullptr};
-
-	QLabel* m_iconLabel{nullptr};
-	QLabel* m_textLabel{nullptr};
-
-	QDialogButtonBox* m_buttonBox{nullptr};
 	QCheckBox* m_checkBox{nullptr};
-	QSpacerItem* m_spacerItem{nullptr};
 };
 
 }
