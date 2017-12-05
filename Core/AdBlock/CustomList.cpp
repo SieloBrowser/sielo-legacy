@@ -40,6 +40,11 @@ CustomList::CustomList(QObject* parent) :
 
 void CustomList::loadSubscription(const QStringList& disabledRules)
 {
+	QFile file(filePath());
+	if (!file.exists()) {
+		saveSubscription();
+	}
+
 	//TODO: Why not add own Sielo subscription ?
 	Subscription::loadSubscription(disabledRules);
 }
@@ -54,7 +59,7 @@ void CustomList::saveSubscription()
 		return;
 	}
 
-	QTextStream textStream{};
+	QTextStream textStream{&file};
 
 	textStream.setCodec("UTF-8");
 	textStream << "Title: " << title() << endl;
