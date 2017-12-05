@@ -44,6 +44,7 @@
 #include <QWebEngineSettings>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
+#include <AdBlock/Manager.hpp>
 
 #include "BrowserWindow.hpp"
 
@@ -451,6 +452,8 @@ void Application::destroyRestoreManager()
 
 void Application::saveSettings()
 {
+	ADB::Manager::instance()->save();
+
 	if (privateBrowsing())
 		return;
 
@@ -469,6 +472,7 @@ void Application::saveSettings()
 		m_historyManager->clear();
 	if (deleteCookies)
 		m_cookieJar->deleteAllCookies();
+
 }
 
 void Application::saveSession(bool saveForHome)
