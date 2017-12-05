@@ -29,10 +29,22 @@
 #include <QWidget>
 
 #include <QGridLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+
+#include <QAction>
 
 #include <QLabel>
+#include <QLineEdit>
 #include <QCheckBox>
+#include <QPushButton>
+#include <QTabWidget>
 #include <QSpacerItem>
+
+#include "AdBlock/Manager.hpp"
+#include "AdBlock/TreeWidget.hpp"
+#include "AdBlock/Subscription.hpp"
+#include "AdBlock/Rule.hpp"
 
 namespace Sn {
 
@@ -44,17 +56,53 @@ public:
 	~AdBlockPage();
 
 	void loadSettings();
-	void save();
 
+	void showRule(const ADB::Rule* rule) const;
+
+private slots:
+	void addRule();
+	void removeRule();
+
+	void addSubscription();
+	void removeSubscription();
+
+	void currentChanged(int index);
+	void filterString(const QString& string);
+	void enableAdBlock(bool state);
+
+	void aboutToShowMenu();
+	void learnAboutRules();
+
+	void loadSubscription();
+	void load();
 private:
-	QGridLayout* m_layout{nullptr};
+	void setupUI();
 
-	QLabel* m_warning{nullptr};
-	QLabel* m_adBlockIcon{nullptr};
+	ADB::Manager* m_manager{nullptr};
+	ADB::TreeWidget* m_currentTreeWidget{nullptr};
+	ADB::Subscription* m_currentSubscription{nullptr};
+
+	QAction* m_actionAddRule{nullptr};
+	QAction* m_actionRemoveRule{nullptr};
+	QAction* m_actionAddSubscription{nullptr};
+	QAction* m_actionRemoveSubscription{nullptr};
+
+	QVBoxLayout* m_layout{nullptr};
+	QHBoxLayout* m_searchLayout{nullptr};
+	QHBoxLayout* m_optionsLayout{nullptr};
+	QGridLayout* m_adBlockWidgetLayout{nullptr};
+
 	QCheckBox* m_enableAdBlock{nullptr};
+	QLineEdit* m_search{nullptr};
+	QWidget* m_adBlockWidget{nullptr};
+	QTabWidget* m_tabWidget{nullptr};
+	QPushButton* m_optionsButton{nullptr};
+	QLabel* m_adbLabel{nullptr};
 
-	QSpacerItem* m_spacer{nullptr};
+	QSpacerItem* m_searchSpacer{nullptr};
+	QSpacerItem* m_optionsSpacer{nullptr};
 
+	bool m_loaded{false};
 };
 
 }

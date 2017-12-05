@@ -65,7 +65,6 @@ void PreferencesDialog::saveSettings()
 	m_passwordPage->save();
 	m_privacyPage->save();
 	m_downloadPage->save();
-	m_pageAdBlock->save();
 	m_currentTabsSpacePage->save();
 
 	Application::instance()->loadSettings();
