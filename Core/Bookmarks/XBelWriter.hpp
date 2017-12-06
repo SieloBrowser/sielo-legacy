@@ -28,6 +28,7 @@
 
 #include <QXmlStreamWriter>
 
+#include <QFile>
 #include <QIODevice>
 
 namespace Sn {

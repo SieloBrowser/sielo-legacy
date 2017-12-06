@@ -693,6 +693,7 @@ void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 	const QWebEngineContextMenuData& contextMenuData{page()->contextMenuData()};
 	hitTest.updateWithContextMenuData(contextMenuData);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 	if (!contextMenuData.misspelledWord().isEmpty()) {
 		QFont boldFont{menu->font()};
 		boldFont.setBold(true);
@@ -713,6 +714,7 @@ void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 		menu->addSeparator();
 		spellCheckAction = menu->actions().count();
 	}
+#endif
 
 	if (!hitTest.linkUrl().isEmpty() && hitTest.linkUrl().scheme() != QLatin1String("javascript"))
 		createLinkContextMenu(menu, hitTest);

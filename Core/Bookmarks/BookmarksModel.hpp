@@ -31,6 +31,7 @@
 
 #include <QMimeData>
 
+#include <QUrl>
 #include <QVariant>
 
 namespace Sn {
