@@ -22,13 +22,15 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Widgets/Preferences/AdBlockPage.hpp"
+#include "AdBlockPage.hpp"
 
 #include <QSettings>
 #include <QTimer>
 
 #include <QMenu>
 #include <QMessageBox>
+
+#include "AdBlock/SubscriptionDialog.hpp"
 
 #include "Application.hpp"
 
@@ -94,7 +96,20 @@ void AdBlockPage::removeRule()
 
 void AdBlockPage::addSubscription()
 {
-	QMessageBox::critical(this, tr("Error"), tr("The feature you request is not implemented yet."));
+	ADB::SubscriptionDialog dialog{this};
+
+	if (dialog.exec() != QDialog::Accepted)
+		return;
+
+	QString title{dialog.title()};
+	QString url{dialog.address()};
+
+	if (ADB::Subscription* subscription = m_manager->addSubscription(title, url)) {
+		ADB::TreeWidget* tree{new ADB::TreeWidget(subscription, m_tabWidget)};
+		int index{m_tabWidget->insertTab(m_tabWidget->count() - 1, tree, subscription->title())};
+
+		m_tabWidget->setCurrentIndex(index);
+	}
 }
 
 void AdBlockPage::removeSubscription()

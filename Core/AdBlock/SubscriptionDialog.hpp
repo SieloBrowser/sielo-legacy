@@ -23,89 +23,62 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADBLOCKPAGE_HPP
-#define SIELOBROWSER_ADBLOCKPAGE_HPP
+#ifndef SIELO_BROWSER_ADBSUBSCRIPTIONDIALOG_HPP
+#define SIELO_BROWSER_ADBSUBSCRIPTIONDIALOG_HPP
 
 #include <QWidget>
 #include <QDialog>
 
-#include <QGridLayout>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QVector>
 
-#include <QAction>
-
+#include <QFormLayout>
 #include <QLabel>
+#include <QComboBox>
 #include <QLineEdit>
-#include <QCheckBox>
-#include <QPushButton>
-#include <QTabWidget>
-#include <QSpacerItem>
-
-#include "AdBlock/Manager.hpp"
-#include "AdBlock/TreeWidget.hpp"
-#include "AdBlock/Subscription.hpp"
-#include "AdBlock/Rule.hpp"
+#include <QDialogButtonBox>
 
 namespace Sn {
+namespace ADB {
 
-class AdBlockPage: public QWidget {
+class SubscriptionDialog: public QDialog {
 Q_OBJECT
 
 public:
-	AdBlockPage(QWidget* parent = nullptr);
-	~AdBlockPage();
+	SubscriptionDialog(QWidget* parent);
 
-	void loadSettings();
-
-	void showRule(const ADB::Rule* rule) const;
+	QString title() const;
+	QString address() const;
 
 private slots:
-	void addRule();
-	void removeRule();
+	void indexChanged(int index);
 
-	void addSubscription();
-	void removeSubscription();
-
-	void currentChanged(int index);
-	void filterString(const QString& string);
-	void enableAdBlock(bool state);
-
-	void aboutToShowMenu();
-	void learnAboutRules();
-
-	void loadSubscription();
-	void load();
 private:
+	struct ADBSubscription {
+		QString title{};
+		QString url{};
+
+		ADBSubscription() {}
+		ADBSubscription(const QString& t, const QString& u) :
+			title(t),
+			url(u) {}
+	};
+
 	void setupUI();
 
-	ADB::Manager* m_manager{nullptr};
-	ADB::TreeWidget* m_currentTreeWidget{nullptr};
-	ADB::Subscription* m_currentSubscription{nullptr};
+	QFormLayout* m_layout{nullptr};
 
-	QAction* m_actionAddRule{nullptr};
-	QAction* m_actionRemoveRule{nullptr};
-	QAction* m_actionAddSubscription{nullptr};
-	QAction* m_actionRemoveSubscription{nullptr};
+	QLabel* m_desc{nullptr};
+	QComboBox* m_knownSubscriptionBox{nullptr};
+	QLabel* m_titleDesc{nullptr};
+	QLineEdit* m_title{nullptr};
+	QLabel* m_addressDesc{nullptr};
+	QLineEdit* m_address{nullptr};
+	QDialogButtonBox* m_buttonBox{nullptr};
 
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_searchLayout{nullptr};
-	QHBoxLayout* m_optionsLayout{nullptr};
-	QGridLayout* m_adBlockWidgetLayout{nullptr};
-
-	QCheckBox* m_enableAdBlock{nullptr};
-	QLineEdit* m_search{nullptr};
-	QWidget* m_adBlockWidget{nullptr};
-	QTabWidget* m_tabWidget{nullptr};
-	QPushButton* m_optionsButton{nullptr};
-	QLabel* m_adbLabel{nullptr};
-
-	QSpacerItem* m_searchSpacer{nullptr};
-	QSpacerItem* m_optionsSpacer{nullptr};
-
-	bool m_loaded{false};
+	QVector<ADBSubscription> m_knownSubscriptions;
 };
 
 }
+}
 
-#endif //SIELOBROWSER_ADBLOCKPAGE_HPP
+#endif //SIELO_BROWSER_ADBSUBSCRIPTIONDIALOG_HPP
