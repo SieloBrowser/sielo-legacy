@@ -66,10 +66,13 @@ void Updater::downloadUpdateInfoCompleted()
 		QString line{in.readLine()};
 		QStringList versionInfo{line.split(QLatin1Char(','))};
 
-		if (readLastVersion) {
+		if (newVersion.isEmpty())
 			newVersion = versionInfo[0];
-			readLastVersion = false;
-		}
+
+		if (versionInfo[0] == Application::currentVersion)
+			break;
+
+		std::string debug = line.toStdString();
 
 		for (int i{1}; i < versionInfo.count(); ++i) {
 			if (versionInfo[i] == "fullUpdate")
