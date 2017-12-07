@@ -60,7 +60,6 @@ void Updater::downloadUpdateInfoCompleted()
 	QByteArray updateInfo = m_versionReply->readAll();
 	QTextStream in{&updateInfo};
 	QString newVersion{};
-	bool readLastVersion{true};
 
 	while (!in.atEnd()) {
 		QString line{in.readLine()};
@@ -71,8 +70,6 @@ void Updater::downloadUpdateInfoCompleted()
 
 		if (versionInfo[0] == Application::currentVersion)
 			break;
-
-		std::string debug = line.toStdString();
 
 		for (int i{1}; i < versionInfo.count(); ++i) {
 			if (versionInfo[i] == "fullUpdate")
