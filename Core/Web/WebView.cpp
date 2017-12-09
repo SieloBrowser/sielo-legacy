@@ -206,6 +206,7 @@ void WebView::setPage(WebPage* page)
 		return;
 
 	m_page = page;
+	m_page->setParent(this);
 	QWebEngineView::setPage(page);
 
 	connect(m_page, &WebPage::privacyChanged, this, &WebView::privacyChanged);
