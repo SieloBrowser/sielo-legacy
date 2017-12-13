@@ -27,9 +27,11 @@
 #define SIELOBROWSER_WEBTAB_HPP
 
 #include <QVBoxLayout>
+#include <QGridLayout>
 
 #include <QWidget>
 #include <QIcon>
+#include <QPushButton>
 #include <QSplitter>
 
 #include <QMenu>
@@ -44,6 +46,7 @@
 namespace Sn {
 class BrowserWindow;
 
+class WebInspector;
 class TabbedWebView;
 
 class TabIcon;
@@ -76,6 +79,7 @@ public:
 
 	WebTab(BrowserWindow* window);
 
+	WebInspector* inspector() const { return m_inspector; }
 	TabbedWebView* webView() const { return m_webView; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
 	AddressBar* addressBar() const { return m_addressBar; }
@@ -126,13 +130,15 @@ public slots:
 	void sNewTab();
 	void sGoHome();
 
+	void showInspector();
+
 private slots:
 	void showNotification(QWidget* notif);
 	void loadStarted();
 	void loadFinished();
 	void titleChanged(const QString& title);
 
-//	void aboutToShowHistoryNextMenu();
+	//	void aboutToShowHistoryNextMenu();
 	void sRestore();
 
 private:
@@ -144,6 +150,7 @@ private:
 	QMenu* m_menuForward{nullptr};
 
 	BrowserWindow* m_window{nullptr};
+	WebInspector* m_inspector{nullptr};
 	TabbedWebView* m_webView{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	MainTabBar* m_tabBar{nullptr};

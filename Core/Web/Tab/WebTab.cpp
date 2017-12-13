@@ -27,11 +27,12 @@
 #include <QSettings>
 
 #include <QColor>
-#include <QtWidgets/QLineEdit>
+#include <QLineEdit>
 
 #include "BrowserWindow.hpp"
 
 #include "Web/WebPage.hpp"
+#include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Bookmarks/BookmarkManager.hpp"
@@ -150,7 +151,7 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_webView->setWebPage(new WebPage);
 	m_webView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-	m_splitter = new QSplitter(this);
+	m_splitter = new QSplitter(Qt::Vertical, this);
 	m_splitter->setChildrenCollapsible(false);
 	m_splitter->addWidget(m_webView);
 
@@ -164,7 +165,6 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_addressBar = new AddressBar(m_window);
 	m_addressBar->setWebView(m_webView);
 	m_addressBar->setText("https://google.com");
-
 
 	m_layout->addWidget(m_addressBar);
 	m_layout->addWidget(m_splitter);
@@ -426,6 +426,37 @@ void WebTab::sNewTab()
 void WebTab::sGoHome()
 {
 	m_webView->load(m_tabBar->tabWidget()->homeUrl());
+}
+
+void WebTab::showInspector()
+{
+	if (m_inspector)
+		return;
+
+	QWidget* widget{new QWidget(this)};
+	m_inspector = new WebInspector(widget);
+	QGridLayout* layout{new QGridLayout(widget)};
+	QPushButton* closeButton{new QPushButton("X")};
+	QSpacerItem* spacer{new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum)};
+
+	widget->setWindowFlags(widget->windowFlags() | Qt::WindowCloseButtonHint);
+	m_inspector->setView(m_webView);
+	m_inspector->inspectElement();
+	closeButton->setFlat(true);
+
+	layout->setContentsMargins(0, 0, 0, 0);
+	layout->setSpacing(0);
+	layout->addItem(spacer, 0, 0, 1, 1);
+	layout->addWidget(closeButton, 0, 1, 1, 1);
+	layout->addWidget(m_inspector, 1, 0, 1, 2);
+
+	m_splitter->addWidget(widget);
+	connect(closeButton, &QPushButton::clicked, widget, [=]()
+	{
+		widget->close();
+		m_inspector->deleteLater();
+		m_inspector = nullptr;
+	});
 }
 
 void WebTab::showNotification(QWidget* notif)

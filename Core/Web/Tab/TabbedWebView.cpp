@@ -176,6 +176,8 @@ void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 
 	WebHitTestResult hitTest{page()->hitTestContent(event->pos())};
 	createContextMenu(m_menu, hitTest);
+	m_menu->addSeparator();
+	m_menu->addAction(tr("Show Inspector"), m_webTab, &WebTab::showInspector);
 
 	if (!m_menu->isEmpty()) {
 		const QPoint pos{event->globalPos()};

@@ -22,25 +22,85 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include <QtWidgets>
+#include "WebInspector.hpp"
 
-#include <QUrl>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonDocument>
 
-#include <QWebEnginePage>
-#include <QWebEngineSettings>
+#include <QNetworkReply>
 
-#include "Core/Application.hpp"
+#include "Network/NetworkManager.hpp"
 
-#include "Core/BrowserWindow.hpp"
 
-int main(int argc, char** argv)
+#include "BrowserWindow.hpp"
+#include "Application.hpp"
+
+namespace Sn {
+WebInspector::WebInspector(QWidget* parent) :
+	QWebEngineView(parent)
 {
-	qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "9000");
+	setAttribute(Qt::WA_DeleteOnClose);
+	setObjectName("web-inspector");
+	setMinimumHeight(80);
 
-	Sn::Application app(argc, argv);
+	connect(page(), &QWebEnginePage::windowCloseRequested, this, &WebInspector::deleteLater);
+	connect(page(), &QWebEnginePage::loadFinished, this, &WebInspector::loadFinished);
+}
 
-	if (app.isClosing())
-		return 0;
+WebInspector::~WebInspector()
+{
+	// Empty
+}
 
-	return app.exec();
+void WebInspector::setView(QWebEngineView* view)
+{
+	m_view = view;
+	Q_ASSERT(isEnabled());
+
+	int port{qEnvironmentVariableIntValue("QTWEBENGINE_REMOTE_DEBUGGING")};
+	QUrl inspectorUrl{QUrl(QString("http://localhost:%1").arg(port))};
+	QNetworkReply* reply
+		{Application::instance()->networkManager()->get(QNetworkRequest(inspectorUrl.resolved(QUrl("json/list"))))};
+
+	connect(reply, &QNetworkReply::finished, this, [=]()
+	{
+		QJsonArray clients{QJsonDocument::fromJson(reply->readAll()).array()};
+		QUrl pageUrl{};
+		QJsonObject object{clients[1].toObject()};
+
+		pageUrl = inspectorUrl.resolved(QUrl(object.value(QString("devtoolsFrontendUrl")).toString()));
+
+		load(pageUrl);
+		show();
+	});
+}
+
+void WebInspector::inspectElement()
+{
+	m_inspectElement = true;
+}
+
+bool WebInspector::isEnabled()
+{
+	return qEnvironmentVariableIsSet("QTWEBENGINE_REMOTE_DEBUGGING");
+}
+
+void WebInspector::loadFinished()
+{
+	if (m_inspectElement) {
+		m_view->triggerPageAction(QWebEnginePage::InspectElement);
+		m_inspectElement = false;
+	}
+}
+
+void WebInspector::keyPressEvent(QKeyEvent* event)
+{
+	Q_UNUSED(event)
+}
+
+void WebInspector::keyReleaseEvent(QKeyEvent* event)
+{
+	Q_UNUSED(event)
+}
 }

@@ -22,25 +22,35 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include <QtWidgets>
+#pragma once
+#ifndef SIELO_BROWSER_WEBINSPECTOR_HPP
+#define SIELO_BROWSER_WEBINSPECTOR_HPP
 
-#include <QUrl>
+#include <QWebEngineView>
 
-#include <QWebEnginePage>
-#include <QWebEngineSettings>
+namespace Sn {
+class WebInspector: public QWebEngineView {
+Q_OBJECT
 
-#include "Core/Application.hpp"
+public:
+	WebInspector(QWidget* parent = nullptr);
+	~WebInspector();
 
-#include "Core/BrowserWindow.hpp"
+	void setView(QWebEngineView* view);
+	void inspectElement();
 
-int main(int argc, char** argv)
-{
-	qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "9000");
+	static bool isEnabled();
 
-	Sn::Application app(argc, argv);
+private slots:
+	void loadFinished();
 
-	if (app.isClosing())
-		return 0;
+private:
+	void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+	void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
-	return app.exec();
+	bool m_inspectElement{false};
+	QWebEngineView* m_view{nullptr};
+};
 }
+
+#endif //SIELO_BROWSER_WEBINSPECTOR_HPP

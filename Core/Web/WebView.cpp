@@ -41,6 +41,7 @@
 
 #include "Web/WebPage.hpp"
 #include "Web/WebHitTestResult.hpp"
+#include "Web/WebInspector.hpp"
 #include "Web/Scripts.hpp"
 
 #include "History/HistoryManager.hpp"
@@ -738,6 +739,9 @@ void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 		createSelectedTextContextMenu(menu, hitTest);
 	if (menu->isEmpty())
 		createPageContextMenu(menu);
+
+	menu->addSeparator();
+
 
 }
 
