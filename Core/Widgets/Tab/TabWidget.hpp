@@ -43,7 +43,6 @@
 #include "Web/LoadRequest.hpp"
 #include "Web/Tab/WebTab.hpp"
 
-
 namespace Sn {
 class MainTabBar;
 class TabIcon;
@@ -63,7 +62,7 @@ class TabWidget: public TabStackedWidget {
 Q_OBJECT
 
 public:
-	TabWidget(BrowserWindow* window, QWidget* parent = nullptr);
+	TabWidget(BrowserWindow* window, Application::TabsSpaceType type = Application::TST_Web, QWidget* parent = nullptr);
 	~TabWidget();
 
 	void loadSettings();
@@ -93,6 +92,8 @@ public:
 	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 	ClosedTabsManager* closedTabsManager() const { return m_closedTabsManager; }
 	QList<WebTab*> allTabs(bool withPinned = true);
+	Application::TabsSpaceType type() const { return m_tabsSpaceType; }
+
 	bool canRestoreTab() const;
 	bool isCurrentTabFresh() const { return m_currentTabFresh; }
 	void setCurrentTabFresh(bool currentTabFresh);
@@ -129,7 +130,7 @@ public slots:
 	void reloadTab(int index);
 	void reloadAllTabs();
 	void reload();
-	void reloadBypassCach();
+	void reloadBypassCache();
 	void stopTab(int index);
 	void closeAllButCurrent(int index);
 	void closeToRight(int index);
@@ -168,6 +169,7 @@ private:
 	MainTabBar* m_tabBar{nullptr};
 	QStackedWidget* m_addressBars{nullptr};
 	ClosedTabsManager* m_closedTabsManager;
+	Application::TabsSpaceType m_tabsSpaceType{};
 
 	MenuTabs* m_menuTabs{nullptr};
 	ToolButton* m_buttonListTabs{nullptr};

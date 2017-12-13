@@ -75,6 +75,11 @@ public:
 		WT_OtherRestoredWindow
 	};
 
+	enum TabsSpaceType {
+		TST_Web,
+		TST_Application
+	};
+
 	enum NewTabType {
 		NTT_SelectedTab = 1,
 		NTT_NotSelectedTab = 2,

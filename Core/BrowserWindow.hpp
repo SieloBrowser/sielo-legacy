@@ -75,7 +75,8 @@ public:
 	void currentTabChanged(WebTab* oldTab);
 
 	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab);
-	void createNewTabsSpace(TabsSpacePosition position, TabWidget* tabWidget);
+	void createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab = nullptr);
+	void insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget);
 	void closeTabsSpace(TabWidget* tabWidget);
 	void autoResizeTabsSpace();
 
@@ -115,7 +116,8 @@ private:
 
 	void saveButtonState();
 
-	QWidget* createWidgetTabWidget(WebTab* tab = nullptr);
+	QWidget* createWidgetTabWidget(WebTab* tab = nullptr, Application::TabsSpaceType type = Application::TST_Web);
+	QWidget* createWidgetTabWidget(TabWidget* tabWidget, WebTab* tab = nullptr);
 
 	QAction* m_restoreAction{nullptr};
 

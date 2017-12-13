@@ -68,11 +68,12 @@
 
 namespace Sn {
 
-TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
+TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWidget* parent) :
 	TabStackedWidget(parent),
 	m_saveTimer(new AutoSaver(this)),
 	m_window(window),
 	m_addressBars(new QStackedWidget(this)),
+	m_tabsSpaceType(type),
 	m_lastTabIndex(-1),
 	m_lastBackgroundTabIndex(-1)
 {
@@ -174,8 +175,8 @@ TabWidget::TabWidget(BrowserWindow* window, QWidget* parent) :
 	closeTabAction->setContext(Qt::WidgetWithChildrenShortcut);
 	closeTabAction2->setContext(Qt::WidgetWithChildrenShortcut);
 
-	connect(reloadBypassCacheAction, &QShortcut::activated, this, &TabWidget::reloadBypassCach);
-	connect(reloadBypassCacheAction2, &QShortcut::activated, this, &TabWidget::reloadBypassCach);
+	connect(reloadBypassCacheAction, &QShortcut::activated, this, &TabWidget::reloadBypassCache);
+	connect(reloadBypassCacheAction2, &QShortcut::activated, this, &TabWidget::reloadBypassCache);
 	connect(reloadAction, &QShortcut::activated, this, &TabWidget::reload);
 	connect(reloadAction2, &QShortcut::activated, this, &TabWidget::reload);
 	connect(closeTabAction, SIGNAL(activated()), this, SLOT(closeTab()));
@@ -207,14 +208,16 @@ void TabWidget::loadSettings()
 
 	settings.endGroup();
 
-	settings.beginGroup("Web-Settings");
+	if (m_tabsSpaceType == Application::TST_Web) {
+		settings.beginGroup("Web-Settings");
 
-	//TODO: Modify for a custom Sielo start page
-	m_urlOnNewTab = settings.value("urlOnNewTab", "https://google.com").toUrl();
-	if (m_homeUrl.isEmpty())
-		m_homeUrl = m_window->homePageUrl();
+		//TODO: Modify for a custom Sielo start page
+		m_urlOnNewTab = settings.value("urlOnNewTab", "https://google.com").toUrl();
+		if (m_homeUrl.isEmpty())
+			m_homeUrl = m_window->homePageUrl();
 
-	settings.endGroup();
+		settings.endGroup();
+	}
 
 	updateClosedTabsButton();
 }
@@ -326,6 +329,13 @@ void TabWidget::currentTabChanged(int index)
 	m_currentTabFresh = false;
 
 	m_window->currentTabChanged(oldTab);
+
+	if (m_tabsSpaceType != Application::TST_Web && currentTab->addressBar()) {
+		/*currentTab->addressBar()->setEnabled(false);
+		currentTab->addressBar()->setText("sielo:inspector");
+		currentTab->setUpdatesEnabled(false);*/
+		currentTab->addressBar()->deleteLater();
+	}
 
 	emit changed();
 }
@@ -597,7 +607,7 @@ void TabWidget::reload()
 	weTab()->reload();
 }
 
-void TabWidget::reloadBypassCach()
+void TabWidget::reloadBypassCache()
 {
 	weTab()->webView()->reloadBypassCache();
 }

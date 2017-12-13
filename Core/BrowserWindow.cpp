@@ -31,7 +31,7 @@
 #include <QAction>
 
 #include <QTimer>
-#include <QtWidgets/QMessageBox>
+#include <QMessageBox>
 
 #include "Bookmarks/AddBookmarkDialog.hpp"
 
@@ -64,7 +64,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 		setupFloatingButton();
 	loadSettings();
 
-	QTimer::singleShot(0, this, &BrowserWindow::postLaunch);
+	QTimer::singleShot(10, this, &BrowserWindow::postLaunch);
 
 }
 
@@ -142,7 +142,7 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 			else {
 				QWidget* widget{new QWidget(this)};
 				QVBoxLayout* layout{new QVBoxLayout(widget)};
-				TabWidget* tabWidget{new TabWidget(this, widget)};
+				TabWidget* tabWidget{new TabWidget(this, Application::TST_Web, widget)};
 
 				layout->setSpacing(0);
 				layout->setContentsMargins(0, 0, 0, 0);
@@ -187,7 +187,16 @@ void BrowserWindow::currentTabChanged(WebTab*)
 void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab)
 {
 	QWidget* widgetTabWidget{createWidgetTabWidget(tab)};
+	insertTabsSpace(position, widgetTabWidget);
+}
 
+void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab)
+{
+	// TODO: manage applications
+}
+
+void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget)
+{
 	if (position == BrowserWindow::TSP_Left || position == BrowserWindow::TSP_Right) {
 		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
 		if (position == BrowserWindow::TSP_Left) {
@@ -228,7 +237,6 @@ void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab)
 
 		verticalSplitter->setSizes(size);
 	}
-
 }
 
 void BrowserWindow::closeTabsSpace(TabWidget* tabWidget)
@@ -533,7 +541,7 @@ void BrowserWindow::setupUi()
 	m_mainSplitter = new QSplitter(this);
 	m_mainSplitter->setContentsMargins(0, 0, 0, 0);
 
-	QWidget* widgetTabWidget{createWidgetTabWidget()};
+	QWidget* widgetTabWidget{createWidgetTabWidget(nullptr, Application::TST_Web)};
 	QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
 	verticalSplitter->setObjectName("vertical-splitter");
 	verticalSplitter->setContentsMargins(0, 0, 0, 0);
@@ -682,11 +690,11 @@ void BrowserWindow::saveButtonState()
 	fButtonFile.close();
 }
 
-QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab)
+QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpaceType type)
 {
 	QWidget* widget{new QWidget(this)};
 	QVBoxLayout* layout{new QVBoxLayout(widget)};
-	TabWidget* tabWidget{new TabWidget(this, widget)};
+	TabWidget* tabWidget{new TabWidget(this, type, widget)};
 
 	layout->setSpacing(0);
 	layout->setContentsMargins(0, 0, 0, 0);
@@ -711,7 +719,37 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab)
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
 
 	return widget;
+}
 
+QWidget* BrowserWindow::createWidgetTabWidget(TabWidget* tabWidget, WebTab* tab)
+{
+	QWidget* widget{new QWidget(this)};
+	QVBoxLayout* layout{new QVBoxLayout(widget)};
+	tabWidget->setParent(widget);
+
+	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
+
+	m_tabWidgets.append(tabWidget);
+
+	if (tab) {
+		int previousCurrentTabWidget{m_currentTabWidget};
+		m_currentTabWidget = m_tabWidgets.count() - 1;
+
+		tab->detach();
+		tabWidget->addView(tab);
+
+		m_currentTabWidget = previousCurrentTabWidget;
+	}
+
+	tabWidget->tabBar()->show();
+
+	layout->addWidget(tabWidget->tabBar());
+	layout->addWidget(tabWidget);
+
+	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
+
+	return widget;
 }
 
 }
