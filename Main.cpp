@@ -36,6 +36,7 @@
 int main(int argc, char** argv)
 {
 	qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "9000");
+	qputenv("QT_XCB_FORCE_SOFTWARE_OPENGL", "1");
 
 	Sn::Application app(argc, argv);
 
