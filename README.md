@@ -5,6 +5,18 @@ Windows | Non disponible
 
 [![Image officiel de Sielo](https://www.feldrise.com/Sielo/official-sielo.png)](https://www.feldrise.com/Sielo/sielo_setup_1.7.10.exe)
 Sielo est un navigateur web que j'ai commencé à développer il y a 1 an et demi. Le navigateur a connu 2 refontes et la dernière date d'il y a quelques mois. Cette fois Sielo a été pensé sur une structure plus stable, plus facile à maintenir de façon à ce qu'il n'y ait plus besoin de refonte.
+## Utiliser Sielo 
+### Téléchargement
+Il y a plusieurs liens pour trouver les dernières versions de Sielo.
+ - Pour Windows : La dernière open bêta peut être installée avec [cet installateur](https://feldrise.com/Sielo/sielo_setup_1.7.10.exe)
+ - Pour Linux : Vous pouvez trouver le [package Debian](https://feldrise.com/Sielo/Linux/sielo-browser.deb) ou installer Sielo depuis l'AUR (Arch User Repository)
+### Compiler le navigateur
+Vous pouvez aussi facilement compiler Sielo. Pour cela il faut vous assurer d'avoir toutes les dépendances nécessaire : 
+ - Qt 5.7 minimum, Qt 5.8 minimum pour avoir toutes les fonctionnalités de Sielo
+ - OpenSSL 1.1.x ou plus. **Une version inférieur a la 1.1.0 résultera à une erreur de compilation**
+ 
+Ensuite il ne vous reste plus qu'a vous placer dans le dossier racine des sources et d'exécuter cette commande dans un terminal : `mkdir build && cd build && cmake .. && make -j2` ou d'utiliser votre IDE.
+
 ## Généralité, avancement et originalité
 Sielo est aujourd'hui bien avancé. Il possède toutes les fonctionnalités de base d'un navigateur web (navigation par onglets, marque-page, historique, navigation privée, navigation sur le web (oui oui c'est possible :p), etc.) et même quelques fonctionnalités avancées telles qu'un bloqeur de publicités intégré, la gestion des proxy, gestion du cache, la possibilité d'enregistrer ses mots de passe (et de les chiffrer avec un super mot de passe). Sielo utilise le moteur web WebEngine qui vient avec Qt. Mais ce n'est pas tout, Sielo possède aussi des fonctionalités qui lui sont propres et originales : 
 ### Les espaces d'onglets
