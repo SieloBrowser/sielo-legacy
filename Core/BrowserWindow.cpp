@@ -77,7 +77,7 @@ void BrowserWindow::loadSettings()
 {
 	QSettings settings{};
 
-	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://www.google.com")).toUrl();
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("http://doosearch.esy.es/")).toUrl();
 
 	settings.endGroup();
 

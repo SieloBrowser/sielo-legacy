@@ -212,7 +212,7 @@ void TabWidget::loadSettings()
 		settings.beginGroup("Web-Settings");
 
 		//TODO: Modify for a custom Sielo start page
-		m_urlOnNewTab = settings.value("urlOnNewTab", "https://google.com").toUrl();
+		m_urlOnNewTab = settings.value("urlOnNewTab", "http://doosearch.esy.es/").toUrl();
 		if (m_homeUrl.isEmpty())
 			m_homeUrl = m_window->homePageUrl();
 

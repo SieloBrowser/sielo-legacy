@@ -110,7 +110,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.7.10b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.8.00b"));
 
 	QIcon::setThemeSearchPaths(
 		QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
@@ -330,11 +330,27 @@ void Application::loadSettings()
 
 	settings.endGroup();
 
+	if (settings.value("versionNumber", 0).toInt() < 5) {
+		loadThemeFromResources("bluegrey_flat", false);
+		loadThemeFromResources("cyan_flat", false);
+		loadThemeFromResources("green_flat", false);
+		loadThemeFromResources("indigo_flat", false);
+		loadThemeFromResources("orange_flat", false);
+		loadThemeFromResources("purple_flat", false);
+		loadThemeFromResources("red_flat", false);
+		loadThemeFromResources("teal_flat", false);
+		loadThemeFromResources("white_flat", false);
+		loadThemeFromResources("yellow_flat", false);
+		settings.setValue("versionNumber", 5);
+		settings.setValue("Web-Settings/homePage", "http://doosearch.esy.es/");
+		settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.esy.es/");
+	}
+
 	if (m_autoFill)
 		m_autoFill->loadSettings();
 
 	if (themeInfo.exists()) {
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 3) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 4) {
 			QString defaultThemePath{paths()[Application::P_Themes]};
 			QString defaultThemeDataPath{":data/themes/sielo_default"};
 
@@ -345,7 +361,7 @@ void Application::loadSettings()
 
 			copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
-			settings.setValue("Themes/defaultThemeVersion", 3);
+			settings.setValue("Themes/defaultThemeVersion", 4);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
@@ -353,7 +369,7 @@ void Application::loadSettings()
 	}
 	else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 3);
+		settings.setValue("Themes/defaultThemeVersion", 4);
 	}
 
 	if (privateBrowsing()) {
@@ -737,18 +753,16 @@ void Application::processCommand(const QString& command, const QStringList args)
 {
 	if (m_plugins->processCommand(command, args))
 		return;
-	
-	if (command == "site")
-	{
+
+	if (command == "site") {
 		LoadRequest siteRequest{};
 		siteRequest.setUrl(QUrl("http://www.feldrise.com/Sielo/"));
 
 		getWindow()->tabWidget()->weTab()->webView()
 			->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
-	
-	if (command == "github")
-	{
+
+	if (command == "github") {
 		LoadRequest githubRequest{};
 		githubRequest.setUrl(QUrl("https://github.com/Feldrise/SieloNavigateur"));
 
@@ -900,19 +914,20 @@ void Application::loadTheme(const QString& name)
 	}
 }
 
-void Application::loadThemeFromResources()
+void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 {
 	QString defaultThemePath{paths()[Application::P_Themes]};
-	QString defaultThemeDataPath{":data/themes/sielo_default"};
+	QString defaultThemeDataPath{":data/themes/" + name};
 
-	defaultThemePath += QLatin1String("/sielo_default");
+	defaultThemePath += QLatin1Char('/') + name;
 
 	if (!QDir().exists(defaultThemePath) || !QDir().exists(defaultThemePath + QLatin1String("/images")))
 		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
 
 	copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
-	loadTheme("sielo_default");
+	if (loadAtEnd)
+		loadTheme("sielo_default");
 }
 
 bool Application::copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist)

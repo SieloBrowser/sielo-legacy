@@ -188,7 +188,7 @@ private:
 
 	void setUserStyleSheet(const QString& filePath);
 
-	void loadThemeFromResources();
+	void loadThemeFromResources(QString name = "sielo_default", bool loadAtEnd = true);
 
 	bool m_privateBrowsing{false};
 	bool m_isRestoring{false};
