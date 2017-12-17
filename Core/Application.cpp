@@ -737,7 +737,25 @@ void Application::processCommand(const QString& command, const QStringList args)
 {
 	if (m_plugins->processCommand(command, args))
 		return;
+	
+	if (command == "site")
+	{
+		LoadRequest siteRequest{};
+		siteRequest.setUrl("http://feldrise.com/Sielo/");
 
+		getWindow()->tabWidget()->weTab()->webView()
+			->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
+	}
+	
+	if (command == "github")
+	{
+		LoadRequest githubRequest{};
+		githubRequest.setUrl("https://github.com/Feldrise/SieloNavigateur");
+
+		getWindow()->tabWidget()->weTab()->webView()
+			->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
+	}
+	
 	if (command == "witcher") {
 		if (args.count() == 1) {
 			QSettings settings{};
