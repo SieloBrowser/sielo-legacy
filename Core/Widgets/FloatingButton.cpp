@@ -252,7 +252,7 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 		y = (position.y() >= 0) ? qMin(m_parent->height() - height(), position.y()) : qMax(0, position.y());
 
 		move(QPoint(x, y));
-		QCursor::setPos(event->globalPos());
+		//QCursor::setPos(event->globalPos());
 
 		if (m_type == Type::Root) {
 			QPoint posFromTabWidget{};
