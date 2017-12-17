@@ -44,6 +44,7 @@ PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
 	m_tabWidget(tabWidget)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setObjectName("preferences_dialog");
 
 	setupUI();
 
@@ -95,6 +96,7 @@ void PreferencesDialog::setupUI()
 	m_layoutButton = new QHBoxLayout();
 
 	m_pages = new QTabWidget(this);
+	m_pages->setObjectName("preferences_pages");
 
 	m_generalPage = new GeneralPage(m_pages);
 	m_downloadPage = new DownloadPage(m_pages);

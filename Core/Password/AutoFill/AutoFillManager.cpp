@@ -50,6 +50,7 @@ AutoFillManager::AutoFillManager(QWidget* parent) :
 	m_passwordsShown(false)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setObjectName("autofill_manager");
 
 	setupUI();
 

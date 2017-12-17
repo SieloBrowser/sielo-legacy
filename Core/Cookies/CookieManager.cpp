@@ -40,7 +40,7 @@
 namespace Sn {
 
 CookieManager::CookieManager() :
-	QWidget(nullptr)
+	QDialog(nullptr)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
