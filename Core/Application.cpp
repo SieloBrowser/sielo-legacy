@@ -741,7 +741,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 	if (command == "site")
 	{
 		LoadRequest siteRequest{};
-		siteRequest.setUrl("http://feldrise.com/Sielo/");
+		siteRequest.setUrl(QUrl("http://www.feldrise.com/Sielo/"));
 
 		getWindow()->tabWidget()->weTab()->webView()
 			->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
@@ -750,7 +750,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 	if (command == "github")
 	{
 		LoadRequest githubRequest{};
-		githubRequest.setUrl("https://github.com/Feldrise/SieloNavigateur");
+		githubRequest.setUrl(QUrl("https://github.com/Feldrise/SieloNavigateur"));
 
 		getWindow()->tabWidget()->weTab()->webView()
 			->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
