@@ -2,9 +2,18 @@
     background: rgb(255, 235, 59);
 }
 
+#tabbar {
+	height: 28px;
+}
+
 QTabBar {
   border: none;
   background: rgb(255, 235, 59);
+}
+
+QTabBar::tab
+{
+    height: 28px;
 }
 
 QTabBar::tab:selected
@@ -147,7 +156,7 @@ background-color: rgb(253, 216, 53);
 QMainWindow,
 QDialog,
 QMenu,
-QTabWidget
+QTabWidget::pane
 {
   border: none;
 	background: rgb(253, 216, 53);
@@ -205,6 +214,8 @@ QDialog QPushButton:focus
 #navigationbar::separator
 {
 	background: rgba(0,0,0,.1);
+  height: 1px;
+  margin: 0px 3px;
 }
 
 #navigationbar QToolButton,
@@ -271,7 +282,9 @@ QDialog QPushButton:focus
 
 QMenu::separator
 {
-	background: rgba(0,0,0,.2);
+	background: rgba(0,0,0,.1);
+  height: 1px;
+  margin: 0px 3px;
 }
 
 QMenu::item:selected
