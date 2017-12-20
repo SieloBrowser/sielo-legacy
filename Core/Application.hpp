@@ -116,6 +116,7 @@ public:
 	void loadTheme(const QString& name);
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
+	bool isPortable() const { return m_isPortable; }
 	bool isClosing() const { return m_isClosing; }
 
 	int windowCount() const;
@@ -143,7 +144,7 @@ public:
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool useTopToolBar() const { return m_useTopToolBar; }
-	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; };
+	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
 	void connectDatabase();
@@ -191,6 +192,7 @@ private:
 	void loadThemeFromResources(QString name = "sielo_default", bool loadAtEnd = true);
 
 	bool m_privateBrowsing{false};
+	bool m_isPortable{true};
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
 	bool m_fullyLoadThemes{true};

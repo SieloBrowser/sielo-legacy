@@ -81,23 +81,28 @@ void Updater::downloadUpdateInfoCompleted()
 
 	if (newVersion != Application::currentVersion) {
 #if defined(Q_OS_WIN)
-		QMessageBox::information(m_window, tr("Update"), tr("A new version of Sielo will be download in background!"));
-		QString updaterName{};
+		if (!Application::instance()->isPortable()) {
+			QMessageBox::information(m_window, tr("Update"), tr("A new version of Sielo will be download in background!"));
+			QString updaterName{};
 
-		if (m_fullUpdate)
-			updaterName = "sielo_full_update_setup.exe";
-		else if (m_themeUpdate)
-			updaterName = "sielo_theme_update_setup.exe";
-		else
-			updaterName = "sielo_update_setup.exe";
+			if (m_fullUpdate)
+				updaterName = "sielo_full_update_setup.exe";
+			else if (m_themeUpdate)
+				updaterName = "sielo_theme_update_setup.exe";
+			else
+				updaterName = "sielo_update_setup.exe";
 
-		QUrl updaterUrl{QUrl("http://www.feldrise.com/Sielo/" + updaterName)};
-		startDownloadNewVersion(updaterUrl);
-#elif defined(Q_OS_LINUX)
-		QMessageBox::information(m_window,
-								 tr("Update"),
-								 tr("A new version of Sielo is available (%1)! We advise you to download it.")
+			QUrl updaterUrl{QUrl("http://www.feldrise.com/Sielo/" + updaterName)};
+			startDownloadNewVersion(updaterUrl);
+		}
+		else {
+#endif
+			QMessageBox::information(m_window,
+									 tr("Update"),
+									 tr("A new version of Sielo is available (%1)! We advise you to download it.")
 									 .arg(newVersion));
+#if defined(Q_OS_WIN)
+		}
 #endif
 	}
 
