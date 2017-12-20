@@ -32,11 +32,12 @@
 
 #include "Network/NetworkManager.hpp"
 
-
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn {
+QList<QWebEngineView*> WebInspector::s_views;
+
 WebInspector::WebInspector(QWidget* parent) :
 	QWebEngineView(parent)
 {
@@ -44,12 +45,15 @@ WebInspector::WebInspector(QWidget* parent) :
 	setObjectName("web-inspector");
 	setMinimumHeight(80);
 
+	registerView(this);
+
 	connect(page(), &QWebEnginePage::windowCloseRequested, this, &WebInspector::deleteLater);
 	connect(page(), &QWebEnginePage::loadFinished, this, &WebInspector::loadFinished);
 }
 
 WebInspector::~WebInspector()
 {
+	unregisterView(this);
 	// Empty
 }
 
@@ -58,20 +62,20 @@ void WebInspector::setView(QWebEngineView* view)
 	m_view = view;
 	Q_ASSERT(isEnabled());
 
-	int port{qEnvironmentVariableIntValue("QTWEBENGINE_REMOTE_DEBUGGING")};
-	QUrl inspectorUrl{QUrl(QString("http://localhost:%1").arg(port))};
-	QNetworkReply* reply
-		{Application::instance()->networkManager()->get(QNetworkRequest(inspectorUrl.resolved(QUrl("json/list"))))};
+	int port = qEnvironmentVariableIntValue("QTWEBENGINE_REMOTE_DEBUGGING");
+	QUrl inspectorUrl = QUrl(QStringLiteral("http://localhost:%1").arg(port));
+	int index = s_views.indexOf(m_view);
 
-	connect(reply, &QNetworkReply::finished, this, [=]()
-	{
-		QJsonArray clients{QJsonDocument::fromJson(reply->readAll()).array()};
-		QUrl pageUrl{};
-		QJsonObject object{clients[1].toObject()};
-
-		pageUrl = inspectorUrl.resolved(QUrl(object.value(QString("devtoolsFrontendUrl")).toString()));
-
+	QNetworkReply *reply = Application::instance()->networkManager()->get(QNetworkRequest(inspectorUrl.resolved(QUrl("json/list"))));
+	connect(reply, &QNetworkReply::finished, this, [=]() {
+		QJsonArray clients = QJsonDocument::fromJson(reply->readAll()).array();
+		QUrl pageUrl;
+		if (clients.size() > index) {
+			QJsonObject object = clients.at(index).toObject();
+			pageUrl = inspectorUrl.resolved(QUrl(object.value(QStringLiteral("devtoolsFrontendUrl")).toString()));
+		}
 		load(pageUrl);
+		pushView(this);
 		show();
 	});
 }
@@ -84,6 +88,22 @@ void WebInspector::inspectElement()
 bool WebInspector::isEnabled()
 {
 	return qEnvironmentVariableIsSet("QTWEBENGINE_REMOTE_DEBUGGING");
+}
+
+void WebInspector::pushView(QWebEngineView *view)
+{
+	s_views.removeOne(view);
+	s_views.prepend(view);
+}
+
+void WebInspector::registerView(QWebEngineView *view)
+{
+	s_views.prepend(view);
+}
+
+void WebInspector::unregisterView(QWebEngineView *view)
+{
+	s_views.removeOne(view);
 }
 
 void WebInspector::loadFinished()

@@ -53,6 +53,8 @@
 #include "Utils/AutoSaver.hpp"
 
 #include "Web/WebPage.hpp"
+#include "Web/WebView.hpp"
+#include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/AddressBar.hpp"
@@ -314,6 +316,11 @@ void TabWidget::currentTabChanged(int index)
 
 	WebTab* currentTab{weTab(index)};
 	WebTab* oldTab{weTab()};
+	WebView* currentWebView = currentTab->webView();
+
+	if (currentWebView->wasLoaded()) {
+		WebInspector::pushView(currentWebView);
+	}
 
 	disconnect(oldTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
