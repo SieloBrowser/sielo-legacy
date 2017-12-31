@@ -72,6 +72,7 @@ public:
 	void load(const QUrl& url);
 	void load(const LoadRequest& request);
 	bool isLoading() const;
+	bool wasLoaded() const { return m_firstLoad; }
 
 	int loadingProgress() const;
 
