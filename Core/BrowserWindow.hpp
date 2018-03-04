@@ -126,6 +126,7 @@ private:
 	Application::WindowType m_windowType{};
 	WebTab* m_startTab{nullptr};
 	WebPage* m_startPage{nullptr};
+	int m_spaceBetweenTabsSpaces{7};
 
 	QVBoxLayout* m_layout{nullptr};
 	QSplitter* m_mainSplitter{nullptr};

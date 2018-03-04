@@ -78,6 +78,7 @@ void BrowserWindow::loadSettings()
 	QSettings settings{};
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("http://doosearch.esy.es/")).toUrl();
+	m_spaceBetweenTabsSpaces = 7;
 
 	settings.endGroup();
 
@@ -136,6 +137,8 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 			if (i == 0 && j == 0) {
 				m_tabWidgets[0]->restoreState(data.tabsState[0], data.currentTabs[0], data.homeUrls[0]);
 				verticalSplitter->addWidget(m_tabWidgets[0]->parentWidget());
+				m_tabWidgets[0]->parentWidget()->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
+																	m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces);
 				m_mainSplitter->widget(0)->deleteLater();
 				++tabWidgetToRestore;
 			}
@@ -143,6 +146,9 @@ void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 				QWidget* widget{new QWidget(this)};
 				QVBoxLayout* layout{new QVBoxLayout(widget)};
 				TabWidget* tabWidget{new TabWidget(this, Application::TST_Web, widget)};
+
+				widget->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
+										   m_spaceBetweenTabsSpaces);
 
 				layout->setSpacing(0);
 				layout->setContentsMargins(0, 0, 0, 0);
@@ -197,6 +203,9 @@ void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, Application::
 
 void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget)
 {
+	widgetTabWidget->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
+										m_spaceBetweenTabsSpaces);
+
 	if (position == BrowserWindow::TSP_Left || position == BrowserWindow::TSP_Right) {
 		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};
 		if (position == BrowserWindow::TSP_Left) {
