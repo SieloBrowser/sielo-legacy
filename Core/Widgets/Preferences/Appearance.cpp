@@ -51,6 +51,7 @@ AppearancePage::AppearancePage(QWidget *parent) :
 	connect(m_viewGalleryButton, &QPushButton::clicked, this, &AppearancePage::openGallery);
 	connect(m_useRealToolBar, &QCheckBox::toggled, this, &AppearancePage::useRealToolBarChanged);
 	connect(m_tabsSpacesPadding, &QSlider::valueChanged, this, &AppearancePage::tabsSpacesPaddingValueChanged);
+	connect(m_backgroundLocationButton, &QPushButton::clicked, this, &AppearancePage::backgroundLocationClicked);
 
 	currentChanged();
 }
@@ -80,6 +81,7 @@ void AppearancePage::save()
 	}
 
 	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
+	settings.setValue(QLatin1String("backgroundPath"), m_backgroundLocationEdit->text());
 
 	settings.endGroup();
 
@@ -119,6 +121,19 @@ void AppearancePage::showLicense()
 void AppearancePage::tabsSpacesPaddingValueChanged(int value)
 {
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(value));
+}
+
+void AppearancePage::backgroundLocationClicked()
+{
+
+	QString backgroundLocation{QFileDialog::getOpenFileName(this, tr("Choose background"),
+															QFileInfo(m_backgroundLocationEdit->text()).absolutePath(),
+															"Images (*.png *.jpg *.jpeg)")};
+
+	if (backgroundLocation.isEmpty())
+		return;
+
+	m_backgroundLocationEdit->setText(backgroundLocation);
 }
 
 void AppearancePage::openGallery()
@@ -254,6 +269,7 @@ void AppearancePage::loadSettings()
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
+	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
 
 	settings.endGroup();
 	m_activeTheme = settings.value("Themes/currentTheme", "sielo_default").toString();
@@ -299,6 +315,7 @@ void AppearancePage::setupUI()
 	m_areaLayout = new QFormLayout(m_areaWidget);
 	m_nameLayout = new QHBoxLayout();
 	m_themeActionLayout = new QHBoxLayout();
+	m_backgroundLayout = new QHBoxLayout();
 
 	m_areaLayout->setContentsMargins(4, 4, 4, 4);
 	m_areaLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -349,6 +366,10 @@ void AppearancePage::setupUI()
 	m_tabsSpacesPadding->setMinimum(0);
 	m_tabsSpacesPadding->setMaximum(60);
 
+	m_backgroundLabel = new QLabel(tr("Background: "), this);
+	m_backgroundLocationEdit = new QLineEdit(this);
+	m_backgroundLocationButton = new QPushButton(tr("..."), this);
+
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
 
@@ -366,6 +387,10 @@ void AppearancePage::setupUI()
 	m_themeLayout->addWidget(m_areaWidget);
 	m_themeLayout->addLayout(m_themeActionLayout);
 
+	m_backgroundLayout->addWidget(m_backgroundLabel);
+	m_backgroundLayout->addWidget(m_backgroundLocationEdit);
+	m_backgroundLayout->addWidget(m_backgroundLocationButton);
+
 	m_layout->addWidget(m_themeBox);
 	m_layout->addWidget(m_fullyLoadThemes);
 	m_layout->addWidget(m_useRealToolBar);
@@ -373,5 +398,6 @@ void AppearancePage::setupUI()
 	m_layout->addWidget(m_floatingButtonFoloweMouse);
 	m_layout->addWidget(m_tabsSpacesPaddingLabel);
 	m_layout->addWidget(m_tabsSpacesPadding);
+	m_layout->addLayout(m_backgroundLayout);
 }
 }

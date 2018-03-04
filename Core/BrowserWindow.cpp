@@ -90,6 +90,12 @@ void BrowserWindow::loadSettings()
 															  m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces);
 		}
 
+	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), "").toString();
+
+	if (!backgroundPath.isEmpty()) {
+		setStyleSheet(styleSheet() + "QMainWindow{ background-image: url(" + backgroundPath + "); }");
+	}
+
 }
 
 QByteArray BrowserWindow::saveTabs()

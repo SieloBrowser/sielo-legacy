@@ -36,6 +36,7 @@
 
 #include <QListWidget>
 #include <QLabel>
+#include <QLineEdit>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QSlider>
@@ -43,28 +44,34 @@
 #include <QHash>
 
 namespace Sn {
-class AppearancePage: public QWidget {
+class AppearancePage : public QWidget {
 Q_OBJECT
 
 public:
 	AppearancePage(QWidget* parent);
+
 	~AppearancePage();
 
 	void save();
 
 private slots:
+
 	void loadSettings();
 
 	void currentChanged();
+
 	void showLicense();
 
 	void tabsSpacesPaddingValueChanged(int value);
+
+	void backgroundLocationClicked();
 
 	void openGallery();
 
 	void addTheme();
 
 	void useRealToolBarChanged(bool enabled);
+
 private:
 	struct Theme {
 		bool isValid{};
@@ -90,6 +97,7 @@ private:
 	QHBoxLayout* m_nameLayout{nullptr};
 	QFormLayout* m_areaLayout{nullptr};
 	QHBoxLayout* m_themeActionLayout{nullptr};
+	QHBoxLayout* m_backgroundLayout{nullptr};
 
 	QListWidget* m_themeList{nullptr};
 	QWidget* m_areaWidget{nullptr};
@@ -110,8 +118,11 @@ private:
 	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
 	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
 
-	QLabel *m_tabsSpacesPaddingLabel{nullptr};
-	QSlider *m_tabsSpacesPadding{nullptr};
+	QLabel* m_tabsSpacesPaddingLabel{nullptr};
+	QSlider* m_tabsSpacesPadding{nullptr};
+	QLabel* m_backgroundLabel{nullptr};
+	QLineEdit* m_backgroundLocationEdit{nullptr};
+	QPushButton* m_backgroundLocationButton{nullptr};
 };
 }
 
