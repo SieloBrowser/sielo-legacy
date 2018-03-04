@@ -88,6 +88,7 @@ QList<QString> Application::paths()
 
 	return paths;
 }
+
 Application* Application::instance()
 {
 	return (static_cast<Application*>(QCoreApplication::instance()));
@@ -100,27 +101,27 @@ QIcon Application::getAppIcon(const QString& name, const QString& directory, con
 
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
-	SingleApplication(argc, argv, true),
-	m_plugins(nullptr),
-	m_autoFill(nullptr),
-	m_cookieJar(nullptr),
-	m_historyManager(nullptr),
-	m_networkManager(nullptr),
-	m_webProfile(nullptr)
+		SingleApplication(argc, argv, true),
+		m_plugins(nullptr),
+		m_autoFill(nullptr),
+		m_cookieJar(nullptr),
+		m_historyManager(nullptr),
+		m_networkManager(nullptr),
+		m_webProfile(nullptr)
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.8.00b"));
 
 	QIcon::setThemeSearchPaths(
-		QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
+			QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
 		QMessageBox::critical(0,
 							  QStringLiteral("Error"),
 							  QStringLiteral(
-								  "Qt SQLite database plugin is not available. Please install it and restart the application."));
+									  "Qt SQLite database plugin is not available. Please install it and restart the application."));
 		return;
 	}
 
@@ -140,7 +141,7 @@ Application::Application(int& argc, char** argv) :
 	if (argc > 1) {
 		CommandLineOption command{};
 
-			foreach (const CommandLineOption::ActionPair& pair, command.getActions()) {
+				foreach (const CommandLineOption::ActionPair& pair, command.getActions()) {
 				switch (pair.action) {
 				case Application::CL_NewTab:
 					messages.append(QLatin1String("ACTION:NewTab"));
@@ -182,7 +183,7 @@ Application::Application(int& argc, char** argv) :
 
 	if (isSecondary() && !newInstance && !privateBrowsing()) {
 		m_isClosing = true;
-			foreach (const QString& message, messages) {
+				foreach (const QString& message, messages) {
 				sendMessage(message.toUtf8());
 			}
 
@@ -204,39 +205,39 @@ Application::Application(int& argc, char** argv) :
 	m_autoFill = new AutoFill;
 
 	QString webChannelScriptSrc = QLatin1String("(function() {"
-													"%1"
-													""
-													"function registerExternal(e) {"
-													"    window.external = e;"
-													"    if (window.external) {"
-													"        var event = document.createEvent('Event');"
-													"        event.initEvent('_sielo_external_created', true, true);"
-													"        document.dispatchEvent(event);"
-													"    }"
-													"}"
-													""
-													"if (self !== top) {"
-													"    if (top.external)"
-													"        registerExternal(top.external);"
-													"    else"
-													"        top.document.addEventListener('_sielo_external_created', function() {"
-													"            registerExternal(top.external);"
-													"        });"
-													"    return;"
-													"}"
-													""
-													"function registerWebChannel() {"
-													"    try {"
-													"        new QWebChannel(qt.webChannelTransport, function(channel) {"
-													"            registerExternal(channel.objects.sielo_object);"
-													"        });"
-													"    } catch (e) {"
-													"        setTimeout(registerWebChannel, 100);"
-													"    }"
-													"}"
-													"registerWebChannel();"
-													""
-													"})()");
+														"%1"
+														""
+														"function registerExternal(e) {"
+														"    window.external = e;"
+														"    if (window.external) {"
+														"        var event = document.createEvent('Event');"
+														"        event.initEvent('_sielo_external_created', true, true);"
+														"        document.dispatchEvent(event);"
+														"    }"
+														"}"
+														""
+														"if (self !== top) {"
+														"    if (top.external)"
+														"        registerExternal(top.external);"
+														"    else"
+														"        top.document.addEventListener('_sielo_external_created', function() {"
+														"            registerExternal(top.external);"
+														"        });"
+														"    return;"
+														"}"
+														""
+														"function registerWebChannel() {"
+														"    try {"
+														"        new QWebChannel(qt.webChannelTransport, function(channel) {"
+														"            registerExternal(channel.objects.sielo_object);"
+														"        });"
+														"    } catch (e) {"
+														"        setTimeout(registerWebChannel, 100);"
+														"    }"
+														"}"
+														"registerWebChannel();"
+														""
+														"})()");
 
 	QWebEngineScript script{};
 
@@ -296,7 +297,7 @@ void Application::loadSettings()
 		webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
 	}
 
-		foreach (BrowserWindow* window, m_windows) window->loadSettings();
+			foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
 	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
 						+ settings.value("Themes/currentTheme", "sielo_default").toString()
@@ -313,7 +314,8 @@ void Application::loadSettings()
 							  settings.value("includeLinkInFocusChain", false).toBool());
 	webSettings->setAttribute(QWebEngineSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
 	webSettings
-		->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled, settings.value("animateScrolling", true).toBool());
+			->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled,
+						   settings.value("animateScrolling", true).toBool());
 	webSettings->setAttribute(QWebEngineSettings::SpatialNavigationEnabled,
 							  settings.value("spatialNavigation", false).toBool());
 	webSettings->setAttribute(QWebEngineSettings::HyperlinkAuditingEnabled, false);
@@ -366,8 +368,7 @@ void Application::loadSettings()
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
 
-	}
-	else {
+	} else {
 		loadThemeFromResources();
 		settings.setValue("Themes/defaultThemeVersion", 4);
 	}
@@ -427,8 +428,7 @@ bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
 		newWindow->setUpdatesEnabled(true);
 
 		restoreData.remove(0);
-	}
-	else {
+	} else {
 		int tabCount{window->tabWidget()->pinnedTabsCount()};
 		RestoreManager::WindowData data = restoreData[0];
 
@@ -442,7 +442,7 @@ bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
 
 	processEvents();
 
-		foreach (const RestoreManager::WindowData& data, restoreData) {
+			foreach (const RestoreManager::WindowData& data, restoreData) {
 			BrowserWindow* window{createWindow(Application::WT_OtherRestoredWindow)};
 
 			window->setUpdatesEnabled(false);
@@ -478,7 +478,7 @@ void Application::saveSettings()
 	settings.beginGroup("Web-Settings");
 
 	bool deleteHistory
-		{settings.value("deleteHistoryOnClose", false).toBool() || !settings.value("allowHistory", true).toBool()};
+			{settings.value("deleteHistoryOnClose", false).toBool() || !settings.value("allowHistory", true).toBool()};
 
 	settings.endGroup();
 
@@ -502,7 +502,7 @@ void Application::saveSession(bool saveForHome)
 	stream << 0x0002;
 	stream << m_windows.count();
 
-		foreach (BrowserWindow* window, m_windows) {
+			foreach (BrowserWindow* window, m_windows) {
 			stream << window->saveTabs();
 
 			if (window->isFullScreen())
@@ -546,7 +546,7 @@ void Application::postLaunch()
 
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-			->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTab);
+				->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTab);
 		settings.setValue("installed", true);
 	}
 
@@ -580,8 +580,7 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 		const QUrl url{QUrl::fromUserInput(message.mid(4))};
 		addNewTab(url);
 		actualWindow = getWindow();
-	}
-	else if (message.startsWith(QLatin1String("ACTION:"))) {
+	} else if (message.startsWith(QLatin1String("ACTION:"))) {
 		const QString text{message.mid(7)};
 
 		if (text == QLatin1String("NewTab"))
@@ -594,8 +593,7 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 			createWindow(Application::WT_NewWindow, QUrl::fromUserInput(text.mid(18)));
 			return;
 		}
-	}
-	else
+	} else
 		actualWindow = createWindow(Application::WT_NewWindow);
 
 	if (!actualWindow) {
@@ -759,7 +757,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		siteRequest.setUrl(QUrl("http://www.feldrise.com/Sielo/"));
 
 		getWindow()->tabWidget()->weTab()->webView()
-			->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
+				->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
 	if (command == "github") {
@@ -767,9 +765,9 @@ void Application::processCommand(const QString& command, const QStringList args)
 		githubRequest.setUrl(QUrl("https://github.com/Feldrise/SieloNavigateur"));
 
 		getWindow()->tabWidget()->weTab()->webView()
-			->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
+				->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
-	
+
 	if (command == "witcher") {
 		if (args.count() == 1) {
 			QSettings settings{};
@@ -784,18 +782,17 @@ void Application::processCommand(const QString& command, const QStringList args)
 				webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
 				webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
 
-					foreach (BrowserWindow* window, m_windows) {
+						foreach (BrowserWindow* window, m_windows) {
 						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
 								window->tabWidget(i)->weTab(j)->addressBar()
-									->setFont(m_morpheusFont);
+										->setFont(m_morpheusFont);
 							}
 							window->tabWidget(i)->tabBar()->qtabBar()->setFont(m_morpheusFont);
 						}
 					}
 				settings.setValue("Settings/useMorpheusFont", true);
-			}
-			else if (args[0] == "disable") {
+			} else if (args[0] == "disable") {
 				setFont(m_normalFont);
 				webSettings->setFontFamily(QWebEngineSettings::StandardFont, "DejaVu Serif");
 				webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "DejaVu Sans");
@@ -804,23 +801,21 @@ void Application::processCommand(const QString& command, const QStringList args)
 				webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "DejaVu Sans");
 				webSettings->setFontFamily(QWebEngineSettings::SerifFont, "DejaVu Serif");
 
-					foreach (BrowserWindow* window, m_windows) {
+						foreach (BrowserWindow* window, m_windows) {
 						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
 								window->tabWidget(i)->weTab(j)->addressBar()
-									->setFont(m_normalFont);
+										->setFont(m_normalFont);
 							}
 							window->tabWidget(i)->tabBar()->qtabBar()->setFont(m_normalFont);
 						}
 					}
 				settings.setValue("Settings/useMorpheusFont", false);
-			}
-			else
+			} else
 				QMessageBox::critical(getWindow(),
 									  QApplication::tr("Failed"),
 									  QApplication::tr("The argument is unknow"));
-		}
-		else
+		} else
 			QMessageBox::critical(getWindow(),
 								  QApplication::tr("Failed"),
 								  QApplication::tr("This command need one argument!"));
@@ -851,7 +846,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		eastereggRequest.setUrl(eastereggs[easteregg]);
 
 		getWindow()->tabWidget()->weTab()->webView()
-			->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
+				->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 }
 
@@ -861,7 +856,8 @@ void Application::addNewTab(const QUrl& url)
 
 	if (window) {
 		window->tabWidget()
-			->addView(url, url.isEmpty() ? Application::NTT_SelectedNewEmptyTab : Application::NTT_SelectedTabAtEnd);
+				->addView(url,
+						  url.isEmpty() ? Application::NTT_SelectedNewEmptyTab : Application::NTT_SelectedTabAtEnd);
 	}
 }
 
@@ -908,8 +904,7 @@ void Application::loadTheme(const QString& name)
 		sss.replace("slineargradient", "qlineargradient");
 
 		setStyleSheet(sss);
-	}
-	else {
+	} else {
 		setStyleSheet("");
 	}
 }
@@ -940,7 +935,7 @@ bool Application::copyPath(const QString& fromDir, const QString& toDir, bool co
 	}
 
 	QFileInfoList fileInfoList = sourceDir.entryInfoList();
-		foreach(QFileInfo fileInfo, fileInfoList) {
+			foreach(QFileInfo fileInfo, fileInfoList) {
 			if (fileInfo.fileName() == "." || fileInfo.fileName() == "..")
 				continue;
 
@@ -949,8 +944,7 @@ bool Application::copyPath(const QString& fromDir, const QString& toDir, bool co
 							  targetDir.filePath(fileInfo.fileName()),
 							  coverFileIfExist))
 					return false;
-			}
-			else {            /* if coverFileIfExist == true, remove old file first */
+			} else {            /* if coverFileIfExist == true, remove old file first */
 				if (coverFileIfExist && targetDir.exists(fileInfo.fileName())) {
 					targetDir.remove(fileInfo.fileName());
 				}
