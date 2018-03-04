@@ -38,6 +38,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
+#include <QSlider>
 
 #include <QHash>
 
@@ -56,6 +57,8 @@ private slots:
 
 	void currentChanged();
 	void showLicense();
+
+	void tabsSpacesPaddingValueChanged(int value);
 
 	void openGallery();
 
@@ -106,6 +109,9 @@ private:
 	QCheckBox* m_useRealToolBar{nullptr};
 	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
 	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
+
+	QLabel *m_tabsSpacesPaddingLabel{nullptr};
+	QSlider *m_tabsSpacesPadding{nullptr};
 };
 }
 

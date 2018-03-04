@@ -40,8 +40,8 @@
 
 namespace Sn {
 
-AppearancePage::AppearancePage(QWidget* parent) :
-	QWidget(parent)
+AppearancePage::AppearancePage(QWidget *parent) :
+		QWidget(parent)
 {
 	setupUI();
 	loadSettings();
@@ -50,6 +50,7 @@ AppearancePage::AppearancePage(QWidget* parent) :
 	connect(m_addThemeButton, &QPushButton::clicked, this, &AppearancePage::addTheme);
 	connect(m_viewGalleryButton, &QPushButton::clicked, this, &AppearancePage::openGallery);
 	connect(m_useRealToolBar, &QCheckBox::toggled, this, &AppearancePage::useRealToolBarChanged);
+	connect(m_tabsSpacesPadding, &QSlider::valueChanged, this, &AppearancePage::tabsSpacesPaddingValueChanged);
 
 	currentChanged();
 }
@@ -71,15 +72,18 @@ void AppearancePage::save()
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
 					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
 	settings
-		.setValue(QLatin1String("hideBookmarksHistoryByDefault"), m_hideBookmarksHistoryActionsByDefault->isChecked());
+			.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
+					  m_hideBookmarksHistoryActionsByDefault->isChecked());
 
 	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
 		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
 	}
 
+	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
+
 	settings.endGroup();
 
-	QListWidgetItem* currentItem = m_themeList->currentItem();
+	QListWidgetItem *currentItem = m_themeList->currentItem();
 
 	if (m_activeTheme == currentItem->data(Qt::UserRole).toString())
 		return;
@@ -94,7 +98,7 @@ void AppearancePage::save()
 
 void AppearancePage::currentChanged()
 {
-	QListWidgetItem* currentItem = m_themeList->currentItem();
+	QListWidgetItem *currentItem = m_themeList->currentItem();
 
 	if (!currentItem)
 		return;
@@ -112,6 +116,11 @@ void AppearancePage::showLicense()
 	// Empty
 }
 
+void AppearancePage::tabsSpacesPaddingValueChanged(int value)
+{
+	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(value));
+}
+
 void AppearancePage::openGallery()
 {
 	QMessageBox::critical(this, tr("Unavailable"), tr("The gallery is currently unavailable."));
@@ -125,7 +134,7 @@ void AppearancePage::addTheme()
 	QString compilerName = "sielo-compiler";
 #endif
 	if (!QFile(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName)
-		.exists()) {
+			.exists()) {
 		QMessageBox::critical(this,
 							  tr("Error"),
 							  tr("Can't decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser."));
@@ -146,7 +155,7 @@ void AppearancePage::addTheme()
 							 tr("Theme exist"),
 							 tr("The theme already exist and is going to be update with the new version."));
 		QDir(Application::paths()[Application::P_Themes] + QLatin1Char('/') + QFileInfo(themeFile).baseName())
-			.removeRecursively();
+				.removeRecursively();
 	}
 
 	QStringList decompileArgs{};
@@ -168,7 +177,7 @@ void AppearancePage::useRealToolBarChanged(bool enabled)
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 }
 
-AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
+AppearancePage::Theme AppearancePage::parseTheme(const QString &path, const QString &name)
 {
 	Theme info{};
 
@@ -229,19 +238,22 @@ void AppearancePage::loadSettings()
 	settings.beginGroup("Settings");
 
 	m_fullyLoadThemes
-		->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
-						 .toBool());
+			->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
+								 .toBool());
 	m_useRealToolBar
-		->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
+			->setChecked(
+					settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
 	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
 																	  Application::instance()
-																		  ->hideBookmarksHistoryActions()).toBool());
+																			  ->hideBookmarksHistoryActions()).toBool());
 	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
 														   Application::instance()->floatingButtonFoloweMouse())
-												.toBool());
+													.toBool());
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 
+	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
+	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
 
 	settings.endGroup();
 	m_activeTheme = settings.value("Themes/currentTheme", "sielo_default").toString();
@@ -251,13 +263,13 @@ void AppearancePage::loadSettings()
 	QDir dir{Application::instance()->paths()[Application::P_Themes]};
 	QStringList list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-		foreach (const QString& name, list) {
+			foreach (const QString &name, list) {
 			Theme themeInfo = parseTheme(dir.absoluteFilePath(name) + QLatin1Char('/'), name);
 
 			if (!themeInfo.isValid)
 				continue;
 
-			QListWidgetItem* item{new QListWidgetItem(m_themeList)};
+			QListWidgetItem *item{new QListWidgetItem(m_themeList)};
 			item->setText(themeInfo.name + "\n" + themeInfo.shortDesc);
 			item->setIcon(themeInfo.icon);
 			item->setData(Qt::UserRole, name);
@@ -329,8 +341,13 @@ void AppearancePage::setupUI()
 	m_fullyLoadThemes = new QCheckBox(tr("Fully load theme (otherwise it will only load theme's icons)"));
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
 	m_hideBookmarksHistoryActionsByDefault =
-		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
+			new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
+
+	m_tabsSpacesPaddingLabel = new QLabel(tr("Tabs spaces padding (in px)"), this);
+	m_tabsSpacesPadding = new QSlider(Qt::Horizontal, this);
+	m_tabsSpacesPadding->setMinimum(0);
+	m_tabsSpacesPadding->setMaximum(60);
 
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
@@ -354,5 +371,7 @@ void AppearancePage::setupUI()
 	m_layout->addWidget(m_useRealToolBar);
 	m_layout->addWidget(m_hideBookmarksHistoryActionsByDefault);
 	m_layout->addWidget(m_floatingButtonFoloweMouse);
+	m_layout->addWidget(m_tabsSpacesPaddingLabel);
+	m_layout->addWidget(m_tabsSpacesPadding);
 }
 }
