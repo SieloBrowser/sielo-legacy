@@ -211,7 +211,8 @@ void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, Application::
 
 void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget)
 {
-	widgetTabWidget->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
+	widgetTabWidget->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
+										m_spaceBetweenTabsSpaces);
 
 	if (position == BrowserWindow::TSP_Left || position == BrowserWindow::TSP_Right) {
 		QSplitter* verticalSplitter{new QSplitter(Qt::Vertical, this)};

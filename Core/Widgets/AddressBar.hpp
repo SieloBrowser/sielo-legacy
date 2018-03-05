@@ -248,8 +248,6 @@ private slots:
 
 	void reloadStopClicked();
 
-	void updateSiteIcon();
-
 	void setGoButtonVisible(bool state);
 
 	void loadStarted();
@@ -266,7 +264,6 @@ private:
 
 	bool processMainCommand(const QString& command, const QStringList& args);
 
-	ToolButton* m_siteIcon{nullptr};
 	ToolButton* m_reloadStopButton{nullptr};
 	ToolButton* m_goButton{nullptr};
 

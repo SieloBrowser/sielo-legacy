@@ -487,12 +487,6 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	setObjectName("addressbar");
 	setDragEnabled(true);
 
-	m_siteIcon = new ToolButton(this);
-	m_siteIcon->setAutoRaise(true);
-	m_siteIcon->setFocusPolicy(Qt::NoFocus);
-	m_siteIcon->setIcon(Application::getAppIcon("webpage"));
-	m_siteIcon->setObjectName("addressbar-website-icon");
-
 	m_reloadStopButton = new ToolButton(this);
 	m_reloadStopButton->setAutoRaise(true);
 	m_reloadStopButton->setToolTip(tr("Reload"));
@@ -534,7 +528,6 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	connect(m_leftWidget, &SideWidget::sizeHintChanged, this, &AddressBar::updateTextMargins);
 	connect(m_rightWidget, &SideWidget::sizeHintChanged, this, &AddressBar::updateTextMargins);
 
-	addWidget(m_siteIcon, AddressBar::LeftSide);
 	addWidget(m_goButton, AddressBar::RightSide);
 	addWidget(m_reloadStopButton, AddressBar::RightSide);
 
@@ -614,7 +607,6 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	updateActions();
 	updatePasteActions();
 	loadSettings();
-	updateSiteIcon();
 }
 
 void AddressBar::showPopup()
@@ -655,7 +647,6 @@ void AddressBar::setWebView(TabbedWebView* view)
 {
 	m_webView = view;
 
-	updateSiteIcon();
 
 	connect(m_webView, &TabbedWebView::loadStarted, this, &AddressBar::loadStarted);
 	connect(m_webView, &TabbedWebView::loadProgress, this, &AddressBar::loadProgress);
@@ -663,7 +654,6 @@ void AddressBar::setWebView(TabbedWebView* view)
 
 	connect(m_webView, SIGNAL(urlChanged(QUrl)), this, SLOT(showUrl(QUrl)));
 	//TODO: privacy
-	connect(m_webView, &TabbedWebView::iconChanged, this, &AddressBar::updateSiteIcon);
 }
 
 int AddressBar::widgetSpacing() const
@@ -1022,6 +1012,20 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 				requestLoadUrl();
 				m_holdingAlt = false;
 			}
+		} else {
+			switch (event->modifiers()) {
+			case Qt::ControlModifier:
+				if (!text().endsWith(QLatin1String(".com")))
+					setText(text().append(QLatin1String(".com")));
+
+				requestLoadUrl();
+				break;
+			case Qt::AltModifier:
+				m_window->tabWidget()->addView(createLoadRequest());
+				break;
+			default:
+				requestLoadUrl();
+			}
 		}
 		break;
 	case Qt::Key_0:
@@ -1223,13 +1227,6 @@ void AddressBar::reloadStopClicked()
 		m_webView->reload();
 }
 
-void AddressBar::updateSiteIcon()
-{
-	QIcon icon{m_webView ? m_webView->icon() : Application::getAppIcon("webpage")};
-
-	m_siteIcon->setIcon(icon);
-}
-
 void AddressBar::setGoButtonVisible(bool state)
 {
 	m_goButton->setVisible(state);
@@ -1239,8 +1236,6 @@ void AddressBar::setGoButtonVisible(bool state)
 
 void AddressBar::loadStarted()
 {
-	m_siteIcon->setIcon(Application::getAppIcon("webpage"));
-
 	m_reloadStopButton->setToolTip(tr("Stop"));
 	m_reloadStopButton->setObjectName("addressbar-button-stop");
 	m_reloadStopButton->setIcon(Application::getAppIcon("stop"));
@@ -1257,8 +1252,6 @@ void AddressBar::loadProgress(int progress)
 
 void AddressBar::loadFinished()
 {
-	updateSiteIcon();
-
 	m_reloadStopButton->setToolTip(tr("Reload"));
 	m_reloadStopButton->setObjectName("addressbar-button-reload");
 	m_reloadStopButton->setIcon(Application::getAppIcon("reload"));
