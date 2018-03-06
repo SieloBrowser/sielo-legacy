@@ -73,6 +73,7 @@ SearchToolBar::SearchToolBar(WebView* view, QWidget* parent) :
 	m_view(view)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setObjectName(QLatin1String("search-toolbar"));
 
 	setupUI();
 
@@ -223,7 +224,7 @@ void SearchToolBar::setupUI()
 
 	m_next = new QPushButton(this);
 	m_next->setFlat(true);
-	m_next->setIcon(Application::getAppIcon("arrow-up"));
+	m_next->setIcon(Application::getAppIcon("arrow-down"));
 	sizePolicy.setHeightForWidth(m_next->sizePolicy().hasHeightForWidth());
 	m_next->setSizePolicy(sizePolicy);
 	m_next->setShortcut(QStringLiteral("Ctrl+G"));
