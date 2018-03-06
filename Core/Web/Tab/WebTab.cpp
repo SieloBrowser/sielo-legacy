@@ -342,14 +342,15 @@ bool WebTab::isCurrentTab() const
 
 void WebTab::showSearchToolBar()
 {
-	const int index{2};
+	int offset = Application::instance()->useTopToolBar();
+
+	const int index{2 + offset};
 	SearchToolBar* toolBar{nullptr};
 
-	if (m_layout->count() == 2) {
+	if (m_layout->count() == 2 - offset) {
 		toolBar = new SearchToolBar(m_webView, this);
 		m_layout->insertWidget(index, toolBar);
-	}
-	else if (m_layout->count() == 3) {
+	} else if (m_layout->count() == 3 - offset) {
 		Q_ASSERT(qobject_cast<SearchToolBar*>(m_layout->itemAt(index)->widget()));
 		toolBar = static_cast<SearchToolBar*>(m_layout->itemAt(index)->widget());
 	}
