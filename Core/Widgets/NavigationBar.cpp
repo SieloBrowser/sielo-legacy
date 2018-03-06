@@ -47,6 +47,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_tabWidget(tabWidget)
 {
 	setObjectName(QStringLiteral("navigationbar"));
+	QSize iconSize{48, 48};
 
 	m_layout = new QHBoxLayout(this);
 	m_layout->setMargin(style()->pixelMetric(QStyle::PM_ToolBarItemMargin, 0, this));
@@ -85,6 +86,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_buttonViewBookmarks->setObjectName("navigation-button-view-bookmarks");
 	m_buttonViewBookmarks->setToolTip(tr("View Bookmarks"));
 	m_buttonViewBookmarks->setIcon(Application::getAppIcon("bookmarks"));
+	m_buttonViewBookmarks->setFixedSize(iconSize);
 	m_buttonViewBookmarks->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	//m_buttonViewBookmarks->setToolBarButtonLook(true);
 	m_buttonViewBookmarks->setAutoRaise(true);
@@ -94,6 +96,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_buttonAddBookmark->setObjectName("navigation-button-add-bookmark");
 	m_buttonAddBookmark->setToolTip(tr("Add Bookmark"));
 	m_buttonAddBookmark->setIcon(Application::getAppIcon("add-bookmark"));
+	m_buttonAddBookmark->setFixedSize(iconSize);
 	m_buttonAddBookmark->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	//m_buttonAddBookmark->setToolBarButtonLook(true);
 	m_buttonAddBookmark->setAutoRaise(true);
@@ -103,6 +106,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_buttonViewHistory->setObjectName("navigation-button-view-history");
 	m_buttonViewHistory->setToolTip(tr("View History"));
 	m_buttonViewHistory->setIcon(Application::getAppIcon("history"));
+	m_buttonViewHistory->setFixedSize(iconSize);
 	m_buttonViewHistory->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	//m_buttonViewHistory->setToolBarButtonLook(true);
 	m_buttonViewHistory->setAutoRaise(true);
