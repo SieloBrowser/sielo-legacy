@@ -78,8 +78,6 @@ void BrowserWindow::loadSettings()
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("http://doosearch.esy.es/")).toUrl();
 
-	settings.endGroup();
-
 	m_spaceBetweenTabsSpaces = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 
 			foreach (TabWidget *tabWidget, m_tabWidgets) {
@@ -92,15 +90,26 @@ void BrowserWindow::loadSettings()
 	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), "").toString();
 
 	if (!backgroundPath.isEmpty()) {
-		setStyleSheet(styleSheet() + "QMainWindow{ background-image: url(" + backgroundPath + "); }");
+		QString sss = styleSheet();
+		sss += "QMainWindow {";
+		sss += "background-image: url(" + backgroundPath + ");";
+		sss += "background-attachment: fixed;";
+		sss += "background-position: center;";
+
+		if (settings.value(QLatin1String("Settings/repeatBackground"), false).toBool())
+			sss += "background-repeat: repeat;";
+		else
+			sss += "background-repeat: no-repeat;";
+
+		sss += "}";
+
+		setStyleSheet(sss);
 	}
 
 }
 
 QByteArray BrowserWindow::saveTabs()
 {
-	saveButtonState();
-
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
@@ -356,12 +365,16 @@ void BrowserWindow::bookmarkAllTabs()
 
 void BrowserWindow::resizeEvent(QResizeEvent* event)
 {
-	if (m_fButton->pattern() != RootFloatingButton::Pattern::Floating)
-		m_fButton->tabWidgetChanged(tabWidget());
-	else {
-		m_fButton->move(m_fButton->x() - (event->oldSize().width() - event->size().width()),
-						m_fButton->y() - (event->oldSize().height() - event->size().height()));
+	if (m_fButton) {
+		if (m_fButton->pattern() != RootFloatingButton::Pattern::Floating)
+			m_fButton->tabWidgetChanged(tabWidget());
+		else {
+			m_fButton->move(m_fButton->x() - (event->oldSize().width() - event->size().width()),
+							m_fButton->y() - (event->oldSize().height() - event->size().height()));
+		}
 	}
+
+	QMainWindow::resizeEvent(event);
 }
 
 void BrowserWindow::addTab()
@@ -442,7 +455,8 @@ void BrowserWindow::postLaunch()
 
 	tabWidget()->tabBar()->ensureVisible();
 
-	m_fButton->tabWidgetChanged(tabWidget());
+	if (m_fButton)
+		m_fButton->tabWidgetChanged(tabWidget());
 }
 
 void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)

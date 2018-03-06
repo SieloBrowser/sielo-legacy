@@ -120,6 +120,7 @@ private:
 
 	QLabel* m_tabsSpacesPaddingLabel{nullptr};
 	QSlider* m_tabsSpacesPadding{nullptr};
+	QCheckBox* m_repeatBackground{nullptr};
 	QLabel* m_backgroundLabel{nullptr};
 	QLineEdit* m_backgroundLocationEdit{nullptr};
 	QPushButton* m_backgroundLocationButton{nullptr};

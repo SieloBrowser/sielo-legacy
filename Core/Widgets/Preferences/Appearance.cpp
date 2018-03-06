@@ -81,6 +81,7 @@ void AppearancePage::save()
 	}
 
 	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
+	settings.setValue(QLatin1String("repeatBackground"), m_repeatBackground->isChecked());
 	settings.setValue(QLatin1String("backgroundPath"), m_backgroundLocationEdit->text());
 
 	settings.endGroup();
@@ -269,6 +270,7 @@ void AppearancePage::loadSettings()
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
+	m_repeatBackground->setChecked(settings.value(QLatin1String("repeatBackground"), false).toBool());
 	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
 
 	settings.endGroup();
@@ -366,6 +368,8 @@ void AppearancePage::setupUI()
 	m_tabsSpacesPadding->setMinimum(0);
 	m_tabsSpacesPadding->setMaximum(60);
 
+	m_repeatBackground = new QCheckBox(tr("Repeate the background if the picture is too small"), this);
+
 	m_backgroundLabel = new QLabel(tr("Background: "), this);
 	m_backgroundLocationEdit = new QLineEdit(this);
 	m_backgroundLocationButton = new QPushButton(tr("..."), this);
@@ -398,6 +402,7 @@ void AppearancePage::setupUI()
 	m_layout->addWidget(m_floatingButtonFoloweMouse);
 	m_layout->addWidget(m_tabsSpacesPaddingLabel);
 	m_layout->addWidget(m_tabsSpacesPadding);
+	m_layout->addWidget(m_repeatBackground);
 	m_layout->addLayout(m_backgroundLayout);
 }
 }
