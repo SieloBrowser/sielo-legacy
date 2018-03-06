@@ -24,6 +24,8 @@
 
 #include "Widgets/FloatingButton.hpp"
 
+#include <QtMath>
+
 #include <QCursor>
 
 #include <QMessageBox>
@@ -31,6 +33,7 @@
 #include <QPropertyAnimation>
 
 #include "Application.hpp"
+#include "BrowserWindow.hpp"
 
 #include "Web/Tab/WebTab.hpp"
 
@@ -40,196 +43,27 @@ namespace Sn {
 
 static const int ANIMATION_DURATION = 1000 * 0.2;
 
-FloatingButton::FloatingButton(QWidget* parent, Type type) :
-	QPushButton(parent),
-	m_parent(parent),
-	m_type(type),
-	m_pattern(FloatingButton::Toolbar),
-	m_childrenExpanded(false),
-	m_blockClick(false),
-	m_movable(true)
+FloatingButton::FloatingButton(RootFloatingButton* parent, const QString& name, const QString& toolTip) :
+		QPushButton(parent->parentWidget())
 {
 	setFixedSize(QSize(48, 48));
 	setIconSize(QSize(48, 48));
 	setFlat(true);
-	setObjectName("fbutton");
+	setObjectName(name);
+	setToolTip(toolTip);
 
-	setToolTip(tr("Floating button"));
-	setCursor(Qt::SizeAllCursor);
+	m_parent = parent->parentWidget();
+
+	hide();
 }
 
-void FloatingButton::setChildren(QVector<FloatingButton*> children)
+void FloatingButton::setIndex(int index)
 {
-		foreach (FloatingButton* child, children) {
-			child->setParent(m_parent);
-			child->setWebTab(m_webTab);
-			child->setPattern(FloatingButton::Toolbar);
-			child->setType(FloatingButton::Child);
-			child->hide();
-		}
-
-	m_children = children;
-}
-
-void FloatingButton::addChildren(QVector<FloatingButton*> children)
-{
-		foreach (FloatingButton* child, children) {
-			child->setParent(m_parent);
-			child->setWebTab(m_webTab);
-			child->setPattern(FloatingButton::Toolbar);
-			child->setType(FloatingButton::Child);
-			child->hide();
-		}
-
-	m_children.append(children);
-}
-
-void FloatingButton::addChild(FloatingButton* button)
-{
-	button->setParent(m_parent);
-	button->setWebTab(m_webTab);
-	button->setPattern(FloatingButton::Toolbar);
-	button->setType(FloatingButton::Child);
-	button->hide();
-	m_children.append(button);
-}
-
-void FloatingButton::setWebTab(WebTab* webTab)
-{
-	m_webTab = webTab;
-}
-
-void FloatingButton::setTabWidget(TabWidget* tabWidget)
-{
-	m_tabWidget = tabWidget;
-}
-
-void FloatingButton::setType(Type type)
-{
-	m_type = type;
-}
-
-void FloatingButton::setPattern(Pattern pattern)
-{
-	m_pattern = pattern;
-}
-
-void FloatingButton::setMovable(bool movable)
-{
-	m_movable = movable;
-}
-
-void FloatingButton::setPositionID(int newPositionID)
-{
-	m_positionID = newPositionID;
-}
-
-void FloatingButton::showChildren(QPoint position)
-{
-//	if (m_children.isEmpty() || m_childrenExpanded)
-//		return;
-
-	position = mapToParent(position - m_offset);
-
-	int current{-(m_children.size() / 8)};
-
-	if (m_pattern == FloatingButton::Floating) {
-		for (int i{0}; i < m_children.size(); ++i) {
-			FloatingButton* child = m_children[i];
-			child->move(position);
-			child->setPositionID(i);
-
-			if (i < m_children.size() / 8) {
-				child->moveButton(QPoint(position.x() + current * width(),
-										 position.y() - height() * m_children.size() / 8));
-				++current;
-				continue;
-			}
-			if (i == m_children.size() / 8) {
-				child->moveButton(QPoint(position.x(), position.y() - height() * m_children.size() / 8));
-				current = 0;
-				continue;
-			}
-			if (i < m_children.size() / 4) {
-				++current;
-				child->moveButton(QPoint(position.x() + current * width(),
-										 position.y() - height() * m_children.size() / 8));
-				continue;
-			}
-			if (i < m_children.size() / 2) {
-				child->moveButton(QPoint(position.x() + width() * m_children.size() / 8,
-										 position.y() - (current + 1) * height()));
-				--current;
-				continue;
-			}
-			if (i < m_children.size() - m_children.size() / 4) {
-				++current;
-				child->moveButton(QPoint(position.x() - current * width(),
-										 position.y() + height() * m_children.size() / 8));
-				continue;
-			}
-			if (i == m_children.size() - m_children.size() / 4) {
-				current = m_children.size() / 8;
-				child->moveButton(QPoint(position.x() - width() * m_children.size() / 8,
-										 position.y() + current * height()));
-				continue;
-			}
-
-			--current;
-			child
-				->moveButton(QPoint(position.x() - width() * m_children.size() / 8, position.y() + current * height()));
-		}
-
-	}
-	else if (m_pattern == Pattern::Toolbar && m_type == Type::Root) {
-		for (int i{0}; i < m_children.count(); ++i) {
-			FloatingButton* child = m_children[i];
-
-			QPoint positionRelative{0, 0};
-
-			if (m_tabWidget)
-				positionRelative = m_tabWidget->mapTo(m_parent, m_tabWidget->pos());
-
-			child->moveButton(QPoint(positionRelative.x(), positionRelative.y() + (i + 1) * height()), true);
-			child->show();
-		}
-
-	}
-
-	m_childrenExpanded = true;
-	emit statusChanged();
-}
-
-void FloatingButton::hideChildren()
-{
-//	if (m_children.isEmpty() || !m_childrenExpanded)
-//		return;
-
-	QVector<FloatingButton*> newChildren;
-
-	for (int i{0}; i < m_children.size(); ++i) {
-		for (int j{0}; j < m_children.size(); ++j) {
-			FloatingButton* child = m_children[j];
-
-			if (child->positionID() == i) {
-				newChildren.append(child);
-				continue;
-			}
-		}
-	}
-
-	m_children.clear();
-	m_children = newChildren;
-
-		foreach (FloatingButton* child, m_children) child->hideButton(pos());
-
-	m_childrenExpanded = false;
-	emit statusChanged();
+	m_index = index;
 }
 
 void FloatingButton::mousePressEvent(QMouseEvent* event)
 {
-	emit updateMenu();
 	m_offset = event->pos();
 	m_oldPosition = pos();
 
@@ -239,11 +73,6 @@ void FloatingButton::mousePressEvent(QMouseEvent* event)
 void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton) {
-		if (!m_movable)
-			return;
-
-		m_blockClick = true;
-
 		QPoint position{mapToParent(event->pos() - m_offset)};
 		int x{};
 		int y{};
@@ -252,122 +81,40 @@ void FloatingButton::mouseMoveEvent(QMouseEvent* event)
 		y = (position.y() >= 0) ? qMin(m_parent->height() - height(), position.y()) : qMax(0, position.y());
 
 		move(QPoint(x, y));
-		//QCursor::setPos(event->globalPos());
-
-		if (m_type == Type::Root) {
-			QPoint posFromTabWidget{};
-
-			if (m_tabWidget)
-				posFromTabWidget = m_tabWidget->mapFrom(m_parent, pos());
-			else
-				posFromTabWidget = mapToParent(pos());
-
-			if ((posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
-				&& (posFromTabWidget.y() >= 28 && posFromTabWidget.y() <= height() + 28)
-				&& m_pattern == Pattern::Floating) {
-				setPattern(Pattern::Toolbar);
-				m_oldPosition = m_tabWidget->mapTo(m_parent, m_tabWidget->pos());
-				showChildren(m_tabWidget->mapTo(m_parent, m_tabWidget->pos()));
-			}
-			else if (!(posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
-					 && !(posFromTabWidget.y() >= 28 && posFromTabWidget.y() <= height() + 28)
-					 && m_pattern == Pattern::Toolbar) {
-				if (m_childrenExpanded)
-					hideChildren();
-
-				setPattern(Pattern::Floating);
-			}
-			else if (m_pattern != Pattern::Toolbar) {
-				if (m_childrenExpanded)
-					hideChildren();
-			}
-		}
+		m_blockClick = true;
 	}
-
-	QPushButton::mouseMoveEvent(event);
 }
 
 void FloatingButton::mouseReleaseEvent(QMouseEvent* event)
 {
+	setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
-	QPoint posFromTabWidget{};
+	if (Application::widgetAt(mapToGlobal(event->pos()))) {
+		FloatingButton* button = qobject_cast<FloatingButton*>(Application::widgetAt(mapToGlobal(event->pos())));
 
-	if (m_tabWidget)
-		posFromTabWidget = m_tabWidget->mapFrom(m_parent, pos());
-	else
-		posFromTabWidget = mapToParent(pos());
-	if (m_type == Type::Root) {
-		if ((posFromTabWidget.x() >= 0 && posFromTabWidget.x() <= width())
-			&& (posFromTabWidget.y() >= 28) && posFromTabWidget.y() <= height() + 28) {
-			m_pattern = Pattern::Toolbar;
-			if (!m_childrenExpanded)
-				showChildren(QPoint(0, 24));
-		}
-		else if (m_pattern == Pattern::Toolbar) {
-			m_pattern = Pattern::Floating;
-		}
+		if (button) {
+			int buttonIndex = button->index();
+			button->setIndex(m_index);
+			m_index = buttonIndex;
 
-		if (m_pattern != Pattern::Toolbar) {
-			if (m_childrenExpanded && !m_blockClick)
-				hideChildren();
-			else if (!m_blockClick)
-				showChildren(event->pos());
-		}
-	}
+			move(button->pos());
+			button->moveButton(m_oldPosition);
 
-	if (m_type != FloatingButton::Root) {
-		setAttribute(Qt::WA_TransparentForMouseEvents, true);
-
-		if (Application::widgetAt(mapToGlobal(event->pos()))
-			&& Application::widgetAt(mapToGlobal(event->pos()))->objectName().contains(QLatin1String("fbutton"))
-			&& static_cast<FloatingButton*>(Application::widgetAt(mapToGlobal(event->pos())))->pattern()
-			   != FloatingButton::Floating) {
-			FloatingButton* button = static_cast<FloatingButton*>(Application::widgetAt(mapToGlobal(event->pos())));
-
-			if (button->type() == Type::Root) {
-				moveButton(m_oldPosition);
-			}
-			else {
-
-				QPoint newPosition{button->pos()};
-				int newPositionID{button->positionID()};
-
-				button->moveButton(m_oldPosition);
-				button->setPositionID(m_positionID);
-				moveButton(newPosition);
-				m_positionID = newPositionID;
-			}
-		}
-		else {
+			emit statusChanged();
+		} else {
 			moveButton(m_oldPosition);
 		}
+	}
 
-		setAttribute(Qt::WA_TransparentForMouseEvents, false);
-	}
-	else if (m_pattern == Pattern::Toolbar) {
-		moveButton(m_oldPosition);
-	}
-/*
-	if (!m_children.isEmpty()) {
-		if (m_childrenExpanded && m_pattern != Pattern::Toolbar) {
-			hideChildren();
-			m_childrenExpanded = false;
-		}
-		else if (!m_blockClick) {
-			showChildren(event->pos());
-			m_childrenExpanded = true;
-		}
-	}
-*/
+	setAttribute(Qt::WA_TransparentForMouseEvents, false);
+
 	if (!m_blockClick)
-		emit isClicked();
+			emit isClicked();
 
 	m_blockClick = false;
-
-	QPushButton::mouseReleaseEvent(event);
 }
 
-void FloatingButton::moveButton(QPoint destination, bool toolBar)
+void FloatingButton::moveButton(QPoint destination, int animationTime, bool hideAtEnd)
 {
 	if (!isVisible())
 		show();
@@ -376,43 +123,217 @@ void FloatingButton::moveButton(QPoint destination, bool toolBar)
 
 	QPropertyAnimation* animation = new QPropertyAnimation(this, "geometry");
 
-	animation->setDuration(ANIMATION_DURATION);
-
-	if (toolBar)
-		animation
-			->setStartValue(QRect(QPoint(0, 24).x(), QPoint(0, 24).y(), width(), height()));
-	else
-		animation->setStartValue(QRect(pos().x(), pos().y(), width(), height()));
-
-	animation->setEndValue(QRect(destination.x(), destination.y(), width(), height()));
-	animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-	connect(animation, &QPropertyAnimation::finished, this, [this]()
-	{
-		setAttribute(Qt::WA_TransparentForMouseEvents, false);
-	});
-
-}
-
-void FloatingButton::hideButton(QPoint destination)
-{
-	if (!isVisible())
-		show();
-
-	setAttribute(Qt::WA_TransparentForMouseEvents, true);
-
-	QPropertyAnimation* animation = new QPropertyAnimation(this, "geometry");
-
-	animation->setDuration(ANIMATION_DURATION);
+	animation->setDuration(animationTime);
 	animation->setStartValue(QRect(pos().x(), pos().y(), width(), height()));
 	animation->setEndValue(QRect(destination.x(), destination.y(), width(), height()));
 	animation->start(QAbstractAnimation::DeleteWhenStopped);
 
-	connect(animation, &QPropertyAnimation::finished, this, [this]()
-	{
+	connect(animation, &QPropertyAnimation::finished, this, [=]() {
 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
-		hide();
+		if (hideAtEnd) {
+			hide();
+		}
 	});
+
+}
+
+RootFloatingButton::RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern) :
+		QPushButton(parent),
+		m_pattern(pattern),
+		m_window(window),
+		m_blockClick(false)
+{
+	setFixedSize(QSize(48, 48));
+	setIconSize(QSize(48, 48));
+	setFlat(true);
+	setObjectName("fbutton-root");
+
+	setToolTip(tr("Floating button"));
+	setCursor(Qt::SizeAllCursor);
+	setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(this, &QPushButton::customContextMenuRequested, this, &RootFloatingButton::showMenu);
+}
+
+void RootFloatingButton::addButton(const QString& name)
+{
+	FloatingButton* newButton{new FloatingButton(this, name)};
+	newButton->setIndex(m_buttons.size());
+
+	connect(newButton, SIGNAL(statusChanged()), this, SIGNAL(statusChanged()));
+
+	m_buttons.insert(name, newButton);
+}
+
+FloatingButton* RootFloatingButton::button(const QString& name)
+{
+	return m_buttons.value(name);
+}
+
+void RootFloatingButton::setPattern(Pattern pattern)
+{
+	m_pattern = pattern;
+}
+
+void RootFloatingButton::expandAround(QPoint around)
+{
+	if (m_childrenExpanded)
+		return;
+
+	m_childrenExpanded = true;
+
+	float deegresSpace = 360 / m_buttons.size();
+	int radius = width() + 15;
+
+	for (int i{0}; i < m_buttons.size(); ++i) {
+		float degrees = deegresSpace * (i + 1);
+		int x = around.x() + radius * qCos(qDegreesToRadians(degrees));
+		int y = around.y() + radius * qSin(qDegreesToRadians(degrees));
+
+				foreach (FloatingButton* button, m_buttons) {
+				if (button->index() == i) {
+					button->move(around);
+					button->show();
+					button->moveButton(QPoint(x, y));
+					break;
+				}
+			}
+	}
+}
+
+void RootFloatingButton::expandInToolbar(TabWidget* tabWidget)
+{
+	if (m_childrenExpanded)
+		return;
+
+	m_childrenExpanded = true;
+
+	for (int i{1}; i <= m_buttons.size(); ++i) {
+				foreach (FloatingButton* button, m_buttons) {
+				if (button->index() == i - 1) {
+					QPoint relativePos{tabWidget->mapTo(m_window, tabWidget->pos())};
+					QPoint destination{0, 0};
+
+					if (m_pattern == Pattern::TopToolbar)
+						destination = QPoint(relativePos.x() + i * width(), relativePos.y());
+					if (m_pattern == Pattern::BottomToolbar)
+						destination = QPoint(relativePos.x() + i * width(),
+											 relativePos.y() + (tabWidget->height() - height() * 2));
+					if (m_pattern == Pattern::LeftToolbar)
+						destination = QPoint(relativePos.x(), relativePos.y() + i * height());
+					if (m_pattern == Pattern::RightToolbar)
+						destination = QPoint(relativePos.x() + (tabWidget->width() - width() * 2),
+											 relativePos.y() + i * height());
+
+					button->move(pos());
+					button->show();
+					button->moveButton(destination);
+					break;
+				}
+			}
+	}
+}
+
+void RootFloatingButton::closeButton()
+{
+	if (!m_childrenExpanded)
+		return;
+
+			foreach (FloatingButton* button, m_buttons) {
+			button->moveButton(QPoint(button->x(), m_window->height()), 100, true);
+		}
+
+	m_childrenExpanded = false;
+}
+
+void RootFloatingButton::tabWidgetChanged(TabWidget* tabWidget)
+{
+	closeButton();
+
+	move(tabWidget->mapTo(m_window, tabWidget->pos()).x(), tabWidget->mapTo(m_window, tabWidget->pos()).y());
+
+	if (m_pattern != Pattern::Floating) {
+		if (m_pattern == BottomToolbar)
+			move(x(), y() + (tabWidget->height() - height() * 2));
+		else if (m_pattern == RightToolbar)
+			move(x() + (tabWidget->width() - width() * 2), y());
+
+		expandInToolbar(tabWidget);
+	}
+}
+
+void RootFloatingButton::mousePressEvent(QMouseEvent* event)
+{
+	m_offset = event->pos();
+
+	QPushButton::mousePressEvent(event);
+}
+
+void RootFloatingButton::mouseMoveEvent(QMouseEvent* event)
+{
+	if (event->buttons() & Qt::LeftButton) {
+		if (m_pattern != Pattern::Floating) {
+			m_pattern = Pattern::Floating;
+			emit statusChanged();
+		}
+
+		if (m_childrenExpanded)
+			closeButton();
+
+		QPoint position{mapToParent(event->pos() - m_offset)};
+		int x{};
+		int y{};
+
+		x = (position.x() >= 0) ? qMin(m_window->width() - width(), position.x()) : qMax(0, position.x());
+		y = (position.y() >= 0) ? qMin(m_window->height() - height(), position.y()) : qMax(0, position.y());
+
+		move(QPoint(x, y));
+		m_blockClick = true;
+	}
+}
+
+void RootFloatingButton::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (!m_blockClick) {
+		if (!m_childrenExpanded && m_pattern == Pattern::Floating)
+			expandAround(mapToParent(event->pos() - m_offset));
+		else if (m_pattern == Floating)
+			closeButton();
+	}
+
+	m_blockClick = false;
+}
+
+void RootFloatingButton::showMenu(const QPoint& pos)
+{
+	QMenu menu{m_window};
+	QMenu patternsMenu{"Patterns", m_window};
+
+	patternsMenu.addAction(tr("Floating"), this, &RootFloatingButton::changePattern)->setData(Pattern::Floating);
+	patternsMenu.addSeparator();
+	patternsMenu.addAction(tr("Left Toolbar"), this, &RootFloatingButton::changePattern)->setData(Pattern::LeftToolbar);
+	patternsMenu.addAction(tr("Right Toolbar"), this, &RootFloatingButton::changePattern)->setData(
+			Pattern::RightToolbar);
+	patternsMenu.addAction(tr("Top Toolbar"), this, &RootFloatingButton::changePattern)->setData(Pattern::TopToolbar);
+	patternsMenu.addAction(tr("Bottom Toolbar"), this, &RootFloatingButton::changePattern)->setData(
+			Pattern::BottomToolbar);
+
+	menu.addMenu(&patternsMenu);
+
+	menu.exec(mapToGlobal(QPoint(pos.x(), pos.y() + 1)));
+}
+
+void RootFloatingButton::changePattern()
+{
+	QAction* action{qobject_cast<QAction*>(sender())};
+
+	if (!action)
+		return;
+
+	m_pattern = static_cast<Pattern>(action->data().toInt());
+
+	emit patternChanged(m_pattern);
+	emit statusChanged();
 }
 
 }

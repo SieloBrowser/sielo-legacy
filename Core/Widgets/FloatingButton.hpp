@@ -27,10 +27,14 @@
 #define SIELOBROWSER_FLOATINGBUTTON_HPP
 
 #include <QMouseEvent>
+#include <QContextMenuEvent>
+
+#include <QPoint>
 
 #include <QPushButton>
 
 #include <QVector>
+#include <QHash>
 
 #include "Utils/ToolButton.hpp"
 
@@ -39,55 +43,24 @@ class WebTab;
 
 class TabWidget;
 
-class FloatingButton: public QPushButton {
+class RootFloatingButton;
+
+class BrowserWindow;
+
+class FloatingButton : public QPushButton {
 Q_OBJECT
 public:
-	enum Type {
-		Root,
-		Child
-	};
+	FloatingButton(RootFloatingButton* parent, const QString& name, const QString& toolTip = "Floating Button");
 
-	enum Pattern {
-		Floating,
-		Toolbar
-	};
+	void setIndex(int index);
 
-	FloatingButton(QWidget* parent, Type type = Child);
+	const int index() const { return m_index; }
 
-	QVector<FloatingButton*> children() { return m_children; }
-	void setChildren(QVector<FloatingButton*> children);
-	void addChildren(QVector<FloatingButton*> children);
-	void addChild(FloatingButton* button);
-
-	WebTab* webTab() const { return m_webTab; }
-	void setWebTab(WebTab* webTab);
-
-	TabWidget* tabWidget() const { return m_tabWidget; }
-	void setTabWidget(TabWidget* tabWidget);
-
-	Type type() const { return m_type; }
-	void setType(Type type);
-
-	Pattern pattern() const { return m_pattern; }
-	void setPattern(Pattern pattern);
-
-	bool isMovable() const { return m_movable; }
-	void setMovable(bool movable);
-
-	int positionID() const { return m_positionID; }
-	void setPositionID(int newPositionID);
-
-	bool childrenExpanded() const { return m_childrenExpanded; };
+	void moveButton(QPoint destination, int animationTime = 0.2 * 1000, bool hideAtEnd = false);
 
 signals:
-	void updateMenu();
 	void isClicked();
-
 	void statusChanged();
-
-public slots:
-	void showChildren(QPoint position);
-	void hideChildren();
 
 protected:
 	void mousePressEvent(QMouseEvent* event);
@@ -95,27 +68,67 @@ protected:
 	void mouseReleaseEvent(QMouseEvent* event);
 
 private:
-	void moveButton(QPoint destination, bool toolBar = false);
-	void hideButton(QPoint destination);
+
+	int m_index{0};
+	bool m_blockClick{false};
 
 	QPoint m_offset{};
 	QPoint m_oldPosition{};
 
 	QWidget* m_parent{nullptr};
-	WebTab* m_webTab{nullptr};
+};
 
-	TabWidget* m_tabWidget{nullptr};
+class RootFloatingButton : public QPushButton {
+Q_OBJECT
+public:
+	enum Pattern {
+		Floating = 1,
+		TopToolbar = 2,
+		BottomToolbar = 3,
+		RightToolbar = 4,
+		LeftToolbar = 5
+	};
 
-	QVector<FloatingButton*> m_children;
+	RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern = BottomToolbar);
 
-	Type m_type{Child};
-	Pattern m_pattern{Toolbar};
+	void addButton(const QString& name);
+	FloatingButton* button(const QString& name);
 
-	bool m_childrenExpanded{false};
+	QHash<QString, FloatingButton*> buttons() const { return m_buttons; }
+
+	Pattern pattern() const { return m_pattern; }
+	void setPattern(Pattern pattern);
+
+	void expandAround(QPoint around);
+	void expandInToolbar(TabWidget* tabWidget);
+	void closeButton();
+
+	void tabWidgetChanged(TabWidget* tabWidget);
+
+signals:
+	void patternChanged(Pattern newPattern);
+	void statusChanged();
+
+protected:
+	void mousePressEvent(QMouseEvent* event);
+	void mouseMoveEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
+
+	void showMenu(const QPoint& pos);
+
+private slots:
+	void changePattern();
+
+private:
+	QHash<QString, FloatingButton*> m_buttons;
+	Pattern m_pattern{};
+
+	QPoint m_offset{};
+
+	BrowserWindow* m_window{nullptr};
+
 	bool m_blockClick{false};
-	bool m_movable{true};
-	int m_positionID{0};
+	bool m_childrenExpanded{false};
 };
 }
-
 #endif //SIELOBROWSER_FLOATINGBUTTON_HPP

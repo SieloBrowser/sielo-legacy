@@ -41,7 +41,6 @@
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/AddressBar.hpp"
-#include "Widgets/FloatingButton.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -100,6 +99,8 @@ void BrowserWindow::loadSettings()
 
 QByteArray BrowserWindow::saveTabs()
 {
+	saveButtonState();
+
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
@@ -353,6 +354,16 @@ void BrowserWindow::bookmarkAllTabs()
 	// Empty
 }
 
+void BrowserWindow::resizeEvent(QResizeEvent* event)
+{
+	if (m_fButton->pattern() != RootFloatingButton::Pattern::Floating)
+		m_fButton->tabWidgetChanged(tabWidget());
+	else {
+		m_fButton->move(m_fButton->x() - (event->oldSize().width() - event->size().width()),
+						m_fButton->y() - (event->oldSize().height() - event->size().height()));
+	}
+}
+
 void BrowserWindow::addTab()
 {
 	tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab, true);
@@ -430,6 +441,8 @@ void BrowserWindow::postLaunch()
 	connect(m_restoreAction, SIGNAL(triggered()), tabWidget(), SLOT(restoreClosedTab()));
 
 	tabWidget()->tabBar()->ensureVisible();
+
+	m_fButton->tabWidgetChanged(tabWidget());
 }
 
 void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
@@ -444,20 +457,19 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
 	if (m_fButton) {
-		m_fButton->setTabWidget(tabWidget());
 		QRect tabWidgetRect = tabWidget()->geometry();
 
 		if (!tabWidgetRect.contains(tabWidget()->mapFromGlobal(mapToGlobal(m_fButton->pos())))
 			&& Application::instance()->floatingButtonFoloweMouse()) {
-			if (m_fButton->childrenExpanded())
-				m_fButton->hideChildren();
-
-			QPoint newFloatingButtonPos
-				{QPoint(tbWidget->mapTo(this, tabWidget()->pos()).x(), tbWidget->mapTo(this, tabWidget()->pos()).y())};
-			//newFloatingButtonPos.setX(mapFromGlobal(QCursor::pos()).x() + 15);
-
-			m_fButton->move(newFloatingButtonPos);
+			m_fButton->tabWidgetChanged(tabWidget());
 		}
+	}
+}
+
+void BrowserWindow::floatingButtonPatternChange(RootFloatingButton::Pattern pattern)
+{
+	if (pattern != RootFloatingButton::Pattern::Floating) {
+		m_fButton->tabWidgetChanged(tabWidget());
 	}
 }
 
@@ -588,41 +600,7 @@ void BrowserWindow::setupUi()
 
 void BrowserWindow::setupFloatingButton()
 {
-	m_fButton = new FloatingButton(this, FloatingButton::Root);
-	m_fButton->setObjectName("fbutton-root");
-
-	m_fButtonAddBookmark = new FloatingButton(this);
-	m_fButtonAddBookmark->setObjectName("fbutton-add-bookmark");
-	m_fButtonAddBookmark->setToolTip(tr("Add This Page to Bookmarks"));
-
-	m_fButtonViewBookmarks = new FloatingButton(this);
-	m_fButtonViewBookmarks->setObjectName("fbutton-view-bookmarks");
-	m_fButtonViewBookmarks->setToolTip(tr("View Bookmarks"));
-
-	m_fButtonViewHistory = new FloatingButton(this);
-	m_fButtonViewHistory->setObjectName("fbutton-view-history");
-	m_fButtonViewHistory->setToolTip(tr("View History"));
-
-	m_fButtonNewWindow = new FloatingButton(this);
-	m_fButtonNewWindow->setObjectName("fbutton-new-window");
-	m_fButtonNewWindow->setToolTip(tr("New Window"));
-
-	m_fButtonHome = new FloatingButton(this);
-	m_fButtonHome->setObjectName("fbutton-home");
-	m_fButtonHome->setToolTip(tr("Go Home"));
-
-	m_fButtonNext = new FloatingButton(this);
-	m_fButtonNext->setObjectName("fbutton-next");
-	m_fButtonNext->setToolTip(tr("Go Forward"));
-//	m_fButtonNext->setMenu(m_menuForward);
-
-	m_fButtonBack = new FloatingButton(this);
-	m_fButtonBack->setObjectName("fbutton-back");
-	m_fButtonBack->setToolTip(tr("Go Back"));
-
-	m_fButtonNewTab = new FloatingButton(this);
-	m_fButtonNewTab->setObjectName("fbutton-new-tab");
-	m_fButtonNewTab->setToolTip(tr("Add New Tab"));
+	m_fButton = new RootFloatingButton(this, this);
 
 	QFile fButtonDataFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
 
@@ -632,10 +610,12 @@ void BrowserWindow::setupFloatingButton()
 
 		QDataStream fButtonData{&fButtonDataFile};
 		int version{0};
+		int pattern;
+		QPoint lastPosition{};
 
 		fButtonData >> version;
 
-		if (version == 0x0001) {
+		if (version == 0x0001 || version == 0x0002) {
 			int buttonCount{0};
 
 			fButtonData >> buttonCount;
@@ -644,49 +624,42 @@ void BrowserWindow::setupFloatingButton()
 				QString button{""};
 
 				fButtonData >> button;
+				m_fButton->addButton(button);
+			}
 
-				if (button == m_fButtonBack->objectName())
-					m_fButton->addChild(m_fButtonBack);
-				else if (button == m_fButtonNext->objectName())
-					m_fButton->addChild(m_fButtonNext);
-				else if (button == m_fButtonHome->objectName())
-					m_fButton->addChild(m_fButtonHome);
-				else if (button == m_fButtonAddBookmark->objectName())
-					m_fButton->addChild(m_fButtonAddBookmark);
-				else if (button == m_fButtonViewBookmarks->objectName())
-					m_fButton->addChild(m_fButtonViewBookmarks);
-				else if (button == m_fButtonViewHistory->objectName())
-					m_fButton->addChild(m_fButtonViewHistory);
-				else if (button == m_fButtonNewWindow->objectName())
-					m_fButton->addChild(m_fButtonNewWindow);
-				else if (button == m_fButtonNewTab->objectName())
-					m_fButton->addChild(m_fButtonNewTab);
+			if (version == 0x0002) {
+				fButtonData >> pattern;
+				fButtonData >> lastPosition;
+
+				m_fButton->setPattern(static_cast<RootFloatingButton::Pattern>(pattern));
 			}
 		}
 	}
 	else {
-		m_fButton->addChild(m_fButtonBack);
-		m_fButton->addChild(m_fButtonNext);
-		m_fButton->addChild(m_fButtonHome);
-		m_fButton->addChild(m_fButtonAddBookmark);
-		m_fButton->addChild(m_fButtonViewBookmarks);
-		m_fButton->addChild(m_fButtonViewHistory);
-		m_fButton->addChild(m_fButtonNewWindow);
-		m_fButton->addChild(m_fButtonNewTab);
+		m_fButton->addButton("fbutton-next");
+		m_fButton->addButton("fbutton-back");
+		m_fButton->addButton("fbutton-home");
+		m_fButton->addButton("fbutton-add-bookmark");
+		m_fButton->addButton("fbutton-view-bookmarks");
+		m_fButton->addButton("fbutton-view-history");
+		m_fButton->addButton("fbutton-new-window");
+		m_fButton->addButton("fbutton-new-tab");
 	}
 
-	m_fButton->setTabWidget(tabWidget());
+	connect(m_fButton, &RootFloatingButton::statusChanged, this, &BrowserWindow::saveButtonState);
+	connect(m_fButton, &RootFloatingButton::patternChanged, this, &BrowserWindow::floatingButtonPatternChange);
 
-	connect(m_fButton, &FloatingButton::statusChanged, this, &BrowserWindow::saveButtonState);
-
-	connect(m_fButtonViewBookmarks, &FloatingButton::isClicked, tabWidget(), &TabWidget::openBookmarkDialog);
-	connect(m_fButtonViewHistory, &FloatingButton::isClicked, tabWidget(), &TabWidget::openHistoryDialog);
-	connect(m_fButtonAddBookmark, &FloatingButton::isClicked, this, &BrowserWindow::openAddBookmarkDialog);
-	connect(m_fButtonNewWindow, &FloatingButton::isClicked, this, &BrowserWindow::newWindow);
-	connect(m_fButtonHome, &FloatingButton::isClicked, this, &BrowserWindow::goHome);
-	connect(m_fButtonNext, &FloatingButton::isClicked, this, &BrowserWindow::forward);
-	connect(m_fButtonBack, &FloatingButton::isClicked, this, &BrowserWindow::back);
-	connect(m_fButtonNewTab, &FloatingButton::isClicked, this, &BrowserWindow::newTab);
+	connect(m_fButton->button("fbutton-view-bookmarks"), &FloatingButton::isClicked, tabWidget(),
+			&TabWidget::openBookmarkDialog);
+	connect(m_fButton->button("fbutton-view-history"), &FloatingButton::isClicked, tabWidget(),
+			&TabWidget::openHistoryDialog);
+	connect(m_fButton->button("fbutton-add-bookmark"), &FloatingButton::isClicked, this,
+			&BrowserWindow::openAddBookmarkDialog);
+	connect(m_fButton->button("fbutton-new-window"), &FloatingButton::isClicked, this, &BrowserWindow::newWindow);
+	connect(m_fButton->button("fbutton-home"), &FloatingButton::isClicked, this, &BrowserWindow::goHome);
+	connect(m_fButton->button("fbutton-next"), &FloatingButton::isClicked, this, &BrowserWindow::forward);
+	connect(m_fButton->button("fbutton-back"), &FloatingButton::isClicked, this, &BrowserWindow::back);
+	connect(m_fButton->button("fbutton-new-tab"), &FloatingButton::isClicked, this, &BrowserWindow::newTab);
 
 }
 
@@ -695,10 +668,19 @@ void BrowserWindow::saveButtonState()
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	stream << 0x0001;
-	stream << m_fButton->children().count();
+	stream << 0x0002;
+	stream << m_fButton->buttons().size();
 
-		foreach (FloatingButton* button, m_fButton->children()) stream << button->objectName();
+	for (int i{0}; i < m_fButton->buttons().size(); ++i) {
+				foreach (FloatingButton* button, m_fButton->buttons()) {
+				if (button->index() == i) {
+					stream << button->objectName();
+					break;
+				}
+			}
+	}
+
+	stream << m_fButton->pattern();
 
 	QFile fButtonFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
 

@@ -35,7 +35,10 @@
 
 #include <QUrl>
 
+#include <QResizeEvent>
+
 #include "Utils/RestoreManager.hpp"
+#include "Widgets/FloatingButton.hpp"
 
 #include "Application.hpp"
 
@@ -44,9 +47,9 @@ class WebPage;
 class WebTab;
 class TabbedWebView;
 
-class FloatingButton;
-
 class TabWidget;
+
+class RootFloatingButton;
 
 class BrowserWindow: public QMainWindow {
 Q_OBJECT
@@ -98,11 +101,15 @@ public slots:
 
 	void bookmarkAllTabs();
 
+protected:
+	void resizeEvent(QResizeEvent* event);
+
 private slots:
 	void addTab();
 	void postLaunch();
 
 	void tabWidgetIndexChanged(TabWidget* tbWidget);
+	void floatingButtonPatternChange(RootFloatingButton::Pattern pattern);
 
 	void newWindow();
 	void goHome();
@@ -110,6 +117,7 @@ private slots:
 	void back();
 	void newTab();
 	void openAddBookmarkDialog();
+
 private:
 	void setupUi();
 	void setupFloatingButton();
@@ -135,17 +143,7 @@ private:
 
 	int m_currentTabWidget{0};
 
-	FloatingButton* m_fButton{nullptr};
-
-	FloatingButton* m_fButtonAddBookmark{nullptr};
-	FloatingButton* m_fButtonViewBookmarks{nullptr};
-	FloatingButton* m_fButtonViewHistory{nullptr};
-	FloatingButton* m_fButtonNewWindow{nullptr};
-	FloatingButton* m_fButtonHome{nullptr};
-	FloatingButton* m_fButtonNext{nullptr};
-	FloatingButton* m_fButtonBack{nullptr};
-	FloatingButton* m_fButtonNewTab{nullptr};
-
+	RootFloatingButton* m_fButton{nullptr};
 };
 
 }
