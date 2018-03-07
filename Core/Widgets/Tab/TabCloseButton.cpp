@@ -29,20 +29,26 @@
 #include <QStyleOption>
 
 #include <QCursor>
+#include <QPixmap>
+#include <QIcon>
 
 #include <QTabBar>
 
 #include "Widgets/Tab/TabBar.hpp"
 
+#include "Application.hpp"
+
 namespace Sn {
 
 TabCloseButton::TabCloseButton(QWidget* parent) :
-	QAbstractButton(parent)
+		QPushButton(parent)
 {
-	setObjectName(QLatin1String("combotabbar_tabs_close_button"));
+	setObjectName(QLatin1String("tabs-closebutton"));
+	setIcon(Application::getAppIcon("close", "other"));
 
 	setFocusPolicy(Qt::NoFocus);
 	setCursor(Qt::ArrowCursor);
+	setFlat(true);
 }
 
 void TabCloseButton::enterEvent(QEvent* event)
@@ -50,7 +56,7 @@ void TabCloseButton::enterEvent(QEvent* event)
 	if (isEnabled())
 		update();
 
-	QAbstractButton::enterEvent(event);
+	QPushButton::enterEvent(event);
 }
 
 void TabCloseButton::leaveEvent(QEvent* event)
@@ -58,9 +64,10 @@ void TabCloseButton::leaveEvent(QEvent* event)
 	if (isEnabled())
 		update();
 
-	QAbstractButton::leaveEvent(event);
+	QPushButton::leaveEvent(event);
 }
 
+/*
 void TabCloseButton::paintEvent(QPaintEvent*)
 {
 	bool isUnderMouse{rect().contains(mapFromGlobal(QCursor::pos()))};
@@ -86,7 +93,9 @@ void TabCloseButton::paintEvent(QPaintEvent*)
 			option.state |= QStyle::State_Selected;
 	}
 
-	style()->drawPrimitive(QStyle::PE_IndicatorTabClose, &option, &painter, this);
+	QPixmap pixmap{Application::getAppIcon("close", "other").pixmap(32)};
+	style()->drawItemPixmap(&painter, option.rect, Qt::AlignCenter, pixmap);
 }
+*/
 
 }

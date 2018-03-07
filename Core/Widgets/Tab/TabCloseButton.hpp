@@ -28,6 +28,7 @@
 
 #include <QWidget>
 #include <QAbstractButton>
+#include <QPushButton>
 
 #include <QEvent>
 #include <QPaintEvent>
@@ -35,7 +36,7 @@
 // Taken from qtabbar.cpp (so credits to Qt)
 namespace Sn {
 
-class TabCloseButton: public QAbstractButton {
+class TabCloseButton : public QPushButton {
 Q_OBJECT
 
 public:
@@ -43,7 +44,7 @@ public:
 
 	void enterEvent(QEvent* event);
 	void leaveEvent(QEvent* event);
-	void paintEvent(QPaintEvent* event);
+//	void paintEvent(QPaintEvent* event);
 
 };
 }
