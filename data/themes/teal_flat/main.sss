@@ -32,6 +32,12 @@ QTabBar::tab:!selected:hover
     background: rgb(0, 136, 249) repeat-x;
 }
 
+#tabs-closebutton:hover
+{
+    border-radius: 0px;
+    background-color: #C62828;
+}
+
 #fbutton-root
 {
     sproperty-icon: url(images/icon.png);
@@ -154,7 +160,6 @@ background-color: rgb(0, 121, 107);
     background-color: rgb(0, 121, 107);
 }
 
-QMainWindow,
 QDialog,
 QMenu,
 QTabWidget::pane
@@ -162,6 +167,11 @@ QTabWidget::pane
   border: none;
 	background: rgb(0, 150, 136);
   color: white;
+}
+
+QMainWindow
+{
+  background-image: url("images/background.png");
 }
 
 QTreeWidget,
@@ -232,10 +242,11 @@ QDialog QGroupBox
 #navigationbar QToolButton,
 #navigationbar ToolButton
 {
-	background: transparent;
+  background: rgb(0, 150, 136);
 	border: none;
 	color: white;
-	padding: 12px 7px;
+	padding: 0px 7px;
+  height: 45px;
 	font-size: 12px;
 }
 

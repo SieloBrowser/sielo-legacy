@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.8.11b");
+QString Application::currentVersion = QString("1.8.12b");
 
 // Static member
 QList<QString> Application::paths()
@@ -343,7 +343,7 @@ void Application::loadSettings()
 		loadThemeFromResources("teal_flat", false);
 		loadThemeFromResources("white_flat", false);
 		loadThemeFromResources("yellow_flat", false);
-		settings.setValue("versionNumber", 5);
+		settings.setValue("versionNumber", 6);
 		settings.setValue("Web-Settings/homePage", "http://doosearch.esy.es/");
 		settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.esy.es/");
 	}
@@ -352,25 +352,27 @@ void Application::loadSettings()
 		m_autoFill->loadSettings();
 
 	if (themeInfo.exists()) {
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 4) {
-			QString defaultThemePath{paths()[Application::P_Themes]};
-			QString defaultThemeDataPath{":data/themes/sielo_default"};
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 6) {
+			loadThemeFromResources("bluegrey_flat", false);
+			loadThemeFromResources("cyan_flat", false);
+			loadThemeFromResources("green_flat", false);
+			loadThemeFromResources("indigo_flat", false);
+			loadThemeFromResources("orange_flat", false);
+			loadThemeFromResources("purple_flat", false);
+			loadThemeFromResources("red_flat", false);
+			loadThemeFromResources("sielo_default", false);
+			loadThemeFromResources("teal_flat", false);
+			loadThemeFromResources("white_flat", false);
+			loadThemeFromResources("yellow_flat", false);
 
-			defaultThemePath += QLatin1String("/sielo_default");
-
-			QDir(defaultThemePath).removeRecursively();
-			QDir().mkpath(defaultThemePath + QLatin1String("/images"));
-
-			copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
-
-			settings.setValue("Themes/defaultThemeVersion", 4);
+			settings.setValue("Themes/defaultThemeVersion", 5);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
 
 	} else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 4);
+		settings.setValue("Themes/defaultThemeVersion", 5);
 	}
 
 	if (privateBrowsing()) {
@@ -916,8 +918,8 @@ void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 
 	defaultThemePath += QLatin1Char('/') + name;
 
-	if (!QDir().exists(defaultThemePath) || !QDir().exists(defaultThemePath + QLatin1String("/images")))
-		QDir().mkpath(defaultThemePath + QLatin1String("/images"));
+	QDir(defaultThemePath).removeRecursively();
+	QDir().mkpath(defaultThemePath + QLatin1String("/images"));
 
 	copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
@@ -951,7 +953,9 @@ bool Application::copyPath(const QString& fromDir, const QString& toDir, bool co
 
 				// files copy
 				if (!QFile::copy(fileInfo.filePath(),
-								 targetDir.filePath(fileInfo.fileName()))) {
+								 targetDir.filePath(fileInfo.fileName())) ||
+					!QFile::setPermissions(targetDir.filePath(fileInfo.fileName()),
+										   QFileDevice::ReadUser | QFileDevice::WriteUser)) {
 					return false;
 				}
 			}

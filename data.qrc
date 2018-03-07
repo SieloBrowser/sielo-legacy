@@ -17,6 +17,7 @@
         <file>data/themes/sielo_default/main.sss</file>
         <file>data/themes/sielo_default/theme.info</file>
         <file>data/themes/sielo_default/theme.png</file>
+        <file>data/themes/sielo_default/images/background.png</file>
         <file>data/themes/sielo_default/images/add-bookmark.png</file>
         <file>data/themes/sielo_default/images/back.png</file>
         <file>data/themes/sielo_default/images/history.png</file>
@@ -80,6 +81,7 @@
         <file>data/themes/bluegrey_flat/main.sss</file>
         <file>data/themes/bluegrey_flat/theme.info</file>
         <file>data/themes/bluegrey_flat/theme.png</file>
+        <file>data/themes/bluegrey_flat/images/background.png</file>
         <file>data/themes/bluegrey_flat/images/add-bookmark.png</file>
         <file>data/themes/bluegrey_flat/images/back.png</file>
         <file>data/themes/bluegrey_flat/images/history.png</file>
@@ -143,6 +145,7 @@
         <file>data/themes/cyan_flat/main.sss</file>
         <file>data/themes/cyan_flat/theme.info</file>
         <file>data/themes/cyan_flat/theme.png</file>
+        <file>data/themes/cyan_flat/images/background.png</file>
         <file>data/themes/cyan_flat/images/add-bookmark.png</file>
         <file>data/themes/cyan_flat/images/back.png</file>
         <file>data/themes/cyan_flat/images/history.png</file>
@@ -206,6 +209,7 @@
         <file>data/themes/green_flat/main.sss</file>
         <file>data/themes/green_flat/theme.info</file>
         <file>data/themes/green_flat/theme.png</file>
+        <file>data/themes/green_flat/images/background.png</file>
         <file>data/themes/green_flat/images/add-bookmark.png</file>
         <file>data/themes/green_flat/images/back.png</file>
         <file>data/themes/green_flat/images/history.png</file>
@@ -269,6 +273,7 @@
         <file>data/themes/indigo_flat/main.sss</file>
         <file>data/themes/indigo_flat/theme.info</file>
         <file>data/themes/indigo_flat/theme.png</file>
+        <file>data/themes/indigo_flat/images/background.png</file>
         <file>data/themes/indigo_flat/images/add-bookmark.png</file>
         <file>data/themes/indigo_flat/images/back.png</file>
         <file>data/themes/indigo_flat/images/history.png</file>
@@ -332,6 +337,7 @@
         <file>data/themes/orange_flat/main.sss</file>
         <file>data/themes/orange_flat/theme.info</file>
         <file>data/themes/orange_flat/theme.png</file>
+        <file>data/themes/orange_flat/images/background.png</file>
         <file>data/themes/orange_flat/images/add-bookmark.png</file>
         <file>data/themes/orange_flat/images/back.png</file>
         <file>data/themes/orange_flat/images/history.png</file>
@@ -395,6 +401,7 @@
         <file>data/themes/purple_flat/main.sss</file>
         <file>data/themes/purple_flat/theme.info</file>
         <file>data/themes/purple_flat/theme.png</file>
+        <file>data/themes/purple_flat/images/background.png</file>
         <file>data/themes/purple_flat/images/add-bookmark.png</file>
         <file>data/themes/purple_flat/images/back.png</file>
         <file>data/themes/purple_flat/images/history.png</file>
@@ -458,6 +465,7 @@
         <file>data/themes/red_flat/main.sss</file>
         <file>data/themes/red_flat/theme.info</file>
         <file>data/themes/red_flat/theme.png</file>
+        <file>data/themes/red_flat/images/background.png</file>
         <file>data/themes/red_flat/images/add-bookmark.png</file>
         <file>data/themes/red_flat/images/back.png</file>
         <file>data/themes/red_flat/images/history.png</file>
@@ -521,6 +529,7 @@
         <file>data/themes/teal_flat/main.sss</file>
         <file>data/themes/teal_flat/theme.info</file>
         <file>data/themes/teal_flat/theme.png</file>
+        <file>data/themes/teal_flat/images/background.png</file>
         <file>data/themes/teal_flat/images/add-bookmark.png</file>
         <file>data/themes/teal_flat/images/back.png</file>
         <file>data/themes/teal_flat/images/history.png</file>
@@ -584,6 +593,7 @@
         <file>data/themes/white_flat/main.sss</file>
         <file>data/themes/white_flat/theme.info</file>
         <file>data/themes/white_flat/theme.png</file>
+        <file>data/themes/white_flat/images/background.png</file>
         <file>data/themes/white_flat/images/add-bookmark.png</file>
         <file>data/themes/white_flat/images/back.png</file>
         <file>data/themes/white_flat/images/history.png</file>
@@ -647,6 +657,7 @@
         <file>data/themes/yellow_flat/main.sss</file>
         <file>data/themes/yellow_flat/theme.info</file>
         <file>data/themes/yellow_flat/theme.png</file>
+        <file>data/themes/yellow_flat/images/background.png</file>
         <file>data/themes/yellow_flat/images/add-bookmark.png</file>
         <file>data/themes/yellow_flat/images/back.png</file>
         <file>data/themes/yellow_flat/images/history.png</file>
