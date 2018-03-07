@@ -240,7 +240,7 @@ void RootFloatingButton::closeButton()
 		return;
 
 			foreach (FloatingButton* button, m_buttons) {
-			button->moveButton(QPoint(button->x(), m_window->height()), 100, true);
+			button->moveButton(pos(), 100, true);
 		}
 
 	m_childrenExpanded = false;
