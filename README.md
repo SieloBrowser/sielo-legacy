@@ -8,7 +8,7 @@ Sielo est un navigateur web que j'ai commencé à développer il y a 1 an et dem
 ## Utiliser Sielo 
 ### Téléchargement
 Il y a plusieurs liens pour trouver les dernières versions de Sielo.
- - Pour Windows : La dernière open bêta peut être installée avec [cet installateur](https://feldrise.com/Sielo/sielo_setup_1.7.10.exe)
+ - Pour Windows : La dernière open bêta peut être installée avec [cet installateur](https://feldrise.com/Sielo/sielo_setup_1.8.12.exe)
  - Pour Linux : Vous pouvez trouver le [package Debian](https://feldrise.com/Sielo/Linux/sielo-browser.deb) ou installer Sielo depuis l'AUR (Arch User Repository)
 ### Compiler le navigateur
 Vous pouvez aussi facilement compiler Sielo. Pour cela il faut vous assurer d'avoir toutes les dépendances nécessaire : 
@@ -37,6 +37,6 @@ Maintenant que Sielo est construit sur une structure stable, l'objectif est de r
 
 Sielo s'est aussi beaucoup construit sur la base d'idées de personnes comme vous et de testeurs. C'est pour cela que je suis très à l'écoute de toutes vos remarques et de toutes vos idées. D'ailleurs, Sielo intégre aussi un système de commandes qui est une idée apportée par Rein Frost (je vous laisse essayer de rentrer "!easteregg" ou "!witcher [enable/disable]" dans la barre d'adresse :D).
 
-Voilà pour la présentation, Sielo a aussi un [GitHub](https://github.com/Feldrise/SieloNavigateur) sur lequel vous retrouverez le code source. Nous avons aussi [une page où nous réunissons les idées](https://padlet.com/feldrise/j82miccj6zpb) (cette page est assez récente et encore un peu vide). Et enfin, lien que j'ai déjà mis deux fois, [l'open beta 4.1](https://www.feldrise.com/Sielo/sielo_setup_1.7.10.exe) qui est libre au téléchargement ! Pour les utilisateur de Debian ou dérivé, vous pouvez télécharger le paquet [à cette adresse](https://www.feldrise.com/Sielo/Linux/sielo-browser.deb) et pour les utilisateurs de ArchLinux vous trouverez Sielo sur l'AUR.
+Voilà pour la présentation, Sielo a [une page où nous réunissons les idées](https://padlet.com/feldrise/j82miccj6zpb) (cette page est assez récente et encore un peu vide). Et enfin, lien que j'ai déjà mis deux fois, [l'open beta 6](https://www.feldrise.com/Sielo/sielo_setup_1.8.12.exe) qui est libre au téléchargement ! Pour les utilisateur de Debian ou dérivé, vous pouvez télécharger le paquet [à cette adresse](https://www.feldrise.com/Sielo/Linux/sielo-browser.deb) et pour les utilisateurs de ArchLinux vous trouverez Sielo sur l'AUR.
 
 Je remercie aussi chaleureusement **hotaru70o**, **LavaPower** ([https://github.com/LavaPower](https://github.com/LavaPower)) et **ilearn32** pour leur soutien sans faille qui nous a permis d'arriver jusqu'à cette open beta ! Vraiment merci à eux
