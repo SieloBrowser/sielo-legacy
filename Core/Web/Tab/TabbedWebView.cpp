@@ -234,7 +234,7 @@ void TabbedWebView::dragEnterEvent(QDragEnterEvent* event)
 		return;
 	}
 
-	QWidget::dragEnterEvent(event);
+	WebView::dragEnterEvent(event);
 }
 
 void TabbedWebView::dragMoveEvent(QDragMoveEvent* event)
@@ -264,8 +264,10 @@ void TabbedWebView::dragMoveEvent(QDragMoveEvent* event)
 
 		event->setDropAction(Qt::MoveAction);
 		event->accept();
+		return;
 	}
 
+	WebView::dragMoveEvent(event);
 }
 
 void TabbedWebView::dragLeaveEvent(QDragLeaveEvent* event)
@@ -275,7 +277,7 @@ void TabbedWebView::dragLeaveEvent(QDragLeaveEvent* event)
 		m_highlightedFrame = nullptr;
 	}
 
-	event->accept();
+	WebView::dragLeaveEvent(event);
 }
 
 void TabbedWebView::dropEvent(QDropEvent* event)
@@ -328,8 +330,12 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 				});
 			}
 		}
+
+		event->accept();
+		return;
 	}
 
+	WebView::dropEvent(event);
 }
 
 void TabbedWebView::enterEvent(QEvent* event)
