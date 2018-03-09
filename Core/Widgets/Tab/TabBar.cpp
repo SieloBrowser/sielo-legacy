@@ -310,7 +310,7 @@ void TabBar::mousePressEvent(QMouseEvent* event)
 
 void TabBar::mouseMoveEvent(QMouseEvent* event)
 {
-	if (m_dragInProgress && qAbs(m_pressedGlobalY - event->globalY()) >= m_ripOffDistance && count() > 1) {
+	if (m_dragInProgress && qAbs(m_pressedGlobalY - event->globalY()) >= m_ripOffDistance) {
 		// QMessageBox::information(nullptr, "DEBUG", "Must detach the tab");
 		QPixmap pixmap = grab(tabRect(m_pressedIndex));
 

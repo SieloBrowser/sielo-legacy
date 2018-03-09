@@ -545,9 +545,7 @@ void MainTabBar::dropEvent(QDropEvent* event)
 
 		TabWidget* sourceTabWidget{mainTabBar->tabWidget()};
 		WebTab* webTab{sourceTabWidget->weTab(index)};
-
-		if (webTab->isPinned() || sourceTabWidget->count() == 1)
-			return;
+		int tabCount = sourceTabWidget->normalTabsCount();
 
 		if (Application::instance()->useTopToolBar())
 			sourceTabWidget->addressBars()->removeWidget(webTab->addressBar());
@@ -560,6 +558,13 @@ void MainTabBar::dropEvent(QDropEvent* event)
 		int newIndex{tabWidget()->addView(webTab)};
 		tabWidget()->setCurrentIndex(newIndex);
 		tabWidget()->tabBar()->ensureVisible();
+
+		if (tabCount <= 1) {
+			if (sourceTabWidget->window()->tabWidgetsCount() <= 1)
+				sourceTabWidget->window()->close();
+			else
+				sourceTabWidget->window()->closeTabsSpace(sourceTabWidget);
+		}
 	}
 	else {
 		if (!mime->hasUrls()) {

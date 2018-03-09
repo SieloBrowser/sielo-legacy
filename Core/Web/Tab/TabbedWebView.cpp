@@ -287,6 +287,7 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 
 		TabWidget* sourceTabWidget{mainTabBar->tabWidget()};
 		WebTab* webTab{sourceTabWidget->weTab(index)};
+		int tabCount = sourceTabWidget->normalTabsCount();
 		QRect topRect(x(), y(), width(), height() / 3);
 		QRect bottomRect(x(), (y() + height()) - height() / 3, width(), height() / 3);
 		QRect leftRect(x(), y(), width() / 2, height());
@@ -303,6 +304,16 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		}
 		else if (rightRect.contains(event->pos())) {
 			m_window->createNewTabsSpace(BrowserWindow::TSP_Right, webTab, sourceTabWidget);
+		}
+
+		m_highlightedFrame->deleteLater();
+		m_highlightedFrame = nullptr;
+
+		if (tabCount <= 1) {
+			if (sourceTabWidget->window()->tabWidgetsCount() <= 1)
+				sourceTabWidget->window()->close();
+			else
+				sourceTabWidget->window()->closeTabsSpace(sourceTabWidget);
 		}
 	}
 

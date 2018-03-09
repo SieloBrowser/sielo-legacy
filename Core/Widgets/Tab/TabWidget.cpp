@@ -152,7 +152,7 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	connect(m_tabBar, SIGNAL(closeToLeft(int)), this, SLOT(closeToLeft(int)));
 	connect(m_tabBar, SIGNAL(duplicateTab(int)), this, SLOT(duplicateTab(int)));
 	connect(m_tabBar, SIGNAL(detachTab(int)), this, SLOT(detachTab(int)));
-	connect(m_tabBar, SIGNAL(detachFromDrop(int)), this, SLOT(detachTab(int)));
+	connect(m_tabBar, SIGNAL(detachFromDrop(int)), this, SLOT(detachTabFromDrop(int)));
 //	connect(m_tabBar, SIGNAL(detachTab(int, QPoint)), this, SLOT(detachTab(int, QPoint)));
 	connect(m_tabBar, &MainTabBar::tabMoved, this, &TabWidget::tabMoved);
 	connect(m_tabBar, &MainTabBar::moveAddTabButton, this, &TabWidget::moveAddTabButton);
@@ -692,6 +692,30 @@ void TabWidget::detachTab(int index)
 
 	BrowserWindow* window{Application::instance()->createWindow(Application::WT_NewWindow)};
 	window->setStartTab(webTab);
+}
+
+void TabWidget::detachTabFromDrop(int index)
+{
+	WebTab* webTab{weTab(index)};
+	int nbreOfTabs = count();
+
+	if (nbreOfTabs <= 1 && m_window->tabWidgetsCount() <= 1)
+		return;
+
+	if (Application::instance()->useTopToolBar())
+		m_addressBars->removeWidget(webTab->addressBar());
+
+	disconnect(webTab->webView(), &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
+	disconnect(webTab->webView(), SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
+
+	webTab->detach();
+
+	BrowserWindow* window{Application::instance()->createWindow(Application::WT_NewWindow)};
+	window->setStartTab(webTab);
+
+	if (nbreOfTabs <= 1) {
+		m_window->closeTabsSpace(this);
+	}
 }
 
 /*
