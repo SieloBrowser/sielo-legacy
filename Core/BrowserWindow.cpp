@@ -53,6 +53,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
+	setAcceptDrops(true);
 
 	setObjectName(QLatin1String("mainwindow"));
 	setWindowTitle(tr("Sielo"));

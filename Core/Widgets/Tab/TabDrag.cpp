@@ -28,7 +28,7 @@ namespace Sn {
 TabDrag::TabDrag(QObject* dragSource) :
 		QDrag(dragSource)
 {
-
+	// Empty
 }
 
 TabDrag::~TabDrag()

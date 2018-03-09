@@ -458,7 +458,7 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 
 	int index{insertTab(position == -1 ? count() : position, webTab, QString(), pinned)};
 
-	webTab->attach(m_window);
+	webTab->attach(this);
 	webTab->setMuted(m_isMutted);
 
 	if (!title.isEmpty())
@@ -501,7 +501,7 @@ int TabWidget::addView(WebTab* tab)
 		m_addressBars->addWidget(tab->addressBar());
 
 	int index{addTab(tab, QString())};
-	tab->attach(m_window);
+	tab->attach(this);
 
 	connect(tab->webView(), &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	connect(tab->webView(), SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));

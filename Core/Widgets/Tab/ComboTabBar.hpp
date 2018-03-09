@@ -174,6 +174,9 @@ public slots:
 	void setCurrentIndex(int index);
 
 protected:
+	TabBar* m_mainTabBar{nullptr};
+	TabBar* m_pinnedTabBar{nullptr};
+
 	int mainTabBarWidth() const;
 	int pinTabBarWidth() const;
 
@@ -209,8 +212,6 @@ private:
 	QWidget* m_leftContainer{nullptr};
 	QWidget* m_rightContainer{nullptr};
 
-	TabBar* m_mainTabBar{nullptr};
-	TabBar* m_pinnedTabBar{nullptr};
 	TabBarScrollWidget* m_mainTabBarWidget{nullptr};
 	TabBarScrollWidget* m_pinnedTabBarWidget{nullptr};
 

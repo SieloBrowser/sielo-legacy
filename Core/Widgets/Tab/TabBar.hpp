@@ -15,7 +15,6 @@
 #include <QPaintEvent>
 #include <QMouseEvent>
 #include <QDragEnterEvent>
-#include <QDropEvent>
 
 namespace Sn {
 class ComboTabBar;
@@ -30,6 +29,8 @@ public:
 
 	QSize tabSizeHint(int index) const;
 	QSize baseClassTabSizeHint(int index) const;
+
+	ComboTabBar* comboTabBar() const { return m_comboTabBar; };
 
 	bool isActiveTabBar() { return m_activeTabBar; }
 

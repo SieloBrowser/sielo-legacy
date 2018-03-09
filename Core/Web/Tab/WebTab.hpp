@@ -46,6 +46,8 @@
 namespace Sn {
 class BrowserWindow;
 
+class TabWidget;
+
 class WebInspector;
 class TabbedWebView;
 
@@ -94,7 +96,7 @@ public:
 	void setZoomLevel(int level);
 
 	void detach();
-	void attach(BrowserWindow* window);
+	void attach(TabWidget* tabWidget);
 
 	void addToolBar(QToolBar* toolBar);
 	void removeToolBar(QToolBar* toolBar);

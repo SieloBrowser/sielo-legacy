@@ -47,6 +47,9 @@
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/AddTabButton.hpp"
 #include "Widgets/Tab/TabCloseButton.hpp"
+#include "Widgets/Tab/TabBar.hpp"
+#include "Widgets/AddressBar.hpp"
+
 
 namespace Sn {
 
@@ -515,6 +518,10 @@ void MainTabBar::dragEnterEvent(QDragEnterEvent* event)
 		event->acceptProposedAction();
 		return;
 	}
+	else if (mime->hasFormat("sielo/tabdata")) {
+		event->acceptProposedAction();
+		return;
+	}
 
 	ComboTabBar::dragEnterEvent(event);
 }
@@ -523,20 +530,54 @@ void MainTabBar::dropEvent(QDropEvent* event)
 {
 	const QMimeData* mime{event->mimeData()};
 
-	if (!mime->hasUrls()) {
-		ComboTabBar::dropEvent(event);
-		return;
-	}
+	if (mime->hasFormat("sielo/tabdata")) {
+		if (event->source() == m_mainTabBar || event->source() == m_pinnedTabBar)
+			return;
 
-	int index{tabAt(event->pos())};
+		MainTabBar* mainTabBar{qobject_cast<MainTabBar*>(qobject_cast<TabBar*>(event->source())->comboTabBar())};
+		QByteArray tabData{event->mimeData()->data("sielo/tabdata")};
+		QDataStream dataStream{&tabData, QIODevice::ReadOnly};
 
-	if (index == -1) {
-			foreach (const QUrl& url, mime->urls()) m_tabWidget->addView(url, Application::NTT_SelectedTabAtEnd);
+		int index{-1};
+		dataStream >> index;
+
+		event->accept();
+
+		TabWidget* sourceTabWidget{mainTabBar->tabWidget()};
+		WebTab* webTab{sourceTabWidget->weTab(index)};
+
+		if (webTab->isPinned() || sourceTabWidget->count() == 1)
+			return;
+
+		if (Application::instance()->useTopToolBar())
+			sourceTabWidget->addressBars()->removeWidget(webTab->addressBar());
+
+		disconnect(webTab->webView(), &TabbedWebView::wantsCloseTab, sourceTabWidget, &TabWidget::closeTab);
+		disconnect(webTab->webView(), SIGNAL(urlChanged(QUrl)), sourceTabWidget, SIGNAL(changed()));
+
+		webTab->detach();
+
+		int newIndex{tabWidget()->addView(webTab)};
+		tabWidget()->setCurrentIndex(newIndex);
+		tabWidget()->tabBar()->ensureVisible();
 	}
 	else {
-		WebTab* tab{m_window->webView(index)->webTab()};
-		if (tab->isRestored())
-			tab->webView()->load(mime->urls()[0]);
+		if (!mime->hasUrls()) {
+			ComboTabBar::dropEvent(event);
+			return;
+		}
+
+		int index{tabAt(event->pos())};
+
+		if (index == -1) {
+					foreach (const QUrl& url, mime->urls()) m_tabWidget->addView(url,
+																				 Application::NTT_SelectedTabAtEnd);
+		}
+		else {
+			WebTab* tab{m_window->webView(index)->webTab()};
+			if (tab->isRestored())
+				tab->webView()->load(mime->urls()[0]);
+		}
 	}
 }
 
