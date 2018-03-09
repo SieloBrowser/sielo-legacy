@@ -294,16 +294,16 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		QRect rightRect((x() + width()) - width() / 2, y(), width() / 2, height());
 
 		if (topRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Top, webTab, sourceTabWidget);
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Top, webTab, m_webTab->tabBar()->tabWidget());
 		}
 		else if (bottomRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Bottom, webTab, sourceTabWidget);
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Bottom, webTab, m_webTab->tabBar()->tabWidget());
 		}
 		else if (leftRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Left, webTab, sourceTabWidget);
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Left, webTab, m_webTab->tabBar()->tabWidget());
 		}
 		else if (rightRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Right, webTab, sourceTabWidget);
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Right, webTab, m_webTab->tabBar()->tabWidget());
 		}
 
 		m_highlightedFrame->deleteLater();
