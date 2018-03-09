@@ -714,7 +714,9 @@ void TabWidget::detachTabFromDrop(int index)
 	window->setStartTab(webTab);
 
 	if (nbreOfTabs <= 1) {
-		m_window->closeTabsSpace(this);
+		QTimer::singleShot(100, this, [this]() {
+			m_window->closeTabsSpace(this);
+		});
 	}
 }
 

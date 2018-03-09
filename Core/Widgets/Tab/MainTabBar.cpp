@@ -560,10 +560,16 @@ void MainTabBar::dropEvent(QDropEvent* event)
 		tabWidget()->tabBar()->ensureVisible();
 
 		if (tabCount <= 1) {
-			if (sourceTabWidget->window()->tabWidgetsCount() <= 1)
-				sourceTabWidget->window()->close();
-			else
-				sourceTabWidget->window()->closeTabsSpace(sourceTabWidget);
+			if (sourceTabWidget->window()->tabWidgetsCount() <= 1) {
+				QTimer::singleShot(100, this, [=]() {
+					sourceTabWidget->window()->close();
+				});
+			}
+			else {
+				QTimer::singleShot(100, this, [=]() {
+					sourceTabWidget->window()->closeTabsSpace(sourceTabWidget);
+				});
+			}
 		}
 	}
 	else {

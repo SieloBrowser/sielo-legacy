@@ -37,6 +37,7 @@
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/Tab/ComboTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
 
 #include "Web/WebPage.hpp"
@@ -173,7 +174,7 @@ void TabbedWebView::setIp(const QHostInfo& info)
 	m_currentIp = QString("%1 (%2)").arg(info.hostName(), info.addresses()[0].toString());
 
 	if (m_webTab->isCurrentTab())
-		emit ipChanged(m_currentIp);
+			emit ipChanged(m_currentIp);
 }
 
 void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
@@ -215,6 +216,12 @@ void TabbedWebView::dragEnterEvent(QDragEnterEvent* event)
 	const QMimeData* mime{event->mimeData()};
 
 	if (mime->hasFormat("sielo/tabdata")) {
+		if ((qobject_cast<MainTabBar*>(qobject_cast<TabBar*>(event->source())->comboTabBar()) == m_webTab->tabBar()) &&
+			(m_webTab->tabBar()->normalTabsCount() <= 1)) {
+			event->ignore();
+			return;
+		}
+
 		event->acceptProposedAction();
 		if (!m_highlightedFrame) {
 			m_highlightedFrame = new QFrame(this);
@@ -310,10 +317,16 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		m_highlightedFrame = nullptr;
 
 		if (tabCount <= 1) {
-			if (sourceTabWidget->window()->tabWidgetsCount() <= 1)
-				sourceTabWidget->window()->close();
-			else
-				sourceTabWidget->window()->closeTabsSpace(sourceTabWidget);
+			if (sourceTabWidget->window()->tabWidgetsCount() <= 1) {
+				QTimer::singleShot(100, this, [=]() {
+					sourceTabWidget->window()->close();
+				});
+			}
+			else {
+				QTimer::singleShot(100, this, [=]() {
+					sourceTabWidget->window()->closeTabsSpace(sourceTabWidget);
+				});
+			}
 		}
 	}
 
