@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.8.12b");
+QString Application::currentVersion = QString("1.8.13b");
 
 // Static member
 QList<QString> Application::paths()
@@ -111,7 +111,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.8.00b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.8.13b"));
 
 	QIcon::setThemeSearchPaths(
 			QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
@@ -300,7 +300,7 @@ void Application::loadSettings()
 			foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
 	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
-						+ settings.value("Themes/currentTheme", "sielo_default").toString()
+						+ settings.value("Themes/currentTheme", "sielo-default").toString()
 						+ QLatin1String("/main.sss")};
 
 	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
@@ -333,16 +333,16 @@ void Application::loadSettings()
 	settings.endGroup();
 
 	if (settings.value("versionNumber", 0).toInt() < 5) {
-		loadThemeFromResources("bluegrey_flat", false);
-		loadThemeFromResources("cyan_flat", false);
-		loadThemeFromResources("green_flat", false);
-		loadThemeFromResources("indigo_flat", false);
-		loadThemeFromResources("orange_flat", false);
-		loadThemeFromResources("purple_flat", false);
-		loadThemeFromResources("red_flat", false);
-		loadThemeFromResources("teal_flat", false);
-		loadThemeFromResources("white_flat", false);
-		loadThemeFromResources("yellow_flat", false);
+		loadThemeFromResources("bluegrey-flat", false);
+		loadThemeFromResources("cyan-flat", false);
+		loadThemeFromResources("green-flat", false);
+		loadThemeFromResources("indigo-flat", false);
+		loadThemeFromResources("orange-flat", false);
+		loadThemeFromResources("purple-flat", false);
+		loadThemeFromResources("red-flat", false);
+		loadThemeFromResources("teal-flat", false);
+		loadThemeFromResources("white-flat", false);
+		loadThemeFromResources("yellow-flat", false);
 		settings.setValue("versionNumber", 6);
 		settings.setValue("Web-Settings/homePage", "http://doosearch.esy.es/");
 		settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.esy.es/");
@@ -353,22 +353,43 @@ void Application::loadSettings()
 
 	if (themeInfo.exists()) {
 		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 6) {
-			loadThemeFromResources("bluegrey_flat", false);
-			loadThemeFromResources("cyan_flat", false);
-			loadThemeFromResources("green_flat", false);
-			loadThemeFromResources("indigo_flat", false);
-			loadThemeFromResources("orange_flat", false);
-			loadThemeFromResources("purple_flat", false);
-			loadThemeFromResources("red_flat", false);
-			loadThemeFromResources("sielo_default", false);
-			loadThemeFromResources("teal_flat", false);
-			loadThemeFromResources("white_flat", false);
-			loadThemeFromResources("yellow_flat", false);
+			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 5) {
+				loadThemeFromResources("bluegrey-flat", false);
+				loadThemeFromResources("cyan-flat", false);
+				loadThemeFromResources("green-flat", false);
+				loadThemeFromResources("indigo-flat", false);
+				loadThemeFromResources("orange-flat", false);
+				loadThemeFromResources("purple-flat", false);
+				loadThemeFromResources("red-flat", false);
+				loadThemeFromResources("sielo-default", false);
+				loadThemeFromResources("teal-flat", false);
+				loadThemeFromResources("white-flat", false);
+				loadThemeFromResources("yellow-flat", false);
+			}
+			else {
+				QString defaultThemePath{paths()[Application::P_Themes]};
+				QDir defaultThemePathDir{defaultThemePath};
 
-			settings.setValue("Themes/defaultThemeVersion", 5);
+				defaultThemePathDir.rename("bluegrey_flat", "bluegrey-flat");
+				defaultThemePathDir.rename("cyan_flat", "cyan-flat");
+				defaultThemePathDir.rename("green_flat", "green-flat");
+				defaultThemePathDir.rename("indigo_flat", "indigo-flat");
+				defaultThemePathDir.rename("orange_flat", "orange-flat");
+				defaultThemePathDir.rename("purple_flat", "purple-flat");
+				defaultThemePathDir.rename("red_flat", "red-flat");
+				defaultThemePathDir.rename("sielo_default", "sielo-default");
+				defaultThemePathDir.rename("teal_flat", "teal-flat");
+				defaultThemePathDir.rename("white_flat", "white-flat");
+				defaultThemePathDir.rename("yellow_flat", "yellow-flat");
+
+				settings.setValue("Themes/currentTheme",
+								  settings.value("Themes/currentTheme", "sielo_default").toString().replace("_", "-"));
+			}
+
+			settings.setValue("Themes/defaultThemeVersion", 6);
 		}
 
-		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo_default")).toString());
+		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString());
 
 	} else {
 		loadThemeFromResources();
@@ -924,7 +945,7 @@ void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 	copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
 	if (loadAtEnd)
-		loadTheme("sielo_default");
+		loadTheme("sielo-default");
 }
 
 bool Application::copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist)
