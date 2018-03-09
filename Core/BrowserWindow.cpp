@@ -209,10 +209,13 @@ void BrowserWindow::currentTabChanged(WebTab*)
 	view->setFocus();
 }
 
-void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab)
+void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab, TabWidget* from)
 {
+	if (!from)
+		from = tabWidget();
+
 	QWidget* widgetTabWidget{createWidgetTabWidget(tab)};
-	insertTabsSpace(position, widgetTabWidget);
+	insertTabsSpace(position, widgetTabWidget, from);
 }
 
 void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab)
@@ -220,7 +223,7 @@ void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, Application::
 	// TODO: manage applications
 }
 
-void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget)
+void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget, TabWidget* from)
 {
 	widgetTabWidget->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
 										m_spaceBetweenTabsSpaces);
@@ -231,15 +234,15 @@ void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetT
 			verticalSplitter->addWidget(widgetTabWidget);
 
 			m_mainSplitter->insertWidget(m_mainSplitter
-											 ->indexOf(static_cast<QSplitter*>(m_tabWidgets[m_currentTabWidget]
+												 ->indexOf(static_cast<QSplitter*>(from
 												 ->parent()->parent())), verticalSplitter);
 		}
 		else {
 			verticalSplitter->addWidget(widgetTabWidget);
 
 			m_mainSplitter->insertWidget(
-				m_mainSplitter->indexOf(static_cast<QSplitter*>(m_tabWidgets[m_currentTabWidget]->parent()->parent()))
-				+ 1, verticalSplitter);
+					m_mainSplitter->indexOf(static_cast<QSplitter*>(from->parent()->parent()))
+					+ 1, verticalSplitter);
 		}
 
 		QList<int> size;
@@ -250,12 +253,12 @@ void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetT
 		m_mainSplitter->setSizes(size);
 	}
 	else {
-		QSplitter* verticalSplitter = static_cast<QSplitter*>(tabWidget()->parent()->parent());
+		QSplitter* verticalSplitter = static_cast<QSplitter*>(from->parent()->parent());
 		if (position == BrowserWindow::TSP_Top)
-			verticalSplitter->insertWidget(verticalSplitter->indexOf(static_cast<QWidget*>(tabWidget()->parent())),
+			verticalSplitter->insertWidget(verticalSplitter->indexOf(static_cast<QWidget*>(from->parent())),
 										   widgetTabWidget);
 		else if (position == BrowserWindow::TSP_Bottom)
-			verticalSplitter->insertWidget(verticalSplitter->indexOf(static_cast<QWidget*>(tabWidget()->parent())) + 1,
+			verticalSplitter->insertWidget(verticalSplitter->indexOf(static_cast<QWidget*>(from->parent())) + 1,
 										   widgetTabWidget);
 
 		QList<int> size;

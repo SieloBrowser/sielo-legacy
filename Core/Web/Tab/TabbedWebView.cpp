@@ -26,6 +26,8 @@
 
 #include <QStatusBar>
 
+#include <QMimeData>
+
 #include "BrowserWindow.hpp"
 
 #include "History/HistoryManager.hpp"
@@ -35,6 +37,7 @@
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/Tab/TabBar.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/LoadRequest.hpp"
@@ -43,11 +46,14 @@
 
 namespace Sn {
 TabbedWebView::TabbedWebView(WebTab* tab) :
-	WebView(tab),
-	m_window(nullptr),
-	m_webTab(tab),
-	m_menu(new QMenu(this))
+		WebView(tab),
+		m_window(nullptr),
+		m_webTab(tab),
+		m_menu(new QMenu(this)),
+		m_cursorIn(false)
 {
+	setAcceptDrops(true);
+
 	connect(this, &WebView::loadStarted, this, &TabbedWebView::sLoadStarted);
 	connect(this, &WebView::loadProgress, this, &TabbedWebView::sLoadProgress);
 	connect(this, &WebView::loadFinished, this, &TabbedWebView::sLoadFinished);
@@ -204,10 +210,116 @@ void TabbedWebView::newMouseMoveEvent(QMouseEvent* event)
 	WebView::newMouseMoveEvent(event);
 }
 
+void TabbedWebView::dragEnterEvent(QDragEnterEvent* event)
+{
+	const QMimeData* mime{event->mimeData()};
+
+	if (mime->hasFormat("sielo/tabdata")) {
+		event->acceptProposedAction();
+		if (!m_highlightedFrame) {
+			m_highlightedFrame = new QFrame(this);
+			m_highlightedFrame->setObjectName(QLatin1String("highlighted-new-tabsspace"));
+			m_highlightedFrame->setStyleSheet(
+					"#highlighted-new-tabsspace{background: rgba(66, 134, 244, 0.5);}" + styleSheet());
+			m_highlightedFrame->setAttribute(Qt::WA_TransparentForMouseEvents);
+			m_highlightedFrame->show();
+		}
+		return;
+	}
+
+	QWidget::dragEnterEvent(event);
+}
+
+void TabbedWebView::dragMoveEvent(QDragMoveEvent* event)
+{
+	if (event->mimeData()->hasFormat("sielo/tabdata")) {
+		QRect topRect(x(), y(), width(), height() / 3);
+		QRect bottomRect(x(), (y() + height()) - height() / 3, width(), height() / 3);
+		QRect leftRect(x(), y(), width() / 2, height());
+		QRect rightRect((x() + width()) - width() / 2, y(), width() / 2, height());
+
+		if (topRect.contains(event->pos())) {
+			m_highlightedFrame->move(topRect.topLeft());
+			m_highlightedFrame->setFixedSize(width(), height() / 3);
+		}
+		else if (bottomRect.contains(event->pos())) {
+			m_highlightedFrame->move(bottomRect.topLeft());
+			m_highlightedFrame->setFixedSize(width(), height() / 3);
+		}
+		else if (leftRect.contains(event->pos())) {
+			m_highlightedFrame->move(leftRect.topLeft());
+			m_highlightedFrame->setFixedSize(width() / 2, height());
+		}
+		else if (rightRect.contains(event->pos())) {
+			m_highlightedFrame->move(rightRect.topLeft());
+			m_highlightedFrame->setFixedSize(width() / 2, height());
+		}
+
+		event->setDropAction(Qt::MoveAction);
+		event->accept();
+	}
+
+}
+
+void TabbedWebView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+	if (!m_cursorIn) {
+		m_highlightedFrame->deleteLater();
+		m_highlightedFrame = nullptr;
+	}
+
+	event->accept();
+}
+
+void TabbedWebView::dropEvent(QDropEvent* event)
+{
+	const QMimeData* mime{event->mimeData()};
+
+	if (mime->hasFormat("sielo/tabdata")) {
+		MainTabBar* mainTabBar{qobject_cast<MainTabBar*>(qobject_cast<TabBar*>(event->source())->comboTabBar())};
+		QByteArray tabData{event->mimeData()->data("sielo/tabdata")};
+		QDataStream dataStream{&tabData, QIODevice::ReadOnly};
+
+		int index{-1};
+		dataStream >> index;
+
+		event->accept();
+
+		TabWidget* sourceTabWidget{mainTabBar->tabWidget()};
+		WebTab* webTab{sourceTabWidget->weTab(index)};
+		QRect topRect(x(), y(), width(), height() / 3);
+		QRect bottomRect(x(), (y() + height()) - height() / 3, width(), height() / 3);
+		QRect leftRect(x(), y(), width() / 2, height());
+		QRect rightRect((x() + width()) - width() / 2, y(), width() / 2, height());
+
+		if (topRect.contains(event->pos())) {
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Top, webTab, sourceTabWidget);
+		}
+		else if (bottomRect.contains(event->pos())) {
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Bottom, webTab, sourceTabWidget);
+		}
+		else if (leftRect.contains(event->pos())) {
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Left, webTab, sourceTabWidget);
+		}
+		else if (rightRect.contains(event->pos())) {
+			m_window->createNewTabsSpace(BrowserWindow::TSP_Right, webTab, sourceTabWidget);
+		}
+	}
+
+}
+
 void TabbedWebView::enterEvent(QEvent* event)
 {
 	event->accept();
 
+	m_cursorIn = true;
 	emit m_webTab->tabBar()->tabWidget()->focusIn(m_webTab->tabBar()->tabWidget());
+}
+
+void TabbedWebView::leaveEvent(QEvent* event)
+{
+	event->accept();
+
+	m_cursorIn = false;
 }
 }

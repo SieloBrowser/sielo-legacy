@@ -87,13 +87,22 @@ private:
 	void newMousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 	void newMouseMoveEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
+	void dragEnterEvent(QDragEnterEvent* event);
+	void dragLeaveEvent(QDragLeaveEvent* event);
+	void dragMoveEvent(QDragMoveEvent* event);
+	void dropEvent(QDropEvent* event);
 	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
+
+	QFrame* m_highlightedFrame{};
 
 	BrowserWindow* m_window{nullptr};
 	WebTab* m_webTab{nullptr};
 	QMenu* m_menu{nullptr};
 
 	QString m_currentIp{};
+
+	bool m_cursorIn{false};
 };
 
 }

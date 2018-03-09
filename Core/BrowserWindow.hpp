@@ -77,9 +77,9 @@ public:
 
 	void currentTabChanged(WebTab* oldTab);
 
-	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab);
+	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab, TabWidget* from = nullptr);
 	void createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab = nullptr);
-	void insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget);
+	void insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget, TabWidget* from);
 	void closeTabsSpace(TabWidget* tabWidget);
 	void autoResizeTabsSpace();
 
