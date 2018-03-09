@@ -96,12 +96,14 @@ ComboTabBar::ComboTabBar(QWidget* parent) :
 	connect(m_mainTabBar, &TabBar::currentChanged, this, &ComboTabBar::sCurrentChanged);
 	connect(m_mainTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_mainTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);
+	connect(m_mainTabBar, SIGNAL(detachFromDrop(int)), this, SIGNAL(detachFromDrop(int)));
 
 	connect(m_pinnedTabBarWidget->scrollBar(), &TabScrollBar::rangeChanged, this, &ComboTabBar::setMinimumWidths);
 	connect(m_pinnedTabBarWidget->scrollBar(), SIGNAL(valueChanged(int)), this, SIGNAL(scrollBarValueChanged(int)));
 	connect(m_pinnedTabBar, &TabBar::currentChanged, this, &ComboTabBar::sCurrentChanged);
 	connect(m_pinnedTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_pinnedTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);
+	connect(m_pinnedTabBar, SIGNAL(detachFromDrop(int)), this, SIGNAL(detachFromDrop(int)));
 
 	connect(this, SIGNAL(overFlowChanged(bool)), m_mainTabBarWidget, SLOT(overflowChanged(bool)));
 

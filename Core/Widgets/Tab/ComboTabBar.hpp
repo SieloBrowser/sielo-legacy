@@ -166,6 +166,7 @@ signals:
 	void tabCloseRequested(int index);
 	void tabMoved(int from, int to);
 	void scrollBarValueChanged(int value);
+	void detachFromDrop(int index);
 
 public slots:
 	void setUpLayout();

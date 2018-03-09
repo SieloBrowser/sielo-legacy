@@ -24,25 +24,36 @@
 
 #include "Widgets/Tab/TabBar.hpp"
 
+#include <QString>
+
 #include <QStylePainter>
+#include <QPixmap>
 
 #include <QTimer>
+#include <QtWidgets/QMessageBox>
+
+#include <QMimeData>
+#include <QDrag>
 
 #include "Widgets/Tab/ComboTabBar.hpp"
+#include "Widgets/Tab/TabDrag.hpp"
+
+#include "Application.hpp"
 
 namespace Sn {
 
 static const int ANIMATION_DURATION = 250;
 
 TabBar::TabBar(bool isPinnedTabBar, ComboTabBar* comboTabBar) :
-	QTabBar(comboTabBar),
-	m_comboTabBar(comboTabBar),
-	m_pressedIndex(-1),
-	m_pressedGlobalX(-1),
-	m_dragInProgress(false),
-	m_activeTabBar(false),
-	m_isPinnedTabBar(isPinnedTabBar),
-	m_useFastTabSizeHint(false)
+		QTabBar(comboTabBar),
+		m_comboTabBar(comboTabBar),
+		m_pressedIndex(-1),
+		m_pressedGlobalX(-1),
+		m_pressedGlobalY(-1),
+		m_dragInProgress(false),
+		m_activeTabBar(false),
+		m_isPinnedTabBar(isPinnedTabBar),
+		m_useFastTabSizeHint(false)
 {
 	connect(this, &TabBar::tabMoved, this, &TabBar::tabWasMoved);
 }
@@ -184,6 +195,19 @@ void TabBar::tabWasMoved(int from, int to)
 	}
 }
 
+void TabBar::tabTearOff()
+{
+	TabDrag* drag{qobject_cast<TabDrag*>(sender())};
+
+	QByteArray tabData{drag->mimeData()->data("sielo/tabdata")};
+	QDataStream dataStream{&tabData, QIODevice::ReadOnly};
+
+	int index{-1};
+	dataStream >> index;
+
+	emit detachFromDrop(index);
+}
+
 bool TabBar::event(QEvent* event)
 {
 	switch (event->type()) {
@@ -273,6 +297,7 @@ void TabBar::mousePressEvent(QMouseEvent* event)
 		m_pressedIndex = tabAt(event->pos());
 		if (m_pressedIndex != -1) {
 			m_pressedGlobalX = event->globalX();
+			m_pressedGlobalY = event->globalY();
 			m_dragInProgress = true;
 
 			if (m_pressedIndex == currentIndex() && !m_activeTabBar)
@@ -281,6 +306,32 @@ void TabBar::mousePressEvent(QMouseEvent* event)
 	}
 
 	QTabBar::mousePressEvent(event);
+}
+
+void TabBar::mouseMoveEvent(QMouseEvent* event)
+{
+	if (m_dragInProgress && qAbs(m_pressedGlobalY - event->globalY()) >= m_ripOffDistance && count() > 1) {
+		// QMessageBox::information(nullptr, "DEBUG", "Must detach the tab");
+		QPixmap pixmap = grab(tabRect(m_pressedIndex));
+
+		QByteArray tabData{};
+		QDataStream dataStream{&tabData, QIODevice::WriteOnly};
+		dataStream << m_pressedIndex;
+
+		QMimeData* mimeData{new QMimeData()};
+		mimeData->setData("sielo/tabdata", tabData);
+
+		TabDrag* drag{new TabDrag(this)};
+		drag->setMimeData(mimeData);
+		drag->setPixmap(pixmap);
+		drag->setHotSpot(event->globalPos() - QPoint(m_pressedGlobalX, m_pressedGlobalY));
+
+		drag->exec(Qt::MoveAction, Qt::MoveAction);
+
+		connect(drag, &TabDrag::tearOff, this, &TabBar::tabTearOff);
+	}
+
+	QTabBar::mouseMoveEvent(event);
 }
 
 void TabBar::mouseReleaseEvent(QMouseEvent* event)
