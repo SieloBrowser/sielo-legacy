@@ -96,7 +96,7 @@ void BrowserWindow::loadSettings()
 		sss += "QMainWindow {";
 		sss += "background-image: url(" + backgroundPath + ");";
 		sss += "background-attachment: fixed;";
-		sss += "background-position: center;";
+		sss += "background-position: top;";
 
 		if (settings.value(QLatin1String("Settings/repeatBackground"), false).toBool())
 			sss += "background-repeat: repeat;";
