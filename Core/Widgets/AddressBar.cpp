@@ -64,8 +64,8 @@
 namespace Sn {
 
 AddressDelegate::AddressDelegate(const QString& highlight, QObject* parent) :
-	QStyledItemDelegate(parent),
-	m_highlight(highlight)
+		QStyledItemDelegate(parent),
+		m_highlight(highlight)
 {
 	// Empty
 }
@@ -107,10 +107,10 @@ void AddressDelegate::paint(QPainter* painter, const QStyleOptionViewItem& optio
 	QString url(index.data(Qt::DisplayRole).toString());
 	QString description(index.data(AddressCompletionModel::TitleRole).toString());
 	const int topPosition(titleRectangle.top() - ((titleRectangle.height() - painter->clipBoundingRect()
-		.united(document.documentLayout()->blockBoundingRect(document.firstBlock())).height()) / 2));
+			.united(document.documentLayout()->blockBoundingRect(document.firstBlock())).height()) / 2));
 	const bool isSearchSuggestion
-		{static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
-		 == AddressCompletionModel::SearchSuggestionType};
+			{static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
+			 == AddressCompletionModel::SearchSuggestionType};
 
 	if (option.state.testFlag(QStyle::State_Selected)) {
 		painter->fillRect(option.rect, option.palette.color(QPalette::Highlight));
@@ -248,8 +248,8 @@ int AddressDelegate::calculateLength(const QStyleOptionViewItem& option, const Q
 }
 
 PopupViewWidget::PopupViewWidget(AddressBar* parent) :
-	QTreeView(nullptr),
-	m_addressBar(parent)
+		QTreeView(nullptr),
+		m_addressBar(parent)
 {
 	setEditTriggers(QAbstractItemView::NoEditTriggers);
 	setFocusPolicy(Qt::NoFocus);
@@ -459,7 +459,7 @@ QString AddressBar::urlToText(const QUrl& url)
 }
 
 SideWidget::SideWidget(QWidget* parent) :
-	QWidget(parent)
+		QWidget(parent)
 {
 	setCursor(Qt::ArrowCursor);
 }
@@ -467,22 +467,22 @@ SideWidget::SideWidget(QWidget* parent) :
 bool SideWidget::event(QEvent* event)
 {
 	if (event->type() == QEvent::LayoutRequest)
-		emit sizeHintChanged();
+			emit sizeHintChanged();
 
 	return QWidget::event(event);
 }
 
 AddressBar::AddressBar(BrowserWindow* window) :
-	QLineEdit(window),
-	m_window(window),
-	m_completionModel(new AddressCompletionModel(this)),
-	m_minHeight(0),
-	m_leftMargin(-1),
-	m_oldTextLength(0),
-	m_currentTextLength(0),
-	m_loadProgress(0),
-	m_ignoreMousePress(false),
-	m_holdingAlt(false)
+		QLineEdit(window),
+		m_window(window),
+		m_completionModel(new AddressCompletionModel(this)),
+		m_minHeight(0),
+		m_leftMargin(-1),
+		m_oldTextLength(0),
+		m_currentTextLength(0),
+		m_loadProgress(0),
+		m_ignoreMousePress(false),
+		m_holdingAlt(false)
 {
 	setObjectName("addressbar");
 	setDragEnabled(true);
@@ -703,7 +703,7 @@ void AddressBar::setTextFormat(const AddressBar::TextFormat& format)
 {
 	QList<QInputMethodEvent::Attribute> attributes;
 
-		foreach (const QTextLayout::FormatRange& formatRange, format) {
+			foreach (const QTextLayout::FormatRange& formatRange, format) {
 			QInputMethodEvent::AttributeType type = QInputMethodEvent::TextFormat;
 			int start{formatRange.start - cursorPosition()};
 			int lenght{formatRange.length};
@@ -982,7 +982,7 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 			QString command = args[0];
 
 			args.removeAt(0);
-				foreach (const QString& str, args) {
+					foreach (const QString& str, args) {
 					QMessageBox::information(nullptr, "DEBUG", str);
 					if (str == " ")
 						args.removeOne(str);
@@ -1012,7 +1012,10 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 				requestLoadUrl();
 				m_holdingAlt = false;
 			}
-		} else {
+			break;
+		}
+		else {
+			hidePopup();
 			switch (event->modifiers()) {
 			case Qt::ControlModifier:
 				if (!text().endsWith(QLatin1String(".com")))
@@ -1026,6 +1029,7 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 			default:
 				requestLoadUrl();
 			}
+			break;
 		}
 		break;
 	case Qt::Key_0:
@@ -1371,7 +1375,7 @@ bool AddressBar::processMainCommand(const QString& command, const QStringList& a
 	}
 	else if (command == "closetab") {
 		webView()->webTab()->tabBar()->tabWidget()
-			->requestCloseTab(webView()->webTab()->tabBar()->tabWidget()->currentIndex());
+				->requestCloseTab(webView()->webTab()->tabBar()->tabWidget()->currentIndex());
 
 		succes = true;
 	}
