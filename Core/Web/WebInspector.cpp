@@ -109,7 +109,7 @@ void WebInspector::unregisterView(QWebEngineView *view)
 void WebInspector::loadFinished()
 {
 	if (m_inspectElement) {
-		m_view->triggerPageAction(QWebEnginePage::InspectElement);
+		//	m_view->triggerPageAction(QWebEnginePage::InspectElement);
 		m_inspectElement = false;
 	}
 }
