@@ -192,8 +192,8 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	connect(reloadBypassCacheAction2, &QShortcut::activated, this, &TabWidget::reloadBypassCache);
 	connect(reloadAction, &QShortcut::activated, this, &TabWidget::reload);
 	connect(reloadAction2, &QShortcut::activated, this, &TabWidget::reload);
-	connect(closeTabAction, SIGNAL(activated()), this, SLOT(closeTab()));
-	connect(closeTabAction2, SIGNAL(activated()), this, SLOT(closeTab()));
+	connect(closeTabAction, SIGNAL(activated()), this, SLOT(requestCloseTab()));
+	connect(closeTabAction2, SIGNAL(activated()), this, SLOT(requestCloseTab()));
 	connect(windowInFullScreenAction, &QShortcut::activated, m_window, &BrowserWindow::toggleFullScreen);
 	connect(tabsSpaceInFullScreenAction, &QShortcut::activated, this, &TabWidget::toggleFullScreen);
 	connect(reorganizeTabsSpaces, &QShortcut::activated, m_window, &BrowserWindow::arrangeTabsSpaces);
