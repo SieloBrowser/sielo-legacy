@@ -76,11 +76,11 @@ void GeneralPage::loadSettings()
 
 	settings.beginGroup("Web-Settings");
 
-	QUrl homePageUrl{settings.value(QLatin1String("homePage"), QUrl("http://doosearch.esy.es/")).toUrl()};
+	QUrl homePageUrl{settings.value(QLatin1String("homePage"), QUrl("http://doosearch.feldrise.com/")).toUrl()};
 
 	if (homePageUrl == QUrl("about:blank")) {
 		m_radioHPBlank->setChecked(true);
-		m_homePageUrl->setText("http://doosearch.esy.es/");
+		m_homePageUrl->setText("http://doosearch.feldrise.com/");
 		m_homePageUrl->setEnabled(false);
 	}
 	else {
@@ -88,7 +88,7 @@ void GeneralPage::loadSettings()
 		m_homePageUrl->setText(homePageUrl.toString());
 	}
 
-	QUrl newTabUrl{settings.value(QLatin1String("urlOnNewTab"), QUrl("http://doosearch.esy.es/")).toUrl()};
+	QUrl newTabUrl{settings.value(QLatin1String("urlOnNewTab"), QUrl("http://doosearch.feldrise.com/")).toUrl()};
 
 	if (newTabUrl == QUrl("about:blank")) {
 		m_radioNTOpenBlankPage->setChecked(true);

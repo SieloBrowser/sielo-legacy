@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.9.02b");
+QString Application::currentVersion = QString("1.9.03b");
 
 // Static member
 QList<QString> Application::paths()
@@ -111,7 +111,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.9.01b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.9.03b"));
 
 	QIcon::setThemeSearchPaths(
 			QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
@@ -332,20 +332,36 @@ void Application::loadSettings()
 
 	settings.endGroup();
 
-	if (settings.value("versionNumber", 0).toInt() < 5) {
-		loadThemeFromResources("bluegrey-flat", false);
-		loadThemeFromResources("cyan-flat", false);
-		loadThemeFromResources("green-flat", false);
-		loadThemeFromResources("indigo-flat", false);
-		loadThemeFromResources("orange-flat", false);
-		loadThemeFromResources("purple-flat", false);
-		loadThemeFromResources("red-flat", false);
-		loadThemeFromResources("teal-flat", false);
-		loadThemeFromResources("white-flat", false);
-		loadThemeFromResources("yellow-flat", false);
+	if (settings.value("versionNumber", 0).toInt() < 6) {
+		QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
+										  "http://doosearch.feldrise.com/").toString();
+		homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
+		settings.setValue(QLatin1String("Web-Settings/homePage"), homePage);
+
+		QString urlOnNewTab = settings.value(QLatin1String("Web-Settings/urlOnNewTab"),
+											 "http://doosearch.feldrise.com/").toString();
+		urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
+		settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
+
+		if (settings.value("versionNumber", 0).toInt() < 5) {
+			loadThemeFromResources("bluegrey-flat", false);
+			loadThemeFromResources("cyan-flat", false);
+			loadThemeFromResources("green-flat", false);
+			loadThemeFromResources("indigo-flat", false);
+			loadThemeFromResources("orange-flat", false);
+			loadThemeFromResources("purple-flat", false);
+			loadThemeFromResources("red-flat", false);
+			loadThemeFromResources("teal-flat", false);
+			loadThemeFromResources("white-flat", false);
+			loadThemeFromResources("yellow-flat", false);
+			settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
+			settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
+		}
 		settings.setValue("versionNumber", 6);
-		settings.setValue("Web-Settings/homePage", "http://doosearch.esy.es/");
-		settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.esy.es/");
+
+				foreach (BrowserWindow* window, m_windows) {
+				window->loadSettings();
+			}
 	}
 
 	if (m_autoFill)
@@ -391,7 +407,8 @@ void Application::loadSettings()
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString());
 
-	} else {
+	}
+	else {
 		loadThemeFromResources();
 		settings.setValue("Themes/defaultThemeVersion", 5);
 	}
@@ -451,7 +468,8 @@ bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
 		newWindow->setUpdatesEnabled(true);
 
 		restoreData.remove(0);
-	} else {
+	}
+	else {
 		int tabCount{window->tabWidget()->pinnedTabsCount()};
 		RestoreManager::WindowData data = restoreData[0];
 
@@ -603,7 +621,8 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 		const QUrl url{QUrl::fromUserInput(message.mid(4))};
 		addNewTab(url);
 		actualWindow = getWindow();
-	} else if (message.startsWith(QLatin1String("ACTION:"))) {
+	}
+	else if (message.startsWith(QLatin1String("ACTION:"))) {
 		const QString text{message.mid(7)};
 
 		if (text == QLatin1String("NewTab"))
@@ -616,7 +635,8 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 			createWindow(Application::WT_NewWindow, QUrl::fromUserInput(text.mid(18)));
 			return;
 		}
-	} else
+	}
+	else
 		actualWindow = createWindow(Application::WT_NewWindow);
 
 	if (!actualWindow) {
@@ -815,7 +835,8 @@ void Application::processCommand(const QString& command, const QStringList args)
 						}
 					}
 				settings.setValue("Settings/useMorpheusFont", true);
-			} else if (args[0] == "disable") {
+			}
+			else if (args[0] == "disable") {
 				setFont(m_normalFont);
 				webSettings->setFontFamily(QWebEngineSettings::StandardFont, "DejaVu Serif");
 				webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "DejaVu Sans");
@@ -834,11 +855,13 @@ void Application::processCommand(const QString& command, const QStringList args)
 						}
 					}
 				settings.setValue("Settings/useMorpheusFont", false);
-			} else
+			}
+			else
 				QMessageBox::critical(getWindow(),
 									  QApplication::tr("Failed"),
 									  QApplication::tr("The argument is unknow"));
-		} else
+		}
+		else
 			QMessageBox::critical(getWindow(),
 								  QApplication::tr("Failed"),
 								  QApplication::tr("This command need one argument!"));
@@ -927,7 +950,8 @@ void Application::loadTheme(const QString& name)
 		sss.replace("slineargradient", "qlineargradient");
 
 		setStyleSheet(sss);
-	} else {
+	}
+	else {
 		setStyleSheet("");
 	}
 }
@@ -967,7 +991,8 @@ bool Application::copyPath(const QString& fromDir, const QString& toDir, bool co
 							  targetDir.filePath(fileInfo.fileName()),
 							  coverFileIfExist))
 					return false;
-			} else {            /* if coverFileIfExist == true, remove old file first */
+			}
+			else {            /* if coverFileIfExist == true, remove old file first */
 				if (coverFileIfExist && targetDir.exists(fileInfo.fileName())) {
 					targetDir.remove(fileInfo.fileName());
 				}
