@@ -177,6 +177,8 @@ protected:
 	TabBar* m_mainTabBar{nullptr};
 	TabBar* m_pinnedTabBar{nullptr};
 
+	bool m_shouldHideAddTabButton{true};
+
 	int mainTabBarWidth() const;
 	int pinTabBarWidth() const;
 

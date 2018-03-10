@@ -461,12 +461,14 @@ void MainTabBar::mouseMoveEvent(QMouseEvent* event)
 	if (Application::instance()->plugins()->processMouseMove(Application::ON_TabBar, this, event))
 		return;
 
-	if (!m_dragStartPosition.isNull() && m_tabWidget->buttonAddTab()->isVisible()) {
+	if (!m_dragStartPosition.isNull() && m_tabWidget->buttonAddTab()->isVisible() && m_shouldHideAddTabButton) {
 		int manhattanLenght{(event->pos() - m_dragStartPosition).manhattanLength()};
 
 		if (manhattanLenght > QApplication::startDragDistance())
 			m_tabWidget->buttonAddTab()->hide();
 	}
+	else if (!m_tabWidget->buttonAddTab()->isVisible() && !m_shouldHideAddTabButton)
+		m_tabWidget->buttonAddTab()->show();
 
 	ComboTabBar::mouseMoveEvent(event);
 }
@@ -550,7 +552,7 @@ void MainTabBar::dropEvent(QDropEvent* event)
 		if (Application::instance()->useTopToolBar())
 			sourceTabWidget->addressBars()->removeWidget(webTab->addressBar());
 
-		if (webTab->webView() && sourceTabWidget) {
+		if (webTab && webTab->webView() && sourceTabWidget) {
 			disconnect(webTab->webView(), &TabbedWebView::wantsCloseTab, sourceTabWidget, &TabWidget::closeTab);
 			disconnect(webTab->webView(), SIGNAL(urlChanged(QUrl)), sourceTabWidget, SIGNAL(changed()));
 		}

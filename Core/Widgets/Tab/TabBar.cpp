@@ -299,6 +299,7 @@ void TabBar::mousePressEvent(QMouseEvent* event)
 			m_pressedGlobalX = event->globalX();
 			m_pressedGlobalY = event->globalY();
 			m_dragInProgress = true;
+			m_comboTabBar->m_shouldHideAddTabButton = true;
 
 			if (m_pressedIndex == currentIndex() && !m_activeTabBar)
 				emit currentChanged(currentIndex());
@@ -328,6 +329,7 @@ void TabBar::mouseMoveEvent(QMouseEvent* event)
 
 		drag->exec(Qt::MoveAction, Qt::MoveAction);
 
+		m_comboTabBar->m_shouldHideAddTabButton = false;
 		connect(drag, &TabDrag::tearOff, this, &TabBar::tabTearOff);
 	}
 

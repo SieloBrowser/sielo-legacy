@@ -292,8 +292,6 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		int index{-1};
 		dataStream >> index;
 
-		event->accept();
-
 		TabWidget* sourceTabWidget{mainTabBar->tabWidget()};
 		WebTab* webTab{sourceTabWidget->weTab(index)};
 		int tabCount = sourceTabWidget->normalTabsCount();
