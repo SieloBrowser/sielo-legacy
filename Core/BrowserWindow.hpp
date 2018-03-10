@@ -98,6 +98,9 @@ public slots:
 	void setWindowTitle(const QString& title);
 
 	void enterHtmlFullScreen();
+	void toggleFullScreen();
+	void tabsSpaceInFullView(QWidget* widget);
+	void arrangeTabsSpaces();
 
 	void bookmarkAllTabs();
 

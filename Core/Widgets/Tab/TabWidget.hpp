@@ -142,7 +142,10 @@ public slots:
 	void restoreAllClosedTabs();
 	void clearClosedTabsList();
 
+	void showInspector(WebTab* webTab = nullptr);
+
 	void fullScreenRequested(QWebEngineFullScreenRequest request);
+	void toggleFullScreen();
 
 	void moveAddTabButton(int posX);
 
@@ -194,6 +197,8 @@ private:
 	bool m_isMutted{false};
 
 	QWebEngineView* m_fullScreenView{nullptr};
+	QWidget* m_oldParent{nullptr};
+	QSize m_oldSize{};
 };
 
 }

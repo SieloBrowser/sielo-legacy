@@ -165,18 +165,28 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	connect(m_buttonClosedTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowClosedTabsMenu);
 	connect(m_buttonListTabs, &ToolButton::aboutToShowMenu, this, &TabWidget::aboutToShowTabsMenu);
 
-	QShortcut* reloadBypassCacheAction = new QShortcut(QKeySequence("Ctrl+F5"), this);
-	QShortcut* reloadBypassCacheAction2 = new QShortcut(QKeySequence("Ctrl+Shift+R"), this);
-	QShortcut* reloadAction = new QShortcut(QKeySequence("F5"), this);
-	QShortcut* reloadAction2 = new QShortcut(QKeySequence("Ctrl+R"), this);
-	QShortcut* closeTabAction = new QShortcut(QKeySequence("Ctrl+F4"), this);
-	QShortcut* closeTabAction2 = new QShortcut(QKeySequence("Ctrl+W"), this);
+	///**** Shortcuts ****///
+	QShortcut* reloadBypassCacheAction{new QShortcut(QKeySequence("Ctrl+F5"), this)};
+	QShortcut* reloadBypassCacheAction2{new QShortcut(QKeySequence("Ctrl+Shift+R"), this)};
+	QShortcut* reloadAction{new QShortcut(QKeySequence("F5"), this)};
+	QShortcut* reloadAction2{new QShortcut(QKeySequence("Ctrl+R"), this)};
+	QShortcut* closeTabAction{new QShortcut(QKeySequence("Ctrl+F4"), this)};
+	QShortcut* closeTabAction2{new QShortcut(QKeySequence("Ctrl+W"), this)};
+	QShortcut* windowInFullScreenAction{new QShortcut(QKeySequence("F11"), this)};
+	QShortcut* tabsSpaceInFullScreenAction{new QShortcut(QKeySequence("Ctrl+F11"), this)};
+	QShortcut* reorganizeTabsSpaces{new QShortcut(QKeySequence("F10"), this)};
+	QShortcut* showInspectorAction{new QShortcut(QKeySequence("F12"), this)};
+
 	reloadBypassCacheAction->setContext(Qt::WidgetWithChildrenShortcut);
 	reloadBypassCacheAction2->setContext(Qt::WidgetWithChildrenShortcut);
 	reloadAction->setContext(Qt::WidgetWithChildrenShortcut);
 	reloadAction2->setContext(Qt::WidgetWithChildrenShortcut);
 	closeTabAction->setContext(Qt::WidgetWithChildrenShortcut);
 	closeTabAction2->setContext(Qt::WidgetWithChildrenShortcut);
+	windowInFullScreenAction->setContext(Qt::WidgetWithChildrenShortcut);
+	tabsSpaceInFullScreenAction->setContext(Qt::WidgetWithChildrenShortcut);
+	reorganizeTabsSpaces->setContext(Qt::WidgetWithChildrenShortcut);
+	showInspectorAction->setContext(Qt::WidgetWithChildrenShortcut);
 
 	connect(reloadBypassCacheAction, &QShortcut::activated, this, &TabWidget::reloadBypassCache);
 	connect(reloadBypassCacheAction2, &QShortcut::activated, this, &TabWidget::reloadBypassCache);
@@ -184,6 +194,11 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	connect(reloadAction2, &QShortcut::activated, this, &TabWidget::reload);
 	connect(closeTabAction, SIGNAL(activated()), this, SLOT(closeTab()));
 	connect(closeTabAction2, SIGNAL(activated()), this, SLOT(closeTab()));
+	connect(windowInFullScreenAction, &QShortcut::activated, m_window, &BrowserWindow::toggleFullScreen);
+	connect(tabsSpaceInFullScreenAction, &QShortcut::activated, this, &TabWidget::toggleFullScreen);
+	connect(reorganizeTabsSpaces, &QShortcut::activated, m_window, &BrowserWindow::arrangeTabsSpaces);
+	connect(showInspectorAction, SIGNAL(activated()), this, SLOT(showInspector()));
+	///**** End of shortcuts ****///
 
 	setTabBar(m_tabBar);
 	if (Application::instance()->useTopToolBar())
@@ -776,6 +791,14 @@ void TabWidget::clearClosedTabsList()
 	updateClosedTabsButton();
 }
 
+void TabWidget::showInspector(WebTab* webTab)
+{
+	if (!webTab)
+		webTab = weTab();
+
+	webTab->showInspector();
+}
+
 void TabWidget::fullScreenRequested(QWebEngineFullScreenRequest request)
 {
 	WebPage* webPage = qobject_cast<WebPage*>(sender());
@@ -819,6 +842,11 @@ void TabWidget::fullScreenRequested(QWebEngineFullScreenRequest request)
 		delete m_fullScreenView;
 		m_fullScreenView = nullptr;
 	}
+}
+
+void TabWidget::toggleFullScreen()
+{
+	m_window->tabsSpaceInFullView(parentWidget());
 }
 
 void TabWidget::moveAddTabButton(int posX)

@@ -26,6 +26,7 @@
 
 #include <QToolTip>
 
+#include <QList>
 #include <QSettings>
 
 #include <QAction>
@@ -360,6 +361,61 @@ void BrowserWindow::setWindowTitle(const QString& title)
 void BrowserWindow::enterHtmlFullScreen()
 {
 	// Empty
+}
+
+void BrowserWindow::toggleFullScreen()
+{
+	if (isFullScreen())
+		showNormal();
+	else
+		showFullScreen();
+}
+
+void BrowserWindow::tabsSpaceInFullView(QWidget* widget)
+{
+	QList<int> sizes{};
+	for (int i{0}; i < m_mainSplitter->count(); ++i) {
+		QSplitter* splitter{qobject_cast<QSplitter*>(m_mainSplitter->widget(i))};
+
+		QList<int> verticalSizes{};
+		bool containTabsSpace{false};
+		for (int j{0}; j < splitter->count(); ++j) {
+			if (splitter->widget(j) != widget)
+				verticalSizes.append(0);
+			else {
+				containTabsSpace = true;
+				verticalSizes.append(widget->height());
+			}
+		}
+
+
+		if (!containTabsSpace)
+			sizes.append(0);
+		else {
+			splitter->setSizes(verticalSizes);
+			sizes.append(splitter->width());
+		}
+	}
+
+	m_mainSplitter->setSizes(sizes);
+}
+
+void BrowserWindow::arrangeTabsSpaces()
+{
+	QList<int> sizes{};
+
+	for (int i{0}; i < m_mainSplitter->count(); ++i) {
+		QSplitter* splitter{qobject_cast<QSplitter*>(m_mainSplitter->widget(i))};
+		QList<int> verticalSizes{};
+
+		for (int j{0}; j < splitter->count(); ++j)
+			verticalSizes.append(height() / splitter->count());
+
+		splitter->setSizes(verticalSizes);
+		sizes.append(width() / m_mainSplitter->count());
+	}
+
+	m_mainSplitter->setSizes(sizes);
 }
 
 void BrowserWindow::bookmarkAllTabs()
