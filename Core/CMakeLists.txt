@@ -44,11 +44,11 @@ file(
         BrowserWindow.cpp
 )
 
-find_package(OpenSSL REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Sql REQUIRED)
-find_package(Qt5WebEngine REQUIRED)
-find_package(Qt5WebEngineWidgets REQUIRED)
+find_package(OpenSSL 1.1.0 REQUIRED)
+find_package(Qt5Widgets 5.8 REQUIRED)
+find_package(Qt5Sql 5.8 REQUIRED)
+find_package(Qt5WebEngine 5.8 REQUIRED)
+find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
 add_library(Core ${SOURCE_FILES} ../icons.qrc/)
 

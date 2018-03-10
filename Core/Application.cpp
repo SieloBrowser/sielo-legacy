@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.9.03b");
+QString Application::currentVersion = QString("1.9.04b");
 
 // Static member
 QList<QString> Application::paths()
@@ -111,7 +111,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.9.03b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.9.04b"));
 
 	QIcon::setThemeSearchPaths(
 			QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
