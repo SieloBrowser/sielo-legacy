@@ -1012,24 +1012,6 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 				requestLoadUrl();
 				m_holdingAlt = false;
 			}
-			break;
-		}
-		else {
-			hidePopup();
-			switch (event->modifiers()) {
-			case Qt::ControlModifier:
-				if (!text().endsWith(QLatin1String(".com")))
-					setText(text().append(QLatin1String(".com")));
-
-				requestLoadUrl();
-				break;
-			case Qt::AltModifier:
-				m_window->tabWidget()->addView(createLoadRequest());
-				break;
-			default:
-				requestLoadUrl();
-			}
-			break;
 		}
 		break;
 	case Qt::Key_0:
@@ -1089,7 +1071,7 @@ void AddressBar::showCompletion()
 		showPopup();
 	}
 
-	popupViewWidget->setCurrentIndex(m_completionModel->index(0, 0));
+	popupViewWidget->setCurrentIndex(m_completionModel->index(1, 0));
 	popupViewWidget->setFocus();
 }
 
