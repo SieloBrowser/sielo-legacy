@@ -361,6 +361,11 @@ void Application::loadSettings()
 
 				foreach (BrowserWindow* window, m_windows) {
 				window->loadSettings();
+				for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+					window->tabWidget(i)->setHomeUrl(
+							window->tabWidget(i)->homeUrl().toString().replace("doosearch.esy.es",
+																			   "doosearch.feldrise.com"));
+				}
 			}
 	}
 
