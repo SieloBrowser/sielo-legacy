@@ -79,8 +79,8 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 
 	setFocusPolicy(Qt::WheelFocus);
 
-	connect(this, &MainTabBar::currentChanged, this, &MainTabBar::currentTabChanged);
-	connect(this, &MainTabBar::overflowChanged, this, &MainTabBar::overflowChanged);
+	connect(this, &ComboTabBar::currentChanged, this, &MainTabBar::currentTabChanged);
+	connect(this, &ComboTabBar::overFlowChanged, this, &MainTabBar::overflowChanged);
 
 	if (Application::instance()->privateBrowsing()) {
 		QLabel* privateBrowsing{new QLabel(this)};
@@ -550,8 +550,10 @@ void MainTabBar::dropEvent(QDropEvent* event)
 		if (Application::instance()->useTopToolBar())
 			sourceTabWidget->addressBars()->removeWidget(webTab->addressBar());
 
-		disconnect(webTab->webView(), &TabbedWebView::wantsCloseTab, sourceTabWidget, &TabWidget::closeTab);
-		disconnect(webTab->webView(), SIGNAL(urlChanged(QUrl)), sourceTabWidget, SIGNAL(changed()));
+		if (webTab->webView() && sourceTabWidget) {
+			disconnect(webTab->webView(), &TabbedWebView::wantsCloseTab, sourceTabWidget, &TabWidget::closeTab);
+			disconnect(webTab->webView(), SIGNAL(urlChanged(QUrl)), sourceTabWidget, SIGNAL(changed()));
+		}
 
 		webTab->detach();
 

@@ -926,7 +926,8 @@ void WebView::initActions()
 void WebView::updateLabel(const QString& zoomLevel)
 {
 	m_zoomTimer->stop();
-	disconnect(m_zoomTimer, &QTimer::timeout, m_zoomLabel, &QLabel::hide);
+	if (m_zoomLabel)
+		disconnect(m_zoomTimer, &QTimer::timeout, m_zoomLabel, &QLabel::hide);
 
 	QPalette palette{};
 	QBrush textBrush{QColor(0, 0, 0, 255)};

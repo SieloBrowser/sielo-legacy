@@ -133,13 +133,13 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_layout->addWidget(m_splitter);
 
 	connect(m_buttonBack, &ToolButton::clicked, this, &NavigationToolBar::goBack);
-	connect(m_buttonBack, &ToolButton::middleMouseCkicked, this, &NavigationToolBar::goBackInNewTab);
+	connect(m_buttonBack, &ToolButton::middleMouseClicked, this, &NavigationToolBar::goBackInNewTab);
 	connect(m_buttonBack, &ToolButton::controlClicked, this, &NavigationToolBar::goBackInNewTab);
 	connect(m_buttonForward, &ToolButton::clicked, this, &NavigationToolBar::goForward);
-	connect(m_buttonForward, &ToolButton::middleMouseCkicked, this, &NavigationToolBar::goForwardInNewTab);
+	connect(m_buttonForward, &ToolButton::middleMouseClicked, this, &NavigationToolBar::goForwardInNewTab);
 	connect(m_buttonForward, &ToolButton::controlClicked, this, &NavigationToolBar::goForwardInNewTab);
 	connect(m_buttonHome, &ToolButton::clicked, this, &NavigationToolBar::goHome);
-	connect(m_buttonHome, &ToolButton::middleMouseCkicked, this, &NavigationToolBar::goHomeInNewTab);
+	connect(m_buttonHome, &ToolButton::middleMouseClicked, this, &NavigationToolBar::goHomeInNewTab);
 	connect(m_buttonHome, &ToolButton::controlClicked, this, &NavigationToolBar::goHomeInNewTab);
 
 	connect(m_buttonViewBookmarks, &ToolButton::clicked, this, &NavigationToolBar::showBookmarksDialog);

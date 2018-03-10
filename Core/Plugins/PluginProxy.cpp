@@ -30,7 +30,7 @@ namespace Sn {
 PluginProxy::PluginProxy() :
 	Plugins()
 {
-	connect(this, &PluginProxy::pluginUnloaded, this, &PluginProxy::pluginUnloaded);
+	connect(this, &Plugins::pluginUnloaded, this, &PluginProxy::pluginUnloaded);
 }
 
 void PluginProxy::registerAppEventHandler(const EventHandlerType& type, PluginInterface* obj)

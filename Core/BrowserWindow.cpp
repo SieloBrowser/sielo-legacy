@@ -524,7 +524,8 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 	if (m_currentTabWidget == m_tabWidgets.indexOf(tbWidget))
 		return;
 
-	disconnect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
+	if (m_restoreAction && m_tabWidgets[m_currentTabWidget])
+		disconnect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
 	m_currentTabWidget = m_tabWidgets.indexOf(tbWidget);
 

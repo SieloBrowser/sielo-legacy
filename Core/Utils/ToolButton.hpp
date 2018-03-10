@@ -102,7 +102,7 @@ public:
 	void setToolBarButtonLook(bool enable);
 
 signals:
-	void middleMouseCkicked();
+	void middleMouseClicked();
 	void controlClicked();
 	void doubleClicked();
 

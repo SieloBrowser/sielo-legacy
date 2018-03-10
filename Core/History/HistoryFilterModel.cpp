@@ -127,7 +127,8 @@ bool HistoryFilterModel::removeRows(int row, int count, const QModelIndex& paren
 		return false;
 
 	int lastRow{row + count - 1};
-	disconnect(sourceModel(), &QAbstractProxyModel::rowsRemoved, this, &HistoryFilterModel::sourceRowsRemoved);
+	if (sourceModel())
+		disconnect(sourceModel(), &QAbstractProxyModel::rowsRemoved, this, &HistoryFilterModel::sourceRowsRemoved);
 
 	beginRemoveRows(parent, row, lastRow);
 

@@ -81,7 +81,7 @@ void ToolButton::setMenu(QMenu* menu)
 {
 	Q_ASSERT(menu);
 
-	if (menu)
+	if (menu && m_menu)
 		disconnect(m_menu, &QMenu::aboutToHide, this, &ToolButton::menuAboutToHide);
 
 	m_menu = menu;
@@ -139,7 +139,7 @@ void ToolButton::mouseReleaseEvent(QMouseEvent* event)
 	m_pressTimer.stop();
 
 	if (event->button() == Qt::MiddleButton && rect().contains(event->pos())) {
-		emit middleMouseCkicked();
+		emit middleMouseClicked();
 		setDown(false);
 	}
 	else if (event->button() == Qt::LeftButton && rect().contains(event->pos())
