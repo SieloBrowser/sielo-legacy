@@ -74,6 +74,9 @@ void AddressDelegate::paint(QPainter* painter, const QStyleOptionViewItem& optio
 {
 	QRect titleRectangle(option.rect);
 	const bool isRightToLeft(option.direction == Qt::RightToLeft);
+	QColor backgroundColor{option.palette.window().color()};
+	const double darkness{1 - (0.299 * backgroundColor.red() + 0.587 * backgroundColor.green() +
+							   0.115 * backgroundColor.blue()) / 255};
 
 	if (static_cast<AddressCompletionModel::EntryType>(index.data(AddressCompletionModel::TypeRole).toInt())
 		== AddressCompletionModel::HeaderType) {
@@ -118,7 +121,16 @@ void AddressDelegate::paint(QPainter* painter, const QStyleOptionViewItem& optio
 		paintContext.palette.setColor(QPalette::Text, option.palette.color(QPalette::HighlightedText));
 	}
 	else if (!isSearchSuggestion) {
-		paintContext.palette.setColor(QPalette::Text, option.palette.color(QPalette::Link));
+		if (darkness < 0.5)
+			paintContext.palette.setColor(QPalette::Text, QColor::fromRgb(0, 0, 255));
+		else
+			paintContext.palette.setColor(QPalette::Text, QColor::fromRgb(0, 255, 255));
+	}
+	else {
+		if (darkness < 0.5)
+			paintContext.palette.setColor(QPalette::Text, QColor::fromRgb(49, 49, 49));
+		else
+			paintContext.palette.setColor(QPalette::Text, QColor::fromRgb(193, 193, 193));
 	}
 
 	QRect decorationRectangle(option.rect);
@@ -251,6 +263,7 @@ PopupViewWidget::PopupViewWidget(AddressBar* parent) :
 		QTreeView(nullptr),
 		m_addressBar(parent)
 {
+	setObjectName(QLatin1String("addressbar-completion"));
 	setEditTriggers(QAbstractItemView::NoEditTriggers);
 	setFocusPolicy(Qt::NoFocus);
 	setWindowFlags(Qt::Popup);
