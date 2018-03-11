@@ -33,6 +33,7 @@
 #include <QMimeDatabase>
 
 #include <QList>
+#include <QtWidgets/QMessageBox>
 
 #include "History/HistoryManager.hpp"
 
@@ -219,7 +220,9 @@ void AddressCompletionModel::updateModel()
 			completions.append(CompletionEntry(QUrl(), tr("History"), QString(), QIcon(), HeaderType));
 
 		for (int i{0}; i < entries.count(); ++i) {
-			if (urls.contains(entries[i].item.url))
+			QString url{QUrl(entries[i].item.url).host()};
+
+			if (urls.contains(url))
 				continue;
 
 			QString pageTitle{};
@@ -230,14 +233,14 @@ void AddressCompletionModel::updateModel()
 				if (!page.isEmpty())
 					pageTitle = page;
 				else
-					pageTitle = entries[i].item.url;
+					pageTitle = QUrl(url).topLevelDomain();
 			}
 			else {
-				pageTitle = entries[i].item.url;
+				pageTitle = QUrl(url).topLevelDomain();
 			}
 
-			urls.append(entries[i].item.url);
-			completions.append(CompletionEntry(entries[i].item.url,
+			urls.append(url);
+			completions.append(CompletionEntry(url,
 											   pageTitle,
 											   entries[i].match,
 											   Application::getAppIcon("webpage"),

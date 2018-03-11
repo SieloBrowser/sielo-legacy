@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.9.04b");
+QString Application::currentVersion = QString("1.9.05b");
 
 // Static member
 QList<QString> Application::paths()
