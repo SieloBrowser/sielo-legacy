@@ -1,7 +1,7 @@
 /***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
-** Copyright (c) 2017 Victor DENIS (victordenis01@gmail.com)                      **
+** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
 **                                                                                **
 ** Permission is hereby granted, free of charge, to any person obtaining a copy   **
 ** of this software and associated documentation files (the "Software"), to deal  **
