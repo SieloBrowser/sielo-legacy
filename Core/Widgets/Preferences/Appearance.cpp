@@ -274,7 +274,7 @@ void AppearancePage::loadSettings()
 	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
 
 	settings.endGroup();
-	m_activeTheme = settings.value("Themes/currentTheme", "sielo_default").toString();
+	m_activeTheme = settings.value("Themes/currentTheme", "sielo-default").toString();
 
 	m_themeList->clear();
 

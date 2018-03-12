@@ -189,7 +189,7 @@ private:
 
 	void setUserStyleSheet(const QString& filePath);
 
-	void loadThemeFromResources(QString name = "sielo_default", bool loadAtEnd = true);
+	void loadThemeFromResources(QString name = "sielo-default", bool loadAtEnd = true);
 
 	bool m_privateBrowsing{false};
 	bool m_isPortable{true};

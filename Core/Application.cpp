@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.9.05b");
+QString Application::currentVersion = QString("1.9.06b");
 
 // Static member
 QList<QString> Application::paths()
@@ -111,7 +111,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.9.05b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.9.07b"));
 
 	QIcon::setThemeSearchPaths(
 			QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
@@ -398,13 +398,13 @@ void Application::loadSettings()
 				defaultThemePathDir.rename("orange_flat", "orange-flat");
 				defaultThemePathDir.rename("purple_flat", "purple-flat");
 				defaultThemePathDir.rename("red_flat", "red-flat");
-				defaultThemePathDir.rename("sielo_default", "sielo-default");
+				defaultThemePathDir.rename("sielo-default", "sielo-default");
 				defaultThemePathDir.rename("teal_flat", "teal-flat");
 				defaultThemePathDir.rename("white_flat", "white-flat");
 				defaultThemePathDir.rename("yellow_flat", "yellow-flat");
 
 				settings.setValue("Themes/currentTheme",
-								  settings.value("Themes/currentTheme", "sielo_default").toString().replace("_", "-"));
+								  settings.value("Themes/currentTheme", "sielo-default").toString().replace("_", "-"));
 			}
 
 			settings.setValue("Themes/defaultThemeVersion", 6);
