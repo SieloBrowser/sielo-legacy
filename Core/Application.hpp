@@ -50,7 +50,7 @@ class NetworkManager;
 
 class BrowserWindow;
 
-class Q_DECL_EXPORT Application: public SingleApplication {
+class Q_DECL_EXPORT Application : public SingleApplication {
 public:
 	enum CommandLineAction {
 		CL_NoAction,

@@ -49,27 +49,21 @@ Q_OBJECT
 
 public:
 	AppearancePage(QWidget* parent);
-
 	~AppearancePage();
 
 	void save();
 
+	static QString colorString(QString id);
 private slots:
-
 	void loadSettings();
-
 	void currentChanged();
 
 	void showLicense();
 
 	void tabsSpacesPaddingValueChanged(int value);
-
 	void backgroundLocationClicked();
-
 	void openGallery();
-
 	void addTheme();
-
 	void useRealToolBarChanged(bool enabled);
 
 private:

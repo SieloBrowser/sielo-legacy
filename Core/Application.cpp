@@ -72,6 +72,7 @@
 #include "Widgets/AddressBar.cpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/TabBar.hpp"
+#include "Widgets/Preferences/Appearance.hpp"
 
 namespace Sn {
 
@@ -953,6 +954,32 @@ void Application::loadTheme(const QString& name)
 					QString("url(%1/\\1)").arg(relativePath));
 		sss.replace("sproperty", "qproperty");
 		sss.replace("slineargradient", "qlineargradient");
+
+		sss.replace(RegExp(QStringLiteral(
+								   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
+					"rgba($color\\1\\2, \\3\\4)");
+		sss.replace(
+				RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
+				"rgba($color\\1\\2, 255)");
+		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
+					"rgba($color\\1normal, 255)");
+
+		sss.replace(QLatin1String("\\4"), "");
+
+		sss.replace("$colormainlight", AppearancePage::colorString("mainlight"));
+		sss.replace("$colormaindark", AppearancePage::colorString("maindark"));
+		sss.replace("$colormainnormal", AppearancePage::colorString("mainnormal"));
+		sss.replace("$colorsecondlight", AppearancePage::colorString("secondlight"));
+		sss.replace("$colorseconddark", AppearancePage::colorString("seconddark"));
+		sss.replace("$colorsecondnormal", AppearancePage::colorString("secondnormal"));
+		sss.replace("$coloraccentlight", AppearancePage::colorString("accentlight"));
+		sss.replace("$coloraccentdark", AppearancePage::colorString("accentdark"));
+		sss.replace("$coloraccentnormal", AppearancePage::colorString("accentnormal"));
+		sss.replace("$colortextlight", AppearancePage::colorString("textlight"));
+		sss.replace("$colortextdark", AppearancePage::colorString("textdark"));
+		sss.replace("$colortextnormal", AppearancePage::colorString("textnormal"));
+
+//		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*main\\s*(\\s*,\\s*)\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\\s*(,\\s*normal))\\s*\\)")), "testeee");
 
 		setStyleSheet(sss);
 	}

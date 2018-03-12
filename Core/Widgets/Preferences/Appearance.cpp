@@ -40,6 +40,31 @@
 
 namespace Sn {
 
+QString AppearancePage::colorString(QString id)
+{
+	QColor returnColor{};
+	QSettings settings{};
+
+	settings.beginGroup("Themes");
+
+	if (id.contains("main"))
+		returnColor = settings.value(QLatin1String("mainColor"), QColor(60, 60, 60)).value<QColor>();
+	else if (id.contains("second"))
+		returnColor = settings.value(QLatin1String("secondColor"), QColor(30, 30, 30)).value<QColor>();
+	else if (id.contains("accent"))
+		returnColor = settings.value(QLatin1String("accentColor"), QColor(29, 94, 173)).value<QColor>();
+	else if (id.contains("text"))
+		returnColor = settings.value(QLatin1String("textColor"), QColor(240, 240, 240)).value<QColor>();
+
+	if (id.contains("light"))
+		returnColor = returnColor.lighter();
+	else if (id.contains("dark"))
+		returnColor = returnColor.darker();
+
+	return QString::number(returnColor.red()) + ", " + QString::number(returnColor.green()) + ", " +
+		   QString::number(returnColor.blue());
+}
+
 AppearancePage::AppearancePage(QWidget *parent) :
 		QWidget(parent)
 {
