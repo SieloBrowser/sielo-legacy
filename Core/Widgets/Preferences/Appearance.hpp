@@ -64,6 +64,7 @@ private slots:
 	void backgroundLocationClicked();
 	void openGallery();
 	void addTheme();
+	void getColor();
 	void useRealToolBarChanged(bool enabled);
 
 private:
@@ -85,9 +86,11 @@ private:
 	QHash<QString, Theme> m_themeHash;
 
 	QGroupBox* m_themeBox{nullptr};
+	QGroupBox* m_themeColorsBox{nullptr};
 
 	QVBoxLayout* m_layout{nullptr};
 	QVBoxLayout* m_themeLayout{nullptr};
+	QGridLayout* m_themeColorsLayout{nullptr};
 	QHBoxLayout* m_nameLayout{nullptr};
 	QFormLayout* m_areaLayout{nullptr};
 	QHBoxLayout* m_themeActionLayout{nullptr};
@@ -107,6 +110,11 @@ private:
 	QPushButton* m_addThemeButton{nullptr};
 	QPushButton* m_viewGalleryButton{nullptr};
 
+	QPushButton* m_mainColorButton{nullptr};
+	QPushButton* m_secondColorButton{nullptr};
+	QPushButton* m_accentColorButton{nullptr};
+	QPushButton* m_textColorButton{nullptr};
+
 	QCheckBox* m_fullyLoadThemes{nullptr};
 	QCheckBox* m_useRealToolBar{nullptr};
 	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
@@ -118,6 +126,8 @@ private:
 	QLabel* m_backgroundLabel{nullptr};
 	QLineEdit* m_backgroundLocationEdit{nullptr};
 	QPushButton* m_backgroundLocationButton{nullptr};
+
+	bool m_colorsChanged{false};
 };
 }
 

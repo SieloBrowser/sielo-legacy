@@ -114,9 +114,6 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.9.07b"));
 
-	QIcon::setThemeSearchPaths(
-			QStringList() << QIcon::themeSearchPaths() << Application::instance()->paths()[Application::P_Themes]);
-
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
 		QMessageBox::critical(0,
@@ -411,7 +408,8 @@ void Application::loadSettings()
 			settings.setValue("Themes/defaultThemeVersion", 6);
 		}
 
-		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString());
+		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
+				  settings.value("Themes/lightness", QLatin1String("dark")).toString());
 
 	}
 	else {
@@ -932,12 +930,19 @@ void Application::startPrivateBrowsing(const QUrl& startUrl)
 							 "Cannot start new browser process for private browsing! " + applicationFilePath());
 }
 
-void Application::loadTheme(const QString& name)
+void Application::loadTheme(const QString& name, const QString& lightness)
 {
 	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
 	QString sss{readFile(activeThemePath + QLatin1String("/main.sss"))};
 
-	QIcon::setThemeName(name);
+	if (QDir(activeThemePath + "/dark").exists() && QDir(activeThemePath + "/light").exists()) {
+		QIcon::setThemeSearchPaths(QStringList() << activeThemePath);
+		QIcon::setThemeName(lightness);
+	}
+	else {
+		QIcon::setThemeSearchPaths(QStringList() << Application::instance()->paths()[Application::P_Themes]);
+		QIcon::setThemeName(name);
+	}
 
 	if (m_fullyLoadThemes) {
 #if defined(Q_OS_MAC)
@@ -979,6 +984,8 @@ void Application::loadTheme(const QString& name)
 		sss.replace("$colortextdark", AppearancePage::colorString("textdark"));
 		sss.replace("$colortextnormal", AppearancePage::colorString("textnormal"));
 
+		sss.replace("$ulightness", lightness);
+
 //		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*main\\s*(\\s*,\\s*)\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\\s*(,\\s*normal))\\s*\\)")), "testeee");
 
 		setStyleSheet(sss);
@@ -1001,7 +1008,7 @@ void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 	copyPath(QDir(defaultThemeDataPath).absolutePath(), defaultThemePath);
 
 	if (loadAtEnd)
-		loadTheme("sielo-default");
+		loadTheme(name);
 }
 
 bool Application::copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist)

@@ -30,9 +30,11 @@
 #include <QTimer>
 
 #include <QMessageBox>
+#include <QColorDialog>
 #include <QFileDialog>
 
 #include <QDir>
+#include <QVariant>
 
 #include "Application.hpp"
 
@@ -65,7 +67,7 @@ QString AppearancePage::colorString(QString id)
 		   QString::number(returnColor.blue());
 }
 
-AppearancePage::AppearancePage(QWidget *parent) :
+AppearancePage::AppearancePage(QWidget* parent) :
 		QWidget(parent)
 {
 	setupUI();
@@ -74,6 +76,10 @@ AppearancePage::AppearancePage(QWidget *parent) :
 	connect(m_themeList, &QListWidget::currentItemChanged, this, &AppearancePage::currentChanged);
 	connect(m_addThemeButton, &QPushButton::clicked, this, &AppearancePage::addTheme);
 	connect(m_viewGalleryButton, &QPushButton::clicked, this, &AppearancePage::openGallery);
+	connect(m_mainColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
+	connect(m_secondColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
+	connect(m_accentColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
+	connect(m_textColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
 	connect(m_useRealToolBar, &QCheckBox::toggled, this, &AppearancePage::useRealToolBarChanged);
 	connect(m_tabsSpacesPadding, &QSlider::valueChanged, this, &AppearancePage::tabsSpacesPaddingValueChanged);
 	connect(m_backgroundLocationButton, &QPushButton::clicked, this, &AppearancePage::backgroundLocationClicked);
@@ -111,14 +117,28 @@ void AppearancePage::save()
 
 	settings.endGroup();
 
-	QListWidgetItem *currentItem = m_themeList->currentItem();
+	QListWidgetItem* currentItem = m_themeList->currentItem();
 
 	if (m_activeTheme == currentItem->data(Qt::UserRole).toString())
-		return;
+		if (!m_colorsChanged)
+			return;
 
 	m_activeTheme = currentItem->data(Qt::UserRole).toString();
 
-	settings.setValue("Themes/currentTheme", m_activeTheme);
+	settings.beginGroup("Themes");
+
+	settings.setValue("currentTheme", m_activeTheme);
+	settings.setValue("mainColor", m_mainColorButton->property("color").value<QColor>());
+	settings.setValue("secondColor", m_secondColorButton->property("color").value<QColor>());
+	settings.setValue("accentColor", m_accentColorButton->property("color").value<QColor>());
+	settings.setValue("textColor", m_textColorButton->property("color").value<QColor>());
+
+	if (m_mainColorButton->property("color").value<QColor>().lightness() > 150)
+		settings.setValue("lightness", "light");
+	else
+		settings.setValue("lightness", "dark");
+
+	settings.endGroup();
 
 	Application::instance()->loadTheme(m_activeTheme);
 
@@ -126,7 +146,7 @@ void AppearancePage::save()
 
 void AppearancePage::currentChanged()
 {
-	QListWidgetItem *currentItem = m_themeList->currentItem();
+	QListWidgetItem* currentItem = m_themeList->currentItem();
 
 	if (!currentItem)
 		return;
@@ -211,6 +231,23 @@ void AppearancePage::addTheme()
 
 }
 
+void AppearancePage::getColor()
+{
+	QPushButton* button{qobject_cast<QPushButton*>(sender())};
+
+	QColor choosenColor{
+			QColorDialog::getColor(button->property("color").value<QColor>(), m_themeColorsBox, tr("Select a color"))};
+
+	if (choosenColor.isValid() && choosenColor != button->property("color").value<QColor>()) {
+		button->setProperty("color", choosenColor);
+		button->setStyleSheet(
+				"border: 1px solid " + QLatin1String((choosenColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+				" background: " + choosenColor.name() + "; color: " +
+				QLatin1String((choosenColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+		m_colorsChanged = true;
+	}
+}
+
 void AppearancePage::useRealToolBarChanged(bool enabled)
 {
 	Q_UNUSED(enabled);
@@ -218,7 +255,7 @@ void AppearancePage::useRealToolBarChanged(bool enabled)
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 }
 
-AppearancePage::Theme AppearancePage::parseTheme(const QString &path, const QString &name)
+AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
 {
 	Theme info{};
 
@@ -299,20 +336,22 @@ void AppearancePage::loadSettings()
 	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
 
 	settings.endGroup();
-	m_activeTheme = settings.value("Themes/currentTheme", "sielo-default").toString();
+	settings.beginGroup("Themes");
+
+	m_activeTheme = settings.value("currentTheme", "sielo-default").toString();
 
 	m_themeList->clear();
 
 	QDir dir{Application::instance()->paths()[Application::P_Themes]};
 	QStringList list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-			foreach (const QString &name, list) {
+			foreach (const QString& name, list) {
 			Theme themeInfo = parseTheme(dir.absoluteFilePath(name) + QLatin1Char('/'), name);
 
 			if (!themeInfo.isValid)
 				continue;
 
-			QListWidgetItem *item{new QListWidgetItem(m_themeList)};
+			QListWidgetItem* item{new QListWidgetItem(m_themeList)};
 			item->setText(themeInfo.name + "\n" + themeInfo.shortDesc);
 			item->setIcon(themeInfo.icon);
 			item->setData(Qt::UserRole, name);
@@ -323,6 +362,33 @@ void AppearancePage::loadSettings()
 			m_themeList->addItem(item);
 		}
 
+	QColor mainColor{settings.value(QLatin1String("mainColor"), QColor{60, 60, 60}).value<QColor>()};
+	QColor secondColor{settings.value(QLatin1String("secondColor"), QColor{30, 30, 30}).value<QColor>()};
+	QColor accentColor{settings.value(QLatin1String("accentColor"), QColor{29, 94, 173}).value<QColor>()};
+	QColor textColor{settings.value(QLatin1String("textColor"), QColor{240, 240, 240}).value<QColor>()};
+
+	m_mainColorButton->setProperty("color", mainColor);
+	m_mainColorButton->setStyleSheet(
+			"border: 1px solid " + QLatin1String((mainColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+			" background: " + mainColor.name() + "; color: " +
+			QLatin1String((mainColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+	m_secondColorButton->setProperty("color", secondColor);
+	m_secondColorButton->setStyleSheet(
+			"border: 1px solid " + QLatin1String((secondColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+			" background: " + secondColor.name() + "; color: " +
+			QLatin1String((secondColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+	m_accentColorButton->setProperty("color", accentColor);
+	m_accentColorButton->setStyleSheet(
+			"border: 1px solid " + QLatin1String((accentColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+			" background: " + accentColor.name() + "; color: " +
+			QLatin1String((accentColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+	m_textColorButton->setProperty("color", textColor);
+	m_textColorButton->setStyleSheet(
+			"border: 1px solid " + QLatin1String((textColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+			" background: " + textColor.name() + "; color: " +
+			QLatin1String((textColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+
+	settings.endGroup();
 }
 
 void AppearancePage::setupUI()
@@ -336,9 +402,11 @@ void AppearancePage::setupUI()
 	m_areaWidget->setSizePolicy(sizePolicy);
 
 	m_themeBox = new QGroupBox(tr("Themes"), this);
+	m_themeColorsBox = new QGroupBox(tr("Theme colors (might not work on every themes)"), this);
 
 	m_layout = new QVBoxLayout(this);
 	m_themeLayout = new QVBoxLayout(m_themeBox);
+	m_themeColorsLayout = new QGridLayout(m_themeColorsBox);
 	m_areaLayout = new QFormLayout(m_areaWidget);
 	m_nameLayout = new QHBoxLayout();
 	m_themeActionLayout = new QHBoxLayout();
@@ -382,6 +450,11 @@ void AppearancePage::setupUI()
 	m_addThemeButton = new QPushButton(tr("Add a Theme"), this);
 	m_viewGalleryButton = new QPushButton(tr("Open Gallery"), this);
 
+	m_mainColorButton = new QPushButton(tr("Main Color"), m_themeColorsBox);
+	m_secondColorButton = new QPushButton(tr("Second Color"), m_themeColorsBox);
+	m_accentColorButton = new QPushButton(tr("Accent Color"), m_themeColorsBox);
+	m_textColorButton = new QPushButton(tr("Text Color"), m_themeColorsBox);
+
 	m_fullyLoadThemes = new QCheckBox(tr("Fully load theme (otherwise it will only load theme's icons)"));
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
 	m_hideBookmarksHistoryActionsByDefault =
@@ -412,9 +485,15 @@ void AppearancePage::setupUI()
 	m_themeActionLayout->addWidget(m_addThemeButton);
 	m_themeActionLayout->addWidget(m_viewGalleryButton);
 
+	m_themeColorsLayout->addWidget(m_mainColorButton, 0, 0, 1, 1);
+	m_themeColorsLayout->addWidget(m_secondColorButton, 0, 1, 1, 1);
+	m_themeColorsLayout->addWidget(m_accentColorButton, 1, 0, 1, 1);
+	m_themeColorsLayout->addWidget(m_textColorButton, 1, 1, 1, 1);
+
 	m_themeLayout->addWidget(m_themeList);
 	m_themeLayout->addWidget(m_areaWidget);
 	m_themeLayout->addLayout(m_themeActionLayout);
+	m_themeLayout->addWidget(m_themeColorsBox);
 
 	m_backgroundLayout->addWidget(m_backgroundLabel);
 	m_backgroundLayout->addWidget(m_backgroundLocationEdit);

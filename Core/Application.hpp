@@ -113,7 +113,7 @@ public:
 	~Application();
 
 	void loadSettings();
-	void loadTheme(const QString& name);
+	void loadTheme(const QString& name, const QString& lightness = "dark");
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
 	bool isPortable() const { return m_isPortable; }
