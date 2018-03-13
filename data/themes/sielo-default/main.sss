@@ -1,5 +1,5 @@
 #tabbarwidget * {
-    background: rgb(30, 30, 30);
+    background: scolor(second);
 }
 
 #tabbar {
@@ -8,18 +8,18 @@
 
 QTabBar {
   border: none;
-  background: rgb(30, 30, 30);
+  background: scolor(second);
 }
 
 QTabBar::tab
 {
     height: 28px;
-    color: white;
+    color: scolor(text);
 }
 
 QTabBar::tab:selected
 {
-    background: rgb(60, 60, 60);
+    background: scolor(main);
 }
 
 QTabBar::tab:!selected
@@ -35,143 +35,144 @@ QTabBar::tab:!selected:hover
 #tabs-closebutton:hover
 {
     border-radius: 0px;
-    background-color: #C62828;
+    background-color: scolor(accent);
 }
 
 #fbutton-root
 {
-    sproperty-icon: url(images/icon.png);
+    sproperty-icon: url($ulightness/icon.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-add-bookmark
 {
-    sproperty-icon: url(images/add-bookmark.png);
+    sproperty-icon: url($ulightness/add-bookmark.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-add-bookmark:pressed
 {
     border: none;
-        background-color: rgb(30, 30, 30);
+        background-color: scolor(second);
 }
 
 #fbutton-view-bookmarks
 {
-    sproperty-icon: url(images/view-bookmarks.png);
+    sproperty-icon: url($ulightness/view-bookmarks.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-view-bookmarks:pressed
 {
-    background-color: rgb(30, 30, 30);
+    background-color: scolor(second);
 }
 
 #fbutton-view-history
 {
-    sproperty-icon: url(images/history.png);
+    sproperty-icon: url($ulightness/history.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-view-history:pressed
 {
-  background-color: rgb(30, 30, 30);
+  background-color: scolor(second);
 }
 
 #fbutton-new-window
 {
-    sproperty-icon: url(images/new-window.png);
+    sproperty-icon: url($ulightness/new-window.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-new-window:pressed
 {
-    background-color: rgb(30, 30, 30);
+    background-color: scolor(second);
 }
 
 #fbutton-home
 {
-    sproperty-icon: url(images/home.png);
+    sproperty-icon: url($ulightness/home.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-home:pressed
 {
-    background-color: rgb(30, 30, 30);
+    background-color: scolor(second);
 }
 
 #fbutton-next
 {
-    sproperty-icon: url(images/next.png);
+    sproperty-icon: url($ulightness/next.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-next:pressed
 {
-    background-color: rgb(30, 30, 30);
+    background-color: scolor(second);
 }
 
 #fbutton-back
 {
-    sproperty-icon: url(images/back.png);
+    sproperty-icon: url($ulightness/back.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-back:pressed
 {
-background-color: rgb(30, 30, 30);
+background-color: scolor(second);
 }
 
 #fbutton-new-tab
 {
-    sproperty-icon: url(images/new-tab.png);
+    sproperty-icon: url($ulightness/new-tab.png);
     sproperty-iconSize: 24px;
     border-radius: 2px;
     margin: 3px;
-    background-color: rgb(60, 60, 60);
+    background-color: scolor(main);
 }
 
 #fbutton-new-tab:pressed
 {
-    background-color: rgb(30, 30, 30);
+    background-color: scolor(second);
 }
 
 QDialog,
 QMenu,
 QTabWidget::pane
 {
-  border: none;
-	background: rgb(60, 60, 60);
-  color: white;
+  	border: none;
+	background: scolor(main);
+  	color: scolor(text);
 }
 
 QMainWindow
 {
-  background-image: url(images/background.png);
+	background: scolor(main);
+  	background-image: url(images/background.png);
 }
 
 QTreeWidget,
@@ -180,20 +181,20 @@ QTableWidget,
 QTableView,
 QListView,
 QListWidget {
-  background: rgb(60, 60, 60);
-  alternate-background-color: rgba(255, 255, 255, .2);
-  color: white;
+  background: scolor(main);
+  alternate-background-color: scolor(main, dark);
+  color: scolor(text);
 }
 
 QTextBrowser {
   border: none;
   background: rgba(0, 0, 0,.3);
-  color: white;
+  color: scolor(text);
 }
 
 QDialog QLabel
 {
-	color: white;
+	color: scolor(text);
 	font-size: 12px;
 }
 
@@ -203,35 +204,31 @@ QDialog QPushButton
 	border: 2px solid transparent;
 	border-radius: 4px;
 	padding: 7px 14px;
-	color: white;
+	color: scolor(text);
 	font-size: 12px;
 }
 
 QDialog QPushButton:hover,
 QDialog QPushButton:focus
 {
-	border-color: white;
+	border-color: scolor(accent);
 }
 
 QDialog QPushButton:focus
 {
-	background: white;
-	color: rgb(60, 60, 60);
+	background: scolor(accent);
+	color: scolor(accent, light);
 }
 
 QDialog QGroupBox
 {
-  color: white;
-}
-
-QSplitterHandle {
-    background: rgba(60, 60, 60, 0.50);
+  color: scolor(text);
 }
 
 #navigationbar
 {
 	border: none;
-	background: rgb(60, 60, 60);
+	background: scolor(main);
 	padding: 0px;
 	spacing: 0px;
 }
@@ -239,25 +236,25 @@ QSplitterHandle {
 #navigationbar::separator
 {
 	background: rgba(255,255,255,.6);
-  height: 1px;
-  margin: 0px 3px;
+  	height: 1px;
+  	margin: 0px 3px;
 }
 
 #navigationbar QToolButton,
 #navigationbar ToolButton
 {
-	background: rgb(60, 60, 60);
+	background: scolor(main);
 	border: none;
-	color: white;
+	color: scolor(text);
 	padding: 0px 7px;
-  height: 45px;
+  	height: 45px;
 	font-size: 12px;
 }
 
 #navigationbar QToolButton:hover,
 #navigationbar ToolButton:hover
 {
-	background: rgba(0,0,0,.3);
+	background: scolor(accent);
 }
 
 #navigationbar QToolButton:pressed,
@@ -276,26 +273,25 @@ QSplitterHandle {
 #addressbar
 {
 	border: none;
-	background: rgb(60, 60, 60);
+	background: scolor(main);
 	margin: 0px;
 }
-/*
-#navigationbar #addressbar #Icon
+
+#addressbar QToolButton,
+#addressbar QToolButton:hover
 {
 	border: none;
 	background: transparent;
-	padding: 10px;
-	padding-right: 0px;
-	margin: 0px;
+	color: scolor(text);
+	font-size: 14px;
 }
-*/
 
 #navigationbar #addressbar QToolButton,
 #navigationbar #addressbar QToolButton:hover
 {
 	border: none;
-	background: transparent;
-	color: white;
+	background: scolor(accent);
+	color: scolor(text);
 	font-size: 14px;
 	margin: 0px;
 	padding: 0px;
@@ -305,39 +301,39 @@ QSplitterHandle {
 {
 	border: none;
 	padding: 0px 10px;
-	color: white;
+	color: scolor(text);
 	font-size: 18px;
 }
 
 QMenu::separator
 {
 	background: rgba(255,255,255,.6);
-  height: 1px;
-  margin: 0px 3px;
+  	height: 1px;
+  	margin: 0px 3px;
 }
 
 QMenu::item:selected
 {
 	background: rgb(0, 136, 249) repeat-x;
-  color: white;
+  	color: scolor(text);
 }
 
 QLineEdit
 {
 	padding: 4px 6px;
-	color: white;
+	color: scolor(text);
 	background: transparent;
-	border: 1px solid white;
+	border: 1px solid scolor(text);
 	font-size: 12px;
 	border-radius: 2px;
 }
 
 QComboBox {
 	border: none;
-	background: rgba(0,0,0,.4);;
+	background: rgba(0,0,0,.4);
 	padding: 1px 23px 1px 3px;
 	min-width: 6em;
-	color: white;
+	color: scolor(text);
 }
 
 QComboBox::drop-down {
@@ -349,30 +345,28 @@ QComboBox::drop-down {
 
 QComboBox QAbstractItemView{
 	border: none;
-	background-color: rgba(0,0,0,.3);;
-	color: rgba(0,0,0,.4);
-	selection-background-color: rgba(0,0,0,.4);
-	selection-color: #4f4f4f;
+	background-color: scolor(second);
+	color: scolor(text);
 }
 
 QCheckBox,
 QRadioButton
 {
 	spacing: 7px;
-	color: white;
+	color: scolor(text);
 	font-size: 12px;
 }
 
 QCheckBox:hover,
 QRadioButton:hover
 {
-	color: rgb(60, 60, 60);
+	color: scolor(text, dark);
 }
 
 QCheckBox:disabled,
 QRadioButton:disabled
 {
-	color: rgba(255,255,255,.3);
+	color: scolor(main, dark);
 }
 
 QCheckBox::indicator,
@@ -380,21 +374,16 @@ QRadioButton::indicator
 {
 	width: 16px;
 	height: 16px;
-	border: 1px solid white;
-	background: transparent;
+	border: 1px solid scolor(text);
+	background: rgba(255,255,255,.1);
 	padding: 1px;
 	border-radius: 2px;
-
-	border: none;
-	background: rgba(255,255,255,.1);
-	width: 18px;
-	height: 18px;
 }
 
 QCheckBox::indicator:disabled,
 QRadioButton::indicator:disabled
 {
-	border-color: rgba(255,255,255,.3);
+	border-color: scolor(main, dark);
 }
 
 QRadioButton::indicator
@@ -408,7 +397,7 @@ QRadioButton::indicator
 QCheckBox::indicator:hover,
 QRadioButton::indicator:hover
 {
-	background: rgb(60, 60, 60);
+	background: scolor(main, dark);
 }
 
 QCheckBox::indicator:checked

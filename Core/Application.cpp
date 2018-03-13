@@ -112,7 +112,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.9.07b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.10.00b"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -330,7 +330,11 @@ void Application::loadSettings()
 
 	settings.endGroup();
 
-	if (settings.value("versionNumber", 0).toInt() < 6) {
+	if (settings.value("versionNumber", 0).toInt() < 7) {
+		if (settings.value("versionNumber", 0).toInt() < 5) {
+			settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
+			settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
+		}
 		QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
 										  "http://doosearch.feldrise.com/").toString();
 		homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
@@ -341,22 +345,6 @@ void Application::loadSettings()
 		urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
 		settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
 
-		if (settings.value("versionNumber", 0).toInt() < 5) {
-			loadThemeFromResources("bluegrey-flat", false);
-			loadThemeFromResources("cyan-flat", false);
-			loadThemeFromResources("green-flat", false);
-			loadThemeFromResources("indigo-flat", false);
-			loadThemeFromResources("orange-flat", false);
-			loadThemeFromResources("purple-flat", false);
-			loadThemeFromResources("red-flat", false);
-			loadThemeFromResources("teal-flat", false);
-			loadThemeFromResources("white-flat", false);
-			loadThemeFromResources("yellow-flat", false);
-			settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
-			settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
-		}
-		settings.setValue("versionNumber", 6);
-
 				foreach (BrowserWindow* window, m_windows) {
 				window->loadSettings();
 				for (int i{0}; i < window->tabWidgetsCount(); ++i) {
@@ -365,47 +353,31 @@ void Application::loadSettings()
 																			   "doosearch.feldrise.com"));
 				}
 			}
+		settings.setValue("versionNumber", 7);
 	}
 
 	if (m_autoFill)
 		m_autoFill->loadSettings();
 
 	if (themeInfo.exists()) {
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 6) {
-			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 5) {
-				loadThemeFromResources("bluegrey-flat", false);
-				loadThemeFromResources("cyan-flat", false);
-				loadThemeFromResources("green-flat", false);
-				loadThemeFromResources("indigo-flat", false);
-				loadThemeFromResources("orange-flat", false);
-				loadThemeFromResources("purple-flat", false);
-				loadThemeFromResources("red-flat", false);
-				loadThemeFromResources("sielo-default", false);
-				loadThemeFromResources("teal-flat", false);
-				loadThemeFromResources("white-flat", false);
-				loadThemeFromResources("yellow-flat", false);
-			}
-			else {
-				QString defaultThemePath{paths()[Application::P_Themes]};
-				QDir defaultThemePathDir{defaultThemePath};
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 7) {
+			QString defaultThemePath{paths()[Application::P_Themes]};
 
-				defaultThemePathDir.rename("bluegrey_flat", "bluegrey-flat");
-				defaultThemePathDir.rename("cyan_flat", "cyan-flat");
-				defaultThemePathDir.rename("green_flat", "green-flat");
-				defaultThemePathDir.rename("indigo_flat", "indigo-flat");
-				defaultThemePathDir.rename("orange_flat", "orange-flat");
-				defaultThemePathDir.rename("purple_flat", "purple-flat");
-				defaultThemePathDir.rename("red_flat", "red-flat");
-				defaultThemePathDir.rename("sielo-default", "sielo-default");
-				defaultThemePathDir.rename("teal_flat", "teal-flat");
-				defaultThemePathDir.rename("white_flat", "white-flat");
-				defaultThemePathDir.rename("yellow_flat", "yellow-flat");
+			QDir(defaultThemePath + "/bluegrey-flat").removeRecursively();
+			QDir(defaultThemePath + "/cyan-flat").removeRecursively();
+			QDir(defaultThemePath + "/green-flat").removeRecursively();
+			QDir(defaultThemePath + "/indigo-flat").removeRecursively();
+			QDir(defaultThemePath + "/orange-flat").removeRecursively();
+			QDir(defaultThemePath + "/purple-flat").removeRecursively();
+			QDir(defaultThemePath + "/red-flat").removeRecursively();
+			QDir(defaultThemePath + "/sielo-default").removeRecursively();
+			QDir(defaultThemePath + "/teal-flat").removeRecursively();
+			QDir(defaultThemePath + "/white-flat").removeRecursively();
+			QDir(defaultThemePath + "/yellow-flat").removeRecursively();
 
-				settings.setValue("Themes/currentTheme",
-								  settings.value("Themes/currentTheme", "sielo-default").toString().replace("_", "-"));
-			}
-
-			settings.setValue("Themes/defaultThemeVersion", 6);
+			loadThemeFromResources("sielo-default", false);
+			settings.setValue("Themes/currentTheme", QLatin1String("sielo-default"));
+			settings.setValue("Themes/defaultThemeVersion", 7);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -414,7 +386,7 @@ void Application::loadSettings()
 	}
 	else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 5);
+		settings.setValue("Themes/defaultThemeVersion", 7);
 	}
 
 	if (privateBrowsing()) {
@@ -523,7 +495,8 @@ void Application::saveSettings()
 	settings.beginGroup("Web-Settings");
 
 	bool deleteHistory
-			{settings.value("deleteHistoryOnClose", false).toBool() || !settings.value("allowHistory", true).toBool()};
+			{settings.value("deleteHistoryOnClose", false).toBool() ||
+			 !settings.value("allowHistory", true).toBool()};
 
 	settings.endGroup();
 
@@ -591,7 +564,7 @@ void Application::postLaunch()
 
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-				->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTab);
+				->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTabAtEnd);
 		settings.setValue("installed", true);
 	}
 
@@ -964,7 +937,8 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 								   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
 					"rgba($color\\1\\2, \\3\\4)");
 		sss.replace(
-				RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
+				RegExp(QStringLiteral(
+							   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
 				"rgba($color\\1\\2, 255)");
 		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
 					"rgba($color\\1normal, 255)");
