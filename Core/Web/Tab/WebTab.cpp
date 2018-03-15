@@ -344,7 +344,7 @@ void WebTab::showSearchToolBar()
 {
 	int offset = Application::instance()->useTopToolBar();
 
-	const int index{2 + offset};
+	const int index{2 - offset};
 	SearchToolBar* toolBar{nullptr};
 
 	if (m_layout->count() == 2 - offset) {
