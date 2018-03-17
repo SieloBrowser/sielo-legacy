@@ -9,7 +9,7 @@ Sielo est un navigateur web que j'ai commencé à développer il y a 1 an et dem
 ### Téléchargement
 Il y a plusieurs liens pour trouver les dernières versions de Sielo.
  - Pour Windows : La dernière open bêta peut être installée avec [cet installateur](https://feldrise.com/Sielo/sielo_setup_1.8.12.exe)
- - Pour Linux : Vous pouvez trouver le [package Debian](https://feldrise.com/Sielo/Linux/sielo-browser.deb) ou installer Sielo depuis l'AUR (Arch User Repository)
+ - Pour Linux : Vous pouvez trouver le [package Debian](https://feldrise.com/Sielo/Linux/sielo-browser.deb) et l'installer avec la commande `dpkg -i sielo-browser.deb` ou installer Sielo depuis l'AUR (Arch User Repository)
 ### Compiler le navigateur
 Vous pouvez aussi facilement compiler Sielo. Pour cela il faut vous assurer d'avoir toutes les dépendances nécessaire : 
  - Qt 5.7 minimum, Qt 5.8 minimum pour avoir toutes les fonctionnalités de Sielo
