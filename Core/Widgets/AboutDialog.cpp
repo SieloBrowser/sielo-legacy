@@ -31,7 +31,7 @@
 namespace Sn {
 
 AboutDialog::AboutDialog(QWidget* parent) :
-	QDialog(parent)
+		QDialog(parent)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
@@ -79,12 +79,13 @@ void AboutDialog::showAbout()
 		m_html += QLatin1String("<p>Copyright &copy; 2017 Victor DENIS<br />");
 		m_html += QLatin1String("<a href=\"mailto:admin@feldrise.com\">admin@feldrise.com</a></p>");
 		m_html += tr("<p><b>Main developer:</b><br />%1 &lt;%2&gt;</p>")
-			.arg("Victor DENIS", "<a href=\"mailto:victordenis01@gmail.com\">victordenis01@gmail.com</a>");
+				.arg("Victor DENIS", "<a href=\"mailto:victordenis01@gmail.com\">victordenis01@gmail.com</a>");
 		m_html += tr("<p><b>Contributors:</b><br />%1</p>").arg(
-			QString::fromUtf8("hotaru70o<br />"
-								  "LavaPower (http://github.com/LavaPower)"
-								  "ilearn32<br />"
-								  "gbdivers")
+				QString::fromUtf8("hotaru70o<br />"
+										  "Kaktus<br />"
+										  "LavaPower (http://github.com/LavaPower)<br />"
+										  "ilearn32<br />"
+										  "gbdivers")
 		);
 		m_html += "</div></center>";
 	}
