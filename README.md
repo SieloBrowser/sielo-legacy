@@ -6,6 +6,7 @@ Windows | Unavailable
 [![Official Sielo Image](https://www.feldrise.com/Sielo/images/official-sielo.png)](https://www.feldrise.com/Sielo/sielo_setup_1.7.10.exe)
 Sielo is a web browser that I began to develop a year and a half ago. The browser has experienced 2 remakes and the last was released few months ago. This time Sielo has been thought with a more stable structure, easier to sustain so a rework is no longer needed.
 ## Use Sielo
+#### You can view details in [Sielo's web page](https://feldrise.com/Sielo)
 ### Download
 Their is many links to find the last Sielo version
  - Windows : The last open beta can be installed with [this setup](https://feldrise.com/Sielo/sielo_setup_1.10.03.exe)
