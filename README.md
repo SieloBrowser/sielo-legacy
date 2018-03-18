@@ -23,7 +23,9 @@ Sielo has well grown. It has all the basic functionalities of a web browser (tab
 This is the feature that makes Sielo so special. Tabs spaces allow you to divide your Sielo window into several spaces, as if you had several windows next to each other but interacting with each other. You can resize Tabs spaces, hide them,  mute them... This allow you, among other things, to have several sessions, for example a session called "social networks", an other called "music" and an other called "work". Therefore you can hide the "music" tabs space and retrieve it at any time.
 
 A small illustration :
+
 ![Tabs Sapces GIF](https://www.feldrise.com/Sielo/images/tabs-space.gif)
+
 ### The floating button
 This is another feature specific to Sielo.. This button can be moved everywhere in the browser to give you access to the main controls as easily as possible. It can also be transformed into a lateral toolbar. But a picture is much better than 1000 words:
 ![Floating Button GIF](https://www.feldrise.com/Sielo/images/floating-button.gif)
