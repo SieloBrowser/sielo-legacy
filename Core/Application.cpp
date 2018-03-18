@@ -76,7 +76,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.10.02b");
+QString Application::currentVersion = QString("1.10.03b");
 
 // Static member
 QList<QString> Application::paths()
@@ -112,7 +112,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.10.02b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.10.03b"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -360,7 +360,7 @@ void Application::loadSettings()
 		m_autoFill->loadSettings();
 
 	if (themeInfo.exists()) {
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 8) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 9) {
 			QString defaultThemePath{paths()[Application::P_Themes]};
 
 			QDir(defaultThemePath + "/bluegrey-flat").removeRecursively();

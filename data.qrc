@@ -36,6 +36,7 @@
         <file>data/themes/sielo-default/dark/other/geolocation.png</file>
         <file>data/themes/sielo-default/dark/other/go.png</file>
         <file>data/themes/sielo-default/dark/other/google.png</file>
+        <file>data/themes/sielo-default/dark/other/heart.png</file>
         <file>data/themes/sielo-default/dark/other/history.png</file>
         <file>data/themes/sielo-default/dark/other/home.png</file>
         <file>data/themes/sielo-default/dark/other/ic_sielo.png</file>
@@ -94,6 +95,7 @@
         <file>data/themes/sielo-default/light/other/geolocation.png</file>
         <file>data/themes/sielo-default/light/other/go.png</file>
         <file>data/themes/sielo-default/light/other/google.png</file>
+        <file>data/themes/sielo-default/light/other/heart.png</file>
         <file>data/themes/sielo-default/light/other/history.png</file>
         <file>data/themes/sielo-default/light/other/home.png</file>
         <file>data/themes/sielo-default/light/other/ic_sielo.png</file>
