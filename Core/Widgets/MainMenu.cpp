@@ -43,6 +43,7 @@
 #include "Cookies/CookieManager.hpp"
 
 #include "Widgets/AboutDialog.hpp"
+#include "Widgets/HelpUsDialog.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -119,6 +120,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 											   QKeySequence(QKeySequence::Preferences).toString());
 	QAction* showAboutSieloAction =
 		createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
+	QAction* showHelpUsAction =
+			createAction("ShowHelpUs", this, Application::getAppIcon("heart"), tr("&Help Us"));
 	addSeparator();
 	QAction* quitAction = createAction("Quit", this, Application::getAppIcon("exit"), tr("Quit"), "Ctrl+Q");
 
@@ -142,6 +145,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	connect(showSettingsAction, &QAction::triggered, this, &MainMenu::showSettings);
 	connect(showAboutSieloAction, &QAction::triggered, this, &MainMenu::showAboutSielo);
+	connect(showHelpUsAction, &QAction::triggered, this, &MainMenu::showHelpUs);
 
 	connect(quitAction, &QAction::triggered, this, &MainMenu::quit);
 
@@ -275,6 +279,12 @@ void MainMenu::showSettings()
 void MainMenu::showAboutSielo()
 {
 	AboutDialog* dialog{new AboutDialog(m_tabWidget)};
+	dialog->show();
+}
+
+void MainMenu::showHelpUs()
+{
+	HelpUsDialog* dialog{new HelpUsDialog(m_tabWidget)};
 	dialog->show();
 }
 
