@@ -360,7 +360,7 @@ void Application::loadSettings()
 		m_autoFill->loadSettings();
 
 	if (themeInfo.exists()) {
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 9) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 10) {
 			QString defaultThemePath{paths()[Application::P_Themes]};
 
 			QDir(defaultThemePath + "/bluegrey-flat").removeRecursively();
@@ -377,7 +377,7 @@ void Application::loadSettings()
 
 			loadThemeFromResources("sielo-default", false);
 			settings.setValue("Themes/currentTheme", QLatin1String("sielo-default"));
-			settings.setValue("Themes/defaultThemeVersion", 8);
+			settings.setValue("Themes/defaultThemeVersion", 10);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -386,7 +386,7 @@ void Application::loadSettings()
 	}
 	else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 8);
+		settings.setValue("Themes/defaultThemeVersion", 10);
 	}
 
 	if (privateBrowsing()) {
