@@ -76,7 +76,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.10.03b");
+QString Application::currentVersion = QString("1.10.05b");
 
 // Static member
 QList<QString> Application::paths()
@@ -112,7 +112,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.10.03b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.10.05b"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -330,30 +330,33 @@ void Application::loadSettings()
 
 	settings.endGroup();
 
-	if (settings.value("versionNumber", 0).toInt() < 7) {
-		if (settings.value("versionNumber", 0).toInt() < 5) {
-			settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
-			settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
-		}
-		QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
-										  "http://doosearch.feldrise.com/").toString();
-		homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
-		settings.setValue(QLatin1String("Web-Settings/homePage"), homePage);
-
-		QString urlOnNewTab = settings.value(QLatin1String("Web-Settings/urlOnNewTab"),
-											 "http://doosearch.feldrise.com/").toString();
-		urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
-		settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
-
-				foreach (BrowserWindow* window, m_windows) {
-				window->loadSettings();
-				for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-					window->tabWidget(i)->setHomeUrl(
-							window->tabWidget(i)->homeUrl().toString().replace("doosearch.esy.es",
-																			   "doosearch.feldrise.com"));
-				}
+	if (settings.value("versionNumber", 0).toInt() < 8) {
+		settings.setValue("installed", false);
+		if (settings.value("versionNumber", 0).toInt() < 7) {
+			if (settings.value("versionNumber", 0).toInt() < 5) {
+				settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
+				settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
 			}
-		settings.setValue("versionNumber", 7);
+			QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
+											  "http://doosearch.feldrise.com/").toString();
+			homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
+			settings.setValue(QLatin1String("Web-Settings/homePage"), homePage);
+
+			QString urlOnNewTab = settings.value(QLatin1String("Web-Settings/urlOnNewTab"),
+												 "http://doosearch.feldrise.com/").toString();
+			urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
+			settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
+
+					foreach (BrowserWindow* window, m_windows) {
+					window->loadSettings();
+					for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+						window->tabWidget(i)->setHomeUrl(
+								window->tabWidget(i)->homeUrl().toString().replace("doosearch.esy.es",
+																				   "doosearch.feldrise.com"));
+					}
+				}
+		}
+		settings.setValue("versionNumber", 8);
 	}
 
 	if (m_autoFill)
