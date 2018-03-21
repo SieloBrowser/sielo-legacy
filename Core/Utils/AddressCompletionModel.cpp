@@ -159,7 +159,7 @@ void AddressCompletionModel::updateModel()
 	if (m_types.testFlag(SearchSuggestionCompletionType)) {
 		const QString keyword(m_filter.section(QLatin1Char(' '), 0, 0));
 
-		QString title{"Google"};
+		QString title{"your search engine"};
 		QString text{m_filter};
 		QIcon icon{Application::getAppIcon("google")};
 

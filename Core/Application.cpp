@@ -76,7 +76,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.10.05b");
+QString Application::currentVersion = QString("1.10.06b");
 
 // Static member
 QList<QString> Application::paths()
@@ -112,7 +112,7 @@ Application::Application(int& argc, char** argv) :
 {
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.10.05b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.10.06b"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
