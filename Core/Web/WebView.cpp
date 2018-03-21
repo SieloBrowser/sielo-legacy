@@ -58,6 +58,7 @@ bool WebView::isUrlValide(const QUrl& url)
 
 QUrl WebView::searchUrl(const QString& searchText)
 {
+/*
 	QUrl url{QLatin1String("http://www.google.com/search")};
 	QUrlQuery urlQuery{};
 
@@ -67,7 +68,14 @@ QUrl WebView::searchUrl(const QString& searchText)
 	urlQuery.addQueryItem(QLatin1String("client"), QLatin1String("sielo"));
 
 	url.setQuery(urlQuery);
+*/
 
+	QUrl url{QLatin1String("http:/doosearch.feldrise.com/en/res/php/search.php")};
+	QUrlQuery urlQuery{};
+
+	urlQuery.addQueryItem(QLatin1String("search"), searchText);
+
+	url.setQuery(urlQuery);
 	return url;
 }
 
