@@ -221,6 +221,9 @@ void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, WebTab* tab, 
 
 void BrowserWindow::createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab)
 {
+	Q_UNUSED(position);
+	Q_UNUSED(type);
+	Q_UNUSED(tab);
 	// TODO: manage applications
 }
 

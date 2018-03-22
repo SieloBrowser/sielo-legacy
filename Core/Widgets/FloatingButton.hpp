@@ -54,7 +54,7 @@ public:
 
 	void setIndex(int index);
 
-	const int index() const { return m_index; }
+	int index() const { return m_index; }
 
 	void moveButton(QPoint destination, int animationTime = 0.2 * 1000, bool hideAtEnd = false);
 
