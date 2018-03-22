@@ -110,6 +110,7 @@ Application::Application(int& argc, char** argv) :
 		m_networkManager(nullptr),
 		m_webProfile(nullptr)
 {
+	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.10.06b"));
@@ -123,14 +124,15 @@ Application::Application(int& argc, char** argv) :
 		return;
 	}
 
+	// Loading fonts information
 	int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();
 
-
 	loadSettings();
 
+	// Check command line options with given arguments
 	QUrl startUrl{};
 	QStringList messages;
 
@@ -179,6 +181,7 @@ Application::Application(int& argc, char** argv) :
 		messages.append(QLatin1String(" "));
 	}
 
+	// Check is there is already an instance of Sielo running
 	if (isSecondary() && !newInstance && !privateBrowsing()) {
 		m_isClosing = true;
 				foreach (const QString& message, messages) {
@@ -196,6 +199,7 @@ Application::Application(int& argc, char** argv) :
 
 	m_plugins = new PluginProxy;
 
+	// Setting up web and network objects
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
 
@@ -247,6 +251,7 @@ Application::Application(int& argc, char** argv) :
 
 	m_webProfile->scripts()->insert(script);
 
+	// Create or restore window
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
 	if (afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession) {
@@ -257,9 +262,11 @@ Application::Application(int& argc, char** argv) :
 			QFile::remove(paths()[Application::P_Data] + QLatin1String("/pinnedtabs.dat"));
 	}
 
+	// Check for update
 	Updater* updater{new Updater(window)};
 	Q_UNUSED(updater);
 
+	// Wait a little for post launch actions
 	QTimer::singleShot(0, this, &Application::postLaunch);
 }
 
@@ -278,11 +285,13 @@ void Application::loadSettings()
 {
 	QSettings settings;
 
+	// General Sielo settings
 	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
+	// Check if the user have enable the witcher font
 	if (settings.value("Settings/useMorpheusFont", false).toBool()) {
 		QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
 
@@ -295,12 +304,15 @@ void Application::loadSettings()
 		webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
 	}
 
+	// Load specific settings for all windows
 			foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
+	// Load theme info
 	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
 						+ settings.value("Themes/currentTheme", "sielo-default").toString()
 						+ QLatin1String("/main.sss")};
 
+	// load web settings
 	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
 	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
 
@@ -330,6 +342,7 @@ void Application::loadSettings()
 
 	settings.endGroup();
 
+	// Check the current version number of Sielo, and make setting update if needed
 	if (settings.value("versionNumber", 0).toInt() < 8) {
 		settings.setValue("installed", false);
 		if (settings.value("versionNumber", 0).toInt() < 7) {
@@ -359,10 +372,13 @@ void Application::loadSettings()
 		settings.setValue("versionNumber", 8);
 	}
 
+	// Load settings for password
 	if (m_autoFill)
 		m_autoFill->loadSettings();
 
+	// Check if the theme existe
 	if (themeInfo.exists()) {
+		// Check default theme version and update it if needed
 		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 10) {
 			QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -392,6 +408,7 @@ void Application::loadSettings()
 		settings.setValue("Themes/defaultThemeVersion", 10);
 	}
 
+	// Force local storage to be disabled if it's a provate session
 	if (privateBrowsing()) {
 		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
 	}
@@ -434,6 +451,7 @@ bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
 	if (m_privateBrowsing || restoreData.isEmpty())
 		return false;
 
+	// Make the user know that Sielo is working
 	m_isRestoring = true;
 	setOverrideCursor(Qt::BusyCursor);
 
@@ -488,8 +506,10 @@ void Application::destroyRestoreManager()
 
 void Application::saveSettings()
 {
+	// Save settings of AdBlock
 	ADB::Manager::instance()->save();
 
+	// If we are in private browsing, we don't want to save settings obviously
 	if (privateBrowsing())
 		return;
 
@@ -497,6 +517,7 @@ void Application::saveSettings()
 
 	settings.beginGroup("Web-Settings");
 
+	// Check if we want to remove history and|or cookies. Remove them if needed
 	bool deleteHistory
 			{settings.value("deleteHistoryOnClose", false).toBool() ||
 			 !settings.value("allowHistory", true).toBool()};
@@ -520,18 +541,22 @@ void Application::saveSession(bool saveForHome)
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
+	// Write the current session in version 2
 	stream << 0x0002;
 	stream << m_windows.count();
 
+	// Save tabs of all windows
 			foreach (BrowserWindow* window, m_windows) {
 			stream << window->saveTabs();
 
+			// Save state of window (is it's in full screen)
 			if (window->isFullScreen())
 				stream << QByteArray();
 			else
 				stream << window->saveState();
 		}
 
+	// Save data to a file
 	QFile file{};
 	if (saveForHome)
 		file.setFileName(paths()[Application::P_Data] + QLatin1String("/home-session.dat"));
@@ -560,11 +585,13 @@ void Application::quitApplication()
 
 void Application::postLaunch()
 {
+	// Check if we want to open a new tab
 	if (m_postLaunchActions.contains(OpenNewTab))
 		getWindow()->tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab);
 
 	QSettings settings{};
 
+	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
 				->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTabAtEnd);
@@ -597,6 +624,7 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 	QUrl actualUrl{};
 	QString message{QString::fromUtf8(messageBytes)};
 
+	// Check if the message start by a url. If so, open it in new tab
 	if (message.startsWith(QLatin1String("URL:"))) {
 		const QUrl url{QUrl::fromUserInput(message.mid(4))};
 		addNewTab(url);
@@ -644,6 +672,7 @@ void Application::setUserStyleSheet(const QString& filePath)
 	QFile file{filePath};
 	QByteArray array{};
 
+	// Check if we can open the file
 	if (!filePath.isEmpty() && file.open(QFile::ReadOnly)) {
 		array = file.readAll();
 		file.close();
@@ -651,6 +680,7 @@ void Application::setUserStyleSheet(const QString& filePath)
 
 	userCSS += QString::fromUtf8(array).remove(QLatin1Char('\n'));
 
+	// Check if we have an old script
 	const QString name{QStringLiteral("_sielo_userstylesheet")};
 	QWebEngineScript oldScript = m_webProfile->scripts()->findScript(name);
 
@@ -660,6 +690,7 @@ void Application::setUserStyleSheet(const QString& filePath)
 	if (userCSS.isEmpty())
 		return;
 
+	// Apply custom css
 	QWebEngineScript script{};
 	script.setName(name);
 	script.setInjectionPoint(QWebEngineScript::DocumentReady);
@@ -752,6 +783,7 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 	const QString fileName{info.fileName()};
 	int i{1};
 
+	// While the file exist, we add 1 to new file name
 	while (info.exists()) {
 		QString file{fileName};
 		int index{file.lastIndexOf(QLatin1Char('.'))};
@@ -805,6 +837,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 				webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
 				webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
 
+				// Reload font
 						foreach (BrowserWindow* window, m_windows) {
 						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
@@ -825,6 +858,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 				webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "DejaVu Sans");
 				webSettings->setFontFamily(QWebEngineSettings::SerifFont, "DejaVu Serif");
 
+				// Reload font
 						foreach (BrowserWindow* window, m_windows) {
 						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
@@ -911,6 +945,7 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
 	QString sss{readFile(activeThemePath + QLatin1String("/main.sss"))};
 
+	// If the theme use user color API
 	if (QDir(activeThemePath + "/dark").exists() && QDir(activeThemePath + "/light").exists()) {
 		QIcon::setThemeSearchPaths(QStringList() << activeThemePath);
 		QIcon::setThemeName(lightness);
@@ -920,6 +955,7 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 		QIcon::setThemeName(name);
 	}
 
+	// Load specific theme file for the current OS
 	if (m_fullyLoadThemes) {
 #if defined(Q_OS_MAC)
 		sss.append(readFile(activeThemePath + QLatin1String("/mac.sss")));
@@ -931,11 +967,15 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 
 		QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
 
+		// Replace url with absolute path
 		sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
 					QString("url(%1/\\1)").arg(relativePath));
+
+		// Replace some Sielo API properties to Qt properties
 		sss.replace("sproperty", "qproperty");
 		sss.replace("slineargradient", "qlineargradient");
 
+		// Replace theme colors to user colors
 		sss.replace(RegExp(QStringLiteral(
 								   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
 					"rgba($color\\1\\2, \\3\\4)");
