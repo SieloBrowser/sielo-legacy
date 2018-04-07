@@ -24,7 +24,6 @@
 
 #include "Application.hpp"
 
-#include <QString>
 #include <QStandardPaths>
 #include <QDir>
 
@@ -37,7 +36,6 @@
 #include <QFontDatabase>
 
 #include <QMessageBox>
-#include <QWidget>
 
 #include <QSettings>
 
@@ -68,10 +66,7 @@
 
 #include "Network/NetworkManager.hpp"
 
-#include "Widgets/FloatingButton.hpp"
 #include "Widgets/AddressBar.cpp"
-#include "Widgets/Tab/TabWidget.hpp"
-#include "Widgets/Tab/TabBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
 
 namespace Sn {
@@ -315,6 +310,11 @@ void Application::loadSettings()
 	// load web settings
 	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
 	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
+
+	QString defaultUserAgent = webProfile->httpUserAgent();
+	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
+							 QStringLiteral("Sielo/%1").arg(Application::currentVersion));
+	webProfile->setHttpUserAgent(defaultUserAgent);
 
 	settings.beginGroup("Web-Settings");
 
