@@ -108,7 +108,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.10.06b"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.10.06"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -313,7 +313,7 @@ void Application::loadSettings()
 
 	QString defaultUserAgent = webProfile->httpUserAgent();
 	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
-							 QStringLiteral("Sielo/%1").arg(Application::currentVersion));
+							 QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
 	webProfile->setHttpUserAgent(defaultUserAgent);
 
 	settings.beginGroup("Web-Settings");
