@@ -33,8 +33,10 @@
 #include <QtNetwork/QLocalSocket>
 
 #ifdef Q_OS_UNIX
+
 #include <signal.h>
 #include <unistd.h>
+
 #endif
 
 #ifdef Q_OS_WIN
@@ -54,7 +56,7 @@ static const char Reconnect = 'R';
 static const char InvalidConnection = '\0';
 
 SingleApplicationPrivate::SingleApplicationPrivate(SingleApplication* q_ptr) :
-	q_ptr(q_ptr)
+		q_ptr(q_ptr)
 {
 	server = nullptr;
 	socket = nullptr;
@@ -119,9 +121,9 @@ void SingleApplicationPrivate::genBlockServerName(int timeout)
 		}
 		else {
 			appData.addData(
-				QDir(
-					QStandardPaths::standardLocations(QStandardPaths::HomeLocation).first()
-				).absolutePath().toUtf8()
+					QDir(
+							QStandardPaths::standardLocations(QStandardPaths::HomeLocation).first()
+					).absolutePath().toUtf8()
 			);
 		}
 #endif
@@ -155,10 +157,10 @@ void SingleApplicationPrivate::startPrimary(bool resetMemory)
 
 	server->listen(blockServerName);
 	QObject::connect(
-		server,
-		&QLocalServer::newConnection,
-		this,
-		&SingleApplicationPrivate::slotConnectionEstablished
+			server,
+			&QLocalServer::newConnection,
+			this,
+			&SingleApplicationPrivate::slotConnectionEstablished
 	);
 
 	// Reset the number of connections
@@ -226,6 +228,7 @@ void SingleApplicationPrivate::connectToPrimary(int msecs, char connectionType)
 }
 
 #ifdef Q_OS_UNIX
+
 void SingleApplicationPrivate::crashHandler()
 {
 	// Handle any further termination signals to ensure the
@@ -251,6 +254,7 @@ void SingleApplicationPrivate::terminate(int signum)
 	delete ((SingleApplication*) QCoreApplication::instance())->d_ptr;
 	::exit(128 + signum);
 }
+
 #endif
 
 /**
@@ -284,8 +288,8 @@ void SingleApplicationPrivate::slotConnectionEstablished()
 				initMsg += tmp;
 				// Verify the checksum of the initMsg
 				QByteArray checksum = QByteArray::number(
-					qChecksum(initMsg.constData(), initMsg.length()),
-					256
+						qChecksum(initMsg.constData(), initMsg.length()),
+						256
 				);
 				tmp = nextConnSocket->read(checksum.length());
 				if (checksum == tmp)
@@ -304,30 +308,28 @@ void SingleApplicationPrivate::slotConnectionEstablished()
 	}
 
 	QObject::connect(
-		nextConnSocket,
-		&QLocalSocket::aboutToClose,
-		this,
-		[nextConnSocket, instanceId, this]()
-		{
-			Q_EMIT this->slotClientConnectionClosed(nextConnSocket, instanceId);
-		}
+			nextConnSocket,
+			&QLocalSocket::aboutToClose,
+			this,
+			[nextConnSocket, instanceId, this]() {
+				Q_EMIT this->slotClientConnectionClosed(nextConnSocket, instanceId);
+			}
 	);
 
 	QObject::connect(
-		nextConnSocket,
-		&QLocalSocket::readyRead,
-		this,
-		[nextConnSocket, instanceId, this]()
-		{
-			Q_EMIT this->slotDataAvailable(nextConnSocket, instanceId);
-		}
+			nextConnSocket,
+			&QLocalSocket::readyRead,
+			this,
+			[nextConnSocket, instanceId, this]() {
+				Q_EMIT this->slotDataAvailable(nextConnSocket, instanceId);
+			}
 	);
 
 	if (connectionType == NewInstance || (
-		connectionType == SecondaryInstance &&
-		options & SingleApplication::Mode::SecondaryNotification
+			connectionType == SecondaryInstance &&
+			options & SingleApplication::Mode::SecondaryNotification
 	)
-		) {
+			) {
 		Q_EMIT q->instanceStarted();
 	}
 
@@ -345,7 +347,7 @@ void SingleApplicationPrivate::slotDataAvailable(QLocalSocket* dataSocket, quint
 void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket* closedSocket, quint32 instanceId)
 {
 	if (closedSocket->bytesAvailable() > 0)
-		Q_EMIT slotDataAvailable(closedSocket, instanceId);
+			Q_EMIT slotDataAvailable(closedSocket, instanceId);
 	closedSocket->deleteLater();
 }
 
@@ -357,9 +359,9 @@ void SingleApplicationPrivate::slotClientConnectionClosed(QLocalSocket* closedSo
  * @param {bool} allowSecondaryInstances
  */
 SingleApplication::SingleApplication(int& argc, char* argv[], bool allowSecondary, Options options, int timeout)
-	:
-	app_t(argc, argv),
-	d_ptr(new SingleApplicationPrivate(this))
+		:
+		app_t(argc, argv),
+		d_ptr(new SingleApplicationPrivate(this))
 {
 	Q_D(SingleApplication);
 

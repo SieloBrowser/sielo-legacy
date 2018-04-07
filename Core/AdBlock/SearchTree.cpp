@@ -32,7 +32,7 @@ namespace Sn {
 namespace ADB {
 
 SearchTree::SearchTree() :
-	m_root(new Node)
+		m_root(new Node)
 {
 	// Empty
 }

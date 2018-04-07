@@ -39,7 +39,7 @@ class SingleApplicationPrivate;
  * Application
  * @see QCoreApplication
  */
-class SingleApplication: public QAPPLICATION_CLASS {
+class SingleApplication : public QAPPLICATION_CLASS {
 Q_OBJECT
 
 	typedef QAPPLICATION_CLASS app_t;
@@ -121,6 +121,7 @@ Q_SIGNALS:
 
 private:
 	SingleApplicationPrivate* d_ptr;
+
 	Q_DECLARE_PRIVATE(SingleApplication)
 };
 

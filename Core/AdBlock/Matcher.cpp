@@ -33,8 +33,8 @@ namespace Sn {
 namespace ADB {
 
 Matcher::Matcher(Manager* manager) :
-	QObject(manager),
-	m_manager(manager)
+		QObject(manager),
+		m_manager(manager)
 {
 	connect(manager, &Manager::enabledChanged, this, &Matcher::enabledChanged);
 }
@@ -50,7 +50,7 @@ const Rule* Matcher::match(const QWebEngineUrlRequestInfo& request, const QStrin
 	if (m_networkExceptionTree.find(request, urlDomain, urlString))
 		return nullptr;
 
-		foreach (const Rule* rule, m_networkExceptionRules) {
+			foreach (const Rule* rule, m_networkExceptionRules) {
 			if (rule->networkMatch(request, urlDomain, urlString))
 				return nullptr;
 		}
@@ -58,7 +58,7 @@ const Rule* Matcher::match(const QWebEngineUrlRequestInfo& request, const QStrin
 	if (const Rule* rule = m_networkBlockTree.find(request, urlDomain, urlString))
 		return rule;
 
-		foreach (const Rule* rule, m_networkBlockRules) {
+			foreach (const Rule* rule, m_networkBlockRules) {
 			if (rule->networkMatch(request, urlDomain, urlString))
 				return rule;
 		}
@@ -101,7 +101,7 @@ QString Matcher::elementHidingRulesForDomain(const QString& domain) const
 	QString rules{};
 	int addedRulesCount{0};
 
-		foreach(const Rule* rule, m_domainRestrictedCssRules) {
+			foreach(const Rule* rule, m_domainRestrictedCssRules) {
 			if (!rule->matchDomain(domain))
 				continue;
 
@@ -133,8 +133,8 @@ void Matcher::update()
 	QHash<QString, const Rule*> CSSRulesHash;
 	QVector<const Rule*> exceptionCSSRules;
 
-		foreach (Subscription* subscription, m_manager->subscriptions()) {
-				foreach (const Rule* rule, subscription->allRulles()) {
+			foreach (Subscription* subscription, m_manager->subscriptions()) {
+					foreach (const Rule* rule, subscription->allRulles()) {
 					if (rule->isInternalDisabled())
 						continue;
 
@@ -162,7 +162,7 @@ void Matcher::update()
 				}
 		}
 
-		foreach (const Rule* rule, exceptionCSSRules) {
+			foreach (const Rule* rule, exceptionCSSRules) {
 			const Rule* originalRule{CSSRulesHash.value(rule->CSSSelector())};
 
 			if (!originalRule)

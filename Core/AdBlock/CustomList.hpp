@@ -36,7 +36,7 @@ namespace Sn {
 namespace ADB {
 class Rule;
 
-class CustomList: public Subscription {
+class CustomList : public Subscription {
 Q_OBJECT
 
 public:
@@ -46,6 +46,7 @@ public:
 	void saveSubscription();
 
 	bool canEditRules() const { return true; }
+
 	bool canBeRemoved() const { return false; }
 
 	bool containsFilter(const QString& filter) const;

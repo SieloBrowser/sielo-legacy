@@ -39,9 +39,10 @@
 namespace Sn {
 namespace ADB {
 class Manager;
+
 class Rule;
 
-class Matcher: public QObject {
+class Matcher : public QObject {
 Q_OBJECT
 
 public:

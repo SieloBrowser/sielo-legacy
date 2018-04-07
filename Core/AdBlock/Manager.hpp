@@ -37,13 +37,18 @@
 namespace Sn {
 namespace ADB {
 class Rule;
+
 class Dialog;
+
 class Matcher;
+
 class CustomList;
+
 class Subscription;
+
 class UrlInterceptor;
 
-class Manager: public QObject {
+class Manager : public QObject {
 Q_OBJECT
 
 public:
@@ -73,6 +78,7 @@ public:
 	bool block(QWebEngineUrlRequestInfo& request);
 
 	QStringList disabledRules() const { return m_disabledRules; }
+
 	void addDisabledRule(const QString& filter);
 	void removeDisabledRule(const QString& filter);
 

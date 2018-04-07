@@ -33,7 +33,7 @@ namespace Sn {
 namespace ADB {
 
 CustomList::CustomList(QObject* parent) :
-	Subscription(tr("Custom Rules"), parent)
+		Subscription(tr("Custom Rules"), parent)
 {
 	setFilePath(Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/customlist.txt"));
 }
@@ -66,14 +66,14 @@ void CustomList::saveSubscription()
 	textStream << "Url: " << url().toString() << endl;
 	textStream << "[Adblock Plus 2.0]" << endl;
 
-		foreach (const Rule* rule, m_rules) textStream << rule->filter() << endl;
+			foreach (const Rule* rule, m_rules) textStream << rule->filter() << endl;
 
 	file.close();
 }
 
 bool CustomList::containsFilter(const QString& filter) const
 {
-		foreach (const Rule* rule, m_rules) {
+			foreach (const Rule* rule, m_rules) {
 			if (rule->filter() == filter)
 				return true;
 		}

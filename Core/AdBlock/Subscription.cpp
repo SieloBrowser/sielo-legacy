@@ -41,9 +41,9 @@ namespace ADB {
 static const QString ADBLOCK_EASYLIST_URL = "https://easylist-downloads.adblockplus.org/easylist.txt";
 
 Subscription::Subscription(const QString& title, QObject* parent) :
-	QObject(parent),
-	m_title(title),
-	m_updated(false)
+		QObject(parent),
+		m_title(title),
+		m_updated(false)
 {
 	// Empty
 }
@@ -202,9 +202,9 @@ bool Subscription::saveDownloadedData(const QByteArray& data)
 
 	if (Manager::instance()->useLimitedEasyList() && m_url == QUrl(ADBLOCK_EASYLIST_URL)) {
 		QByteArray part1 = data.left(data.indexOf(QLatin1String(
-			"!-----------------------------Third-party adverts-----------------------------!")));
+				"!-----------------------------Third-party adverts-----------------------------!")));
 		QByteArray part2 = data.mid(data.indexOf(QLatin1String(
-			"!---------------------------------Whitelists----------------------------------!")));
+				"!---------------------------------Whitelists----------------------------------!")));
 
 		file.write(part1);
 		file.write(part2);

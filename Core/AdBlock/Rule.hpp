@@ -42,7 +42,9 @@
 namespace Sn {
 namespace ADB {
 class Subscription;
+
 class Matcher;
+
 class SearchTree;
 
 class Rule {
@@ -55,9 +57,11 @@ public:
 	Rule* copy() const;
 
 	Subscription* subscriptions() const { return m_subscription; }
+
 	void setSubscription(Subscription* subscription);
 
 	QString filter() const { return m_filter; }
+
 	void setFilter(const QString& filter);
 
 	bool isComment() const;
@@ -125,7 +129,7 @@ private:
 		OtherOption = 2048,
 
 		// Exception only options
-			DocumentOption = 4096,
+				DocumentOption = 4096,
 		ElementHideOption = 8192
 	};
 	Q_DECLARE_FLAGS(RuleOptions, RuleOption)
@@ -168,7 +172,9 @@ private:
 	bool m_isInternalDisabled{false};
 
 	friend class Matcher;
+
 	friend class SearchTree;
+
 	friend class Subscription;
 };
 }

@@ -35,7 +35,7 @@ namespace Sn {
 namespace ADB {
 class Rule;
 
-class Subscription: public QObject {
+class Subscription : public QObject {
 Q_OBJECT
 
 public:
@@ -45,9 +45,11 @@ public:
 	QString title() const { return m_title; }
 
 	QString filePath() const { return m_filePath; }
+
 	void setFilePath(const QString& path);
 
 	QUrl url() const { return m_url; }
+
 	void setUrl(const QUrl& url);
 
 	virtual void loadSubscription(const QStringList& disabledRules);
@@ -60,6 +62,7 @@ public:
 	const Rule* disableRule(int offset);
 
 	virtual bool canEditRules() const { return false; }
+
 	virtual bool canBeRemoved() const { return true; }
 
 	virtual int addRule(Rule* rule);

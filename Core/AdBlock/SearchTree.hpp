@@ -52,8 +52,8 @@ private:
 		QHash<QChar, Node*> children;
 
 		Node() :
-			c(0),
-			rule(nullptr) {}
+				c(0),
+				rule(nullptr) {}
 	};
 
 	const Rule* prefixSearch(const QWebEngineUrlRequestInfo& request, const QString& domain, const QString& urlString,

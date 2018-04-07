@@ -50,12 +50,12 @@ namespace ADB {
 Q_GLOBAL_STATIC(Manager, sn_adblock_manager)
 
 Manager::Manager(QObject* parent) :
-	QObject(parent),
-	m_loaded(false),
-	m_enabled(false),
-	m_useLimitedEasyList(true),
-	m_matcher(new Matcher(this)),
-	m_interceptor(new UrlInterceptor(this))
+		QObject(parent),
+		m_loaded(false),
+		m_enabled(false),
+		m_useLimitedEasyList(true),
+		m_matcher(new Matcher(this)),
+		m_interceptor(new UrlInterceptor(this))
 {
 	load();
 }
@@ -97,7 +97,7 @@ void Manager::load()
 	if (!adblockDir.exists())
 		QDir(Application::instance()->paths()[Application::P_Data]).mkdir("adblock");
 
-		foreach (const QString& fileName, adblockDir.entryList(QStringList("*.txt"), QDir::Files)) {
+			foreach (const QString& fileName, adblockDir.entryList(QStringList("*.txt"), QDir::Files)) {
 			if (fileName == QLatin1String("customlist.txt"))
 				continue;
 
@@ -130,7 +130,7 @@ void Manager::load()
 
 		easyList->setUrl(QUrl("https://easylist-downloads.adblockplus.org/easylist.txt"));
 		easyList->setFilePath(
-			Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/easylist.txt"));
+				Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/easylist.txt"));
 
 		m_subscriptions.prepend(easyList);
 	}
@@ -138,7 +138,7 @@ void Manager::load()
 	CustomList* customList{new CustomList(this)};
 	m_subscriptions.append(customList);
 
-		foreach (Subscription* subscription, m_subscriptions) {
+			foreach (Subscription* subscription, m_subscriptions) {
 			subscription->loadSubscription(m_disabledRules);
 
 			connect(subscription,
@@ -162,7 +162,7 @@ void Manager::save()
 	if (!m_loaded)
 		return;
 
-		foreach (Subscription* subscription, m_subscriptions) subscription->saveSubscription();
+			foreach (Subscription* subscription, m_subscriptions) subscription->saveSubscription();
 
 	QSettings settings{};
 
@@ -195,7 +195,7 @@ void Manager::setUseLimitedEasyList(bool useLimited)
 {
 	m_useLimitedEasyList = useLimited;
 
-		foreach (Subscription* subscription, m_subscriptions) {
+			foreach (Subscription* subscription, m_subscriptions) {
 			if (subscription->url() == QUrl("https://easylist-downloads.adblockplus.org/easylist.txt"))
 				subscription->updateSubscription();
 		}
@@ -219,7 +219,7 @@ QString Manager::elementHidingRulesForDomain(const QUrl& url) const
 
 Subscription* Manager::subscriptionByName(const QString& name) const
 {
-		foreach (Subscription* subscription, m_subscriptions) {
+			foreach (Subscription* subscription, m_subscriptions) {
 			if (subscription->title() == name)
 				return subscription;
 		}
@@ -253,7 +253,8 @@ bool Manager::addSubscriptionFromUrl(const QUrl& url)
 	const QString& message{tr("Do you want to add <b>%1</b> subscription?").arg(subscriptionTitle)};
 
 	QMessageBox::StandardButtons
-		result{QMessageBox::question(nullptr, tr("AdBlock Subscription"), message, QMessageBox::Yes | QMessageBox::No)};
+			result{
+			QMessageBox::question(nullptr, tr("AdBlock Subscription"), message, QMessageBox::Yes | QMessageBox::No)};
 
 	if (result == QMessageBox::Yes) {
 		Manager::instance()->addSubscription(subscriptionTitle, subscriptionUrl);
@@ -281,7 +282,7 @@ Subscription* Manager::addSubscription(const QString& title, const QString& url)
 	fileName.remove(QLatin1Char('|'));
 
 	QString filePath{Application::instance()->ensureUniqueFilename(
-		Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/") + fileName)};
+			Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/") + fileName)};
 	QByteArray data{QString("Title: %1\nUrl: %2\n[Adblock Plus 2.0]").arg(title, url).toLatin1()};
 	QFile file{filePath};
 
@@ -367,7 +368,7 @@ void Manager::removeDisabledRule(const QString& filter)
 
 CustomList* Manager::customList() const
 {
-		foreach (Subscription* subscription, m_subscriptions) {
+			foreach (Subscription* subscription, m_subscriptions) {
 			CustomList* list = qobject_cast<CustomList*>(subscription);
 
 			if (list)
@@ -408,7 +409,7 @@ void Manager::showRule()
 
 void Manager::updateAllSubscriptions()
 {
-		foreach (Subscription* subscription, m_subscriptions) subscription->updateSubscription();
+			foreach (Subscription* subscription, m_subscriptions) subscription->updateSubscription();
 
 	QSettings settings{};
 

@@ -42,7 +42,7 @@ struct InstancesInfo {
 	quint32 secondary;
 };
 
-class SingleApplicationPrivate: public QObject {
+class SingleApplicationPrivate : public QObject {
 Q_OBJECT
 public:
 	Q_DECLARE_PUBLIC(SingleApplication)

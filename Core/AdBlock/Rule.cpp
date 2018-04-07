@@ -52,12 +52,12 @@ static QString toSecondLevelDomain(const QUrl& url)
 }
 
 Rule::Rule(const QString& filter, Subscription* subscription) :
-	m_subscription(subscription),
-	m_type(StringContainsMatchRule),
-	m_caseSensitivity(Qt::CaseInsensitive),
-	m_isEnabled(true),
-	m_isException(false),
-	m_isInternalDisabled(false)
+		m_subscription(subscription),
+		m_type(StringContainsMatchRule),
+		m_caseSensitivity(Qt::CaseInsensitive),
+		m_isEnabled(true),
+		m_isException(false),
+		m_isInternalDisabled(false)
 {
 	setFilter(filter);
 }
@@ -218,14 +218,14 @@ bool Rule::matchDomain(const QString& domain) const
 	}
 
 	if (m_blockedDomains.isEmpty()) {
-			foreach (const QString& d, m_allowedDomains) {
+				foreach (const QString& d, m_allowedDomains) {
 				if (isMatchingDomain(domain, d)) {
 					return true;
 				}
 			}
 	}
 	else if (m_allowedDomains.isEmpty()) {
-			foreach (const QString& d, m_blockedDomains) {
+				foreach (const QString& d, m_blockedDomains) {
 				if (isMatchingDomain(domain, d)) {
 					return false;
 				}
@@ -233,13 +233,13 @@ bool Rule::matchDomain(const QString& domain) const
 		return true;
 	}
 	else {
-			foreach (const QString& d, m_blockedDomains) {
+				foreach (const QString& d, m_blockedDomains) {
 				if (isMatchingDomain(domain, d)) {
 					return false;
 				}
 			}
 
-			foreach (const QString& d, m_allowedDomains) {
+				foreach (const QString& d, m_allowedDomains) {
 				if (isMatchingDomain(domain, d)) {
 					return true;
 				}
@@ -325,14 +325,14 @@ bool Rule::matchMedia(const QWebEngineUrlRequestInfo& request) const
 bool Rule::matchOther(const QWebEngineUrlRequestInfo& request) const
 {
 	bool match{
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFontResource ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSubResource ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeWorker ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSharedWorker ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePrefetch ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFavicon ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeServiceWorker ||
-		request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeUnknown
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFontResource ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSubResource ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeWorker ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSharedWorker ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePrefetch ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFavicon ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeServiceWorker ||
+			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeUnknown
 	};
 
 	return hasException(MediaOption) == !match;
@@ -373,7 +373,7 @@ bool Rule::isMatchingRegExpString(const QString& url) const
 {
 	Q_ASSERT(m_regExp);
 
-		foreach (const QStringMatcher& matcher, m_regExp->matchers) {
+			foreach (const QStringMatcher& matcher, m_regExp->matchers) {
 			if (matcher.indexIn(url) == -1)
 				return false;
 		}
@@ -466,10 +466,10 @@ void Rule::parseFilter()
 
 	if (optionsIndex >= 0) {
 		const QStringList
-			options{parsedLine.mid(optionsIndex + 1).split(QLatin1Char(','), QString::SkipEmptyParts)};
+				options{parsedLine.mid(optionsIndex + 1).split(QLatin1Char(','), QString::SkipEmptyParts)};
 		int handledOptions{0};
 
-			foreach (const QString& option, options) {
+				foreach (const QString& option, options) {
 				if (option.startsWith(QLatin1String("domain="))) {
 					parseDomains(option.mid(7), QLatin1Char('|'));
 					++handledOptions;
@@ -599,7 +599,7 @@ void Rule::parseDomains(const QString& domains, const QChar& separator)
 {
 	QStringList domainsList = domains.split(separator, QString::SkipEmptyParts);
 
-		foreach (const QString domain, domainsList) {
+			foreach (const QString domain, domainsList) {
 			if (domain.isEmpty())
 				continue;
 			if (domain.startsWith(QLatin1Char('~')))
@@ -701,7 +701,7 @@ QList<QStringMatcher> Rule::createStringMatchers(const QStringList& filters) con
 	QList<QStringMatcher> matchers;
 	matchers.reserve(filters.size());
 
-		foreach (const QString& filter, filters) matchers.append(QStringMatcher(filter, m_caseSensitivity));
+			foreach (const QString& filter, filters) matchers.append(QStringMatcher(filter, m_caseSensitivity));
 
 	return matchers;
 }
