@@ -117,7 +117,7 @@ public:
 	//! Paths
 	/*! Path of differents Sielo's needed folders */
 	enum Path {
-		P_Data = 0, /*!< Path of data
+		P_Data = 0, /*!< Path of data */
 		P_Plugin = 1, /*!< Path of plugin (will be applications) */
 		P_Themes = 2 /*!< Path of themes */
 	};
