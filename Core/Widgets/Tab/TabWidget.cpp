@@ -202,7 +202,6 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 
 TabWidget::~TabWidget()
 {
-	m_saveTimer->saveIfNeccessary();
 	delete m_closedTabsManager;
 }
 
@@ -600,6 +599,7 @@ void TabWidget::requestCloseTab(int index)
 	}
 	else if (count() == 1) {
 		m_window->closeTabsSpace(this);
+		return;
 	}
 
 	webView->triggerPageAction(QWebEnginePage::RequestClose);
