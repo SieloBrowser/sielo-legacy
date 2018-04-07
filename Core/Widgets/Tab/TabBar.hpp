@@ -51,9 +51,9 @@ signals:
 
 public slots:
 	void setCurrentIndex(int index);
+	void resetDragState();
 
 private slots:
-	void resetDragState();
 	void tabWasMoved(int from, int to);
 
 	void tabTearOff();

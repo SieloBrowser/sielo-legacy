@@ -27,16 +27,11 @@
 #include <QWindow>
 #include <QScreen>
 
-#include <QRect>
-
-#include <QDataStream>
 #include <QSettings>
 
-#include <QKeyEvent>
 #include <QClipboard>
 #include <QShortcut>
 
-#include "Application.hpp"
 #include "BrowserWindow.hpp"
 
 #include "History/HistoryManager.hpp"
@@ -49,7 +44,6 @@
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/ClosedTabsManager.hpp"
-#include "Utils/ToolButton.hpp"
 #include "Utils/AutoSaver.hpp"
 
 #include "Web/WebPage.hpp"
@@ -58,7 +52,6 @@
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/AddressBar.hpp"
-#include "Widgets/FloatingButton.hpp"
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/MainMenu.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
@@ -712,6 +705,9 @@ void TabWidget::detachTab(int index)
 
 void TabWidget::detachTabFromDrop(int index)
 {
+	if (index <= -1)
+		return;
+
 	WebTab* webTab{weTab(index)};
 	int nbreOfTabs = count();
 

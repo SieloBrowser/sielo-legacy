@@ -24,13 +24,9 @@
 
 #include "Widgets/Tab/TabBar.hpp"
 
-#include <QString>
-
 #include <QStylePainter>
-#include <QPixmap>
 
 #include <QTimer>
-#include <QtWidgets/QMessageBox>
 
 #include <QMimeData>
 #include <QDrag>
@@ -174,10 +170,10 @@ void TabBar::setCurrentIndex(int index)
 
 void TabBar::resetDragState()
 {
-	if (m_pressedIndex == -1) {
+	//if (m_pressedIndex == -1) {
 		m_dragInProgress = false;
 		update();
-	}
+	//}
 }
 
 void TabBar::tabWasMoved(int from, int to)
@@ -311,7 +307,7 @@ void TabBar::mousePressEvent(QMouseEvent* event)
 
 void TabBar::mouseMoveEvent(QMouseEvent* event)
 {
-	if (m_dragInProgress && qAbs(m_pressedGlobalY - event->globalY()) >= m_ripOffDistance) {
+	if (isDragInProgress() && qAbs(m_pressedGlobalY - event->globalY()) >= m_ripOffDistance) {
 		// QMessageBox::information(nullptr, "DEBUG", "Must detach the tab");
 		QPixmap pixmap = grab(tabRect(m_pressedIndex));
 

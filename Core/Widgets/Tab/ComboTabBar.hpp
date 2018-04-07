@@ -170,6 +170,7 @@ signals:
 
 public slots:
 	void setUpLayout();
+	void resetDragState();
 	void ensureVisible(int index = -1, int xmargin = -1);
 	void setCurrentIndex(int index);
 

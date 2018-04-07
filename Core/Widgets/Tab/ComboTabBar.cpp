@@ -31,8 +31,6 @@
 
 #include <QToolTip>
 
-#include <QResizeEvent>
-
 #include "Utils/ToolButton.hpp"
 
 #include "Widgets/Tab/TabBar.hpp"
@@ -570,6 +568,12 @@ void ComboTabBar::setUpLayout()
 		m_pinnedTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
 		m_mainTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
 	}
+}
+
+void ComboTabBar::resetDragState()
+{
+	m_pinnedTabBar->resetDragState();
+	m_mainTabBar->resetDragState();
 }
 
 void ComboTabBar::ensureVisible(int index, int xmargin)

@@ -33,17 +33,13 @@
 #include "History/HistoryManager.hpp"
 
 #include "Widgets/AddressBar.hpp"
-#include "Widgets/FloatingButton.hpp"
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
-#include "Widgets/Tab/ComboTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
 
 #include "Web/WebPage.hpp"
-#include "Web/LoadRequest.hpp"
 #include "Web/WebHitTestResult.hpp"
-#include "Web/Tab/WebTab.hpp"
 
 namespace Sn {
 TabbedWebView::TabbedWebView(WebTab* tab) :
@@ -216,12 +212,6 @@ void TabbedWebView::dragEnterEvent(QDragEnterEvent* event)
 	const QMimeData* mime{event->mimeData()};
 
 	if (mime->hasFormat("sielo/tabdata")) {
-		if ((qobject_cast<MainTabBar*>(qobject_cast<TabBar*>(event->source())->comboTabBar()) == m_webTab->tabBar()) &&
-			(m_webTab->tabBar()->normalTabsCount() <= 1)) {
-			event->ignore();
-			return;
-		}
-
 		event->acceptProposedAction();
 		if (!m_highlightedFrame) {
 			m_highlightedFrame = new QFrame(this);
@@ -330,6 +320,8 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		}
 
 		event->accept();
+		mainTabBar->resetDragState();
+
 		return;
 	}
 
