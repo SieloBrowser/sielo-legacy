@@ -22,7 +22,499 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17a5a9c3-7dfd-4107-922a-67f8974f324b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Core/Application.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Application.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.appveyor" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/3rdparty/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/3rdparty/singleapplication.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/3rdparty/singleapplication.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/3rdparty/singleapplication_p.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/CustomList.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/CustomList.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Manager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Manager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Matcher.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Matcher.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Rule.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Rule.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/SearchTree.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/SearchTree.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Subscription.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/Subscription.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/SubscriptionDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/SubscriptionDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/TreeWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/TreeWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/UrlInterceptor.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/AdBlock/UrlInterceptor.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Application.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Application.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/AddBookmarkDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/AddBookmarkDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/AddBookmarkProxyModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/AddBookmarkProxyModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarkManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarkManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarkNode.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarkNode.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksCommands.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksCommands.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksMenu.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksMenu.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/BookmarksModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/XBelReader.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/XBelReader.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/XBelWriter.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Bookmarks/XBelWriter.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/BrowserWindow.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/BrowserWindow.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Cookies/CookieJar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Cookies/CookieJar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Cookies/CookieManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Cookies/CookieManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Download/DownloadManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Download/DownloadManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Download/DownloadModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Download/DownloadModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Download/DownloadWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Download/DownloadWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryFilterModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryFilterModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryItem.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryMenu.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryMenu.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryMenuModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryMenuModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryTreeModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/History/HistoryTreeModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Network/BaseUrlInterceptor.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Network/NetworkManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Network/NetworkManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Network/NetworkUrlInterceptor.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Network/NetworkUrlInterceptor.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFill.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFill.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillIcon.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillIcon.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillNotification.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillNotification.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/AutoFill/AutoFillWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/DatabaseEncryptedPasswordBackend.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/DatabaseEncryptedPasswordBackend.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/DatabasePasswordBackend.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/DatabasePasswordBackend.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/MasterPasswordDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/MasterPasswordDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/PasswordBackend.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/PasswordBackend.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/PasswordManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Password/PasswordManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Plugins/PluginInterface.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Plugins/PluginProxy.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Plugins/PluginProxy.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Plugins/Plugins.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Plugins/Plugins.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AddressCompletionModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AddressCompletionModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AesInterface.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AesInterface.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AutoFillJsObject.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AutoFillJsObject.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AutoSaver.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/AutoSaver.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/ClosedTabsManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/ClosedTabsManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/CommandLineOption.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/CommandLineOption.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/DelayedFileWatcher.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/DelayedFileWatcher.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/ExternalJsObject.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/ExternalJsObject.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/RecoveryJsObject.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/RecoveryJsObject.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/RegExp.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/RegExp.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/RestoreManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/RestoreManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/SqlDatabase.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/SqlDatabase.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/ToolButton.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/ToolButton.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/TreeProxyModel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/TreeProxyModel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/Updater.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Utils/Updater.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/View/TableView.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/View/TableView.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/View/TreeView.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/View/TreeView.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/HTML5Permissions/HTML5PermissionsManager.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/HTML5Permissions/HTML5PermissionsManager.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/LoadRequest.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/Scripts.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/Tab/TabbedWebView.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/Tab/TabbedWebView.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/Tab/WebTab.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/Tab/WebTab.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebHitTestResult.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebHitTestResult.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebInspector.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebInspector.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebView.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Web/WebView.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/AboutDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/AboutDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/AddressBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/AddressBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/CertificateInformation.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/CertificateInformation.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/CheckBoxDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/CheckBoxDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/EllipseLabel.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/EllipseLabel.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/FloatingButton.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/FloatingButton.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HTML5Permissions/HTML5PermissionsNotification.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HTML5Permissions/HTML5PermissionsNotification.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HelpUsDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HelpUsDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HorizontalListWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/HorizontalListWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/MainMenu.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/MainMenu.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/ModelMenu.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/ModelMenu.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/NavigationBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/NavigationBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/AdBlockPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/AdBlockPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/Appearance.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/Appearance.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/CurrentTabsSpacePage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/CurrentTabsSpacePage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/DownloadPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/DownloadPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/GeneralPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/GeneralPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/JSOptions.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/JSOptions.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/LocalStoragePage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/LocalStoragePage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/PasswordPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/PasswordPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/PreferencesDialog.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/PreferencesDialog.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/PrivacyPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/PrivacyPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/ProxyConfigPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/ProxyConfigPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/WebConfigPage.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Preferences/WebConfigPage.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/SearchToolBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/SearchToolBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/AddTabButton.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/AddTabButton.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/ComboTabBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/ComboTabBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/MainTabBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/MainTabBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/MenuTabs.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/MenuTabs.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabBarScrollWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabBarScrollWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabCloseButton.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabCloseButton.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabDrag.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabDrag.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabIcon.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabIcon.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabScrollBar.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabScrollBar.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabStackedWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabStackedWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabWidget.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Widgets/Tab/TabWidget.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SNCompiler/Application.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SNCompiler/Application.hpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SNCompiler/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SNCompiler/Main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data.qrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/bookmarks.xbel" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/browsedata.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/fonts/morpheus.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/add-bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-clear.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-cut.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-past.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-redo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-select-all.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/edit/edit-undo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/history.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/index.theme" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/new-tab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/new-window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/next.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/aboutsielo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/add-bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/arrow-down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/arrow-left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/arrow-right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/arrow-up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/audiocapture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/bookmarks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/check.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/downloads.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/exit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/geolocation.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/go.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/google.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/history.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/ic_sielo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/login.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/mouselock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/new-window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/notification.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/open-file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/reload.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/stop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/webcam.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/other/webpage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/preferences/adblock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/preferences/preferences.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/anonymous.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/audiomuted.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/audioplaying.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/duplicate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/loading.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/tabbar-addtab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/tabbar-left-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/tabbar-right-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/tabs/tabbar-tabslist.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/dark/view-bookmarks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/images/background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/add-bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-clear.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-cut.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-past.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-redo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-select-all.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/edit/edit-undo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/history.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/index.theme" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/new-tab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/new-window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/next.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/aboutsielo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/add-bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/arrow-down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/arrow-left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/arrow-right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/arrow-up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/audiocapture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/bookmarks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/check.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/downloads.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/exit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/geolocation.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/go.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/google.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/history.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/ic_sielo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/login.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/mouselock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/new-window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/notification.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/open-file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/reload.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/stop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/webcam.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/other/webpage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/preferences/adblock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/preferences/preferences.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/anonymous.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/audiomuted.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/audioplaying.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/duplicate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/loading.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/tabbar-addtab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/tabbar-left-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/tabbar-right-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/tabs/tabbar-tabslist.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/light/view-bookmarks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/main.sss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/theme.info" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/themes/sielo-default/theme.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/add-bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/history.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/new-tab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/new-window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/next.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/toolbar/view-bookmarks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons.qrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-clear.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-cut.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-delete.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-past.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-redo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-select-all.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/edit/edit-undo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/aboutsielo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/add-bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/arrow-down.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/arrow-left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/arrow-right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/arrow-up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/audiocapture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/bookmarks.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/downloads.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/exit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/geolocation.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/go.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/google.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/history.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/ic_sielo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/login.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/mouselock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/new-window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/notification.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/open-file.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/reload.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/stop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/webcam.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/other/webpage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/preferences/adblock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/preferences/preferences.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/anonymous.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/audiomuted.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/audioplaying.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/duplicate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/loading.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/tabbar-addtab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/tabbar-left-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/tabbar-right-arrow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/icons/tabs/tabbar-tabslist.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/aes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/asn1.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/asn1_mac.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/asn1t.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/async.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/bio.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/blowfish.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/bn.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/buffer.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/camellia.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/cast.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/cmac.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/cms.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/comp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/conf.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/conf_api.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/crypto.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ct.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/des.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/dh.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/dsa.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/dtls1.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/e_os2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ebcdic.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ec.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ecdh.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ecdsa.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/engine.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/err.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/evp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/hmac.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/idea.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/kdf.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/lhash.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/md2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/md4.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/md5.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/mdc2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/modes.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/obj_mac.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/objects.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ocsp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/opensslconf.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/opensslv.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ossl_typ.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/pem.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/pem2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/pkcs12.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/pkcs7.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/rand.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/rc2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/rc4.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/rc5.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ripemd.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/rsa.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/safestack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/seed.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/sha.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/srp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/srtp.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ssl.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ssl2.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ssl3.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/stack.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/symhacks.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/tls1.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ts.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/txt_db.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/ui.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/whrlpool.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/x509.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/x509_vfy.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/third-party/includes/openssl/x509v3.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="SettingsList.txt" />
@@ -142,11 +634,8 @@
           <file leaf-file-name="Application.cpp" pinned="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Core/Application.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="288">
-                  <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
-                  <folding>
-                    <element signature="e#1956#1982#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="128">
+                  <caret line="74" column="30" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
                 </state>
               </provider>
             </entry>
@@ -431,6 +920,11 @@
             <path>
               <item name="sielo-browser" type="b2602c69:ProjectViewProjectNode" />
               <item name="sielo-browser" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sielo-browser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sielo-browser" type="462c0819:PsiDirectoryNode" />
+              <item name="Core" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -886,14 +1380,7 @@
       <workItem from="1521573622984" duration="4787000" />
       <workItem from="1521657376559" duration="3322000" />
       <workItem from="1521746367814" duration="6979000" />
-      <workItem from="1523096007469" duration="1280000" />
-    </task>
-    <task id="LOCAL-00324" summary="[Fix] Avoid toolbar to reduce size of icons">
-      <created>1520360739107</created>
-      <option name="number" value="00324" />
-      <option name="presentableId" value="LOCAL-00324" />
-      <option name="project" value="LOCAL" />
-      <updated>1520360739108</updated>
+      <workItem from="1523096007469" duration="1905000" />
     </task>
     <task id="LOCAL-00325" summary="[Add] Possibility to change tabs close button icon and add rename it for the theme API">
       <created>1520454064660</created>
@@ -1231,11 +1718,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521754093295</updated>
     </task>
-    <option name="localTasksCounter" value="373" />
+    <task id="LOCAL-00373" summary="[Fix] Build error">
+      <created>1523097301193</created>
+      <option name="number" value="00373" />
+      <option name="presentableId" value="LOCAL-00373" />
+      <option name="project" value="LOCAL" />
+      <updated>1523097301194</updated>
+    </task>
+    <option name="localTasksCounter" value="374" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1453337000" />
+    <option name="totallyTimeSpent" value="1453962000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1249,9 +1743,9 @@
   <component name="ToolWindowManager">
     <frame x="65" y="38" width="1766" height="912" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18233296" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18233296" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3287827" />
-      <window_info active="true" anchor="bottom" id="Messages" order="9" sideWeight="0.495182" visible="true" weight="0.28285357" />
+      <window_info anchor="bottom" id="Messages" order="9" sideWeight="0.495182" visible="true" weight="0.28285357" />
       <window_info anchor="bottom" id="CMake" order="11" sideWeight="0.49785867" weight="0.38202247" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50481796" side_tool="true" weight="0.2930481" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.1764706" />
@@ -1805,11 +2299,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Core/Application.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
-          <folding>
-            <element signature="e#1956#1982#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="128">
+          <caret line="74" column="30" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
         </state>
       </provider>
     </entry>

@@ -1,0 +1,34 @@
+[Icon Theme]
+Name=dark
+Comment=Theme by Dark
+Directories=edit,other,preferences,tabs
+
+[edit]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
+
+[other]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
+
+
+[preferences]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
+
+
+[tabs]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
