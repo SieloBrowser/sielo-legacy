@@ -487,11 +487,19 @@ void WebTab::titleChanged(const QString& title)
 	if (!m_tabBar || !m_window || title.isEmpty())
 		return;
 
+	QString url = m_webView->url().toString();
+	QString titleToUse = title;
+
+	if (url.contains(m_tabBar->tabWidget()->urlOnNewTab().toString())) {
+		m_addressBar->clear();
+		m_addressBar->setFocus();
+		titleToUse = tr("New Tab");
+	}
+
 	if (isCurrentTab())
-		m_window->setWindowTitle(tr("%1 - Sielo").arg(title));
+		m_window->setWindowTitle(tr("%1 - Sielo").arg(titleToUse));
 
-	m_tabBar->setTabText(tabIndex(), title);
-
+	m_tabBar->setTabText(tabIndex(), titleToUse);
 }
 
 void WebTab::sRestore()
