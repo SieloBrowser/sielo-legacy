@@ -40,6 +40,9 @@ public:
 	HelpUsDialog(QWidget* parent = nullptr);
 	~HelpUsDialog();
 
+private slots:
+	void openLink(const QUrl& link);
+
 private:
 	void setupUI();
 

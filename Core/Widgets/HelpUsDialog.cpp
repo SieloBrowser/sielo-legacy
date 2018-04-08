@@ -24,6 +24,8 @@
 
 #include "HelpUsDialog.hpp"
 
+#include "Application.hpp"
+
 namespace Sn {
 HelpUsDialog::HelpUsDialog(QWidget* parent) :
 		QDialog(parent)
@@ -34,12 +36,20 @@ HelpUsDialog::HelpUsDialog(QWidget* parent) :
 			"<p>There are many ways to help us. You can <a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU7RV3SGKTFFS\" target=\"_blank\">make a donation</a>, help us improve the source code, or simply share and talk about Sielo to your entourage.</p>");
 
 	setupUI();
+
+	connect(m_text, &QTextBrowser::anchorClicked, this, &HelpUsDialog::openLink);
 	connect(m_closeButtonBox, SIGNAL(clicked(QAbstractButton * )), this, SLOT(close()));
 }
 
 HelpUsDialog::~HelpUsDialog()
 {
 	// Empty
+}
+
+void HelpUsDialog::openLink(const QUrl& link)
+{
+	Application::instance()->addNewTab(link);
+	m_text->setHtml(m_html);
 }
 
 void HelpUsDialog::setupUI()
@@ -50,7 +60,7 @@ void HelpUsDialog::setupUI()
 
 	m_text = new QTextBrowser(this);
 	m_text->setOpenLinks(true);
-	m_text->setOpenExternalLinks(true);
+	m_text->setOpenExternalLinks(false);
 	m_text->document()->setDefaultStyleSheet("a {color: rgb(0, 100, 255); }");
 	m_text->setHtml(m_html);
 
