@@ -61,7 +61,8 @@ void AboutDialog::setupUI()
 
 	m_content = new QTextBrowser(this);
 	m_content->setOpenExternalLinks(true);
-	m_content->setOpenLinks(true);
+	m_content->setOpenLinks(false);
+	m_content->document()->setDefaultStyleSheet("a {color: rgb(0, 100, 255); }");
 
 	m_closeButtonBox = new QDialogButtonBox(QDialogButtonBox::Close, Qt::Horizontal, this);
 
