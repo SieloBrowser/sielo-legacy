@@ -180,6 +180,16 @@ QDialog QLineEdit
   border: 1px solid scolor(text);
 }
 
+#search-toolbar *
+{
+  background: rgba(0,0,0,.7);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 7px 14px;
+  color: scolor(text);
+  font-size: 12px;
+}
+
 QDialog QPushButton
 {
 	background: rgba(255,255,255,.2);
@@ -190,7 +200,8 @@ QDialog QPushButton
 	font-size: 12px;
 }
 
-QDialog QPushButton:focus
+QDialog QPushButton:focus,
+#search-toolbar QPushButton:checked
 {
 	background: scolor(accent);
 	color: scolor(accent, light);
@@ -307,10 +318,6 @@ QDialog QGroupBox
 	padding: 0px 10px;
 	color: scolor(text);
 	font-size: 18px;
-}
-
-#search-toolbar * {
-    background: #212121;
 }
 
 QSplitterHandle {

@@ -379,24 +379,28 @@ void Application::loadSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 10) {
-			QString defaultThemePath{paths()[Application::P_Themes]};
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
+			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 10) {
+				QString defaultThemePath{paths()[Application::P_Themes]};
 
-			QDir(defaultThemePath + "/bluegrey-flat").removeRecursively();
-			QDir(defaultThemePath + "/cyan-flat").removeRecursively();
-			QDir(defaultThemePath + "/green-flat").removeRecursively();
-			QDir(defaultThemePath + "/indigo-flat").removeRecursively();
-			QDir(defaultThemePath + "/orange-flat").removeRecursively();
-			QDir(defaultThemePath + "/purple-flat").removeRecursively();
-			QDir(defaultThemePath + "/red-flat").removeRecursively();
-			QDir(defaultThemePath + "/sielo-default").removeRecursively();
-			QDir(defaultThemePath + "/teal-flat").removeRecursively();
-			QDir(defaultThemePath + "/white-flat").removeRecursively();
-			QDir(defaultThemePath + "/yellow-flat").removeRecursively();
+				QDir(defaultThemePath + "/bluegrey-flat").removeRecursively();
+				QDir(defaultThemePath + "/cyan-flat").removeRecursively();
+				QDir(defaultThemePath + "/green-flat").removeRecursively();
+				QDir(defaultThemePath + "/indigo-flat").removeRecursively();
+				QDir(defaultThemePath + "/orange-flat").removeRecursively();
+				QDir(defaultThemePath + "/purple-flat").removeRecursively();
+				QDir(defaultThemePath + "/red-flat").removeRecursively();
+				QDir(defaultThemePath + "/sielo-default").removeRecursively();
+				QDir(defaultThemePath + "/teal-flat").removeRecursively();
+				QDir(defaultThemePath + "/white-flat").removeRecursively();
+				QDir(defaultThemePath + "/yellow-flat").removeRecursively();
+
+				loadThemeFromResources("sielo-default", false);
+				settings.setValue("Themes/currentTheme", QLatin1String("sielo-default"));
+			}
 
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/currentTheme", QLatin1String("sielo-default"));
-			settings.setValue("Themes/defaultThemeVersion", 10);
+			settings.setValue("Themes/defaultThemeVersion", 11);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -405,7 +409,7 @@ void Application::loadSettings()
 	}
 	else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 10);
+		settings.setValue("Themes/defaultThemeVersion", 11);
 	}
 
 	// Force local storage to be disabled if it's a provate session
