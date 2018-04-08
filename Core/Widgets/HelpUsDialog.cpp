@@ -49,10 +49,10 @@ void HelpUsDialog::setupUI()
 	m_layout = new QVBoxLayout(this);
 
 	m_text = new QTextBrowser(this);
-	m_text->setHtml(m_html);
+	m_text->setOpenLinks(true);
 	m_text->setOpenExternalLinks(true);
-	m_text->setOpenLinks(false);
-	m_text->document()->setDefaultStyleSheet("a {color: rgb(255, 100, 255); }");
+	m_text->document()->setDefaultStyleSheet("a {color: rgb(0, 100, 255); }");
+	m_text->setHtml(m_html);
 
 	m_closeButtonBox = new QDialogButtonBox(QDialogButtonBox::Close, Qt::Horizontal, this);
 
