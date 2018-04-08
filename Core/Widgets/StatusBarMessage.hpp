@@ -22,36 +22,27 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELOBROWSER_TIPLABEL_HPP
-#define SIELOBROWSER_TIPLABEL_HPP
+#ifndef SIELOBROWSER_STATUSBARMESSAGE_HPP
+#define SIELOBROWSER_STATUSBARMESSAGE_HPP
 
-#include <QWidget>
-#include <QLabel>
-
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QEvent>
-
-#include <QTimer>
+#include <QString>
 
 namespace Sn {
-class TipLabel : public QLabel {
-Q_OBJECT
+class BrowserWindow;
+class TipLabel;
 
+class StatusBarMessage {
 public:
-	TipLabel(QWidget* parent);
+	StatusBarMessage(BrowserWindow* window);
 
-	void show(QWidget* widget);
-	void hideDelayed();
-
-	bool eventFilter(QObject* object, QEvent event);
+	void showMessage(const QString& message);
+	void clearMessage();
 
 private:
-	void paintEvent(QPaintEvent* event);
-
-	QTimer* m_timer{nullptr};
+	BrowserWindow* m_window{nullptr};
+	TipLabel* m_statusBarText{nullptr};
 };
 }
 
 
-#endif //SIELOBROWSER_TIPLABEL_HPP
+#endif //SIELOBROWSER_STATUSBARMESSAGE_HPP

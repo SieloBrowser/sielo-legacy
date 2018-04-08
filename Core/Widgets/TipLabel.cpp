@@ -33,7 +33,7 @@ namespace Sn
 {
 
 TipLabel::TipLabel(QWidget* parent) :
-	EllipseLabel(parent)
+	QLabel(parent)
 {
 	setWindowFlags(Qt::ToolTip);
 	setForegroundRole(QPalette::ToolTipText);
@@ -55,7 +55,7 @@ void TipLabel::show(QWidget* widget)
 	m_timer->stop();
 
 	widget->installEventFilter(this);
-	EllipseLabel::show();
+	QLabel::show();
 }
 
 void TipLabel::hideDelayed()
@@ -95,7 +95,7 @@ void TipLabel::paintEvent(QPaintEvent* event)
 	painter.drawPrimitive(QStyle::PE_PanelTipLabel, option);
 	painter.end();
 
-	EllipseLabel::paintEvent(event);
+	QLabel::paintEvent(event);
 }
 
 }

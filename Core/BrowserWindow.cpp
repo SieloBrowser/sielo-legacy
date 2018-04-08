@@ -25,6 +25,7 @@
 #include "BrowserWindow.hpp"
 
 #include <QToolTip>
+#include <QStatusBar>
 
 #include <QList>
 #include <QSettings>
@@ -42,6 +43,7 @@
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/AddressBar.hpp"
+#include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -50,7 +52,8 @@ namespace Sn {
 BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	QMainWindow(nullptr),
 	m_startUrl(url),
-	m_windowType(type)
+	m_windowType(type),
+	m_statusBarMessage(new StatusBarMessage(this))
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
@@ -59,6 +62,8 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setObjectName(QLatin1String("mainwindow"));
 	setWindowTitle(tr("Sielo"));
 	setProperty("private", Application::instance()->privateBrowsing());
+
+	statusBar()->hide();
 
 	setupUi();
 	if (!Application::instance()->useTopToolBar())

@@ -50,6 +50,7 @@ class TabbedWebView;
 class TabWidget;
 
 class RootFloatingButton;
+class StatusBarMessage;
 
 class BrowserWindow: public QMainWindow {
 Q_OBJECT
@@ -93,6 +94,8 @@ public:
 	TabWidget* tabWidget() const;
 	TabWidget* tabWidget(int index) const;
 	int tabWidgetsCount() const;
+
+	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 
 public slots:
 	void setWindowTitle(const QString& title);
@@ -143,6 +146,7 @@ private:
 	QSplitter* m_mainSplitter{nullptr};
 
 	QVector<TabWidget*> m_tabWidgets;
+	StatusBarMessage* m_statusBarMessage{nullptr};
 
 	int m_currentTabWidget{0};
 

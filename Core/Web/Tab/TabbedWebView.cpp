@@ -34,6 +34,7 @@
 
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/NavigationBar.hpp"
+#include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
@@ -152,12 +153,10 @@ void TabbedWebView::linkHovered(const QString& link)
 {
 	if (m_webTab->isCurrentTab() && m_window) {
 		if (link.isEmpty()) {
-			m_window->statusBar()->clearMessage();
-			//m_window->statusBar()->hide();
+			m_window->statusBarMessage()->clearMessage();
 		}
 		else {
-			m_window->statusBar()->showMessage(link);
-			m_window->statusBar()->show();
+			m_window->statusBarMessage()->showMessage(link);
 		}
 	}
 }

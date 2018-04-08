@@ -22,36 +22,56 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELOBROWSER_TIPLABEL_HPP
-#define SIELOBROWSER_TIPLABEL_HPP
+#include "StatusBarMessage.hpp"
 
-#include <QWidget>
-#include <QLabel>
+#include <QStatusBar>
 
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QEvent>
+#include "Web/Tab/TabbedWebView.hpp"
+#include "Web/WebView.hpp"
 
-#include <QTimer>
+#include "Widgets/TipLabel.hpp"
 
-namespace Sn {
-class TipLabel : public QLabel {
-Q_OBJECT
+#include "BrowserWindow.hpp"
+#include "Application.hpp"
 
-public:
-	TipLabel(QWidget* parent);
-
-	void show(QWidget* widget);
-	void hideDelayed();
-
-	bool eventFilter(QObject* object, QEvent event);
-
-private:
-	void paintEvent(QPaintEvent* event);
-
-	QTimer* m_timer{nullptr};
-};
+namespace Sn
+{
+StatusBarMessage::StatusBarMessage(Sn::BrowserWindow* window) :
+	m_window(window),
+	m_statusBarText(new TipLabel(window))
+{
+	// Empty
 }
 
+void StatusBarMessage::showMessage(const QString& message)
+{
+	if (m_window->statusBar()->isVisible()) {
+		m_window->statusBar()->showMessage(message.isRightToLeft() ? message : (QChar(0x202a) + message));
+	}
+	else if (Application::instance()->activeWindow() == m_window) {
+		WebView* view = m_window->webView();
 
-#endif //SIELOBROWSER_TIPLABEL_HPP
+		m_statusBarText->setText(message);
+		m_statusBarText->setMaximumWidth(view->width());
+		m_statusBarText->resize(m_statusBarText->sizeHint());
+
+		QPoint position{0, view->height() - m_statusBarText->height()};
+		const QRect statusRect{QRect(view->mapToGlobal(QPoint(0, position.y())), m_statusBarText->size())};
+
+		if (statusRect.contains(QCursor::pos()))
+			position.setY(position.y() - m_statusBarText->height());
+
+		m_statusBarText->move(view->mapToGlobal(position));
+		m_statusBarText->show(view);
+	}
+}
+
+void StatusBarMessage::clearMessage()
+{
+	if (m_window->statusBar()->isVisible())
+		m_window->statusBar()->showMessage(QString());
+	else
+		m_statusBarText->hideDelayed();
+}
+
+}
