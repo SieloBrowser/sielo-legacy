@@ -154,6 +154,7 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_splitter = new QSplitter(Qt::Vertical, this);
 	m_splitter->setChildrenCollapsible(false);
 	m_splitter->addWidget(m_webView);
+	m_splitter->setStyleSheet("background: white");
 
 	m_tabIcon = new TabIcon(this);
 	m_tabIcon->setWebTab(this);
