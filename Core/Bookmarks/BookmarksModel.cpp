@@ -173,11 +173,14 @@ Qt::ItemFlags BookmarksModel::flags(const QModelIndex& index) const
 	if (!index.isValid())
 		return Qt::NoItemFlags;
 
-	Qt::ItemFlags flags{Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled};
+	Qt::ItemFlags flags{Qt::ItemIsSelectable | Qt::ItemIsEnabled};
 	BookmarkNode* bookmarkNode{node(index)};
 
-	if (bookmarkNode->type() != BookmarkNode::Separator)
-		flags |= Qt::ItemIsEditable;
+	if (bookmarkNode != m_bookmarksManager->menu() && bookmarkNode != m_bookmarksManager->toolbar()) {
+		flags |= Qt::ItemIsDragEnabled;
+		if (bookmarkNode->type() != BookmarkNode::Separator)
+			flags |= Qt::ItemIsEditable;
+	}
 
 	if (hasChildren(index))
 		flags |= Qt::ItemIsDropEnabled;
@@ -199,6 +202,8 @@ bool BookmarksModel::removeRows(int row, int count, const QModelIndex& parent)
 
 	for (int i{row + count - 1}; i >= row; --i) {
 		BookmarkNode* node{bookmarkNode->children()[i]};
+		if (node == m_bookmarksManager->menu() || node == m_bookmarksManager->toolbar())
+			continue;
 
 		m_bookmarksManager->removeBookmark(node);
 	}
