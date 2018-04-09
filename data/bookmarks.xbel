@@ -2,45 +2,33 @@
 <!DOCTYPE xbel>
 <xbel version="1.0">
     <folder folded="no">
-        <title>Search Engine</title>
-        <bookmark href="https://www.ecosia.org/">
-            <title>Ecosia</title>
+        <title>Bookmarks Bar</title>
+        <bookmark href="https://github.com/Feldrise/SieloNavigateur">
+            <title>Github of Sielo</title>
         </bookmark>
-        <bookmark href="https://www.qwant.com/">
-            <title>Qwant</title>
+        <bookmark href="http://feldrise.com/">
+            <title>Feldrise</title>
         </bookmark>
-        <bookmark href="https://www.google.fr/?gfe_rd=cr&amp;ei=mvkMWbCpKoaDaOSmkaAI">
-            <title>Google</title>
-        </bookmark>
-    </folder>
-    <folder folded="no">
-        <title>Divers</title>
-        <folder folded="no">
-            <title>Developpement</title>
-            <bookmark href="https://github.com/">
-                <title>GitHub</title>
-            </bookmark>
-            <bookmark href="https://www.qt.io/">
-                <title>Qt | Cross-platform software development for embedded &amp; desktop</title>
-            </bookmark>
-        </folder>
-        <folder folded="no">
-            <title>Projects</title>
-        </folder>
-        <bookmark href="https://mattermost.digitalpulsesoftware.net/groupe-42/channels/projet-sielo">
-            <title>Groupe #42 Mattermost</title>
+        <bookmark href="http://feldrise.com/Sielo/">
+            <title>Feldrise | Sielo</title>
         </bookmark>
     </folder>
     <folder folded="no">
-        <title>MyWebsite</title>
-        <bookmark href="http://wolvesland.xyz">
-            <title>Wolvesland</title>
-        </bookmark>
-        <bookmark href="http://feldrise.com">
-            <title>Accueil | Feldrise</title>
-        </bookmark>
-        <bookmark href="http://projects.feldrise.com/">
-            <title>Projects | Feldrise</title>
+        <title>Bookmarks Menu</title>
+        <folder folded="yes">
+            <title>Search Engines</title>
+            <bookmark href="https://www.google.com/">
+                <title>Google</title>
+            </bookmark>
+            <bookmark href="https://www.ecosia.org/">
+                <title>Ecosia</title>
+            </bookmark>
+            <bookmark href="https://www.qwant.com/">
+                <title>Qwant</title>
+            </bookmark>
+        </folder>
+        <bookmark href="https://www.qt.io/">
+            <title>Qt | Cross-platform software development for embedded &amp; desktop</title>
         </bookmark>
     </folder>
 </xbel>

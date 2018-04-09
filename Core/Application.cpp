@@ -343,33 +343,40 @@ void Application::loadSettings()
 	settings.endGroup();
 
 	// Check the current version number of Sielo, and make setting update if needed
-	if (settings.value("versionNumber", 0).toInt() < 8) {
-		settings.setValue("installed", false);
-		if (settings.value("versionNumber", 0).toInt() < 7) {
-			if (settings.value("versionNumber", 0).toInt() < 5) {
-				settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
-				settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
-			}
-			QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
-											  "http://doosearch.feldrise.com/").toString();
-			homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
-			settings.setValue(QLatin1String("Web-Settings/homePage"), homePage);
-
-			QString urlOnNewTab = settings.value(QLatin1String("Web-Settings/urlOnNewTab"),
-												 "http://doosearch.feldrise.com/").toString();
-			urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
-			settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
-
-					foreach (BrowserWindow* window, m_windows) {
-					window->loadSettings();
-					for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-						window->tabWidget(i)->setHomeUrl(
-								window->tabWidget(i)->homeUrl().toString().replace("doosearch.esy.es",
-																				   "doosearch.feldrise.com"));
-					}
+	if (settings.value("versionNumber", 0).toInt() < 9) {
+		if (settings.value("versionNumber", 0).toInt() < 8) {
+			settings.setValue("installed", false);
+			if (settings.value("versionNumber", 0).toInt() < 7) {
+				if (settings.value("versionNumber", 0).toInt() < 5) {
+					settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
+					settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
 				}
+				QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
+												  "http://doosearch.feldrise.com/").toString();
+				homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
+				settings.setValue(QLatin1String("Web-Settings/homePage"), homePage);
+
+				QString urlOnNewTab = settings.value(QLatin1String("Web-Settings/urlOnNewTab"),
+													 "http://doosearch.feldrise.com/").toString();
+				urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
+				settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
+
+						foreach (BrowserWindow* window, m_windows) {
+						window->loadSettings();
+						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+							window->tabWidget(i)->setHomeUrl(
+									window->tabWidget(i)->homeUrl().toString().replace("doosearch.esy.es",
+																					   "doosearch.feldrise.com"));
+						}
+					}
+			}
 		}
-		settings.setValue("versionNumber", 8);
+		QString directory{Application::instance()->paths()[Application::P_Data]};
+		QFile::remove(directory + QLatin1String("/bookmarks.xbel"));
+		QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory + QLatin1String("/bookmarks.xbel"));
+		QFile::setPermissions(directory + QLatin1String("/bookmarks.xbel"), QFileDevice::ReadUser | QFileDevice::WriteUser);
+
+		settings.setValue("versionNumber", 9);
 	}
 
 	// Load settings for password
