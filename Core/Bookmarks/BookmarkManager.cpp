@@ -47,11 +47,11 @@
 
 namespace Sn {
 BookmarksManager::BookmarksManager(QObject* parent) :
-	QObject(parent),
-	m_loaded(false),
-	m_saveTimer(new AutoSaver(this)),
-	m_bookmarkRootNode(nullptr),
-	m_bookmarksModel(nullptr)
+		QObject(parent),
+		m_loaded(false),
+		m_saveTimer(new AutoSaver(this)),
+		m_bookmarkRootNode(nullptr),
+		m_bookmarksModel(nullptr)
 {
 	connect(this, &BookmarksManager::entryAdded, m_saveTimer, &AutoSaver::changeOccurred);
 	connect(this, &BookmarksManager::entryRemoved, m_saveTimer, &AutoSaver::changeOccurred);
@@ -123,6 +123,37 @@ BookmarkNode* BookmarksManager::bookmarks()
 	return m_bookmarkRootNode;
 }
 
+BookmarkNode* BookmarksManager::menu()
+{
+	if (!m_loaded)
+		load();
+
+	for (int i{m_bookmarkRootNode->children().count() - 1}; i >= 0; --i) {
+		BookmarkNode* node{m_bookmarkRootNode->children()[i]};
+
+		if (node->title == tr("Bookmarks Menu"))
+			return node;
+	}
+
+	Q_ASSERT(false);
+	return nullptr;
+}
+
+BookmarkNode* BookmarksManager::toolbar()
+{
+	if (!m_loaded)
+		load();
+
+	for (int i{m_bookmarkRootNode->children().count() - 1}; i >= 0; --i) {
+		BookmarkNode* node{m_bookmarkRootNode->children()[i]};
+		if (node->title == tr("Bookmarks Bar"))
+			return node;
+	}
+
+	Q_ASSERT(false);
+	return 0;
+}
+
 BookmarksModel* BookmarksManager::bookmarksModel()
 {
 	if (!m_bookmarksModel)
@@ -145,7 +176,7 @@ void BookmarksManager::importBookmarks()
 		QMessageBox::warning(nullptr,
 							 tr("Loading Bookmark"),
 							 tr("Error when loading bookmarks on line %1, column %2:\n%3").arg(reader.lineNumber())
-								 .arg(reader.columnNumber()).arg(reader.errorString()));
+									 .arg(reader.columnNumber()).arg(reader.errorString()));
 	}
 
 	importRootNode->setType(BookmarkNode::Folder);
@@ -209,7 +240,56 @@ void BookmarksManager::load()
 		QMessageBox::warning(nullptr,
 							 tr("Loading Bookmarks"),
 							 tr("Error when loading bookmarks on line %1, column %2:\n%3").arg(reader.lineNumber())
-								 .arg(reader.columnNumber()).arg(reader.errorString()));
+									 .arg(reader.columnNumber()).arg(reader.errorString()));
 	}
+
+	BookmarkNode* toolbar{nullptr};
+	BookmarkNode* menu{nullptr};
+
+	QList<BookmarkNode*> others;
+
+	for (int i{m_bookmarkRootNode->children().count() - 1}; i >= 0; --i) {
+		BookmarkNode* node{m_bookmarkRootNode->children()[i]};
+
+		if (node->type() == BookmarkNode::Folder) {
+			if (node->title == tr("Toolbar Bookmarks") && !toolbar)
+				node->title = tr("Bookmarks Bar");
+
+			if (node->title == tr("Bookmarks Bar") && !toolbar)
+				toolbar = node;
+
+			if (node->title == tr("Menu") && !menu)
+				node->title = tr("Bookmarks Menu");
+
+			if (node->title == tr("Bookmarks Menu") && !menu)
+				menu = node;
+		}
+		else {
+			others.append(node);
+		}
+
+		m_bookmarkRootNode->remove(node);
+	}
+
+	Q_ASSERT(m_bookmarkRootNode->children().count() == 0);
+
+	if (!toolbar) {
+		toolbar = new BookmarkNode(BookmarkNode::Folder, m_bookmarkRootNode);
+		toolbar->title = tr("Bookmarks Bar");
+	}
+	else {
+		m_bookmarkRootNode->add(toolbar);
+	}
+
+	if (!menu) {
+		menu = new BookmarkNode(BookmarkNode::Folder, m_bookmarkRootNode);
+		menu->title = tr("Bookmarks Menu");
+	}
+	else {
+		m_bookmarkRootNode->add(menu);
+	}
+
+	for (int i{0}; i < others.count(); ++i)
+		menu->add(others[i]);
 }
 }
