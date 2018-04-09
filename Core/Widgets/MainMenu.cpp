@@ -27,6 +27,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include <QSettings>
+
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
 
@@ -35,6 +37,7 @@
 #include "Bookmarks/AddBookmarkDialog.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarksModel.hpp"
+#include "Bookmarks/BookmarksToolBar.hpp"
 
 #include "History/HistoryMenu.hpp"
 
@@ -93,6 +96,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 					 "Ctrl+Shift+P");
 	QAction* openFileAction =
 		createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
+	QAction* toggleBookmarksToolBarAction = createAction("ToggleBookmarksBar", this, Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"), "");
 	addSeparator();
 	QAction* selectAllAction = createAction("SelectAll",
 											this,
@@ -129,6 +133,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(newWindowAction, &QAction::triggered, this, &MainMenu::newWindow);
 	connect(newPrivateWindowAction, &QAction::triggered, this, &MainMenu::newPrivateWindow);
 	connect(openFileAction, &QAction::triggered, this, &MainMenu::openFile);
+	connect(toggleBookmarksToolBarAction, &QAction::triggered, this, &MainMenu::toggleBookmarksToolBar);
 
 	connect(selectAllAction, &QAction::triggered, this, &MainMenu::selectAll);
 	connect(findAction, &QAction::triggered, this, &MainMenu::find);
@@ -174,6 +179,11 @@ void MainMenu::setTabWidget(TabWidget* tabWidget)
 	m_tabWidget = tabWidget;
 }
 
+void MainMenu::updateShowBookmarksBarText(bool visible)
+{
+	m_actions["ToggleBookmarksBar"]->setText(!visible ? tr("Show Bookmarks Bar") : tr("Hide Bookmarks Bar"));
+}
+
 void MainMenu::newTab()
 {
 	if (m_tabWidget)
@@ -202,6 +212,25 @@ void MainMenu::openFile()
 
 	if (!path.isEmpty() && m_tabWidget)
 		m_tabWidget->addView(QUrl::fromLocalFile(path));
+}
+
+void MainMenu::toggleBookmarksToolBar()
+{
+	BookmarksToolBar* bookmarksToolBar{m_tabWidget->window()->bookmarksToolBar()};
+	QSettings settings;
+
+	if (bookmarksToolBar->isVisible()) {
+		updateShowBookmarksBarText(false);
+		bookmarksToolBar->close();
+		settings.setValue(QLatin1String("ShowBookmarksToolBar"), false);
+	}
+	else {
+		updateShowBookmarksBarText(true);
+		settings.setValue(QLatin1String("ShowBookmarksToolBar"), true);
+		bookmarksToolBar->show();
+	}
+
+	Application::instance()->saveSession();
 }
 
 void MainMenu::selectAll()

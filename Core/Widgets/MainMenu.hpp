@@ -50,12 +50,14 @@ public:
 						  const QString& shortcut = QString());
 public slots:
 	void setTabWidget(TabWidget* tabWidget);
+	void updateShowBookmarksBarText(bool visible);
 
 private slots:
 	void newTab();
 	void newWindow();
 	void newPrivateWindow();
 	void openFile();
+	void toggleBookmarksToolBar();
 
 	void selectAll();
 	void find();

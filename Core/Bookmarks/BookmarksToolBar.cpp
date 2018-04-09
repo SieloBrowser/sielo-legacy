@@ -39,6 +39,7 @@ BookmarksToolBar::BookmarksToolBar(Sn::BookmarksModel* model, QWidget* parent) :
 	QToolBar(tr("Bookmark"), parent),
 	m_bookmarksModel(model)
 {
+	setObjectName(QLatin1String("bookmarks-toolbar"));
 	setRootIndex(model->index(0, 0));
 	setAcceptDrops(true);
 

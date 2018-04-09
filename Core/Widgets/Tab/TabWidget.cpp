@@ -858,6 +858,12 @@ void TabWidget::moveAddTabButton(int posX)
 	m_buttonAddTab->move(posX, posY);
 }
 
+void TabWidget::updateShowBookmarksBarText(bool visible)
+{
+	MainMenu* mainMenu = qobject_cast<MainMenu*>(m_buttonMainMenu->menu());
+	mainMenu->updateShowBookmarksBarText(visible);
+}
+
 void TabWidget::tabBarOverFlowChanged(bool overflowed)
 {
 	m_buttonAddTab->setVisible(!overflowed);

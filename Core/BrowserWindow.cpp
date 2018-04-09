@@ -36,6 +36,8 @@
 #include <QMessageBox>
 
 #include "Bookmarks/AddBookmarkDialog.hpp"
+#include "Bookmarks/BookmarkManager.hpp"
+#include "Bookmarks/BookmarksToolBar.hpp"
 
 #include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
@@ -112,6 +114,8 @@ void BrowserWindow::loadSettings()
 
 		setStyleSheet(sss);
 	}
+
+	m_bookmarksToolBar->setVisible(settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool());
 
 }
 
@@ -325,6 +329,11 @@ void BrowserWindow::loadUrl(const QUrl& url)
 		webView()->setFocus();
 		webView()->load(url);
 	}
+}
+
+void BrowserWindow::loadUrlInNewTab(const QUrl& url)
+{
+	tabWidget()->addView(url);
 }
 
 TabbedWebView* BrowserWindow::webView() const
@@ -644,6 +653,13 @@ void BrowserWindow::openAddBookmarkDialog()
 
 void BrowserWindow::setupUi()
 {
+	BookmarksModel* bookmarksModel{Application::instance()->bookmarksManager()->bookmarksModel()};
+	m_bookmarksToolBar = new BookmarksToolBar(bookmarksModel, this);
+
+	connect(m_bookmarksToolBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
+
+	addToolBar(m_bookmarksToolBar);
+
 	QWidget* widget{new QWidget(this)};
 
 	m_layout = new QVBoxLayout(widget);
@@ -799,6 +815,7 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 	layout->addWidget(tabWidget);
 
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
+	connect(m_bookmarksToolBar->toggleViewAction(), &QAction::toggled, tabWidget, &TabWidget::updateShowBookmarksBarText);
 
 	return widget;
 }

@@ -149,6 +149,8 @@ public slots:
 
 	void moveAddTabButton(int posX);
 
+	void updateShowBookmarksBarText(bool visible);
+
 	void tabBarOverFlowChanged(bool overflowed);
 
 	void openAddBookmarkDialog();

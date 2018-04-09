@@ -51,6 +51,7 @@ class TabWidget;
 
 class RootFloatingButton;
 class StatusBarMessage;
+class BookmarksToolBar;
 
 class BrowserWindow: public QMainWindow {
 Q_OBJECT
@@ -85,6 +86,7 @@ public:
 	void autoResizeTabsSpace();
 
 	void loadUrl(const QUrl& url);
+	void loadUrlInNewTab(const QUrl& url);
 
 	QUrl homePageUrl() const { return m_homePage; }
 
@@ -96,6 +98,7 @@ public:
 	int tabWidgetsCount() const;
 
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
+	BookmarksToolBar* bookmarksToolBar() const { return m_bookmarksToolBar; }
 
 public slots:
 	void setWindowTitle(const QString& title);
@@ -147,6 +150,7 @@ private:
 
 	QVector<TabWidget*> m_tabWidgets;
 	StatusBarMessage* m_statusBarMessage{nullptr};
+	BookmarksToolBar* m_bookmarksToolBar{nullptr};
 
 	int m_currentTabWidget{0};
 
