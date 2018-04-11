@@ -32,7 +32,11 @@ find_package(Qt5Sql 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
-add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
+if (MSVC)
+    add_executable(sielo-browser WIN32 ${SOURCE_FILES} icons.qrc data.qrc)
+else()
+    add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
+endif()
 
 target_link_libraries(sielo-browser Core)
 target_link_libraries(sielo-browser ${OPENSSL_LIBRARIES})
@@ -40,3 +44,4 @@ target_link_libraries(sielo-browser Qt5::Widgets)
 target_link_libraries(sielo-browser Qt5::Sql)
 target_link_libraries(sielo-browser Qt5::WebEngine)
 target_link_libraries(sielo-browser Qt5::WebEngineWidgets)
+
