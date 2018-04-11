@@ -33,7 +33,7 @@ find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
 if (MSVC)
-    add_executable(sielo-browser WIN32 ${SOURCE_FILES} icons.qrc data.qrc)
+    add_executable(sielo-browser WIN32 ${SOURCE_FILES} icons.qrc data.qrc ic_sielo.rc)
 else()
     add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
 endif()
