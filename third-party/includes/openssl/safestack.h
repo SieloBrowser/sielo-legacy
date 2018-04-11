@@ -138,8 +138,8 @@ extern "C" {
  * string. For now, I'm settling for dealing with the fact it is a
  * string at all.
  */
-typedef char* OPENSSL_STRING;
-typedef const char* OPENSSL_CSTRING;
+typedef char *OPENSSL_STRING;
+typedef const char *OPENSSL_CSTRING;
 
 /*-
  * Confusingly, LHASH_OF(STRING) deals with char ** throughout, but
@@ -155,7 +155,7 @@ DEFINE_SPECIAL_STACK_OF_CONST(OPENSSL_CSTRING, char)
  * Similarly, we sometimes use a block of characters, NOT nul-terminated.
  * These should also be distinguished from "normal" stacks.
  */
-typedef void* OPENSSL_BLOCK;
+typedef void *OPENSSL_BLOCK;
 DEFINE_SPECIAL_STACK_OF(OPENSSL_BLOCK, void)
 
 # ifdef  __cplusplus

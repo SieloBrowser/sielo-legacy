@@ -933,45 +933,45 @@ extern "C" {
 #endif
 
 typedef struct obj_name_st {
-	int type;
-	int alias;
-	const char* name;
-	const char* data;
+    int type;
+    int alias;
+    const char *name;
+    const char *data;
 } OBJ_NAME;
 
-# define         OBJ_create_and_add_object(a, b, c) OBJ_create(a,b,c)
+# define         OBJ_create_and_add_object(a,b,c) OBJ_create(a,b,c)
 
 int OBJ_NAME_init(void);
-int OBJ_NAME_new_index(unsigned long (* hash_func)(const char*),
-					   int (* cmp_func)(const char*, const char*),
-					   void (* free_func)(const char*, int, const char*));
-const char* OBJ_NAME_get(const char* name, int type);
-int OBJ_NAME_add(const char* name, int type, const char* data);
-int OBJ_NAME_remove(const char* name, int type);
+int OBJ_NAME_new_index(unsigned long (*hash_func) (const char *),
+                       int (*cmp_func) (const char *, const char *),
+                       void (*free_func) (const char *, int, const char *));
+const char *OBJ_NAME_get(const char *name, int type);
+int OBJ_NAME_add(const char *name, int type, const char *data);
+int OBJ_NAME_remove(const char *name, int type);
 void OBJ_NAME_cleanup(int type); /* -1 for everything */
-void OBJ_NAME_do_all(int type, void (* fn)(const OBJ_NAME*, void* arg),
-					 void* arg);
+void OBJ_NAME_do_all(int type, void (*fn) (const OBJ_NAME *, void *arg),
+                     void *arg);
 void OBJ_NAME_do_all_sorted(int type,
-							void (* fn)(const OBJ_NAME*, void* arg),
-							void* arg);
+                            void (*fn) (const OBJ_NAME *, void *arg),
+                            void *arg);
 
-ASN1_OBJECT* OBJ_dup(const ASN1_OBJECT* o);
-ASN1_OBJECT* OBJ_nid2obj(int n);
-const char* OBJ_nid2ln(int n);
-const char* OBJ_nid2sn(int n);
-int OBJ_obj2nid(const ASN1_OBJECT* o);
-ASN1_OBJECT* OBJ_txt2obj(const char* s, int no_name);
-int OBJ_obj2txt(char* buf, int buf_len, const ASN1_OBJECT* a, int no_name);
-int OBJ_txt2nid(const char* s);
-int OBJ_ln2nid(const char* s);
-int OBJ_sn2nid(const char* s);
-int OBJ_cmp(const ASN1_OBJECT* a, const ASN1_OBJECT* b);
-const void* OBJ_bsearch_(const void* key, const void* base, int num, int size,
-						 int (* cmp)(const void*, const void*));
-const void* OBJ_bsearch_ex_(const void* key, const void* base, int num,
-							int size,
-							int (* cmp)(const void*, const void*),
-							int flags);
+ASN1_OBJECT *OBJ_dup(const ASN1_OBJECT *o);
+ASN1_OBJECT *OBJ_nid2obj(int n);
+const char *OBJ_nid2ln(int n);
+const char *OBJ_nid2sn(int n);
+int OBJ_obj2nid(const ASN1_OBJECT *o);
+ASN1_OBJECT *OBJ_txt2obj(const char *s, int no_name);
+int OBJ_obj2txt(char *buf, int buf_len, const ASN1_OBJECT *a, int no_name);
+int OBJ_txt2nid(const char *s);
+int OBJ_ln2nid(const char *s);
+int OBJ_sn2nid(const char *s);
+int OBJ_cmp(const ASN1_OBJECT *a, const ASN1_OBJECT *b);
+const void *OBJ_bsearch_(const void *key, const void *base, int num, int size,
+                         int (*cmp) (const void *, const void *));
+const void *OBJ_bsearch_ex_(const void *key, const void *base, int num,
+                            int size,
+                            int (*cmp) (const void *, const void *),
+                            int flags);
 
 # define _DECLARE_OBJ_BSEARCH_CMP_FN(scope, type1, type2, nm)    \
   static int nm##_cmp_BSEARCH_CMP_FN(const void *, const void *); \
@@ -1038,14 +1038,14 @@ const void* OBJ_bsearch_ex_(const void* key, const void* base, int num,
       } \
       extern void dummy_prototype(void)
 
-# define OBJ_bsearch(type1, key, type2, base, num, cmp)                              \
+# define OBJ_bsearch(type1,key,type2,base,num,cmp)                              \
   ((type2 *)OBJ_bsearch_(CHECKED_PTR_OF(type1,key),CHECKED_PTR_OF(type2,base), \
                          num,sizeof(type2),                             \
                          ((void)CHECKED_PTR_OF(type1,cmp##_type_1),     \
                           (void)CHECKED_PTR_OF(type2,cmp##_type_2),     \
                           cmp##_BSEARCH_CMP_FN)))
 
-# define OBJ_bsearch_ex(type1, key, type2, base, num, cmp, flags)                      \
+# define OBJ_bsearch_ex(type1,key,type2,base,num,cmp,flags)                      \
   ((type2 *)OBJ_bsearch_ex_(CHECKED_PTR_OF(type1,key),CHECKED_PTR_OF(type2,base), \
                          num,sizeof(type2),                             \
                          ((void)CHECKED_PTR_OF(type1,cmp##_type_1),     \
@@ -1053,18 +1053,18 @@ const void* OBJ_bsearch_ex_(const void* key, const void* base, int num,
                           cmp##_BSEARCH_CMP_FN)),flags)
 
 int OBJ_new_nid(int num);
-int OBJ_add_object(const ASN1_OBJECT* obj);
-int OBJ_create(const char* oid, const char* sn, const char* ln);
+int OBJ_add_object(const ASN1_OBJECT *obj);
+int OBJ_create(const char *oid, const char *sn, const char *ln);
 #if OPENSSL_API_COMPAT < 0x10100000L
 # define OBJ_cleanup() while(0) continue
 #endif
-int OBJ_create_objects(BIO* in);
+int OBJ_create_objects(BIO *in);
 
-size_t OBJ_length(const ASN1_OBJECT* obj);
-const unsigned char* OBJ_get0_data(const ASN1_OBJECT* obj);
+size_t OBJ_length(const ASN1_OBJECT *obj);
+const unsigned char *OBJ_get0_data(const ASN1_OBJECT *obj);
 
-int OBJ_find_sigid_algs(int signid, int* pdig_nid, int* ppkey_nid);
-int OBJ_find_sigid_by_algs(int* psignid, int dig_nid, int pkey_nid);
+int OBJ_find_sigid_algs(int signid, int *pdig_nid, int *ppkey_nid);
+int OBJ_find_sigid_by_algs(int *psignid, int dig_nid, int pkey_nid);
 int OBJ_add_sigid(int signid, int dig_id, int pkey_id);
 void OBJ_sigid_free(void);
 

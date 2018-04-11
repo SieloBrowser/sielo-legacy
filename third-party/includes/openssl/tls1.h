@@ -219,31 +219,31 @@ extern "C" {
 
 # define TLSEXT_MAXLEN_host_name 255
 
-__owur const char* SSL_get_servername(const SSL* s, const int type);
-__owur int SSL_get_servername_type(const SSL* s);
+__owur const char *SSL_get_servername(const SSL *s, const int type);
+__owur int SSL_get_servername_type(const SSL *s);
 /*
  * SSL_export_keying_material exports a value derived from the master secret,
  * as specified in RFC 5705. It writes |olen| bytes to |out| given a label and
  * optional context. (Since a zero length context is allowed, the |use_context|
  * flag controls whether a context is included.) It returns 1 on success and
- * zero otherwise.
+ * 0 or -1 otherwise.
  */
-__owur int SSL_export_keying_material(SSL* s, unsigned char* out, size_t olen,
-									  const char* label, size_t llen,
-									  const unsigned char* p, size_t plen,
-									  int use_context);
+__owur int SSL_export_keying_material(SSL *s, unsigned char *out, size_t olen,
+                                      const char *label, size_t llen,
+                                      const unsigned char *context,
+                                      size_t contextlen, int use_context);
 
-int SSL_get_sigalgs(SSL* s, int idx,
-					int* psign, int* phash, int* psignandhash,
-					unsigned char* rsig, unsigned char* rhash);
+int SSL_get_sigalgs(SSL *s, int idx,
+                    int *psign, int *phash, int *psignandhash,
+                    unsigned char *rsig, unsigned char *rhash);
 
-int SSL_get_shared_sigalgs(SSL* s, int idx,
-						   int* psign, int* phash, int* psignandhash,
-						   unsigned char* rsig, unsigned char* rhash);
+int SSL_get_shared_sigalgs(SSL *s, int idx,
+                           int *psign, int *phash, int *psignandhash,
+                           unsigned char *rsig, unsigned char *rhash);
 
-__owur int SSL_check_chain(SSL* s, X509* x, EVP_PKEY* pk, STACK_OF(X509)* chain);
+__owur int SSL_check_chain(SSL *s, X509 *x, EVP_PKEY *pk, STACK_OF(X509) *chain);
 
-# define SSL_set_tlsext_host_name(s, name) \
+# define SSL_set_tlsext_host_name(s,name) \
 SSL_ctrl(s,SSL_CTRL_SET_TLSEXT_HOSTNAME,TLSEXT_NAMETYPE_host_name,(char *)name)
 
 # define SSL_set_tlsext_debug_callback(ssl, cb) \
@@ -298,9 +298,9 @@ SSL_CTX_ctrl(ssl,SSL_CTRL_GET_TLSEXT_STATUS_REQ_CB,0, (void (**)(void))cb)
 SSL_CTX_callback_ctrl(ssl,SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB,(void (*)(void))cb)
 
 # define SSL_CTX_get_tlsext_status_arg(ssl, arg) \
-SSL_CTX_ctrl(ssl,SSL_CTRL_GET_TLSEXT_STATUS_REQ_CB_ARG,0, (void *)arg
+        SSL_CTX_ctrl(ssl,SSL_CTRL_GET_TLSEXT_STATUS_REQ_CB_ARG,0, (void *)arg)
 # define SSL_CTX_set_tlsext_status_arg(ssl, arg) \
-SSL_CTX_ctrl(ssl,SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB_ARG,0, (void *)arg)
+        SSL_CTX_ctrl(ssl,SSL_CTRL_SET_TLSEXT_STATUS_REQ_CB_ARG,0, (void *)arg)
 
 #define SSL_CTX_set_tlsext_status_type(ssl, type) \
         SSL_CTX_ctrl(ssl, SSL_CTRL_SET_TLSEXT_STATUS_REQ_TYPE, type, NULL)
@@ -316,27 +316,27 @@ SSL_CTX_callback_ctrl(ssl,SSL_CTRL_SET_TLSEXT_TICKET_KEY_CB,(void (*)(void))cb)
 #  define SSL_DTLSEXT_HB_DONT_SEND_REQUESTS        0x02
 #  define SSL_DTLSEXT_HB_DONT_RECV_REQUESTS        0x04
 #  define SSL_get_dtlsext_heartbeat_pending(ssl) \
-		SSL_ctrl((ssl),SSL_CTRL_GET_DTLS_EXT_HEARTBEAT_PENDING,0,NULL)
+        SSL_ctrl((ssl),SSL_CTRL_GET_DTLS_EXT_HEARTBEAT_PENDING,0,NULL)
 #  define SSL_set_dtlsext_heartbeat_no_requests(ssl, arg) \
-		SSL_ctrl((ssl),SSL_CTRL_SET_DTLS_EXT_HEARTBEAT_NO_REQUESTS,arg,NULL)
+        SSL_ctrl((ssl),SSL_CTRL_SET_DTLS_EXT_HEARTBEAT_NO_REQUESTS,arg,NULL)
 
 #  if OPENSSL_API_COMPAT < 0x10100000L
 #   define SSL_CTRL_TLS_EXT_SEND_HEARTBEAT \
-		SSL_CTRL_DTLS_EXT_SEND_HEARTBEAT
+        SSL_CTRL_DTLS_EXT_SEND_HEARTBEAT
 #   define SSL_CTRL_GET_TLS_EXT_HEARTBEAT_PENDING \
-		SSL_CTRL_GET_DTLS_EXT_HEARTBEAT_PENDING
+        SSL_CTRL_GET_DTLS_EXT_HEARTBEAT_PENDING
 #   define SSL_CTRL_SET_TLS_EXT_HEARTBEAT_NO_REQUESTS \
-		SSL_CTRL_SET_DTLS_EXT_HEARTBEAT_NO_REQUESTS
+        SSL_CTRL_SET_DTLS_EXT_HEARTBEAT_NO_REQUESTS
 #   define SSL_TLSEXT_HB_ENABLED \
-		SSL_DTLSEXT_HB_ENABLED
+        SSL_DTLSEXT_HB_ENABLED
 #   define SSL_TLSEXT_HB_DONT_SEND_REQUESTS \
-		SSL_DTLSEXT_HB_DONT_SEND_REQUESTS
+        SSL_DTLSEXT_HB_DONT_SEND_REQUESTS
 #   define SSL_TLSEXT_HB_DONT_RECV_REQUESTS \
-		SSL_DTLSEXT_HB_DONT_RECV_REQUESTS
+        SSL_DTLSEXT_HB_DONT_RECV_REQUESTS
 #   define SSL_get_tlsext_heartbeat_pending(ssl) \
-		SSL_get_dtlsext_heartbeat_pending(ssl)
+        SSL_get_dtlsext_heartbeat_pending(ssl)
 #   define SSL_set_tlsext_heartbeat_no_requests(ssl, arg) \
-		SSL_set_dtlsext_heartbeat_no_requests(ssl, arg)
+        SSL_set_dtlsext_heartbeat_no_requests(ssl, arg)
 #  endif
 # endif
 
@@ -962,8 +962,8 @@ SSL_CTX_callback_ctrl(ssl,SSL_CTRL_SET_TLSEXT_TICKET_KEY_CB,(void (*)(void))cb)
 
 /* TLS Session Ticket extension struct */
 struct tls_session_ticket_ext_st {
-	unsigned short length;
-	void* data;
+    unsigned short length;
+    void *data;
 };
 
 #ifdef  __cplusplus

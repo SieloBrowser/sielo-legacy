@@ -24,10 +24,10 @@ typedef unsigned char MD2_INT;
 # define MD2_BLOCK               16
 
 typedef struct MD2state_st {
-	unsigned int num;
-	unsigned char data[MD2_BLOCK];
-	MD2_INT cksm[MD2_BLOCK];
-	MD2_INT state[MD2_BLOCK];
+    unsigned int num;
+    unsigned char data[MD2_BLOCK];
+    MD2_INT cksm[MD2_BLOCK];
+    MD2_INT state[MD2_BLOCK];
 } MD2_CTX;
 
 const char *MD2_options(void);

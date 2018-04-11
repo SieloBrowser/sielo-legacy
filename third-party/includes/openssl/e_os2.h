@@ -90,7 +90,7 @@ extern "C" {
 # ifdef OPENSSL_SYS_WINDOWS
 #  ifndef OPENSSL_OPT_WINDLL
 #   if defined(_WINDLL)         /* This is used when building OpenSSL to
-* indicate that DLL linkage should be used */
+                                 * indicate that DLL linkage should be used */
 #    define OPENSSL_OPT_WINDLL
 #   endif
 #  endif
@@ -192,13 +192,13 @@ extern "C" {
  */
 # ifdef OPENSSL_EXPORT_VAR_AS_FUNCTION
 #  define OPENSSL_IMPLEMENT_GLOBAL(type,name,value)                      \
-		type *_shadow_##name(void)                                      \
-		{ static type _hide_##name=value; return &_hide_##name; }
+        type *_shadow_##name(void)                                      \
+        { static type _hide_##name=value; return &_hide_##name; }
 #  define OPENSSL_DECLARE_GLOBAL(type,name) type *_shadow_##name(void)
 #  define OPENSSL_GLOBAL_REF(name) (*(_shadow_##name()))
 # else
-#  define OPENSSL_IMPLEMENT_GLOBAL(type, name, value) OPENSSL_GLOBAL type _shadow_##name=value;
-#  define OPENSSL_DECLARE_GLOBAL(type, name) OPENSSL_EXPORT type _shadow_##name
+#  define OPENSSL_IMPLEMENT_GLOBAL(type,name,value) OPENSSL_GLOBAL type _shadow_##name=value;
+#  define OPENSSL_DECLARE_GLOBAL(type,name) OPENSSL_EXPORT type _shadow_##name
 #  define OPENSSL_GLOBAL_REF(name) _shadow_##name
 # endif
 
@@ -246,7 +246,7 @@ typedef UINT64 uint64_t;
      defined(__osf__) || defined(__sgi) || defined(__hpux) || \
      defined(OPENSSL_SYS_VMS) || defined (__OpenBSD__)
 #  include <inttypes.h>
-# elif defined(_MSC_VER) && _MSC_VER <= 1500
+# elif defined(_MSC_VER) && _MSC_VER<=1500
 /*
  * minimally required typdefs for systems not supporting inttypes.h or
  * stdint.h: currently just older VC++
@@ -266,16 +266,16 @@ typedef unsigned __int64 uint64_t;
 /* ossl_inline: portable inline definition usable in public headers */
 # if !defined(inline) && !defined(__cplusplus)
 #  if defined(__STDC_VERSION__) && __STDC_VERSION__>=199901L
-/* just use inline */
+   /* just use inline */
 #   define ossl_inline inline
 #  elif defined(__GNUC__) && __GNUC__>=2
 #   define ossl_inline __inline__
 #  elif defined(_MSC_VER)
-/*
-* Visual Studio: inline is available in C++ only, however
-* __inline is available for C, see
-* http://msdn.microsoft.com/en-us/library/z8y1yy88.aspx
-*/
+  /*
+   * Visual Studio: inline is available in C++ only, however
+   * __inline is available for C, see
+   * http://msdn.microsoft.com/en-us/library/z8y1yy88.aspx
+   */
 #   define ossl_inline __inline
 #  else
 #   define ossl_inline

@@ -34,26 +34,26 @@ extern "C" {
 # define RC5_16_ROUNDS   16
 
 typedef struct rc5_key_st {
-	/* Number of rounds */
-	int rounds;
-	RC5_32_INT data[2 * (RC5_16_ROUNDS + 1)];
+    /* Number of rounds */
+    int rounds;
+    RC5_32_INT data[2 * (RC5_16_ROUNDS + 1)];
 } RC5_32_KEY;
 
 void RC5_32_set_key(RC5_32_KEY *key, int len, const unsigned char *data,
-					int rounds);
+                    int rounds);
 void RC5_32_ecb_encrypt(const unsigned char *in, unsigned char *out,
-						RC5_32_KEY *key, int enc);
+                        RC5_32_KEY *key, int enc);
 void RC5_32_encrypt(unsigned long *data, RC5_32_KEY *key);
 void RC5_32_decrypt(unsigned long *data, RC5_32_KEY *key);
 void RC5_32_cbc_encrypt(const unsigned char *in, unsigned char *out,
-						long length, RC5_32_KEY *ks, unsigned char *iv,
-						int enc);
+                        long length, RC5_32_KEY *ks, unsigned char *iv,
+                        int enc);
 void RC5_32_cfb64_encrypt(const unsigned char *in, unsigned char *out,
-						  long length, RC5_32_KEY *schedule,
-						  unsigned char *ivec, int *num, int enc);
+                          long length, RC5_32_KEY *schedule,
+                          unsigned char *ivec, int *num, int enc);
 void RC5_32_ofb64_encrypt(const unsigned char *in, unsigned char *out,
-						  long length, RC5_32_KEY *schedule,
-						  unsigned char *ivec, int *num);
+                          long length, RC5_32_KEY *schedule,
+                          unsigned char *ivec, int *num);
 
 # ifdef  __cplusplus
 }
