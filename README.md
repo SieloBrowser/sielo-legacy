@@ -16,7 +16,7 @@ You can also easily compile Sielo, but you must check dependencies:
  - Qt 5.7 minimum, Qt 5.8 minimum to get all Sielo's features.
  - OpenSSL 1.1.x or more. **Older version than the version 1.1 will result to a compilation error!**
  
-Next, you just need to run this command from the root path: `mkdir build && cd build && cmake .. && make -j2` or use yout favorite IDE.
+Next, you just need to run this command from the root path: `mkdir build && cd build && cmake .. && make -j2` or use your favorite IDE.
 
 ## Generalities, advancement and originality
 Sielo has well grown. It has all the basic functionalities of a web browser (tabbed browsing, bookmark, history, private browsing, web browsing (yes it is possible), etc.) and even some advanced features such as an integrated AdBlock, proxy management, cache management, ability to save passwords (and encrypt them with a super password). Sielo uses the web engine WebEngine that comes with Qt. But that's not all, Sielo has also unique and original features:
