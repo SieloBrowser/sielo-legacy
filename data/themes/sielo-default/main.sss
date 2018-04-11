@@ -3,7 +3,7 @@
 }
 
 #tabbar {
-	height: 42.5px;
+  height: 42.5px;
 }
 
 QTabBar {
@@ -141,15 +141,15 @@ QDialog,
 QMenu,
 QTabWidget::pane
 {
-  	border: none;
-	background: scolor(main);
-  	color: scolor(text);
+    border: none;
+  background: scolor(main);
+    color: scolor(text);
 }
 
 QMainWindow
 {
-	background: scolor(main);
-  	background-image: url(images/background.png);
+  background: scolor(main);
+    background-image: url(images/background.png);
 }
 
 QTreeWidget,
@@ -171,14 +171,14 @@ QTextBrowser {
 
 QDialog QLabel
 {
-	color: scolor(text);
-	font-size: 12px;
+  color: scolor(text);
+  font-size: 12px;
 }
 
 QDialog QLineEdit
 {
-  	border: 1px solid scolor(text);
-	border: 1px solid scolor(accent);
+    border: 1px solid scolor(text);
+  border: 1px solid scolor(accent);
 
 }
 
@@ -194,19 +194,19 @@ QDialog QLineEdit
 
 QDialog QPushButton
 {
-	background: scolor(accent, light, 200);
-	border: 2px solid transparent;
-	border-radius: 4px;
-	padding: 7px 14px;
-	color: scolor(text);
-	font-size: 12px;
+  background: scolor(accent, light, 200);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 7px 14px;
+  color: scolor(text);
+  font-size: 12px;
 }
 
 QDialog QPushButton:focus,
 #search-toolbar QPushButton:checked
 {
-	background: white;
-	color: black;
+  background: white;
+  color: black;
 }
 
 QDialog QGroupBox
@@ -216,11 +216,11 @@ QDialog QGroupBox
 
 #navigationbar
 {
-	border: none;
+  border: none;
   height: 30px;
   padding: 0px;
-	padding: 0px;
-	spacing: 0px;
+  padding: 0px;
+  spacing: 0px;
 }
 
 #navigationbar QToolButton,
@@ -239,7 +239,7 @@ QDialog QGroupBox
 #navigationbar QToolButton:hover,
 #navigationbar ToolButton:hover
 {
-	background: scolor(main, dark, 170);
+  background: scolor(main, dark, 170);
 }
 
 #navigationbar QToolButton:pressed,
@@ -247,12 +247,12 @@ QDialog QGroupBox
 #navigationbar QToolButton:checked,
 #navigationbar ToolButton:checked
 {
-	background: scolor(accent, normal, 170);
+  background: scolor(accent, normal, 170);
 }
 
 #navigationbar ToolButton::menu-indicator
 {
-	image: url(none.png);
+  image: url(none.png);
 }
 
 #navigation-button-back:disabled {
@@ -297,8 +297,8 @@ QDialog QGroupBox
   padding: 0px;
   margin: 0px;
   spacing: 0px;
-	background: transparent;
-	color: scolor(text);
+  background: transparent;
+  color: scolor(text);
 }
 
 #navigationbar #addressbar QToolButton,
@@ -310,35 +310,32 @@ QDialog QGroupBox
   padding: 0px;
   margin: 0px;
   spacing: 0px;
-	background: transparent;
-	color: scolor(text);
+  background: transparent;
+  color: scolor(text);
 }
 
 #navigationbar #addressbar QLabel
 {
-	border: none;
-	padding: 0px 10px;
-	color: scolor(text);
-	font-size: 18px;
+  border: none;
+  padding: 0px 10px;
+  color: scolor(text);
+  font-size: 18px;
 }
 
 #bookmarks-toolbar {
-	height: 30px;
-	border: none;
-	padding: 0px;
-	margin: 0px;
-	spacing: 0px;
-	background: scolor(main, normal, 255);
+    height: 30px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background: scolor(main, normal, 255);
 }
 
 #bookmarks-toolbar QToolButton {
-	height: 30px;
-	border-radius: 4px;
-	padding: 0px;
-	margin: 2px 2px;
-	background: scolor(accent, light, 200);
-	color: scolor(text, normal);
-	border: none;
+    height: 25px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 2px;
+    background: scolor(accent, normal, 175);
+    color: scolor(text, normal);
 }
 
 QSplitterHandle {
@@ -347,190 +344,190 @@ QSplitterHandle {
 
 QMenu::separator
 {
-	background: rgba(255,255,255,.6);
-  	height: 1px;
-  	margin: 0px 3px;
+  background: rgba(255,255,255,.6);
+    height: 1px;
+    margin: 0px 3px;
 }
 
 QMenu::item:selected
 {
-	background: rgb(0, 136, 249) repeat-x;
-  	color: scolor(text);
+  background: rgb(0, 136, 249) repeat-x;
+    color: scolor(text);
 }
 
 QLineEdit
 {
-	padding: 4px 6px;
-	color: scolor(text);
-	background: transparent;
-	font-size: 12px;
-	border-radius: 2px;
+  padding: 4px 6px;
+  color: scolor(text);
+  background: transparent;
+  font-size: 12px;
+  border-radius: 2px;
 }
 
 QComboBox {
-	border: none;
-	background: rgba(0,0,0,.4);
-	padding: 1px 23px 1px 3px;
-	min-width: 6em;
-	color: scolor(text);
+  border: none;
+  background: rgba(0,0,0,.4);
+  padding: 1px 23px 1px 3px;
+  min-width: 6em;
+  color: scolor(text);
 }
 
 QComboBox::drop-down {
-	border: none;
-	subcontrol-origin: padding;
-	subcontrol-position: top right;
-	width: 20px;
+  border: none;
+  subcontrol-origin: padding;
+  subcontrol-position: top right;
+  width: 20px;
 }
 
 QComboBox QAbstractItemView{
-	border: none;
-	background-color: scolor(second);
-	color: scolor(text);
+  border: none;
+  background-color: scolor(second);
+  color: scolor(text);
 }
 
 QCheckBox,
 QRadioButton
 {
-	spacing: 7px;
-	color: scolor(text);
-	font-size: 12px;
+  spacing: 7px;
+  color: scolor(text);
+  font-size: 12px;
 }
 
 QCheckBox:hover,
 QRadioButton:hover
 {
-	color: scolor(text, dark);
+  color: scolor(text, dark);
 }
 
 QCheckBox:disabled,
 QRadioButton:disabled
 {
-	color: scolor(main, dark);
+  color: scolor(main, dark);
 }
 
 QCheckBox::indicator,
 QRadioButton::indicator
 {
-	width: 18px;
-	height: 18px;
-	border: none;
+  width: 18px;
+  height: 18px;
+  border: none;
   border-radius: 2px;
-	background: rgba(255,255,255,.1);
+  background: rgba(255,255,255,.1);
 }
 
 QCheckBox::indicator:disabled,
 QRadioButton::indicator:disabled
 {
-	border-color: scolor(main, dark);
+  border-color: scolor(main, dark);
 }
 
 QRadioButton::indicator
 {
-	border-radius: 9px;
-	padding: 3px;
-	width: 13px;
-	height: 13px;
+  border-radius: 9px;
+  padding: 3px;
+  width: 13px;
+  height: 13px;
 }
 
 QCheckBox::indicator:hover,
 QRadioButton::indicator:hover
 {
-	background: scolor(main, dark);
+  background: scolor(main, dark);
 }
 
 QCheckBox::indicator:checked
 {
-	image: url($ulightness/other/check.png);
-	padding: 4px;
-	width: 12px;
-	height: 12px;
+  image: url($ulightness/other/check.png);
+  padding: 4px;
+  width: 12px;
+  height: 12px;
 }
 
 QRadioButton::indicator:checked
 {
-	image: url($ulightness/other/round.png);
+  image: url($ulightness/other/round.png);
 }
 
 
 QScrollBar:vertical
 {
-	border: none;
-	background: transparent;
-	width: 17px;
-	margin: 0px;
+  border: none;
+  background: transparent;
+  width: 17px;
+  margin: 0px;
 }
 
 QScrollBar::handle:vertical
 {
-	background: rgba(255, 255, 255, .2);
-	min-height: 50px;
-	margin-right: 2px;
-	border-radius: 7px;
-	border: none;
+  background: rgba(255, 255, 255, .2);
+  min-height: 50px;
+  margin-right: 2px;
+  border-radius: 7px;
+  border: none;
 }
 
 QScrollBar::add-line:vertical,
 QScrollBar::sub-line:vertical
 {
-	border: none;
-	background: transparent;
-	height: 0px;
-	subcontrol-origin: margin;
+  border: none;
+  background: transparent;
+  height: 0px;
+  subcontrol-origin: margin;
 }
 
 QScrollBar::up-arrow:vertical,
 QScrollBar::down-arrow:vertical
 {
-	border: none;
-	width: 0px;
-	height: 0px;
-	background: transparent;
+  border: none;
+  width: 0px;
+  height: 0px;
+  background: transparent;
 }
 
 QScrollBar::add-page:vertical,
 QScrollBar::sub-page:vertical
 {
-	background: none;
+  background: none;
 }
 
 /* HORIZONTAL */
 QScrollBar:horizontal
 {
-	border: none;
-	background: transparent;
-	height: 17px;
-	margin: 0px;
+  border: none;
+  background: transparent;
+  height: 17px;
+  margin: 0px;
 }
 
 QScrollBar::handle:horizontal
 {
-	background: rgba(255, 255, 255, .2);
-	min-width: 50px;
-	margin-bottom: 2px;
-	border-radius: 7px;
-	border: none;
+  background: rgba(255, 255, 255, .2);
+  min-width: 50px;
+  margin-bottom: 2px;
+  border-radius: 7px;
+  border: none;
 }
 
 QScrollBar::add-line:horizontal,
 QScrollBar::sub-line:horizontal
 {
-	subcontrol-origin: margin;
-	width: 0px;
-	border: none;
-	background: transparent;
+  subcontrol-origin: margin;
+  width: 0px;
+  border: none;
+  background: transparent;
 }
 
 QScrollBar:left-arrow:horizontal,
 QScrollBar::right-arrow:horizontal
 {
-	border: none;
-	width: 0px;
-	height: 0px;
-	background: rgba(0,0,0,0);
+  border: none;
+  width: 0px;
+  height: 0px;
+  background: rgba(0,0,0,0);
 }
 
 QScrollBar::add-page:horizontal,
 QScrollBar::sub-page:horizontal
 {
-	background: none;
+  background: none;
 }
