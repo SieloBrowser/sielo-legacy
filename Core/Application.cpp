@@ -258,8 +258,8 @@ Application::Application(int& argc, char** argv) :
 	}
 
 	// Check for update
-	Updater* updater{new Updater(window)};
-	Q_UNUSED(updater);
+	//Updater* updater{new Updater(window)};
+	//Q_UNUSED(updater);
 
 	// Wait a little for post launch actions
 	QTimer::singleShot(0, this, &Application::postLaunch);

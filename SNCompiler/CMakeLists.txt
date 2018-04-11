@@ -6,6 +6,16 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+if(MSVC)
+    if(NOT "${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
+        set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")
+    else()
+        set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
+    endif()
+elseif(GNU)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+endif()
+
 file(
         GLOB_RECURSE
         SOURCE_FILES

@@ -18,7 +18,7 @@ if(MSVC)
         set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\x64\\")
     endif()
 elseif(GNU)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 endif()
 
 set(SOURCE_FILES Main.cpp)
@@ -27,10 +27,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(OpenSSL 1.1.0 REQUIRED)
-find_package(Qt5Widgets 5.10.1 REQUIRED)
-find_package(Qt5Sql 5.10.1 REQUIRED)
-find_package(Qt5WebEngine 5.10.1 REQUIRED)
-find_package(Qt5WebEngineWidgets 5.10.1 REQUIRED)
+find_package(Qt5Widgets 5.8 REQUIRED)
+find_package(Qt5Sql 5.8 REQUIRED)
+find_package(Qt5WebEngine 5.8 REQUIRED)
+find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
 add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
 
