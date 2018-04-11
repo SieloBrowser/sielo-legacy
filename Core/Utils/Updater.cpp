@@ -97,7 +97,8 @@ void Updater::downloadUpdateInfoCompleted()
 		}
 		else {
 #endif
-			QMessageBox::information(m_window,
+            if (!Application::currentVersion.contains("closed-beta"))
+                QMessageBox::information(m_window,
 									 tr("Update"),
 									 tr("A new version of Sielo is available (%1)! We advise you to download it.")
 									 .arg(newVersion));

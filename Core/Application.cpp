@@ -343,7 +343,7 @@ void Application::loadSettings()
 	settings.endGroup();
 
 	// Check the current version number of Sielo, and make setting update if needed
-	if (settings.value("versionNumber", 0).toInt() < 9) {
+    if (settings.value("versionNumber", 0).toInt() < 11) {
 		if (settings.value("versionNumber", 0).toInt() < 8) {
 			settings.setValue("installed", false);
 			if (settings.value("versionNumber", 0).toInt() < 7) {
@@ -376,7 +376,7 @@ void Application::loadSettings()
 		QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory + QLatin1String("/bookmarks.xbel"));
 		QFile::setPermissions(directory + QLatin1String("/bookmarks.xbel"), QFileDevice::ReadUser | QFileDevice::WriteUser);
 
-		settings.setValue("versionNumber", 9);
+        settings.setValue("versionNumber", 11);
 	}
 
 	// Load settings for password
@@ -386,7 +386,7 @@ void Application::loadSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
+        if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 12) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 10) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -407,7 +407,7 @@ void Application::loadSettings()
 			}
 
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 11);
+            settings.setValue("Themes/defaultThemeVersion", 12);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
