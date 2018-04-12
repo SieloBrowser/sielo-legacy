@@ -115,7 +115,11 @@ void BrowserWindow::loadSettings()
 		setStyleSheet(sss);
 	}
 
-	m_bookmarksToolBar->setVisible(settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool());
+	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
+	m_bookmarksToolBar->setVisible(showBookmarksToolBar);
+	foreach (TabWidget* tbWidget, m_tabWidgets) {
+		tbWidget->updateShowBookmarksBarText(showBookmarksToolBar);
+	}
 
 }
 
@@ -656,8 +660,6 @@ void BrowserWindow::setupUi()
 	BookmarksModel* bookmarksModel{Application::instance()->bookmarksManager()->bookmarksModel()};
 	m_bookmarksToolBar = new BookmarksToolBar(bookmarksModel, this);
 
-	connect(m_bookmarksToolBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
-
 	addToolBar(m_bookmarksToolBar);
 
 	QWidget* widget{new QWidget(this)};
@@ -816,6 +818,7 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
 	connect(m_bookmarksToolBar->toggleViewAction(), &QAction::toggled, tabWidget, &TabWidget::updateShowBookmarksBarText);
+    connect(m_bookmarksToolBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
 
 	return widget;
 }

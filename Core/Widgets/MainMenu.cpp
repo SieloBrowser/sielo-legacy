@@ -181,6 +181,9 @@ void MainMenu::setTabWidget(TabWidget* tabWidget)
 
 void MainMenu::updateShowBookmarksBarText(bool visible)
 {
+    QSettings settings;
+    settings.setValue(QLatin1String("ShowBookmarksToolBar"), visible);
+
 	m_actions["ToggleBookmarksBar"]->setText(!visible ? tr("Show Bookmarks Bar") : tr("Hide Bookmarks Bar"));
 }
 
@@ -217,16 +220,13 @@ void MainMenu::openFile()
 void MainMenu::toggleBookmarksToolBar()
 {
 	BookmarksToolBar* bookmarksToolBar{m_tabWidget->window()->bookmarksToolBar()};
-	QSettings settings;
 
 	if (bookmarksToolBar->isVisible()) {
 		updateShowBookmarksBarText(false);
 		bookmarksToolBar->close();
-		settings.setValue(QLatin1String("ShowBookmarksToolBar"), false);
 	}
 	else {
 		updateShowBookmarksBarText(true);
-		settings.setValue(QLatin1String("ShowBookmarksToolBar"), true);
 		bookmarksToolBar->show();
 	}
 
