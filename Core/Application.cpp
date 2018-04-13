@@ -120,10 +120,10 @@ Application::Application(int& argc, char** argv) :
 	}
 
 	// Loading fonts information
-	int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
+	/*int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
-	m_normalFont = font();
+	m_normalFont = font();*/
 
 	loadSettings();
 
@@ -290,7 +290,7 @@ void Application::loadSettings()
 	if (settings.value("Settings/useMorpheusFont", false).toBool()) {
 		QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
 
-		setFont(m_morpheusFont);
+//		setFont(m_morpheusFont);
 		webSettings->setFontFamily(QWebEngineSettings::StandardFont, "Z003");
 		webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "Z003");
 		webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "Z003");
@@ -834,7 +834,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 				->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
-	if (command == "witcher") {
+	/*if (command == "witcher") {
 		if (args.count() == 1) {
 			QSettings settings{};
 			QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
@@ -890,7 +890,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 			QMessageBox::critical(getWindow(),
 								  QApplication::tr("Failed"),
 								  QApplication::tr("This command need one argument!"));
-	}
+	}*/
 	if (command == "easteregg") {
 		QStringList eastereggs{};
 		eastereggs << "http://feldrise.com"

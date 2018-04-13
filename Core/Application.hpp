@@ -204,9 +204,9 @@ public:
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
-	QFont morpheusFont() const { return m_morpheusFont; }
+//	QFont morpheusFont() const { return m_morpheusFont; }
 
-	QFont normalFont() const { return m_normalFont; }
+//	QFont normalFont() const { return m_normalFont; }
 
 	bool copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist = true);
 	QString readFile(const QString& filename);
@@ -298,8 +298,8 @@ private:
 
 	QList<PostLaunchAction> m_postLaunchActions;
 
-	QFont m_morpheusFont{};
-	QFont m_normalFont{};
+	//QFont m_morpheusFont{};
+	//QFont m_normalFont{};
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
