@@ -83,7 +83,6 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	m_buttonAddTab = new AddTabButton(this, m_tabBar);
 	m_buttonAddTab->setObjectName("tabwidget-button-addtab");
 	m_buttonAddTab->setIcon(Application::getAppIcon("tabbar-addtab", "tabs"));
-	m_buttonAddTab->setFixedWidth(24);
 
 	m_buttonAddTab2 = new AddTabButton(this, m_tabBar);
 	m_buttonAddTab2->setObjectName("tabwidget-button-addtab");
