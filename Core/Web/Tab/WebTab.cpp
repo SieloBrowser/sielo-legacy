@@ -140,7 +140,7 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_isPinned(false)
 {
 	setObjectName(QLatin1String("webtab"));
-	setStyleSheet("#webtab {background-color: white;}");
+	//setStyleSheet("#webtab {background-color: white;}");
 
 	m_layout = new QVBoxLayout(this);
 	m_layout->setSpacing(0);
@@ -152,9 +152,10 @@ WebTab::WebTab(BrowserWindow* window) :
 	m_webView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
 	m_splitter = new QSplitter(Qt::Vertical, this);
+	m_splitter->setObjectName("webtab-container");
 	m_splitter->setChildrenCollapsible(false);
 	m_splitter->addWidget(m_webView);
-	m_splitter->setStyleSheet("background: white");
+	//m_splitter->setStyleSheet("background: white");
 
 	m_tabIcon = new TabIcon(this);
 	m_tabIcon->setWebTab(this);
