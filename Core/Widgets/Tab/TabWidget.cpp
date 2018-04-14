@@ -111,7 +111,7 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	m_buttonListTabs->hide();
 
 	m_buttonMainMenu = new ToolButton(m_tabBar);
-	m_buttonMainMenu->setObjectName(QLatin1String("tabwidget-button-preferences"));
+	m_buttonMainMenu->setObjectName(QLatin1String("tabwidget-button-mainmenu"));
 	m_buttonMainMenu->setMenu(new MainMenu(this, this));
 	m_buttonMainMenu->setPopupMode(QToolButton::InstantPopup);
 	m_buttonMainMenu->setToolTip(tr("Preferences"));
