@@ -58,6 +58,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QMenu(parent),
 	m_tabWidget(tabWidget)
 {
+	setObjectName("main-menu");
+
 	QAction* showAllBookmarksAction = new QAction(Application::getAppIcon("bookmarks"), tr("Show All Bookmarks"), this);
 	QAction* addBookmarksAction = new QAction(Application::getAppIcon("add-bookmark"), tr("Add Bookmark..."), this);
 	addBookmarksAction->setShortcut(QKeySequence("Ctrl+D"));
