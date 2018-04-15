@@ -28,6 +28,8 @@
 
 #include <QCursor>
 
+#include <QGraphicsDropShadowEffect>
+
 #include <QMessageBox>
 
 #include <QPropertyAnimation>
@@ -52,6 +54,11 @@ FloatingButton::FloatingButton(RootFloatingButton* parent, const QString& name, 
 	setObjectName(name);
 	setToolTip(toolTip);
 
+	QGraphicsDropShadowEffect* effect{new QGraphicsDropShadowEffect(this)};
+	effect->setBlurRadius(4);
+	effect->setOffset(0, 2);
+
+	setGraphicsEffect(effect);
 	m_parent = parent->parentWidget();
 
 	hide();
@@ -151,6 +158,12 @@ RootFloatingButton::RootFloatingButton(BrowserWindow* window, QWidget* parent, P
 	setToolTip(tr("Floating button"));
 	setCursor(Qt::SizeAllCursor);
 	setContextMenuPolicy(Qt::CustomContextMenu);
+
+	QGraphicsDropShadowEffect* effect{new QGraphicsDropShadowEffect(this)};
+	effect->setBlurRadius(4);
+	effect->setOffset(0, 4);
+
+	setGraphicsEffect(effect);
 
 	connect(this, &QPushButton::customContextMenuRequested, this, &RootFloatingButton::showMenu);
 }
