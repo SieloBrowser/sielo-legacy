@@ -386,6 +386,14 @@ void WebView::forward()
 	}
 }
 
+void WebView::showSource()
+{
+	if (url().scheme() == QLatin1String("view-source") || url().scheme() == QLatin1String("sielo") || url().scheme() == QLatin1String("qrc"))
+		return;
+
+	triggerPageAction(QWebEnginePage::ViewSource);
+}
+
 void WebView::openUrlInNewTab(const QUrl& url, Application::NewTabType type)
 {
 	loadInNewTab(url, type);

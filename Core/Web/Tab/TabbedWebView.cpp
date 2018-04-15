@@ -179,6 +179,7 @@ void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 	WebHitTestResult hitTest{page()->hitTestContent(event->pos())};
 	createContextMenu(m_menu, hitTest);
 	m_menu->addSeparator();
+	m_menu->addAction(Application::getAppIcon("text-html"), tr("Show so&urce code"), this, &WebView::showSource);
 	m_menu->addAction(tr("Show Inspector"), m_webTab, &WebTab::showInspector);
 
 	if (!m_menu->isEmpty()) {
