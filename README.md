@@ -9,8 +9,10 @@ Sielo is a web browser that I began to develop a year and a half ago. The browse
 #### You can view details in [Sielo's web page](https://feldrise.com/Sielo)
 ### Download
 Their is many links to find the last Sielo version
- - Windows : The last open beta can be installed with [this setup](https://feldrise.com/Sielo/sielo_setup_1.10.03.exe)
- - Linux : You can find [the Debian package](https://feldrise.com/Sielo/Linux/sielo-browser.deb) and install it with `dpkg -i sielo-browser.deb` or install Sielo from the AUR (Arch User Repository)
+ - Windows: The last open beta can be installed with [this setup](https://feldrise.com/Sielo/download.php?for=windows)
+ - Windows: There is a portable version [available here](https://feldrise.com/Sielo/download.php?for=windows_portable)
+ - Linux: You can find [an AppImage](https://feldrise.com/Sielo/download.php?for=linux) 
+ - ArchLinux: Sielo is available on the AUR.
 ### Compile the browser
 You can also easily compile Sielo, but you must check dependencies:
  - Qt 5.7 minimum, Qt 5.8 minimum to get all Sielo's features.
@@ -37,6 +39,6 @@ Now that Sielo is built on a stable structure, the goal is to make the user expe
 
 Sielo is also made with ideas of people like you and testers. This is why I am very attentive to all your remarks and all your ideas. Besides, Sielo also integrates a command system, an idea brought by Rein Frost (I let you try to enter "!easteregg" or "!Witcher [enable/disable]" in the address bar).
 
-Furthermore, Sielo also has a [a page where we gather ideas](https://padlet.com/feldrise/j82miccj6zpb) (this page is quite recent and still a little empty). And finally, [the open beta 7](https://feldrise.com/Sielo/sielo_setup_1.10.03.exe) is free to download! If you use Debian, you can find a package [here](https://www.feldrise.com/Sielo/Linux/sielo-browser.deb) and if you use ArchLinux, Sielo is available in the AUR.
+Furthermore, Sielo also has a [a page where we gather ideas](https://padlet.com/feldrise/j82miccj6zpb) (this page is quite recent and still a little empty). And finally, [the last open beta](https://feldrise.com/Sielo/download.php?for=windows) is free to download! If you use Linux, you can find an AppImage [here](https://www.feldrise.com/Sielo/download.php?for=linux) and if you use ArchLinux, Sielo is available in the AUR.
 
 I also warmly thanks **hotaru70o**, **LavaPower** ([https://github.com/LavaPower](https://github.com/LavaPower)), **Kaktus** and **ilearn32** for their unfailing support and their contributions, they make this open beta possible! A big thanks to them!
