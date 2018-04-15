@@ -62,12 +62,15 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	QAction* showAllBookmarksAction = new QAction(Application::getAppIcon("bookmarks"), tr("Show All Bookmarks"), this);
 	QAction* addBookmarksAction = new QAction(Application::getAppIcon("add-bookmark"), tr("Add Bookmark..."), this);
+	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"), this);
+
+	m_toggleBookmarksAction->setCheckable(true);
 	addBookmarksAction->setShortcut(QKeySequence("Ctrl+D"));
 	addBookmarksAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setTitle(tr("&Bookmarks"));
-	m_bookmarksMenu->setInitialActions(QList<QAction*>() << showAllBookmarksAction << addBookmarksAction);
+	m_bookmarksMenu->setInitialActions(QList<QAction*>() << showAllBookmarksAction << addBookmarksAction << m_toggleBookmarksAction);
 
 	QAction* backAction = new QAction(Application::getAppIcon("arrow-left"), tr("Back"), this);
 	QAction* nextAction = new QAction(Application::getAppIcon("arrow-right"), tr("Forward"), this);
@@ -98,7 +101,6 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 					 "Ctrl+Shift+P");
 	QAction* openFileAction =
 		createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
-	QAction* toggleBookmarksToolBarAction = createAction("ToggleBookmarksBar", this, Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"), "");
 	addSeparator();
 	QAction* selectAllAction = createAction("SelectAll",
 											this,
@@ -135,7 +137,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(newWindowAction, &QAction::triggered, this, &MainMenu::newWindow);
 	connect(newPrivateWindowAction, &QAction::triggered, this, &MainMenu::newPrivateWindow);
 	connect(openFileAction, &QAction::triggered, this, &MainMenu::openFile);
-	connect(toggleBookmarksToolBarAction, &QAction::triggered, this, &MainMenu::toggleBookmarksToolBar);
+	connect(m_toggleBookmarksAction, &QAction::triggered, this, &MainMenu::toggleBookmarksToolBar);
 
 	connect(selectAllAction, &QAction::triggered, this, &MainMenu::selectAll);
 	connect(findAction, &QAction::triggered, this, &MainMenu::find);
@@ -183,10 +185,11 @@ void MainMenu::setTabWidget(TabWidget* tabWidget)
 
 void MainMenu::updateShowBookmarksBarText(bool visible)
 {
-    QSettings settings;
+	QSettings settings;
     settings.setValue(QLatin1String("ShowBookmarksToolBar"), visible);
 
-	m_actions["ToggleBookmarksBar"]->setText(!visible ? tr("Show Bookmarks Bar") : tr("Hide Bookmarks Bar"));
+    m_toggleBookmarksAction->setChecked(visible);
+	m_toggleBookmarksAction->setText(!visible ? tr("Show Bookmarks Bar") : tr("Hide Bookmarks Bar"));
 }
 
 void MainMenu::newTab()

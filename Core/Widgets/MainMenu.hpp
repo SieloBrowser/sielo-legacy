@@ -83,6 +83,8 @@ private slots:
 private:
 	void addActionsToTabWidget();
 
+	QAction* m_toggleBookmarksAction{nullptr};
+
 	BookmarksMenu* m_bookmarksMenu{nullptr};
 	HistoryMenu* m_historyMenu{nullptr};
 	QMenu* m_toolsMenu{nullptr};
