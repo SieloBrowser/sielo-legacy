@@ -85,10 +85,16 @@ private:
 	QString m_activeTheme{};
 	QHash<QString, Theme> m_themeHash;
 
+	QTabWidget* m_tabs{nullptr};
+	QWidget* m_themePage{nullptr};
+	QWidget* m_advancedPage{nullptr};
+
 	QGroupBox* m_themeBox{nullptr};
 	QGroupBox* m_themeColorsBox{nullptr};
 
 	QVBoxLayout* m_layout{nullptr};
+	QVBoxLayout* m_themePageLayout{nullptr};
+	QVBoxLayout* m_advancedPageLayout{nullptr};
 	QVBoxLayout* m_themeLayout{nullptr};
 	QGridLayout* m_themeColorsLayout{nullptr};
 	QHBoxLayout* m_nameLayout{nullptr};

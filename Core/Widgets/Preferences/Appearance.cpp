@@ -404,7 +404,14 @@ void AppearancePage::setupUI()
 	m_themeBox = new QGroupBox(tr("Themes"), this);
 	m_themeColorsBox = new QGroupBox(tr("Theme colors (might not work on every themes)"), this);
 
+	m_tabs = new QTabWidget(this);
+	m_themePage = new QWidget(m_tabs);
+	m_advancedPage = new QWidget(m_tabs);
+
 	m_layout = new QVBoxLayout(this);
+	m_themePageLayout = new QVBoxLayout(m_themePage);
+	m_advancedPageLayout = new QVBoxLayout(m_advancedPage);
+
 	m_themeLayout = new QVBoxLayout(m_themeBox);
 	m_themeColorsLayout = new QGridLayout(m_themeColorsBox);
 	m_areaLayout = new QFormLayout(m_areaWidget);
@@ -499,14 +506,20 @@ void AppearancePage::setupUI()
 	m_backgroundLayout->addWidget(m_backgroundLocationEdit);
 	m_backgroundLayout->addWidget(m_backgroundLocationButton);
 
-	m_layout->addWidget(m_themeBox);
-	m_layout->addWidget(m_fullyLoadThemes);
-	m_layout->addWidget(m_useRealToolBar);
-	m_layout->addWidget(m_hideBookmarksHistoryActionsByDefault);
-	m_layout->addWidget(m_floatingButtonFoloweMouse);
-	m_layout->addWidget(m_tabsSpacesPaddingLabel);
-	m_layout->addWidget(m_tabsSpacesPadding);
-	m_layout->addWidget(m_repeatBackground);
-	m_layout->addLayout(m_backgroundLayout);
+	m_themePageLayout->addWidget(m_themeBox);
+	m_themePageLayout->addWidget(m_fullyLoadThemes);
+
+	m_advancedPageLayout->addWidget(m_useRealToolBar);
+	m_advancedPageLayout->addWidget(m_hideBookmarksHistoryActionsByDefault);
+	m_advancedPageLayout->addWidget(m_floatingButtonFoloweMouse);
+	m_advancedPageLayout->addWidget(m_tabsSpacesPaddingLabel);
+	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
+	m_advancedPageLayout->addWidget(m_repeatBackground);
+	m_advancedPageLayout->addLayout(m_backgroundLayout);
+
+	m_tabs->addTab(m_themePage, tr("Themes"));
+	m_tabs->addTab(m_advancedPage, tr("Advanced"));
+
+	m_layout->addWidget(m_tabs);
 }
 }
