@@ -66,7 +66,7 @@ private slots:
 	void showStackedPage(QListWidgetItem* item);
 
 private:
-	void addPage(QWidget* page, const QString& name);
+	void addPage(QWidget* page, const QString& name, const QIcon& icon = QIcon());
 	void setupUI();
 
 	QGridLayout* m_layout{nullptr};

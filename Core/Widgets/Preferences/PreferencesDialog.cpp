@@ -49,6 +49,7 @@ PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
 	setupUI();
 
 	m_pages->setCurrentIndex(0);
+	m_list->setCurrentItem(m_list->item(0));
 
 	connect(m_buttonBox, &QDialogButtonBox::clicked, this, &PreferencesDialog::buttonClicked);
 	connect(m_list, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(showStackedPage(QListWidgetItem*)));
@@ -102,9 +103,9 @@ void PreferencesDialog::showStackedPage(QListWidgetItem* item)
 	m_pages->setCurrentIndex(index);
 }
 
-void PreferencesDialog::addPage(QWidget* page, const QString& name)
+void PreferencesDialog::addPage(QWidget* page, const QString& name, const QIcon& icon)
 {
-	m_list->addItem(name);
+	m_list->addItem(new QListWidgetItem(QIcon(icon.pixmap(32)), name));
 	m_pages->addWidget(page);
 }
 
@@ -154,16 +155,16 @@ void PreferencesDialog::setupUI()
 	m_pageAdBlock = new AdBlockPage(m_pages);
 	m_currentTabsSpacePage = new CurrentTabsSpacePage(m_tabWidget, m_pages);
 
-	addPage(m_generalPage, tr("General"));
-	addPage(m_appearancePage, tr("Appearance"));
-	addPage(m_webConfigPage, tr("Web Configuration"));
-	addPage(m_localStoragePage, tr("Local Storage"));
-	addPage(m_proxyConfigPage, tr("Proxy"));
-	addPage(m_passwordPage, tr("Password Manager"));
-	addPage(m_privacyPage, tr("Privacy"));
-	addPage(m_downloadPage, tr("Downloads"));
-	addPage(m_pageAdBlock, tr("AdBlock"));
-	addPage(m_currentTabsSpacePage, tr("Current Tabs Space"));
+	addPage(m_generalPage, tr("General"), Application::getAppIcon("settings", "preferences"));
+	addPage(m_appearancePage, tr("Appearance"), Application::getAppIcon("appearance", "preferences"));
+	addPage(m_webConfigPage, tr("Web Configuration"), Application::getAppIcon("web-configs", "preferences"));
+	addPage(m_localStoragePage, tr("Local Storage"), Application::getAppIcon("local-storage", "preferences"));
+	addPage(m_proxyConfigPage, tr("Proxy"), Application::getAppIcon("proxy", "preferences"));
+	addPage(m_passwordPage, tr("Password Manager"), Application::getAppIcon("passwords", "preferences"));
+	addPage(m_privacyPage, tr("Privacy"), Application::getAppIcon("privacy", "preferences"));
+	addPage(m_downloadPage, tr("Downloads"), Application::getAppIcon("download", "preferences"));
+	addPage(m_pageAdBlock, tr("AdBlock"), Application::getAppIcon("adblock", "preferences"));
+	addPage(m_currentTabsSpacePage, tr("Current Tabs Space"), Application::getAppIcon("current-tabsspace", "preferences"));
 
 	m_layout->addWidget(m_list, 0, 1, 5, 1);
 	m_layout->addWidget(m_caption, 0, 0, 1, 1);
