@@ -32,6 +32,10 @@
 #include <QVBoxLayout>
 
 #include <QDialogButtonBox>
+#include <QLabel>
+#include <QListWidget>
+#include <QStackedWidget>
+#include <QScrollArea>
 #include <QTabWidget>
 
 namespace Sn {
@@ -59,16 +63,21 @@ private slots:
 	void saveSettings();
 
 	void buttonClicked(QAbstractButton* button);
+	void showStackedPage(QListWidgetItem* item);
 
 private:
+	void addPage(QWidget* page, const QString& name);
 	void setupUI();
 
-	QVBoxLayout* m_layout{nullptr};
-	QHBoxLayout* m_layoutButton{nullptr};
+	QGridLayout* m_layout{nullptr};
 
-	QTabWidget* m_pages{nullptr};
-	QSpacerItem* m_buttonSpacer{nullptr};
+	QListWidget* m_list{nullptr};
+	QLabel* m_caption{nullptr};
+	QScrollArea* m_scrollArea{nullptr};
+	QStackedWidget* m_pages{nullptr};
 	QDialogButtonBox* m_buttonBox{nullptr};
+	QFrame* m_topLine{nullptr};
+	QFrame* m_bottomLine{nullptr};
 
 	GeneralPage* m_generalPage{nullptr};
 	AppearancePage* m_appearancePage{nullptr};

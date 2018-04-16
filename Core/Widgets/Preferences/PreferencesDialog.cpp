@@ -48,7 +48,10 @@ PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
 
 	setupUI();
 
+	m_pages->setCurrentIndex(0);
+
 	connect(m_buttonBox, &QDialogButtonBox::clicked, this, &PreferencesDialog::buttonClicked);
+	connect(m_list, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(showStackedPage(QListWidgetItem*)));
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -89,14 +92,56 @@ void PreferencesDialog::buttonClicked(QAbstractButton* button)
 	}
 }
 
+void PreferencesDialog::showStackedPage(QListWidgetItem* item)
+{
+	if (!item)
+		return;
+
+	int index{m_list->currentRow()};
+	m_caption->setText("<b>" + item->text() + "</b>");
+	m_pages->setCurrentIndex(index);
+}
+
+void PreferencesDialog::addPage(QWidget* page, const QString& name)
+{
+	m_list->addItem(name);
+	m_pages->addWidget(page);
+}
+
 void PreferencesDialog::setupUI()
 {
-	m_layout = new QVBoxLayout(this);
+	resize(860, 560);
 
-	m_layoutButton = new QHBoxLayout();
+	m_layout = new QGridLayout(this);
 
-	m_pages = new QTabWidget(this);
-	m_pages->setObjectName("preferences_pages");
+	m_list = new QListWidget(this);
+	m_list->setObjectName(QLatin1String("preferences_list"));
+	m_list->setIconSize(QSize(32, 32));
+	m_list->setMaximumWidth(220);
+
+	m_caption = new QLabel(this);
+	m_caption->setObjectName(QLatin1String("preferences-title"));
+
+	m_scrollArea = new QScrollArea(this);
+	m_pages = new QStackedWidget(m_scrollArea);
+	m_pages->setFocusPolicy(Qt::NoFocus);
+	m_pages->setObjectName(QLatin1String("preferences-pages"));
+	m_scrollArea->setObjectName(QLatin1String("preferences-pages"));
+	m_scrollArea->setFrameShape(QFrame::NoFrame);
+	m_scrollArea->setWidgetResizable(true);
+	m_scrollArea->setWidget(m_pages);
+
+	m_topLine = new QFrame(this);
+	m_topLine->setObjectName(QLatin1String("preferences-line"));
+	m_topLine->setFrameShape(QFrame::HLine);
+	m_topLine->setFrameShadow(QFrame::Sunken);
+
+	m_bottomLine = new QFrame(this);
+	m_bottomLine->setObjectName(QLatin1String("preferences-line"));
+	m_bottomLine->setFrameShape(QFrame::HLine);
+	m_bottomLine->setFrameShadow(QFrame::Sunken);
+
+	m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::Ok, this);
 
 	m_generalPage = new GeneralPage(m_pages);
 	m_downloadPage = new DownloadPage(m_pages);
@@ -109,26 +154,23 @@ void PreferencesDialog::setupUI()
 	m_pageAdBlock = new AdBlockPage(m_pages);
 	m_currentTabsSpacePage = new CurrentTabsSpacePage(m_tabWidget, m_pages);
 
-	m_pages->addTab(m_generalPage, tr("General"));
-	m_pages->addTab(m_appearancePage, tr("Appearance"));
-	m_pages->addTab(m_webConfigPage, tr("Web Configuration"));
-	m_pages->addTab(m_localStoragePage, tr("Local Storage"));
-	m_pages->addTab(m_proxyConfigPage, tr("Proxy"));
-	m_pages->addTab(m_passwordPage, tr("Password Manager"));
-	m_pages->addTab(m_privacyPage, tr("Privacy"));
-	m_pages->addTab(m_downloadPage, tr("Downloads"));
-	m_pages->addTab(m_pageAdBlock, tr("AdBlock"));
-	m_pages->addTab(m_currentTabsSpacePage, tr("Current Tabs Space"));
+	addPage(m_generalPage, tr("General"));
+	addPage(m_appearancePage, tr("Appearance"));
+	addPage(m_webConfigPage, tr("Web Configuration"));
+	addPage(m_localStoragePage, tr("Local Storage"));
+	addPage(m_proxyConfigPage, tr("Proxy"));
+	addPage(m_passwordPage, tr("Password Manager"));
+	addPage(m_privacyPage, tr("Privacy"));
+	addPage(m_downloadPage, tr("Downloads"));
+	addPage(m_pageAdBlock, tr("AdBlock"));
+	addPage(m_currentTabsSpacePage, tr("Current Tabs Space"));
 
-	m_buttonSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-	m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::Ok, this);
-
-	m_layoutButton->addItem(m_buttonSpacer);
-	m_layoutButton->addWidget(m_buttonBox);
-
-	m_layout->addWidget(m_pages);
-	m_layout->addLayout(m_layoutButton);
+	m_layout->addWidget(m_list, 0, 1, 5, 1);
+	m_layout->addWidget(m_caption, 0, 0, 1, 1);
+	m_layout->addWidget(m_topLine, 1, 0, 1, 1);
+	m_layout->addWidget(m_scrollArea, 2, 0, 1, 1);
+	m_layout->addWidget(m_bottomLine, 3, 0, 1, 1);
+	m_layout->addWidget(m_buttonBox, 4, 0, 1, 1);
 }
 
 }
