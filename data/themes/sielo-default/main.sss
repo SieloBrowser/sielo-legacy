@@ -1,3 +1,7 @@
+/**
+ * Tab bar & tab rules
+ */
+
 #tabbarwidget * {
     background: scolor(second);
 }
@@ -32,6 +36,10 @@ QTabBar::tab:!selected:hover
     background: scolor(second, dark) repeat-x;
 }
 
+/**
+ * Add & close tab button rules
+ */
+
 #tabwidget-button-addtab
 {
   max-width: 24px;
@@ -42,6 +50,10 @@ QTabBar::tab:!selected:hover
     border-radius: 0px;
     background-color: #C62828;
 }
+
+/**
+ * Floating button sss rules
+ */
 
 #fbutton-root
 {
@@ -142,82 +154,9 @@ QTabBar::tab:!selected:hover
     border-radius: 5px;
 }
 
-QDialog,
-QMenu,
-QTabWidget::pane
-{
-    border: none;
-  background: scolor(main);
-    color: scolor(text);
-}
-
-QMainWindow
-{
-  background: scolor(main);
-    background-image: url(images/background.png);
-}
-
-QTreeWidget,
-QTreeView,
-QTableWidget,
-QTableView,
-QListView,
-QListWidget {
-  background: scolor(main);
-  alternate-background-color: scolor(main, dark);
-  color: scolor(text);
-}
-
-QTextBrowser {
-  border: none;
-  background: rgba(0, 0, 0,.3);
-  color: scolor(text);
-}
-
-QDialog QLabel
-{
-  color: scolor(text);
-  font-size: 12px;
-}
-
-QDialog QLineEdit
-{
-    border: 1px solid scolor(text);
-  border: 1px solid scolor(accent);
-
-}
-
-#search-toolbar *
-{
-  background: rgba(0,0,0,.7);
-  border: 2px solid transparent;
-  border-radius: 4px;
-  padding: 7px 14px;
-  color: scolor(text);
-  font-size: 12px;
-}
-
-QDialog QPushButton
-{
-  background: scolor(accent, light, 200);
-  border: 2px solid transparent;
-  border-radius: 4px;
-  padding: 7px 14px;
-  color: scolor(text);
-  font-size: 12px;
-}
-
-QDialog QPushButton:focus,
-#search-toolbar QPushButton:checked
-{
-  background: white;
-  color: black;
-}
-
-QDialog QGroupBox
-{
-  color: scolor(text);
-}
+/**
+ * Navigation bar rules
+ */
 
 #navigationbar
 {
@@ -269,6 +208,10 @@ QDialog QGroupBox
     background: none;
     border: none;
 }
+
+/**
+ * Navigation bar address bar rules
+ */
 
 #addressbar
 {
@@ -327,6 +270,39 @@ QDialog QGroupBox
   font-size: 18px;
 }
 
+/**
+ * Search tool bar rules
+ */
+
+#search-toolbar *
+{
+    background: scolor(main, normal, 175);
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 7px 7px;
+    color: scolor(text);
+    font-size: 12px;
+}
+
+#search-toolbar QPushButton:checked
+{
+    background: scolor(accent);
+}
+
+#search-toolbar QPushButton:hover
+{
+    background: scolor(accent);
+}
+
+#search-toolbar QPushButton:disabled
+{
+    background: none;
+}
+
+/**
+ * Bookmarks bar rules
+ */
+
 #bookmarks-toolbar {
     height: 30px;
     border: 2px solid transparent;
@@ -341,6 +317,87 @@ QDialog QGroupBox
     margin: 2px;
     background: scolor(accent, normal, 175);
     color: scolor(text, normal);
+}
+
+/**
+ * Preferences rules
+ */
+
+#preferences-pages {
+  background: transparent;
+}
+
+
+/**
+ * Others
+ */
+
+
+QDialog,
+QMenu,
+QTabWidget::pane
+{
+    border: none;
+  background: scolor(main);
+    color: scolor(text);
+}
+
+QMainWindow
+{
+  background: scolor(main);
+    background-image: url(images/background.png);
+}
+
+QTreeWidget,
+QTreeView,
+QTableWidget,
+QTableView,
+QListView,
+QListWidget {
+  background: scolor(main);
+  alternate-background-color: scolor(main, dark);
+  color: scolor(text);
+}
+
+QTextBrowser {
+  border: none;
+  background: rgba(0, 0, 0,.3);
+  color: scolor(text);
+}
+
+QDialog QLabel
+{
+  color: scolor(text);
+  font-size: 12px;
+}
+
+QDialog QLineEdit
+{
+    border: 1px solid scolor(text);
+  border: 1px solid scolor(accent);
+
+}
+
+QDialog QPushButton
+{
+  background: scolor(accent, light, 200);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 7px 14px;
+  color: scolor(text);
+  font-size: 12px;
+}
+
+QDialog QPushButton:focus,
+#search-toolbar QPushButton:checked
+{
+  background: white;
+  color: black;
+}
+
+QDialog QGroupBox
+{
+  color: scolor(text);
 }
 
 QSplitterHandle {

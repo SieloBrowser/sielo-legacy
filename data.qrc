@@ -52,7 +52,16 @@
         <file>data/themes/sielo-default/dark/other/webcam.png</file>
         <file>data/themes/sielo-default/dark/other/webpage.png</file>
         <file>data/themes/sielo-default/dark/preferences/adblock.png</file>
+        <file>data/themes/sielo-default/dark/preferences/appearance.png</file>
+        <file>data/themes/sielo-default/dark/preferences/current-tabsspace.png</file>
+        <file>data/themes/sielo-default/dark/preferences/download.png</file>
+        <file>data/themes/sielo-default/dark/preferences/local-storage.png</file>
+        <file>data/themes/sielo-default/dark/preferences/passwords.png</file>
         <file>data/themes/sielo-default/dark/preferences/preferences.png</file>
+        <file>data/themes/sielo-default/dark/preferences/privacy.png</file>
+        <file>data/themes/sielo-default/dark/preferences/proxy.png</file>
+        <file>data/themes/sielo-default/dark/preferences/settings.png</file>
+        <file>data/themes/sielo-default/dark/preferences/web-configs.png</file>
         <file>data/themes/sielo-default/dark/tabs/anonymous.png</file>
         <file>data/themes/sielo-default/dark/tabs/audiomuted.png</file>
         <file>data/themes/sielo-default/dark/tabs/audioplaying.png</file>
@@ -111,7 +120,16 @@
         <file>data/themes/sielo-default/light/other/webcam.png</file>
         <file>data/themes/sielo-default/light/other/webpage.png</file>
         <file>data/themes/sielo-default/light/preferences/adblock.png</file>
+        <file>data/themes/sielo-default/light/preferences/appearance.png</file>
+        <file>data/themes/sielo-default/light/preferences/current-tabsspace.png</file>
+        <file>data/themes/sielo-default/light/preferences/download.png</file>
+        <file>data/themes/sielo-default/light/preferences/local-storage.png</file>
+        <file>data/themes/sielo-default/light/preferences/passwords.png</file>
         <file>data/themes/sielo-default/light/preferences/preferences.png</file>
+        <file>data/themes/sielo-default/light/preferences/privacy.png</file>
+        <file>data/themes/sielo-default/light/preferences/proxy.png</file>
+        <file>data/themes/sielo-default/light/preferences/settings.png</file>
+        <file>data/themes/sielo-default/light/preferences/web-configs.png</file>
         <file>data/themes/sielo-default/light/tabs/anonymous.png</file>
         <file>data/themes/sielo-default/light/tabs/audiomuted.png</file>
         <file>data/themes/sielo-default/light/tabs/audioplaying.png</file>
