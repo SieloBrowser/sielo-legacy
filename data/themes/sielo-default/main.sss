@@ -40,15 +40,30 @@ QTabBar::tab:!selected:hover
  * Add & close tab button rules
  */
 
-#tabwidget-button-addtab
-{
-  max-width: 24px;
+#tabwidget-button-addtab:hover {
+    border: scolor(accent);
+    background: scolor(accent);
 }
 
-#tabs-closebutton:hover
-{
-  border-radius: 0px;
-  background-color: #C62828;
+#tabwidget-button-addtab {
+    border-radius: 5px;
+    max-height: 30px;
+    max-width: 30px;
+    width: 30px;
+    height: 30px;
+}
+
+#tabwidget-button-mainmenu {
+    border-radius: 5px;
+    max-width: 30px;
+    max-height: 30px;
+    width: 30px;
+    height: 30px;
+}
+
+#tabwidget-button-mainmenu:hover {
+    border: scolor(accent);
+    background: scolor(accent);
 }
 
 /**
@@ -451,6 +466,10 @@ QMenu::item:selected
 {
   background: scolor(accent) repeat-x;
   color: scolor(text);
+}
+
+QMenu::item::!selected::hover {
+  background: scolor(accent, normal, 100);
 }
 
 QProgressBar {
