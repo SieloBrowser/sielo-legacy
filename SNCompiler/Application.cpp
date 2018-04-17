@@ -30,6 +30,8 @@
 #include <QFileInfo>
 #include <QFileInfoList>
 
+#include <iostream>
+
 Application::Application(int& argc, char** argv) :
 	QApplication(argc, argv)
 {
@@ -60,6 +62,14 @@ Application::Application(int& argc, char** argv) :
 			else if (args.count() == 5) {
 				QMessageBox::information(nullptr, QApplication::tr("Success"), args[4]);
 			}
+		}
+		else if (args[1] == "-h" || args[1] == "--help") {
+			std::cout << QApplication::tr("Their is two ways to use this command:").toStdString() << std::endl << std::endl;
+			std::cout << QApplication::tr("$ sielo-compiler compile theme (path to the theme folder) (name of the theme)").toStdString() << std::endl;
+			std::cout << " -> " << QApplication::tr("This will compile your theme in a basic \".sntm\" file. The output is in the theme folder directory.").toStdString() << std::endl << std::endl;
+			std::cout << QApplication::tr("$ sielo-compiler decompile (path to the theme file) (path where the theme must be decompiled)").toStdString() << std::endl;
+			std::cout << " -> " << QApplication::tr("This will decompile your theme in the directory you choose.").toStdString() << std::endl << std::endl;
+
 		}
 		else
 			QMessageBox::critical(nullptr,
