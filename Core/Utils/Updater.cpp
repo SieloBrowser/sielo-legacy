@@ -39,6 +39,8 @@
 
 #include "Network/NetworkManager.hpp"
 
+#include "Widgets/UpdaterDialog.hpp"
+
 #include "BrowserWindow.hpp"
 
 #include "Application.hpp"
@@ -140,7 +142,10 @@ void Updater::start()
 void Updater::startDownloadNewVersion(const QUrl& url)
 {
 	m_updaterReply = Application::instance()->networkManager()->get(QNetworkRequest(url));
+	UpdaterDialog* dialog{new UpdaterDialog(m_window)};
 
+	connect(m_updaterReply, &QNetworkReply::finished, dialog, &UpdaterDialog::downloadCompleted);
+	connect(m_updaterReply, &QNetworkReply::downloadProgress, dialog, &UpdaterDialog::downloadProgress);
 	connect(m_updaterReply, &QNetworkReply::finished, this, &Updater::downloadCompleted);
 }
 
