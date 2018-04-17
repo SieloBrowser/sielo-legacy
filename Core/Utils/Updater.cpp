@@ -84,7 +84,6 @@ void Updater::downloadUpdateInfoCompleted()
 	if (newVersion != Application::currentVersion) {
 #if defined(Q_OS_WIN)
 		if (!Application::instance()->isPortable()) {
-			QMessageBox::information(m_window, tr("Update"), tr("A new version of Sielo will be download in background!"));
 			QString updaterName{};
 
 			if (m_fullUpdate)

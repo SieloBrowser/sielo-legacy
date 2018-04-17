@@ -64,7 +64,7 @@ void UpdaterDialog::downloadCompleted()
 void UpdaterDialog::setupUI()
 {
 	m_layout = new QVBoxLayout(this);
-	m_information = new QLabel(tr("Sielo will restart at the end of the download."), this);
+	m_information = new QLabel(tr("Sielo is making an update. Sielo will restart at the end of the download."), this);
 	m_progress = new QProgressBar(this);
 
 	m_layout->addWidget(m_information);
