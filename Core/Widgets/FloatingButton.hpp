@@ -91,7 +91,7 @@ public:
 
 	RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern = BottomToolbar);
 
-	void addButton(const QString& name);
+	void addButton(const QString& name, const QString& toolTip);
 	FloatingButton* button(const QString& name);
 
 	QHash<QString, FloatingButton*> buttons() const { return m_buttons; }
