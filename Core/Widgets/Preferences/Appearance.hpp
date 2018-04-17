@@ -44,11 +44,13 @@
 #include <QHash>
 
 namespace Sn {
+class PreferencesDialog;
+
 class AppearancePage : public QWidget {
 Q_OBJECT
 
 public:
-	AppearancePage(QWidget* parent);
+	AppearancePage(QWidget* parent, PreferencesDialog* perferencesDialog);
 	~AppearancePage();
 
 	void save();
@@ -134,6 +136,7 @@ private:
 	QPushButton* m_backgroundLocationButton{nullptr};
 
 	bool m_colorsChanged{false};
+	PreferencesDialog* m_preferencesDialog{nullptr};
 };
 }
 

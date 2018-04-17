@@ -36,9 +36,11 @@
 #include <QDir>
 #include <QVariant>
 
-#include "Application.hpp"
-
 #include "Utils/RegExp.hpp"
+
+#include "Widgets/Preferences/PreferencesDialog.hpp"
+
+#include "Application.hpp"
 
 namespace Sn {
 
@@ -67,8 +69,9 @@ QString AppearancePage::colorString(QString id)
 		   QString::number(returnColor.blue());
 }
 
-AppearancePage::AppearancePage(QWidget* parent) :
-		QWidget(parent)
+AppearancePage::AppearancePage(QWidget* parent, PreferencesDialog* preferencesDialog) :
+		QWidget(parent),
+		m_preferencesDialog(preferencesDialog)
 {
 	setupUI();
 	loadSettings();
@@ -141,6 +144,7 @@ void AppearancePage::save()
 	settings.endGroup();
 
 	Application::instance()->loadTheme(m_activeTheme);
+	m_preferencesDialog->reloadTheme();
 
 }
 

@@ -60,6 +60,21 @@ PreferencesDialog::~PreferencesDialog()
 	// Empty
 }
 
+void PreferencesDialog::reloadTheme()
+{
+	m_list->item(0)->setIcon(QIcon(Application::getAppIcon("settings", "preferences").pixmap(32)));
+	m_list->item(1)->setIcon(QIcon(Application::getAppIcon("appearance", "preferences").pixmap(32)));
+	m_list->item(2)->setIcon(QIcon(Application::getAppIcon("web-configs", "preferences").pixmap(32)));
+	m_list->item(3)->setIcon(QIcon(Application::getAppIcon("local-storage", "preferences").pixmap(32)));
+	m_list->item(4)->setIcon(QIcon(Application::getAppIcon("proxy", "preferences").pixmap(32)));
+	m_list->item(5)->setIcon(QIcon(Application::getAppIcon("passwords", "preferences").pixmap(32)));
+	m_list->item(6)->setIcon(QIcon(Application::getAppIcon("privacy", "preferences").pixmap(32)));
+	m_list->item(7)->setIcon(QIcon(Application::getAppIcon("download", "preferences").pixmap(32)));
+	m_list->item(8)->setIcon(QIcon(Application::getAppIcon("adblock", "preferences").pixmap(32)));
+	m_list->item(9)->setIcon(Application::getAppIcon("current-tabsspace", "preferences").pixmap(32));
+
+}
+
 void PreferencesDialog::saveSettings()
 {
 	m_generalPage->save();
@@ -151,7 +166,7 @@ void PreferencesDialog::setupUI()
 	m_proxyConfigPage = new ProxyConfigPage(m_pages);
 	m_passwordPage = new PasswordPage(m_pages);
 	m_privacyPage = new PrivacyPage(m_pages);
-	m_appearancePage = new AppearancePage(m_pages);
+	m_appearancePage = new AppearancePage(m_pages, this);
 	m_pageAdBlock = new AdBlockPage(m_pages);
 	m_currentTabsSpacePage = new CurrentTabsSpacePage(m_tabWidget, m_pages);
 

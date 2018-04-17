@@ -59,6 +59,8 @@ public:
 	PreferencesDialog(TabWidget* tabWidget, QWidget* parent = nullptr);
 	~PreferencesDialog();
 
+	void reloadTheme();
+
 private slots:
 	void saveSettings();
 
