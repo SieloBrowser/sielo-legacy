@@ -716,16 +716,40 @@ void BrowserWindow::setupFloatingButton()
 
 		fButtonData >> version;
 
-		if (version == 0x0001 || version == 0x0002) {
+		if (version <= 0x0003) {
 			int buttonCount{0};
 
 			fButtonData >> buttonCount;
 
 			for (int i{0}; i < buttonCount; ++i) {
 				QString button{""};
+				QString toolTip{"floating-button"};
 
 				fButtonData >> button;
-				m_fButton->addButton(button);
+
+				if (version >= 0x0003) {
+					fButtonData >> toolTip;
+				}
+				else {
+					if (button == "fbutton-next")
+						toolTip = tr("Go Forward");
+					else if (button == "fbutton-back")
+						toolTip = tr("Go Back");
+					else if (button == "fbutton-home")
+						toolTip = tr("Go Home");
+					else if (button == "fbutton-add-bookmark")
+						toolTip = tr("Add Bookmark");
+					else if (button == "fbutton-view-bookmarks")
+						toolTip = tr("Show all Bookmarks");
+					else if (button == "fbutton-view-history")
+						toolTip = tr("Show History");
+					else if (button == "fbutton-new-window")
+						toolTip = tr("Open New Window");
+					else if (button == "fbutton-new-tab")
+						toolTip = tr("Open New Tab");
+				}
+
+				m_fButton->addButton(button, toolTip);
 			}
 
 			if (version == 0x0002) {
@@ -737,14 +761,14 @@ void BrowserWindow::setupFloatingButton()
 		}
 	}
 	else {
-		m_fButton->addButton("fbutton-next");
-		m_fButton->addButton("fbutton-back");
-		m_fButton->addButton("fbutton-home");
-		m_fButton->addButton("fbutton-add-bookmark");
-		m_fButton->addButton("fbutton-view-bookmarks");
-		m_fButton->addButton("fbutton-view-history");
-		m_fButton->addButton("fbutton-new-window");
-		m_fButton->addButton("fbutton-new-tab");
+		m_fButton->addButton("fbutton-next", tr("Go Forward"));
+		m_fButton->addButton("fbutton-back", tr("Go Back"));
+		m_fButton->addButton("fbutton-home", tr("Go Home"));
+		m_fButton->addButton("fbutton-add-bookmark", tr("Add Bookmark"));
+		m_fButton->addButton("fbutton-view-bookmarks", tr("Show all Bookmarks"));
+		m_fButton->addButton("fbutton-view-history", tr("Show History"));
+		m_fButton->addButton("fbutton-new-window", tr("Open New Window"));
+		m_fButton->addButton("fbutton-new-tab", tr("Open New Tab"));
 	}
 
 	connect(m_fButton, &RootFloatingButton::statusChanged, this, &BrowserWindow::saveButtonState);
@@ -769,13 +793,14 @@ void BrowserWindow::saveButtonState()
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	stream << 0x0002;
+	stream << 0x0003;
 	stream << m_fButton->buttons().size();
 
 	for (int i{0}; i < m_fButton->buttons().size(); ++i) {
 				foreach (FloatingButton* button, m_fButton->buttons()) {
 				if (button->index() == i) {
 					stream << button->objectName();
+					stream << button->toolTip();
 					break;
 				}
 			}
