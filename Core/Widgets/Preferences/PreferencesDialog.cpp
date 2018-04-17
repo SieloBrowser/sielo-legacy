@@ -116,7 +116,7 @@ void PreferencesDialog::setupUI()
 	m_layout = new QGridLayout(this);
 
 	m_list = new QListWidget(this);
-	m_list->setObjectName(QLatin1String("preferences_list"));
+	m_list->setObjectName(QLatin1String("preferences-list"));
 	m_list->setIconSize(QSize(32, 32));
 	m_list->setMaximumWidth(220);
 
@@ -166,12 +166,12 @@ void PreferencesDialog::setupUI()
 	addPage(m_pageAdBlock, tr("AdBlock"), Application::getAppIcon("adblock", "preferences"));
 	addPage(m_currentTabsSpacePage, tr("Current Tabs Space"), Application::getAppIcon("current-tabsspace", "preferences"));
 
-	m_layout->addWidget(m_list, 0, 1, 5, 1);
-	m_layout->addWidget(m_caption, 0, 0, 1, 1);
-	m_layout->addWidget(m_topLine, 1, 0, 1, 1);
-	m_layout->addWidget(m_scrollArea, 2, 0, 1, 1);
-	m_layout->addWidget(m_bottomLine, 3, 0, 1, 1);
-	m_layout->addWidget(m_buttonBox, 4, 0, 1, 1);
+	m_layout->addWidget(m_list, 0, 0, 5, 1);
+	m_layout->addWidget(m_caption, 0, 1, 1, 1);
+	m_layout->addWidget(m_topLine, 1, 1, 1, 1);
+	m_layout->addWidget(m_scrollArea, 2, 1, 1, 1);
+	m_layout->addWidget(m_bottomLine, 3, 1, 1, 1);
+	m_layout->addWidget(m_buttonBox, 4, 1, 1, 1);
 }
 
 }

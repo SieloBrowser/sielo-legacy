@@ -327,6 +327,31 @@ QTabBar::tab:!selected:hover
   background: transparent;
 }
 
+#preferences-list {
+  background: scolor(second);
+  color: scolor(text);
+  border: 1px solid scolor(accent);
+  border-radius: 2px;
+}
+
+#preferences-list::item::selected {
+  background: scolor(accent);
+}
+
+#preferences-list::item::!selected::hover {
+  background: scolor(accent, normal, 100);
+}
+
+#preferences-line
+{
+  background: scolor(accent);
+}
+
+#preferences-title
+{
+  color: scolor(accent);
+}
+
 
 /**
 * Others
@@ -398,6 +423,17 @@ QDialog QPushButton:focus,
 QDialog QGroupBox
 {
   color: scolor(text);
+  margin-top: 22px;
+  border: 1px solid scolor(accent);
+  border-radius: 2px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top right;
+    color: scolor(text);
+    padding: 5px 5px;
+    background-color: scolor(accent);
 }
 
 QSplitterHandle {
