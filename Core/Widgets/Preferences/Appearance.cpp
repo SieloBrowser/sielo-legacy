@@ -103,6 +103,10 @@ void AppearancePage::save()
 
 	settings.setValue(QLatin1String("fullyLoadThemes"), m_fullyLoadThemes->isChecked());
 
+	if (!m_fullyLoadThemes->isChecked() && Application::instance()->fullyLoadThemes()) {
+		QMessageBox::warning(this, tr("Warning"), tr("Be aware, if you only load theme's icons, floating button will disappear. You should disable floating button when you don't load full theme."));
+	}
+
 	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
 					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
