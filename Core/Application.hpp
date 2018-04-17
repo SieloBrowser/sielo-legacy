@@ -151,11 +151,9 @@ public:
 	 * @param lightness Needed to let the theme know if it should load light or dark icons.
 	 */
 	void loadTheme(const QString& name, const QString& lightness = "dark");
-
 	bool privateBrowsing() const { return m_privateBrowsing; }
-
 	bool isPortable() const { return m_isPortable; }
-
+	bool is32bit() const { return m_is32bit; }
 	bool isClosing() const { return m_isClosing; }
 
 	int windowCount() const;
@@ -272,6 +270,7 @@ private:
 
 	bool m_privateBrowsing{false};
 	bool m_isPortable{true};
+	bool m_is32bit{true};
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
 	bool m_fullyLoadThemes{true};

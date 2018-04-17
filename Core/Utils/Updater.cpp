@@ -85,13 +85,17 @@ void Updater::downloadUpdateInfoCompleted()
 #if defined(Q_OS_WIN)
 		if (!Application::instance()->isPortable()) {
 			QString updaterName{};
+			QString arch{};
+
+			if (Application::instance()->is32bit())
+				arch = "_x86";
 
 			if (m_fullUpdate)
-				updaterName = "sielo_full_update_setup.exe";
+				updaterName = "sielo_full_update_setup" + arch + ".exe";
 			else if (m_themeUpdate)
-				updaterName = "sielo_theme_update_setup.exe";
+				updaterName = "sielo_theme_update_setup" + arch + ".exe";
 			else
-				updaterName = "sielo_update_setup.exe";
+				updaterName = "sielo_update_setup" + arch + ".exe";
 
 			QUrl updaterUrl{QUrl("http://www.feldrise.com/Sielo/" + updaterName)};
 			startDownloadNewVersion(updaterUrl);
