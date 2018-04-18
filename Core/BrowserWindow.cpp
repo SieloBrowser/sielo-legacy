@@ -52,10 +52,10 @@
 namespace Sn {
 
 BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
-	QMainWindow(nullptr),
-	m_startUrl(url),
-	m_windowType(type),
-	m_statusBarMessage(new StatusBarMessage(this))
+		QMainWindow(nullptr),
+		m_startUrl(url),
+		m_windowType(type),
+		m_statusBarMessage(new StatusBarMessage(this))
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
@@ -89,7 +89,7 @@ void BrowserWindow::loadSettings()
 
 	m_spaceBetweenTabsSpaces = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 
-			foreach (TabWidget *tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			tabWidget->loadSettings();
 			if (tabWidget->parentWidget())
 				tabWidget->parentWidget()->setContentsMargins(m_spaceBetweenTabsSpaces, m_spaceBetweenTabsSpaces,
@@ -117,9 +117,9 @@ void BrowserWindow::loadSettings()
 
 	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
 	m_bookmarksToolBar->setVisible(showBookmarksToolBar);
-	foreach (TabWidget* tbWidget, m_tabWidgets) {
-		tbWidget->updateShowBookmarksBarText(showBookmarksToolBar);
-	}
+			foreach (TabWidget* tbWidget, m_tabWidgets) {
+			tbWidget->updateShowBookmarksBarText(showBookmarksToolBar);
+		}
 
 }
 
@@ -137,7 +137,7 @@ QByteArray BrowserWindow::saveTabs()
 
 		for (int j{0}; j < verticalSplitter->count(); ++j)
 			stream << static_cast<TabWidget*>(verticalSplitter->widget(j)->findChild<TabWidget*>(QString("tabwidget")))
-				->saveState();
+					->saveState();
 
 	}
 
@@ -252,7 +252,7 @@ void BrowserWindow::insertTabsSpace(TabsSpacePosition position, QWidget* widgetT
 
 			m_mainSplitter->insertWidget(m_mainSplitter
 												 ->indexOf(static_cast<QSplitter*>(from
-												 ->parent()->parent())), verticalSplitter);
+														 ->parent()->parent())), verticalSplitter);
 		}
 		else {
 			verticalSplitter->addWidget(widgetTabWidget);
@@ -469,7 +469,13 @@ void BrowserWindow::postLaunch()
 	bool addTab{true};
 	QUrl startUrl{};
 
-	switch (Application::instance()->afterLaunch()) {
+	Application::AfterLaunch launchAction = Application::instance()->afterLaunch();
+
+	if (Application::instance()->isStartingAfterCrash()) {
+		launchAction = Application::instance()->afterCrashLaunch();
+	}
+
+	switch (launchAction) {
 	case Application::OpenBlankPage:
 		startUrl = QUrl();
 		break;
@@ -485,11 +491,15 @@ void BrowserWindow::postLaunch()
 
 	switch (m_windowType) {
 	case Application::WT_FirstAppWindow:
-		if ((Application::instance()->afterLaunch() == Application::RestoreSession
+		if ((Application::instance()->isStartingAfterCrash() &&
+			 Application::instance()->afterCrashLaunch() == Application::AfterLaunch::RestoreSession) ||
+			(Application::instance()->afterLaunch() == Application::RestoreSession
 			 || Application::instance()->afterLaunch() == Application::OpenSavedSession)
 			&& Application::instance()->restoreManager()) {
-			addTab = !Application::instance()
-				->restoreSession(this, Application::instance()->restoreManager()->restoreData());
+			if (!(Application::instance()->isStartingAfterCrash() && Application::instance()->afterCrashLaunch() == Application::AfterLaunch::OpenHomePage)) {
+				addTab = !Application::instance()
+						->restoreSession(this, Application::instance()->restoreManager()->restoreData());
+			}
 		}
 		break;
 	case Application::WT_NewWindow:
@@ -571,7 +581,7 @@ void BrowserWindow::floatingButtonPatternChange(RootFloatingButton::Pattern patt
 
 void BrowserWindow::newWindow()
 {
-		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			QRect tabWidgetRect = tabWidget->geometry();
 
 			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
@@ -584,7 +594,7 @@ void BrowserWindow::newWindow()
 
 void BrowserWindow::goHome()
 {
-		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			QRect tabWidgetRect = tabWidget->geometry();
 
 			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
@@ -597,7 +607,7 @@ void BrowserWindow::goHome()
 
 void BrowserWindow::forward()
 {
-		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			QRect tabWidgetRect = tabWidget->geometry();
 
 			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
@@ -610,7 +620,7 @@ void BrowserWindow::forward()
 
 void BrowserWindow::back()
 {
-		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			QRect tabWidgetRect = tabWidget->geometry();
 
 			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
@@ -623,7 +633,7 @@ void BrowserWindow::back()
 
 void BrowserWindow::newTab()
 {
-		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			QRect tabWidgetRect = tabWidget->geometry();
 
 			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
@@ -638,7 +648,7 @@ void BrowserWindow::newTab()
 
 void BrowserWindow::openAddBookmarkDialog()
 {
-		foreach (TabWidget* tabWidget, m_tabWidgets) {
+			foreach (TabWidget* tabWidget, m_tabWidgets) {
 			QRect tabWidgetRect = tabWidget->geometry();
 
 			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
@@ -842,8 +852,9 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 	layout->addWidget(tabWidget);
 
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
-	connect(m_bookmarksToolBar->toggleViewAction(), &QAction::toggled, tabWidget, &TabWidget::updateShowBookmarksBarText);
-    connect(m_bookmarksToolBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
+	connect(m_bookmarksToolBar->toggleViewAction(), &QAction::toggled, tabWidget,
+			&TabWidget::updateShowBookmarksBarText);
+	connect(m_bookmarksToolBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
 
 	return widget;
 }

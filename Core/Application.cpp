@@ -202,39 +202,39 @@ Application::Application(int& argc, char** argv) :
 	m_autoFill = new AutoFill;
 
 	QString webChannelScriptSrc = QLatin1String("(function() {"
-														"%1"
-														""
-														"function registerExternal(e) {"
-														"    window.external = e;"
-														"    if (window.external) {"
-														"        var event = document.createEvent('Event');"
-														"        event.initEvent('_sielo_external_created', true, true);"
-														"        document.dispatchEvent(event);"
-														"    }"
-														"}"
-														""
-														"if (self !== top) {"
-														"    if (top.external)"
-														"        registerExternal(top.external);"
-														"    else"
-														"        top.document.addEventListener('_sielo_external_created', function() {"
-														"            registerExternal(top.external);"
-														"        });"
-														"    return;"
-														"}"
-														""
-														"function registerWebChannel() {"
-														"    try {"
-														"        new QWebChannel(qt.webChannelTransport, function(channel) {"
-														"            registerExternal(channel.objects.sielo_object);"
-														"        });"
-														"    } catch (e) {"
-														"        setTimeout(registerWebChannel, 100);"
-														"    }"
-														"}"
-														"registerWebChannel();"
-														""
-														"})()");
+												"%1"
+												""
+												"function registerExternal(e) {"
+												"    window.external = e;"
+												"    if (window.external) {"
+												"        var event = document.createEvent('Event');"
+												"        event.initEvent('_sielo_external_created', true, true);"
+												"        document.dispatchEvent(event);"
+												"    }"
+												"}"
+												""
+												"if (self !== top) {"
+												"    if (top.external)"
+												"        registerExternal(top.external);"
+												"    else"
+												"        top.document.addEventListener('_sielo_external_created', function() {"
+												"            registerExternal(top.external);"
+												"        });"
+												"    return;"
+												"}"
+												""
+												"function registerWebChannel() {"
+												"    try {"
+												"        new QWebChannel(qt.webChannelTransport, function(channel) {"
+												"            registerExternal(channel.objects.sielo_object);"
+												"        });"
+												"    } catch (e) {"
+												"        setTimeout(registerWebChannel, 100);"
+												"    }"
+												"}"
+												"registerWebChannel();"
+												""
+												"})()");
 
 	QWebEngineScript script{};
 
@@ -246,15 +246,27 @@ Application::Application(int& argc, char** argv) :
 
 	m_webProfile->scripts()->insert(script);
 
+	if (!privateBrowsing()) {
+		QSettings settings{};
+
+		m_startingAfterCrash = settings.value(QLatin1String("isRunning"), false).toBool();
+		settings.setValue(QLatin1String("isRunning"), true);
+
+		if (m_startingAfterCrash)
+			startAfterCrash();
+	}
+
 	// Create or restore window
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
-	if (afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession) {
-		m_restoreManager = new RestoreManager();
-		if (!m_restoreManager->isValid())
-			destroyRestoreManager();
-		else
-			QFile::remove(paths()[Application::P_Data] + QLatin1String("/pinnedtabs.dat"));
+	if ((isStartingAfterCrash() && afterCrashLaunch() == RestoreSession) || (afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession)) {
+		if (!(isStartingAfterCrash() && afterCrashLaunch() == Application::AfterLaunch::OpenHomePage)) {
+			m_restoreManager = new RestoreManager();
+			if (!m_restoreManager->isValid())
+				destroyRestoreManager();
+			else
+				QFile::remove(paths()[Application::P_Data] + QLatin1String("/pinnedtabs.dat"));
+		}
 	}
 
 	// Check for update
@@ -343,7 +355,7 @@ void Application::loadSettings()
 	settings.endGroup();
 
 	// Check the current version number of Sielo, and make setting update if needed
-    if (settings.value("versionNumber", 0).toInt() < 11) {
+	if (settings.value("versionNumber", 0).toInt() < 11) {
 		if (settings.value("versionNumber", 0).toInt() < 8) {
 			settings.setValue("installed", false);
 			if (settings.value("versionNumber", 0).toInt() < 7) {
@@ -374,9 +386,10 @@ void Application::loadSettings()
 		QString directory{Application::instance()->paths()[Application::P_Data]};
 		QFile::remove(directory + QLatin1String("/bookmarks.xbel"));
 		QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory + QLatin1String("/bookmarks.xbel"));
-		QFile::setPermissions(directory + QLatin1String("/bookmarks.xbel"), QFileDevice::ReadUser | QFileDevice::WriteUser);
+		QFile::setPermissions(directory + QLatin1String("/bookmarks.xbel"),
+							  QFileDevice::ReadUser | QFileDevice::WriteUser);
 
-        settings.setValue("versionNumber", 11);
+		settings.setValue("versionNumber", 11);
 	}
 
 	// Load settings for password
@@ -386,7 +399,7 @@ void Application::loadSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-        if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 18) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 18) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -407,7 +420,7 @@ void Application::loadSettings()
 			}
 
 			loadThemeFromResources("sielo-default", false);
-            settings.setValue("Themes/defaultThemeVersion", 18);
+			settings.setValue("Themes/defaultThemeVersion", 18);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -525,6 +538,8 @@ void Application::saveSettings()
 		return;
 
 	QSettings settings{};
+
+	settings.setValue("isRunning", false);
 
 	settings.beginGroup("Web-Settings");
 
@@ -750,6 +765,33 @@ HTML5PermissionsManager* Application::permissionsManager()
 		m_permissionsManager = new HTML5PermissionsManager(this);
 
 	return m_permissionsManager;
+}
+
+void Application::startAfterCrash()
+{
+	QMessageBox requestAction{};
+	requestAction.setWindowTitle(QApplication::tr("Start after crash"));
+	requestAction.setText(QApplication::tr("You are starting Sielo after a crash. What would you like to do?"));
+
+	QAbstractButton* startBlankSession = requestAction.addButton(QApplication::tr("Start New Session"), QMessageBox::NoRole);
+	QAbstractButton* restoreSession = requestAction.addButton(QApplication::tr("Restore Session"), QMessageBox::YesRole);
+
+	requestAction.exec();
+
+	if (!is32bit()) {
+		QMessageBox::information(nullptr, QApplication::tr("Info"), QApplication::tr("Please, if Sielo continues crashing, consider trying this 32bit version."));
+	}
+
+	if (requestAction.clickedButton() == restoreSession) {
+		m_afterCrashLaunch = AfterLaunch::RestoreSession;
+		QMessageBox::information(nullptr, "DEBUG", "Restore Session");
+
+	}
+	else {
+		m_afterCrashLaunch = AfterLaunch::OpenHomePage;
+		QMessageBox::information(nullptr, "DEBUG", "Home Page");
+
+	}
 }
 
 void Application::connectDatabase()

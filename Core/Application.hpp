@@ -154,6 +154,7 @@ public:
 	bool privateBrowsing() const { return m_privateBrowsing; }
 	bool isPortable() const { return m_isPortable; }
 	bool is32bit() const { return m_is32bit; }
+	bool isStartingAfterCrash() const { return m_startingAfterCrash; }
 	bool isClosing() const { return m_isClosing; }
 
 	int windowCount() const;
@@ -169,35 +170,30 @@ public:
 	 */
 	BrowserWindow* createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
 
+	AfterLaunch afterCrashLaunch() const { return m_afterCrashLaunch; }
 	AfterLaunch afterLaunch() const;
 
 	bool restoreSession(BrowserWindow* window, RestoreData restoreData);
 	void destroyRestoreManager();
 
 	PluginProxy* plugins() const { return m_plugins; }
-
 	AutoFill* autoFill() const { return m_autoFill; }
-
 	CookieJar* cookieJar();
 	HistoryManager* historyManager();
 	BookmarksManager* bookmarksManager();
 	DownloadManager* downloadManager();
 	HTML5PermissionsManager* permissionsManager();
-
 	NetworkManager* networkManager() const { return m_networkManager; }
-
 	RestoreManager* restoreManager() const { return m_restoreManager; }
 
 	QWebEngineProfile* webProfile() const { return m_webProfile; }
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
-
 	bool useTopToolBar() const { return m_useTopToolBar; }
-
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
-
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
+	void startAfterCrash();
 	void connectDatabase();
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
@@ -271,6 +267,7 @@ private:
 	bool m_privateBrowsing{false};
 	bool m_isPortable{true};
 	bool m_is32bit{true};
+	bool m_startingAfterCrash{false};
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
 	bool m_fullyLoadThemes{true};
@@ -278,6 +275,8 @@ private:
 	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};
 	bool m_databaseConnected{false};
+
+	AfterLaunch m_afterCrashLaunch{AfterLaunch::OpenHomePage};
 
 	PluginProxy* m_plugins{nullptr};
 	AutoFill* m_autoFill{nullptr};
