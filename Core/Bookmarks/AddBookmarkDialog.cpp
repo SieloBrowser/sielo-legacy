@@ -39,7 +39,6 @@ namespace Sn {
 AddBookmarkDialog::AddBookmarkDialog(const QString& url, const QString& title, QWidget* parent,
 									 BookmarksManager* bookmarksManager) :
 	QDialog(parent),
-	m_url(url),
 	m_bookmarksManager(bookmarksManager)
 {
 	if (!m_bookmarksManager)
@@ -67,6 +66,7 @@ AddBookmarkDialog::AddBookmarkDialog(const QString& url, const QString& title, Q
 	m_location->setView(view);
 
 	m_name->setText(title);
+        m_urlEdit->setText(url);
 
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &AddBookmarkDialog::accept);
 	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &AddBookmarkDialog::reject);
@@ -84,7 +84,7 @@ void AddBookmarkDialog::accept()
 	BookmarkNode* parent{m_bookmarksManager->bookmarksModel()->node(index)};
 	BookmarkNode* bookmark{new BookmarkNode(BookmarkNode::Bookmark)};
 
-	bookmark->url = m_url;
+	bookmark->url = m_urlEdit->text();
 	bookmark->title = m_name->text();
 
 	m_bookmarksManager->addBookmark(parent, bookmark);
@@ -104,6 +104,8 @@ void AddBookmarkDialog::setupUI()
 
 	m_name = new QLineEdit(this);
 	m_name->setPlaceholderText(tr("Name of bookmark"));
+	
+	m_urlEdit = new QLineEdit(this);
 
 	m_location = new QComboBox(this);
 
@@ -114,6 +116,7 @@ void AddBookmarkDialog::setupUI()
 
 	m_layout->addWidget(m_description);
 	m_layout->addWidget(m_name);
+	m_layout->addWidget(m_urlEdit);
 	m_layout->addWidget(m_location);
 	m_layout->addItem(m_spacer);
 	m_layout->addWidget(m_buttonBox);
