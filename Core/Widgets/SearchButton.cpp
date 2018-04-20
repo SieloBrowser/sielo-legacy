@@ -22,34 +22,42 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "ClearButton.hpp"
+#include "SearchButton.hpp"
 
 #include "Application.hpp"
 
+
 namespace Sn {
 
-ClearButton::ClearButton(QWidget* parent) :
+SearchButton::SearchButton(QWidget* parent) :
 	QPushButton(parent)
 {
-	setObjectName(QLatin1String("button-clear"));
-	setFlat(true);
+	setObjectName(QLatin1String("button-search"));
 	setCursor(Qt::ArrowCursor);
-	setToolTip(tr("Clear"));
 	setFocusPolicy(Qt::NoFocus);
+	setFlat(true);
 
-	setIcon(Application::getAppIcon("close"));
-
-	setVisible(false);
+	setIcon(Application::getAppIcon("search"));
 }
 
-ClearButton::~ClearButton()
+SearchButton::~SearchButton()
 {
 	// Empty
 }
 
-void ClearButton::textChanged(const QString& text)
+void SearchButton::mousePressEvent(QMouseEvent* event)
 {
-	setVisible(!text.isEmpty());
+	if (m_menu && event->button() == Qt::LeftButton) {
+		QWidget* parent = parentWidget();
+		if (parent) {
+			QPoint r = parent->mapToGlobal(QPoint(0, parent->height()));
+			m_menu->exec(QPoint(r.x() + height() / 2, r.y()));
+		}
+
+		event->accept();
+	}
+
+	QPushButton::mousePressEvent(event);
 }
 
 }

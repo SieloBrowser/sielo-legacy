@@ -22,34 +22,31 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "ClearButton.hpp"
+#ifndef SIELOBROWSER_SEARCHBUTTON_HPP
+#define SIELOBROWSER_SEARCHBUTTON_HPP
 
-#include "Application.hpp"
+#include <QWidget>
+#include <QPushButton>
+#include <QMenu>
+
+#include <QMouseEvent>
 
 namespace Sn {
+class SearchButton: public QPushButton {
+	Q_OBJECT
 
-ClearButton::ClearButton(QWidget* parent) :
-	QPushButton(parent)
-{
-	setObjectName(QLatin1String("button-clear"));
-	setFlat(true);
-	setCursor(Qt::ArrowCursor);
-	setToolTip(tr("Clear"));
-	setFocusPolicy(Qt::NoFocus);
+public:
+	SearchButton(QWidget* parent = nullptr);
+	~SearchButton();
 
-	setIcon(Application::getAppIcon("close"));
+protected:
+	void mousePressEvent(QMouseEvent* event);
 
-	setVisible(false);
+private:
+	QMenu* m_menu{nullptr}
+
+};
 }
 
-ClearButton::~ClearButton()
-{
-	// Empty
-}
 
-void ClearButton::textChanged(const QString& text)
-{
-	setVisible(!text.isEmpty());
-}
-
-}
+#endif //SIELOBROWSER_SEARCHBUTTON_HPP
