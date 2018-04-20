@@ -9,7 +9,8 @@ Sielo is a web browser that I began to develop a year and a half ago. The browse
 #### You can view details in [Sielo's web page](https://feldrise.com/Sielo)
 ### Download
 Their is many links to find the last Sielo version
- - Windows: The last open beta can be installed with [this setup](https://feldrise.com/Sielo/download.php?for=windows)
+ - Windows (64bit) : The last open beta can be installed with [this setup](https://feldrise.com/Sielo/download.php?for=windows)
+ - Windows (32bit) : The last open beta can be installed with [this setup](https://feldrise.com/Sielo/download.php?for=windows_x86)
  - Windows: There is a portable version [available here](https://feldrise.com/Sielo/download.php?for=windows_portable)
  - Linux: You can find [an AppImage](https://feldrise.com/Sielo/download.php?for=linux) 
  - ArchLinux: Sielo is available on the AUR.

@@ -113,7 +113,6 @@ void Updater::downloadUpdateInfoCompleted()
 	}
 
 	m_versionReply->deleteLater();
-
 }
 
 void Updater::downloadCompleted()
