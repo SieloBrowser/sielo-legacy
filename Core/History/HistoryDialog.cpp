@@ -34,12 +34,14 @@
 
 #include <QMenu>
 
-#include "Application.hpp"
+#include "Widgets/SearchLineEdit.hpp"
 
 #include "History/HistoryManager.hpp"
 #include "History/HistoryFilterModel.hpp"
 #include "Utils/TreeProxyModel.hpp"
 #include "History/HistoryModel.hpp"
+
+#include "Application.hpp"
 
 namespace Sn {
 HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :
@@ -73,6 +75,7 @@ HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :
 	m_tree->header()->resizeSection(0, header);
 	m_tree->header()->setStretchLastSection(true);
 
+	connect(m_searchLineEdit, &SearchLineEdit::textChanged, proxyModel, &TreeProxyModel::setFilterFixedString);
 	connect(m_tree, &TreeView::activated, this, &HistoryDialog::open);
 	connect(m_tree, &TreeView::customContextMenuRequested, this, &HistoryDialog::customContextMenuRequested);
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &HistoryDialog::accept);
@@ -94,8 +97,7 @@ void HistoryDialog::setupUi()
 
 	m_searchSpacer = new QSpacerItem(252, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-	m_searchLineEdit = new QLineEdit(this);
-	m_searchLineEdit->setPlaceholderText(tr("Not working for now"));
+	m_searchLineEdit = new SearchLineEdit(this);
 
 	m_tree = new TreeView(this);
 

@@ -43,6 +43,8 @@
 #include "View/TreeView.hpp"
 
 namespace Sn {
+class SearchLineEdit;
+
 class HistoryManager;
 
 class HistoryDialog: public QDialog {
@@ -63,7 +65,7 @@ private slots:
 private:
 	QGridLayout* m_layout{nullptr};
 	QSpacerItem* m_searchSpacer{nullptr};
-	QLineEdit* m_searchLineEdit{nullptr};
+	SearchLineEdit* m_searchLineEdit{nullptr};
 	TreeView* m_tree{nullptr};
 	QHBoxLayout* m_buttonLayout{nullptr};
 	QPushButton* m_removeButton{nullptr};
