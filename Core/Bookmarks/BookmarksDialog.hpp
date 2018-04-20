@@ -38,6 +38,8 @@
 #include <QDialogButtonBox>
 
 namespace Sn {
+class SearchLineEdit;
+
 class TreeProxyModel;
 
 class TreeView;
@@ -73,7 +75,7 @@ private:
 
 	QGridLayout* m_layout{nullptr};
 	QSpacerItem* m_searchSpacer{nullptr};
-	QLineEdit* m_search{nullptr};
+	SearchLineEdit* m_search{nullptr};
 	TreeView* m_tree{nullptr};
 	QHBoxLayout* m_buttonLayout{nullptr};
 	QPushButton* m_removeButton{nullptr};

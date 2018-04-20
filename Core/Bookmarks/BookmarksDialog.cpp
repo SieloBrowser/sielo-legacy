@@ -37,6 +37,8 @@
 
 #include "View/TreeView.hpp"
 
+#include "Widgets/SearchLineEdit.hpp"
+
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarkNode.hpp"
 #include "Bookmarks/BookmarksModel.hpp"
@@ -76,6 +78,7 @@ BookmarksDialog::BookmarksDialog(QWidget* parent, BookmarksManager* manager) :
 
 	setAttribute(Qt::WA_DeleteOnClose);
 
+	connect(m_search, &SearchLineEdit::textChanged, m_proxyModel, &TreeProxyModel::setFilterFixedString);
 	connect(m_removeButton, &QPushButton::clicked, this, &BookmarksDialog::removeBookmark);
 	connect(m_addFolderButton, &QPushButton::clicked, this, &BookmarksDialog::newFolder);
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &BookmarksDialog::accept);
@@ -192,8 +195,7 @@ void BookmarksDialog::setupUi()
 
 	m_searchSpacer = new QSpacerItem(252, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-	m_search = new QLineEdit(this);
-	m_search->setPlaceholderText(tr("Not working yet"));
+	m_search = new SearchLineEdit(this);
 
 	m_tree = new TreeView(this);
 
