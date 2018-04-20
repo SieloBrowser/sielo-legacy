@@ -22,47 +22,73 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "SearchButton.hpp"
+#ifndef SIELO_BROWSER_SEARCHLINEEDIT_HPP
+#define SIELO_BROWSER_SEARCHLINEEDIT_HPP
 
-#include "Application.hpp"
+#include <QWidget>
+#include <QLineEdit>
 
+#include <QSize>
+#include <QVariant>
+
+#include <QFocusEvent>
+#include <QKeyEvent>
+#include <QPaintEvent>
+#include <QResizeEvent>
+#include <QInputMethodEvent>
 
 namespace Sn {
+class ClearButton;
 
-SearchButton::SearchButton(QWidget* parent) :
-	QPushButton(parent)
-{
-	setObjectName(QLatin1String("button-search"));
-	setCursor(Qt::ArrowCursor);
-	setFocusPolicy(Qt::NoFocus);
-	setFlat(true);
+class SearchButton;
 
-	setIcon(Application::getAppIcon("search"));
+class SearchLineEdit : public QWidget {
+Q_OBJECT
+	Q_PROPERTY(QString inactiveText
+					   READ
+					   inactiveText
+					   WRITE
+					   setInactiveText)
+
+
+public:
+	SearchLineEdit(QWidget* parent = nullptr);
+	~SearchLineEdit();
+
+	QLineEdit* lineEdit() const { return m_lineEdit; }
+
+	QString inactiveText() const { return m_inactiveText; }
+	void setInactiveText(const QString& text);
+
+	QMenu* menu() const;
+	void setMenu(QMenu* menu);
+
+	QSize sizeHint();
+	QVariant inputMethodeQuery(Qt::InputMethodQuery property) const;
+
+signals:
+	void textChanged(const QString& text);
+
+protected:
+	void focusInEvent(QFocusEvent* event);
+	void focusOutEvent(QFocusEvent* event);
+	void keyPressEvent(QKeyEvent* event);
+	void paintEvent(QPaintEvent* event);
+	void resizeEvent(QResizeEvent* event);
+	void inputMethodEvent(QInputMethodEvent* event);
+	bool event(QEvent* event);
+
+private:
+	void updateGeometries();
+	void initStyleOption(QStyleOptionFrame* option) const;
+
+	SearchButton* m_searchButton{nullptr};
+	QLineEdit* m_lineEdit{nullptr};
+	ClearButton* m_clearButton{nullptr};
+
+	QString m_inactiveText{};
+};
 }
 
-SearchButton::~SearchButton()
-{
-	// Empty
-}
 
-void SearchButton::setMenu(QMenu* menu)
-{
-	m_menu = menu;
-}
-
-void SearchButton::mousePressEvent(QMouseEvent* event)
-{
-	if (m_menu && event->button() == Qt::LeftButton) {
-		QWidget* parent = parentWidget();
-		if (parent) {
-			QPoint r = parent->mapToGlobal(QPoint(0, parent->height()));
-			m_menu->exec(QPoint(r.x() + height() / 2, r.y()));
-		}
-
-		event->accept();
-	}
-
-	QPushButton::mousePressEvent(event);
-}
-
-}
+#endif //SIELO_BROWSER_SEARCHLINEEDIT_HPP

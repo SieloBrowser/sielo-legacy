@@ -39,11 +39,14 @@ public:
 	SearchButton(QWidget* parent = nullptr);
 	~SearchButton();
 
+	QMenu* menu() const { return m_menu; }
+	void setMenu(QMenu* menu);
+
 protected:
 	void mousePressEvent(QMouseEvent* event);
 
 private:
-	QMenu* m_menu{nullptr}
+	QMenu* m_menu{nullptr};
 
 };
 }
