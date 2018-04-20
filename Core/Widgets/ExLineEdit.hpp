@@ -22,53 +22,52 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_SEARCHLINEEDIT_HPP
-#define SIELO_BROWSER_SEARCHLINEEDIT_HPP
+#ifndef SIELOBROWSER_EXLINEEDIT_HPP
+#define SIELOBROWSER_EXLINEEDIT_HPP
 
 #include <QWidget>
+#include <QLineEdit>
 
-#include <QPaintEvent>
+#include <QFocusEvent>
+#include <QKeyEvent>
 #include <QResizeEvent>
-
-#include "Widgets/ExLineEdit.hpp"
+#include <QInputMethodEvent>
 
 namespace Sn {
-class SearchButton;
+class ClearButton;
 
-class SearchLineEdit : public ExLineEdit {
-Q_OBJECT
-	Q_PROPERTY(QString inactiveText
-					   READ
-					   inactiveText
-					   WRITE
-					   setInactiveText)
-
+class ExLineEdit : public QWidget
+{
+    Q_OBJECT
 
 public:
-	SearchLineEdit(QWidget* parent = nullptr);
-	~SearchLineEdit();
+    ExLineEdit(QWidget *parent = 0);
 
-	QString inactiveText() const { return m_inactiveText; }
-	void setInactiveText(const QString& text);
+    inline QLineEdit *lineEdit() const { return m_lineEdit; }
 
-	QMenu* menu() const;
-	void setMenu(QMenu* menu);
+    void setLeftWidget(QWidget *widget);
+    QWidget *leftWidget() const;
 
-signals:
-	void textChanged(const QString& text);
+    QSize sizeHint() const;
+
+    QVariant inputMethodQuery(Qt::InputMethodQuery property) const;
+protected:
+    void focusInEvent(QFocusEvent *event);
+    void focusOutEvent(QFocusEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void resizeEvent(QResizeEvent *event);
+    void inputMethodEvent(QInputMethodEvent *e);
+    bool event(QEvent *event);
 
 protected:
-	void paintEvent(QPaintEvent* event);
-	void resizeEvent(QResizeEvent* event);
+    void updateGeometries();
+    void initStyleOption(QStyleOptionFrame *option) const;
 
-private:
-	void updateGeometries();
-
-	SearchButton* m_searchButton{nullptr};
-
-	QString m_inactiveText{};
+    QWidget *m_leftWidget;
+    QLineEdit *m_lineEdit;
+    ClearButton *m_clearButton;
 };
 }
 
 
-#endif //SIELO_BROWSER_SEARCHLINEEDIT_HPP
+#endif //SIELOBROWSER_EXLINEEDIT_HPP

@@ -24,8 +24,6 @@
 
 #include "SearchLineEdit.hpp"
 
-#include <QCompleter>
-
 #include <QPainter>
 #include <QStyleOptionFrame>
 
@@ -35,42 +33,18 @@
 namespace Sn {
 
 SearchLineEdit::SearchLineEdit(QWidget* parent) :
-	QWidget(parent)
+	ExLineEdit(parent)
 {
-	m_lineEdit = new QLineEdit(this);
-
 	setObjectName(QLatin1String("search-lineedit"));
 
-	setFocusPolicy(m_lineEdit->focusPolicy());
-	setAttribute(Qt::WA_InputMethodEnabled);
-	setSizePolicy(m_lineEdit->sizePolicy());
-	setBackgroundRole(m_lineEdit->backgroundRole());
-	setMouseTracking(true);
-	setAcceptDrops(true);
-	setAttribute(Qt::WA_MacShowFocusRect, true);
-
-	QPalette p = m_lineEdit->palette();
-	setPalette(p);
-
-	m_lineEdit->setFrame(false);
-	m_lineEdit->setFocusProxy(this);
-	m_lineEdit->setAttribute(Qt::WA_MacShowFocusRect, false);
-
-	QPalette clearPalette = m_lineEdit->palette();
-	clearPalette.setBrush(QPalette::Base, QBrush(Qt::transparent));
-	m_lineEdit->setPalette(clearPalette);
-
 	m_searchButton = new SearchButton(this);
-	m_clearButton = new ClearButton(this);
+	m_inactiveText = tr("Search");
+	setLeftWidget(m_searchButton);
 
 	QSizePolicy policy = sizePolicy();
 	setSizePolicy(QSizePolicy::Preferred, policy.verticalPolicy());
 
-	connect(m_clearButton, &ClearButton::clicked, m_lineEdit, &QLineEdit::clear);
-	connect(m_lineEdit, &QLineEdit::textChanged, m_clearButton, &ClearButton::textChanged);
 	connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SIGNAL(textChanged(QString)));
-
-	m_inactiveText = tr("Search");
 }
 
 SearchLineEdit::~SearchLineEdit()
@@ -104,51 +78,12 @@ void SearchLineEdit::setMenu(QMenu *menu)
 	updateGeometries();
 }
 
-QSize SearchLineEdit::sizeHint()
-{
-	m_lineEdit->setFrame(true);
-	QSize size{m_lineEdit->sizeHint()};
-	m_lineEdit->setFrame(false);
-
-	return size;
-}
-
-QVariant SearchLineEdit::inputMethodeQuery(Qt::InputMethodQuery property) const
-{
-	return m_lineEdit->inputMethodQuery(property);
-}
-
-void SearchLineEdit::focusInEvent(QFocusEvent* event)
-{
-	m_lineEdit->event(event);
-
-	QWidget::focusInEvent(event);
-}
-
-void SearchLineEdit::focusOutEvent(QFocusEvent* event)
-{
-	m_lineEdit->event(event);
-
-	if (m_lineEdit->completer()) {
-		connect(m_lineEdit->completer(), SIGNAL(activated(QString)), m_lineEdit, SLOT(setText(QString)));	}
-
-	QWidget::focusOutEvent(event);
-}
-
-void SearchLineEdit::keyPressEvent(QKeyEvent* event)
-{
-	m_lineEdit->event(event);
-}
-
 void SearchLineEdit::paintEvent(QPaintEvent* event)
 {
-	QPainter painter{this};
-	QStyleOptionFrame panel{};
-
-	initStyleOption(&panel);
-	style()->drawPrimitive(QStyle::PE_PanelLineEdit, &panel, &painter, this);
-
-	if (m_lineEdit->text().isEmpty() && !hasFocus() & !m_inactiveText.isEmpty()) {
+	if (lineEdit()->text().isEmpty() && !hasFocus() && !m_inactiveText.isEmpty()) {
+		ExLineEdit::paintEvent(event);
+		QStyleOptionFrame panel;
+		initStyleOption(&panel);
 		QRect r = style()->subElementRect(QStyle::SE_LineEditContents, &panel, this);
 		QFontMetrics fm = fontMetrics();
 		int horizontalMargin = lineEdit()->x();
@@ -157,27 +92,15 @@ void SearchLineEdit::paintEvent(QPaintEvent* event)
 		QPainter painter(this);
 		painter.setPen(palette().brush(QPalette::Disabled, QPalette::Text).color());
 		painter.drawText(lineRect, Qt::AlignLeft|Qt::AlignVCenter, m_inactiveText);
+	} else {
+		ExLineEdit::paintEvent(event);
 	}
 }
 
 void SearchLineEdit::resizeEvent(QResizeEvent* event)
 {
-	Q_ASSERT(m_searchButton);
 	updateGeometries();
-	QWidget::resizeEvent(event);
-}
-
-void SearchLineEdit::inputMethodEvent(QInputMethodEvent* event)
-{
-	m_lineEdit->event(event);
-}
-
-bool SearchLineEdit::event(QEvent* event)
-{
-	if (event->type() == QEvent::ShortcutOverride)
-		return m_lineEdit->event(event);
-
-	return QWidget::event(event);
+	ExLineEdit::resizeEvent(event);
 }
 
 void SearchLineEdit::updateGeometries()
@@ -188,23 +111,6 @@ void SearchLineEdit::updateGeometries()
 	if (!m_searchButton->menu())
 		menuWidth = (menuHeight / 5) * 4;
 
-	m_searchButton->resize(menuWidth, menuHeight);
+	m_searchButton->resize(QSize(menuWidth, menuHeight));
 }
-
-void SearchLineEdit::initStyleOption(QStyleOptionFrame *option) const
-{
-	option->initFrom(this);
-	option->rect = contentsRect();
-	option->lineWidth = style()->pixelMetric(QStyle::PM_DefaultFrameWidth, option, this);
-	option->midLineWidth = 0;
-	option->state |= QStyle::State_Sunken;
-	if (m_lineEdit->isReadOnly())
-		option->state |= QStyle::State_ReadOnly;
-#ifdef QT_KEYPAD_NAVIGATION
-	if (hasEditFocus())
-        option->state |= QStyle::State_HasEditFocus;
-#endif
-	option->features = QStyleOptionFrame::None;
-}
-
 }
