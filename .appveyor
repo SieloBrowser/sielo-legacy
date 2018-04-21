@@ -4,14 +4,7 @@ shallow_clone: true
 environment:
     matrix:
     - PLATFORM: x86
-      QT5: C:\Qt\5.8\msvc2015
-      OPENSSL_CRYPTO_LIBRARY: C:\projects\sielonavigateur\third-party\openssl\x86
-      OPENSSL_ROOT_DIR: C:\projects\sielonavigateur\third-party\openssl\x86
 
-    - PLATFORM: x86_amd64
-      QT5: C:\Qt\5.8\msvc2015_64
-      OPENSSL_CRYPTO_LIBRARY: C:\projects\sielonavigateur\third-party\openssl\x64
-      OPENSSL_ROOT_DIR: C:\projects\sielonavigateur\third-party\openssl\x64
 
 install:
     - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
