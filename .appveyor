@@ -6,9 +6,13 @@ environment:
     - PLATFORM: x86
       QT5: C:\Qt\5.8\msvc2015
       OPENSSL: $env:appveyor_build_folder\third-party\openssl\x86
+      OPENSSL_CRYPTO_LIBRARY: $env:appveyor_build_folder\third-party\openssl\x86
+      OPENSSL_ROOT_DIR: $env:appveyor_build_folder\third-party\openssl\x86
+
     - PLATFORM: x86_amd64
       QT5: C:\Qt\5.8\msvc2015_64
-      OPENSSL: $env:appveyor_build_folder\third-party\openssl\x64
+      OPENSSL_CRYPTO_LIBRARY: $env:appveyor_build_folder\third-party\openssl\x64
+      OPENSSL_ROOT_DIR: $env:appveyor_build_folder\third-party\openssl\x64
 
 install:
     - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%
@@ -18,7 +22,7 @@ before_build:
     - mkdir build
 
 build_script:
-    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%" -DOPENSSL_ROOT_DIR="%OPENSSL%" -DOPENSSL_CRYPTO_LIBRARY="%OPENSSL%"
+    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%"
     - cmake --build build
 
 artifacts:
