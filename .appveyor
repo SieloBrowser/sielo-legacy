@@ -14,7 +14,7 @@ before_build:
     - mkdir build
 
 build_script:
-    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%" -DOPENSSL_CRYPTO_LIBRARY="%OPENSSL_CRYPTO_LIBRARY%" -DOPENSSL_ROOT_DIR="%OPENSSL_ROOT_DIR%"
+    - cmake -G "NMake Makefiles" -H. -Bbuild
     - cmake --build build
 
 artifacts:
