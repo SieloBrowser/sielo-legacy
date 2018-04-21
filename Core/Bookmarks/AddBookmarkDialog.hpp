@@ -53,12 +53,11 @@ private slots:
 private:
 	void setupUI();
 
-	QString m_url{};
-
 	QVBoxLayout* m_layout{nullptr};
 
 	QLabel* m_description{nullptr};
 	QLineEdit* m_name{nullptr};
+        QLineEdit* m_urlEdit{nullptr};
 	QComboBox* m_location{nullptr};
 
 	QSpacerItem* m_spacer{nullptr};
