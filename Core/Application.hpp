@@ -186,7 +186,7 @@ public:
 	NetworkManager* networkManager() const { return m_networkManager; }
 	RestoreManager* restoreManager() const { return m_restoreManager; }
 
-	QWebEngineProfile* webProfile() const { return m_webProfile; }
+	QWebEngineProfile* webProfile();
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool useTopToolBar() const { return m_useTopToolBar; }

@@ -438,6 +438,13 @@ void Application::loadSettings()
 	}
 }
 
+QWebEngineProfile* Application::webProfile() {
+	if (!m_webProfile) {
+		m_webProfile = QWebEngineProfile::defaultProfile();
+	}
+	return m_webProfile;
+}
+
 int Application::windowCount() const
 {
 	return m_windows.count();
