@@ -5,7 +5,6 @@ environment:
     matrix:
     - PLATFORM: x86
       QT5: C:\Qt\5.8\msvc2015
-      OPENSSL: $env:appveyor_build_folder\third-party\openssl\x86
       OPENSSL_CRYPTO_LIBRARY: $env:appveyor_build_folder\third-party\openssl\x86
       OPENSSL_ROOT_DIR: $env:appveyor_build_folder\third-party\openssl\x86
 
@@ -22,7 +21,7 @@ before_build:
     - mkdir build
 
 build_script:
-    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%"
+    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%" -DENV{OPENSSL_CRYPTO_LIBRARY}="%OPENSSL_CRYPTO_LIBRARY%" -DENV{OPENSSL_ROOT_DIR}="%OPENSSL_ROOT_DIR%"
     - cmake --build build
 
 artifacts:
