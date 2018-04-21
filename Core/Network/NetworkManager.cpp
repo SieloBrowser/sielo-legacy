@@ -78,6 +78,14 @@ void NetworkManager::authentication(const QUrl& url, QAuthenticator* auth, QWidg
 {
 	QDialog* dialog{new QDialog(parent)};
 
+	QIcon icon = dialog->windowIcon();
+	Qt::WindowFlags flags = dialog->windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	dialog->setWindowFlags(flags);
+	dialog->setWindowIcon(icon);
+
 	dialog->setWindowTitle(tr("Authorisation required"));
 
 	QFormLayout* formLayout{new QFormLayout(dialog)};
@@ -155,6 +163,13 @@ void NetworkManager::proxyAuthentication(const QString& proxyHost, QAuthenticato
 
 	QDialog* dialog{new QDialog(parent)};
 
+	QIcon icon = dialog->windowIcon();
+	Qt::WindowFlags flags = dialog->windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	dialog->setWindowFlags(flags);
+	dialog->setWindowIcon(icon);
 	dialog->setWindowTitle(tr("Proxy authorisation required"));
 
 	QFormLayout* formLayout{new QFormLayout(dialog)};

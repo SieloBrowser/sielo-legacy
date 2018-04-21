@@ -47,6 +47,14 @@ namespace Sn {
 HistoryDialog::HistoryDialog(QWidget* parent, HistoryManager* setHistory) :
 	QDialog(parent)
 {
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	setWindowFlags(flags);
+	setWindowIcon(icon);
+
 	HistoryManager* history = setHistory;
 
 	if (!history)

@@ -44,7 +44,13 @@ AddBookmarkDialog::AddBookmarkDialog(const QString& url, const QString& title, Q
 	if (!m_bookmarksManager)
 		m_bookmarksManager = Application::instance()->bookmarksManager();
 
-	setWindowFlags(Qt::Sheet);
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag) & Qt::Sheet;
+	setWindowFlags(flags);
+	setWindowIcon(icon);
 	setupUI();
 
 	QTreeView* view{new QTreeView(this)};

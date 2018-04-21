@@ -39,7 +39,14 @@ UpdaterDialog::UpdaterDialog(QWidget* parent) :
 {
 	setObjectName(QLatin1String("updater-dialog"));
 	setAttribute(Qt::WA_DeleteOnClose);
-	setWindowFlag(Qt::WindowStaysOnTopHint);
+
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag) & Qt::WindowStaysOnTopHint;
+	setWindowFlags(flags);
+	setWindowIcon(icon);
 
 	setupUI();
 	show();

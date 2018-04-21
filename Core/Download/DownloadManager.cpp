@@ -49,6 +49,14 @@ DownloadManager::DownloadManager(QWidget* parent) :
 	m_saver(new AutoSaver(this)),
 	m_removePolicy(Never)
 {
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	setWindowFlags(flags);
+	setWindowIcon(icon);
+
 	setupUI();
 
 	m_view->setShowGrid(false);

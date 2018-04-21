@@ -48,6 +48,14 @@ BookmarksDialog::BookmarksDialog(QWidget* parent, BookmarksManager* manager) :
 	QDialog(parent),
 	m_bookmarksManager(manager)
 {
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	setWindowFlags(flags);
+	setWindowIcon(icon);
+
 	if (!m_bookmarksManager)
 		m_bookmarksManager = Application::instance()->bookmarksManager();
 

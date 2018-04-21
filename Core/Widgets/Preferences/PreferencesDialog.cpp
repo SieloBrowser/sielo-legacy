@@ -40,11 +40,19 @@
 namespace Sn {
 
 PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
-	QDialog(parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint),
+	QDialog(parent),
 	m_tabWidget(tabWidget)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName("preferences_dialog");
+
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	setWindowFlags(flags);
+	setWindowIcon(icon);
 
 	setupUI();
 

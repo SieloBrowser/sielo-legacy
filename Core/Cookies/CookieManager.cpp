@@ -44,6 +44,14 @@ CookieManager::CookieManager() :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
+	QIcon icon = windowIcon();
+	Qt::WindowFlags flags = windowFlags();
+	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
+
+	flags = flags & (~helpFlag);
+	setWindowFlags(flags);
+	setWindowIcon(icon);
+
 	setupUI();
 
 	// Stored cookie
