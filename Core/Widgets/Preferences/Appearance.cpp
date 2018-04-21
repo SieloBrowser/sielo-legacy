@@ -199,7 +199,7 @@ void AppearancePage::addTheme()
 {
 #if defined(Q_OS_WIN)
 	QString compilerName = "sielo-compiler.exe";
-#elif defined(Q_OS_LINUX)
+#else
 	QString compilerName = "sielo-compiler";
 #endif
 	if (!QFile(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName)
