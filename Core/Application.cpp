@@ -399,7 +399,7 @@ void Application::loadSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 19) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 20) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -419,8 +419,9 @@ void Application::loadSettings()
 				settings.setValue("Themes/currentTheme", QLatin1String("sielo-default"));
 			}
 
+			loadThemeFromResources("firefox-like", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 19);
+			settings.setValue("Themes/defaultThemeVersion", 20);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -429,7 +430,7 @@ void Application::loadSettings()
 	}
 	else {
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 19);
+		settings.setValue("Themes/defaultThemeVersion", 20);
 	}
 
 	// Force local storage to be disabled if it's a provate session

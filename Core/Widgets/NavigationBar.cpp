@@ -47,11 +47,11 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_tabWidget(tabWidget)
 {
 	setObjectName(QStringLiteral("navigationbar"));
-	QSize iconSize{32, 32};
+	QSize iconSize{10, 10};
 
 	m_layout = new QHBoxLayout(this);
-	m_layout->setMargin(style()->pixelMetric(QStyle::PM_ToolBarItemMargin, 0, this));
-	m_layout->setSpacing(style()->pixelMetric(QStyle::PM_ToolBarItemSpacing, 0, this));
+	m_layout->setMargin(0);
+	m_layout->setSpacing(0);
 
 	m_buttonBack = new ToolButton(this);
 	m_buttonBack->setObjectName("navigation-button-back");
