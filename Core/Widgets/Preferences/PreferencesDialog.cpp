@@ -40,7 +40,7 @@
 namespace Sn {
 
 PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
-	QDialog(parent),
+	QDialog(parent, Qt::WindowSystemMenuHint | Qt::WindowTitleHint),
 	m_tabWidget(tabWidget)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
