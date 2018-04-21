@@ -21,7 +21,7 @@ before_build:
     - mkdir build
 
 build_script:
-    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%" -DENV{OPENSSL_CRYPTO_LIBRARY}="%OPENSSL_CRYPTO_LIBRARY%" -DENV{OPENSSL_ROOT_DIR}="%OPENSSL_ROOT_DIR%"
+    - cmake -G "NMake Makefiles" -H. -Bbuild -DCMAKE_PREFIX_PATH="%QT5%" -ENV{OPENSSL_CRYPTO_LIBRARY}="%OPENSSL_CRYPTO_LIBRARY%" -ENV{OPENSSL_ROOT_DIR}="%OPENSSL_ROOT_DIR%"
     - cmake --build build
 
 artifacts:
