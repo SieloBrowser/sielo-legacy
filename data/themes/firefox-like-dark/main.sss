@@ -10,6 +10,7 @@ QTabBar::tab
 {
   height: 33px;
   margin: 0px;
+  padding: 0px 6px;
   color: #ffffff;
 }
 
@@ -54,6 +55,7 @@ QTabBar::tab:!selected:hover
 #tabbar::tab {
   height: 35px;
   margin: 0px;
+  padding: 0px 6px;
   margin-bottom: 2px;
   color: #ffffff;
 }
@@ -68,6 +70,37 @@ QTabBar::tab:!selected:hover
 }
 
 #tabbar::tab:!selected:hover
+{
+  height: 35px;
+  margin: 0px;
+  border-top: 3px solid #a3a4a6;
+  border-right: 1px solid #535355;
+  border-left: 1px solid #535355;
+  background: #252526 repeat-x;
+}
+
+#pinnedtabbar {
+  border-bottom: 3px solid #080809;
+}
+
+#pinnedtabbar::tab {
+  height: 35px;
+  margin: 0px;
+  padding: 0px 6px;
+  margin-bottom: -2px;
+  color: #ffffff;
+}
+
+
+#pinnedtabbar::tab:!selected
+{
+  border-right: 1px solid #535355;
+  height: 25px;
+  margin: 5px 0px 8px 0px;
+  background: transparent
+}
+
+#pinnedtabbar::tab:!selected:hover
 {
   height: 35px;
   margin: 0px;
@@ -92,6 +125,7 @@ QTabBar::tab:!selected:hover
     max-width: 30px;
     width: 30px;
     height: 30px;
+    margin-left: 3px;
 }
 
 #tabwidget-button-addtab:hover {
@@ -122,8 +156,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -133,8 +167,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -144,8 +178,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -155,8 +189,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -166,8 +200,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -177,8 +211,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -188,8 +222,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -199,8 +233,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -210,8 +244,8 @@ QTabBar::tab:!selected:hover
   sproperty-iconSize: 24px;
   border-radius: 2px;
   margin: 3px;
-  background-color: #f4f5f6;
-  border: 1px solid #f4f5f6;
+  background-color: #323234;
+  border: 1px solid #323234;
   border-radius: 5px;
 }
 
@@ -258,34 +292,39 @@ QTabBar::tab:!selected:hover
   background: #d2d2d3;
 }
 
-#navigation-button-back {
-  background: #f8f9f9;
-  color: white;
-  min-height: 29px;
-  min-width: 29px;
-  padding: 0px;
-  margin: 0px;
-  spacing: 0px;
-}
-
-#navigation-button-forward {
+#navigationbar #navigation-button-back {
   background: #323234;
   color: white;
-  min-height: 29px;
-  min-width: 29px;
+  min-height: 40px;
+  min-width: 41px;
   padding: 0px;
   margin: 0px;
   spacing: 0px;
+  border-bottom: 1px solid #000000;
+  border-radius: 0px;
 }
 
-#navigation-button-home {
+#navigationbar #navigation-button-forward {
   background: #323234;
   color: white;
-  min-height: 29px;
-  min-width: 29px;
+  min-height: 40px;
+  min-width: 41px;
   padding: 0px;
   margin: 0px;
   spacing: 0px;
+  border-bottom: 1px solid #000000;
+  border-radius: 0px;
+}
+
+#navigationbar #navigation-button-home {
+  background: #323234;
+  color: white;
+  min-height: 40px;
+  min-width: 41px;
+  padding: 0px;
+  margin: 0px;
+  spacing: 0px;
+  border-bottom: 1px solid #000000;
   border-radius: 0px;
 }
 
@@ -351,6 +390,7 @@ QTabBar::tab:!selected:hover
 
 #navigationbar #addressbar QToolButton:hover
 {
+  padding-right: 0px;
   background: #252526;
 }
 
@@ -436,13 +476,13 @@ QTabBar::tab:!selected:hover
 }
 
 #preferences-pages {
-  background: transparent;
+  background: #323234;
 }
 
 #preferences-list {
-  background: transparent;
-  border: none;
+  background: #323234;
   color: #ffffff;
+  border: none;
 }
 
 #preferences-list::item::selected {

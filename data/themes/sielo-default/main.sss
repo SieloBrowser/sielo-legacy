@@ -2,22 +2,15 @@
  * Tab bar & tab rules
  */
 
-#tabbarwidget * {
-  background: scolor(second);
-}
-
-#tabbar {
-  height: 42.5px;
-}
-
 QTabBar {
-  border: none;
   background: scolor(second);
+  border: none;
 }
 
 QTabBar::tab
 {
-  height: 42.5px;
+  height: 34px;
+  margin: 0px;
   padding: 0px 6px;
   color: scolor(text);
 }
@@ -37,14 +30,68 @@ QTabBar::tab:!selected:hover
   background: scolor(second, dark) repeat-x;
 }
 
+#maintabbar {
+  height: 36px;
+}
+
+#tabbarwidget * {
+  height: 36px;
+  background: scolor(second);
+}
+
+#tabbar::tab {
+  height: 36px;
+  margin: 0px;
+  padding: 0px 6px;
+  margin-bottom: 2px;
+  color: scolor(text);
+}
+
+#tabbar::tab:!selected
+{
+  border-right: 1px solid #535355;
+  height: 25px;
+  margin: 5px 0px 8px 0px;
+  background: transparent
+}
+
+#tabbar::tab:!selected:hover
+{
+  height: 35px;
+  margin: 0px;
+  border-right: 1px solid #535355;
+  border-left: 1px solid #535355;
+  background: scolor(second, dark) repeat-x;
+}
+
+#pinnedtabbar::tab {
+  height: 36px;
+  margin: 0px;
+  padding: 0px 6px;
+  margin-bottom: -2px;
+  color: scolor(text);
+}
+
+#pinnedtabbar::tab:!selected
+{
+  border-right: 1px solid #535355;
+  height: 25px;
+  margin: 5px 0px 8px 0px;
+  background: transparent
+}
+
+#pinnedtabbar::tab:!selected:hover
+{
+  height: 35px;
+  margin: 0px;
+  border-right: 1px solid #535355;
+  border-left: 1px solid #535355;
+  background: scolor(second, dark) repeat-x;
+}
+
 /**
  * Add & close tab button rules
  */
-
-#tabwidget-button-addtab:hover {
-    border: scolor(accent);
-    background: scolor(accent);
-}
 
 #tabwidget-button-addtab {
     border-radius: 5px;
@@ -53,6 +100,11 @@ QTabBar::tab:!selected:hover
     width: 30px;
     height: 30px;
     margin-left: 3px;
+}
+
+#tabwidget-button-addtab:hover {
+    border: scolor(accent);
+    background: scolor(accent);
 }
 
 #tabwidget-button-mainmenu {
@@ -175,11 +227,11 @@ QTabBar::tab:!selected:hover
 * Navigation bar rules
 */
 
-#navigationbar
+#navigationbar QSplitter
 {
   border: none;
-  height: 30px;
-  padding: 0px;
+  height: 20px;
+  padding: 6px;
   padding: 0px;
   spacing: 0px;
 }
@@ -188,10 +240,10 @@ QTabBar::tab:!selected:hover
 #navigationbar ToolButton
 {
   background: scolor(main, normal, 170);
-  color: white;
-  height: 30px;
-  width: 30px;
-  padding: 6px 6px;
+  color: scolor(text);
+  height: 20px;
+  width: 20px;
+  padding: 6px;
   margin: 0px;
   spacing: 0px;
   border-radius: 5px;
@@ -232,10 +284,10 @@ QTabBar::tab:!selected:hover
 
 #addressbar
 {
-  height: 25px;
+  height: 20px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 6px 12px;
+  padding: 6px;
   margin: 0px;
   spacing: 0px;
   background-color: scolor(main, normal, 170);
@@ -243,10 +295,10 @@ QTabBar::tab:!selected:hover
 
 #navigationbar #addressbar
 {
-  height: 30px;
+  height: 20px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 6px 12px;
+  padding: 6px;
   margin: 0px;
   spacing: 0px;
   background-color: scolor(main, normal, 170);
@@ -256,10 +308,11 @@ QTabBar::tab:!selected:hover
 #addressbar QToolButton,
 #addressbar QToolButton:hover
 {
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 16px;
   border: none;
   padding: 0px;
+  padding-right: 15px;
   margin: 0px;
   spacing: 0px;
   background: transparent;
@@ -269,10 +322,11 @@ QTabBar::tab:!selected:hover
 #navigationbar #addressbar QToolButton,
 #navigationbar #addressbar QToolButton:hover
 {
-  width: 25px;
-  height: 25px;
+  width: 16px;
+  height: 16px;
   border: none;
   padding: 0px;
+  padding-right: 15px;
   margin: 0px;
   spacing: 0px;
   background: transparent;
@@ -340,15 +394,19 @@ QTabBar::tab:!selected:hover
 * Preferences rules
 */
 
+#preferences_dialog {
+  border: none;
+  background: scolor(main);
+}
+
 #preferences-pages {
-  background: transparent;
+  background: scolor(main);
 }
 
 #preferences-list {
   background: scolor(second);
   color: scolor(text);
-  border: 1px solid scolor(accent);
-  border-radius: 2px;
+  border: none;
 }
 
 #preferences-list::item::selected {
@@ -462,8 +520,7 @@ QDialog QGroupBox
 {
   color: scolor(text);
   margin-top: 22px;
-  border: 1px solid scolor(accent);
-  border-radius: 2px;
+  border: none;
 }
 
 QGroupBox::title {
