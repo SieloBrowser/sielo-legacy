@@ -71,7 +71,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.12.02b");
+QString Application::currentVersion = QString("1.12.04b");
 
 // Static member
 QList<QString> Application::paths()
@@ -430,6 +430,8 @@ void Application::loadSettings()
 
 	}
 	else {
+		loadThemeFromResources("firefox-like-light", false);
+		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
 		settings.setValue("Themes/defaultThemeVersion", 23);
 	}
