@@ -1,0 +1,34 @@
+[Icon Theme]
+Name=Firefox
+Comment=FF like theme
+Directories=images/edit,oimages/ther,images/preferences,images/tabs
+
+[images/edit]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
+
+[images/other]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
+
+
+[images/preferences]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
+
+
+[images/tabs]
+Size=128
+Context=Apps
+Type=Scalable
+MinSize=16
+MaxSize=128
