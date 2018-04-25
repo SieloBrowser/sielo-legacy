@@ -35,6 +35,7 @@
 #include <QPushButton>
 
 #include <QMouseEvent>
+#include <QContextMenuEvent>
 
 namespace Sn {
 class BookmarksModel;
@@ -59,6 +60,7 @@ signals:
 protected:
 	void mousePressEvent(QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
+	void contextMenuEvent(QContextMenuEvent* event);
 
 protected slots:
 	void build() Q_DECL_OVERRIDE;

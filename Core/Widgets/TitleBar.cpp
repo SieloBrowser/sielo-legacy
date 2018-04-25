@@ -35,7 +35,6 @@ TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookma
 	m_showBookmarks(showBookmarks)
 {
 	setObjectName(QLatin1String("title-bar"));
-	setContextMenuPolicy(Qt::PreventContextMenu);
 
 	setFloatable(false);
 
@@ -49,6 +48,9 @@ TitleBar::~TitleBar()
 
 void TitleBar::setTitle(const QString& title)
 {
+	if (!m_title)
+		return;
+
 	m_title->setText(title);
 }
 
@@ -69,6 +71,8 @@ void TitleBar::mousePressEvent(QMouseEvent* event)
 		m_offset = event->globalPos() - m_window->frameGeometry().topLeft();
 		event->accept();
 	}
+
+	BookmarksToolBar::mousePressEvent(event);
 }
 
 void TitleBar::mouseMoveEvent(QMouseEvent* event)
@@ -77,6 +81,25 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 		m_window->move(event->globalPos() - m_offset);
 		event->accept();
 	}
+
+	BookmarksToolBar::mouseMoveEvent(event);
+}
+
+void TitleBar::contextMenuEvent(QContextMenuEvent* event)
+{
+	QMenu menu{};
+	QAction* hideShowAction{menu.addAction(tr("Show Bookmarks Bar"))};
+
+	hideShowAction->setCheckable(true);
+	hideShowAction->setChecked(m_showBookmarks);
+	connect(hideShowAction, &QAction::toggled, this, [=](){
+		setShowBookmark(!m_showBookmarks);
+		emit toggleBookmarksBar(m_showBookmarks);
+	});
+
+	const QPoint position{event->globalPos()};
+	QPoint point{position.x(), position.y() + 1};
+	menu.exec(point);
 }
 
 void TitleBar::build()
