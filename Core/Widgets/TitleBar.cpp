@@ -30,9 +30,9 @@
 
 namespace Sn {
 TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookmarks) :
-	BookmarksToolBar(model, window),
-	m_window(window),
-	m_showBookmarks(showBookmarks)
+		BookmarksToolBar(model, window),
+		m_window(window),
+		m_showBookmarks(showBookmarks)
 {
 	setObjectName(QLatin1String("title-bar"));
 
@@ -85,6 +85,13 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 	BookmarksToolBar::mouseMoveEvent(event);
 }
 
+void TitleBar::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	if (event->buttons() & Qt::LeftButton) {
+		toggleMaximize();
+	}
+}
+
 void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 {
 	QMenu menu{};
@@ -92,7 +99,7 @@ void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 
 	hideShowAction->setCheckable(true);
 	hideShowAction->setChecked(m_showBookmarks);
-	connect(hideShowAction, &QAction::toggled, this, [=](){
+	connect(hideShowAction, &QAction::toggled, this, [=]() {
 		setShowBookmark(!m_showBookmarks);
 		emit toggleBookmarksBar(m_showBookmarks);
 	});
@@ -119,8 +126,10 @@ void TitleBar::build()
 	m_closeButton->setObjectName(QLatin1String("titlebar-button-close"));
 	m_closeButton->setIcon(Application::getAppIcon("tb-close", "titlebar"));
 
-	m_toggleMaximize->setObjectName(QLatin1String(isWindowMaximized() ? "titlebar-button-reverse-maximize" : "titlebar-button-maximize"));
-	m_toggleMaximize->setIcon(isWindowMaximized() ? Application::getAppIcon("tb-revert-maximize", "titlebar") : Application::getAppIcon("tb-maximize", "titlebar"));
+	m_toggleMaximize->setObjectName(
+			QLatin1String(isWindowMaximized() ? "titlebar-button-reverse-maximize" : "titlebar-button-maximize"));
+	m_toggleMaximize->setIcon(isWindowMaximized() ? Application::getAppIcon("tb-revert-maximize", "titlebar") :
+							  Application::getAppIcon("tb-maximize", "titlebar"));
 
 	m_minimize->setObjectName(QLatin1String("titlebar-button-minimize"));
 	m_minimize->setIcon(Application::getAppIcon("tb-minimize", "titlebar"));
