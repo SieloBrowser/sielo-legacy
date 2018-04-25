@@ -79,8 +79,9 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton) {
 		if (isWindowMaximized()) {
-			m_window->setGeometry(m_geometry);
-			build();
+			m_window->resize(m_geometry.size());
+			m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
+			m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
 		}
 
 		m_window->move(event->globalPos() - m_offset);
@@ -178,7 +179,10 @@ void TitleBar::toggleMaximize()
 		m_window->setGeometry(Application::desktop()->availableGeometry(m_window));
 	}
 
-	build();
+	m_toggleMaximize->setObjectName(
+			QLatin1String(isWindowMaximized() ? "titlebar-button-reverse-maximize" : "titlebar-button-maximize"));
+	m_toggleMaximize->setIcon(isWindowMaximized() ? Application::getAppIcon("tb-revert-maximize", "titlebar") :
+							  Application::getAppIcon("tb-maximize", "titlebar"));
 }
 
 void TitleBar::minimize()
