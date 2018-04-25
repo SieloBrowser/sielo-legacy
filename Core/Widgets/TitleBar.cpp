@@ -62,7 +62,7 @@ void TitleBar::setShowBookmark(bool show)
 
 bool TitleBar::isWindowMaximized() const
 {
-	return m_window->geometry() == Application::desktop()->availableGeometry();
+	return m_window->geometry() == Application::desktop()->availableGeometry(m_window);
 }
 
 void TitleBar::mousePressEvent(QMouseEvent* event)
@@ -170,7 +170,7 @@ void TitleBar::toggleMaximize()
 	}
 	else {
 		m_geometry = m_window->geometry();
-		m_window->setGeometry(Application::desktop()->availableGeometry());
+		m_window->setGeometry(Application::desktop()->availableGeometry(m_window));
 	}
 
 	build();
