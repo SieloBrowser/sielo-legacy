@@ -378,6 +378,7 @@ void BrowserWindow::setWindowTitle(const QString& title)
 	if (Application::instance()->privateBrowsing())
 		t.append(tr(" (Private Browsing)"));
 
+	m_titleBar->setTitle(t);
 	QMainWindow::setWindowTitle(t);
 }
 
