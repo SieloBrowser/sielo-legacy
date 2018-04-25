@@ -1,7 +1,7 @@
 [Icon Theme]
 Name=Firefox
 Comment=FF like theme
-Directories=images/edit,oimages/ther,images/preferences,images/tabs
+Directories=images/edit,oimages/ther,images/preferences,images/tabs,images/titlebar
 
 [images/edit]
 Size=128
@@ -32,3 +32,11 @@ Context=Apps
 Type=Scalable
 MinSize=16
 MaxSize=128
+
+[images/titlebar]
+Size=10
+Context=Apps
+Type=Scalable
+MinSize=10
+MaxSize=128
+

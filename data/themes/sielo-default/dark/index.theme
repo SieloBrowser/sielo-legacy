@@ -1,7 +1,7 @@
 [Icon Theme]
 Name=dark
 Comment=Theme by Dark
-Directories=edit,other,preferences,tabs
+Directories=edit,other,preferences,tabs,titlebar
 
 [edit]
 Size=128
@@ -31,4 +31,11 @@ Size=128
 Context=Apps
 Type=Scalable
 MinSize=16
+MaxSize=128
+
+[titlebar]
+Size=10
+Context=Apps
+Type=Scalable
+MinSize=10
 MaxSize=128

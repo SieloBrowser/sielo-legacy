@@ -71,7 +71,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.12.05b");
+QString Application::currentVersion = QString("1.13.00 closed-beta");
 
 // Static member
 QList<QString> Application::paths()
@@ -108,7 +108,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.12.05"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.13.00"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -399,7 +399,7 @@ void Application::loadSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 25) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 27) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -422,7 +422,7 @@ void Application::loadSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 25);
+			settings.setValue("Themes/defaultThemeVersion", 27);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -433,7 +433,7 @@ void Application::loadSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 25);
+		settings.setValue("Themes/defaultThemeVersion", 27);
 	}
 
 	// Force local storage to be disabled if it's a provate session

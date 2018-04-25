@@ -71,6 +71,10 @@
         <file>data/themes/sielo-default/dark/tabs/tabbar-left-arrow.png</file>
         <file>data/themes/sielo-default/dark/tabs/tabbar-right-arrow.png</file>
         <file>data/themes/sielo-default/dark/tabs/tabbar-tabslist.png</file>
+        <file>data/themes/sielo-default/dark/titlebar/tb-close.png</file>
+        <file>data/themes/sielo-default/dark/titlebar/tb-revert-maximize.png</file>
+        <file>data/themes/sielo-default/dark/titlebar/tb-maximize.png</file>
+        <file>data/themes/sielo-default/dark/titlebar/tb-minimize.png</file>
         <file>data/themes/sielo-default/dark/add-bookmark.png</file>
         <file>data/themes/sielo-default/dark/back.png</file>
         <file>data/themes/sielo-default/dark/history.png</file>
@@ -139,6 +143,10 @@
         <file>data/themes/sielo-default/light/tabs/tabbar-left-arrow.png</file>
         <file>data/themes/sielo-default/light/tabs/tabbar-right-arrow.png</file>
         <file>data/themes/sielo-default/light/tabs/tabbar-tabslist.png</file>
+        <file>data/themes/sielo-default/light/titlebar/tb-close.png</file>
+        <file>data/themes/sielo-default/light/titlebar/tb-revert-maximize.png</file>
+        <file>data/themes/sielo-default/light/titlebar/tb-maximize.png</file>
+        <file>data/themes/sielo-default/light/titlebar/tb-minimize.png</file>
         <file>data/themes/sielo-default/light/add-bookmark.png</file>
         <file>data/themes/sielo-default/light/back.png</file>
         <file>data/themes/sielo-default/light/history.png</file>
@@ -212,6 +220,10 @@
         <file>data/themes/firefox-like-light/images/tabs/tabbar-left-arrow.png</file>
         <file>data/themes/firefox-like-light/images/tabs/tabbar-right-arrow.png</file>
         <file>data/themes/firefox-like-light/images/tabs/tabbar-tabslist.png</file>
+        <file>data/themes/firefox-like-light/images/titlebar/tb-close.png</file>
+        <file>data/themes/firefox-like-light/images/titlebar/tb-revert-maximize.png</file>
+        <file>data/themes/firefox-like-light/images/titlebar/tb-maximize.png</file>
+        <file>data/themes/firefox-like-light/images/titlebar/tb-minimize.png</file>
         <file>data/themes/firefox-like-light/images/add-bookmark.png</file>
         <file>data/themes/firefox-like-light/images/back.png</file>
         <file>data/themes/firefox-like-light/images/history.png</file>
@@ -285,6 +297,10 @@
         <file>data/themes/firefox-like-dark/images/tabs/tabbar-left-arrow.png</file>
         <file>data/themes/firefox-like-dark/images/tabs/tabbar-right-arrow.png</file>
         <file>data/themes/firefox-like-dark/images/tabs/tabbar-tabslist.png</file>
+        <file>data/themes/firefox-like-dark/images/titlebar/tb-close.png</file>
+        <file>data/themes/firefox-like-dark/images/titlebar/tb-revert-maximize.png</file>
+        <file>data/themes/firefox-like-dark/images/titlebar/tb-maximize.png</file>
+        <file>data/themes/firefox-like-dark/images/titlebar/tb-minimize.png</file>
         <file>data/themes/firefox-like-dark/images/add-bookmark.png</file>
         <file>data/themes/firefox-like-dark/images/back.png</file>
         <file>data/themes/firefox-like-dark/images/history.png</file>
