@@ -78,6 +78,11 @@ void TitleBar::mousePressEvent(QMouseEvent* event)
 void TitleBar::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton) {
+		if (isWindowMaximized()) {
+			m_window->setGeometry(m_geometry);
+			build();
+		}
+
 		m_window->move(event->globalPos() - m_offset);
 		event->accept();
 	}
