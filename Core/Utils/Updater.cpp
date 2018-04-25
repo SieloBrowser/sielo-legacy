@@ -63,6 +63,9 @@ void Updater::downloadUpdateInfoCompleted()
 	QTextStream in{&updateInfo};
 	QString newVersion{};
 
+	if (updateInfo.isEmpty())
+		return;
+
 	while (!in.atEnd()) {
 		QString line{in.readLine()};
 		QStringList versionInfo{line.split(QLatin1Char(','))};
