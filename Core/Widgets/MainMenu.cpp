@@ -47,6 +47,7 @@
 
 #include "Widgets/AboutDialog.hpp"
 #include "Widgets/HelpUsDialog.hpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -224,15 +225,15 @@ void MainMenu::openFile()
 
 void MainMenu::toggleBookmarksToolBar()
 {
-	BookmarksToolBar* bookmarksToolBar{m_tabWidget->window()->bookmarksToolBar()};
+	TitleBar* titleBar{m_tabWidget->window()->titleBar()};
 
-	if (bookmarksToolBar->isVisible()) {
+	if (titleBar->showBookmarks()) {
 		updateShowBookmarksBarText(false);
-		bookmarksToolBar->close();
+		titleBar->setShowBookmark(false);
 	}
 	else {
 		updateShowBookmarksBarText(true);
-		bookmarksToolBar->show();
+		titleBar->setShowBookmark(true);
 	}
 
 	Application::instance()->saveSession();

@@ -26,6 +26,8 @@
 
 #include <QMimeData>
 
+#include <QTimer>
+
 #include <QToolButton>
 
 #include "Widgets/ModelMenu.hpp"
@@ -40,7 +42,6 @@ BookmarksToolBar::BookmarksToolBar(Sn::BookmarksModel* model, QWidget* parent) :
 	m_bookmarksModel(model)
 {
 	setObjectName(QLatin1String("bookmarks-toolbar"));
-	setRootIndex(model->index(0, 0));
 	setAcceptDrops(true);
 
 	connect(this, &QToolBar::actionTriggered, this, &BookmarksToolBar::triggered);
@@ -49,6 +50,8 @@ BookmarksToolBar::BookmarksToolBar(Sn::BookmarksModel* model, QWidget* parent) :
 	connect(m_bookmarksModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(build()));
 	connect(m_bookmarksModel, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(build()));
 	connect(m_bookmarksModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(build()));
+
+	QTimer::singleShot(0, this, &BookmarksToolBar::postConstruct);
 }
 
 void BookmarksToolBar::setRootIndex(const QModelIndex& index)
@@ -107,6 +110,11 @@ void BookmarksToolBar::dropEvent(QDropEvent* event) {
 	}
 
 	QToolBar::dropEvent(event);
+}
+
+void BookmarksToolBar::postConstruct()
+{
+	setRootIndex(m_bookmarksModel->index(0, 0));
 }
 
 void BookmarksToolBar::triggered(QAction* action)

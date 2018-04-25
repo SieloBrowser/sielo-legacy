@@ -46,6 +46,7 @@
 
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -59,6 +60,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
+	setWindowFlags(Qt::CustomizeWindowHint);
 	setAcceptDrops(true);
 
 	setObjectName(QLatin1String("mainwindow"));
@@ -116,7 +118,7 @@ void BrowserWindow::loadSettings()
 	}
 
 	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
-	m_bookmarksToolBar->setVisible(showBookmarksToolBar);
+	m_titleBar->setShowBookmark(showBookmarksToolBar);
 			foreach (TabWidget* tbWidget, m_tabWidgets) {
 			tbWidget->updateShowBookmarksBarText(showBookmarksToolBar);
 		}
@@ -668,9 +670,9 @@ void BrowserWindow::openAddBookmarkDialog()
 void BrowserWindow::setupUi()
 {
 	BookmarksModel* bookmarksModel{Application::instance()->bookmarksManager()->bookmarksModel()};
-	m_bookmarksToolBar = new BookmarksToolBar(bookmarksModel, this);
+	m_titleBar = new TitleBar(bookmarksModel, this);
 
-	addToolBar(m_bookmarksToolBar);
+	addToolBar(m_titleBar);
 
 	QWidget* widget{new QWidget(this)};
 
@@ -852,9 +854,9 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 	layout->addWidget(tabWidget);
 
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
-	connect(m_bookmarksToolBar->toggleViewAction(), &QAction::toggled, tabWidget,
+	connect(m_titleBar, &TitleBar::toggleBookmarksBar, tabWidget,
 			&TabWidget::updateShowBookmarksBarText);
-	connect(m_bookmarksToolBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
+	connect(m_titleBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
 
 	return widget;
 }

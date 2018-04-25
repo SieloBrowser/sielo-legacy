@@ -22,55 +22,63 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_BOOKMARKSTOOLBAR_HPP
-#define SIELO_BROWSER_BOOKMARKSTOOLBAR_HPP
+#ifndef SIELOBROWSER_TITLEBAR_HPP
+#define SIELOBROWSER_TITLEBAR_HPP
+
+#include "Bookmarks/BookmarksToolBar.hpp"
+#include "Bookmarks/BookmarksModel.hpp"
+
+#include "BrowserWindow.hpp"
 
 #include <QWidget>
-#include <QToolBar>
-#include <QAction>
+#include <QLabel>
+#include <QPushButton>
 
-#include <QModelIndex>
-#include <QPersistentModelIndex>
-
-#include <QUrl>
-
-#include <QDragEnterEvent>
-#include <QDropEvent>
+#include <QMouseEvent>
 
 namespace Sn {
 class BookmarksModel;
 
-class BookmarksToolBar : public QToolBar {
+class TitleBar : public BookmarksToolBar {
 Q_OBJECT
 
 public:
-	BookmarksToolBar(BookmarksModel* model, QWidget* parent);
+	TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookmarks = true);
+	~TitleBar();
 
-	void setRootIndex(const QModelIndex& index);
-	QModelIndex rootIndex() const { return m_root; }
+	void setTitle(const QString& title);
+
+	bool showBookmarks() const { return m_showBookmarks; }
+	void setShowBookmark(bool show);
+
+	bool isWindowMaximized() const;
 
 signals:
-	void openUrl(const QUrl& url);
+	void toggleBookmarksBar(bool shown);
 
 protected:
-	void dragEnterEvent(QDragEnterEvent* event);
-	void dropEvent(QDropEvent* event);
-
-	void postConstruct();
+	void mousePressEvent(QMouseEvent* event);
+	void mouseMoveEvent(QMouseEvent* event);
 
 protected slots:
-	virtual void build();
+	void build() Q_DECL_OVERRIDE;
 
 private slots:
-	void triggered(QAction* action);
-	void activated(const QModelIndex& index);
+	void closeWindow();
+	void toggleMaximize();
+	void minimize();
 
 private:
-	BookmarksModel* m_bookmarksModel{nullptr};
-	QPersistentModelIndex m_root{};
+	bool m_showBookmarks{true};
+	QLabel* m_title{nullptr};
+	QToolButton* m_closeButton{nullptr};
+	QToolButton* m_toggleMaximize{nullptr};
+	QToolButton* m_minimize{nullptr};
 
+	QRect m_geometry{};
+	QPoint m_offset{};
+	BrowserWindow* m_window{nullptr};
 };
 }
 
-
-#endif //SIELO_BROWSER_BOOKMARKSTOOLBAR_HPP
+#endif //SIELOBROWSER_TITLEBAR_HPP

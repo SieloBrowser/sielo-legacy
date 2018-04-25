@@ -59,5 +59,10 @@
         <file>icons/tabs/tabbar-left-arrow.png</file>
         <file>icons/tabs/tabbar-right-arrow.png</file>
         <file>icons/tabs/tabbar-tabslist.png</file>
+
+        <file>icons/titlebar/tb-close.png</file>
+        <file>icons/titlebar/tb-revert-maximize.png</file>
+        <file>icons/titlebar/tb-maximize.png</file>
+        <file>icons/titlebar/tb-minimize.png</file>
     </qresource>
 </RCC>
