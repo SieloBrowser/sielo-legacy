@@ -770,7 +770,7 @@ void BrowserWindow::setupFloatingButton()
 				m_fButton->addButton(button, toolTip);
 			}
 
-			if (version == 0x0002) {
+			if (version >= 0x0002) {
 				fButtonData >> pattern;
 				fButtonData >> lastPosition;
 
