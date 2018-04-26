@@ -60,8 +60,11 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
-	setWindowFlags(Qt::CustomizeWindowHint);
 	setAcceptDrops(true);
+
+#ifdef Q_OS_WIN
+	setWindowFlags(Qt::CustomizeWindowHint);
+#endif
 
 	setObjectName(QLatin1String("mainwindow"));
 	setWindowTitle(tr("Sielo"));

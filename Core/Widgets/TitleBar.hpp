@@ -73,6 +73,8 @@ private slots:
 
 private:
 	bool m_showBookmarks{true};
+	bool m_isMaximized{false};
+
 	QLabel* m_title{nullptr};
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};

@@ -62,7 +62,8 @@ void TitleBar::setShowBookmark(bool show)
 
 bool TitleBar::isWindowMaximized() const
 {
-	return m_window->geometry() == Application::desktop()->availableGeometry(m_window);
+	//return m_window->geometry() == Application::desktop()->availableGeometry(m_window);
+	return m_isMaximized;
 }
 
 void TitleBar::mousePressEvent(QMouseEvent* event)
@@ -117,6 +118,7 @@ void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 
 void TitleBar::build()
 {
+#ifdef Q_OS_WIN
 	if (m_showBookmarks)
 		BookmarksToolBar::build();
 	else
@@ -162,6 +164,14 @@ void TitleBar::build()
 	addWidget(m_minimize);
 	addWidget(m_toggleMaximize);
 	addWidget(m_closeButton);
+#else
+	if (m_showBookmarks) {
+		BookmarksToolBar::build();
+		show();
+	}
+	else
+		hide();
+#endif
 }
 
 void TitleBar::closeWindow()
@@ -172,17 +182,25 @@ void TitleBar::closeWindow()
 void TitleBar::toggleMaximize()
 {
 	if (isWindowMaximized()) {
+		if (m_window->isFullScreen())
+			m_window->showNormal();
+
 		m_window->setGeometry(m_geometry);
+		m_isMaximized = false;
+
+		m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
+		m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
 	}
 	else {
 		m_geometry = m_window->geometry();
 		m_window->setGeometry(Application::desktop()->availableGeometry(m_window));
-	}
+		m_isMaximized = true;
 
-	m_toggleMaximize->setObjectName(
-			QLatin1String(isWindowMaximized() ? "titlebar-button-reverse-maximize" : "titlebar-button-maximize"));
-	m_toggleMaximize->setIcon(isWindowMaximized() ? Application::getAppIcon("tb-revert-maximize", "titlebar") :
-							  Application::getAppIcon("tb-maximize", "titlebar"));
+		showNormal();
+
+		m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-reverse-maximize"));
+		m_toggleMaximize->setIcon(Application::getAppIcon("tb-revert-maximize", "titlebar"));
+	}
 }
 
 void TitleBar::minimize()
