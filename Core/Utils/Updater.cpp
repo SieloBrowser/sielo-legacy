@@ -63,7 +63,7 @@ void Updater::downloadUpdateInfoCompleted()
 	QTextStream in{&updateInfo};
 	QString newVersion{};
 
-	if (updateInfo.isEmpty())
+	if (m_versionReply->error() != QNetworkReply::NoError)
 		return;
 
 	while (!in.atEnd()) {
