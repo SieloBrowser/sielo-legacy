@@ -308,7 +308,7 @@ void RootFloatingButton::mouseMoveEvent(QMouseEvent* event)
 
 void RootFloatingButton::mouseReleaseEvent(QMouseEvent* event)
 {
-	if (!m_blockClick) {
+	if (!m_blockClick && event->button() == Qt::LeftButton) {
 		if (!m_childrenExpanded && m_pattern == Pattern::Floating)
 			expandAround(mapToParent(event->pos() - m_offset));
 		else if (m_pattern == Floating)
