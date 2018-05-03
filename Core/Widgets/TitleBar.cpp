@@ -27,6 +27,8 @@
 #include <QDesktopWidget>
 
 #include "Application.hpp"
+#include <Bookmarks/AddBookmarkDialog.hpp>
+#include <Widgets/Tab/TabWidget.hpp>
 
 namespace Sn {
 TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookmarks) :
@@ -109,6 +111,13 @@ void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 	connect(hideShowAction, &QAction::toggled, this, [=]() {
 		setShowBookmark(!m_showBookmarks);
 		emit toggleBookmarksBar(m_showBookmarks);
+	});
+
+	QAction* addBookmark(menu.addAction(tr("Add Bookmark")));
+
+	connect(addBookmark, &QAction::toggled, this, []() {
+		TabWidget* tabWidget = Application::instance()->getWindow()->tabWidget();
+		AddBookmarkDialog* dialog{ new AddBookmarkDialog(tabWidget->weTab()->url().toString(), tabWidget->weTab()->title(),	tabWidget, Application::instance()->bookmarksManager()) };
 	});
 
 	const QPoint position{event->globalPos()};
