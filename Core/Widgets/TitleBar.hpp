@@ -32,6 +32,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QToolBar>
 #include <QPushButton>
 
 #include <QMouseEvent>
@@ -40,7 +41,7 @@
 namespace Sn {
 class BookmarksModel;
 
-class TitleBar : public BookmarksToolBar {
+class TitleBar : public QWidget {
 Q_OBJECT
 
 public:
@@ -49,6 +50,7 @@ public:
 
 	void setTitle(const QString& title);
 
+	BookmarksToolBar* bookmarksToolBar() const { return m_bookmarksToolbar; }
 	bool showBookmarks() const { return m_showBookmarks; }
 	void setShowBookmark(bool show);
 
@@ -58,15 +60,16 @@ signals:
 	void toggleBookmarksBar(bool shown);
 
 protected:
-	void mousePressEvent(QMouseEvent* event);
+	bool eventFilter(QObject* obj, QEvent* event);
+
+	void mousePressEvent(QToolBar* toolbar, QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 
-protected slots:
-	void build() Q_DECL_OVERRIDE;
-
 private slots:
+	void build();
+
 	void closeWindow();
 	void toggleMaximize();
 	void minimize();
@@ -74,11 +77,15 @@ private slots:
 private:
 	bool m_showBookmarks{true};
 	bool m_isMaximized{false};
+	bool m_canMove{true};
 
 	QLabel* m_title{nullptr};
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};
 	QToolButton* m_minimize{nullptr};
+
+	BookmarksToolBar* m_bookmarksToolbar{nullptr};
+	QToolBar* m_controlsToolbar{nullptr};
 
 	QRect m_geometry{};
 	QPoint m_offset{};

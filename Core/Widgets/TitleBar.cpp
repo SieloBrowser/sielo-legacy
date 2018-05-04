@@ -25,22 +25,39 @@
 #include "TitleBar.hpp"
 
 #include <QDesktopWidget>
+#include <QtWidgets/QMessageBox>
 
 #include "Application.hpp"
-#include <Bookmarks/AddBookmarkDialog.hpp>
-#include <Widgets/Tab/TabWidget.hpp>
+
+#include "Bookmarks/AddBookmarkDialog.hpp"
+#include "Bookmarks/BookmarksToolBar.hpp"
+
+#include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
 TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookmarks) :
-		BookmarksToolBar(model, window),
+		QWidget(window),
 		m_window(window),
 		m_showBookmarks(showBookmarks)
 {
-	setObjectName(QLatin1String("title-bar"));
+	m_bookmarksToolbar = new BookmarksToolBar(model, m_window);
+	m_controlsToolbar = new QToolBar(m_window);
 
-	setFloatable(false);
+	m_bookmarksToolbar->setFloatable(false);
+	m_bookmarksToolbar->installEventFilter(this);
+	m_bookmarksToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+	m_controlsToolbar->setFloatable(false);
+	m_controlsToolbar->installEventFilter(this);
+	m_controlsToolbar->setObjectName(QLatin1String("title-bar"));
+	m_controlsToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(this, &BookmarksToolBar::orientationChanged, this, &TitleBar::build);
+	connect(m_bookmarksToolbar, &BookmarksToolBar::orientationChanged, this, &TitleBar::build);
+	connect(m_controlsToolbar, &QToolBar::orientationChanged, this, &TitleBar::build);
+
+	m_window->addToolBar(m_bookmarksToolbar);
+	m_window->addToolBar(m_controlsToolbar);
+
+	build();
 }
 
 TitleBar::~TitleBar()
@@ -68,19 +85,42 @@ bool TitleBar::isWindowMaximized() const
 	return m_isMaximized;
 }
 
-void TitleBar::mousePressEvent(QMouseEvent* event)
+bool TitleBar::eventFilter(QObject* obj, QEvent* event)
 {
-	if (event->button() == Qt::LeftButton) {
-		m_offset = event->globalPos() - m_window->frameGeometry().topLeft();
-		event->accept();
+	if (event->type() == QEvent::MouseButtonPress) {
+		mousePressEvent(static_cast<QToolBar*>(obj), static_cast<QMouseEvent*>(event));
+	}
+	else if (event->type() == QEvent::MouseMove) {
+		mouseMoveEvent(static_cast<QMouseEvent*>(event));
+	}
+	else if (event->type() == QEvent::MouseButtonDblClick) {
+		mouseDoubleClickEvent(static_cast<QMouseEvent*>(event));
+	}
+	else if (event->type() == QEvent::ContextMenu) {
+		contextMenuEvent(static_cast<QContextMenuEvent*>(event));
 	}
 
-	BookmarksToolBar::mousePressEvent(event);
+	return QObject::eventFilter(obj, event);
+}
+
+
+void TitleBar::mousePressEvent(QToolBar* toolBar, QMouseEvent* event)
+{
+	if (event->button() == Qt::LeftButton && ((event->x() >= 10 && toolBar->orientation() == Qt::Horizontal) ||
+											  (event->y() >= 10 && toolBar->orientation() == Qt::Vertical))) {
+		m_offset = event->globalPos() - m_window->frameGeometry().topLeft();
+		m_canMove = true;
+		event->accept();
+	}
+	else
+		m_canMove = false;
+
+	QWidget::mousePressEvent(event);
 }
 
 void TitleBar::mouseMoveEvent(QMouseEvent* event)
 {
-	if (event->buttons() & Qt::LeftButton) {
+	if (event->buttons() & Qt::LeftButton && m_canMove) {
 		if (isWindowMaximized()) {
 			m_window->resize(m_geometry.size());
 			m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
@@ -91,7 +131,7 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 		event->accept();
 	}
 
-	BookmarksToolBar::mouseMoveEvent(event);
+	QWidget::mouseMoveEvent(event);
 }
 
 void TitleBar::mouseDoubleClickEvent(QMouseEvent* event)
@@ -117,7 +157,9 @@ void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 
 	connect(addBookmark, &QAction::toggled, this, []() {
 		TabWidget* tabWidget = Application::instance()->getWindow()->tabWidget();
-		AddBookmarkDialog* dialog{ new AddBookmarkDialog(tabWidget->weTab()->url().toString(), tabWidget->weTab()->title(),	tabWidget, Application::instance()->bookmarksManager()) };
+		AddBookmarkDialog* dialog{
+				new AddBookmarkDialog(tabWidget->weTab()->url().toString(), tabWidget->weTab()->title(), tabWidget,
+									  Application::instance()->bookmarksManager())};
 	});
 
 	const QPoint position{event->globalPos()};
@@ -129,14 +171,16 @@ void TitleBar::build()
 {
 #ifdef Q_OS_WIN
 	if (m_showBookmarks)
-		BookmarksToolBar::build();
+		m_bookmarksToolbar->show();
 	else
-		clear();
+		m_bookmarksToolbar->hide();
 
-	m_title = new QLabel(m_window->windowTitle(), this);
-	m_closeButton = new QToolButton(this);
-	m_toggleMaximize = new QToolButton(this);
-	m_minimize = new QToolButton(this);
+	m_controlsToolbar->clear();
+
+	m_title = new QLabel(m_window->windowTitle(), m_controlsToolbar);
+	m_closeButton = new QToolButton(m_controlsToolbar);
+	m_toggleMaximize = new QToolButton(m_controlsToolbar);
+	m_minimize = new QToolButton(m_controlsToolbar);
 
 	m_title->setObjectName(QLatin1String("titlebar-title"));
 
@@ -155,31 +199,29 @@ void TitleBar::build()
 	connect(m_toggleMaximize, &QToolButton::clicked, this, &TitleBar::toggleMaximize);
 	connect(m_minimize, &QToolButton::clicked, this, &TitleBar::minimize);
 
-	QWidget* firstSpacer{new QWidget(this)};
-	QWidget* secondSpacer{new QWidget(this)};
+	QWidget* firstSpacer{new QWidget(m_controlsToolbar)};
+	QWidget* secondSpacer{new QWidget(m_controlsToolbar)};
 
-	if (orientation() == Qt::Horizontal) {
+	if (m_controlsToolbar->orientation() == Qt::Horizontal) {
 		firstSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 		secondSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	}
-	else if (orientation() == Qt::Vertical) {
+	else if (m_controlsToolbar->orientation() == Qt::Vertical) {
 		firstSpacer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 		secondSpacer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 	}
 
-	addWidget(firstSpacer);
-	addWidget(m_title);
-	addWidget(secondSpacer);
-	addWidget(m_minimize);
-	addWidget(m_toggleMaximize);
-	addWidget(m_closeButton);
+	m_controlsToolbar->addWidget(firstSpacer);
+	m_controlsToolbar->addWidget(m_title);
+	m_controlsToolbar->addWidget(secondSpacer);
+	m_controlsToolbar->addWidget(m_minimize);
+	m_controlsToolbar->addWidget(m_toggleMaximize);
+	m_controlsToolbar->addWidget(m_closeButton);
 #else
-	if (m_showBookmarks) {
-		BookmarksToolBar::build();
-		show();
-	}
+	if (m_showBookmarks)
+		m_bookmarksToolbar->show();
 	else
-		hide();
+		m_bookmarksToolbar->hide();
 #endif
 }
 
@@ -205,7 +247,7 @@ void TitleBar::toggleMaximize()
 		m_window->setGeometry(Application::desktop()->availableGeometry(m_window));
 		m_isMaximized = true;
 
-		showNormal();
+		m_window->showNormal();
 
 		m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-reverse-maximize"));
 		m_toggleMaximize->setIcon(Application::getAppIcon("tb-revert-maximize", "titlebar"));

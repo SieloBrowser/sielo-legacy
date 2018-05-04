@@ -678,8 +678,6 @@ void BrowserWindow::setupUi()
 	BookmarksModel* bookmarksModel{Application::instance()->bookmarksManager()->bookmarksModel()};
 	m_titleBar = new TitleBar(bookmarksModel, this);
 
-	addToolBar(m_titleBar);
-
 	QWidget* widget{new QWidget(this)};
 
 	m_layout = new QVBoxLayout(widget);
@@ -862,7 +860,7 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
 	connect(m_titleBar, &TitleBar::toggleBookmarksBar, tabWidget,
 			&TabWidget::updateShowBookmarksBarText);
-	connect(m_titleBar, &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
+	connect(m_titleBar->bookmarksToolBar(), &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
 
 	return widget;
 }
