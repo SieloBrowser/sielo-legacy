@@ -438,6 +438,48 @@ QTabBar::tab:!selected:hover
 }
 
 /**
+* Bookmarks bar rules
+  */
+
+#bookmarks-toolbar {
+  height: 30px;
+  border: none;
+  background: #f5f6f7;
+}
+
+#bookmarks-toolbar QToolButton {
+  height: 25px;
+  border: none;
+  border-right: 1px solid #c4c4c4;
+  margin: 2px;
+  background: transparent;
+  color: #000000;
+}
+
+#bookmarks-toolbar QToolButton:hover {
+  border-radius: 3px;
+  background: #d2d2d3;
+}
+
+#bookmarks-toolbar QToolButton[popupMode="2"] {
+    padding-right: 10px;
+}
+
+#bookmarks-toolbar QToolButton:open {
+  background: scolor(accent, normal);
+}
+
+#bookmarks-toolbar QToolButton::menu-indicator {
+    subcontrol-origin: padding;
+    subcontrol-position: center right;
+}
+
+#bookmarks-toolbar QToolButton::menu-indicator:pressed, #bookmarks-toolbar QToolButton::menu-indicator:open {
+    position: relative;
+    top: 2px; left: 2px;
+}
+
+/**
 * Title bar rules
 */
 
@@ -447,74 +489,19 @@ QTabBar::tab:!selected:hover
   background: #f5f6f7;
 }
 
+
 #title-bar QToolButton {
-  height: 25px;
+  max-width: 11px;
+  max-height: 16px;
+  padding: 5px 17px;
+  margin: 0px;
+  spacing: 0px;  
+  border-radius: 0px;
   border: none;
-  border-right: 1px solid #c4c4c4;
-  margin: 2px;
-  background: transparent;
-  color: #000000;
+  color: #000000
 }
 
 #title-bar QToolButton:hover {
-  border-radius: 3px;
-  background: #d2d2d3;
-}
-
-
-#title-bar #titlebar-button-close {
-  max-width: 11px;
-  max-height: 16px;
-  padding: 5px 17px;
-  margin: 0px;
-  spacing: 0px;  
-  border-radius: 0px;
-  border: none;
-}
-
-#title-bar #titlebar-button-close:hover {
-  background: scolor(accent, normal, 255);
-}
-
-#title-bar #titlebar-button-reverse-maximize {
-  max-width: 11px;
-  max-height: 16px;
-  padding: 5px 17px;
-  margin: 0px;
-  spacing: 0px;  
-  border-radius: 0px;
-  border: none;
-}
-
-#title-bar #titlebar-button-reverse-maximize:hover {
-  background: scolor(accent, normal, 255);
-}
-
-#title-bar #titlebar-button-maximize {
-  max-width: 11px;
-  max-height: 16px;
-  padding: 5px 17px;
-  margin: 0px;
-  spacing: 0px;  
-  border-radius: 0px;
-  border: none;
-}
-
-#title-bar #titlebar-button-maximize:hover {
-  background: scolor(accent, normal, 255);
-}
-
-#title-bar #titlebar-button-minimize {
-  max-width: 11px;
-  max-height: 16px;
-  padding: 5px 17px;
-  margin: 0px;
-  spacing: 0px;  
-  border-radius: 0px;
-  border: none;
-}
-
-#title-bar #titlebar-button-minimize:hover {
   background: scolor(accent, normal, 255);
 }
 
