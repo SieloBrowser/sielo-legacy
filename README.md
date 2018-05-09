@@ -3,16 +3,16 @@ Platform | Build Status
 ------------ | -------------
 Windows | Unavailable
 
-[![Official Sielo Image](https://www.feldrise.com/Sielo/images/official-sielo.png)](https://www.feldrise.com/Sielo/sielo_setup_1.7.10.exe)
+[![Official Sielo Image](https://sielo.app/images/official-sielo.png)](https://sielo.app/download.php?for=windows)
 Sielo is a web browser that I began to develop a year and a half ago. The browser has experienced 2 remakes and the last was released few months ago. This time Sielo has been thought with a more stable structure, easier to sustain so a rework is no longer needed.
 ## Use Sielo
-#### You can view details in [Sielo's web page](https://feldrise.com/Sielo)
+#### You can view details in [Sielo's web page](https://sielo.app)
 ### Download
 Their is many links to find the last Sielo version
- - Windows (64bit) : The last open beta can be installed with [this setup](https://feldrise.com/Sielo/download.php?for=windows)
- - Windows (32bit) : The last open beta can be installed with [this setup](https://feldrise.com/Sielo/download.php?for=windows_x86)
- - Windows: There is a portable version [available here](https://feldrise.com/Sielo/download.php?for=windows_portable)
- - Linux: You can find [an AppImage](https://feldrise.com/Sielo/download.php?for=linux) 
+ - Windows (64bit) : The last open beta can be installed with [this setup](https://sielo.app/download.php?for=windows)
+ - Windows (32bit) : The last open beta can be installed with [this setup](https://sielo.app/download.php?for=windows_x86)
+ - Windows: There is a portable version [available here](https://sielo.app/download.php?for=windows_portable)
+ - Linux: You can find [an AppImage](https://sielo.app/download.php?for=linux) 
  - ArchLinux: Sielo is available on the AUR.
 ### Compile the browser
 You can also easily compile Sielo, but you must check dependencies:
@@ -28,11 +28,11 @@ This is the feature that makes Sielo so special. Tabs spaces allow you to divide
 
 A small illustration :
 
-![Tabs Sapces GIF](https://www.feldrise.com/Sielo/images/tabs-space.gif)
+![Tabs Sapces GIF](https://sielo.app/images/tabs-space.gif)
 
 ### The floating button
 This is another feature specific to Sielo.. This button can be moved everywhere in the browser to give you access to the main controls as easily as possible. It can also be transformed into a lateral toolbar. But a picture is much better than 1000 words:
-![Floating Button GIF](https://www.feldrise.com/Sielo/images/floating-button.gif)
+![Floating Button GIF](https://sielo.app/images/floating-button.gif)
 ### Themes, for an unlimited personalization power
 Sielo also supports themes to completely customize the interface. This goes from the floating button to the tabs, via icons. I'm currently writing a little tutorial to learn how to make themes for Sielo. This is not very complicated, just place the icons, list them in a file "theme.index" and do some CSS to customize some objects such as tabs. If the developer wants, the themes can behave differently depending on the operating system, and can be adapted with user colors
 ## Objectives
@@ -40,6 +40,6 @@ Now that Sielo is built on a stable structure, the goal is to make the user expe
 
 Sielo is also made with ideas of people like you and testers. This is why I am very attentive to all your remarks and all your ideas. Besides, Sielo also integrates a command system, an idea brought by Rein Frost (I let you try to enter "!easteregg" or "!Witcher [enable/disable]" in the address bar).
 
-Furthermore, Sielo also has a [a page where we gather ideas](https://padlet.com/feldrise/j82miccj6zpb) (this page is quite recent and still a little empty). And finally, [the last open beta](https://feldrise.com/Sielo/download.php?for=windows) is free to download! If you use Linux, you can find an AppImage [here](https://www.feldrise.com/Sielo/download.php?for=linux) and if you use ArchLinux, Sielo is available in the AUR.
+Furthermore, Sielo also has a [a page where we gather ideas](https://padlet.com/feldrise/j82miccj6zpb) (this page is quite recent and still a little empty). And finally, [the last open beta](https://sielo.app/download.php?for=windows) is free to download! If you use Linux, you can find an AppImage [here](https://sielo.app/download.php?for=linux) and if you use ArchLinux, Sielo is available in the AUR.
 
 I also warmly thanks **hotaru70o**, **LavaPower** ([https://github.com/LavaPower](https://github.com/LavaPower)), **Kaktus** and **ilearn32** for their unfailing support and their contributions, they make this open beta possible! A big thanks to them!
