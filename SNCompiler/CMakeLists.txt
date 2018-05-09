@@ -10,6 +10,10 @@ if(WIN64)
     set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
 elseif(WIN32)
     set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")
+elseif(APPLE)
+    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.10.1/clang_64/")
+
+
 endif()
 
 if(GNU)
