@@ -97,9 +97,14 @@ bool TitleBar::eventFilter(QObject* obj, QEvent* event)
 		mouseDoubleClickEvent(static_cast<QMouseEvent*>(event));
 	}
 	else if (event->type() == QEvent::ContextMenu) {
+		if (obj->objectName() == m_bookmarksToolbar->objectName())
+			m_tmp_contextToolbar = m_bookmarksToolbar;
+		else if (obj->objectName() == m_controlsToolbar->objectName())
+			m_tmp_contextToolbar = m_controlsToolbar;
+		else
+			m_tmp_contextToolbar = nullptr;
 		contextMenuEvent(static_cast<QContextMenuEvent*>(event));
 	}
-
 	return QObject::eventFilter(obj, event);
 }
 
@@ -162,8 +167,19 @@ void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 									  Application::instance()->bookmarksManager())};
 	});
 
-	const QPoint position{event->globalPos()};
-	QPoint point{position.x(), position.y() + 1};
+	if (m_tmp_contextToolbar != nullptr) {
+		QAction* lockToolbar(menu.addAction(tr("Lock Toolbar")));
+
+		lockToolbar->setCheckable(true);
+		lockToolbar->setChecked(!m_tmp_contextToolbar->isMovable());
+
+		connect(lockToolbar, &QAction::toggled, this, [=]() {
+			m_tmp_contextToolbar->setMovable(!m_tmp_contextToolbar->isMovable());
+		});
+	}
+
+	const QPoint position{ event->globalPos() };
+	QPoint point{ position.x(), position.y() + 1 };
 	menu.exec(point);
 }
 

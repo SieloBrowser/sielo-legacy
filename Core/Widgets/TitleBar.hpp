@@ -87,6 +87,8 @@ private:
 	BookmarksToolBar* m_bookmarksToolbar{nullptr};
 	QToolBar* m_controlsToolbar{nullptr};
 
+	QToolBar* m_tmp_contextToolbar{ nullptr };
+
 	QRect m_geometry{};
 	QPoint m_offset{};
 	BrowserWindow* m_window{nullptr};
