@@ -44,7 +44,7 @@ PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
 	m_tabWidget(tabWidget)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
-	setObjectName("preferences_dialog");
+	setObjectName("preferences-dialog");
 
 	QIcon icon = windowIcon();
 	Qt::WindowFlags flags = windowFlags();

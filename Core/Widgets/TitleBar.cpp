@@ -57,6 +57,12 @@ TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookma
 	m_window->addToolBar(m_bookmarksToolbar);
 	m_window->addToolBar(m_controlsToolbar);
 
+	m_sizePreview = new QFrame(this);
+	m_sizePreview->setObjectName(QLatin1String("window-sizepreview"));
+	m_sizePreview->setStyleSheet("window-sizepreview{background: rgba(66, 134, 244, 0.5);}");
+	m_sizePreview->setAttribute(Qt::WA_TransparentForMouseEvents);
+	m_sizePreview->hide();
+
 	build();
 }
 
@@ -92,6 +98,9 @@ bool TitleBar::eventFilter(QObject* obj, QEvent* event)
 	}
 	else if (event->type() == QEvent::MouseMove) {
 		mouseMoveEvent(static_cast<QMouseEvent*>(event));
+	}
+	else if (event->type() == QEvent::MouseButtonRelease) {
+		mouseReleaseEvent(static_cast<QMouseEvent*>(event));
 	}
 	else if (event->type() == QEvent::MouseButtonDblClick) {
 		mouseDoubleClickEvent(static_cast<QMouseEvent*>(event));
@@ -131,7 +140,27 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 		event->accept();
 	}
 
+	if (QCursor::pos(Application::screenAt(QCursor::pos())).y() <= 0) {
+		m_sizePreview->move(0, 0);
+		m_sizePreview->resize(1920, 1080);
+		m_sizePreview->show();
+	}
+	else {
+		m_sizePreview->hide();
+	}
+
 	QWidget::mouseMoveEvent(event);
+}
+
+void TitleBar::mouseReleaseEvent(QMouseEvent* event)
+{
+	if (QCursor::pos(Application::screenAt(QCursor::pos())).y() <= 0) {
+		toggleMaximize(true);
+	}
+
+	m_sizePreview->hide();
+
+	QWidget::mouseReleaseEvent(event);
 }
 
 void TitleBar::mouseDoubleClickEvent(QMouseEvent* event)
@@ -230,9 +259,9 @@ void TitleBar::closeWindow()
 	m_window->close();
 }
 
-void TitleBar::toggleMaximize()
+void TitleBar::toggleMaximize(bool forceMaximize)
 {
-	if (isWindowMaximized()) {
+	if (isWindowMaximized() && !forceMaximize) {
 		if (m_window->isFullScreen())
 			m_window->showNormal();
 
