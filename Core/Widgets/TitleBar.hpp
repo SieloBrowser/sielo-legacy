@@ -66,7 +66,7 @@ protected:
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
-	void contextMenuEvent(QContextMenuEvent* event);
+	void contextMenuEvent(QObject* obj, QContextMenuEvent* event);
 
 private slots:
 	void build();
@@ -89,8 +89,6 @@ private:
 
 	BookmarksToolBar* m_bookmarksToolbar{nullptr};
 	QToolBar* m_controlsToolbar{nullptr};
-
-	QToolBar* m_tmp_contextToolbar{ nullptr };
 
 	QRect m_geometry{};
 	QPoint m_offset{};
