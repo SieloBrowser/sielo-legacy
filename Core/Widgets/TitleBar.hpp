@@ -64,6 +64,7 @@ protected:
 
 	void mousePressEvent(QToolBar* toolbar, QMouseEvent* event);
 	void mouseMoveEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 
@@ -71,7 +72,7 @@ private slots:
 	void build();
 
 	void closeWindow();
-	void toggleMaximize();
+	void toggleMaximize(bool forceMaximize = false);
 	void minimize();
 
 private:
@@ -83,6 +84,8 @@ private:
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};
 	QToolButton* m_minimize{nullptr};
+
+	QFrame *m_sizePreview{nullptr};
 
 	BookmarksToolBar* m_bookmarksToolbar{nullptr};
 	QToolBar* m_controlsToolbar{nullptr};
