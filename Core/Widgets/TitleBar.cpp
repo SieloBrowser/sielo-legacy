@@ -106,13 +106,7 @@ bool TitleBar::eventFilter(QObject* obj, QEvent* event)
 		mouseDoubleClickEvent(static_cast<QMouseEvent*>(event));
 	}
 	else if (event->type() == QEvent::ContextMenu) {
-		if (obj->objectName() == m_bookmarksToolbar->objectName())
-			m_tmp_contextToolbar = m_bookmarksToolbar;
-		else if (obj->objectName() == m_controlsToolbar->objectName())
-			m_tmp_contextToolbar = m_controlsToolbar;
-		else
-			m_tmp_contextToolbar = nullptr;
-		contextMenuEvent(static_cast<QContextMenuEvent*>(event));
+		contextMenuEvent(obj, static_cast<QContextMenuEvent*>(event));
 	}
 	return QObject::eventFilter(obj, event);
 }
@@ -175,7 +169,7 @@ void TitleBar::mouseDoubleClickEvent(QMouseEvent* event)
 	}
 }
 
-void TitleBar::contextMenuEvent(QContextMenuEvent* event)
+void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 {
 	QMenu menu{};
 	QAction* hideShowAction{menu.addAction(tr("Show Bookmarks Bar"))};
@@ -196,14 +190,15 @@ void TitleBar::contextMenuEvent(QContextMenuEvent* event)
 									  Application::instance()->bookmarksManager())};
 	});
 
-	if (m_tmp_contextToolbar != nullptr) {
+	if (obj != nullptr) {
+		QToolBar* toolbar = qobject_cast<QToolBar*>(obj);
 		QAction* lockToolbar(menu.addAction(tr("Lock Toolbar")));
 
 		lockToolbar->setCheckable(true);
-		lockToolbar->setChecked(!m_tmp_contextToolbar->isMovable());
+		lockToolbar->setChecked(!toolbar->isMovable());
 
 		connect(lockToolbar, &QAction::toggled, this, [=]() {
-			m_tmp_contextToolbar->setMovable(!m_tmp_contextToolbar->isMovable());
+			toolbar->setMovable(!toolbar->isMovable());
 		});
 	}
 
