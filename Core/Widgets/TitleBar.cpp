@@ -25,8 +25,10 @@
 #include "TitleBar.hpp"
 
 #include <QDesktopWidget>
+#include <QScreen>
 
 #include <QSettings>
+#include <QtWidgets/QMessageBox>
 
 #include "Application.hpp"
 
@@ -157,10 +159,13 @@ void TitleBar::mousePressEvent(QToolBar* toolBar, QMouseEvent* event)
 void TitleBar::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton && m_canMove) {
-		if (isWindowMaximized()) {
+		if (isWindowMaximized() || m_isOnSide) {
 			m_window->resize(m_geometry.size());
 			m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
 			m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
+
+			m_isMaximized = false;
+			m_isOnSide = false;
 		}
 
 		m_window->move(event->globalPos() - m_offset);
@@ -181,8 +186,26 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 
 void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 {
-	if (QCursor::pos(Application::screenAt(QCursor::pos())).y() <= 0) {
+	QScreen *screen = Application::screenAt(QCursor::pos());
+	if (QCursor::pos(screen).y() <= 0) {
 		toggleMaximize(true);
+	}
+
+	// The move function don't move properly, i need to remove 6 and 8 pixels.
+	if (QCursor::pos(screen).x() <= 0) {
+		m_geometry = m_window->geometry();
+		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
+		m_window->move((screen->size().width() * Application::screens().indexOf(screen)) - 6, 0);
+
+		m_isOnSide = true;
+	}
+	// There is 1 px missing on Windows for mouse position
+	else if (QCursor::pos(screen).x() >= screen->size().width() - 2) {
+		m_geometry = m_window->geometry();
+		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
+		m_window->move((screen->size().width() / 2 * (Application::screens().indexOf(screen) + 1)) - 8, 0);
+
+		m_isOnSide = true;
 	}
 
 	m_sizePreview->hide();
@@ -314,7 +337,9 @@ void TitleBar::toggleMaximize(bool forceMaximize)
 		m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
 	}
 	else {
-		m_geometry = m_window->geometry();
+		if (!m_isOnSide)
+			m_geometry = m_window->geometry();
+
 		m_window->setGeometry(Application::desktop()->availableGeometry(m_window));
 		m_isMaximized = true;
 

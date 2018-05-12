@@ -81,6 +81,7 @@ private slots:
 private:
 	bool m_showBookmarks{true};
 	bool m_isMaximized{false};
+	bool m_isOnSide{false};
 	bool m_canMove{true};
 
 	QLabel* m_title{nullptr};
