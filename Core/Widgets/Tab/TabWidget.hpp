@@ -142,6 +142,8 @@ public slots:
 	void restoreAllClosedTabs();
 	void clearClosedTabsList();
 
+	void showSource();
+
 	void showInspector(WebTab* webTab = nullptr);
 
 	void fullScreenRequested(QWebEngineFullScreenRequest request);
