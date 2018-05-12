@@ -660,10 +660,10 @@ void WebView::newKeyPressEvent(QKeyEvent* event)
 				event->accept();
 				break;
 			case Qt::Key_Down:
-				scroll(0, height());
+				m_page->scroll(0, height());
 				break;
 			case Qt::Key_Up:
-				scroll(0, -height());
+				m_page->scroll(0, -height());
 				break;
 			default:
 				break;
