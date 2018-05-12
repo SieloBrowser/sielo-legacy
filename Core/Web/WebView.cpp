@@ -630,41 +630,44 @@ void WebView::newKeyPressEvent(QKeyEvent* event)
 	}
 
 	switch (event->key()) {
-	case Qt::Key_ZoomIn:
-		zoomIn();
-		event->accept();
-		break;
-	case Qt::Key_ZoomOut:
-		zoomOut();
-		event->accept();
-		break;
-	case Qt::Key_Plus:
-		if (event->modifiers() & Qt::ControlModifier) {
+		case Qt::Key_ZoomIn:
 			zoomIn();
 			event->accept();
-		}
-		break;
-	case Qt::Key_Minus:
-		if (event->modifiers() & Qt::ControlModifier) {
+			break;
+		case Qt::Key_ZoomOut:
 			zoomOut();
 			event->accept();
+			break;
+	}
+	if (event->modifiers() & Qt::ControlModifier) 
+	{
+		switch (event->key()) 
+		{
+			case Qt::Key_Plus:
+				zoomIn();
+				event->accept();
+				break;
+			case Qt::Key_Minus:
+				zoomOut();
+				event->accept();
+				break;
+			case Qt::Key_0:
+				zoomReset();
+				event->accept();
+				break;
+			case Qt::Key_M:
+				m_page->setAudioMuted(!m_page->isAudioMuted());
+				event->accept();
+				break;
+			case Qt::Key_Down:
+				scroll(0, height());
+				break;
+			case Qt::Key_Up:
+				scroll(0, -height());
+				break;
+			default:
+				break;
 		}
-		break;
-	case Qt::Key_0:
-		if (event->modifiers() & Qt::ControlModifier) {
-			zoomReset();
-			event->accept();
-		}
-		break;
-	case Qt::Key_M:
-		if (event->modifiers() & Qt::ControlModifier) {
-			m_page->setAudioMuted(!m_page->isAudioMuted());
-			event->accept();
-		}
-		break;
-
-	default:
-		break;
 	}
 }
 
