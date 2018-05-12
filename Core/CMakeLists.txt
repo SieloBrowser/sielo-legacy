@@ -4,7 +4,7 @@ project(Core)
 include_directories(${CMAKE_SOURCE_DIR}/Core)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(WIN64 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
     set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
