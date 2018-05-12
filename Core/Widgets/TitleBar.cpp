@@ -195,7 +195,7 @@ void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 	if (QCursor::pos(screen).x() <= 0) {
 		m_geometry = m_window->geometry();
 		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
-		m_window->move((screen->size().width() * Application::screens().indexOf(screen)) - 6, 0);
+		m_window->move(screen->geometry().topLeft().x() - 6, 0);
 
 		m_isOnSide = true;
 	}
@@ -203,7 +203,7 @@ void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 	else if (QCursor::pos(screen).x() >= screen->size().width() - 2) {
 		m_geometry = m_window->geometry();
 		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
-		m_window->move((screen->size().width() / 2 * (Application::screens().indexOf(screen) + 1)) - 8, 0);
+		m_window->move((screen->geometry().topRight().x() / 2) - 8, 0);
 
 		m_isOnSide = true;
 	}
