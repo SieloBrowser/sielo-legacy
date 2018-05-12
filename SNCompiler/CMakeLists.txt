@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-if(WIN64)
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    # 64bit
     set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
 elseif(WIN32)
     set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")

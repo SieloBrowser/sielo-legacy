@@ -198,7 +198,7 @@ void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 		m_geometry = m_window->geometry();
 		m_window->resize(screen->availableGeometry().width() / 2, screen->availableGeometry().height() - 7);
 		m_window->move(scrrect.x() - 6, scrrect.y());
-
+    
 		m_isOnSide = true;
 	}
 	// There is 1 px missing on Windows for mouse position
