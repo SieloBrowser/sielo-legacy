@@ -67,6 +67,7 @@
 #include "Network/NetworkManager.hpp"
 
 #include "Widgets/AddressBar.cpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
 
 namespace Sn {
@@ -259,7 +260,8 @@ Application::Application(int& argc, char** argv) :
 	// Create or restore window
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
-	if ((isStartingAfterCrash() && afterCrashLaunch() == RestoreSession) || (afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession)) {
+	if ((isStartingAfterCrash() && afterCrashLaunch() == RestoreSession) ||
+		(afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession)) {
 		if (!(isStartingAfterCrash() && afterCrashLaunch() == Application::AfterLaunch::OpenHomePage)) {
 			m_restoreManager = new RestoreManager();
 			if (!m_restoreManager->isValid())
@@ -443,7 +445,8 @@ void Application::loadSettings()
 	}
 }
 
-QWebEngineProfile* Application::webProfile() {
+QWebEngineProfile* Application::webProfile()
+{
 	if (!m_webProfile) {
 		m_webProfile = QWebEngineProfile::defaultProfile();
 	}
@@ -580,11 +583,12 @@ void Application::saveSession(bool saveForHome)
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
 	// Write the current session in version 2
-	stream << 0x0002;
+	stream << 0x0003;
 	stream << m_windows.count();
 
 	// Save tabs of all windows
 			foreach (BrowserWindow* window, m_windows) {
+			window->titleBar()->saveToolBarsPositions();
 			stream << window->saveTabs();
 
 			// Save state of window (is it's in full screen)
@@ -592,6 +596,8 @@ void Application::saveSession(bool saveForHome)
 				stream << QByteArray();
 			else
 				stream << window->saveState();
+
+			stream << window->saveGeometry();
 		}
 
 	// Save data to a file
@@ -785,13 +791,16 @@ void Application::startAfterCrash()
 	requestAction.setWindowTitle(QApplication::tr("Start after crash"));
 	requestAction.setText(QApplication::tr("You are starting Sielo after a crash. What would you like to do?"));
 
-	QAbstractButton* startBlankSession = requestAction.addButton(QApplication::tr("Start New Session"), QMessageBox::NoRole);
-	QAbstractButton* restoreSession = requestAction.addButton(QApplication::tr("Restore Session"), QMessageBox::YesRole);
+	QAbstractButton* startBlankSession = requestAction.addButton(QApplication::tr("Start New Session"),
+																 QMessageBox::NoRole);
+	QAbstractButton* restoreSession = requestAction.addButton(QApplication::tr("Restore Session"),
+															  QMessageBox::YesRole);
 
 	requestAction.exec();
 
 	if (!is32bit()) {
-		QMessageBox::information(nullptr, QApplication::tr("Info"), QApplication::tr("Please, if Sielo continues crashing, consider trying this 32bit version."));
+		QMessageBox::information(nullptr, QApplication::tr("Info"), QApplication::tr(
+				"Please, if Sielo continues crashing, consider trying this 32bit version."));
 	}
 
 	if (requestAction.clickedButton() == restoreSession) {

@@ -25,7 +25,8 @@
 #include "TitleBar.hpp"
 
 #include <QDesktopWidget>
-#include <QtWidgets/QMessageBox>
+
+#include <QSettings>
 
 #include "Application.hpp"
 
@@ -54,8 +55,7 @@ TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookma
 	connect(m_bookmarksToolbar, &BookmarksToolBar::orientationChanged, this, &TitleBar::build);
 	connect(m_controlsToolbar, &QToolBar::orientationChanged, this, &TitleBar::build);
 
-	m_window->addToolBar(m_bookmarksToolbar);
-	m_window->addToolBar(m_controlsToolbar);
+	restoreToolBarsPositions();
 
 	m_sizePreview = new QFrame(this);
 	m_sizePreview->setObjectName(QLatin1String("window-sizepreview"));
@@ -83,6 +83,34 @@ void TitleBar::setShowBookmark(bool show)
 {
 	m_showBookmarks = show;
 	build();
+}
+
+void TitleBar::saveToolBarsPositions()
+{
+	QSettings settings{};
+
+	settings.beginGroup("TitleBar");
+
+	settings.setValue("bookmarks/area", static_cast<int>(m_window->toolBarArea(m_bookmarksToolbar)));
+	settings.setValue("bookmarks/locked", m_bookmarksToolbar->isMovable());
+	settings.setValue("controls/area", static_cast<int>(m_window->toolBarArea(m_controlsToolbar)));
+	settings.setValue("controls/locked", m_controlsToolbar->isMovable());
+
+	settings.endGroup();
+}
+
+void TitleBar::restoreToolBarsPositions()
+{
+	QSettings settings{};
+
+	settings.beginGroup("TitleBar");
+
+	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("bookmarks/area", Qt::TopToolBarArea).toInt()), m_bookmarksToolbar);
+	m_bookmarksToolbar->setMovable(settings.value("bookmarks/locked", true).toBool());
+	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("controls/area", Qt::TopToolBarArea).toInt()), m_controlsToolbar);
+	m_controlsToolbar->setMovable(settings.value("controls/locked", true).toBool());
+
+	settings.endGroup();
 }
 
 bool TitleBar::isWindowMaximized() const
@@ -199,6 +227,7 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 
 		connect(lockToolbar, &QAction::toggled, this, [=]() {
 			toolbar->setMovable(!toolbar->isMovable());
+			Application::instance()->saveSession();
 		});
 	}
 
@@ -263,6 +292,8 @@ void TitleBar::build()
 	else
 		m_bookmarksToolbar->hide();
 #endif
+
+	Application::instance()->saveSession();
 }
 
 void TitleBar::closeWindow()

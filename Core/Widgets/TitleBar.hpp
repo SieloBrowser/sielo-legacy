@@ -56,6 +56,9 @@ public:
 
 	bool isWindowMaximized() const;
 
+	void saveToolBarsPositions();
+	void restoreToolBarsPositions();
+
 signals:
 	void toggleBookmarksBar(bool shown);
 
