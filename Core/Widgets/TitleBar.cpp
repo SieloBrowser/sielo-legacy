@@ -25,6 +25,9 @@
 #include "TitleBar.hpp"
 
 #include <QDesktopWidget>
+#include <QScreen>
+
+#include <QSettings>
 #include <QtWidgets/QMessageBox>
 
 #include "Application.hpp"
@@ -54,8 +57,7 @@ TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookma
 	connect(m_bookmarksToolbar, &BookmarksToolBar::orientationChanged, this, &TitleBar::build);
 	connect(m_controlsToolbar, &QToolBar::orientationChanged, this, &TitleBar::build);
 
-	m_window->addToolBar(m_bookmarksToolbar);
-	m_window->addToolBar(m_controlsToolbar);
+	restoreToolBarsPositions();
 
 	m_sizePreview = new QFrame(this);
 	m_sizePreview->setObjectName(QLatin1String("window-sizepreview"));
@@ -83,6 +85,34 @@ void TitleBar::setShowBookmark(bool show)
 {
 	m_showBookmarks = show;
 	build();
+}
+
+void TitleBar::saveToolBarsPositions()
+{
+	QSettings settings{};
+
+	settings.beginGroup("TitleBar");
+
+	settings.setValue("bookmarks/area", static_cast<int>(m_window->toolBarArea(m_bookmarksToolbar)));
+	settings.setValue("bookmarks/locked", m_bookmarksToolbar->isMovable());
+	settings.setValue("controls/area", static_cast<int>(m_window->toolBarArea(m_controlsToolbar)));
+	settings.setValue("controls/locked", m_controlsToolbar->isMovable());
+
+	settings.endGroup();
+}
+
+void TitleBar::restoreToolBarsPositions()
+{
+	QSettings settings{};
+
+	settings.beginGroup("TitleBar");
+
+	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("bookmarks/area", Qt::TopToolBarArea).toInt()), m_bookmarksToolbar);
+	m_bookmarksToolbar->setMovable(settings.value("bookmarks/locked", true).toBool());
+	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("controls/area", Qt::TopToolBarArea).toInt()), m_controlsToolbar);
+	m_controlsToolbar->setMovable(settings.value("controls/locked", true).toBool());
+
+	settings.endGroup();
 }
 
 bool TitleBar::isWindowMaximized() const
@@ -129,10 +159,13 @@ void TitleBar::mousePressEvent(QToolBar* toolBar, QMouseEvent* event)
 void TitleBar::mouseMoveEvent(QMouseEvent* event)
 {
 	if (event->buttons() & Qt::LeftButton && m_canMove) {
-		if (isWindowMaximized()) {
+		if (isWindowMaximized() || m_isOnSide) {
 			m_window->resize(m_geometry.size());
 			m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
 			m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
+
+			m_isMaximized = false;
+			m_isOnSide = false;
 		}
 
 		m_window->move(event->globalPos() - m_offset);
@@ -153,8 +186,26 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 
 void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 {
-	if (QCursor::pos(Application::screenAt(QCursor::pos())).y() <= 0) {
+	QScreen *screen = Application::screenAt(QCursor::pos());
+	if (QCursor::pos(screen).y() <= 0) {
 		toggleMaximize(true);
+	}
+
+	// The move function don't move properly, i need to remove 6 and 8 pixels.
+	if (QCursor::pos(screen).x() <= 0) {
+		m_geometry = m_window->geometry();
+		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
+		m_window->move((screen->size().width() * Application::screens().indexOf(screen)) - 6, 0);
+
+		m_isOnSide = true;
+	}
+	// There is 1 px missing on Windows for mouse position
+	else if (QCursor::pos(screen).x() >= screen->size().width() - 2) {
+		m_geometry = m_window->geometry();
+		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
+		m_window->move((screen->size().width() / 2 * (Application::screens().indexOf(screen) + 1)) - 8, 0);
+
+		m_isOnSide = true;
 	}
 
 	m_sizePreview->hide();
@@ -199,6 +250,7 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 
 		connect(lockToolbar, &QAction::toggled, this, [=]() {
 			toolbar->setMovable(!toolbar->isMovable());
+			Application::instance()->saveSession();
 		});
 	}
 
@@ -263,6 +315,8 @@ void TitleBar::build()
 	else
 		m_bookmarksToolbar->hide();
 #endif
+
+	Application::instance()->saveSession();
 }
 
 void TitleBar::closeWindow()
@@ -283,7 +337,9 @@ void TitleBar::toggleMaximize(bool forceMaximize)
 		m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
 	}
 	else {
-		m_geometry = m_window->geometry();
+		if (!m_isOnSide)
+			m_geometry = m_window->geometry();
+
 		m_window->setGeometry(Application::desktop()->availableGeometry(m_window));
 		m_isMaximized = true;
 

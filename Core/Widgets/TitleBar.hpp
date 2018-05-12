@@ -56,6 +56,9 @@ public:
 
 	bool isWindowMaximized() const;
 
+	void saveToolBarsPositions();
+	void restoreToolBarsPositions();
+
 signals:
 	void toggleBookmarksBar(bool shown);
 
@@ -78,6 +81,7 @@ private slots:
 private:
 	bool m_showBookmarks{true};
 	bool m_isMaximized{false};
+	bool m_isOnSide{false};
 	bool m_canMove{true};
 
 	QLabel* m_title{nullptr};

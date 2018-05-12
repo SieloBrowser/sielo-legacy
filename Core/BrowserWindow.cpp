@@ -149,11 +149,6 @@ QByteArray BrowserWindow::saveTabs()
 	return data;
 }
 
-void BrowserWindow::restoreTabs()
-{
-
-}
-
 void BrowserWindow::setStartTab(WebTab* tab)
 {
 	m_startTab = tab;
@@ -167,6 +162,7 @@ void BrowserWindow::setStartPage(WebPage* page)
 void BrowserWindow::restoreWindowState(const RestoreManager::WindowData& data)
 {
 	restoreState(data.windowState);
+	restoreGeometry(data.windowGeometry);
 	int mainSplitterCount{data.spaceTabsCount[0]};
 	int tabWidgetToRestore{0};
 

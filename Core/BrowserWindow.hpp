@@ -70,7 +70,6 @@ public:
 	void loadSettings();
 
 	QByteArray saveTabs();
-	void restoreTabs();
 
 	void setStartTab(WebTab* tab);
 	void setStartPage(WebPage* page);

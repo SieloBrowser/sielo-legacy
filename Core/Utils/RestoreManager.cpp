@@ -78,7 +78,7 @@ void RestoreManager::createFromFile(const QString& file)
 	int version{0};
 	stream >> version;
 
-	if (version != 0x0001 && version != 0x0002)
+	if (version > 0x0003)
 		return;
 
 	int windowCount{};
@@ -87,13 +87,18 @@ void RestoreManager::createFromFile(const QString& file)
 	for (int win{0}; win < windowCount; ++win) {
 		QByteArray tabWidgetState{};
 		QByteArray windowState{};
+		QByteArray windowGeometry{};
 
 		stream >> tabWidgetState;
 		stream >> windowState;
 
+		if (version >= 0x0003)
+			stream >> windowGeometry;
+
 		WindowData windowData{};
 
 		windowData.windowState = windowState;
+		windowData.windowGeometry = windowGeometry;
 
 		QDataStream tabWidgetStream{tabWidgetState};
 
