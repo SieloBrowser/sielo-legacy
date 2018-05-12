@@ -187,23 +187,25 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 {
 	QScreen *screen = Application::screenAt(QCursor::pos());
-	if (QCursor::pos(screen).y() <= 0) {
+	QRect scrrect = screen->geometry();
+	setTitle(screen->name() + "; " + QString::number(QCursor::pos(screen).y() - scrrect.y()));
+	if (QCursor::pos(screen).y() <= scrrect.y()) {
 		toggleMaximize(true);
 	}
 
 	// The move function don't move properly, i need to remove 6 and 8 pixels.
-	if (QCursor::pos(screen).x() <= 0) {
+	if (QCursor::pos(screen).x() <= scrrect.x()) {
 		m_geometry = m_window->geometry();
-		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
-		m_window->move((screen->size().width() * Application::screens().indexOf(screen)) - 6, 0);
+		m_window->resize(screen->availableGeometry().width() / 2, screen->availableGeometry().height() - 7);
+		m_window->move(scrrect.x() - 6, scrrect.y());
 
 		m_isOnSide = true;
 	}
 	// There is 1 px missing on Windows for mouse position
-	else if (QCursor::pos(screen).x() >= screen->size().width() - 2) {
+	else if (QCursor::pos(screen).x() >= scrrect.x() + scrrect.width() - 1) {
 		m_geometry = m_window->geometry();
-		m_window->resize(screen->size().width() / 2, screen->availableGeometry().height());
-		m_window->move((screen->size().width() / 2 * (Application::screens().indexOf(screen) + 1)) - 8, 0);
+		m_window->resize(screen->availableGeometry().width() / 2, screen->availableGeometry().height() - 7);
+		m_window->move(scrrect.x() + (screen->availableGeometry().width() / 2) - 8, scrrect.y());
 
 		m_isOnSide = true;
 	}
