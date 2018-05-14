@@ -2477,8 +2477,8 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="119"/>
+        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
