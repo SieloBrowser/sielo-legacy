@@ -29,6 +29,9 @@
 
 #include <QStyle>
 
+#include <QTranslator>
+#include <QLibraryInfo>
+
 #include <QSqlDatabase>
 #include <QProcess>
 
@@ -82,6 +85,7 @@ QList<QString> Application::paths()
 	paths.append(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
+	paths.append(QDir::currentPath() + QLatin1String("/locale"));
 
 	return paths;
 }
@@ -126,6 +130,7 @@ Application::Application(int& argc, char** argv) :
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
 
+	translateApplication();
 	loadSettings();
 
 	// Check command line options with given arguments
@@ -300,26 +305,23 @@ void Application::loadSettings()
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
-	// Check if the user have enable the witcher font
-	if (settings.value("Settings/useMorpheusFont", false).toBool()) {
-		QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
-
-//		setFont(m_morpheusFont);
-		webSettings->setFontFamily(QWebEngineSettings::StandardFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::FixedFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
-	}
-
 	// Load specific settings for all windows
 			foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
-	// Load theme info
-	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
-						+ settings.value("Themes/currentTheme", "sielo-default").toString()
-						+ QLatin1String("/main.sss")};
+	// Load settings for password
+	if (m_autoFill)
+		m_autoFill->loadSettings();
+
+	loadWebSettings();
+	loadApplicationSettings();
+	loadThemesSettings();
+
+
+}
+
+void Application::loadWebSettings()
+{
+	QSettings settings{};
 
 	// load web settings
 	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
@@ -355,6 +357,17 @@ void Application::loadSettings()
 	webProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
 
 	settings.endGroup();
+
+	// Force local storage to be disabled if it's a provate session
+	if (privateBrowsing()) {
+		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
+		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+	}
+}
+
+void Application::loadApplicationSettings()
+{
+	QSettings settings{};
 
 	// Check the current version number of Sielo, and make setting update if needed
 	if (settings.value("versionNumber", 0).toInt() < 11) {
@@ -393,10 +406,16 @@ void Application::loadSettings()
 
 		settings.setValue("versionNumber", 11);
 	}
+}
 
-	// Load settings for password
-	if (m_autoFill)
-		m_autoFill->loadSettings();
+void Application::loadThemesSettings()
+{
+	QSettings settings{};
+
+	// Load theme info
+	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
+						+ settings.value("Themes/currentTheme", "sielo-default").toString()
+						+ QLatin1String("/main.sss")};
 
 	// Check if the theme existe
 	if (themeInfo.exists()) {
@@ -437,12 +456,63 @@ void Application::loadSettings()
 		loadThemeFromResources();
 		settings.setValue("Themes/defaultThemeVersion", 28);
 	}
+}
 
-	// Force local storage to be disabled if it's a provate session
-	if (privateBrowsing()) {
-		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
-		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+void Application::translateApplication()
+{
+	QSettings settings{};
+	QString file{settings.value("Language/language", QLocale::system().name()).toString()};
+
+	// It can only be "C" locale, for which we will use default English language
+	if (file.size() < 2)
+		file.clear();
+
+	if (!file.isEmpty() && !file.endsWith(QLatin1String(".qm")))
+		file.append(QLatin1String(".qm"));
+
+	// Either we load default language (with empty file), or we attempt to load xx.qm (xx_yy.qm)
+	Q_ASSERT(file.isEmpty() || file.size() >= 5);
+
+	QString translationPath{paths()[P_Translations]};
+
+	if (!file.isEmpty()) {
+		if (!QFile(QString("%1/%2").arg(translationPath, file)).exists()) {
+			QDir dir{translationPath};
+			QString lang{file.left(2) + QLatin1String("*.qm")};
+
+			const QStringList translations = dir.entryList(QStringList(lang));
+
+			// If no translation can be found, we will use the default English
+			file = translations.isEmpty() ? QString() : translations[0];
+		}
 	}
+
+	// Application translations
+	QTranslator* app{new QTranslator(this)};
+	app->load(file, translationPath);
+
+	// Qt translations
+	QTranslator* sys{new QTranslator(this)};
+	sys->load("qt_" + file, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+
+	if (sys->isEmpty())
+		sys->load("qt_" + file, translationPath);
+
+	m_languageFile = file;
+
+	installTranslator(app);
+	installTranslator(sys);
+}
+
+QString Application::currentLanguage() const
+{
+	QString lang = m_languageFile;
+
+	if (lang.isEmpty()) {
+		return "en_US";
+	}
+
+	return lang.left(lang.length() - 3);
 }
 
 QWebEngineProfile* Application::webProfile()
@@ -1041,42 +1111,7 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 
 		QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
 
-		// Replace url with absolute path
-		sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
-					QString("url(%1/\\1)").arg(relativePath));
-
-		// Replace some Sielo API properties to Qt properties
-		sss.replace("sproperty", "qproperty");
-		sss.replace("slineargradient", "qlineargradient");
-
-		// Replace theme colors to user colors
-		sss.replace(RegExp(QStringLiteral(
-								   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
-					"rgba($color\\1\\2, \\3\\4)");
-		sss.replace(
-				RegExp(QStringLiteral(
-							   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
-				"rgba($color\\1\\2, 255)");
-		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
-					"rgba($color\\1normal, 255)");
-
-		sss.replace(QLatin1String("\\4"), "");
-
-		sss.replace("$colormainlight", AppearancePage::colorString("mainlight"));
-		sss.replace("$colormaindark", AppearancePage::colorString("maindark"));
-		sss.replace("$colormainnormal", AppearancePage::colorString("mainnormal"));
-		sss.replace("$colorsecondlight", AppearancePage::colorString("secondlight"));
-		sss.replace("$colorseconddark", AppearancePage::colorString("seconddark"));
-		sss.replace("$colorsecondnormal", AppearancePage::colorString("secondnormal"));
-		sss.replace("$coloraccentlight", AppearancePage::colorString("accentlight"));
-		sss.replace("$coloraccentdark", AppearancePage::colorString("accentdark"));
-		sss.replace("$coloraccentnormal", AppearancePage::colorString("accentnormal"));
-		sss.replace("$colortextlight", AppearancePage::colorString("textlight"));
-		sss.replace("$colortextdark", AppearancePage::colorString("textdark"));
-		sss.replace("$colortextnormal", AppearancePage::colorString("textnormal"));
-
-		sss.replace("$ulightness", lightness);
-
+		sss = parseSSS(sss, relativePath, lightness);
 //		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*main\\s*(\\s*,\\s*)\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\\s*(,\\s*normal))\\s*\\)")), "testeee");
 
 		setStyleSheet(sss);
@@ -1084,6 +1119,54 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 	else {
 		setStyleSheet("");
 	}
+}
+
+QString Application::parseSSS(QString& sss, const QString& relativePath, const QString& lightness)
+{
+	// Replace url with absolute path
+	sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
+				QString("url(%1/\\1)").arg(relativePath));
+
+	// Replace some Sielo API properties to Qt properties
+	sss.replace("sproperty", "qproperty");
+	sss.replace("slineargradient", "qlineargradient");
+
+	// Replace theme colors to user colors
+	sss = parseSSSColor(sss, lightness);
+
+	return sss;
+}
+
+QString Application::parseSSSColor(QString& sss, const QString& lightness)
+{
+	sss.replace(RegExp(QStringLiteral(
+							   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
+				"rgba($color\\1\\2, \\3\\4)");
+	sss.replace(
+			RegExp(QStringLiteral(
+						   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
+			"rgba($color\\1\\2, 255)");
+	sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
+				"rgba($color\\1normal, 255)");
+
+	sss.replace(QLatin1String("\\4"), "");
+
+	sss.replace("$colormainlight", AppearancePage::colorString("mainlight"));
+	sss.replace("$colormaindark", AppearancePage::colorString("maindark"));
+	sss.replace("$colormainnormal", AppearancePage::colorString("mainnormal"));
+	sss.replace("$colorsecondlight", AppearancePage::colorString("secondlight"));
+	sss.replace("$colorseconddark", AppearancePage::colorString("seconddark"));
+	sss.replace("$colorsecondnormal", AppearancePage::colorString("secondnormal"));
+	sss.replace("$coloraccentlight", AppearancePage::colorString("accentlight"));
+	sss.replace("$coloraccentdark", AppearancePage::colorString("accentdark"));
+	sss.replace("$coloraccentnormal", AppearancePage::colorString("accentnormal"));
+	sss.replace("$colortextlight", AppearancePage::colorString("textlight"));
+	sss.replace("$colortextdark", AppearancePage::colorString("textdark"));
+	sss.replace("$colortextnormal", AppearancePage::colorString("textnormal"));
+
+	sss.replace("$ulightness", lightness);
+
+	return sss;
 }
 
 void Application::loadThemeFromResources(QString name, bool loadAtEnd)
