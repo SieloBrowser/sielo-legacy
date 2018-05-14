@@ -151,6 +151,9 @@ public:
 	 * @param lightness Needed to let the theme know if it should load light or dark icons.
 	 */
 	void loadTheme(const QString& name, const QString& lightness = "dark");
+	QString parseSSS(QString& sss);
+	QString parseSSSColor(QString& sss);
+
 	bool privateBrowsing() const { return m_privateBrowsing; }
 	bool isPortable() const { return m_isPortable; }
 	bool is32bit() const { return m_is32bit; }
@@ -255,6 +258,7 @@ private slots:
 	void windowDestroyed(QObject* window);
 
 	void downloadRequested(QWebEngineDownloadItem* download);
+
 private:
 	enum PostLaunchAction {
 		OpenNewTab

@@ -1041,42 +1041,7 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 
 		QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
 
-		// Replace url with absolute path
-		sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
-					QString("url(%1/\\1)").arg(relativePath));
-
-		// Replace some Sielo API properties to Qt properties
-		sss.replace("sproperty", "qproperty");
-		sss.replace("slineargradient", "qlineargradient");
-
-		// Replace theme colors to user colors
-		sss.replace(RegExp(QStringLiteral(
-								   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
-					"rgba($color\\1\\2, \\3\\4)");
-		sss.replace(
-				RegExp(QStringLiteral(
-							   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
-				"rgba($color\\1\\2, 255)");
-		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
-					"rgba($color\\1normal, 255)");
-
-		sss.replace(QLatin1String("\\4"), "");
-
-		sss.replace("$colormainlight", AppearancePage::colorString("mainlight"));
-		sss.replace("$colormaindark", AppearancePage::colorString("maindark"));
-		sss.replace("$colormainnormal", AppearancePage::colorString("mainnormal"));
-		sss.replace("$colorsecondlight", AppearancePage::colorString("secondlight"));
-		sss.replace("$colorseconddark", AppearancePage::colorString("seconddark"));
-		sss.replace("$colorsecondnormal", AppearancePage::colorString("secondnormal"));
-		sss.replace("$coloraccentlight", AppearancePage::colorString("accentlight"));
-		sss.replace("$coloraccentdark", AppearancePage::colorString("accentdark"));
-		sss.replace("$coloraccentnormal", AppearancePage::colorString("accentnormal"));
-		sss.replace("$colortextlight", AppearancePage::colorString("textlight"));
-		sss.replace("$colortextdark", AppearancePage::colorString("textdark"));
-		sss.replace("$colortextnormal", AppearancePage::colorString("textnormal"));
-
-		sss.replace("$ulightness", lightness);
-
+		sss = parseSSS(sss);
 //		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*main\\s*(\\s*,\\s*)\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\\s*(,\\s*normal))\\s*\\)")), "testeee");
 
 		setStyleSheet(sss);
@@ -1084,6 +1049,54 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 	else {
 		setStyleSheet("");
 	}
+}
+
+QString Application::parseSSS(QString& sss)
+{
+	// Replace url with absolute path
+	sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
+				QString("url(%1/\\1)").arg(relativePath));
+
+	// Replace some Sielo API properties to Qt properties
+	sss.replace("sproperty", "qproperty");
+	sss.replace("slineargradient", "qlineargradient");
+
+	// Replace theme colors to user colors
+	sss = parseSSSColor(sss);
+
+	return sss;
+}
+
+QString Application::parseSSSColor(QString& sss)
+{
+	sss.replace(RegExp(QStringLiteral(
+							   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
+				"rgba($color\\1\\2, \\3\\4)");
+	sss.replace(
+			RegExp(QStringLiteral(
+						   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
+			"rgba($color\\1\\2, 255)");
+	sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
+				"rgba($color\\1normal, 255)");
+
+	sss.replace(QLatin1String("\\4"), "");
+
+	sss.replace("$colormainlight", AppearancePage::colorString("mainlight"));
+	sss.replace("$colormaindark", AppearancePage::colorString("maindark"));
+	sss.replace("$colormainnormal", AppearancePage::colorString("mainnormal"));
+	sss.replace("$colorsecondlight", AppearancePage::colorString("secondlight"));
+	sss.replace("$colorseconddark", AppearancePage::colorString("seconddark"));
+	sss.replace("$colorsecondnormal", AppearancePage::colorString("secondnormal"));
+	sss.replace("$coloraccentlight", AppearancePage::colorString("accentlight"));
+	sss.replace("$coloraccentdark", AppearancePage::colorString("accentdark"));
+	sss.replace("$coloraccentnormal", AppearancePage::colorString("accentnormal"));
+	sss.replace("$colortextlight", AppearancePage::colorString("textlight"));
+	sss.replace("$colortextdark", AppearancePage::colorString("textdark"));
+	sss.replace("$colortextnormal", AppearancePage::colorString("textnormal"));
+
+	sss.replace("$ulightness", lightness);
+
+	return sss;
 }
 
 void Application::loadThemeFromResources(QString name, bool loadAtEnd)
