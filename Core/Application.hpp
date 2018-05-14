@@ -119,7 +119,8 @@ public:
 	enum Path {
 		P_Data = 0, /*!< Path of data */
 		P_Plugin = 1, /*!< Path of plugin (will be applications) */
-		P_Themes = 2 /*!< Path of themes */
+		P_Themes = 2, /*!< Path of themes */
+		P_Translations = 3 /*!< Path of translations */
 	};
 
 	//! After launch action
@@ -148,14 +149,19 @@ public:
 	void loadWebSettings();
 	void loadApplicationSettings();
 	void loadThemesSettings();
+
+	void translateApplication();
+	QString currentLanguageFile() const { return m_languageFile; }
+	QString currentLanguage() const;
+
 	/*!
 	 * Apply a theme to Sielo.
 	 * @param name Name of the theme we want to apply.
 	 * @param lightness Needed to let the theme know if it should load light or dark icons.
 	 */
 	void loadTheme(const QString& name, const QString& lightness = "dark");
-	QString parseSSS(QString& sss);
-	QString parseSSSColor(QString& sss);
+	QString parseSSS(QString& sss, const QString& relativePath, const QString& lightness);
+	QString parseSSSColor(QString& sss, const QString& lightness);
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
 	bool isPortable() const { return m_isPortable; }
@@ -270,6 +276,8 @@ private:
 	void setUserStyleSheet(const QString& filePath);
 
 	void loadThemeFromResources(QString name = "sielo-default", bool loadAtEnd = true);
+
+	QString m_languageFile{};
 
 	bool m_privateBrowsing{false};
 	bool m_isPortable{true};
