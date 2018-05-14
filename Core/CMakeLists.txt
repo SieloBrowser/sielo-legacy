@@ -70,10 +70,16 @@ find_package(Qt5Sql 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
-add_library(Core ${SOURCE_FILES} ../icons.qrc/)
+# Qt5LinguistTools
+find_package(Qt5LinguistTools)
+FILE(GLOB TS_FILES "${CMAKE_SOURCE_DIR}/translations/*.ts")
+QT5_create_translation(QM_FILES ${SOURCE_FILES} ${TS_FILES})
+
+add_library(Core ${SOURCE_FILES} ../icons.qrc/ ${QM_FILES})
 
 target_link_libraries(Core ${OPENSSL_LIBRARIES})
 target_link_libraries(Core Qt5::Widgets)
 target_link_libraries(Core Qt5::Sql)
 target_link_libraries(Core Qt5::WebEngine)
 target_link_libraries(Core Qt5::WebEngineWidgets)
+
