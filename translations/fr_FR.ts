@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>QApplication</name>
     <message>
         <location filename="../Core/Application.cpp" line="861"/>
         <source>Start after crash</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrage après un crash</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="862"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sielo démarre après un crash. Que voulez-vous faire ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="864"/>
         <source>Start New Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer une nouvelle session</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="866"/>
         <source>Restore Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Restorer l&apos;ancienne session</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="872"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Info</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="872"/>
         <source>Please, if Sielo continues crashing, consider trying this 32bit version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si Sielo continue de crash, vous pouvez essayer la version 32bits.</translation>
     </message>
 </context>
 <context>
@@ -2501,7 +2501,6 @@
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="568"/>
         <source>Currently you have %n opened tab(s)</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
