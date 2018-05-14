@@ -145,6 +145,9 @@ public:
 	~Application();
 
 	void loadSettings();
+	void loadWebSettings();
+	void loadApplicationSettings();
+	void loadThemesSettings();
 	/*!
 	 * Apply a theme to Sielo.
 	 * @param name Name of the theme we want to apply.

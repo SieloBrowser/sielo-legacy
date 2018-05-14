@@ -300,26 +300,23 @@ void Application::loadSettings()
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
-	// Check if the user have enable the witcher font
-	if (settings.value("Settings/useMorpheusFont", false).toBool()) {
-		QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
-
-//		setFont(m_morpheusFont);
-		webSettings->setFontFamily(QWebEngineSettings::StandardFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::FixedFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
-		webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
-	}
-
 	// Load specific settings for all windows
 			foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
-	// Load theme info
-	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
-						+ settings.value("Themes/currentTheme", "sielo-default").toString()
-						+ QLatin1String("/main.sss")};
+	// Load settings for password
+	if (m_autoFill)
+		m_autoFill->loadSettings();
+
+	loadWebSettings();
+	loadApplicationSettings();
+	loadThemesSettings();
+
+
+}
+
+void Application::loadWebSettings()
+{
+	QSettings settings{};
 
 	// load web settings
 	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
@@ -355,6 +352,17 @@ void Application::loadSettings()
 	webProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
 
 	settings.endGroup();
+
+	// Force local storage to be disabled if it's a provate session
+	if (privateBrowsing()) {
+		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
+		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+	}
+}
+
+void Application::loadApplicationSettings()
+{
+	QSettings settings{};
 
 	// Check the current version number of Sielo, and make setting update if needed
 	if (settings.value("versionNumber", 0).toInt() < 11) {
@@ -393,10 +401,16 @@ void Application::loadSettings()
 
 		settings.setValue("versionNumber", 11);
 	}
+}
 
-	// Load settings for password
-	if (m_autoFill)
-		m_autoFill->loadSettings();
+void Application::loadThemesSettings()
+{
+	QSettings settings{};
+
+	// Load theme info
+	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
+						+ settings.value("Themes/currentTheme", "sielo-default").toString()
+						+ QLatin1String("/main.sss")};
 
 	// Check if the theme existe
 	if (themeInfo.exists()) {
@@ -436,12 +450,6 @@ void Application::loadSettings()
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
 		settings.setValue("Themes/defaultThemeVersion", 28);
-	}
-
-	// Force local storage to be disabled if it's a provate session
-	if (privateBrowsing()) {
-		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
-		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 	}
 }
 
