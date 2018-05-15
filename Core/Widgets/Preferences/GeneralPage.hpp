@@ -53,33 +53,48 @@ public:
 private slots:
 	void homePageActionChanged(bool enabled);
 	void newTabActionChanged(bool enabled);
-	void startupActionChanged(const QString& currentIndex);
+	void startupActionChanged(bool isOpenSaved);
 
 	void saveCurrentSession();
 
 private:
 	void setupUI();
 
-	QVBoxLayout* m_layout{nullptr};
-	QVBoxLayout* m_layoutGroup1{nullptr};
-	QVBoxLayout* m_layoutGroup2{nullptr};
+	QString createLanguageItem(const QString& lang);
 
-	// Group Box 1
+	QVBoxLayout* m_layout{nullptr};
+	QVBoxLayout* m_layoutGroupHomePage{nullptr};
+	QVBoxLayout* m_layoutGroupNewTab{nullptr};
+	QVBoxLayout* m_layoutGroupNewSession{nullptr};
+	QGridLayout* m_layoutGroupLanguage{nullptr};
+
+	// Group Box Home Page
 	QGroupBox* m_groupHomePage{nullptr};
 	QRadioButton* m_radioHPBlank{nullptr};
 	QRadioButton* m_radioHPCustomUrl{nullptr};
 	QLineEdit* m_homePageUrl{nullptr};
 
-	// Group Box 2
+	// Group Box New Tab
 	QGroupBox* m_groupNewTab{nullptr};
 	QRadioButton* m_radioNTOpenBlankPage{nullptr};
 	QRadioButton* m_radioNTOpenHomePage{nullptr};
 	QRadioButton* m_radioNTOpenCutomUrl{nullptr};
 	QLineEdit* m_newTabUrl{nullptr};
 
-	QLabel* m_descActionOnNewSession{nullptr};
+	// Group Box New Session
+	QGroupBox* m_groupNewSession{nullptr};
+	QRadioButton* m_radioNSOpenBlankPage{nullptr};
+	QRadioButton* m_radioNSOpenHomePage{nullptr};
+	QRadioButton* m_radioNSRestoreSession{nullptr};
+	QRadioButton* m_radioNSOpenSaved{nullptr};
 	QPushButton* m_btnSaveCurrentSession{nullptr};
-	QComboBox* m_comboActionOnNewSession{nullptr};
+
+	// Group Box Language
+	QGroupBox* m_groupLanguage{nullptr};
+	QLabel* m_descLanguage{nullptr};
+	QComboBox* m_languages{nullptr};
+	QLabel* m_descLanguageNeedRestart{nullptr};
+
 	QCheckBox* m_dontLoadTabsUntilSelect{nullptr};
 
 

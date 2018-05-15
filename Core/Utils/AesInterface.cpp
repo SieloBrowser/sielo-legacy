@@ -111,7 +111,7 @@ QByteArray AesInterface::decrypt(const QByteArray& cipherData, const QByteArray&
 
 	if (cipherSections[0].toInt() > AesInterface::VERSION) {
 		QMessageBox::warning(nullptr,
-							 tr("Werning!"),
+							 tr("Warning!"),
 							 tr("Datas have been encrypted with a newer version of Sielo. Please install the latest version!"));
 		return QByteArray();
 	}
