@@ -48,10 +48,8 @@ GeneralPage::GeneralPage(QWidget* parent) :
 
 	connect(m_radioNTOpenCutomUrl, &QRadioButton::toggled, this, &GeneralPage::newTabActionChanged);
 
+	connect(m_radioNSOpenSaved, &QRadioButton::toggled, this, &GeneralPage::startupActionChanged);
 	connect(m_btnSaveCurrentSession, &QPushButton::clicked, this, &GeneralPage::saveCurrentSession);
-	connect(m_comboActionOnNewSession, SIGNAL(currentIndexChanged(
-												  const QString&)), this, SLOT(startupActionChanged(
-																				   const QString&)));
 
 };
 
@@ -63,16 +61,6 @@ GeneralPage::~GeneralPage()
 void GeneralPage::loadSettings()
 {
 	QSettings settings{};
-
-	settings.beginGroup("Settings");
-
-	m_comboActionOnNewSession
-		->setCurrentIndex(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
-
-	m_btnSaveCurrentSession->setEnabled(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt()
-										== Application::OpenSavedSession);
-
-	settings.endGroup();
 
 	settings.beginGroup("Web-Settings");
 
@@ -108,6 +96,22 @@ void GeneralPage::loadSettings()
 	m_dontLoadTabsUntilSelect->setChecked(settings.value(QLatin1String("LoadTabsOnActivation"), true).toBool());
 
 	settings.endGroup();
+
+	settings.beginGroup("Settings");
+
+	Application::AfterLaunch afterLaunch = static_cast<Application::AfterLaunch>(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
+	if (afterLaunch == Application::OpenBlankPage)
+		m_radioNSOpenBlankPage->setChecked(true);
+	else if (afterLaunch == Application::OpenHomePage)
+		m_radioNSOpenHomePage->setChecked(true);
+	else if (afterLaunch == Application::RestoreSession)
+		m_radioNSRestoreSession->setChecked(true);
+	else if (afterLaunch == Application::OpenSavedSession)
+		m_radioNSOpenSaved->setChecked(true);
+
+	m_btnSaveCurrentSession->setEnabled(afterLaunch == Application::OpenSavedSession);
+
+	settings.endGroup();
 }
 
 void GeneralPage::save()
@@ -117,7 +121,14 @@ void GeneralPage::save()
 
 	settings.beginGroup("Settings");
 
-	settings.setValue(QLatin1String("afterLaunch"), m_comboActionOnNewSession->currentIndex());
+	if (m_radioNSOpenBlankPage->isChecked())
+		settings.setValue(QLatin1String("afterLaunch"), Application::OpenBlankPage);
+	else if (m_radioNSOpenHomePage->isChecked())
+		settings.setValue(QLatin1String("afterLaunch"), Application::OpenHomePage);
+	else if (m_radioNSRestoreSession->isChecked())
+		settings.setValue(QLatin1String("afterLaunch"), Application::RestoreSession);
+	else
+		settings.setValue(QLatin1String("afterLaunch"), Application::OpenSavedSession);
 
 	settings.endGroup();
 
@@ -157,12 +168,12 @@ void GeneralPage::newTabActionChanged(bool enabled)
 		m_newTabUrl->setEnabled(false);
 }
 
-void GeneralPage::startupActionChanged(const QString& currentIndex)
+void GeneralPage::startupActionChanged(bool isOpenSaved)
 {
-	m_btnSaveCurrentSession->setEnabled(currentIndex == tr("Open saved session"));
+	m_btnSaveCurrentSession->setEnabled(isOpenSaved);
 
 	if (!QFileInfo(Application::instance()->paths()[Application::P_Data] + QLatin1String("/home-session.dat")).exists()
-		&& currentIndex == tr("Open saved session")) {
+		&& isOpenSaved) {
 		saveCurrentSession();
 	}
 }
@@ -177,8 +188,9 @@ void GeneralPage::saveCurrentSession()
 void GeneralPage::setupUI()
 {
 	m_layout = new QVBoxLayout(this);
-	m_layoutGroup1 = new QVBoxLayout();
-	m_layoutGroup2 = new QVBoxLayout();
+	m_layoutGroupHomePage = new QVBoxLayout();
+	m_layoutGroupNewTab = new QVBoxLayout();
+	m_layoutGroupNewSession = new QVBoxLayout();
 
 	m_groupHomePage = new QGroupBox(tr("Home page"), this);
 
@@ -201,37 +213,43 @@ void GeneralPage::setupUI()
 	m_newTabUrl = new QLineEdit(m_groupNewTab);
 	m_newTabUrl->setPlaceholderText(tr("New tab url"));
 
-	m_descActionOnNewSession = new QLabel(tr("Action to do on new session"), this);
+	m_groupNewSession = new QGroupBox(tr("New Session"), this);
 
-	m_btnSaveCurrentSession = new QPushButton(tr("Save current session"), this);
+	m_radioNSOpenBlankPage = new QRadioButton(tr("Open blank page"), m_groupNewSession);
+	m_radioNSOpenHomePage = new QRadioButton(tr("Open home page"), m_groupNewSession);
+	m_radioNSRestoreSession = new QRadioButton(tr("Restore session"), m_groupNewSession);
+	m_radioNSOpenSaved = new QRadioButton(tr("Open saved session"), m_groupNewSession);
 
-	m_comboActionOnNewSession = new QComboBox(this);
-	m_comboActionOnNewSession->clear();
-	m_comboActionOnNewSession->addItems(QStringList() << tr("Open blank page")
-													  << tr("Open home page")
-													  << tr("Restore session")
-													  << tr("Open saved session"));
+	m_radioNSOpenHomePage->setChecked(true);
+
+	m_btnSaveCurrentSession = new QPushButton(tr("Save current session"), m_groupNewSession);
 
 	m_dontLoadTabsUntilSelect = new QCheckBox(tr("Don't load tabs until selected"), this);
 
-	m_groupHomePage->setLayout(m_layoutGroup1);
+	m_groupHomePage->setLayout(m_layoutGroupHomePage);
 
-	m_layoutGroup1->addWidget(m_radioHPBlank);
-	m_layoutGroup1->addWidget(m_radioHPCustomUrl);
-	m_layoutGroup1->addWidget(m_homePageUrl);
+	m_layoutGroupHomePage->addWidget(m_radioHPBlank);
+	m_layoutGroupHomePage->addWidget(m_radioHPCustomUrl);
+	m_layoutGroupHomePage->addWidget(m_homePageUrl);
 
-	m_groupNewTab->setLayout(m_layoutGroup2);
+	m_groupNewTab->setLayout(m_layoutGroupNewTab);
 
-	m_layoutGroup2->addWidget(m_radioNTOpenBlankPage);
-	m_layoutGroup2->addWidget(m_radioNTOpenHomePage);
-	m_layoutGroup2->addWidget(m_radioNTOpenCutomUrl);
-	m_layoutGroup2->addWidget(m_newTabUrl);
+	m_layoutGroupNewTab->addWidget(m_radioNTOpenBlankPage);
+	m_layoutGroupNewTab->addWidget(m_radioNTOpenHomePage);
+	m_layoutGroupNewTab->addWidget(m_radioNTOpenCutomUrl);
+	m_layoutGroupNewTab->addWidget(m_newTabUrl);
+
+	m_groupNewSession->setLayout(m_layoutGroupNewSession);
+
+	m_layoutGroupNewSession->addWidget(m_radioNSOpenBlankPage);
+	m_layoutGroupNewSession->addWidget(m_radioNSOpenHomePage);
+	m_layoutGroupNewSession->addWidget(m_radioNSRestoreSession);
+	m_layoutGroupNewSession->addWidget(m_radioNSOpenSaved);
+	m_layoutGroupNewSession->addWidget(m_btnSaveCurrentSession);
 
 	m_layout->addWidget(m_groupHomePage);
 	m_layout->addWidget(m_groupNewTab);
-	m_layout->addWidget(m_descActionOnNewSession);
-	m_layout->addWidget(m_btnSaveCurrentSession);
-	m_layout->addWidget(m_comboActionOnNewSession);
+	m_layout->addWidget(m_groupNewSession);
 	m_layout->addWidget(m_dontLoadTabsUntilSelect);
 }
 
