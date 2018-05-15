@@ -385,7 +385,7 @@
     <name>Sn::AesInterface</name>
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="114"/>
-        <source>Werning!</source>
+        <source>Warning!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1453,78 +1453,91 @@
 <context>
     <name>Sn::GeneralPage</name>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="162"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="165"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="213"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="264"/>
         <source>Open saved session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="174"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="227"/>
         <source>Saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="174"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="227"/>
         <source>Your session will be restored at startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="183"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="238"/>
         <source>Home page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="185"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="195"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="210"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="240"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="250"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="261"/>
         <source>Open blank page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="186"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="197"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="241"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="252"/>
         <source>Open custom url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="191"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="246"/>
         <source>Home page url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="193"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="248"/>
         <source>New tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="196"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="211"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="251"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="262"/>
         <source>Open home page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="202"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="257"/>
         <source>New tab url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="204"/>
-        <source>Action to do on new session</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="206"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="268"/>
         <source>Save current session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="212"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="263"/>
         <source>Restore session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="215"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="259"/>
+        <source>New Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="270"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="272"/>
+        <source>Available translations:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="274"/>
+        <source>In order to change language, you must restart your browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="277"/>
         <source>Don&apos;t load tabs until selected</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2587,7 +2600,7 @@
     <name>Sn::WebConfigPage</name>
     <message>
         <location filename="../Core/Widgets/Preferences/WebConfigPage.cpp" line="97"/>
-        <source>Allow Pepper Plugins (Flash plugin</source>
+        <source>Allow Pepper Plugins (Flash plugin)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2635,27 +2648,27 @@
     <name>Sn::WebPage</name>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="178"/>
-        <source>Alerte JavaScripte</source>
+        <source>JavaScript Alert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="186"/>
-        <source>Empêcher la page de créer des boites de dialog supplémentaires.</source>
+        <source>Prevent this page from creating additional dialogues box.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="386"/>
-        <source>Sielo n&apos;arrive pas à traiter les protocoles &lt;b&gt;%1&lt;/b&gt;. Voulez vous que Sielo tente malgré tout d&apos;ouvrir le lien &lt;b&gt;%2%&lt;/b&gt; avec un application système ?</source>
+        <source>Sielo is unable to process the &lt;b&gt;%1&lt;/b&gt; protocol. Do you want Sielo to try to open the llink b&gt;%2%&lt;/b&gt; with an external application?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="390"/>
-        <source>Se rappler de mon choix pour ce protocole</source>
+        <source>Remember my action for this protocol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="391"/>
-        <source>Requête d&apos;un protocole externe</source>
+        <source>Request of an external protocol</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

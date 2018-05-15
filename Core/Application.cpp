@@ -85,7 +85,7 @@ QList<QString> Application::paths()
 	paths.append(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
-	paths.append(QDir::currentPath() + QLatin1String("/locale"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
 
 	return paths;
 }

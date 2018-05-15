@@ -94,7 +94,7 @@ void WebConfigPage::setupUI()
 	m_wheelLayout = new QHBoxLayout();
 	m_defaultZoomLayout = new QHBoxLayout();
 
-	m_allowPeeper = new QCheckBox(tr("Allow Pepper Plugins (Flash plugin"), this);
+	m_allowPeeper = new QCheckBox(tr("Allow Pepper Plugins (Flash plugin)"), this);
 	m_allowJavaScript = new QCheckBox(tr("Allow JavaScript"), this);
 	m_includeLinksInFocusChain = new QCheckBox(tr("Include links in focus chain"), this);
 	m_enableXSS = new QCheckBox(tr("Enable XSS Auditing"), this);
