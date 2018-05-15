@@ -39,65 +39,65 @@
     <message>
         <location filename="../Core/Bookmarks/XBelReader.cpp" line="60"/>
         <source>This file is not an XBEL version 1.0 file</source>
-        <translation type="unfinished"></translation>
+        <translation>Ce fichier n&apos;est pas un fichier XBEL version 1.0</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/XBelReader.cpp" line="140"/>
         <source>Unknown title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre inconnu</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="32"/>
         <source>&lt;not set in certificate&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;non spécifié dans le certificat&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="350"/>
         <source>&lt;b&gt;Issued To&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Délivré à&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="354"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="390"/>
         <source>Common Name (CN):</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom complet (CN):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="362"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="398"/>
         <source>Organization (O):</source>
-        <translation type="unfinished"></translation>
+        <translation>Organisation (O):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="370"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="406"/>
         <source>Organizational Unit (OU):</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du département (OU):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="378"/>
         <source>Serial Number:</source>
-        <translation type="unfinished"></translation>
+        <translation>Numéro de série :</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="386"/>
         <source>&lt;b&gt;Issued By&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Délivré par&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="414"/>
         <source>&lt;b&gt;Validity&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b/&gt;Validité&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="418"/>
         <source>Issued On:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valable à partir du :</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="426"/>
         <source>Expires On:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valide jusqu&apos;au :</translation>
     </message>
 </context>
 <context>
@@ -105,7 +105,7 @@
     <message>
         <location filename="../Core/AdBlock/CustomList.cpp" line="36"/>
         <source>Custom Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Règles personalisées</translation>
     </message>
 </context>
 <context>
@@ -144,7 +144,7 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="65"/>
         <source>Other...</source>
-        <translation type="unfinished"></translation>
+        <translation>Autre ...</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="111"/>
@@ -154,12 +154,12 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="113"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre :</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="115"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse :</translation>
     </message>
 </context>
 <context>
@@ -167,22 +167,22 @@
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Add Custom Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter votre règle</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Please write your rule here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Écrivez votre règle ici :</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="156"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une règle</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="159"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Retirer une règle</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="211"/>
@@ -200,27 +200,27 @@
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="60"/>
         <source>About Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de Sielo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="85"/>
         <source>&lt;p&gt;&lt;b&gt;Sielo version %1&lt;/b&gt;&lt;br /&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&lt;b&gt;Sielo version %1&lt;/b&gt;&lt;br /&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="86"/>
         <source>&lt;b&gt;QtWebEngine version %1&lt;/b&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;QtWebEngine version %1&lt;/b&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="89"/>
         <source>&lt;p&gt;&lt;b&gt;Main developer:&lt;/b&gt;&lt;br /&gt;%1 &amp;lt;%2&amp;gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&lt;b&gt;Développeur principal :&lt;/b&gt;&lt;br /&gt;%1 &amp;lt;%2&amp;gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="91"/>
         <source>&lt;p&gt;&lt;b&gt;Contributors:&lt;/b&gt;&lt;br /&gt;%1&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&lt;b&gt;Contributeurs :&lt;/b&gt;&lt;br /&gt;%1&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -228,37 +228,37 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="132"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="132"/>
         <source>The feature you request is not implemented yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>La fonctionnalité appelé n&apos;est pas encore implémenté.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="195"/>
         <source>Enable AdBlock (Be aware, it is an experimental version!)</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer AdBlock (Attention, c&apos;est une version expérimentale !)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="198"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche ...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="204"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Options</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="207"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une règle</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="208"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Retirer une règle</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="210"/>
@@ -283,7 +283,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="220"/>
         <source>AdBlock</source>
-        <translation type="unfinished"></translation>
+        <translation>AdBlock</translation>
     </message>
 </context>
 <context>
@@ -291,12 +291,12 @@
     <message>
         <location filename="../Core/Bookmarks/AddBookmarkDialog.cpp" line="107"/>
         <source>Type a name for the bookmark and choose where to keep it</source>
-        <translation type="unfinished"></translation>
+        <translation>Tapez un nom pour le favoris et choisisez l&apos;endroit où le ranger</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/AddBookmarkDialog.cpp" line="112"/>
         <source>Name of bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du favoris</translation>
     </message>
 </context>
 <context>
@@ -305,62 +305,62 @@
         <location filename="../Core/Widgets/AddressBar.cpp" line="505"/>
         <location filename="../Core/Widgets/AddressBar.cpp" line="1254"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualisation</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="511"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Chargement</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="549"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Couper</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="553"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Retour</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="557"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Couper</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="561"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Co&amp;pier</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="565"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>C&amp;oller</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="569"/>
         <source>Paste and &amp;Go</source>
-        <translation type="unfinished"></translation>
+        <translation>Copie et Co&amp;lle</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="573"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="575"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer tout</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="577"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner tout</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar.cpp" line="1238"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
 </context>
 <context>
@@ -368,30 +368,30 @@
     <message>
         <location filename="../Core/Utils/AddressCompletionModel.cpp" line="168"/>
         <source>Search with %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Chercher avec %1</translation>
     </message>
     <message>
         <location filename="../Core/Utils/AddressCompletionModel.cpp" line="202"/>
         <source>Local files</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers locaux</translation>
     </message>
     <message>
         <location filename="../Core/Utils/AddressCompletionModel.cpp" line="220"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historique</translation>
     </message>
 </context>
 <context>
     <name>Sn::AesInterface</name>
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="114"/>
-        <source>Werning!</source>
-        <translation type="unfinished"></translation>
+        <source>Warning!</source>
+        <translation>Attention !</translation>
     </message>
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="115"/>
         <source>Datas have been encrypted with a newer version of Sielo. Please install the latest version!</source>
-        <translation type="unfinished"></translation>
+        <translation>Les données ont été chiffrées avec une nouvelle version de Sielo. Veuillez l&apos;installer.</translation>
     </message>
 </context>
 <context>
@@ -400,7 +400,7 @@
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="107"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="118"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Attention</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="107"/>
@@ -410,7 +410,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="118"/>
         <source>Some changes need Sielo restart to have effects</source>
-        <translation type="unfinished"></translation>
+        <translation>Des changements requierent le redémarrage de Sielo pour être actifs</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="177"/>
@@ -426,48 +426,48 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="195"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Indisponible</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="195"/>
         <source>The gallery is currently unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>La galerie est actuellement indisponible</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="208"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="209"/>
         <source>Can&apos;t decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de décompiler le thème ... Vérifiez que le fichier est dans le même dossier que Sielo.exe, sinon mettez à jour ou réinstallez le navigateur</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="213"/>
         <source>Open a theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir un thème</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="224"/>
         <source>Theme exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Le thème existe</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="225"/>
         <source>The theme already exist and is going to be update with the new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le thème existe déjà et va être mise à jour avec une nouvelle version.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="247"/>
         <source>Select a color</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir une couleur</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="412"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="528"/>
         <source>Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>Thèmes</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="413"/>
