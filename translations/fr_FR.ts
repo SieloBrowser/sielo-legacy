@@ -441,7 +441,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="209"/>
         <source>Can&apos;t decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser.</source>
-        <translation>Impossible de décompiler le thème ... Vérifiez que le fichier est dans le même dossier que Sielo.exe, sinon mettez à jour ou réinstallez le navigateur</translation>
+        <translation>Impossible de décompiler le thème ... Vérifiez que le compilateur est dans le même dossier que l'éxecutable de Sielo, sinon mettez à jour ou réinstallez le navigateur</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="213"/>
