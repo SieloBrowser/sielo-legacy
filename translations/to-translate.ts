@@ -385,7 +385,7 @@
     <name>Sn::AesInterface</name>
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="114"/>
-        <source>Werning!</source>
+        <source>Warning!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2477,8 +2477,8 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="119"/>
+        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2586,7 +2586,7 @@
     <name>Sn::WebConfigPage</name>
     <message>
         <location filename="../Core/Widgets/Preferences/WebConfigPage.cpp" line="97"/>
-        <source>Allow Pepper Plugins (Flash plugin</source>
+        <source>Allow Pepper Plugins (Flash plugin)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2634,27 +2634,27 @@
     <name>Sn::WebPage</name>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="178"/>
-        <source>Alerte JavaScripte</source>
+        <source>JavaScript Alert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="186"/>
-        <source>Empêcher la page de créer des boites de dialog supplémentaires.</source>
+        <source>Prevent this page from creating additional dialogues box.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="386"/>
-        <source>Sielo n&apos;arrive pas à traiter les protocoles &lt;b&gt;%1&lt;/b&gt;. Voulez vous que Sielo tente malgré tout d&apos;ouvrir le lien &lt;b&gt;%2%&lt;/b&gt; avec un application système ?</source>
+        <source>Sielo is unable to process the &lt;b&gt;%1&lt;/b&gt; protocol. Do you want Sielo to try to open the llink b&gt;%2%&lt;/b&gt; with an external application?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="390"/>
-        <source>Se rappler de mon choix pour ce protocole</source>
+        <source>Remember my action for this protocol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Web/WebPage.cpp" line="391"/>
-        <source>Requête d&apos;un protocole externe</source>
+        <source>Request of an external protocol</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -175,7 +175,7 @@ void WebPage::javaScriptAlert(const QUrl& securityOrigin, const QString& msg)
 	if (m_blockAlerts || m_runningLoop)
 		return;
 
-	QString title{tr("Alerte JavaScripte")};
+	QString title{tr("JavaScript Alert")};
 
 	if (!url().host().isEmpty())
 		title.append(QString(" - %1").arg(url().host()));
@@ -183,7 +183,7 @@ void WebPage::javaScriptAlert(const QUrl& securityOrigin, const QString& msg)
 	CheckBoxDialog dialog(QMessageBox::Ok, view());
 	dialog.setWindowTitle(title);
 	dialog.setText(msg);
-	dialog.setCheckBoxText(tr("Empêcher la page de créer des boites de dialog supplémentaires."));
+	dialog.setCheckBoxText(tr("Prevent this page from creating additional dialogues box."));
 	dialog.setIcon(QMessageBox::Information);
 	dialog.exec();
 
@@ -383,12 +383,12 @@ void WebPage::handleUnknowProtocol(const QUrl& url)
 
 	CheckBoxDialog dialog(QMessageBox::Yes | QMessageBox::No, view());
 
-	const QString text{tr("Sielo n'arrive pas à traiter les protocoles <b>%1</b>. "
-							  "Voulez vous que Sielo tente malgré tout d'ouvrir le "
-							  "lien <b>%2%</b> avec un application système ?").arg(protocol, url.toString())};
+	const QString text{tr("Sielo is unable to process the <b>%1</b> protocol. "
+							  "Do you want Sielo to try to open the "
+							  "llink b>%2%</b> with an external application?").arg(protocol, url.toString())};
 	dialog.setText(text);
-	dialog.setCheckBoxText(tr("Se rappler de mon choix pour ce protocole"));
-	dialog.setWindowTitle(tr("Requête d'un protocole externe"));
+	dialog.setCheckBoxText(tr("Remember my action for this protocol"));
+	dialog.setWindowTitle(tr("Request of an external protocol"));
 
 	switch (dialog.exec()) {
 	case QDialog::Accepted:
