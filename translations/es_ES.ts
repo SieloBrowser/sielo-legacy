@@ -1453,78 +1453,91 @@
 <context>
     <name>Sn::GeneralPage</name>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="162"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="165"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="213"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="264"/>
         <source>Open saved session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="174"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="227"/>
         <source>Saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="174"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="227"/>
         <source>Your session will be restored at startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="183"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="238"/>
         <source>Home page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="185"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="195"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="210"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="240"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="250"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="261"/>
         <source>Open blank page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="186"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="197"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="241"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="252"/>
         <source>Open custom url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="191"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="246"/>
         <source>Home page url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="193"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="248"/>
         <source>New tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="196"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="211"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="251"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="262"/>
         <source>Open home page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="202"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="257"/>
         <source>New tab url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="204"/>
-        <source>Action to do on new session</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="206"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="268"/>
         <source>Save current session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="212"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="263"/>
         <source>Restore session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="215"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="259"/>
+        <source>New Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="270"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="272"/>
+        <source>Available translations:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="274"/>
+        <source>In order to change language, you must restart your browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="277"/>
         <source>Don&apos;t load tabs until selected</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2477,8 +2490,8 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="119"/>
         <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
+        <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="119"/>
         <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
