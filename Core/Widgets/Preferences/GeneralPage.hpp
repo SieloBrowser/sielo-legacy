@@ -60,10 +60,13 @@ private slots:
 private:
 	void setupUI();
 
+	QString createLanguageItem(const QString& lang);
+
 	QVBoxLayout* m_layout{nullptr};
 	QVBoxLayout* m_layoutGroupHomePage{nullptr};
 	QVBoxLayout* m_layoutGroupNewTab{nullptr};
 	QVBoxLayout* m_layoutGroupNewSession{nullptr};
+	QGridLayout* m_layoutGroupLanguage{nullptr};
 
 	// Group Box Home Page
 	QGroupBox* m_groupHomePage{nullptr};
@@ -85,6 +88,12 @@ private:
 	QRadioButton* m_radioNSRestoreSession{nullptr};
 	QRadioButton* m_radioNSOpenSaved{nullptr};
 	QPushButton* m_btnSaveCurrentSession{nullptr};
+
+	// Group Box Language
+	QGroupBox* m_groupLanguage{nullptr};
+	QLabel* m_descLanguage{nullptr};
+	QComboBox* m_languages{nullptr};
+	QLabel* m_descLanguageNeedRestart{nullptr};
 
 	QCheckBox* m_dontLoadTabsUntilSelect{nullptr};
 

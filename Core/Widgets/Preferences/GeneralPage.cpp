@@ -27,7 +27,9 @@
 #include <QSettings>
 
 #include <QMessageBox>
-#include <QtCore/QFileInfo>
+
+#include <QFileInfo>
+#include <QDir>
 
 #include "Application.hpp"
 
@@ -36,7 +38,7 @@
 namespace Sn {
 
 GeneralPage::GeneralPage(QWidget* parent) :
-	QWidget(parent)
+		QWidget(parent)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
@@ -62,6 +64,7 @@ void GeneralPage::loadSettings()
 {
 	QSettings settings{};
 
+	// Set new tab and new window option
 	settings.beginGroup("Web-Settings");
 
 	QUrl homePageUrl{settings.value(QLatin1String("homePage"), QUrl("http://doosearch.feldrise.com/")).toUrl()};
@@ -97,9 +100,11 @@ void GeneralPage::loadSettings()
 
 	settings.endGroup();
 
+	// Set what to do on new session
 	settings.beginGroup("Settings");
 
-	Application::AfterLaunch afterLaunch = static_cast<Application::AfterLaunch>(settings.value(QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
+	Application::AfterLaunch afterLaunch = static_cast<Application::AfterLaunch>(settings.value(
+			QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
 	if (afterLaunch == Application::OpenBlankPage)
 		m_radioNSOpenBlankPage->setChecked(true);
 	else if (afterLaunch == Application::OpenHomePage)
@@ -112,6 +117,34 @@ void GeneralPage::loadSettings()
 	m_btnSaveCurrentSession->setEnabled(afterLaunch == Application::OpenSavedSession);
 
 	settings.endGroup();
+
+	// Set language
+	settings.beginGroup("Language");
+
+	QString activeLanguage = Application::instance()->currentLanguage();
+
+	if (!activeLanguage.isEmpty() && activeLanguage != QLatin1String("en_US"))
+		m_languages->addItem(createLanguageItem(activeLanguage), activeLanguage);
+
+	m_languages->addItem("English (en_US)");
+
+	const QString translationPath = Application::instance()->paths()[Application::P_Translations];
+	QDir lanDir{translationPath};
+	QStringList list = lanDir.entryList(QStringList("*.qm"));
+
+			foreach (const QString& name, list) {
+			if (name.startsWith(QLatin1String("qt_")))
+				continue;
+
+			QString loc{name};
+			loc.remove(QLatin1String(".qm"));
+
+			if (loc == activeLanguage)
+				continue;
+
+			m_languages->addItem(createLanguageItem(loc), loc);
+		}
+
 }
 
 void GeneralPage::save()
@@ -119,6 +152,7 @@ void GeneralPage::save()
 
 	QSettings settings{};
 
+	// Save what to do on new session
 	settings.beginGroup("Settings");
 
 	if (m_radioNSOpenBlankPage->isChecked())
@@ -132,6 +166,7 @@ void GeneralPage::save()
 
 	settings.endGroup();
 
+	// Save what to do on new tab and new window
 	settings.beginGroup("Web-Settings");
 
 	settings.setValue(QLatin1String("homePage"),
@@ -148,8 +183,15 @@ void GeneralPage::save()
 		settings.setValue(QLatin1String("urlOnNewTab"), QUrl(m_newTabUrl->text()));
 	}
 
+	// Save if we want to load tabs at startup
 	settings.setValue(QLatin1String("LoadTabsOnActivation"), m_dontLoadTabsUntilSelect->isChecked());
 
+	// Save language
+	settings.beginGroup("Language");
+
+	settings.setValue("language", m_languages->itemData(m_languages->currentIndex()).toString());
+
+	settings.endGroup();
 }
 
 void GeneralPage::homePageActionChanged(bool enabled)
@@ -191,6 +233,7 @@ void GeneralPage::setupUI()
 	m_layoutGroupHomePage = new QVBoxLayout();
 	m_layoutGroupNewTab = new QVBoxLayout();
 	m_layoutGroupNewSession = new QVBoxLayout();
+	m_layoutGroupLanguage = new QGridLayout();
 
 	m_groupHomePage = new QGroupBox(tr("Home page"), this);
 
@@ -224,6 +267,13 @@ void GeneralPage::setupUI()
 
 	m_btnSaveCurrentSession = new QPushButton(tr("Save current session"), m_groupNewSession);
 
+	m_groupLanguage = new QGroupBox(tr("Language"), this);
+
+	m_descLanguage = new QLabel(tr("Available translations:"), m_groupLanguage);
+	m_languages = new QComboBox(m_groupLanguage);
+	m_descLanguageNeedRestart = new QLabel(tr("In order to change language, you must restart your browser."),
+										   m_groupLanguage);
+
 	m_dontLoadTabsUntilSelect = new QCheckBox(tr("Don't load tabs until selected"), this);
 
 	m_groupHomePage->setLayout(m_layoutGroupHomePage);
@@ -247,10 +297,30 @@ void GeneralPage::setupUI()
 	m_layoutGroupNewSession->addWidget(m_radioNSOpenSaved);
 	m_layoutGroupNewSession->addWidget(m_btnSaveCurrentSession);
 
+	m_groupLanguage->setLayout(m_layoutGroupLanguage);
+
+	m_layoutGroupLanguage->addWidget(m_descLanguage, 0, 0, 1, 1);
+	m_layoutGroupLanguage->addWidget(m_languages, 0, 1, 1, 1);
+	m_layoutGroupLanguage->addWidget(m_descLanguageNeedRestart, 1, 0, 1, 2);
+
 	m_layout->addWidget(m_groupHomePage);
 	m_layout->addWidget(m_groupNewTab);
 	m_layout->addWidget(m_groupNewSession);
+	m_layout->addWidget(m_groupLanguage);
 	m_layout->addWidget(m_dontLoadTabsUntilSelect);
+}
+
+QString GeneralPage::createLanguageItem(const QString& lang)
+{
+	QLocale locale{lang};
+
+	if (locale.language() == QLocale::C)
+		return lang;
+
+	QString country{QLocale::countryToString(locale.country())};
+	QString language{QLocale::languageToString(locale.language())};
+
+	return QString("%1, %2 (%3)").arg(language, country, lang);
 }
 
 }
