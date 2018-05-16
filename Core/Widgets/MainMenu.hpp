@@ -71,8 +71,10 @@ private slots:
 
 	void openUrl(const QUrl& url);
 
+	// Tools menu
 	void showDownloadManager();
 	void showCookiesManager();
+	void showSiteInfo();
 
 	void showSettings();
 	void showAboutSielo();
