@@ -87,6 +87,24 @@ public:
 		return source;
 	}
 
+	static QString getAllImages()
+	{
+		QString source = QLatin1String("(function() {"
+									   "var out = [];"
+									   "var imgs = document.getElementsByTagName('img');"
+									   "for (var i = 0; i < imgs.length; ++i) {"
+									   "    var e = imgs[i];"
+									   "    out.push({"
+									   "        src: e.src,"
+									   "        alt: e.alt"
+									   "    });"
+									   "}"
+									   "return out;"
+									   "})()");
+
+		return source;
+	}
+
 };
 }
 
