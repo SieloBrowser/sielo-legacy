@@ -68,7 +68,7 @@ public:
 		return source.arg(url.toString(), values);
 	}
 
-	QString Scripts::getAllMetaAttributes()
+	static QString getAllMetaAttributes()
 	{
 		QString source = QLatin1String("(function() {"
 									   "var out = [];"
