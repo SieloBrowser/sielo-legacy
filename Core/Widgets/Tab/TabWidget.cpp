@@ -67,7 +67,6 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	TabStackedWidget(parent),
 	m_saveTimer(new AutoSaver(this)),
 	m_window(window),
-	m_addressBars(new QStackedWidget(this)),
 	m_tabsSpaceType(type),
 	m_lastTabIndex(-1),
 	m_lastBackgroundTabIndex(-1)
@@ -75,6 +74,9 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	setObjectName(QLatin1String("tabwidget"));
 
 	m_closedTabsManager = new ClosedTabsManager;
+
+	if (Application::instance()->useTopToolBar())
+		m_addressBars = new QStackedWidget(this);
 
 	m_tabBar = new MainTabBar(m_window, this);
 	m_menuTabs = new MenuTabs(this);
