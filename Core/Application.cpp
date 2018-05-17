@@ -315,8 +315,6 @@ void Application::loadSettings()
 	loadWebSettings();
 	loadApplicationSettings();
 	loadThemesSettings();
-
-
 }
 
 void Application::loadWebSettings()
@@ -420,7 +418,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 28) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 29) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -443,7 +441,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 28);
+			settings.setValue("Themes/defaultThemeVersion", 29);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -454,7 +452,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 28);
+		settings.setValue("Themes/defaultThemeVersion", 29);
 	}
 }
 
