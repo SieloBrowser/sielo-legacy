@@ -972,6 +972,11 @@ TabIcon* TabWidget::tabIcon(int index)
 	return weTab(index)->tabIcon();
 }
 
+QAction* TabWidget::action(const QString& name) const
+{
+	return static_cast<MainMenu*>(m_buttonMainMenu->menu())->action(name);
+}
+
 void TabWidget::openAddBookmarkDialog()
 {
 	QString url = weTab()->url().toString();
