@@ -72,6 +72,7 @@ SiteInfo::SiteInfo(WebView* view) :
 	connect(m_saveButton, &QPushButton::clicked, this, &SiteInfo::saveImage);
 	connect(m_images, &QTreeWidget::currentItemChanged, this, &SiteInfo::showImagePreview);
 	connect(m_images, &QTreeWidget::customContextMenuRequested, this, &SiteInfo::imagesCustomContextMenuRequested);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &SiteInfo::close);
 }
 
 SiteInfo::~SiteInfo()
@@ -302,6 +303,8 @@ void SiteInfo::setupMedia()
 
 void SiteInfo::setupUI()
 {
+	resize(600, 490);
+
 	m_layout = new QVBoxLayout{this};
 	m_tabs = new QTabWidget(this);
 	m_generalPage = new QWidget(this);
