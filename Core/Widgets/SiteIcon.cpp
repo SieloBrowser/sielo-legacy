@@ -29,8 +29,8 @@
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/SiteInfo.hpp"
 #include "Widgets/SiteInfoWidget.hpp"
+#include "Widgets/Tab/TabWidget.hpp"
 
-#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn {

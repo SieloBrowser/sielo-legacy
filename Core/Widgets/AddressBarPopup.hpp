@@ -22,50 +22,28 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "LocationBarPopup.hpp"
+#pragma once
+#ifndef SIELOBROWSER_LOCATIONBARPOPUP_HPP
+#define SIELOBROWSER_LOCATIONBARPOPUP_HPP
 
-#include <QLayout>
+#include <QWidget>
+#include <QFrame>
 
 namespace Sn {
-LocationBarPopup::LocationBarPopup(QWidget* parent) :
-	QFrame(parent, Qt::Popup),
-	m_alignment(Qt::AlignRight)
-{
-	setAttribute(Qt::WA_DeleteOnClose);
-	setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
-	setLineWidth(1);
-	setMidLineWidth(2);
+class AddressBarPopup: public QFrame {
+public:
+	AddressBarPopup(QWidget* parent);
+	~AddressBarPopup();
+
+	void showAt(QWidget* parent);
+
+	void setPopupAlignment(Qt::Alignment alignment);
+	Qt::Alignment popupAlignment() const { return m_alignment; }
+private:
+	Qt::Alignment m_alignment;
+
+};
 }
 
-LocationBarPopup::~LocationBarPopup()
-{
-	// Empty
-}
 
-void LocationBarPopup::showAt(QWidget* parent)
-{
-	if (!parent || !parent->parentWidget())
-		return;
-
-	parent = parent->parentWidget();
-
-	layout()->invalidate();
-	layout()->activate();
-
-	QPoint point{parent->mapToGlobal(QPoint(0, 0))};
-
-	if (m_alignment == Qt::AlignRight)
-		point.setX(point.x() + parent->width() - width());
-
-	point.setY(point.y() + parent->height());
-	move(point);
-
-	QFrame::show();
-}
-
-void LocationBarPopup::setPopupAlignment(Qt::Alignment alignment)
-{
-	m_alignment = alignment;
-}
-
-}
+#endif //SIELOBROWSER_LOCATIONBARPOPUP_HPP
