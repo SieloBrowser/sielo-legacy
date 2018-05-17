@@ -875,13 +875,9 @@ void Application::startAfterCrash()
 
 	if (requestAction.clickedButton() == restoreSession) {
 		m_afterCrashLaunch = AfterLaunch::RestoreSession;
-		QMessageBox::information(nullptr, "DEBUG", "Restore Session");
-
 	}
 	else {
 		m_afterCrashLaunch = AfterLaunch::OpenHomePage;
-		QMessageBox::information(nullptr, "DEBUG", "Home Page");
-
 	}
 }
 
