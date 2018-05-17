@@ -21,6 +21,7 @@
         <file>icons/other/heart.png</file>
         <file>icons/other/login.png</file>
         <file>icons/other/ic_sielo.png</file>
+        <file>icons/other/locked.png</file>
         <file>icons/other/mouselock.png</file>
         <file>icons/other/notification.png</file>
         <file>icons/other/notification.png</file>
@@ -34,6 +35,7 @@
         <file>icons/other/history.png</file>
         <file>icons/other/home.png</file>
         <file>icons/other/new-window.png</file>
+        <file>icons/other/nonlocked.png</file>
         <file>icons/other/open-file.png</file>
         <file>icons/other/search.png</file>
         <file>icons/other/stop.png</file>
