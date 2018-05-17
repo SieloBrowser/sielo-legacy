@@ -37,7 +37,7 @@
 
 namespace Sn {
 
-class TabWidget;
+class BrowserWindow;
 
 class WebView;
 
@@ -47,7 +47,7 @@ class SiteIcon : public ToolButton {
 Q_OBJECT
 
 public:
-	SiteIcon(TabWidget* tabWidget, AddressBar* parent);
+	SiteIcon(BrowserWindow* window, AddressBar* parent);
 	~SiteIcon();
 
 	void setWebView(WebView* view);
@@ -62,7 +62,7 @@ private:
 
 	bool showPopup();
 
-	TabWidget* m_tabWidget{nullptr};
+	BrowserWindow* m_window{nullptr};
 	AddressBar* m_addressBar{nullptr};
 	WebView* m_view{nullptr};
 };

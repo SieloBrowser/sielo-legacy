@@ -29,14 +29,14 @@
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/SiteInfo.hpp"
 #include "Widgets/SiteInfoWidget.hpp"
-#include "Widgets/Tab/TabWidget.hpp"
 
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn {
-SiteIcon::SiteIcon(TabWidget* tabWidget, Sn::AddressBar* parent) :
+SiteIcon::SiteIcon(BrowserWindow* window, Sn::AddressBar* parent) :
 		ToolButton(parent),
-		m_tabWidget(tabWidget),
+		m_window(window),
 		m_addressBar(parent)
 {
 	setObjectName(QLatin1String("addressbar-siteicon"));
@@ -95,7 +95,7 @@ void SiteIcon::mouseReleaseEvent(QMouseEvent* event)
 
 bool SiteIcon::showPopup()
 {
-	if (!m_view || !m_tabWidget)
+	if (!m_view || !m_window)
 		return false;
 
 	QUrl url{m_view->url()};
@@ -105,7 +105,7 @@ bool SiteIcon::showPopup()
 
 	setDown(true);
 
-	SiteInfoWidget* info{new SiteInfoWidget(m_tabWidget)};
+	SiteInfoWidget* info{new SiteInfoWidget(m_window)};
 	info->showAt(parentWidget());
 
 	connect(info, &SiteInfoWidget::destroyed, this, &SiteIcon::popupClosed);

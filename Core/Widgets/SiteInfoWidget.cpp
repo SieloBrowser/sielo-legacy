@@ -28,17 +28,19 @@
 
 #include "Widgets/Tab/TabWidget.hpp"
 
+#include "BrowserWindow.hpp"
+
 namespace Sn {
 
-SiteInfoWidget::SiteInfoWidget(TabWidget* tabWidget, QWidget* parent) :
+SiteInfoWidget::SiteInfoWidget(BrowserWindow* window, QWidget* parent) :
 		AddressBarPopup(parent),
-		m_tabWidget(tabWidget)
+		m_window(window)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setupUI();
 	setPopupAlignment(Qt::AlignLeft);
 
-	WebView* view = tabWidget->weTab()->webView();
+	WebView* view = window->webView();
 
 	if (view->url().scheme() == QLatin1String("https"))
 		m_secure->setText(tr("Your connection to this site is <b>secured</b>."));
@@ -47,7 +49,7 @@ SiteInfoWidget::SiteInfoWidget(TabWidget* tabWidget, QWidget* parent) :
 
 	//TODO: Count number of visite (waiting for new database based history system
 
-	connect(m_moreButton, &QPushButton::clicked, m_tabWidget->action(QStringLiteral("ShowSiteInfo")), &QAction::trigger);
+	connect(m_moreButton, &QPushButton::clicked, window->tabWidget()->action(QStringLiteral("ShowSiteInfo")), &QAction::trigger);
 }
 
 SiteInfoWidget::~SiteInfoWidget()
