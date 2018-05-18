@@ -280,8 +280,8 @@ private:
 	QString m_languageFile{};
 
 	bool m_privateBrowsing{false};
-	bool m_isPortable{true};
-	bool m_is32bit{true};
+	bool m_isPortable{false};
+	bool m_is32bit{false};
 	bool m_startingAfterCrash{false};
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
