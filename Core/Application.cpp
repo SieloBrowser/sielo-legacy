@@ -75,7 +75,7 @@
 
 namespace Sn {
 
-QString Application::currentVersion = QString("1.13.03b");
+QString Application::currentVersion = QString("1.14.00b");
 
 // Static member
 QList<QString> Application::paths()
@@ -113,7 +113,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.13.03"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.14.00"));
 
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -315,8 +315,6 @@ void Application::loadSettings()
 	loadWebSettings();
 	loadApplicationSettings();
 	loadThemesSettings();
-
-
 }
 
 void Application::loadWebSettings()
@@ -370,41 +368,30 @@ void Application::loadApplicationSettings()
 	QSettings settings{};
 
 	// Check the current version number of Sielo, and make setting update if needed
-	if (settings.value("versionNumber", 0).toInt() < 11) {
-		if (settings.value("versionNumber", 0).toInt() < 8) {
-			settings.setValue("installed", false);
-			if (settings.value("versionNumber", 0).toInt() < 7) {
-				if (settings.value("versionNumber", 0).toInt() < 5) {
-					settings.setValue("Web-Settings/homePage", "http://doosearch.feldrise.com/");
-					settings.setValue("Web-Settings/urlOnNewTab", "http://doosearch.feldrise.com/");
-				}
-				QString homePage = settings.value(QLatin1String("Web-Settings/homePage"),
-												  "http://doosearch.feldrise.com/").toString();
-				homePage.replace("doosearch.esy.es", "doosearch.feldrise.com");
-				settings.setValue(QLatin1String("Web-Settings/homePage"), homePage);
-
-				QString urlOnNewTab = settings.value(QLatin1String("Web-Settings/urlOnNewTab"),
-													 "http://doosearch.feldrise.com/").toString();
-				urlOnNewTab.replace("doosearch.esy.es", "doosearch.feldrise.com");
-				settings.setValue(QLatin1String("Web-Settings/urlOnNewTab"), urlOnNewTab);
-
-						foreach (BrowserWindow* window, m_windows) {
-						window->loadSettings();
-						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-							window->tabWidget(i)->setHomeUrl(
-									window->tabWidget(i)->homeUrl().toString().replace("doosearch.esy.es",
-																					   "doosearch.feldrise.com"));
-						}
-					}
-			}
+	//TODO: improve this with a switch
+	if (settings.value("versionNumber", 0).toInt() < 12) {
+		if (settings.value("versionNumber", 0).toInt() < 11) {
+			QString directory{Application::instance()->paths()[Application::P_Data]};
+			QFile::remove(directory
+						  + QLatin1String("/bookmarks.xbel"));
+			QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
+															   + QLatin1String("/bookmarks.xbel"));
+			QFile::setPermissions(directory
+								  + QLatin1String("/bookmarks.xbel"),
+								  QFileDevice::ReadUser | QFileDevice::WriteUser);
 		}
-		QString directory{Application::instance()->paths()[Application::P_Data]};
-		QFile::remove(directory + QLatin1String("/bookmarks.xbel"));
-		QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory + QLatin1String("/bookmarks.xbel"));
-		QFile::setPermissions(directory + QLatin1String("/bookmarks.xbel"),
-							  QFileDevice::ReadUser | QFileDevice::WriteUser);
 
-		settings.setValue("versionNumber", 11);
+		settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
+		settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
+
+				foreach (BrowserWindow* window, m_windows) {
+				window->loadSettings();
+				for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+					window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+				}
+			}
+
+		settings.setValue("versionNumber", 12);
 	}
 }
 
@@ -420,7 +407,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 28) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 29) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -443,7 +430,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 28);
+			settings.setValue("Themes/defaultThemeVersion", 29);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -454,7 +441,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 28);
+		settings.setValue("Themes/defaultThemeVersion", 29);
 	}
 }
 
@@ -657,7 +644,7 @@ void Application::saveSession(bool saveForHome)
 	stream << m_windows.count();
 
 	// Save tabs of all windows
-			foreach (BrowserWindow* window, m_windows) {
+			foreach (BrowserWindow * window, m_windows) {
 			window->titleBar()->saveToolBarsPositions();
 			stream << window->saveTabs();
 
@@ -875,13 +862,9 @@ void Application::startAfterCrash()
 
 	if (requestAction.clickedButton() == restoreSession) {
 		m_afterCrashLaunch = AfterLaunch::RestoreSession;
-		QMessageBox::information(nullptr, "DEBUG", "Restore Session");
-
 	}
 	else {
 		m_afterCrashLaunch = AfterLaunch::OpenHomePage;
-		QMessageBox::information(nullptr, "DEBUG", "Home Page");
-
 	}
 }
 

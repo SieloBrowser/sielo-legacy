@@ -67,7 +67,6 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	TabStackedWidget(parent),
 	m_saveTimer(new AutoSaver(this)),
 	m_window(window),
-	m_addressBars(new QStackedWidget(this)),
 	m_tabsSpaceType(type),
 	m_lastTabIndex(-1),
 	m_lastBackgroundTabIndex(-1)
@@ -75,6 +74,9 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	setObjectName(QLatin1String("tabwidget"));
 
 	m_closedTabsManager = new ClosedTabsManager;
+
+	if (Application::instance()->useTopToolBar())
+		m_addressBars = new QStackedWidget(this);
 
 	m_tabBar = new MainTabBar(m_window, this);
 	m_menuTabs = new MenuTabs(this);
@@ -224,7 +226,7 @@ void TabWidget::loadSettings()
 		settings.beginGroup("Web-Settings");
 
 		//TODO: Modify for a custom Sielo start page
-		m_urlOnNewTab = settings.value("urlOnNewTab", "http://doosearch.feldrise.com/").toUrl();
+		m_urlOnNewTab = settings.value("urlOnNewTab", "https://doosearch.sielo.app/").toUrl();
 		if (m_homeUrl.isEmpty())
 			m_homeUrl = m_window->homePageUrl();
 
@@ -970,6 +972,11 @@ WebTab* TabWidget::weTab(int index)
 TabIcon* TabWidget::tabIcon(int index)
 {
 	return weTab(index)->tabIcon();
+}
+
+QAction* TabWidget::action(const QString& name) const
+{
+	return static_cast<MainMenu*>(m_buttonMainMenu->menu())->action(name);
 }
 
 void TabWidget::openAddBookmarkDialog()

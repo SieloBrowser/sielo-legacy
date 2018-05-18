@@ -90,7 +90,7 @@ void BrowserWindow::loadSettings()
 {
 	QSettings settings{};
 
-	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("http://doosearch.feldrise.com/")).toUrl();
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
 
 	m_spaceBetweenTabsSpaces = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 

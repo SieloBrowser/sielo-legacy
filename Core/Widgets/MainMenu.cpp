@@ -48,6 +48,7 @@
 #include "Widgets/AboutDialog.hpp"
 #include "Widgets/HelpUsDialog.hpp"
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/SiteInfo.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -113,6 +114,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	addMenu(m_bookmarksMenu);
 	addMenu(m_historyMenu);
 	addMenu(m_toolsMenu);
+	QAction* showSiteInfoAction = createAction("ShowSiteInfo", m_toolsMenu, QIcon(), tr("Show Site Info"));
 	QAction* showDownloadManagerAction =
 		createAction("ShowDownloadManager",
 					 m_toolsMenu,
@@ -150,6 +152,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(nextAction, &QAction::triggered, this, &MainMenu::webForward);
 	connect(homeAction, &QAction::triggered, this, &MainMenu::webHome);
 	connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
+	connect(showSiteInfoAction, &QAction::triggered, this, &MainMenu::showSiteInfo);
 	connect(showDownloadManagerAction, &QAction::triggered, this, &MainMenu::showDownloadManager);
 	connect(showCookiesManagerAction, &QAction::triggered, this, &MainMenu::showCookiesManager);
 
@@ -299,6 +302,14 @@ void MainMenu::showCookiesManager()
 {
 	CookieManager* dialog{new CookieManager()};
 	dialog->show();
+}
+
+void MainMenu::showSiteInfo()
+{
+	if (m_tabWidget && SiteInfo::canShowSiteInfo(m_tabWidget->weTab()->url())) {
+		SiteInfo* info{new SiteInfo(m_tabWidget->weTab()->webView())};
+		info->show();
+	}
 }
 
 void MainMenu::showSettings()
