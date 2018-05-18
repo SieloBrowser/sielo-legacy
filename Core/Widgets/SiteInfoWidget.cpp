@@ -22,81 +22,54 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#include "SiteInfoWidget.hpp"
 
-#include <QMenu>
-#include <QAction>
+#include "Web/Tab/TabbedWebView.hpp"
 
-#include <QHash>
-#include <QPointer>
+#include "Widgets/Tab/TabWidget.hpp"
+
+#include "BrowserWindow.hpp"
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
 
-class BookmarksMenu;
-class HistoryMenu;
+SiteInfoWidget::SiteInfoWidget(BrowserWindow* window, QWidget* parent) :
+		AddressBarPopup(parent),
+		m_window(window)
+{
+	setAttribute(Qt::WA_DeleteOnClose);
+	setupUI();
+	setPopupAlignment(Qt::AlignLeft);
 
-class MainMenu: public QMenu {
-Q_OBJECT
+	WebView* view = window->webView();
 
-public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
+	if (view->url().scheme() == QLatin1String("https"))
+		m_secure->setText(tr("Your connection to this site is <b>secured</b>."));
+	else
+		m_secure->setText(tr("Your connection to this site is <b>unsecured</b>."));
 
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
+	//TODO: Count number of visite (waiting for new database based history system
 
-private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-
-	void webBack();
-	void webForward();
-	void webHome();
-
-	void openUrl(const QUrl& url);
-
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showHelpUs();
-
-	void quit();
-
-private:
-	void addActionsToTabWidget();
-
-	QAction* m_toggleBookmarksAction{nullptr};
-
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-
-	QPointer<PreferencesDialog> m_preferences{};
-
-	QHash<QString, QAction*> m_actions{};
-};
+	connect(m_moreButton, &QPushButton::clicked, window->tabWidget()->action(QStringLiteral("ShowSiteInfo")), &QAction::trigger);
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+SiteInfoWidget::~SiteInfoWidget()
+{
+	// Empty
+}
+
+void SiteInfoWidget::setupUI()
+{
+	m_layout = new QGridLayout(this);
+
+	m_history = new QLabel(this);
+	m_secure = new QLabel(this);
+	m_moreButton = new QPushButton(tr("More..."), this);
+	m_spacer = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+	m_layout->addWidget(m_secure, 0, 0, 1, 2);
+	m_layout->addWidget(m_history, 1, 0, 1, 2);
+	m_layout->addWidget(m_moreButton, 2, 0, 1, 1);
+	m_layout->addItem(m_spacer, 2, 1, 1, 1);
+}
+
+}

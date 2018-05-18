@@ -22,81 +22,50 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#include "AddressBarPopup.hpp"
 
-#include <QMenu>
-#include <QAction>
-
-#include <QHash>
-#include <QPointer>
+#include <QLayout>
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
-
-class BookmarksMenu;
-class HistoryMenu;
-
-class MainMenu: public QMenu {
-Q_OBJECT
-
-public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
-
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
-
-private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-
-	void webBack();
-	void webForward();
-	void webHome();
-
-	void openUrl(const QUrl& url);
-
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showHelpUs();
-
-	void quit();
-
-private:
-	void addActionsToTabWidget();
-
-	QAction* m_toggleBookmarksAction{nullptr};
-
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-
-	QPointer<PreferencesDialog> m_preferences{};
-
-	QHash<QString, QAction*> m_actions{};
-};
+AddressBarPopup::AddressBarPopup(QWidget* parent) :
+	QFrame(parent, Qt::Popup),
+	m_alignment(Qt::AlignRight)
+{
+	setAttribute(Qt::WA_DeleteOnClose);
+	setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+	setLineWidth(1);
+	setMidLineWidth(2);
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+AddressBarPopup::~AddressBarPopup()
+{
+	// Empty
+}
+
+void AddressBarPopup::showAt(QWidget* parent)
+{
+	if (!parent || !parent->parentWidget())
+		return;
+
+	parent = parent->parentWidget();
+
+	layout()->invalidate();
+	layout()->activate();
+
+	QPoint point{parent->mapToGlobal(QPoint(0, 0))};
+
+	if (m_alignment == Qt::AlignRight)
+		point.setX(point.x() + parent->width() - width());
+
+	point.setY(point.y() + parent->height());
+	move(point);
+
+	QFrame::show();
+}
+
+void AddressBarPopup::setPopupAlignment(Qt::Alignment alignment)
+{
+	m_alignment = alignment;
+}
+
+}

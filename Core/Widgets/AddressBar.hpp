@@ -58,6 +58,7 @@ class BrowserWindow;
 
 class AddressCompletionModel;
 class ToolButton;
+class SiteIcon;
 
 class AddressBar;
 
@@ -239,6 +240,8 @@ private slots:
 	void updatePasteActions();
 	void sDelete();
 
+	void updateSiteIcon();
+
 	void setCompletion(const QString& filter);
 
 	void sTextEdited(const QString& text);
@@ -264,6 +267,7 @@ private:
 
 	bool processMainCommand(const QString& command, const QStringList& args);
 
+	SiteIcon* m_siteIcon{nullptr};
 	ToolButton* m_reloadStopButton{nullptr};
 	ToolButton* m_goButton{nullptr};
 

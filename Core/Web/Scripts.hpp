@@ -38,24 +38,24 @@ public:
 	static QString sendPostData(const QUrl& url, const QByteArray& data)
 	{
 		QString source{QLatin1String("(function() {"
-										 "var form = document.createElement('form');"
-										 "form.setAttribute('method', 'POST');"
-										 "form.setAttribute('action', '%1');"
-										 "var val;"
-										 "%2"
-										 "form.submit();"
-										 "})()")};
+									 "var form = document.createElement('form');"
+									 "form.setAttribute('method', 'POST');"
+									 "form.setAttribute('action', '%1');"
+									 "var val;"
+									 "%2"
+									 "form.submit();"
+									 "})()")};
 
 		QString valueSource{QLatin1String("val = document.createElement('input');"
-											  "val.setAttribute('type', 'hidden');"
-											  "val.setAttribute('name', '%1');"
-											  "val.setAttribute('value', '%2');"
-											  "form.appendChild(val);")};
+										  "val.setAttribute('type', 'hidden');"
+										  "val.setAttribute('name', '%1');"
+										  "val.setAttribute('value', '%2');"
+										  "form.appendChild(val);")};
 
 		QString values{};
 		QUrlQuery query{data};
 
-		const auto &queryItems = query.queryItems(QUrl::FullyDecoded);
+		const auto& queryItems = query.queryItems(QUrl::FullyDecoded);
 
 		for (const auto& pair : queryItems) {
 			QString value{pair.first};
@@ -67,6 +67,44 @@ public:
 
 		return source.arg(url.toString(), values);
 	}
+
+	static QString getAllMetaAttributes()
+	{
+		QString source = QLatin1String("(function() {"
+									   "var out = [];"
+									   "var meta = document.getElementsByTagName('meta');"
+									   "for (var i = 0; i < meta.length; ++i) {"
+									   "    var e = meta[i];"
+									   "    out.push({"
+									   "        name: e.getAttribute('name'),"
+									   "        content: e.getAttribute('content'),"
+									   "        httpequiv: e.getAttribute('http-equiv')"
+									   "    });"
+									   "}"
+									   "return out;"
+									   "})()");
+
+		return source;
+	}
+
+	static QString getAllImages()
+	{
+		QString source = QLatin1String("(function() {"
+									   "var out = [];"
+									   "var imgs = document.getElementsByTagName('img');"
+									   "for (var i = 0; i < imgs.length; ++i) {"
+									   "    var e = imgs[i];"
+									   "    out.push({"
+									   "        src: e.src,"
+									   "        alt: e.alt"
+									   "    });"
+									   "}"
+									   "return out;"
+									   "})()");
+
+		return source;
+	}
+
 };
 }
 

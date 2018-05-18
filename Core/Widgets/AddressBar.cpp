@@ -52,6 +52,8 @@
 #include "Web/Tab/TabbedWebView.hpp"
 #include "Web/Tab/WebTab.hpp"
 
+#include "Widgets/SiteInfo.hpp"
+#include "Widgets/SiteIcon.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
@@ -500,6 +502,8 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	setObjectName("addressbar");
 	setDragEnabled(true);
 
+	m_siteIcon = new SiteIcon(window, this);
+
 	m_reloadStopButton = new ToolButton(this);
 	m_reloadStopButton->setAutoRaise(true);
 	m_reloadStopButton->setToolTip(tr("Reload"));
@@ -541,6 +545,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	connect(m_leftWidget, &SideWidget::sizeHintChanged, this, &AddressBar::updateTextMargins);
 	connect(m_rightWidget, &SideWidget::sizeHintChanged, this, &AddressBar::updateTextMargins);
 
+	addWidget(m_siteIcon, AddressBar::LeftSide);
 	addWidget(m_goButton, AddressBar::RightSide);
 	addWidget(m_reloadStopButton, AddressBar::RightSide);
 
@@ -620,6 +625,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 	updateActions();
 	updatePasteActions();
 	loadSettings();
+	updateSiteIcon();
 }
 
 void AddressBar::showPopup()
@@ -660,10 +666,12 @@ void AddressBar::setWebView(TabbedWebView* view)
 {
 	m_webView = view;
 
+	m_siteIcon->setWebView(m_webView);
 
 	connect(m_webView, &TabbedWebView::loadStarted, this, &AddressBar::loadStarted);
 	connect(m_webView, &TabbedWebView::loadProgress, this, &AddressBar::loadProgress);
 	connect(m_webView, &TabbedWebView::loadFinished, this, &AddressBar::loadFinished);
+	connect(m_webView, &TabbedWebView::iconChanged, this, &AddressBar::updateSiteIcon);
 
 	connect(m_webView, SIGNAL(urlChanged(QUrl)), this, SLOT(showUrl(QUrl)));
 	//TODO: privacy
@@ -1152,6 +1160,18 @@ void AddressBar::sDelete()
 		del();
 }
 
+void AddressBar::updateSiteIcon()
+{
+	if (m_webView && SiteInfo::canShowSiteInfo(m_webView->url())) {
+		if (m_webView && m_webView->url().scheme() == QLatin1String("https"))
+			m_siteIcon->updateIcon(true);
+		else
+			m_siteIcon->updateIcon(false);
+	}
+	else
+		m_siteIcon->setIcon(Application::getAppIcon("webpage"));
+}
+
 void AddressBar::setCompletion(const QString& filter)
 {
 	if (filter.isEmpty() || m_completionModel->rowCount() == 0) {
@@ -1239,6 +1259,8 @@ void AddressBar::loadStarted()
 	m_reloadStopButton->setObjectName("addressbar-button-stop");
 	m_reloadStopButton->setIcon(Application::getAppIcon("stop"));
 
+	m_siteIcon->setIcon(Application::getAppIcon("webpage"));
+
 	Application::style()->unpolish(m_reloadStopButton);
 	Application::style()->polish(m_reloadStopButton);
 }
@@ -1254,6 +1276,8 @@ void AddressBar::loadFinished()
 	m_reloadStopButton->setToolTip(tr("Reload"));
 	m_reloadStopButton->setObjectName("addressbar-button-reload");
 	m_reloadStopButton->setIcon(Application::getAppIcon("reload"));
+
+	updateSiteIcon();
 
 	Application::style()->unpolish(m_reloadStopButton);
 	Application::style()->polish(m_reloadStopButton);

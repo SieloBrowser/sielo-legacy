@@ -70,7 +70,7 @@ QUrl WebView::searchUrl(const QString& searchText)
 	url.setQuery(urlQuery);
 */
 
-	QUrl url{QLatin1String("http:/doosearch.feldrise.com/en/res/php/search.php")};
+	QUrl url{QLatin1String("https:/doosearch.sielo.app/en/res/php/search.php")};
 	QUrlQuery urlQuery{};
 
 	urlQuery.addQueryItem(QLatin1String("search"), searchText);

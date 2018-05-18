@@ -87,6 +87,8 @@ public:
 	WebTab* weTab(int index);
 	TabIcon* tabIcon(int index);
 
+	QAction* action(const QString& name) const;
+
 	BrowserWindow* window() const { return m_window; }
 	MainTabBar* tabBar() const { return m_tabBar; }
 	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
