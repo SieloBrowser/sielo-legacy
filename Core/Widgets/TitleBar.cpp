@@ -188,6 +188,7 @@ void TitleBar::mouseReleaseEvent(QMouseEvent* event)
 {
 	QScreen *screen = Application::screenAt(QCursor::pos());
 	QRect scrrect = screen->geometry();
+	
 	if (QCursor::pos(screen).y() <= scrrect.y()) {
 		toggleMaximize(true);
 	}
