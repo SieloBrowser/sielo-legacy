@@ -186,6 +186,8 @@ void GeneralPage::save()
 	// Save if we want to load tabs at startup
 	settings.setValue(QLatin1String("LoadTabsOnActivation"), m_dontLoadTabsUntilSelect->isChecked());
 
+	settings.endGroup();
+
 	// Save language
 	settings.beginGroup("Language");
 
@@ -233,7 +235,7 @@ void GeneralPage::setupUI()
 	m_layoutGroupHomePage = new QVBoxLayout();
 	m_layoutGroupNewTab = new QVBoxLayout();
 	m_layoutGroupNewSession = new QVBoxLayout();
-	m_layoutGroupLanguage = new QGridLayout();
+	m_layoutGroupLanguage = new QVBoxLayout();
 
 	m_groupHomePage = new QGroupBox(tr("Home page"), this);
 
@@ -299,9 +301,9 @@ void GeneralPage::setupUI()
 
 	m_groupLanguage->setLayout(m_layoutGroupLanguage);
 
-	m_layoutGroupLanguage->addWidget(m_descLanguage, 0, 0, 1, 1);
-	m_layoutGroupLanguage->addWidget(m_languages, 0, 1, 1, 1);
-	m_layoutGroupLanguage->addWidget(m_descLanguageNeedRestart, 1, 0, 1, 2);
+	m_layoutGroupLanguage->addWidget(m_descLanguage);
+	m_layoutGroupLanguage->addWidget(m_languages);
+	m_layoutGroupLanguage->addWidget(m_descLanguageNeedRestart);
 
 	m_layout->addWidget(m_groupHomePage);
 	m_layout->addWidget(m_groupNewTab);
