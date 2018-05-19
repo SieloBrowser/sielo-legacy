@@ -46,7 +46,9 @@ namespace Sn {
 
 bool SiteInfo::canShowSiteInfo(const QUrl& url)
 {
-	if (url.scheme() == QLatin1String("sielo") || url.scheme() == QLatin1String("view-source"))
+	if (url.scheme() == QLatin1String("sielo") ||
+		url.scheme() == QLatin1String("view-source") ||
+		url.scheme() == QLatin1String("file"))
 		return false;
 
 	return true;
@@ -131,7 +133,8 @@ void SiteInfo::imagesCustomContextMenuRequested(const QPoint& point)
 		return;
 
 	QMenu menu;
-	menu.addAction(Application::getAppIcon("edit-copy", "edit"), tr("Copy Image Location"), this, &SiteInfo::copyActionData)->setData(item->text(1));
+	menu.addAction(Application::getAppIcon("edit-copy", "edit"), tr("Copy Image Location"), this,
+				   &SiteInfo::copyActionData)->setData(item->text(1));
 	menu.addAction(tr("Copy Image Name"), this, &SiteInfo::copyActionData)->setData(item->text(0));
 	menu.addSeparator();
 	menu.addAction(tr("Save Image to Disk"), this, &SiteInfo::saveImage);
@@ -166,7 +169,8 @@ void SiteInfo::saveImage()
 		return;
 	}
 
-	QString imageFileName = QUrl(item->text(1)).toString(QUrl::RemoveFragment | QUrl::RemoveQuery | QUrl::RemoveScheme | QUrl::RemovePort);
+	QString imageFileName = QUrl(item->text(1)).toString(
+			QUrl::RemoveFragment | QUrl::RemoveQuery | QUrl::RemoveScheme | QUrl::RemovePort);
 
 	if (imageFileName.endsWith(QLatin1Char('/'))) {
 		imageFileName = imageFileName.mid(0, imageFileName.length() - 1);
@@ -198,7 +202,9 @@ void SiteInfo::saveImage()
 		imageFileName.append(QLatin1String(".png"));
 	}
 
-	QString filePath = QFileDialog::getSaveFileName(this, tr("Save Image..."), QDir::homePath() + QDir::separator() + imageFileName, QStringLiteral("*.png"));
+	QString filePath = QFileDialog::getSaveFileName(this, tr("Save Image..."),
+													QDir::homePath() + QDir::separator() + imageFileName,
+													QStringLiteral("*.png"));
 
 	if (filePath.isEmpty())
 		return;
@@ -266,6 +272,11 @@ void SiteInfo::setupGeneral()
 											  m_tags->addTopLevelItem(item);
 										  }
 								  });
+
+	if (m_view->url().scheme() == QLatin1String("https"))
+		m_security->setText(tr("Connection Encrypted"));
+	else
+		m_security->setText(tr("Connection Not Encrypted"));
 }
 
 void SiteInfo::setupMedia()
@@ -336,14 +347,14 @@ void SiteInfo::setupUI()
 	m_tags->headerItem()->setText(1, tr("Value"));
 
 	m_descSecurity = new QLabel(tr("<b>Security information</b>"), m_generalPage);
-	m_showCertificate = new QPushButton(tr("Show certificate"), m_generalPage);
+	m_security = new QLabel(m_generalPage);
 
 	m_generalLayout->addWidget(m_siteName, 0, 0, 1, 2);
 	m_generalLayout->addLayout(m_infoLaytout, 1, 0, 1, 2);
 	m_generalLayout->addWidget(m_descMetaTags, 2, 0, 1, 2);
 	m_generalLayout->addWidget(m_tags, 3, 0, 1, 2);
 	m_generalLayout->addWidget(m_descSecurity, 4, 0, 1, 1);
-	m_generalLayout->addWidget(m_showCertificate, 5, 1, 1, 1);
+	m_generalLayout->addWidget(m_security, 4, 1, 1, 1);
 
 	// Media page
 	m_mediaLayout = new QVBoxLayout(m_mediaPage);

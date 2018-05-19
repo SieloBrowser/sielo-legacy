@@ -100,7 +100,7 @@ private:
 	QTreeWidget* m_tags{nullptr};
 
 	QLabel* m_descSecurity{nullptr};
-	QPushButton* m_showCertificate{nullptr};
+	QLabel* m_security{nullptr};
 
 	// Media page
 	QVBoxLayout* m_mediaLayout{nullptr};
