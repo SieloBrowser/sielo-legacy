@@ -29,7 +29,7 @@ if(GNU)
 endif()
 
 set(SOURCE_FILES Main.cpp)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
@@ -49,10 +49,5 @@ else()
     add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
 endif()
 
-target_link_libraries(sielo-browser Core)
-target_link_libraries(sielo-browser ${OPENSSL_LIBRARIES})
-target_link_libraries(sielo-browser Qt5::Widgets)
-target_link_libraries(sielo-browser Qt5::Sql)
-target_link_libraries(sielo-browser Qt5::WebEngine)
-target_link_libraries(sielo-browser Qt5::WebEngineWidgets)
-
+set(SIELO_LIBS Core ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
+target_link_libraries(sielo-browser LINK_PUBLIC ${SIELO_LIBS})
