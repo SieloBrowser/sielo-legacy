@@ -115,6 +115,7 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.14.00"));
 
+	ndb::connect<dbs::password>();
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
 		QMessageBox::critical(0,

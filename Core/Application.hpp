@@ -38,6 +38,31 @@
 #include "Utils/RestoreManager.hpp"
 #include "3rdparty/singleapplication.h"
 
+#include <ndb/initializer.hpp>
+#include <ndb/engine/sqlite/sqlite.hpp>
+#include <ndb/preprocessor.hpp>
+
+ndb_table(autofill_encrypted,
+	ndb_field_id,
+	ndb_field(data_encrypted, std::string, ndb::size<255>),
+	ndb_field(password_encrypted, std::string, ndb::size<255>),
+	ndb_field(username_encrypted, std::string, ndb::size<255>),
+	ndb_field(server,std::string, ndb::size<255>),
+	ndb_field(last_used, std::string, ndb::size<16>)
+)
+
+ndb_model(password, autofill_encrypted)
+
+ndb_project(sielo,
+	ndb_database(password, password, ndb::sqlite)
+)
+
+namespace dbs
+{
+	using password = ndb::databases::sielo::password_;
+}
+
+
 namespace Sn {
 class AutoFill;
 class CookieJar;
@@ -310,6 +335,8 @@ private:
 	QPointer<BrowserWindow> m_lastActiveWindow;
 
 	QList<PostLaunchAction> m_postLaunchActions;
+
+	ndb::initializer<ndb::sqlite> m_ndb_init;
 
 	//QFont m_morpheusFont{};
 	//QFont m_normalFont{};
