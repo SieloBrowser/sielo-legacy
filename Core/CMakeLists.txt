@@ -3,11 +3,6 @@ project(Core)
 
 include_directories(${CMAKE_SOURCE_DIR}/Core)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/ndb/include)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/ndb/third_party/sqlite/include)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/ndb/third_party/boost)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/ndb/third_party/mpl/src)
-
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
@@ -85,5 +80,4 @@ add_library(Core ${SOURCE_FILES} ../icons.qrc/ ${QM_FILES})
 
 set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::Sql Qt5::WebEngine Qt5::WebEngineWidgets)
 target_link_libraries(Core LINK_PUBLIC ${SIELO_LIBS})
-target_link_libraries(Core INTERFACE lib_ndb)
-
+target_link_libraries(Core PUBLIC lib_ndb)

@@ -41,6 +41,16 @@ find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
 if (WIN32)
     add_executable(sielo-browser WIN32 ${SOURCE_FILES} icons.qrc data.qrc ic_sielo.rc)
+
+    # deploy
+    get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)
+    set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
+
+    add_custom_command(TARGET sielo-browser POST_BUILD
+            COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
+
+
 elseif(APPLE)
     add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} icons.qrc data.qrc)
     set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)

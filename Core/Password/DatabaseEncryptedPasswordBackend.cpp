@@ -37,6 +37,13 @@
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
 
+#include <ndb/query.hpp>
+#include <ndb/preprocessor.hpp>
+
+
+
+constexpr auto& autofill_encrypted = ndb::models::password.autofill_encrypted;
+
 const QLatin1String INTERNAL_SERVER_ID = QLatin1String("sielo.internal");
 
 namespace Sn {
@@ -72,6 +79,12 @@ QVector<PasswordEntry> DatabaseEncryptedPasswordBackend::getEntries(const QUrl& 
 		"SELECT id, username_encrypted, password_encrypted, data_encrypted FROM autofill_encrypted WHERE server=? ORDER BY last_used DESC");
 	query.addBindValue(host);
 	query.exec();
+
+	/*
+	for (auto& data : ndb::oquery<dbs::password>() << (autofill_encrypted.server == host) )
+	{
+		if (decryptPasswordEntry(data, &aesDecryptor)) list.append(data);
+	}*/
 
 	if (query.next() && hasPermission()) {
 		do {
@@ -412,7 +425,15 @@ void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& passwo
 		if (query.next())
 			query.prepare("UPDATE autofill_encrypted SET password_encrypted = ? WHERE server=?");
 		else
+		{
+			ndb::query<dbs::password>() + (
+			autofill_encrypted.password_encrypted = m_someDataStoredOnDatabase.toStdString(),
+			autofill_encrypted.server = INTERNAL_SERVER_ID.data()
+			);
+
 			query.prepare("INSERT INTO autofill_encrypted (password_encrypted, server) VALUES (?,?)");
+		}
+
 
 		query.addBindValue(QString::fromUtf8(m_someDataStoredOnDatabase));
 		query.addBindValue(INTERNAL_SERVER_ID);
