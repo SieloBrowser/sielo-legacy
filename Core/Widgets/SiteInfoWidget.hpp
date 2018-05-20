@@ -23,80 +23,43 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#ifndef SIELOBROWSER_SITEINFOWIDGET_HPP
+#define SIELOBROWSER_SITEINFOWIDGET_HPP
 
-#include <QMenu>
-#include <QAction>
+#include <QWidget>
 
-#include <QHash>
-#include <QPointer>
+#include <QGridLayout>
+
+#include <QLabel>
+#include <QPushButton>
+#include <QSpacerItem>
+
+#include "Widgets/AddressBarPopup.hpp"
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
+class BrowserWindow;
 
-class BookmarksMenu;
-class HistoryMenu;
-
-class MainMenu: public QMenu {
+class SiteInfoWidget : public AddressBarPopup {
 Q_OBJECT
 
 public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
-
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
-
-private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-
-	void webBack();
-	void webForward();
-	void webHome();
-
-	void openUrl(const QUrl& url);
-
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showHelpUs();
-
-	void quit();
+	SiteInfoWidget(BrowserWindow* window, QWidget* parent = nullptr);
+	~SiteInfoWidget();
 
 private:
-	void addActionsToTabWidget();
+	void setupUI();
 
-	QAction* m_toggleBookmarksAction{nullptr};
+	BrowserWindow* m_window{nullptr};
 
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
+	// UI
+	QGridLayout* m_layout{nullptr};
+	QLabel* m_history{nullptr};
+	QLabel* m_secure{nullptr};
+	QPushButton* m_moreButton{nullptr};
+	QSpacerItem* m_spacer{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
-
-	QPointer<PreferencesDialog> m_preferences{};
-
-	QHash<QString, QAction*> m_actions{};
 };
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+
+#endif //SIELOBROWSER_SITEINFOWIDGET_HPP

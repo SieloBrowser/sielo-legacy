@@ -22,81 +22,95 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#include "SiteIcon.hpp"
 
-#include <QMenu>
-#include <QAction>
+#include "Web/WebView.hpp"
 
-#include <QHash>
-#include <QPointer>
+#include "Widgets/AddressBar.hpp"
+#include "Widgets/SiteInfo.hpp"
+#include "Widgets/SiteInfoWidget.hpp"
+
+#include "BrowserWindow.hpp"
+#include "Application.hpp"
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
-
-class BookmarksMenu;
-class HistoryMenu;
-
-class MainMenu: public QMenu {
-Q_OBJECT
-
-public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
-
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
-
-private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-
-	void webBack();
-	void webForward();
-	void webHome();
-
-	void openUrl(const QUrl& url);
-
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showHelpUs();
-
-	void quit();
-
-private:
-	void addActionsToTabWidget();
-
-	QAction* m_toggleBookmarksAction{nullptr};
-
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-
-	QPointer<PreferencesDialog> m_preferences{};
-
-	QHash<QString, QAction*> m_actions{};
-};
+SiteIcon::SiteIcon(BrowserWindow* window, Sn::AddressBar* parent) :
+		ToolButton(parent),
+		m_window(window),
+		m_addressBar(parent)
+{
+	setObjectName(QLatin1String("addressbar-siteicon"));
+	setToolButtonStyle(Qt::ToolButtonIconOnly);
+	setCursor(Qt::ArrowCursor);
+	setToolTip(AddressBar::tr("Show information about this page"));
+	setFocusPolicy(Qt::ClickFocus);
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+SiteIcon::~SiteIcon()
+{
+	// Empty
+}
+
+void SiteIcon::setWebView(Sn::WebView* view)
+{
+	m_view = view;
+}
+
+void SiteIcon::updateIcon(bool secure)
+{
+	if (secure)
+		ToolButton::setIcon(Application::getAppIcon("locked"));
+	else
+		ToolButton::setIcon(Application::getAppIcon("nonlocked"));
+}
+
+void SiteIcon::popupClosed()
+{
+	setDown(false);
+}
+
+void SiteIcon::contextMenuEvent(QContextMenuEvent* event)
+{
+	// It's just to prevent the propagation to the address bar
+	event->accept();
+}
+
+void SiteIcon::mouseReleaseEvent(QMouseEvent* event)
+{
+	bool activated = false;
+
+	if (event->button() == Qt::LeftButton && rect().contains(event->pos()))
+		activated = showPopup();
+
+	if (activated)
+		setUpdatesEnabled(false);
+
+	ToolButton::mouseReleaseEvent(event);
+
+	if (activated) {
+		setDown(true);
+		setUpdatesEnabled(true);
+	}
+}
+
+bool SiteIcon::showPopup()
+{
+	if (!m_view || !m_window)
+		return false;
+
+	QUrl url{m_view->url()};
+
+	if (!SiteInfo::canShowSiteInfo(url))
+		return false;
+
+	setDown(true);
+
+	SiteInfoWidget* info{new SiteInfoWidget(m_window)};
+	info->showAt(parentWidget());
+
+	connect(info, &SiteInfoWidget::destroyed, this, &SiteIcon::popupClosed);
+
+	return true;
+}
+
+}

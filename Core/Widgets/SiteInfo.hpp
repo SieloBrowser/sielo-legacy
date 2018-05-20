@@ -23,80 +23,98 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#ifndef SIELOBROWSER_SITEINFO_HPP
+#define SIELOBROWSER_SITEINFO_HPP
 
-#include <QMenu>
-#include <QAction>
+#include <QWidget>
+#include <QDialog>
 
-#include <QHash>
-#include <QPointer>
+#include <QGridLayout>
+#include <QFormLayout>
+#include <QVBoxLayout>
+
+#include <QDialogButtonBox>
+#include <QTabWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QSplitter>
+#include <QGraphicsView>
+#include <QTreeWidget>
+
+#include <QNetworkReply>
+
+#include "Widgets/EllipseLabel.hpp"
 
 namespace Sn {
-class TabWidget;
-class PreferencesDialog;
+class WebView;
 
-class BookmarksMenu;
-class HistoryMenu;
+class CertificateInformation;
 
-class MainMenu: public QMenu {
+class SiteInfo : public QDialog {
 Q_OBJECT
 
 public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
+	SiteInfo(WebView* view);
+	~SiteInfo();
 
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
+	static bool canShowSiteInfo(const QUrl& url);
 
 private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
-
-	void selectAll();
-	void find();
-
-	void showAllBookmarks();
-	void addBookmarks();
-
-	void webBack();
-	void webForward();
-	void webHome();
-
-	void openUrl(const QUrl& url);
-
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showHelpUs();
-
-	void quit();
+	void showImagePreview(QTreeWidgetItem* item);
+	void imagesCustomContextMenuRequested(const QPoint& point);
+	void copyActionData();
+	void saveImage();
 
 private:
-	void addActionsToTabWidget();
+	void setupUI();
+	void setupGeneral();
+	void setupMedia();
 
-	QAction* m_toggleBookmarksAction{nullptr};
+	void showLoadingText();
+	void showPixmap(QPixmap pixmap);
 
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
+	CertificateInformation* m_certificate{nullptr};
+	WebView* m_view{nullptr};
+	QNetworkReply* m_imageReply{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
+	QUrl m_baseUrl{};
 
-	QPointer<PreferencesDialog> m_preferences{};
+	// UI
+	QVBoxLayout* m_layout{nullptr};
+	QTabWidget* m_tabs{nullptr};
+	QWidget* m_generalPage{nullptr};
+	QWidget* m_mediaPage{nullptr};
+	QDialogButtonBox* m_buttonBox{nullptr};
 
-	QHash<QString, QAction*> m_actions{};
+	// General page
+	QGridLayout* m_generalLayout{nullptr};
+	QFormLayout* m_infoLaytout{nullptr};
+	QLabel* m_siteName{nullptr};
+
+	QLabel* m_descSiteAddress{nullptr};
+	EllipseLabel* m_siteAddress{nullptr};
+	QLabel* m_descEncoding{nullptr};
+	EllipseLabel* m_encoding{nullptr};
+
+	QLabel* m_descMetaTags{nullptr};
+	QTreeWidget* m_tags{nullptr};
+
+	QLabel* m_descSecurity{nullptr};
+	QPushButton* m_showCertificate{nullptr};
+
+	// Media page
+	QVBoxLayout* m_mediaLayout{nullptr};
+	QSplitter* m_splitter{nullptr};
+	QVBoxLayout* m_previewLayout{nullptr};
+	QLabel* m_siteName2{nullptr};
+	QTreeWidget* m_images{nullptr};
+	QPushButton* m_saveButton{nullptr};
+	QLabel* m_descPreview{nullptr};
+	QGraphicsView* m_preview{nullptr};
+
+
 };
+
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+#endif //SIELOBROWSER_SITEINFO_HPP

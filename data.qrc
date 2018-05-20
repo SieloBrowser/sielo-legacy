@@ -40,9 +40,11 @@
         <file>data/themes/sielo-default/dark/other/history.png</file>
         <file>data/themes/sielo-default/dark/other/home.png</file>
         <file>data/themes/sielo-default/dark/other/ic_sielo.png</file>
+        <file>data/themes/sielo-default/dark/other/locked.png</file>
         <file>data/themes/sielo-default/dark/other/login.png</file>
         <file>data/themes/sielo-default/dark/other/mouselock.png</file>
         <file>data/themes/sielo-default/dark/other/new-window.png</file>
+        <file>data/themes/sielo-default/dark/other/nonlocked.png</file>
         <file>data/themes/sielo-default/dark/other/notification.png</file>
         <file>data/themes/sielo-default/dark/other/open-file.png</file>
         <file>data/themes/sielo-default/dark/other/reload.png</file>
@@ -112,9 +114,11 @@
         <file>data/themes/sielo-default/light/other/history.png</file>
         <file>data/themes/sielo-default/light/other/home.png</file>
         <file>data/themes/sielo-default/light/other/ic_sielo.png</file>
+        <file>data/themes/sielo-default/light/other/locked.png</file>
         <file>data/themes/sielo-default/light/other/login.png</file>
         <file>data/themes/sielo-default/light/other/mouselock.png</file>
         <file>data/themes/sielo-default/light/other/new-window.png</file>
+        <file>data/themes/sielo-default/light/other/nonlocked.png</file>
         <file>data/themes/sielo-default/light/other/notification.png</file>
         <file>data/themes/sielo-default/light/other/open-file.png</file>
         <file>data/themes/sielo-default/light/other/reload.png</file>
@@ -189,9 +193,11 @@
         <file>data/themes/firefox-like-light/images/other/history.png</file>
         <file>data/themes/firefox-like-light/images/other/home.png</file>
         <file>data/themes/firefox-like-light/images/other/ic_sielo.png</file>
+        <file>data/themes/firefox-like-light/images/other/locked.png</file>
         <file>data/themes/firefox-like-light/images/other/login.png</file>
         <file>data/themes/firefox-like-light/images/other/mouselock.png</file>
         <file>data/themes/firefox-like-light/images/other/new-window.png</file>
+        <file>data/themes/firefox-like-light/images/other/nonlocked.png</file>
         <file>data/themes/firefox-like-light/images/other/notification.png</file>
         <file>data/themes/firefox-like-light/images/other/open-file.png</file>
         <file>data/themes/firefox-like-light/images/other/reload.png</file>
@@ -266,9 +272,11 @@
         <file>data/themes/firefox-like-dark/images/other/history.png</file>
         <file>data/themes/firefox-like-dark/images/other/home.png</file>
         <file>data/themes/firefox-like-dark/images/other/ic_sielo.png</file>
+        <file>data/themes/firefox-like-dark/images/other/locked.png</file>
         <file>data/themes/firefox-like-dark/images/other/login.png</file>
         <file>data/themes/firefox-like-dark/images/other/mouselock.png</file>
         <file>data/themes/firefox-like-dark/images/other/new-window.png</file>
+        <file>data/themes/firefox-like-dark/images/other/nonlocked.png</file>
         <file>data/themes/firefox-like-dark/images/other/notification.png</file>
         <file>data/themes/firefox-like-dark/images/other/open-file.png</file>
         <file>data/themes/firefox-like-dark/images/other/reload.png</file>
