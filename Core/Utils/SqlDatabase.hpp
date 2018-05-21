@@ -37,6 +37,31 @@
 #include <QObject>
 #include <QVariant>
 
+#include <ndb/preprocessor.hpp>
+#include <ndb/line.hpp>
+
+ndb_table(autofill_encrypted,
+		ndb_field_id,
+		ndb_field(data_encrypted, std::string, ndb::size<255>),
+		ndb_field(password_encrypted, std::string, ndb::size<255>),
+		ndb_field(username_encrypted, std::string, ndb::size<255>),
+		ndb_field(server, std::string, ndb::size<255>),
+		ndb_field(last_used, std::string, ndb::size<16>)
+)
+
+ndb_model(password, autofill_encrypted)
+
+ndb_project(sielo,
+		ndb_database(password, password, ndb::sqlite)
+)
+
+namespace dbs
+{
+using password = ndb::databases::sielo::password_;
+}
+
+
+
 namespace Sn {
 
 class SqlDatabase: public QObject {

@@ -41,7 +41,7 @@
 #include <ndb/query.hpp>
 #include <ndb/preprocessor.hpp>
 
-#include "Application.hpp"
+#include "Utils/SqlDatabase.hpp"
 
 namespace Sn {
 class PasswordBackend;
