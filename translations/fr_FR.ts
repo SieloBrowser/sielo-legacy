@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR">
+<TS version="2.0" language="fr_FR">
 <context>
     <name>QApplication</name>
     <message>
@@ -2490,8 +2490,8 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="119"/>
+        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <source>New Tab</source>
         <translation>Nouvel onglet</translation>
     </message>

@@ -64,6 +64,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 
 #ifdef Q_OS_WIN
 	setWindowFlags(Qt::CustomizeWindowHint);
+	//setWindowFlags(Qt::FramelessWindowHint);
 #endif
 
 	setObjectName(QLatin1String("mainwindow"));
@@ -119,13 +120,13 @@ void BrowserWindow::loadSettings()
 
 		setStyleSheet(sss);
 	}
+	m_upd_ss = true;
 
 	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
 	m_titleBar->setShowBookmark(showBookmarksToolBar);
-			foreach (TabWidget* tbWidget, m_tabWidgets) {
-			tbWidget->updateShowBookmarksBarText(showBookmarksToolBar);
-		}
-
+	foreach (TabWidget* tbWidget, m_tabWidgets) {
+		tbWidget->updateShowBookmarksBarText(showBookmarksToolBar);
+	}
 }
 
 QByteArray BrowserWindow::saveTabs()
@@ -448,6 +449,23 @@ void BrowserWindow::bookmarkAllTabs()
 	// Empty
 }
 
+void BrowserWindow::shotBackground()
+{
+	m_mainSplitter->hide();
+	m_bg = new QPixmap(size());
+	render(m_bg, QPoint(), QRect(0, 0, width(), height()));
+	m_mainSplitter->show();
+}
+
+void BrowserWindow::paintEvent(QPaintEvent* event)
+{
+	QMainWindow::paintEvent(event);
+	if (m_upd_ss) {
+		m_upd_ss = false;
+		shotBackground();
+	}
+}
+
 void BrowserWindow::resizeEvent(QResizeEvent* event)
 {
 	if (m_fButton) {
@@ -460,6 +478,12 @@ void BrowserWindow::resizeEvent(QResizeEvent* event)
 	}
 
 	QMainWindow::resizeEvent(event);
+
+	shotBackground();
+}
+
+const QPixmap* BrowserWindow::getBackground() {
+	return m_bg;
 }
 
 void BrowserWindow::addTab()
