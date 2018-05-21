@@ -40,7 +40,7 @@
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
 
-#include "Utils/SqlDatabase.hpp"
+#include "Database/SqlDatabase.hpp"
 
 #include "Application.hpp"
 #include "AutoFillNotification.hpp"

@@ -62,7 +62,7 @@
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
-#include "Utils/SqlDatabase.hpp"
+#include "Database/SqlDatabase.hpp"
 #include "Utils/CommandLineOption.hpp"
 #include "Utils/Updater.hpp"
 

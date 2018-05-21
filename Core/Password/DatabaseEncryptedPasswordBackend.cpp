@@ -31,7 +31,7 @@
 #include "Password/AutoFill/AutoFill.hpp"
 
 #include "Utils/AesInterface.hpp"
-#include "Utils/SqlDatabase.hpp"
+#include "Database/SqlDatabase.hpp"
 
 #include "BrowserWindow.hpp"
 #include "Application.hpp"

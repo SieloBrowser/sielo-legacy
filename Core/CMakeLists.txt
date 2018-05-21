@@ -42,6 +42,8 @@ file(
         Bookmarks/*.hpp
         Cookies/*.hpp
         Cookies/*.cpp
+        Database/*.hpp
+        Database/*.cpp
         Download/*.cpp
         Download/*.hpp
         History/*.cpp
