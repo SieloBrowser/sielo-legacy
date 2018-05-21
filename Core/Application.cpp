@@ -47,6 +47,8 @@
 #include <QWebEngineScriptCollection>
 #include <AdBlock/Manager.hpp>
 
+#include <ndb/option.hpp>
+
 #include "BrowserWindow.hpp"
 
 #include "Plugins/PluginProxy.hpp"
@@ -60,6 +62,7 @@
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
+#include "Utils/SqlDatabase.hpp"
 #include "Utils/CommandLineOption.hpp"
 #include "Utils/Updater.hpp"
 
@@ -644,7 +647,7 @@ void Application::saveSession(bool saveForHome)
 	stream << m_windows.count();
 
 	// Save tabs of all windows
-			foreach (BrowserWindow * window, m_windows) {
+			foreach (BrowserWindow* window, m_windows) {
 			window->titleBar()->saveToolBarsPositions();
 			stream << window->saveTabs();
 
@@ -870,7 +873,10 @@ void Application::startAfterCrash()
 
 void Application::connectDatabase()
 {
-	ndb::connect<dbs::password>();
+	if (m_privateBrowsing)
+		ndb::config(ndb::connection_flag::read_only);
+
+	ndb::connect<dbs::password>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
 
 	const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
 
