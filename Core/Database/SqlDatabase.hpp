@@ -37,8 +37,9 @@
 #include <QObject>
 #include <QVariant>
 
+#include <ndb/initializer.hpp>
+#include <ndb/engine/sqlite/sqlite.hpp>
 #include <ndb/preprocessor.hpp>
-#include <ndb/line.hpp>
 
 ndb_table(autofill_encrypted,
 		ndb_field_id,

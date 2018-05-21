@@ -874,7 +874,7 @@ void Application::startAfterCrash()
 void Application::connectDatabase()
 {
 	if (m_privateBrowsing)
-		ndb::config(ndb::connection_flag::read_only);
+		ndb::config<dbs::password>(ndb::connection_flag::read_only);
 
 	ndb::connect<dbs::password>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
 
