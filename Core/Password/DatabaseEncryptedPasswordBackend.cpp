@@ -338,7 +338,7 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 
 void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& password)
 {
-	auto& data = ndb::query<dbs::password>() << (autofill_encrypted.id, autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
+	auto& data = ndb::query<dbs::password>() << ((autofill_encrypted.id) << autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
 
 	if (!password.isEmpty()) {
 		AesInterface aesInterface{};
