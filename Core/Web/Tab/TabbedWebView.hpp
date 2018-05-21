@@ -74,6 +74,10 @@ public slots:
 	void setAsCurrentTab();
 	void userLoadAction(const LoadRequest& request);
 
+protected:
+	QImage applyBlur(QImage src, qreal radius, bool quality = true, bool alphaOnly = false, int transposed = 0);
+	void paintEvent(QPaintEvent* event);
+
 private slots:
 	void sLoadStarted();
 	void sLoadProgress(int progress);
