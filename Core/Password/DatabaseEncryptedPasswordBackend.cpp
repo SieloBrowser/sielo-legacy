@@ -160,7 +160,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 void DatabaseEncryptedPasswordBackend::updateLastUsed(PasswordEntry& entry)
 {
 	ndb::query<dbs::password>() >> ((autofill_encrypted.last_used = ndb::now())
-								<< (autofill_encrypted.id = entry.id.toInt()));
+								<< (autofill_encrypted.id == entry.id.toInt()));
 }
 
 void DatabaseEncryptedPasswordBackend::removeEntry(const PasswordEntry& entry)
