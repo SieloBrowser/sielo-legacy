@@ -68,7 +68,7 @@ QVector<PasswordEntry> DatabaseEncryptedPasswordBackend::getEntries(const QUrl& 
 
 
 	if (hasPermission()) {
-		for (auto& data : ndb::oquery<dbs::password>() << (autofill_encrypted.server == host)) {
+		for (auto& data : ndb::oquery<dbs::password>() << (autofill_encrypted.server == host.toStdString())) {
 			if (decryptPasswordEntry(PasswordEntry(data), &aesDecryptor))
 				list.append(PasswordEntry(data));
 		}
@@ -346,7 +346,7 @@ void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& passwo
 
 		m_someDataStoredOnDatabase = aesInterface.encrypt(AesInterface::createRandomData(16), password);
 
-		if (data.count() > 1) {
+		if (data.size() > 1) {
 			ndb::query<dbs::password>()
 					>> ((autofill_encrypted.password_encrypted = QString::fromUtf8(
 							m_someDataStoredOnDatabase).toStdString())
@@ -360,8 +360,8 @@ void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& passwo
 
 		m_stateOfMasterPassword = PasswordIsSetted;
 	}
-	else if (data.count() > 1) {
-		ndb::query() - (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
+	else if (data.size() > 1) {
+		ndb::query<dbs::password>() - (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
 
 		m_stateOfMasterPassword = PasswordIsNotSetted;
 		m_someDataStoredOnDatabase.clear();
@@ -382,7 +382,7 @@ QByteArray DatabaseEncryptedPasswordBackend::someDataFromDatabase()
 		return m_someDataStoredOnDatabase;
 
 	auto& data = ndb::oquery<dbs::password>() << autofill_encrypted;
-	m_someDataStoredOnDatabase = QByteArray::fromStdString(data[data.count() - 1].username_encrypted);
+	//m_someDataStoredOnDatabase = QByteArray::fromStdString(data[data.size() - 1].username_encrypted);
 	return m_someDataStoredOnDatabase;
 /*
 	QSqlQuery query{};
