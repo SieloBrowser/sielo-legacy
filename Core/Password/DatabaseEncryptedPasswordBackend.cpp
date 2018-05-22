@@ -382,7 +382,7 @@ QByteArray DatabaseEncryptedPasswordBackend::someDataFromDatabase()
 	if (m_stateOfMasterPassword != UnknownState && !m_someDataStoredOnDatabase.isEmpty())
 		return m_someDataStoredOnDatabase;
 
-	QByteArray someData{};>
+	QByteArray someData{};
 	auto& query = ndb::query<dbs::password>() << (autofill_encrypted.password_encrypted,
 			autofill_encrypted.data_encrypted,
 			autofill_encrypted.username_encrypted);
