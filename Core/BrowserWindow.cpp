@@ -64,7 +64,6 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 
 #ifdef Q_OS_WIN
 	setWindowFlags(Qt::CustomizeWindowHint);
-	//setWindowFlags(Qt::FramelessWindowHint);
 #endif
 
 	setObjectName(QLatin1String("mainwindow"));
