@@ -41,6 +41,14 @@
 #include <ndb/engine/sqlite/sqlite.hpp>
 #include <ndb/preprocessor.hpp>
 
+ndb_table(autofill,
+		  ndb_field_id,
+		  ndb_field(password, std::string, ndb::size<255>),
+		  ndb_field(username, std::string, ndb::size<255>),
+		  ndb_field(server, std::string, ndb::size<255>),
+		  ndb_field(last_used, std::string, ndb::size<16>)
+)
+
 ndb_table(autofill_encrypted,
 		  ndb_field_id,
 		  ndb_field(data_encrypted, std::string, ndb::size<255>),
@@ -55,11 +63,9 @@ ndb_table(autofill_exceptions,
 		  ndb_field(server, std::string, ndb::size<255>)
 )
 
-ndb_model(password, autofill_encrypted, autofill_exceptions)
+ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)
 
-ndb_project(sielo,
-			ndb_database(password, password, ndb::sqlite)
-)
+ndb_project(sielo, ndb_database(password, password, ndb::sqlite))
 
 namespace dbs {
 using password = ndb::databases::sielo::password_;
