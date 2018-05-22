@@ -29,10 +29,10 @@
 
 #include <QSettings>
 
-#include <QSqlDatabase>
-#include <QSqlQuery>
-
 #include <QMessageBox>
+
+#include <ndb/query.hpp>
+#include <ndb/function.hpp>
 
 #include "Password/PasswordManager.hpp"
 
@@ -45,12 +45,14 @@
 #include "Application.hpp"
 #include "AutoFillNotification.hpp"
 
+constexpr auto& autofill_exceptions = ndb::models::password.autofill_exceptions;
+
 namespace Sn {
 
 AutoFill::AutoFill(QObject* parent) :
-	QObject(parent),
-	m_manager(new PasswordManager(this)),
-	m_isStoring(false)
+		QObject(parent),
+		m_manager(new PasswordManager(this)),
+		m_isStoring(false)
 {
 	loadSettings();
 
@@ -90,16 +92,13 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	QSqlQuery query{};
+	auto& ids = ndb::query<dbs::password>()
+			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server.toStdString()));
 
-	query.prepare("SELECT count(id) FROM autofill_exceptions WHERE server=?");
-	query.addBindValue(server);
-	query.exec();
-
-	if (!query.next())
+	if (ids.has_result())
 		return false;
 
-	return query.value(0).toInt() <= 0;
+	return ids[0][0].get<int>() <= 0;
 }
 
 void AutoFill::blockStoringForUrl(const QUrl& url)
@@ -109,12 +108,7 @@ void AutoFill::blockStoringForUrl(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	QSqlQuery query{};
-
-	query.prepare("INSERT INTO autofill_exceptions (server) VALUES (?)");
-	query.addBindValue(server);
-
-	SqlDatabase::instance()->execAsync(query);
+	ndb::query<dbs::password>() + (autofill_exceptions.server = server.toStdString());
 }
 
 QVector<PasswordEntry> AutoFill::getFormData(const QUrl& url)
@@ -194,7 +188,7 @@ void AutoFill::saveForm(WebPage* page, const QUrl& frameUrl, const PageFormData&
 	if (isStored(frameUrl)) {
 		const QVector<PasswordEntry>& list = getFormData(frameUrl);
 
-			foreach (const PasswordEntry& data, list) {
+				foreach (const PasswordEntry& data, list) {
 				if (data.username == formData.username) {
 					updateData = data;
 					updateLastUsed(updateData);
@@ -227,27 +221,28 @@ QVector<PasswordEntry> AutoFill::completePage(WebPage* page, const QUrl& frameUr
 	list = getFormData(frameUrl);
 
 	if (!list.isEmpty()) {
+		// TODO: move this to scripts
 		QString source = QLatin1String("(function() {"
-										   "var data = '%1'.split('&');"
-										   "var inputs = document.getElementsByTagName('input');"
-										   ""
-										   "for (var i = 0; i < data.length; ++i) {"
-										   "    var pair = data[i].split('=');"
-										   "    if (pair.length != 2)"
-										   "        continue;"
-										   "    var key = decodeURIComponent(pair[0]);"
-										   "    var val = decodeURIComponent(pair[1]);"
-										   "    for (var j = 0; j < inputs.length; ++j) {"
-										   "        var input = inputs[j];"
-										   "        var type = input.type.toLowerCase();"
-										   "        if (type != 'text' && type != 'password' && type != 'email')"
-										   "            continue;"
-										   "        if (input.name == key)"
-										   "            input.value = val;"
-										   "    }"
-										   "}"
-										   ""
-										   "})()");
+									   "var data = '%1'.split('&');"
+									   "var inputs = document.getElementsByTagName('input');"
+									   ""
+									   "for (var i = 0; i < data.length; ++i) {"
+									   "    var pair = data[i].split('=');"
+									   "    if (pair.length != 2)"
+									   "        continue;"
+									   "    var key = decodeURIComponent(pair[0]);"
+									   "    var val = decodeURIComponent(pair[1]);"
+									   "    for (var j = 0; j < inputs.length; ++j) {"
+									   "        var input = inputs[j];"
+									   "        var type = input.type.toLowerCase();"
+									   "        if (type != 'text' && type != 'password' && type != 'email')"
+									   "            continue;"
+									   "        if (input.name == key)"
+									   "            input.value = val;"
+									   "    }"
+									   "}"
+									   ""
+									   "})()");
 		const PasswordEntry entry = list[0];
 		QString data{entry.data};
 
