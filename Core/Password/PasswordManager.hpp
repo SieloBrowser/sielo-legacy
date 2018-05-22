@@ -61,8 +61,18 @@ struct PasswordEntry {
 	PasswordEntry() :
 			updated(-1) {}
 
+	PasswordEntry(ndb::objects::autofill entry) :
+			updated(-1)
+	{
+		id = entry.id;
+		host = QString::fromStdString(entry.server);
+		username = QString::fromStdString(entry.username);
+		password = QString::fromStdString(entry.password);
+		data = QByteArray::fromStdString(entry.data);
+	}
+
 	PasswordEntry(ndb::objects::autofill_encrypted entry) :
-		updated(-1)
+			updated(-1)
 	{
 		id = entry.id;
 		host = QString::fromStdString(entry.server);
