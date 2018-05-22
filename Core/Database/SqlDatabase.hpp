@@ -43,6 +43,7 @@
 
 ndb_table(autofill,
 		  ndb_field_id,
+		  ndb_field(data, std::string, ndb::size<255>),
 		  ndb_field(password, std::string, ndb::size<255>),
 		  ndb_field(username, std::string, ndb::size<255>),
 		  ndb_field(server, std::string, ndb::size<255>),
