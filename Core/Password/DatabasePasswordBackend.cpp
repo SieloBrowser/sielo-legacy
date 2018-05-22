@@ -87,8 +87,6 @@ void DatabasePasswordBackend::addEntry(const PasswordEntry& entry)
 
 bool DatabasePasswordBackend::updateEntry(const PasswordEntry& entry)
 {
-	QSqlQuery query{};
-
 	if (entry.data.isEmpty()) {
 		ndb::query<dbs::password>() >> ((autofill.username = entry.username.toStdString(),
 				autofill.password = entry.password.toStdString())
@@ -101,7 +99,7 @@ bool DatabasePasswordBackend::updateEntry(const PasswordEntry& entry)
 				<< (autofill.id == entry.id.toInt()));
 	}
 
-	return query.exec();
+	return true;
 }
 
 void DatabasePasswordBackend::updateLastUsed(PasswordEntry& entry)

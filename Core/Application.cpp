@@ -32,7 +32,6 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 
-#include <QSqlDatabase>
 #include <QProcess>
 
 #include <QDesktopServices>
@@ -117,7 +116,7 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.14.00"));
-
+/*
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
 		QMessageBox::critical(0,
@@ -126,7 +125,7 @@ Application::Application(int& argc, char** argv) :
 									  "Qt SQLite database plugin is not available. Please install it and restart the application."));
 		return;
 	}
-
+*/
 	// Loading fonts information
 	/*int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
@@ -878,7 +877,7 @@ void Application::connectDatabase()
 
 	ndb::connect<dbs::password>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
 
-	const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
+	/*const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
 
 	if (m_databaseConnected)
 		QSqlDatabase::removeDatabase(QSqlDatabase::database().connectionName());
@@ -901,7 +900,7 @@ void Application::connectDatabase()
 
 	if (!db.open())
 		qWarning() << "Cannot open SQLite database! Continuing without database...";
-
+*/
 	m_databaseConnected = true;
 }
 

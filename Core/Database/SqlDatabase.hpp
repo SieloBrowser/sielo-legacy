@@ -26,17 +26,6 @@
 #ifndef SIELO_BROWSER_SQLDATABASE_HPP
 #define SIELO_BROWSER_SQLDATABASE_HPP
 
-#include <QHash>
-#include <QMutex>
-#include <QFuture>
-
-#include <QThread>
-
-#include <QSqlQuery>
-
-#include <QObject>
-#include <QVariant>
-
 #include <ndb/initializer.hpp>
 #include <ndb/engine/sqlite/sqlite.hpp>
 #include <ndb/preprocessor.hpp>
@@ -70,28 +59,7 @@ ndb_project(sielo, ndb_database(password, password, ndb::sqlite))
 
 namespace dbs {
 using password = ndb::databases::sielo::password_;
-}
 
-
-namespace Sn {
-
-class SqlDatabase : public QObject {
-Q_OBJECT
-
-public:
-	SqlDatabase(QObject* parent = nullptr);
-	~SqlDatabase();
-
-	QSqlDatabase databaseForThread(QThread* thread);
-	QSqlQuery exec(QSqlQuery& query);
-	QFuture<QSqlQuery> execAsync(QSqlQuery& query);
-
-	static SqlDatabase* instance();
-
-private:
-	QHash<QThread*, QSqlDatabase> m_databases;
-	QMutex m_mutex{};
-};
 
 }
 

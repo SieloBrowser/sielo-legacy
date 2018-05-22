@@ -81,6 +81,6 @@ QT5_create_translation(QM_FILES ${SOURCE_FILES} ${TS_FILES})
 
 add_library(Core ${SOURCE_FILES} ../icons.qrc/ ${QM_FILES})
 
-set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::Sql Qt5::WebEngine Qt5::WebEngineWidgets)
+set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
 target_link_libraries(Core LINK_PUBLIC ${SIELO_LIBS})
 target_link_libraries(Core PUBLIC lib_ndb)
