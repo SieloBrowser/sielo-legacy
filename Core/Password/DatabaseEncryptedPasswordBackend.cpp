@@ -118,7 +118,7 @@ void DatabaseEncryptedPasswordBackend::addEntry(const PasswordEntry& entry)
 	if (entry.data.isEmpty()) {
 		auto& data = ndb::query<dbs::password>() << (autofill_encrypted.server == entry.host.toStdString());
 
-		if (data.size() > 1)
+		if (data.has_result())
 			return;
 	}
 
@@ -148,7 +148,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = encryptedEntry.data.toStdString(),
 											 autofill_encrypted.username_encrypted = encryptedEntry.username.toStdString(),
 											 autofill_encrypted.password_encrypted = encryptedEntry.password.toStdString())
-										<< (autofill_encrypted.id == encryptedEntry.id.toInt()));
+					<< (autofill_encrypted.id == encryptedEntry.id.toInt()));
 		}
 
 		//return query.exec();
@@ -161,7 +161,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 void DatabaseEncryptedPasswordBackend::updateLastUsed(PasswordEntry& entry)
 {
 	ndb::query<dbs::password>() >> ((autofill_encrypted.last_used = ndb::now())
-								<< (autofill_encrypted.id == entry.id.toInt()));
+			<< (autofill_encrypted.id == entry.id.toInt()));
 }
 
 void DatabaseEncryptedPasswordBackend::removeEntry(const PasswordEntry& entry)
@@ -331,26 +331,27 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 		}
 
 		ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = data.toStdString(),
-										autofill_encrypted.password_encrypted = password.toStdString(),
-										autofill_encrypted.username_encrypted = username.toStdString())
-									<< (autofill_encrypted.id == id));
+										 autofill_encrypted.password_encrypted = password.toStdString(),
+										 autofill_encrypted.username_encrypted = username.toStdString())
+				<< (autofill_encrypted.id == id));
 	}
 }
 
 void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& password)
 {
-	auto& data = ndb::query<dbs::password>() << ((autofill_encrypted.id) << autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
+	auto& data = ndb::query<dbs::password>()
+			<< ((autofill_encrypted.id) << autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
 
 	if (!password.isEmpty()) {
 		AesInterface aesInterface{};
 
 		m_someDataStoredOnDatabase = aesInterface.encrypt(AesInterface::createRandomData(16), password);
 
-		if (data.size() > 1) {
+		if (data.has_result()) {
 			ndb::query<dbs::password>()
 					>> ((autofill_encrypted.password_encrypted = QString::fromUtf8(
 							m_someDataStoredOnDatabase).toStdString())
-					<< (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString()));
+							<< (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString()));
 		}
 		else {
 			ndb::query<dbs::password>() +
@@ -360,7 +361,7 @@ void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& passwo
 
 		m_stateOfMasterPassword = PasswordIsSetted;
 	}
-	else if (data.size() > 1) {
+	else if (data.has_result()) {
 		ndb::query<dbs::password>() - (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
 
 		m_stateOfMasterPassword = PasswordIsNotSetted;
@@ -381,8 +382,32 @@ QByteArray DatabaseEncryptedPasswordBackend::someDataFromDatabase()
 	if (m_stateOfMasterPassword != UnknownState && !m_someDataStoredOnDatabase.isEmpty())
 		return m_someDataStoredOnDatabase;
 
-	auto& data = ndb::oquery<dbs::password>() << autofill_encrypted;
-	//m_someDataStoredOnDatabase = QByteArray::fromStdString(data[data.size() - 1].username_encrypted);
+	QByteArray someData{};>
+	auto& query = ndb::query<dbs::password>() << (autofill_encrypted.password_encrypted,
+			autofill_encrypted.data_encrypted,
+			autofill_encrypted.username_encrypted);
+
+	if (query.has_result()) {
+		int i{0};
+		int j{0};
+
+		while (someData.isEmpty()) {
+			if (i > 2) {
+				if (query.size() > j) {
+					i = 0;
+					++j;
+					continue;
+				}
+				else
+					break;
+			}
+
+			someData = QByteArray::fromStdString(query[j][i].get<std::string>());
+			++i;
+		}
+	}
+
+	m_someDataStoredOnDatabase = someData;
 	return m_someDataStoredOnDatabase;
 /*
 	QSqlQuery query{};
