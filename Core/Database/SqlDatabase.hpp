@@ -42,30 +42,33 @@
 #include <ndb/preprocessor.hpp>
 
 ndb_table(autofill_encrypted,
-		ndb_field_id,
-		ndb_field(data_encrypted, std::string, ndb::size<255>),
-		ndb_field(password_encrypted, std::string, ndb::size<255>),
-		ndb_field(username_encrypted, std::string, ndb::size<255>),
-		ndb_field(server, std::string, ndb::size<255>),
-		ndb_field(last_used, std::string, ndb::size<16>)
+		  ndb_field_id,
+		  ndb_field(data_encrypted, std::string, ndb::size<255>),
+		  ndb_field(password_encrypted, std::string, ndb::size<255>),
+		  ndb_field(username_encrypted, std::string, ndb::size<255>),
+		  ndb_field(server, std::string, ndb::size<255>),
+		  ndb_field(last_used, std::string, ndb::size<16>)
 )
 
-ndb_model(password, autofill_encrypted)
+ndb_table(autofill_exceptions,
+		  ndb_field_id,
+		  ndb_field(server, std::string, ndb::size<255>)
+)
+
+ndb_model(password, autofill_encrypted, autofill_exceptions)
 
 ndb_project(sielo,
-		ndb_database(password, password, ndb::sqlite)
+			ndb_database(password, password, ndb::sqlite)
 )
 
-namespace dbs
-{
+namespace dbs {
 using password = ndb::databases::sielo::password_;
 }
 
 
-
 namespace Sn {
 
-class SqlDatabase: public QObject {
+class SqlDatabase : public QObject {
 Q_OBJECT
 
 public:
