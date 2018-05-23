@@ -6,15 +6,15 @@ include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2017_64\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
 elseif(WIN32)
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2015\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x86\\")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x86\\")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.10.1/clang_64/")
+    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.0/clang_64/")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
 endif()
@@ -70,7 +70,6 @@ file(
 
 find_package(OpenSSL 1.1.0 REQUIRED)
 find_package(Qt5Widgets 5.8 REQUIRED)
-find_package(Qt5Sql 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
