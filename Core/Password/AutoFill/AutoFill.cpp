@@ -29,88 +29,92 @@
 
 #include <QSettings>
 
-#include <QSqlDatabase>
-#include <QSqlQuery>
-
 #include <QMessageBox>
+
+#include <ndb/query.hpp>
+#include <ndb/function.hpp>
 
 #include "Password/PasswordManager.hpp"
 
+#include "Web/Scripts.hpp"
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
 
-#include "Utils/SqlDatabase.hpp"
+#include "Database/SqlDatabase.hpp"
 
 #include "Application.hpp"
 #include "AutoFillNotification.hpp"
 
+constexpr auto& autofill_exceptions = ndb::models::password.autofill_exceptions;
+
 namespace Sn {
 
 AutoFill::AutoFill(QObject* parent) :
-	QObject(parent),
-	m_manager(new PasswordManager(this)),
-	m_isStoring(false)
+		QObject(parent),
+		m_manager(new PasswordManager(this)),
+		m_isStoring(false)
 {
 	loadSettings();
 
 	QString source = QLatin1String("(function() {"
-									   "function findUsername(inputs) {"
-									   "    for (var i = 0; i < inputs.length; ++i)"
-									   "        if (inputs[i].type == 'text' && inputs[i].value.length && inputs[i].name.indexOf('user') != -1)"
-									   "            return inputs[i].value;"
-									   "    for (var i = 0; i < inputs.length; ++i)"
-									   "        if (inputs[i].type == 'text' && inputs[i].value.length && inputs[i].name.indexOf('name') != -1)"
-									   "            return inputs[i].value;"
-									   "    for (var i = 0; i < inputs.length; ++i)"
-									   "        if (inputs[i].type == 'text' && inputs[i].value.length)"
-									   "            return inputs[i].value;"
-									   "    for (var i = 0; i < inputs.length; ++i)"
-									   "        if (inputs[i].type == 'email' && inputs[i].value.length)"
-									   "            return inputs[i].value;"
-									   "    return '';"
-									   "}"
-									   ""
-									   "function registerForm(form) {"
-									   "    form.addEventListener('submit', function() {"
-									   "        var form = this;"
-									   "        var data = '';"
-									   "        var password = '';"
-									   "        var inputs = form.getElementsByTagName('input');"
-									   "        for (var i = 0; i < inputs.length; ++i) {"
-									   "            var input = inputs[i];"
-									   "            var type = input.type.toLowerCase();"
-									   "            if (type != 'text' && type != 'password' && type != 'email')"
-									   "                continue;"
-									   "            if (!password && type == 'password')"
-									   "                password = input.value;"
-									   "            data += encodeURIComponent(input.name);"
-									   "            data += '=';"
-									   "            data += encodeURIComponent(input.value);"
-									   "            data += '&';"
-									   "        }"
-									   "        if (!password)"
-									   "            return;"
-									   "        data = data.substring(0, data.length - 1);"
-									   "        var url = window.location.href;"
-									   "        var username = findUsername(inputs);"
-									   "        external.autoFill.formSubmitted(url, username, password, data);"
-									   "    }, true);"
-									   "}"
-									   ""
-									   "if (!document.documentElement) return;"
-									   ""
-									   "for (var i = 0; i < document.forms.length; ++i)"
-									   "    registerForm(document.forms[i]);"
-									   ""
-									   "var observer = new MutationObserver(function(mutations) {"
-									   "    for (var i = 0; i < mutations.length; ++i)"
-									   "        for (var j = 0; j < mutations[i].addedNodes.length; ++j)"
-									   "            if (mutations[i].addedNodes[j].tagName == 'form')"
-									   "                registerForm(mutations[i].addedNodes[j]);"
-									   "});"
-									   "observer.observe(document.documentElement, { childList: true });"
-									   ""
-									   "})()");
+		"function findUsername(inputs) {"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'text' && inputs[i].value.length && inputs[i].name.indexOf('user') != -1)"
+		"            return inputs[i].value;"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'text' && inputs[i].value.length && inputs[i].name.indexOf('name') != -1)"
+		"            return inputs[i].value;"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'text' && inputs[i].value.length)"
+		"            return inputs[i].value;"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'email' && inputs[i].value.length)"
+		"            return inputs[i].value;"
+		"    return '';"
+		"}"
+		""
+		"function registerForm(form) {"
+		"    form.addEventListener('submit', function() {"
+		"        var form = this;"
+		"        var data = '';"
+		"        var password = '';"
+		"        var inputs = form.getElementsByTagName('input');"
+		"        for (var i = 0; i < inputs.length; ++i) {"
+		"            var input = inputs[i];"
+		"            var type = input.type.toLowerCase();"
+		"            if (type != 'text' && type != 'password' && type != 'email')"
+		"                continue;"
+		"            if (!password && type == 'password')"
+		"                password = input.value;"
+		"            data += encodeURIComponent(input.name);"
+		"            data += '=';"
+		"            data += encodeURIComponent(input.value);"
+		"            data += '&';"
+		"        }"
+		"        if (!password)"
+		"            return;"
+		"        data = data.substring(0, data.length - 1);"
+		"        var url = window.location.href;"
+		"        var username = findUsername(inputs);"
+		"        external.autoFill.formSubmitted(url, username, password, data);"
+		"    }, true);"
+		"}"
+		""
+		"if (!document.documentElement) return;"
+		""
+		"for (var i = 0; i < document.forms.length; ++i)"
+		"    registerForm(document.forms[i]);"
+		""
+		"var observer = new MutationObserver(function(mutations) {"
+		"    for (var i = 0; i < mutations.length; ++i)"
+		"        for (var j = 0; j < mutations[i].addedNodes.length; ++j)"
+		"            if (mutations[i].addedNodes[j].tagName == 'form')"
+		"                registerForm(mutations[i].addedNodes[j]);"
+		"});"
+		"observer.observe(document.documentElement, { childList: true });"
+		""
+		"})()");
+
 
 	QWebEngineScript script{};
 
@@ -148,16 +152,13 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	QSqlQuery query{};
+	auto& ids = ndb::query<dbs::password>()
+			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server.toStdString()));
 
-	query.prepare("SELECT count(id) FROM autofill_exceptions WHERE server=?");
-	query.addBindValue(server);
-	query.exec();
-
-	if (!query.next())
+	if (!ids.has_result())
 		return false;
 
-	return query.value(0).toInt() <= 0;
+	return ids[0][0].get<int>() <= 0;
 }
 
 void AutoFill::blockStoringForUrl(const QUrl& url)
@@ -167,12 +168,7 @@ void AutoFill::blockStoringForUrl(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	QSqlQuery query{};
-
-	query.prepare("INSERT INTO autofill_exceptions (server) VALUES (?)");
-	query.addBindValue(server);
-
-	SqlDatabase::instance()->execAsync(query);
+	ndb::query<dbs::password>() + (autofill_exceptions.server = server.toStdString());
 }
 
 QVector<PasswordEntry> AutoFill::getFormData(const QUrl& url)
@@ -252,7 +248,7 @@ void AutoFill::saveForm(WebPage* page, const QUrl& frameUrl, const PageFormData&
 	if (isStored(frameUrl)) {
 		const QVector<PasswordEntry>& list = getFormData(frameUrl);
 
-			foreach (const PasswordEntry& data, list) {
+				foreach (const PasswordEntry& data, list) {
 				if (data.username == formData.username) {
 					updateData = data;
 					updateLastUsed(updateData);
@@ -285,27 +281,28 @@ QVector<PasswordEntry> AutoFill::completePage(WebPage* page, const QUrl& frameUr
 	list = getFormData(frameUrl);
 
 	if (!list.isEmpty()) {
+		// TODO: move this to scripts
 		QString source = QLatin1String("(function() {"
-										   "var data = '%1'.split('&');"
-										   "var inputs = document.getElementsByTagName('input');"
-										   ""
-										   "for (var i = 0; i < data.length; ++i) {"
-										   "    var pair = data[i].split('=');"
-										   "    if (pair.length != 2)"
-										   "        continue;"
-										   "    var key = decodeURIComponent(pair[0]);"
-										   "    var val = decodeURIComponent(pair[1]);"
-										   "    for (var j = 0; j < inputs.length; ++j) {"
-										   "        var input = inputs[j];"
-										   "        var type = input.type.toLowerCase();"
-										   "        if (type != 'text' && type != 'password' && type != 'email')"
-										   "            continue;"
-										   "        if (input.name == key)"
-										   "            input.value = val;"
-										   "    }"
-										   "}"
-										   ""
-										   "})()");
+									   "var data = '%1'.split('&');"
+									   "var inputs = document.getElementsByTagName('input');"
+									   ""
+									   "for (var i = 0; i < data.length; ++i) {"
+									   "    var pair = data[i].split('=');"
+									   "    if (pair.length != 2)"
+									   "        continue;"
+									   "    var key = decodeURIComponent(pair[0]);"
+									   "    var val = decodeURIComponent(pair[1]);"
+									   "    for (var j = 0; j < inputs.length; ++j) {"
+									   "        var input = inputs[j];"
+									   "        var type = input.type.toLowerCase();"
+									   "        if (type != 'text' && type != 'password' && type != 'email')"
+									   "            continue;"
+									   "        if (input.name == key)"
+									   "            input.value = val;"
+									   "    }"
+									   "}"
+									   ""
+									   "})()");
 		const PasswordEntry entry = list[0];
 		QString data{entry.data};
 

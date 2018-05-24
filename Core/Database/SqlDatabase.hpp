@@ -22,77 +22,47 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "SqlDatabase.hpp"
+#pragma once
+#ifndef SIELO_BROWSER_SQLDATABASE_HPP
+#define SIELO_BROWSER_SQLDATABASE_HPP
 
-#include <QtConcurrent/QtConcurrentRun>
+#include <ndb/initializer.hpp>
+#include <ndb/engine/sqlite/sqlite.hpp>
+#include <ndb/preprocessor.hpp>
 
-#include <QMutexLocker>
+using Opt_NotNull = ndb::field_option::not_null;
 
-#include <QApplication>
+ndb_table(autofill,
+		  ndb_field_id,
+		  ndb_field(data, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(password, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(username, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
+)
 
-Q_GLOBAL_STATIC(Sn::SqlDatabase, sn_sql_database);
+ndb_table(autofill_encrypted,
+		  ndb_field_id,
+		  ndb_field(data_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(password_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(username_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+		  ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
+)
 
-namespace Sn {
+ndb_table(autofill_exceptions,
+		  ndb_field_id,
+		  ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>)
+)
 
-SqlDatabase* SqlDatabase::instance()
-{
-	return sn_sql_database();
-}
+ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)
 
-SqlDatabase::SqlDatabase(QObject* parent) :
-	QObject(parent)
-{
-	// Empty
-}
+ndb_project(sielo, ndb_database(password, password, ndb::sqlite))
 
-SqlDatabase::~SqlDatabase()
-{
-	QMutableHashIterator<QThread*, QSqlDatabase> i(m_databases);
+namespace dbs {
+using password = ndb::databases::sielo::password_;
 
-	while (i.hasNext()) {
-		i.next();
-		i.value().close();
-	}
-}
-
-QSqlDatabase SqlDatabase::databaseForThread(QThread* thread)
-{
-	QMutexLocker lock{&m_mutex};
-
-	if (!m_databases.contains(thread)) {
-		const QString threadStr{QString::number((quintptr) thread)};
-
-		m_databases[thread] =
-			QSqlDatabase::cloneDatabase(QSqlDatabase::database(), QLatin1String("Sielo/") + threadStr);
-		m_databases[thread].open();
-	}
-
-	Q_ASSERT(m_databases[thread].isOpen());
-
-	return m_databases[thread];
-}
-
-QSqlQuery SqlDatabase::exec(QSqlQuery& query)
-{
-	if (QThread::currentThread() == qApp->thread()) {
-		query.exec();
-		return query;
-	}
-
-	QSqlQuery out{databaseForThread(QThread::currentThread())};
-	out.prepare(query.lastQuery());
-
-	const QList<QVariant> boundValues = query.boundValues().values();
-
-		foreach (const QVariant& variant, boundValues) out.addBindValue(variant);
-
-	out.exec();
-	return query = out;
-}
-
-QFuture<QSqlQuery> SqlDatabase::execAsync(QSqlQuery& query)
-{
-	return QtConcurrent::run(this, &SqlDatabase::exec, query);
-}
 
 }
+
+#endif //SIELO_BROWSER_SQLDATABASE_HPP

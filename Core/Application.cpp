@@ -32,7 +32,6 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 
-#include <QSqlDatabase>
 #include <QProcess>
 
 #include <QDesktopServices>
@@ -47,6 +46,8 @@
 #include <QWebEngineScriptCollection>
 #include <AdBlock/Manager.hpp>
 
+#include <ndb/option.hpp>
+
 #include "BrowserWindow.hpp"
 
 #include "Plugins/PluginProxy.hpp"
@@ -60,6 +61,7 @@
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
+#include "Database/SqlDatabase.hpp"
 #include "Utils/CommandLineOption.hpp"
 #include "Utils/Updater.hpp"
 
@@ -114,8 +116,7 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.14.00"));
-
-	ndb::connect<dbs::password>();
+/*
 	// QSQLITE database plugin is required
 	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
 		QMessageBox::critical(0,
@@ -124,7 +125,7 @@ Application::Application(int& argc, char** argv) :
 									  "Qt SQLite database plugin is not available. Please install it and restart the application."));
 		return;
 	}
-
+*/
 	// Loading fonts information
 	/*int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
@@ -645,7 +646,7 @@ void Application::saveSession(bool saveForHome)
 	stream << m_windows.count();
 
 	// Save tabs of all windows
-			foreach (BrowserWindow * window, m_windows) {
+			foreach (BrowserWindow* window, m_windows) {
 			window->titleBar()->saveToolBarsPositions();
 			stream << window->saveTabs();
 
@@ -871,7 +872,12 @@ void Application::startAfterCrash()
 
 void Application::connectDatabase()
 {
-	const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
+	if (m_privateBrowsing)
+		ndb::config<dbs::password>(ndb::connection_flag::read_only);
+
+	ndb::connect<dbs::password>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
+
+	/*const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
 
 	if (m_databaseConnected)
 		QSqlDatabase::removeDatabase(QSqlDatabase::database().connectionName());
@@ -894,7 +900,7 @@ void Application::connectDatabase()
 
 	if (!db.open())
 		qWarning() << "Cannot open SQLite database! Continuing without database...";
-
+*/
 	m_databaseConnected = true;
 }
 

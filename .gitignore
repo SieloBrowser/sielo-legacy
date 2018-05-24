@@ -37,6 +37,9 @@ Doxyfile
 /doc
 /.idea
 SettingsList.txt
+/vs2017
 .vs/
 build64/
+/cmake-build-debug
+/cmake-build-release
 translations/commands.txt

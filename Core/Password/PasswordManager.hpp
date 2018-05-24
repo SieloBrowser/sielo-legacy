@@ -38,9 +38,16 @@
 #include <QHash>
 #include <QVector>
 
+#include <ndb/query.hpp>
+#include <ndb/preprocessor.hpp>
+
+#include "Database/SqlDatabase.hpp"
+
 namespace Sn {
 class PasswordBackend;
+
 class DatabasePasswordBackend;
+
 class DatabaseEncryptedPasswordBackend;
 
 struct PasswordEntry {
@@ -52,7 +59,27 @@ struct PasswordEntry {
 	int updated{-1};
 
 	PasswordEntry() :
-		updated(-1) {}
+			updated(-1) {}
+
+	PasswordEntry(ndb::objects::autofill entry) :
+			updated(-1)
+	{
+		id = entry.id;
+		host = QString::fromStdString(entry.server);
+		username = QString::fromStdString(entry.username);
+		password = QString::fromStdString(entry.password);
+		data = QByteArray::fromStdString(entry.data);
+	}
+
+	PasswordEntry(ndb::objects::autofill_encrypted entry) :
+			updated(-1)
+	{
+		id = entry.id;
+		host = QString::fromStdString(entry.server);
+		username = QString::fromStdString(entry.username_encrypted);
+		password = QString::fromStdString(entry.password_encrypted);
+		data = QByteArray::fromStdString(entry.data_encrypted);
+	}
 
 	bool isValid() const
 	{
@@ -74,7 +101,7 @@ struct PasswordEntry {
 
 };
 
-class PasswordManager: public QObject {
+class PasswordManager : public QObject {
 Q_OBJECT
 
 public:
@@ -123,6 +150,7 @@ private:
 }
 
 Q_DECLARE_TYPEINFO(Sn::PasswordEntry, Q_MOVABLE_TYPE);
+
 Q_DECLARE_METATYPE(Sn::PasswordEntry);
 
 #endif //SIELO_BROWSER_PASSWORDMANAGER_HPP
