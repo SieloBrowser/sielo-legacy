@@ -80,6 +80,13 @@ QT5_create_translation(QM_FILES ${SOURCE_FILES} ${TS_FILES})
 
 add_library(Core ${SOURCE_FILES} ../icons.qrc/ ${QM_FILES})
 
+foreach(_source IN ITEMS ${SOURCE_FILES})
+    get_filename_component(_source_path "${_source}" PATH)
+    file(RELATIVE_PATH _source_path_rel "${CMAKE_SOURCE_DIR}/Core" "${_source_path}")
+    string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
+    source_group("${_group_path}" FILES "${_source}")
+endforeach()
+
 set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
 target_link_libraries(Core LINK_PUBLIC ${SIELO_LIBS})
 target_link_libraries(Core PUBLIC lib_ndb)
