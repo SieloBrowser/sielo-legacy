@@ -48,8 +48,6 @@
 
 #include "Plugins/PluginProxy.hpp"
 
-#include "Bookmarks/AddBookmarkDialog.hpp"
-
 namespace Sn {
 
 bool WebView::isUrlValide(const QUrl& url)
@@ -485,10 +483,7 @@ void WebView::searchSelectedTextInBgTab()
 
 void WebView::bookmarkLink()
 {
-	AddBookmarkDialog* dialog{ new AddBookmarkDialog(url().toString(), title()) };
-	dialog->setAttribute(Qt::WA_DeleteOnClose);
-
-	dialog->show();
+	//TODO: Manage bookmarks
 }
 
 void WebView::openUrlInSelectedTab()

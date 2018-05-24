@@ -42,6 +42,10 @@
 #include "Web/WebPage.hpp"
 #include "Web/WebHitTestResult.hpp"
 
+QT_BEGIN_NAMESPACE
+extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
+QT_END_NAMESPACE
+
 namespace Sn {
 TabbedWebView::TabbedWebView(WebTab* tab) :
 		WebView(tab),
@@ -120,6 +124,25 @@ void TabbedWebView::setAsCurrentTab()
 void TabbedWebView::userLoadAction(const LoadRequest& request)
 {
 	load(request);
+}
+
+QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alphaOnly, int transposed)
+{
+	QPixmap ret(src.size());
+	QPainter painter(&ret);
+	qt_blurImage(&painter, src, radius, quality, alphaOnly, transposed);
+	return ret.toImage();
+}
+
+void TabbedWebView::paintEvent(QPaintEvent* event)
+{
+	QPainter painter(this);
+	if (m_window->getBackground() != nullptr) {
+		QPoint global_position = mapTo(m_window, QPoint(0, 0));
+		QRect shot_rect(global_position.x(), global_position.y(), width(), height());
+		painter.drawImage(QPoint(), applyBlur(m_window->getBackground()->toImage(), 100), shot_rect);
+	}
+	WebView::paintEvent(event);
 }
 
 void TabbedWebView::sLoadStarted()
