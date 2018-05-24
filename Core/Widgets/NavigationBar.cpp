@@ -205,7 +205,7 @@ void NavigationToolBar::goBack()
 void NavigationToolBar::goBackInNewTab()
 {
 	// TODO: go back in new tab
-	m_tabWidget->addView(m_tabWidget->weTab()->webView()->history()->backItem().url);
+	m_tabWidget->addView(m_tabWidget->weTab()->webView()->history()->backItem().url());
 }
 
 void NavigationToolBar::goForward()

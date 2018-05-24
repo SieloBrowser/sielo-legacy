@@ -596,23 +596,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Password/DatabaseEncryptedPasswordBackend.cpp" line="194"/>
+        <location filename="../Core/Password/DatabaseEncryptedPasswordBackend.cpp" line="197"/>
         <source>Database (encrypted)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="260"/>
-        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="269"/>
+        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
+        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="260"/>
+        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <source>You can&apos;t export password yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="269"/>
+        <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>You can&apos;t import password yet</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1010,55 +1010,55 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="546"/>
+        <location filename="../Core/BrowserWindow.cpp" line="569"/>
         <source>Restore Closed Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="747"/>
-        <location filename="../Core/BrowserWindow.cpp" line="776"/>
+        <location filename="../Core/BrowserWindow.cpp" line="770"/>
+        <location filename="../Core/BrowserWindow.cpp" line="799"/>
         <source>Go Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="749"/>
-        <location filename="../Core/BrowserWindow.cpp" line="777"/>
+        <location filename="../Core/BrowserWindow.cpp" line="772"/>
+        <location filename="../Core/BrowserWindow.cpp" line="800"/>
         <source>Go Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="751"/>
-        <location filename="../Core/BrowserWindow.cpp" line="778"/>
+        <location filename="../Core/BrowserWindow.cpp" line="774"/>
+        <location filename="../Core/BrowserWindow.cpp" line="801"/>
         <source>Go Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="753"/>
-        <location filename="../Core/BrowserWindow.cpp" line="779"/>
+        <location filename="../Core/BrowserWindow.cpp" line="776"/>
+        <location filename="../Core/BrowserWindow.cpp" line="802"/>
         <source>Add Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="755"/>
-        <location filename="../Core/BrowserWindow.cpp" line="780"/>
+        <location filename="../Core/BrowserWindow.cpp" line="778"/>
+        <location filename="../Core/BrowserWindow.cpp" line="803"/>
         <source>Show all Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="757"/>
-        <location filename="../Core/BrowserWindow.cpp" line="781"/>
+        <location filename="../Core/BrowserWindow.cpp" line="780"/>
+        <location filename="../Core/BrowserWindow.cpp" line="804"/>
         <source>Show History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="759"/>
         <location filename="../Core/BrowserWindow.cpp" line="782"/>
+        <location filename="../Core/BrowserWindow.cpp" line="805"/>
         <source>Open New Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="761"/>
-        <location filename="../Core/BrowserWindow.cpp" line="783"/>
+        <location filename="../Core/BrowserWindow.cpp" line="784"/>
+        <location filename="../Core/BrowserWindow.cpp" line="806"/>
         <source>Open New Tab</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2716,12 +2716,12 @@
 <context>
     <name>Sn::TabbedWebView</name>
     <message>
-        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="182"/>
+        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="205"/>
         <source>Show so&amp;urce code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="183"/>
+        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="206"/>
         <source>Show Inspector</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2826,27 +2826,27 @@
 <context>
     <name>Sn::WebPage</name>
     <message>
-        <location filename="../Core/Web/WebPage.cpp" line="178"/>
+        <location filename="../Core/Web/WebPage.cpp" line="179"/>
         <source>JavaScript Alert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebPage.cpp" line="186"/>
+        <location filename="../Core/Web/WebPage.cpp" line="187"/>
         <source>Prevent this page from creating additional dialogues box.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebPage.cpp" line="386"/>
+        <location filename="../Core/Web/WebPage.cpp" line="403"/>
         <source>Sielo is unable to process the &lt;b&gt;%1&lt;/b&gt; protocol. Do you want Sielo to try to open the llink b&gt;%2%&lt;/b&gt; with an external application?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebPage.cpp" line="390"/>
+        <location filename="../Core/Web/WebPage.cpp" line="407"/>
         <source>Remember my action for this protocol</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebPage.cpp" line="391"/>
+        <location filename="../Core/Web/WebPage.cpp" line="408"/>
         <source>Request of an external protocol</source>
         <translation type="unfinished"></translation>
     </message>
