@@ -10,7 +10,7 @@ install:
 
 before_build:
     - mkdir build
-	- cd build
+    - cd build
 
 build_script:
     - cmake -G "NMake Makefiles" ../
