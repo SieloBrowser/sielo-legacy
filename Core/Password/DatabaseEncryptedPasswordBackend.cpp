@@ -69,8 +69,9 @@ QVector<PasswordEntry> DatabaseEncryptedPasswordBackend::getEntries(const QUrl& 
 
 	if (hasPermission()) {
 		for (auto& data : ndb::oquery<dbs::password>() << (autofill_encrypted.server == host.toStdString())) {
-			if (decryptPasswordEntry(PasswordEntry(data), &aesDecryptor))
-				list.append(PasswordEntry(data));
+			PasswordEntry entry{ data };
+			if (decryptPasswordEntry(entry, &aesDecryptor))
+				list.append(entry);
 		}
 	}
 
@@ -87,8 +88,9 @@ QVector<PasswordEntry> DatabaseEncryptedPasswordBackend::getAllEntries()
 			if (QString::fromStdString(data.server) == INTERNAL_SERVER_ID)
 				continue;
 
-			if (decryptPasswordEntry(PasswordEntry(data), &aesDecryptor))
-				list.append(PasswordEntry(data));
+			PasswordEntry entry{ data };
+			if (decryptPasswordEntry(entry, &aesDecryptor))
+				list.append(entry);
 		}
 	}
 
@@ -116,7 +118,7 @@ void DatabaseEncryptedPasswordBackend::setActive(bool active)
 void DatabaseEncryptedPasswordBackend::addEntry(const PasswordEntry& entry)
 {
 	if (entry.data.isEmpty()) {
-		auto& data = ndb::query<dbs::password>() << (autofill_encrypted.server == entry.host.toStdString());
+		auto& data = ndb::query<dbs::password>() << ((autofill_encrypted.username_encrypted) << (autofill_encrypted.server == entry.host.toStdString()));
 
 		if (data.has_result())
 			return;
@@ -128,6 +130,7 @@ void DatabaseEncryptedPasswordBackend::addEntry(const PasswordEntry& entry)
 	if (hasPermission() && encryptPasswordEntry(encryptedEntry, &aesEncryptor)) {
 		ndb::query<dbs::password>() + (autofill_encrypted.server = encryptedEntry.host.toStdString(),
 									   autofill_encrypted.data_encrypted = encryptedEntry.data.toStdString(),
+									   autofill_encrypted.password_encrypted = encryptedEntry.password.toStdString(),
 									   autofill_encrypted.username_encrypted = encryptedEntry.username.toStdString(),
 									   autofill_encrypted.last_used = ndb::now());
 	}
@@ -250,7 +253,7 @@ bool DatabaseEncryptedPasswordBackend::isPasswordVerified(const QByteArray& pass
 	return false;
 }
 
-bool DatabaseEncryptedPasswordBackend::decryptPasswordEntry(PasswordEntry entry, AesInterface* aesInterface)
+bool DatabaseEncryptedPasswordBackend::decryptPasswordEntry(PasswordEntry& entry, AesInterface* aesInterface)
 {
 	entry.username = QString::fromUtf8(aesInterface->decrypt(entry.username.toUtf8(), m_masterPassword));
 	entry.password = QString::fromUtf8(aesInterface->decrypt(entry.password.toUtf8(), m_masterPassword));
@@ -259,7 +262,7 @@ bool DatabaseEncryptedPasswordBackend::decryptPasswordEntry(PasswordEntry entry,
 	return aesInterface->isOk();
 }
 
-bool DatabaseEncryptedPasswordBackend::encryptPasswordEntry(PasswordEntry entry, AesInterface* aesInterface)
+bool DatabaseEncryptedPasswordBackend::encryptPasswordEntry(PasswordEntry& entry, AesInterface* aesInterface)
 {
 	entry.username = QString::fromUtf8(aesInterface->encrypt(entry.username.toUtf8(), m_masterPassword));
 	entry.password = QString::fromUtf8(aesInterface->encrypt(entry.password.toUtf8(), m_masterPassword));
@@ -340,33 +343,36 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& password)
 {
 	auto& data = ndb::query<dbs::password>()
-			<< ((autofill_encrypted.id) << autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
+			<< ((autofill_encrypted.id) << (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString()));
 
-	if (!password.isEmpty()) {
-		AesInterface aesInterface{};
+		if (!password.isEmpty()) {
+			AesInterface aesInterface{};
 
-		m_someDataStoredOnDatabase = aesInterface.encrypt(AesInterface::createRandomData(16), password);
+			m_someDataStoredOnDatabase = aesInterface.encrypt(AesInterface::createRandomData(16), password);
 
-		if (data.has_result()) {
-			ndb::query<dbs::password>()
+			if (data.has_result()) {
+				ndb::query<dbs::password>()
 					>> ((autofill_encrypted.password_encrypted = QString::fromUtf8(
-							m_someDataStoredOnDatabase).toStdString())
-							<< (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString()));
-		}
-		else {
-			ndb::query<dbs::password>() +
-			(autofill_encrypted.password_encrypted = QString::fromUtf8(m_someDataStoredOnDatabase).toStdString(),
-					autofill_encrypted.server = INTERNAL_SERVER_ID.toStdString());
-		}
+						m_someDataStoredOnDatabase).toStdString())
+						<< (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString()));
+			}
+			else {
+				ndb::query<dbs::password>() +
+					(autofill_encrypted.data_encrypted = "",
+						autofill_encrypted.password_encrypted = QString::fromUtf8(m_someDataStoredOnDatabase).toStdString(),
+						autofill_encrypted.username_encrypted = "",
+						autofill_encrypted.server = INTERNAL_SERVER_ID.toStdString(),
+						autofill_encrypted.last_used = 0);
+			}
 
-		m_stateOfMasterPassword = PasswordIsSetted;
-	}
-	else if (data.has_result()) {
-		ndb::query<dbs::password>() - (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
+			m_stateOfMasterPassword = PasswordIsSetted;
+		}
+		else if (data.has_result()) {
+			ndb::query<dbs::password>() - (autofill_encrypted.server == INTERNAL_SERVER_ID.toStdString());
 
-		m_stateOfMasterPassword = PasswordIsNotSetted;
-		m_someDataStoredOnDatabase.clear();
-	}
+			m_stateOfMasterPassword = PasswordIsNotSetted;
+			m_someDataStoredOnDatabase.clear();
+		}
 }
 
 void DatabaseEncryptedPasswordBackend::showMasterPasswordDialog()

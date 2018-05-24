@@ -56,13 +56,73 @@ AutoFill::AutoFill(QObject* parent) :
 {
 	loadSettings();
 
+	QString source = QLatin1String("(function() {"
+		"function findUsername(inputs) {"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'text' && inputs[i].value.length && inputs[i].name.indexOf('user') != -1)"
+		"            return inputs[i].value;"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'text' && inputs[i].value.length && inputs[i].name.indexOf('name') != -1)"
+		"            return inputs[i].value;"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'text' && inputs[i].value.length)"
+		"            return inputs[i].value;"
+		"    for (var i = 0; i < inputs.length; ++i)"
+		"        if (inputs[i].type == 'email' && inputs[i].value.length)"
+		"            return inputs[i].value;"
+		"    return '';"
+		"}"
+		""
+		"function registerForm(form) {"
+		"    form.addEventListener('submit', function() {"
+		"        var form = this;"
+		"        var data = '';"
+		"        var password = '';"
+		"        var inputs = form.getElementsByTagName('input');"
+		"        for (var i = 0; i < inputs.length; ++i) {"
+		"            var input = inputs[i];"
+		"            var type = input.type.toLowerCase();"
+		"            if (type != 'text' && type != 'password' && type != 'email')"
+		"                continue;"
+		"            if (!password && type == 'password')"
+		"                password = input.value;"
+		"            data += encodeURIComponent(input.name);"
+		"            data += '=';"
+		"            data += encodeURIComponent(input.value);"
+		"            data += '&';"
+		"        }"
+		"        if (!password)"
+		"            return;"
+		"        data = data.substring(0, data.length - 1);"
+		"        var url = window.location.href;"
+		"        var username = findUsername(inputs);"
+		"        external.autoFill.formSubmitted(url, username, password, data);"
+		"    }, true);"
+		"}"
+		""
+		"if (!document.documentElement) return;"
+		""
+		"for (var i = 0; i < document.forms.length; ++i)"
+		"    registerForm(document.forms[i]);"
+		""
+		"var observer = new MutationObserver(function(mutations) {"
+		"    for (var i = 0; i < mutations.length; ++i)"
+		"        for (var j = 0; j < mutations[i].addedNodes.length; ++j)"
+		"            if (mutations[i].addedNodes[j].tagName == 'form')"
+		"                registerForm(mutations[i].addedNodes[j]);"
+		"});"
+		"observer.observe(document.documentElement, { childList: true });"
+		""
+		"})()");
+
+
 	QWebEngineScript script{};
 
 	script.setName(QStringLiteral("_sielo_autofill"));
 	script.setInjectionPoint(QWebEngineScript::DocumentReady);
 	script.setWorldId(QWebEngineScript::MainWorld);
 	script.setRunsOnSubFrames(true);
-	script.setSourceCode(Scripts::autoFill());
+	script.setSourceCode(source);
 
 	Application::instance()->webProfile()->scripts()->insert(script);
 }
@@ -95,7 +155,7 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 	auto& ids = ndb::query<dbs::password>()
 			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server.toStdString()));
 
-	if (ids.has_result())
+	if (!ids.has_result())
 		return false;
 
 	return ids[0][0].get<int>() <= 0;
