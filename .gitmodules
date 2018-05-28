@@ -1,3 +1,0 @@
-[submodule "third-party/ndb"]
-	path = third-party/ndb
-	url = https://github.com/ads00/ndb.git
