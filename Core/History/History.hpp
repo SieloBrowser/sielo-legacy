@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,81 +22,88 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "HistoryMenu.hpp"
+#pragma once
+#ifndef SIELOBROWSER_History_HPP
+#define SIELOBROWSER_History_HPP
 
+#include <QObject>
 
-#include "History/HistoryManager.hpp"
-#include "History/HistoryDialog.hpp"
-#include "History/HistoryMenuModel.hpp"
-#include "HistoryModel.hpp"
+#include <QUrl>
+#include <QString>
+#include <QVector>
+#include <QDateTime>
 
-#include "Application.hpp"
+#include "Database/SqlDatabase.hpp"
 
-namespace Sn {
-
-HistoryMenu::HistoryMenu(QWidget* parent) :
-	ModelMenu(parent)
+namespace Sn
 {
-	connect(this, &ModelMenu::activated, this, &HistoryMenu::activated);
+class WebView;
 
-	setHoverRole(HistoryModel::UrlStringRole);
+class HistoryModel;
+
+class History: public QObject {
+Q_OBJECT
+
+public:
+	History(QObject* parent);
+	~History();
+
+	struct HistoryEntry {
+		int id;
+		int count;
+		QDateTime date;
+		QUrl url;
+		QString urlString;
+		QString title;
+
+		HistoryEntry() {}
+
+		HistoryEntry(ndb::objects::history entry)
+		{
+			id = entry.id;
+			count = entry.count;
+			date = QDateTime::fromMSecsSinceEpoch(entry.date);
+			url = QUrl(QString::fromStdString(entry.url));
+			urlString = QUrl(QString::fromStdString(entry.url)).toEncoded();
+			title = QString::fromStdString(entry.title);
+		}
+	};
+
+	HistoryModel *model();
+
+	void addHistoryEntry(WebView* view);
+	void addHistoryEntry(const QUrl& url, QString title);
+
+	void deleteHistoryEntry(int index);
+	void deleteHistoryEntry(const QList<int>& list);
+	void deleteHistoryEntry(const QString& url, const QString& title);
+
+	QList<int> indexesFromTimeRange(qint64 start, qint64 end);
+
+	bool urlIsStored(const QString& url);
+
+	QVector<HistoryEntry> mostVisited(int count);
+
+	void clearHistory();
+	bool isSaving() const { return m_isSaving; }
+	void setSaving(bool state);
+
+	void loadSettings();
+
+	static QString titleCaseLocalizedMonth(int month);
+
+signals:
+	void historyEntryAdded(const HistoryEntry& entry);
+	void historyEntryDeleted(const HistoryEntry& entry);
+	void historyEntryEdited(const HistoryEntry& before, const HistoryEntry& after);
+
+	void resetHistory();
+
+private:
+	bool m_isSaving{true};
+
+	HistoryModel* m_model{nullptr};
+};
 }
 
-void HistoryMenu::setInitialActions(QList<QAction*> actions)
-{
-	m_initialActions = actions;
-
-	for (int i{0}; i < m_initialActions.count(); ++i)
-		addAction(m_initialActions[i]);
-}
-
-bool HistoryMenu::prePopulated()
-{
-	if (!m_history) {
-		m_history = Application::instance()->historyManager();
-		m_historyMenuModel = new HistoryMenuModel(m_history->historyTreeModel(), this);
-
-		setModel(m_historyMenuModel);
-	}
-
-	for (int i{0}; i < m_initialActions.count(); ++i)
-		addAction(m_initialActions[i]);
-
-	if (!m_initialActions.isEmpty())
-		addSeparator();
-
-	setFirstSeparator(m_historyMenuModel->bumpedRows());
-
-	return false;
-}
-
-void HistoryMenu::postPopulated()
-{
-	if (m_history->history().count() > 0)
-		addSeparator();
-
-	QAction* showAllAction{new QAction(Application::getAppIcon("history"), tr("Show All History"), this)};
-	QAction* clearAction{new QAction(tr("Clear History"), this)};
-
-	connect(showAllAction, &QAction::triggered, this, &HistoryMenu::showHistoryDialog);
-	connect(clearAction, &QAction::triggered, m_history, &HistoryManager::clear);
-
-	addAction(showAllAction);
-	addAction(clearAction);
-}
-
-void HistoryMenu::activated(const QModelIndex& index)
-{
-	emit openUrl(index.data(HistoryModel::UrlRole).toUrl());
-}
-
-void HistoryMenu::showHistoryDialog()
-{
-	HistoryDialog* dialog{new HistoryDialog(this)};
-
-	connect(dialog, SIGNAL(openUrl(QUrl)), this, SIGNAL(openUrl(QUrl)));
-
-	dialog->show();
-}
-
-}
+#endif //SIELOBROWSER_History_HPP
