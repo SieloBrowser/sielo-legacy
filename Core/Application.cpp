@@ -872,10 +872,13 @@ void Application::startAfterCrash()
 
 void Application::connectDatabase()
 {
-	if (m_privateBrowsing)
+	if (m_privateBrowsing) {
 		ndb::config<dbs::password>(ndb::connection_flag::read_only);
+		ndb::config<dbs::navigation>(ndb::connection_flag::read_only);
+	}
 
 	ndb::connect<dbs::password>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
+	ndb::connect<dbs::navigation>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
 
 	/*const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
 

@@ -32,37 +32,49 @@
 
 using Opt_NotNull = ndb::field_option::not_null;
 
+// Password
 ndb_table(autofill,
-		  ndb_field_id,
-		  ndb_field(data, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(password, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(username, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
+	ndb_field_id,
+	ndb_field(data, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(password, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(username, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
 )
 
 ndb_table(autofill_encrypted,
-		  ndb_field_id,
-		  ndb_field(data_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(password_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(username_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-		  ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
+	ndb_field_id,
+	ndb_field(data_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(password_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(username_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
 )
 
 ndb_table(autofill_exceptions,
-		  ndb_field_id,
-		  ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>)
+	ndb_field_id,
+	ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>)
 )
 
 ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)
 
-ndb_project(sielo, ndb_database(password, password, ndb::sqlite))
+// History and Bookmarks (called "Navigation")
+ndb_table(history,
+	ndb_field_id,
+	ndb_field(title, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(url, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(date, long long, ndb::option<Opt_NotNull>),
+	ndb_field(count, int, ndb::option<Opt_NotNull>)
+)
 
-namespace dbs {
+ndb_model(navigation, history)
+
+ndb_project(sielo, ndb_database(password, password, ndb::sqlite), ndb_database(navigation, navigation, ndb::sqlite))
+
+namespace dbs
+{
 using password = ndb::databases::sielo::password_;
-
-
+using navigation = ndb::databases::sielo::navigation_;
 }
 
 #endif //SIELO_BROWSER_SQLDATABASE_HPP
