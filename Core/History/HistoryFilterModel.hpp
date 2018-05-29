@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,53 +23,39 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_HISTORYFILTERMODEL_HPP
-#define SIELOBROWSER_HISTORYFILTERMODEL_HPP
+#ifndef SIELOBROWSER_HistoryFilterModel_HPP
+#define SIELOBROWSER_HistoryFilterModel_HPP
 
-#include <QModelIndex>
-
-#include <QAbstractProxyModel>
+#include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
 
-#include <QList>
-#include <QHash>
+#include <QTimer>
 
-namespace Sn {
-
-class HistoryFilterModel: public QAbstractProxyModel {
+namespace Sn
+{
+class HistoryFilterModel: public QSortFilterProxyModel {
 Q_OBJECT
 
 public:
-	HistoryFilterModel(QAbstractItemModel* sourceModel, QObject* parent = nullptr);
+	HistoryFilterModel(QAbstractItemModel* parent);
 
-	inline bool historyContains(const QString& url) const
-	{
-		load();
-		return m_historyHash.contains(url);
-	}
+signals:
+	void expandAllItems();
+	void collapseAllItems();
 
-	QModelIndex mapFromSource(const QModelIndex& sourceIndex) const;
-	QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
-	void setSourceModel(QAbstractItemModel* newSourceModel);
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const;
-	int columnCount(const QModelIndex& parent = QModelIndex()) const;
-	QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
-	QModelIndex parent(const QModelIndex& index = QModelIndex()) const;
-	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
+public slots:
+	void setFilterFixedString(const QString& pattern);
+
+protected:
+	bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const;
 
 private slots:
-	void sourceReset();
-	void sourceDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
-	void sourceRowsInserted(const QModelIndex& parent, int start, int end);
-	void sourceRowsRemoved(const QModelIndex& index, int start, int end);
+	void startFiltering();
 
 private:
-	void load() const;
-
-	mutable QList<int> m_sourceRow{};
-	mutable QHash<QString, int> m_historyHash{};
-	mutable bool m_loaded{false};
+	QString m_pattern{};
+	QTimer* m_filterTimer{nullptr};
 };
 }
-#endif //SIELOBROWSER_HISTORYFILTERMODEL_HPP
+
+#endif //SIELOBROWSER_HistoryFilterModel_HPP
