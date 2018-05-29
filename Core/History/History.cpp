@@ -144,7 +144,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 		int id{oquery[0].id};
 		int count{oquery[0].count};
 		QDateTime date{QDateTime::fromMSecsSinceEpoch(oquery[0].date)};
-		QString oldTitle{oquery[0].title};
+		QString oldTitle{QString::fromStdString(oquery[0].title)};
 
 		ndb::query<dbs::navigation>() >> (
 			(
@@ -203,7 +203,7 @@ void History::deleteHistoryEntry(const QString& url, const QString& title)
 		title.toStdString()));
 
 	if (query.has_result()) {
-		int id = query[0].id;
+		int id = query[0][history.id];
 		deleteHistoryEntry(id);
 	}
 }
@@ -216,7 +216,7 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 		return list;
 
 	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(history.date, end, start)))
-		list.append(data.id);
+		list.append(data[history.id]);
 
 	return list;
 }

@@ -1677,74 +1677,109 @@
     </message>
 </context>
 <context>
-    <name>Sn::HistoryDialog</name>
+    <name>Sn::History</name>
     <message>
-        <location filename="../Core/History/HistoryDialog.cpp" line="102"/>
-        <source>History</source>
+        <location filename="../Core/History/History.cpp" line="44"/>
+        <source>January</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryDialog.cpp" line="114"/>
-        <source>&amp;Remove</source>
+        <location filename="../Core/History/History.cpp" line="46"/>
+        <source>February</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryDialog.cpp" line="115"/>
-        <source>Remove &amp;All</source>
+        <location filename="../Core/History/History.cpp" line="48"/>
+        <source>March</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryDialog.cpp" line="142"/>
-        <source>Open</source>
+        <location filename="../Core/History/History.cpp" line="50"/>
+        <source>April</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryDialog.cpp" line="144"/>
-        <source>Copy</source>
+        <location filename="../Core/History/History.cpp" line="52"/>
+        <source>May</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryDialog.cpp" line="146"/>
-        <source>Delete</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Sn::HistoryMenu</name>
-    <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="78"/>
-        <source>Show All History</source>
+        <location filename="../Core/History/History.cpp" line="54"/>
+        <source>June</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="79"/>
-        <source>Clear History</source>
+        <location filename="../Core/History/History.cpp" line="56"/>
+        <source>July</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/History.cpp" line="58"/>
+        <source>August</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/History.cpp" line="60"/>
+        <source>September</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/History.cpp" line="62"/>
+        <source>October</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/History.cpp" line="64"/>
+        <source>November</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/History.cpp" line="66"/>
+        <source>December</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/History.cpp" line="119"/>
+        <source>Empty page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Sn::HistoryModel</name>
     <message>
-        <location filename="../Core/History/HistoryModel.cpp" line="53"/>
+        <location filename="../Core/History/HistoryModel.cpp" line="66"/>
+        <location filename="../Core/History/HistoryModel.cpp" line="323"/>
         <source>Title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryModel.cpp" line="55"/>
+        <location filename="../Core/History/HistoryModel.cpp" line="68"/>
         <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>Sn::HistoryTreeModel</name>
     <message>
-        <location filename="../Core/History/HistoryTreeModel.cpp" line="53"/>
-        <source>Earlier Today</source>
+        <location filename="../Core/History/HistoryModel.cpp" line="70"/>
+        <source>Visit Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryTreeModel.cpp" line="57"/>
-        <source>%1 items</source>
+        <location filename="../Core/History/HistoryModel.cpp" line="72"/>
+        <source>Visit Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/HistoryModel.cpp" line="434"/>
+        <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/HistoryModel.cpp" line="438"/>
+        <source>This Week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/History/HistoryModel.cpp" line="442"/>
+        <source>This Month</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -422,7 +422,7 @@ void HistoryModel::init()
 	const QDate month{QDate(today.year(), today.month(), 1)};
 	const qint64 currentTimestamp{QDateTime::currentMSecsSinceEpoch()};
 
-	quint64 timestamp{currentTimestamp};
+	qint64 timestamp{currentTimestamp};
 
 	while (timestamp > minTimestamp) {
 		QDate timestampDate{QDateTime::fromMSecsSinceEpoch(timestamp).date()};
