@@ -43,7 +43,6 @@
 
 #include <QHeaderView>
 
-#include "History/HistoryManager.hpp"
 #include "History/HistoryItem.hpp"
 
 #include "Utils/AddressCompletionModel.hpp"
@@ -471,20 +470,6 @@ QString AddressBar::urlToText(const QUrl& url)
 
 	return stringUrl;
 
-}
-
-SideWidget::SideWidget(QWidget* parent) :
-		QWidget(parent)
-{
-	setCursor(Qt::ArrowCursor);
-}
-
-bool SideWidget::event(QEvent* event)
-{
-	if (event->type() == QEvent::LayoutRequest)
-			emit sizeHintChanged();
-
-	return QWidget::event(event);
 }
 
 AddressBar::AddressBar(BrowserWindow* window) :

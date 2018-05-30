@@ -116,18 +116,7 @@ private:
 	QStandardItemModel* m_sourceModel;
 };
 
-class SideWidget: public QWidget {
-Q_OBJECT
 
-public:
-	SideWidget(QWidget* parent = nullptr);
-
-signals:
-	void sizeHintChanged();
-
-protected:
-	bool event(QEvent* event);
-};
 
 class AddressBar: public QLineEdit {
 Q_OBJECT
