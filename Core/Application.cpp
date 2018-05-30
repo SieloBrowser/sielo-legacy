@@ -56,7 +56,7 @@
 
 #include "Cookies/CookieJar.hpp"
 
-#include "History/HistoryManager.hpp"
+#include "History/History.hpp"
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Download/DownloadManager.hpp"
 
@@ -108,7 +108,7 @@ Application::Application(int& argc, char** argv) :
 		m_plugins(nullptr),
 		m_autoFill(nullptr),
 		m_cookieJar(nullptr),
-		m_historyManager(nullptr),
+		m_history(nullptr),
 		m_networkManager(nullptr),
 		m_webProfile(nullptr)
 {
@@ -293,7 +293,6 @@ Application::~Application()
 
 	delete m_plugins;
 	delete m_cookieJar;
-	delete m_historyManager;
 	delete m_downloadManager;
 }
 
@@ -627,7 +626,7 @@ void Application::saveSettings()
 	bool deleteCookies{settings.value("Cookie-Settings/deleteCookiesOnClose", false).toBool()};
 
 	if (deleteHistory)
-		m_historyManager->clear();
+		m_history->clearHistory();
 	if (deleteCookies)
 		m_cookieJar->deleteAllCookies();
 
@@ -812,12 +811,12 @@ CookieJar* Application::cookieJar()
 	return m_cookieJar;
 }
 
-HistoryManager* Application::historyManager()
+History* Application::history()
 {
-	if (!m_historyManager)
-		m_historyManager = new HistoryManager();
+	if (!m_history)
+		m_history = new History(this);
 
-	return m_historyManager;
+	return m_history;
 }
 
 BookmarksManager* Application::bookmarksManager()

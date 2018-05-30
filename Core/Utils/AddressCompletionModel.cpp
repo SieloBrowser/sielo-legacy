@@ -35,7 +35,7 @@
 #include <QList>
 #include <QtWidgets/QMessageBox>
 
-#include "History/HistoryManager.hpp"
+#include "History/History.hpp"
 
 #include "Application.hpp"
 

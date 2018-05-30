@@ -44,7 +44,7 @@
 #include "Web/WebInspector.hpp"
 #include "Web/Scripts.hpp"
 
-#include "History/HistoryManager.hpp"
+#include "History/History.hpp"
 
 #include "Plugins/PluginProxy.hpp"
 
@@ -411,9 +411,10 @@ void WebView::sLoadProgress(int progress)
 
 void WebView::sLoadFinished(bool ok)
 {
-	Q_UNUSED(ok);
-
 	m_progress = 100;
+
+	if (ok)
+		Application::instance()->history()->addHistoryEntry(this);
 }
 
 void WebView::sUrlChanged(const QUrl& url)

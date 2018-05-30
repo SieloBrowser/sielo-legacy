@@ -45,7 +45,7 @@ namespace Sn {
 class AutoFill;
 class CookieJar;
 class PluginProxy;
-class HistoryManager;
+class History;
 class BookmarksManager;
 class DownloadManager;
 class HTML5PermissionsManager;
@@ -194,7 +194,7 @@ public:
 	PluginProxy* plugins() const { return m_plugins; }
 	AutoFill* autoFill() const { return m_autoFill; }
 	CookieJar* cookieJar();
-	HistoryManager* historyManager();
+	History* history();
 	BookmarksManager* bookmarksManager();
 	DownloadManager* downloadManager();
 	HTML5PermissionsManager* permissionsManager();
@@ -299,7 +299,7 @@ private:
 	PluginProxy* m_plugins{nullptr};
 	AutoFill* m_autoFill{nullptr};
 	CookieJar* m_cookieJar{nullptr};
-	HistoryManager* m_historyManager{nullptr};
+	History* m_history{nullptr};
 	BookmarksManager* m_bookmarksManager{nullptr};
 	DownloadManager* m_downloadManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};

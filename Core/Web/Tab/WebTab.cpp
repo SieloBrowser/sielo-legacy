@@ -37,8 +37,6 @@
 
 #include "Bookmarks/BookmarkManager.hpp"
 
-#include "History/HistoryManager.hpp"
-
 #include "Widgets/FloatingButton.hpp"
 #include "Widgets/AddressBar.hpp"
 #include "Widgets/SearchToolBar.hpp"
