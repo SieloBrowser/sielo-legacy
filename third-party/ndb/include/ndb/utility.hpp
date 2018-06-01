@@ -213,6 +213,16 @@ namespace ndb
     {
         detail::for_each_impl(std::index_sequence_for<Ts...>{}, std::forward<F>(f), std::forward<Ts>(args)...);
     }
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////             NAMES              ////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    template<class T>
+    std::string name(const T&)
+    {
+        if constexpr (ndb::is_field<T>) return "F" + std::to_string(ndb::field_id<T>);
+        else return "T" + std::to_string(ndb::table_id<T>);
+    }
 } // ndb
 
 #endif // UTILITY_H_NDB

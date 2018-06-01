@@ -29,6 +29,15 @@ namespace ndb
     template<> struct engine_type_id<sqlite, byte_array_> { static constexpr auto value = SQLITE_BLOB; };
 
 
+    template<class T>
+    struct is_native_type<sqlite, T>
+    {
+        static constexpr bool value = std::is_same_v<std::decay_t<T>, int>
+                                      || std::is_same_v<std::decay_t<T>, double>
+                                      || std::is_same_v<std::decay_t<T>, std::string>
+                                      || std::is_same_v<std::decay_t<T>, std::vector<char>>;
+    };
+
 
 /*
     // associate custom type to native type

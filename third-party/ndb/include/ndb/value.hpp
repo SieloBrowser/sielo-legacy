@@ -2,12 +2,11 @@
 #define VALUE_H_NDB
 
 #include <ndb/error.hpp>
+#include <ndb/type.hpp>
 
 #include <string>
 #include <vector>
 #include <variant>
-
-#include <ndb/engine/type.hpp>
 
 namespace ndb
 {

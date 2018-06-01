@@ -1,8 +1,9 @@
 #ifndef LINE_H_NDB
 #define LINE_H_NDB
 
-#include <ndb/engine/type.hpp>
+#include <ndb/type.hpp>
 #include <ndb/utility.hpp>
+#include <ndb/engine/type.hpp>
 #include <ndb/error.hpp>
 #include <ndb/value.hpp>
 #include <unordered_map>
@@ -17,7 +18,7 @@ namespace ndb
         void add(int field_id, ndb::value field_value)
         {
             // value accessible by field
-            if (field_id >= 0) value_index_.emplace(field_id, values_.size());
+            if (field_id >= 0) value_index_.emplace(field_id, static_cast<unsigned int>(values_.size()));
             values_.emplace_back(std::move(field_value));
         }
 
@@ -36,7 +37,7 @@ namespace ndb
             using Engine = typename Database::engine;
             using native_type = ndb::native_type<typename Field::value_type, Database>;
 
-            constexpr auto b = Engine::template is_native<Field_value_type>; // msvc crash, separate in 2 lines
+            constexpr auto b = ndb::is_native_type_v<Engine, Field_value_type>; // msvc crash, separate in 2 lines
             if constexpr (b)
             {
                 if (value.is_null()) return value_if_null;
@@ -66,7 +67,7 @@ namespace ndb
             using native_type = ndb::native_type<typename Field::value_type, Database>;
             using value_type = typename Field::value_type;
 
-            constexpr auto b = Engine::template is_native<value_type>; // msvc crash, separate in 2 lines
+            constexpr auto b = ndb::is_native_type_v<Engine, value_type>; // msvc crash, separate in 2 lines
             if constexpr (b)
             {
                 return value.get<native_type>();
@@ -76,7 +77,7 @@ namespace ndb
 
     private:
         std::vector<ndb::value> values_;
-        std::unordered_map<unsigned, unsigned> value_index_;
+        std::unordered_map<unsigned int, unsigned int> value_index_;
     };
 } // ndb
 
