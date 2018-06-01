@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Widgets/AddressBar.hpp"
+#include "AddressBar.hpp"
 
 #include <QSpacerItem>
 #include <QMenu>

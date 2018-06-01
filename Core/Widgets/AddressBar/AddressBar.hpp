@@ -62,23 +62,6 @@ class SiteIcon;
 
 class AddressBar;
 
-class AddressDelegate final: public QStyledItemDelegate {
-Q_OBJECT
-
-public:
-	explicit AddressDelegate(const QString& highlight, QObject* parent = nullptr);
-
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const Q_DECL_OVERRIDE;
-
-protected:
-	QString highlightText(const QString& text, QString html = QString()) const;
-	int calculateLength(const QStyleOptionViewItem& option, const QString& text, int length = 0) const;
-
-private:
-	QString m_highlight;
-};
-
 class PopupViewWidget: public QTreeView {
 Q_OBJECT
 
