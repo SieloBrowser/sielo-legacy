@@ -79,7 +79,9 @@ WebHitTestResult::WebHitTestResult(const WebPage* page, const QPoint& pos) :
 									   "while (e) {"
 									   "    if (res.linkTitle === '' && e.tagName === 'A') {"
 									   "        res.linkTitle = e.text;"
-				       					   "	    res.linkUrl = e.getAttribute('href');"
+				       					   "	    if(res.linkUrl === '') {"
+				       					   "		res.linkUrl = e.getAttribute('href');"
+				       					   "	    }
 				       					   "	}"
 									   "    if (res.mediaUrl === '' && isMediaElement(e)) {"
 									   "        res.mediaUrl = e.currentSrc;"
