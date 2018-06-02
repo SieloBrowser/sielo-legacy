@@ -34,13 +34,13 @@
 
 namespace Sn
 {
-AddressDelegate::AddressDelegate(QObject* parent) :
+AddressBarCompelterDelegate::AddressBarCompelterDelegate(QObject* parent) :
 	QStyledItemDelegate(parent)
 {
 	// Empty
 }
 
-void AddressDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void AddressBarCompelterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	QStyleOptionViewItem opt{option};
 	initStyleOption(&opt, index);
@@ -193,7 +193,7 @@ void AddressDelegate::paint(QPainter* painter, const QStyleOptionViewItem& optio
 	}
 }
 
-QSize AddressDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index)
+QSize AddressBarCompelterDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index)
 {
 	Q_UNUSED(index)
 
@@ -218,17 +218,17 @@ QSize AddressDelegate::sizeHint(const QStyleOptionViewItem& option, const QModel
 	return QSize(200, m_rowHeight);
 }
 
-void AddressDelegate::setShowSwitchToTab(bool enable)
+void AddressBarCompelterDelegate::setShowSwitchToTab(bool enable)
 {
 	m_drawSwitchToTab = enable;
 }
 
-void AddressDelegate::setOriginalText(const QString& originalText)
+void AddressBarCompelterDelegate::setOriginalText(const QString& originalText)
 {
 	m_originalText = originalText;
 }
 
-bool AddressDelegate::isUrlOrDomain(const QString& text) const
+bool AddressBarCompelterDelegate::isUrlOrDomain(const QString& text) const
 {
 	QUrl url{text};
 	if (!url.scheme().isEmpty() && (!url.host().isEmpty() || !url.path().isEmpty()))
@@ -241,13 +241,13 @@ bool AddressDelegate::isUrlOrDomain(const QString& text) const
 	return false;
 }
 
-bool AddressDelegate::sizeBiggerThan(const QString& size1, const QString& size2) const
+bool AddressBarCompelterDelegate::sizeBiggerThan(const QString& size1, const QString& size2) const
 {
 	return size1.size() > size2.size();
 }
 
 
-QSizeF AddressDelegate::viewItemTextLayout(QTextLayout& textLayout, int lineWidth) const
+QSizeF AddressBarCompelterDelegate::viewItemTextLayout(QTextLayout& textLayout, int lineWidth) const
 {
 	qreal height{0};
 	qreal widthUsed{0};
@@ -268,9 +268,9 @@ QSizeF AddressDelegate::viewItemTextLayout(QTextLayout& textLayout, int lineWidt
 }
 
 
-bool AddressDelegate::drawSwitchToTab() const {}
+bool AddressBarCompelterDelegate::drawSwitchToTab() const {}
 
-int AddressDelegate::viewItemDrawText(QPainter* painter, const QStyleOptionViewItem* option, const QRect& rect,
+int AddressBarCompelterDelegate::viewItemDrawText(QPainter* painter, const QStyleOptionViewItem* option, const QRect& rect,
                                       const QString& text, const QColor& color, const QString& searchText) const
 {
 	if (text.isEmpty())

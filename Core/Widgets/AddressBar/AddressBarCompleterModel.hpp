@@ -23,8 +23,8 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_AddressBarCompleterModel_HPP
-#define SIELOBROWSER_AddressBarCompleterModel_HPP
+#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
+#define SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
 
 #include <QStandardItemModel>
 
@@ -46,7 +46,7 @@ public:
 		BookmarkRole,
 		BookmarkItemRole,
 		SearchStringRole,
-		TabPositionWindowRole,
+		TabPositionTabsSpaceRole,
 		TabPositionTabRole,
 		ImageRole,
 		VisitSearchItemRole,
@@ -76,4 +76,4 @@ private:
 };
 }
 
-#endif //SIELOBROWSER_AddressBarCompleterModel_HPP
+#endif //SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
