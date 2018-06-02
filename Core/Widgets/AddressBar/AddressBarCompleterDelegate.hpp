@@ -23,16 +23,16 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_AddressDelegate_HPP
-#define SIELOBROWSER_AddressDelegate_HPP
+#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
 
 #include <QStyledItemDelegate>
 
 namespace Sn
 {
-class AddressDelegate: public QStyledItemDelegate {
+class AddressBarCompelterDelegate: public QStyledItemDelegate {
 public:
-	AddressDelegate(QObject* parent = nullptr);
+	AddressBarCompelterDelegate(QObject* parent = nullptr);
 
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
@@ -59,4 +59,4 @@ private:
 };
 }
 
-#endif //SIELOBROWSER_AddressDelegate_HPP
+#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP

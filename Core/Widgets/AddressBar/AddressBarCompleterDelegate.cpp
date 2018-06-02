@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "AddressDelegate.hpp"
+#include "AddressBarCompleterDelegate.hpp"
 
 #include <QPainter>
 
