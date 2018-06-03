@@ -12,6 +12,9 @@
         <file>data/toolbar/home.png</file>
         <file>data/browsedata.db</file>
 
+        <file>data/partners/bs.jpg</file>
+        <file>data/partners/lmdpc.jpg</file>
+
         <!-- Sielo default theme -->
         <file>data/themes/sielo-default/dark/edit/edit-clear.png</file>
         <file>data/themes/sielo-default/dark/edit/edit-copy.png</file>

@@ -32,9 +32,9 @@
 
 #include <QClipboard>
 
-#include <QSqlQuery>
-
 #include <QTimer>
+
+#include <ndb/function.hpp>
 
 #include "Password/DatabasePasswordBackend.hpp"
 #include "Password/DatabaseEncryptedPasswordBackend.hpp"
@@ -42,12 +42,14 @@
 
 #include "Application.hpp"
 
+constexpr auto& autofill_exceptions = ndb::models::password.autofill_exceptions;
+
 namespace Sn {
 
 AutoFillManager::AutoFillManager(QWidget* parent) :
-	QWidget(parent),
-	m_passwordManager(Application::instance()->autoFill()->passwordManager()),
-	m_passwordsShown(false)
+		QWidget(parent),
+		m_passwordManager(Application::instance()->autoFill()->passwordManager()),
+		m_passwordsShown(false)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName("autofill_manager");
@@ -99,7 +101,7 @@ void AutoFillManager::loadPasswords()
 
 	m_passwordsTree->clear();
 
-		foreach (const PasswordEntry& entry, allEntries) {
+			foreach (const PasswordEntry& entry, allEntries) {
 			QTreeWidgetItem* item{new QTreeWidgetItem(m_passwordsTree)};
 			item->setText(0, entry.host);
 			item->setText(1, entry.username);
@@ -112,17 +114,13 @@ void AutoFillManager::loadPasswords()
 			m_passwordsTree->addTopLevelItem(item);
 		}
 
-	QSqlQuery query{};
-
-	query.exec("SELECT server, id FROM autofill_exceptions");
-
 	m_exceptionsTree->clear();
 
-	while (query.next()) {
+	for (auto& entry : ndb::oquery<dbs::password>() << autofill_exceptions) {
 		QTreeWidgetItem* item{new QTreeWidgetItem(m_exceptionsTree)};
 
-		item->setText(0, query.value(0).toString());
-		item->setData(0, Qt::UserRole + 10, query.value(1).toString());
+		item->setText(0, QString::fromStdString(entry.server));
+		item->setData(0, Qt::UserRole + 10, QString::number(entry.id));
 
 		m_exceptionsTree->addTopLevelItem(item);
 	}
@@ -303,21 +301,16 @@ void AutoFillManager::removeException()
 	if (!currentItem)
 		return;
 
-	QString id{currentItem->data(0, Qt::UserRole + 10).toString()};
-	QSqlQuery query{};
+	int id{currentItem->data(0, Qt::UserRole + 10).toInt()};
 
-	query.prepare("DELETE FROM autofill_exceptions WHERE id=?");
-	query.addBindValue(id);
-	query.exec();
+	ndb::query<dbs::password>() - (autofill_exceptions.id == id);
 
 	delete currentItem;
 }
 
 void AutoFillManager::removeAllExceptions()
 {
-	QSqlQuery query;
-
-	query.exec("DELETE FROM autofill_exceptions");
+	ndb::clear<dbs::password>(autofill_exceptions);
 
 	m_exceptionsTree->clear();
 }

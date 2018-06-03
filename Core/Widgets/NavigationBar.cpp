@@ -199,19 +199,18 @@ void NavigationToolBar::refreshBackForwardButtons()
 
 void NavigationToolBar::goBack()
 {
-	QWebEngineHistory* history{m_tabWidget->weTab()->webView()->page()->history()};
-	history->back();
+	m_tabWidget->weTab()->webView()->back();
 }
 
 void NavigationToolBar::goBackInNewTab()
 {
 	// TODO: go back in new tab
+	m_tabWidget->addView(m_tabWidget->weTab()->webView()->history()->backItem().url());
 }
 
 void NavigationToolBar::goForward()
 {
-	QWebEngineHistory* history{m_tabWidget->weTab()->webView()->page()->history()};
-	history->forward();
+	m_tabWidget->weTab()->webView()->forward();
 }
 
 void NavigationToolBar::goForwardInNewTab()

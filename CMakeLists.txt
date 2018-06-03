@@ -7,19 +7,19 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/Core)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
-if(WIN64 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2017_64\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
 elseif(WIN32)
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2015\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x86\\")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x86\\")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(ICON_NAME "icon.icns")
     set(ICON_PATH "${CMAKE_SOURCE_DIR}/${ICON_NAME}")
-    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.10.1/clang_64/")
+    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.0/clang_64/")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
 endif()
@@ -29,18 +29,27 @@ if(GNU)
 endif()
 
 set(SOURCE_FILES Main.cpp)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(OpenSSL 1.1.0 REQUIRED)
 find_package(Qt5Widgets 5.8 REQUIRED)
-find_package(Qt5Sql 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
 if (WIN32)
     add_executable(sielo-browser WIN32 ${SOURCE_FILES} icons.qrc data.qrc ic_sielo.rc)
+
+    # deploy
+    get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)
+    set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
+
+    add_custom_command(TARGET sielo-browser POST_BUILD
+            COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
+
+
 elseif(APPLE)
     add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} icons.qrc data.qrc)
     set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
@@ -49,10 +58,5 @@ else()
     add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
 endif()
 
-target_link_libraries(sielo-browser Core)
-target_link_libraries(sielo-browser ${OPENSSL_LIBRARIES})
-target_link_libraries(sielo-browser Qt5::Widgets)
-target_link_libraries(sielo-browser Qt5::Sql)
-target_link_libraries(sielo-browser Qt5::WebEngine)
-target_link_libraries(sielo-browser Qt5::WebEngineWidgets)
-
+set(SIELO_LIBS Core ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
+target_link_libraries(sielo-browser LINK_PUBLIC ${SIELO_LIBS})

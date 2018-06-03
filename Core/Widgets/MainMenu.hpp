@@ -78,6 +78,7 @@ private slots:
 
 	void showSettings();
 	void showAboutSielo();
+	void showPartners();
 	void showHelpUs();
 
 	void quit();

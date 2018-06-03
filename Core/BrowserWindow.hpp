@@ -99,6 +99,8 @@ public:
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 	TitleBar* titleBar() const { return m_titleBar; }
 
+	const QPixmap* getBackground();
+
 public slots:
 	void setWindowTitle(const QString& title);
 
@@ -110,6 +112,8 @@ public slots:
 	void bookmarkAllTabs();
 
 protected:
+	void shotBackground();
+	void paintEvent(QPaintEvent* event);
 	void resizeEvent(QResizeEvent* event);
 
 private slots:
@@ -154,6 +158,9 @@ private:
 	int m_currentTabWidget{0};
 
 	RootFloatingButton* m_fButton{nullptr};
+
+	QPixmap* m_bg{ nullptr };
+	bool m_upd_ss{ false };
 };
 
 }

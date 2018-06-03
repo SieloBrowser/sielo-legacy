@@ -2,17 +2,17 @@ cmake_minimum_required(VERSION 3.6)
 project(sielo-compiler)
 
 include_directories(${CMAKE_SOURCE_DIR}/SNCompiler)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-if(WIN64 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2017_64\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2017_64\\")
 elseif(WIN32)
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.1\\msvc2015\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2015\\")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.10.1/clang_64/")
+    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.0/clang_64/")
 
 
 endif()

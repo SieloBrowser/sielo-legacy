@@ -66,7 +66,7 @@ private:
 	QVBoxLayout* m_layoutGroupHomePage{nullptr};
 	QVBoxLayout* m_layoutGroupNewTab{nullptr};
 	QVBoxLayout* m_layoutGroupNewSession{nullptr};
-	QGridLayout* m_layoutGroupLanguage{nullptr};
+	QVBoxLayout* m_layoutGroupLanguage{nullptr};
 
 	// Group Box Home Page
 	QGroupBox* m_groupHomePage{nullptr};

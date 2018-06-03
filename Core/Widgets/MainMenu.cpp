@@ -49,6 +49,7 @@
 #include "Widgets/HelpUsDialog.hpp"
 #include "Widgets/TitleBar.hpp"
 #include "Widgets/SiteInfo.hpp"
+#include "Widgets/PartnerDialog.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
@@ -57,14 +58,15 @@
 namespace Sn {
 
 MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
-	QMenu(parent),
-	m_tabWidget(tabWidget)
+		QMenu(parent),
+		m_tabWidget(tabWidget)
 {
 	setObjectName("main-menu");
 
 	QAction* showAllBookmarksAction = new QAction(Application::getAppIcon("bookmarks"), tr("Show All Bookmarks"), this);
 	QAction* addBookmarksAction = new QAction(Application::getAppIcon("add-bookmark"), tr("Add Bookmark..."), this);
-	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"), this);
+	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"),
+										  this);
 
 	m_toggleBookmarksAction->setCheckable(true);
 	addBookmarksAction->setShortcut(QKeySequence("Ctrl+D"));
@@ -72,7 +74,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setTitle(tr("&Bookmarks"));
-	m_bookmarksMenu->setInitialActions(QList<QAction*>() << showAllBookmarksAction << addBookmarksAction << m_toggleBookmarksAction);
+	m_bookmarksMenu->setInitialActions(
+			QList<QAction*>() << showAllBookmarksAction << addBookmarksAction << m_toggleBookmarksAction);
 
 	QAction* backAction = new QAction(Application::getAppIcon("arrow-left"), tr("Back"), this);
 	QAction* nextAction = new QAction(Application::getAppIcon("arrow-right"), tr("Forward"), this);
@@ -92,17 +95,17 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_toolsMenu->setTitle(tr("&Tools"));
 
 	QAction* newTabAction =
-		createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
+			createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
 	QAction* newWindowAction =
-		createAction("NewWindow", this, Application::getAppIcon("new-window"), tr("&New Window"), "Ctrl+N");
+			createAction("NewWindow", this, Application::getAppIcon("new-window"), tr("&New Window"), "Ctrl+N");
 	QAction* newPrivateWindowAction =
-		createAction("NewPrivateWindow",
-					 this,
-					 Application::getAppIcon("anonymous", "tabs"),
-					 tr("New &Private Window"),
-					 "Ctrl+Shift+P");
+			createAction("NewPrivateWindow",
+						 this,
+						 Application::getAppIcon("anonymous", "tabs"),
+						 tr("New &Private Window"),
+						 "Ctrl+Shift+P");
 	QAction* openFileAction =
-		createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
+			createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
 	addSeparator();
 	QAction* selectAllAction = createAction("SelectAll",
 											this,
@@ -116,13 +119,14 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	addMenu(m_toolsMenu);
 	QAction* showSiteInfoAction = createAction("ShowSiteInfo", m_toolsMenu, QIcon(), tr("Show Site Info"));
 	QAction* showDownloadManagerAction =
-		createAction("ShowDownloadManager",
-					 m_toolsMenu,
-					 Application::getAppIcon("downloads"),
-					 tr("Download Manager"),
-					 "Ctrl+Y");
+			createAction("ShowDownloadManager",
+						 m_toolsMenu,
+						 Application::getAppIcon("downloads"),
+						 tr("Download Manager"),
+						 "Ctrl+Y");
 	QAction
-		* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(), tr("&Cookies Manager"));
+			* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(),
+													  tr("&Cookies Manager"));
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
 											   this,
@@ -130,7 +134,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 											   tr("Pr&eferences"),
 											   QKeySequence(QKeySequence::Preferences).toString());
 	QAction* showAboutSieloAction =
-		createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
+			createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
+	QAction* showPartnersAction = createAction("ShowPartners", this, QIcon(), tr("Partners"));
 	QAction* showHelpUsAction =
 			createAction("ShowHelpUs", this, Application::getAppIcon("heart"), tr("&Help Us"));
 	addSeparator();
@@ -158,6 +163,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	connect(showSettingsAction, &QAction::triggered, this, &MainMenu::showSettings);
 	connect(showAboutSieloAction, &QAction::triggered, this, &MainMenu::showAboutSielo);
+	connect(showPartnersAction, &QAction::triggered, this, &MainMenu::showPartners);
 	connect(showHelpUsAction, &QAction::triggered, this, &MainMenu::showHelpUs);
 
 	connect(quitAction, &QAction::triggered, this, &MainMenu::quit);
@@ -190,9 +196,9 @@ void MainMenu::setTabWidget(TabWidget* tabWidget)
 void MainMenu::updateShowBookmarksBarText(bool visible)
 {
 	QSettings settings;
-    settings.setValue(QLatin1String("ShowBookmarksToolBar"), visible);
+	settings.setValue(QLatin1String("ShowBookmarksToolBar"), visible);
 
-    m_toggleBookmarksAction->setChecked(visible);
+	m_toggleBookmarksAction->setChecked(visible);
 	m_toggleBookmarksAction->setText(!visible ? tr("Show Bookmarks Bar") : tr("Hide Bookmarks Bar"));
 }
 
@@ -215,10 +221,10 @@ void MainMenu::newPrivateWindow()
 void MainMenu::openFile()
 {
 	const QString fileTypes{QString("%1(*.html *.htm *.shtml *.shtm *.xhtml);;"
-										"%2(*.png *.jpg *.jpeg *.bmp *.gif *.svg *.tiff);;"
-										"%3(*.txt);;"
-										"%4(*.*)")
-								.arg(tr("HTML files"), tr("Image files"), tr("Text files"), tr("All files"))};
+									"%2(*.png *.jpg *.jpeg *.bmp *.gif *.svg *.tiff);;"
+									"%3(*.txt);;"
+									"%4(*.*)")
+									.arg(tr("HTML files"), tr("Image files"), tr("Text files"), tr("All files"))};
 
 	QString path{QFileDialog::getOpenFileName(m_tabWidget->window(), tr("Open file"), QString(), fileTypes)};
 
@@ -325,6 +331,12 @@ void MainMenu::showSettings()
 void MainMenu::showAboutSielo()
 {
 	AboutDialog* dialog{new AboutDialog(m_tabWidget)};
+	dialog->show();
+}
+
+void MainMenu::showPartners()
+{
+	PartnerDialog* dialog{new PartnerDialog(m_tabWidget)};
 	dialog->show();
 }
 

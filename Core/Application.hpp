@@ -35,6 +35,9 @@
 
 #include <QWebEngineProfile>
 
+#include <ndb/initializer.hpp>
+#include <ndb/engine/sqlite/sqlite.hpp>
+
 #include "Utils/RestoreManager.hpp"
 #include "3rdparty/singleapplication.h"
 
@@ -310,6 +313,8 @@ private:
 	QPointer<BrowserWindow> m_lastActiveWindow;
 
 	QList<PostLaunchAction> m_postLaunchActions;
+
+	ndb::initializer<ndb::sqlite> m_ndb_init;
 
 	//QFont m_morpheusFont{};
 	//QFont m_normalFont{};
