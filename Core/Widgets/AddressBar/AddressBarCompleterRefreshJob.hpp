@@ -47,7 +47,7 @@ public:
 signals:
 	void finished();
 
-private slots:
+public slots:
 	void slotFinished();
 	void jobCancelled();
 
