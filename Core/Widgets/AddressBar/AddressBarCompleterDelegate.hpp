@@ -30,9 +30,9 @@
 
 namespace Sn
 {
-class AddressBarCompelterDelegate: public QStyledItemDelegate {
+class AddressBarCompleterDelegate: public QStyledItemDelegate {
 public:
-	AddressBarCompelterDelegate(QObject* parent = nullptr);
+	AddressBarCompleterDelegate(QObject* parent = nullptr);
 
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);

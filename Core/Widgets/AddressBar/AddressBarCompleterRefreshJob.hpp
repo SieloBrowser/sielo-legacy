@@ -23,45 +23,33 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
+#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERREFRESHJOB_HPP
+#define SIELOBROWSER_ADDRESSBARCOMPLETERREFRESHJOB_HPP
 
-#include <QStandardItemModel>
-
-#include <QUrl>
-
-#include <ndb/engine/sqlite/query.hpp>
-
-#include "Database/SqlDatabase.hpp"
+#include <QFutureWatcher>
+#include <QStandardItem>
 
 namespace Sn
 {
-class AddressBarCompleterModel: public QStandardItemModel {
+class AddressBarCompleterRefreshJob: public QObject {
+	Q_OBJECT
+
 public:
-	enum Role {
-		IdRole = Qt::UserRole + 1,
-		TitleRole,
-		UrlRole,
-		CountRole,
-		BookmarkRole,
-		BookmarkItemRole,
-		SearchStringRole,
-		TabPositionTabsSpaceRole,
-		TabPositionTabRole,
-		ImageRole,
-		VisitSearchItemRole,
-		SearchSuggestionRole
-	};
+	AddressBarCompleterRefreshJob(const QString& searchString);
 
-	AddressBarCompleterModel(QObject* parent = nullptr);
+	qint64 timestamp() const { return m_timestamp; }
+	QString searchString() const { return m_searchString; };
+	bool isCanceled() const { return m_jobCancelled; };
 
-	void setCompletions(const QList<QStandardItem*>& items);
-	void addCompletions(const QList<QStandardItem*>& items);
+	QList<QStandardItem*> completions() const { return m_items; }
+	QString domainCompletion() const { return m_domainCompletion; }
 
-	QList<QStandardItem*> suggestionItems() const;
+signals:
+	void finished();
 
-	static ndb::sqlite_query<dbs::navigation> createHistoryQuery(const QString& searchString, int limit, bool exactMatch = false);
-	static ndb::sqlite_query<dbs::navigation> createDomainQuery(const QString& text);
+private slots:
+	void slotFinished();
+	void jobCancelled();
 
 private:
 	enum Type {
@@ -71,9 +59,22 @@ private:
 		Nothing = 4
 	};
 
-	void setTabPosition(QStandardItem* item) const;
-	void refreshTabPositions() const;
+	void runJob();
+	void completeFromHistory();
+	void completeMostVisited();
+
+	bool countBiggerThan(const QStandardItem* item1, const QStandardItem* item2);
+
+	QString createDomainCompletion(const QString &completion) const;
+
+	QString m_searchString{};
+	QString m_domainCompletion{};
+	qint64 m_timestamp{};
+	bool m_jobCancelled{ false };
+
+	QList<QStandardItem*> m_items{};
+	QFutureWatcher<void>* m_watcher{};
 };
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
+#endif //SIELOBROWSER_ADDRESSBARCOMPLETERREFRESHJOB_HPP

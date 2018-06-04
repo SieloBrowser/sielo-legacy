@@ -41,7 +41,7 @@ constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {
-ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::historyQuery(
+ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createHistoryQuery(
 	const QString& searchString, int limit, bool exactMatch)
 {
 	QStringList searchList;
