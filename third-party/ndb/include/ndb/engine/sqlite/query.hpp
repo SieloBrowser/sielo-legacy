@@ -21,11 +21,11 @@ namespace ndb
             str_statement_{ std::move(str_statement) },
             bind_index_{ 1 }
         {
-            auto status = sqlite3_prepare_v2(sqlite3_db(), str_statement_.c_str(), -1, &statement_, nullptr);
+            auto status = sqlite3_prepare_v2(connection(), str_statement_.c_str(), -1, &statement_, nullptr);
 
             if (status != SQLITE_OK)
             {
-                std::string error = sqlite3_errmsg(sqlite3_db());
+                std::string error = sqlite3_errmsg(connection());
                 ndb_error("query error : " + error);
             }
         }
@@ -118,7 +118,7 @@ namespace ndb
 
                 if (field_count > 0)
                 {
-                    auto result_entity = ndb::result_encoder<Result_type, Database>::decode(std::move(line));
+                    auto result_entity = ndb::result_encoder<Result_type, Database>::decode(line);
                     result.add(std::move(result_entity));
                 }
                 step = sqlite3_step(statement_);
@@ -137,9 +137,9 @@ namespace ndb
             return str_statement_;
         }
 
-        auto sqlite3_db() const
+        ndb::engine_connection<sqlite>& connection() const
         {
-            return ndb::engine<ndb::sqlite>::get().connection<Database>().database();
+            return ndb::engine<ndb::sqlite>::get().template connection<Database>();
         }
 
     private:

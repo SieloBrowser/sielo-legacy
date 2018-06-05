@@ -3,12 +3,6 @@
 
 namespace ndb
 {
-    enum class connection_flag
-    {
-        default_ = 0,
-        read_only = 1
-    };
-
     // template options
     struct query_option
     {

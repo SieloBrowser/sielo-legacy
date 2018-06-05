@@ -4,6 +4,8 @@
 #pragma once
 
 #include <ndb/engine/type.hpp>
+#include <ndb/type.hpp>
+
 #include "sqlite3.h"
 #include <chrono>
 #include <string>

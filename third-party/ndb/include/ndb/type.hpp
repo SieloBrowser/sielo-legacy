@@ -3,6 +3,9 @@
 
 #include <ndb/cx_error.hpp>
 
+#include <chrono>
+#include <vector>
+
 namespace ndb
 {
     // used to get global type_map

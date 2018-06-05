@@ -3,8 +3,10 @@
 
 namespace ndb
 {
+    class database_base{};
+
     template<class Group, class Model, class Engine>
-    struct database : Model
+    struct database : Model, database_base
     {
         using group = Group;
         using model = Model;

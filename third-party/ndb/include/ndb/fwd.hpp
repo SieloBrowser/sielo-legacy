@@ -20,6 +20,7 @@ namespace ndb
     struct expression_base;
     class table_base;
     class option_base;
+    class database_base;
 
     // expression
     enum class expr_clause_code;

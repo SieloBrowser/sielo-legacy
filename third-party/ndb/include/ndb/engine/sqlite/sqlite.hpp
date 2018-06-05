@@ -21,16 +21,7 @@ namespace ndb
     class sqlite : public basic_engine<sqlite>
     {
     public:
-        inline sqlite();
-
-        template<class Database>
-        inline void connect(const std::string& path = "");
-
-        template<class Database>
-        inline void config(ndb::connection_flag);
-
-        template<class Database>
-        inline sqlite_connection& connection() const;
+        inline sqlite() = default;
 
         template<class Database>
         inline void exec(const std::string& str_statement) const;
@@ -47,17 +38,13 @@ namespace ndb
         template<class Database>
         auto last_id() const
         {
-            return sqlite3_last_insert_rowid(connection<Database>().database());
+            return sqlite3_last_insert_rowid(connection<Database>());
         }
 
         template<class Expr>
         inline static std::string to_string(const Expr&);
 
         inline static constexpr auto expr_category();
-
-    private:
-        std::unordered_map<int, std::unique_ptr<sqlite_connection>> connections_;
-        std::unordered_map<int, ndb::connection_flag> connections_flag_;
     };
 } // ndb
 
