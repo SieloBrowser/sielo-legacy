@@ -124,11 +124,11 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 		auto& query = ndb::query<dbs::password>() + (
 			history.title = title.toStdString(),
 			history.url = url.toString().toStdString(),
-			history.date = QDateTime::currentMSecsSinceEpoch(),
+			history.date = static_cast<int>(QDateTime::currentMSecsSinceEpoch()),
 			history.count = 1
 		);
 
-		int id{query.last_id()};
+		int id = ndb::last_id<dbs::navigation>();
 
 		HistoryEntry entry{};
 		entry.id = id;
@@ -149,7 +149,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 		ndb::query<dbs::navigation>() >> (
 			(
 				history.count = count + 1,
-				history.date = QDateTime::currentMSecsSinceEpoch(),
+				history.date = static_cast<int>(QDateTime::currentMSecsSinceEpoch()),
 				history.title = title.toStdString()
 			)
 			<< (history.url == url.toString().toStdString())
@@ -215,7 +215,7 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 	if (start < 0 || end < 0)
 		return list;
 
-	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(history.date, end, start)))
+	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(history.date, static_cast<int>(end), static_cast<int>(start))))
 		list.append(data[history.id]);
 
 	return list;
