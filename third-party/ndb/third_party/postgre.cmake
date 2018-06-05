@@ -5,7 +5,7 @@ if (NDB_ENGINE_POSTGRE)
     # user defiened path
     if (NDB_PQ_PATH)
         find_library(NDB_PQ_LIB NAMES ${NDB_PQ_LIB_NAMES} HINTS "${NDB_PQ_PATH}/lib")
-        find_path(NDB_PQ_INCLUDE NAMES libpq-fe.h HINTS ${NDB_PQ_PATH}/include)
+        find_path(NDB_PQ_INCLUDE NAMES postgresql/libpq-fe.h HINTS ${NDB_PQ_PATH}/include)
     endif()
 
     # system path
@@ -20,11 +20,10 @@ if (NDB_ENGINE_POSTGRE)
     endif()
 
 
-    if (NOT NDB_PQ_LIB)
+    if (NOT NDB_PQ_LIB OR NOT NDB_PQ_INCLUDE)
         message(FATAL_ERROR  "PostgreSQL not found")
     endif()
 
     list(APPEND NDB_ENGINE_INCLUDE ${NDB_PQ_INCLUDE})
     list(APPEND NDB_ENGINE_LIB ${NDB_PQ_LIB})
-
 endif()

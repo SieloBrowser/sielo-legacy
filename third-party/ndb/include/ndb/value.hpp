@@ -24,10 +24,16 @@ namespace ndb
         {}
 
         template<class T>
-        auto& get()
+        const T& get() const
         {
             if (auto value = std::get_if<T>(&value_)) return *value;
             else ndb_error("Can't get unknown type");
+        }
+
+        template<class T>
+        T& get()
+        {
+            return const_cast<T&>(static_cast<const ndb::value&>(*this).get<T>());
         }
 
         bool is_null() const

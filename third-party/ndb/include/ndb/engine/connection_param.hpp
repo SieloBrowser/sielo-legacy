@@ -28,7 +28,8 @@ namespace ndb
             host{ "localhost" },
             port{ 5555 },
             user{ "ndb_user" },
-            path{ "database" }
+            path{ "database" },
+            flag{ connection_flag::default_ }
         {}
     };
 

@@ -101,7 +101,7 @@ namespace ndb { \
     template<class Engine> \
     struct result_encoder< ::ndb::objects::TABLE_NAME, Engine > \
     { \
-        static auto decode(::ndb::line<Engine>& line) \
+        static auto decode(const ::ndb::line<Engine>& line) \
         { \
             ::ndb::objects::TABLE_NAME object; \
                 ndb_internal_for_each_fields(TABLE_NAME, ndb_internal_make_object_result_encoder, __VA_ARGS__) \

@@ -13,6 +13,12 @@ namespace ndb
         return ndb::functions::clear<typename Database::engine, Database, Table>::process();
     }
 
+    template<class Database, class Table>
+    auto last_id(Table table)
+    {
+        return ndb::engine<typename Database::engine>::get().template last_id<Database>();
+    }
+
     template<class Database>
     void remove()
     {

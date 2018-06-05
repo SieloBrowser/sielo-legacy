@@ -57,7 +57,7 @@ namespace ndb
         }
 
         template<class Field>
-        auto operator[](const Field& f)
+        typename Field::value_type operator[](const Field& f) const
         {
             if (!value_index_.count(ndb::field_id<Field>)) ndb_error("Field does not exist in the result, check the select clause");
             size_t index = value_index_.at(ndb::field_id<Field>);

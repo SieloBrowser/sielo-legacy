@@ -21,7 +21,7 @@ namespace ndb
     {
     public:
         engine_connection(ndb::connection_param params) :
-            basic_connection(params),
+            basic_connection(std::move(params)),
             connection_{ nullptr }
         {
             if (params_.path.empty()) params_.path = "./";

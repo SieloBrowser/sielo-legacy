@@ -27,7 +27,7 @@ namespace ndb
         inline void exec(const std::string& str_statement) const;
 
         template<class Database, class Result_type = ndb::line<Database>>
-        inline auto exec(sqlite_query<Database>& query) const;
+        inline auto exec(const sqlite_query<Database>& query) const;
 
         template<class Database, class Query_option, class Expr>
         inline auto exec(const Expr& expr) const;
