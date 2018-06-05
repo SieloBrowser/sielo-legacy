@@ -89,7 +89,7 @@ private:
 	QAction* m_toggleBookmarksAction{nullptr};
 
 	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
+	//HistoryMenu* m_historyMenu{nullptr};
 	QMenu* m_toolsMenu{nullptr};
 
 	TabWidget* m_tabWidget{nullptr};

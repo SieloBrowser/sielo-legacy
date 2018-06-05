@@ -71,8 +71,9 @@
 
 #include "Network/NetworkManager.hpp"
 
-#include "Widgets/AddressBar.cpp"
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
 
 namespace Sn {
@@ -871,13 +872,15 @@ void Application::startAfterCrash()
 
 void Application::connectDatabase()
 {
+	ndb::connection_param params{};
+
 	if (m_privateBrowsing) {
-		ndb::config<dbs::password>(ndb::connection_flag::read_only);
-		ndb::config<dbs::navigation>(ndb::connection_flag::read_only);
+		params.flag = ndb::connection_flag::read_only;
 	}
 
-	ndb::connect<dbs::password>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
-	ndb::connect<dbs::navigation>(QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString());
+	params.path = QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString();
+	ndb::connect<dbs::password>(params);
+	ndb::connect<dbs::navigation>(params);
 
 	/*const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
 

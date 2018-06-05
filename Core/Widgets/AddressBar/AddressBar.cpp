@@ -47,8 +47,6 @@
 
 #include "History/HistoryItem.hpp"
 
-#include "Utils/AddressCompletionModel.hpp"
-
 #include "Web/LoadRequest.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 #include "Web/Tab/WebTab.hpp"

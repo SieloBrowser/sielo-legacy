@@ -38,11 +38,11 @@
 #include "Bookmarks/BookmarkManager.hpp"
 
 #include "Widgets/FloatingButton.hpp"
-#include "Widgets/AddressBar.hpp"
 #include "Widgets/SearchToolBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 
 namespace Sn {
 

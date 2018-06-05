@@ -139,7 +139,7 @@ bool AddressBarCompleterView::eventFilter(QObject* object, QEvent* event)
 				return false;
 
 			Qt::Key k{keyEvent->key() == Qt::Key_Tab ? Qt::Key_Down : Qt::Key_Up};
-			QKeyEvent ev{QKeyEvent::KeyPress, k, Qt::NoModifier) };
+			QKeyEvent ev{QKeyEvent::KeyPress, k, Qt::NoModifier };
 			QApplication::sendEvent(focusProxy(), &ev);
 			return true;
 		}

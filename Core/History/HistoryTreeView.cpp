@@ -27,14 +27,14 @@
 #include "History/History.hpp"
 #include "History/HistoryFilterModel.hpp"
 
-#include "Application"
+#include "Application.hpp"
 
-namespace Sn {
-	HistoryTreeView::HistoryTreeView(QWidget* parent) : 
-	QTreeView(parent),
-m_history(Appl)
-{}
-QUrl HistoryTreeView::selectedUrl() const {}
+namespace Sn
+{
+HistoryTreeView::HistoryTreeView(QWidget* parent) :
+	QTreeView(parent) {}
+
+QUrl HistoryTreeView::selectedUrl() const { return QUrl(); }
 void HistoryTreeView::search(const QString& string) {}
 void HistoryTreeView::removeSelectedItems() {}
 void HistoryTreeView::contextMenuEvent(QContextMenuEvent* event) {}

@@ -32,9 +32,9 @@
 
 #include "History/History.hpp"
 
-#include "Widgets/AddressBar.hpp"
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"

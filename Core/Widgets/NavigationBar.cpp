@@ -33,7 +33,7 @@
 #include "Bookmarks/BookmarksDialog.hpp"
 #include "Bookmarks/AddBookmarkDialog.hpp"
 
-#include "History/HistoryDialog.hpp"
+//#include "History/HistoryDialog.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"

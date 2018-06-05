@@ -128,7 +128,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 			history.count = 1
 		);
 
-		int id{query.add_id()};
+		int id{query.last_id()};
 
 		HistoryEntry entry{};
 		entry.id = id;
@@ -183,7 +183,7 @@ void History::deleteHistoryEntry(int index)
 void History::deleteHistoryEntry(const QList<int>& list)
 {
 	for (int index : list) {
-		auto& query = ndb::oquery<dbs::navigation>() << ((history) << (history.id == index));
+		auto query = ndb::oquery<dbs::navigation>() << ((history) << (history.id == index));
 
 		if (!query.has_result())
 			return;
@@ -199,7 +199,7 @@ void History::deleteHistoryEntry(const QList<int>& list)
 
 void History::deleteHistoryEntry(const QString& url, const QString& title)
 {
-	auto& query = ndb::query<dbs::navigation>() << ((history.id) << (history.url == url.toStdString() && history.title ==
+	auto query = ndb::query<dbs::navigation>() << ((history.id) << (history.url == url.toStdString() && history.title ==
 		title.toStdString()));
 
 	if (query.has_result()) {

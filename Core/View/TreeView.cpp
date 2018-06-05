@@ -28,7 +28,6 @@
 
 #include "Application.hpp"
 
-#include "History/HistoryManager.hpp"
 #include "History/HistoryModel.hpp"
 
 namespace Sn {
@@ -49,7 +48,7 @@ void TreeView::removeOne()
 		return;
 
 	QModelIndex ci{currentIndex()};
-	Application::instance()->historyManager()->removeHistoryEntry(model()->data(ci, HistoryModel::UrlStringRole).toString());
+	//Application::instance()->historyManager()->removeHistoryEntry(model()->data(ci, HistoryModel::UrlStringRole).toString());
 }
 
 void TreeView::removeAll()
@@ -57,6 +56,6 @@ void TreeView::removeAll()
 	if (!model())
 		return;
 
-	Application::instance()->historyManager()->clear();
+	//Application::instance()->historyManager()->clear();
 }
 }

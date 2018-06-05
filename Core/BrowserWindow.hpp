@@ -94,6 +94,7 @@ public:
 
 	TabWidget* tabWidget() const;
 	TabWidget* tabWidget(int index) const;
+	QVector<TabWidget*> tabWidgets() const { return m_tabWidgets; }
 	int tabWidgetsCount() const;
 
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }

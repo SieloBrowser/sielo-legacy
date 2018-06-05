@@ -76,27 +76,27 @@ LineEdit::LineEdit(QWidget* parent):
 	QAction* undoAction{new QAction(Application::getAppIcon(QStringLiteral("edit-undo"), "edit"), tr("&Undo"), this)};
 	undoAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+Z")));
 	undoAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	connect(undoAction, &QAction::triggered, &LineEdit::undo);
+	connect(undoAction, &QAction::triggered, this, &LineEdit::undo);
 
 	QAction* redoAction = new QAction(Application::getAppIcon(QStringLiteral("edit-redo"), "edit"), tr("&Redo"), this);
 	redoAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+Shift+Z")));
 	redoAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	connect(redoAction, &QAction::triggered, &LineEdit::redo);
+	connect(redoAction, &QAction::triggered, this, &LineEdit::redo);
 
 	QAction* cutAction = new QAction(Application::getAppIcon(QStringLiteral("edit-cut"), "edit"), tr("Cu&t"), this);
 	cutAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+X")));
 	cutAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	connect(cutAction, &QAction::triggered, &LineEdit::cut);
+	connect(cutAction, &QAction::triggered, this, &LineEdit::cut);
 
 	QAction* copyAction = new QAction(Application::getAppIcon(QStringLiteral("edit-copy"), "edit"), tr("&Copy"), this);
 	copyAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+C")));
 	copyAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	connect(copyAction, &QAction::triggered, &LineEdit::copy);
+	connect(copyAction, &QAction::triggered, this, &LineEdit::copy);
 
 	QAction* pasteAction = new QAction(Application::getAppIcon(QStringLiteral("edit-paste"), "edit"), tr("&Paste"), this);
 	pasteAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+V")));
 	pasteAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	connect(pasteAction, &QAction::triggered, &LineEdit::paste);
+	connect(pasteAction, &QAction::triggered, this, &LineEdit::paste);
 
 	QAction* pasteAndGoAction = new QAction(this);
 	pasteAndGoAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+Shift+V")));
@@ -104,17 +104,17 @@ LineEdit::LineEdit(QWidget* parent):
 
 	QAction* deleteAction = new QAction(Application::getAppIcon(QStringLiteral("edit-delete"), "edit"), tr("Delete"),
 	                                    this);
-	connect(deleteAction, &QAction::triggered, &LineEdit::slotDelete);
+	connect(deleteAction, &QAction::triggered, this, &LineEdit::slotDelete);
 
 	QAction* clearAllAction = new QAction(Application::getAppIcon(QStringLiteral("edit-clear"), "edit"), tr("Clear All"),
 	                                      this);
-	connect(clearAllAction, &QAction::triggered, &LineEdit::clear);
+	connect(clearAllAction, &QAction::triggered, this, &LineEdit::clear);
 
 	QAction* selectAllAction = new QAction(Application::getAppIcon(QStringLiteral("edit-select-all"), "edit"),
 	                                       tr("Select All"), this);
 	selectAllAction->setShortcut(QKeySequence(QStringLiteral("Ctrl+A")));
 	selectAllAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-	connect(selectAllAction, &QAction::triggered, &LineEdit::selectAll);
+	connect(selectAllAction, &QAction::triggered, this, &LineEdit::selectAll);
 
 	m_editActions[Undo] = undoAction;
 	m_editActions[Redo] = redoAction;

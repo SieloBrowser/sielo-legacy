@@ -44,9 +44,9 @@
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
-#include "Widgets/AddressBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 

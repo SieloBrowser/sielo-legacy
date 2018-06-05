@@ -113,7 +113,7 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 
 	// Draw title
 	leftPosition += 2;
-	QRect titleRect{leftPosition, center - titleMetrics.height() / 2, opt.rect.width() * 0.6, titleMetrics.height()};
+	QRect titleRect{leftPosition, center - titleMetrics.height() / 2, static_cast<int>(opt.rect.width() * 0.6), titleMetrics.height()};
 	QString title{index.data(AddressBarCompleterModel::TitleRole).toString()};
 	painter->setFont(titleFont);
 
@@ -292,7 +292,7 @@ int AddressBarCompleterDelegate::viewItemDrawText(QPainter* painter, const QStyl
 		QList<int> delimiters{};
 		QStringList searchStrings{searchText.split(QLatin1Char(' '), QString::SkipEmptyParts)};
 
-		std::sort(searchStrings.begin(), searchStrings.end(), sizeBiggerThan);
+		std::sort(searchStrings.begin(), searchStrings.end(), &AddressBarCompleterDelegate::sizeBiggerThan);
 
 		foreach(const QString &string, searchStrings) {
 			int delimiter{text.indexOf(string, 0, Qt::CaseInsensitive)};
@@ -360,7 +360,7 @@ int AddressBarCompleterDelegate::viewItemDrawText(QPainter* painter, const QStyl
 		return 0;
 
 	QTextLine textLine{textLayout.lineAt(0)};
-	int diff{textLine.naturalTextWidth() - rect.width()};
+	int diff = textLine.naturalTextWidth() - rect.width();
 
 	if (diff > 0) {
 		elidedText = fontMetrics.elidedText(elidedText, option->textElideMode, rect.width() - diff);

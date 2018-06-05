@@ -124,7 +124,7 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 		// TODO: Bookmarks completion
 	}
 
-	std::sort(m_items.begin(), m_items.end(), countBiggerThan);
+	std::sort(m_items.begin(), m_items.end(), &AddressBarCompleterRefreshJob::countBiggerThan);
 
 	if (showType == HistoryAndBookmarks || showType == History) {
 		const int historyLimit{20};

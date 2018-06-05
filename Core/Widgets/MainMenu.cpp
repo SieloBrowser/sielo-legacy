@@ -39,7 +39,7 @@
 #include "Bookmarks/BookmarksModel.hpp"
 #include "Bookmarks/BookmarksToolBar.hpp"
 
-#include "History/HistoryMenu.hpp"
+//#include "History/HistoryMenu.hpp"
 
 #include "Download/DownloadManager.hpp"
 
@@ -87,9 +87,9 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
 	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	m_historyMenu = new HistoryMenu(this);
-	m_historyMenu->setTitle(tr("&History"));
-	m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
+	//m_historyMenu = new HistoryMenu(this);
+	//m_historyMenu->setTitle(tr("&History"));
+	//m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
 
 	m_toolsMenu = new QMenu(this);
 	m_toolsMenu->setTitle(tr("&Tools"));
@@ -115,7 +115,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction* findAction = createAction("Find", this, Application::getAppIcon("search"), tr("&Find"), "Ctrl+F");
 	addSeparator();
 	addMenu(m_bookmarksMenu);
-	addMenu(m_historyMenu);
+	//addMenu(m_historyMenu);
 	addMenu(m_toolsMenu);
 	QAction* showSiteInfoAction = createAction("ShowSiteInfo", m_toolsMenu, QIcon(), tr("Show Site Info"));
 	QAction* showDownloadManagerAction =
@@ -156,7 +156,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(backAction, &QAction::triggered, this, &MainMenu::webBack);
 	connect(nextAction, &QAction::triggered, this, &MainMenu::webForward);
 	connect(homeAction, &QAction::triggered, this, &MainMenu::webHome);
-	connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
+	//connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
 	connect(showSiteInfoAction, &QAction::triggered, this, &MainMenu::showSiteInfo);
 	connect(showDownloadManagerAction, &QAction::triggered, this, &MainMenu::showDownloadManager);
 	connect(showCookiesManagerAction, &QAction::triggered, this, &MainMenu::showCookiesManager);

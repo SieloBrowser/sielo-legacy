@@ -34,8 +34,7 @@
 
 #include "BrowserWindow.hpp"
 
-#include "History/HistoryManager.hpp"
-#include "History/HistoryDialog.hpp"
+//#include "History/HistoryDialog.hpp"
 
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarksDialog.hpp"
@@ -51,9 +50,9 @@
 #include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
-#include "Widgets/AddressBar.hpp"
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/MainMenu.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
@@ -1004,14 +1003,14 @@ void TabWidget::openBookmarkDialog()
 
 void TabWidget::openHistoryDialog()
 {
-	HistoryDialog* dialog(new HistoryDialog(this));
+	/*HistoryDialog* dialog(new HistoryDialog(this));
 	dialog->setAttribute(Qt::WA_DeleteOnClose);
 
 	connect(dialog, SIGNAL(openUrl(
 							   const QUrl&)), this, SLOT(addView(
 															 const QUrl&)));
 
-	dialog->show();
+	dialog->show();*/
 }
 
 bool TabWidget::validIndex(int index) const
