@@ -411,7 +411,7 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 		break;
 
 	case Qt::Key_Down:
-		m_completer->complete();
+		m_completer->complete(text());
 		break;
 	case Qt::Key_Left:
 		m_completer->closePopup();
