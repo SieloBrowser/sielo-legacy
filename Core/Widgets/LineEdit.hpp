@@ -27,8 +27,17 @@
 #define SIELOBROWSER_LineEdit_HPP
 
 #include <QWidget>
+#include <QLineEdit>
 
+#include <QHBoxLayout>
+#include <QTextLayout>
+
+#include <QAction>
+
+#include <QList>
 #include <QEvent>
+
+#include <array>
 
 namespace Sn
 {
@@ -45,7 +54,75 @@ protected:
 	bool event(QEvent* event);
 };
 
-class LineEdit {};
+class LineEdit: public QLineEdit {
+Q_OBJECT
+
+public:
+	enum WidgetPosition {
+		LeftSide,
+		RightSide
+	};
+
+	enum EditAction {
+		Undo = 0,
+		Redo = 1,
+		Cut = 2,
+		Copy = 3,
+		Paste = 4,
+		PasteAndGo = 5,
+		Delete = 6,
+		ClearAll = 7,
+		SelectAll = 8
+	};
+
+	LineEdit(QWidget* parent = nullptr);
+
+	void addWidget(QWidget* widget, WidgetPosition position);
+	void removeWidget(QWidget* widget);
+	void setWidgetSpacing(int spacing);
+	int widgetSpacing() const;
+	int leftMargin() const { return m_leftMargin; }
+
+	void setTextFormat(const QList<QTextLayout::FormatRange>& format);
+	void clearTextFormat();
+
+	int minHeight() const { return m_minHeight; }
+	void setMinHeight(int height);
+
+	QSize sizeHint() const;
+	QAction *editAction(EditAction action) const;
+
+public slots:
+	void setLeftMargin(int margin);
+	void updateTextMargins();
+
+protected:
+	void focusInEvent(QFocusEvent* event);
+	void mousePressEvent(QMouseEvent* event);
+	void mouseDoubleClickEvent(QMouseEvent* event);
+	void resizeEvent(QResizeEvent* event) override;
+	bool event(QEvent* event);
+
+	QMenu *createContextMenu();
+
+private slots:
+	void updateActions();
+	void updatePasteActions();
+	void slotDelete();
+
+private:
+	SideWidget* m_leftWidget{nullptr};
+	SideWidget* m_rightWidget{nullptr};
+	QHBoxLayout* m_leftLayout{nullptr};
+	QHBoxLayout* m_rightLayout{nullptr};
+	QHBoxLayout* mainLayout{nullptr};
+	
+	std::array<QAction*, 9> m_editActions;
+
+	int m_minHeight{0};
+	int m_leftMargin{-1};
+	bool m_ignoreMousePress{false};
+};
 }
 
 #endif //SIELOBROWSER_LineEdit_HPP
