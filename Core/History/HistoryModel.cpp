@@ -237,7 +237,7 @@ void HistoryModel::fetchMore(const QModelIndex& parent)
 		idList.append(parentItem->child(i)->historyEntry.id);
 
 	for (auto& data : ndb::oquery<dbs::navigation>() << ((history)
-		     << ndb::range(history.date, parentItem->endTimestamp(), parentItem->startTimestamp()))) {
+		     << ndb::range(history.date, static_cast<int>(parentItem->endTimestamp()), static_cast<int>(parentItem->startTimestamp())))) {
 		History::HistoryEntry entry{data};
 
 		if (!idList.contains(entry.id))
@@ -412,7 +412,7 @@ void HistoryModel::init()
 	if (!minDateQuery.has_result())
 		return;
 
-	const qint64 minTimestamp = minDateQuery[0][0].get<long long>();
+	const qint64 minTimestamp = minDateQuery[0][0].get<int>();
 
 	if (minTimestamp <= 0)
 		return;
@@ -450,7 +450,7 @@ void HistoryModel::init()
 			itemName = QString("%1 %2").arg(History::titleCaseLocalizedMonth(timestampDate.month()), QString::number(timestampDate.year()));
 		}
 
-		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp));
+		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, static_cast<int>(endTimestamp), static_cast<int>(timestamp)));
 
 		if (query.has_result()) {
 			HistoryItem* item{ new HistoryItem(m_rootItem) };
