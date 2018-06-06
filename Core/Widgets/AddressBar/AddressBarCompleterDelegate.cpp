@@ -46,6 +46,11 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 	QStyleOptionViewItem opt{option};
 	initStyleOption(&opt, index);
 
+	QColor backgroundColor{ option.palette.window().color() };
+	const double darkness{ 1 - (0.299 * backgroundColor.red() + 0.587 * backgroundColor.green() +
+		0.115 * backgroundColor.blue()) / 255 };
+	bool isDark{ darkness >= 0.5 };
+
 	const QWidget* w{opt.widget};
 	const QStyle* style{w ? w->style() : QApplication::style()};
 
@@ -64,21 +69,37 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 	opt.state |= QStyle::State_Active;
 
 	const QIcon::Mode iconMode{opt.state & QStyle::State_Selected ? QIcon::Selected : QIcon::Normal};
+	QColor textColor{};
+	QColor highlightedTextColor{};
+	QColor linkColor{};
 
+	if (isDark) {
+		textColor = QColor(250, 250, 250);
+		highlightedTextColor = QColor(200, 200, 200);
+		linkColor = QColor(0, 157, 255);
+	}
+	else {
+		textColor = QColor(10, 10, 10);
+		highlightedTextColor = QColor(55, 55, 55);
+		linkColor = QColor(0, 57, 255);
+	}
+/*
 	const QPalette::ColorRole colorRole{opt.state & QStyle::State_Selected ? QPalette::HighlightedText : QPalette::Text};
 	const QPalette::ColorRole colorLinkRole{
 		opt.state & QStyle::State_Selected
 			? QPalette::HighlightedText
 			: QPalette::Link
 	};
-
-#ifdef Q_OS_WIN
-	opt.palette.setColor(QPalette::All, QPalette::HighlightedText, opt.palette.color(QPalette::Active, QPalette::Text));
-	opt.palette.setColor(QPalette::All, QPalette::Highlight, opt.palette.base().color().darker(108));
-#endif
+*/
 
 	QPalette textPalette{opt.palette};
-	textPalette.setCurrentColorGroup(opt.state & QStyle::State_Enabled ? QPalette::Normal : QPalette::Disabled);
+	//textPalette.setCurrentColorGroup(opt.state & QStyle::State_Enabled ? QPalette::Normal : QPalette::Disabled);
+
+/*
+	textPalette.setColor(QPalette::All, QPalette::HighlightedText, QColor(255, 255, 255));
+	textPalette.setColor(QPalette::All, QPalette::Text, QColor(255, 255, 255));
+	textPalette.setColor(QPalette::All, QPalette::Link, QColor(255, 255, 255));
+*/	
 
 	// Draw background
 	style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, w);
@@ -126,7 +147,7 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 			searchText.clear();
 	}
 
-	leftPosition += viewItemDrawText(painter, &opt, titleRect, title, textPalette.color(colorRole), searchText);
+	leftPosition += viewItemDrawText(painter, &opt, titleRect, title, opt.state & QStyle::State_Selected ? highlightedTextColor : textColor, searchText);
 	leftPosition += m_padding * 2;
 
 	const int maxChars{(opt.rect.width() - leftPosition) / opt.fontMetrics.width(QLatin1Char('i'))};
@@ -154,7 +175,7 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 			leftPosition, center - titleMetrics.height() / 2, titleMetrics.width(separator),
 			titleMetrics.height()
 		};
-		style->drawItemText(painter, separatorRect, Qt::AlignCenter, textPalette, true, separator, colorRole);
+		style->drawItemText(painter, separatorRect, Qt::AlignCenter, textPalette, true, separator, opt.state & QStyle::State_Selected ? QPalette::HighlightedText : QPalette::Text);
 		leftPosition += separatorRect.width() + m_padding * 2;
 	}
 
@@ -181,13 +202,13 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 
 		QRect textRect{linkRect};
 		textRect.setX(textRect.x() + m_padding + 16 + m_padding);
-		viewItemDrawText(painter, &opt, textRect, tr("Switch to tab"), textPalette.color(colorLinkRole));
+		viewItemDrawText(painter, &opt, textRect, tr("Switch to tab"), opt.state & QStyle::State_Selected ? highlightedTextColor : linkColor);
 	}
 	else if (isVisitSearchItem || isSearchSuggestion)
-		viewItemDrawText(painter, &opt, linkRect, link, textPalette.color(colorLinkRole));
+		viewItemDrawText(painter, &opt, linkRect, link, opt.state & QStyle::State_Selected ? highlightedTextColor : linkColor);
 
 	else
-		viewItemDrawText(painter, &opt, linkRect, link, textPalette.color(colorLinkRole), searchText);
+		viewItemDrawText(painter, &opt, linkRect, link, opt.state & QStyle::State_Selected ? highlightedTextColor : linkColor, searchText);
 
 	// Draw line at the very bottom of item if the item is not highlighted
 	if (!(opt.state & QStyle::State_Selected)) {
