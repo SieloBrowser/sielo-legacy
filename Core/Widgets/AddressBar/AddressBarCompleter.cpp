@@ -42,6 +42,9 @@
 
 namespace Sn
 {
+AddressBarCompleterView* AddressBarCompleter::s_view = nullptr;
+AddressBarCompleterModel* AddressBarCompleter::s_model = nullptr;
+
 AddressBarCompleter::AddressBarCompleter(QObject* parent) :
 	QObject(parent)
 {
