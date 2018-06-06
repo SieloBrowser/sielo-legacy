@@ -133,6 +133,7 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 
 	if (showType == HistoryAndBookmarks || showType == History) {
 		const int historyLimit{20};
+		
 		ndb::sqlite_query<dbs::navigation> query = AddressBarCompleterModel::createHistoryQuery(m_searchString, historyLimit);
 
 		for (auto& entry : query.exec<ndb::objects::history>()) {

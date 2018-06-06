@@ -65,7 +65,8 @@ ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createHistoryQuery(
 
 	queryString.append(QLatin1String("ORDER BY date DESC LIMIT ?"));
 
-	ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
+	std::string string = queryString.toStdString();
+	ndb::sqlite_query<dbs::navigation> query{string};
 
 	if (exactMatch) {
 		query.bind(QString("%%1%").arg(searchString).toStdString());

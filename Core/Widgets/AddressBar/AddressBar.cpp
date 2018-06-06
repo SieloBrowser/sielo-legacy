@@ -133,7 +133,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 
 	setCompleter(domainCompleter);
 
-	connect(this, &LineEdit::textEdited, this, &AddressBar::textEdited);
+	connect(this, &QLineEdit::textEdited, this, &AddressBar::textEdited);
 	connect(m_goButton, &ToolButton::clicked, this, &AddressBar::requestLoadUrl);
 
 	loadSettings();
