@@ -63,8 +63,6 @@ private:
 	void completeFromHistory();
 	void completeMostVisited();
 
-	bool countBiggerThan(const QStandardItem* item1, const QStandardItem* item2);
-
 	QString createDomainCompletion(const QString &completion) const;
 
 	QString m_searchString{};

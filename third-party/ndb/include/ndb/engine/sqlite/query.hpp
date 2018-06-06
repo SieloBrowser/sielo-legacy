@@ -10,6 +10,9 @@
 
 namespace ndb
 {
+    template<class Engine>
+    class engine_connection;
+
     template<class Database>
     class sqlite_query
     {

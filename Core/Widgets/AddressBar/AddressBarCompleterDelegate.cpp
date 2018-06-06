@@ -40,7 +40,8 @@ AddressBarCompleterDelegate::AddressBarCompleterDelegate(QObject* parent) :
 	// Empty
 }
 
-void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
+void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
+                                        const QModelIndex& index) const
 {
 	QStyleOptionViewItem opt{option};
 	initStyleOption(&opt, index);
@@ -113,7 +114,9 @@ void AddressBarCompleterDelegate::paint(QPainter* painter, const QStyleOptionVie
 
 	// Draw title
 	leftPosition += 2;
-	QRect titleRect{leftPosition, center - titleMetrics.height() / 2, static_cast<int>(opt.rect.width() * 0.6), titleMetrics.height()};
+	QRect titleRect{
+		leftPosition, center - titleMetrics.height() / 2, static_cast<int>(opt.rect.width() * 0.6), titleMetrics.height()
+	};
 	QString title{index.data(AddressBarCompleterModel::TitleRole).toString()};
 	painter->setFont(titleFont);
 
@@ -241,12 +244,6 @@ bool AddressBarCompleterDelegate::isUrlOrDomain(const QString& text) const
 	return false;
 }
 
-bool AddressBarCompleterDelegate::sizeBiggerThan(const QString& size1, const QString& size2) const
-{
-	return size1.size() > size2.size();
-}
-
-
 QSizeF AddressBarCompleterDelegate::viewItemTextLayout(QTextLayout& textLayout, int lineWidth) const
 {
 	qreal height{0};
@@ -267,11 +264,10 @@ QSizeF AddressBarCompleterDelegate::viewItemTextLayout(QTextLayout& textLayout, 
 	return QSizeF(widthUsed, height);
 }
 
-
-bool AddressBarCompleterDelegate::drawSwitchToTab() const {}
-
-int AddressBarCompleterDelegate::viewItemDrawText(QPainter* painter, const QStyleOptionViewItem* option, const QRect& rect,
-                                      const QString& text, const QColor& color, const QString& searchText) const
+int AddressBarCompleterDelegate::viewItemDrawText(QPainter* painter, const QStyleOptionViewItem* option,
+                                                  const QRect& rect,
+                                                  const QString& text, const QColor& color,
+                                                  const QString& searchText) const
 {
 	if (text.isEmpty())
 		return 0;
@@ -292,7 +288,9 @@ int AddressBarCompleterDelegate::viewItemDrawText(QPainter* painter, const QStyl
 		QList<int> delimiters{};
 		QStringList searchStrings{searchText.split(QLatin1Char(' '), QString::SkipEmptyParts)};
 
-		std::sort(searchStrings.begin(), searchStrings.end(), &AddressBarCompleterDelegate::sizeBiggerThan);
+		std::sort(searchStrings.begin(), searchStrings.end(), [](const QString& size1, const QString& size2) {
+			return size1.size() > size2.size();
+		});
 
 		foreach(const QString &string, searchStrings) {
 			int delimiter{text.indexOf(string, 0, Qt::CaseInsensitive)};

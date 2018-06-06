@@ -41,10 +41,10 @@ public:
 	void setOriginalText(const QString& originalText);
 
 	bool isUrlOrDomain(const QString& text) const;
-	bool sizeBiggerThan(const QString &size1, const QString &size2) const;
 	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
 private:
-	bool drawSwitchToTab() const;
+	// Waiting for additional settings
+	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
 
 	int viewItemDrawText(QPainter* painter,
 	                     const QStyleOptionViewItem* option,

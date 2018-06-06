@@ -124,7 +124,12 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 		// TODO: Bookmarks completion
 	}
 
-	std::sort(m_items.begin(), m_items.end(), &AddressBarCompleterRefreshJob::countBiggerThan);
+	std::sort(m_items.begin(), m_items.end(), [](const QStandardItem* item1, const QStandardItem* item2) {
+		int i1Count{item1->data(AddressBarCompleterModel::CountRole).toInt()};
+		int i2Count{item2->data(AddressBarCompleterModel::CountRole).toInt()};
+
+		return i1Count > i2Count;
+	});
 
 	if (showType == HistoryAndBookmarks || showType == History) {
 		const int historyLimit{20};
@@ -152,7 +157,8 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 
 void AddressBarCompleterRefreshJob::completeMostVisited()
 {
-	for (auto& entry : ndb::oquery<dbs::navigation>() << (history << ndb::sort(ndb::desc(history.count)) << ndb::limit(15))) {
+	for (auto& entry : ndb::oquery<dbs::navigation>() << (history << ndb::sort(ndb::desc(history.count)) << ndb::limit(15))
+	) {
 		QStandardItem* item{new QStandardItem()};
 		const QUrl url{QUrl(QString::fromStdString(entry.url))};
 
@@ -171,17 +177,9 @@ QString AddressBarCompleterRefreshJob::createDomainCompletion(const QString& com
 	if (m_searchString.startsWith(QLatin1String("www.")) && !completion.startsWith(QLatin1String("www.")))
 		return QLatin1String("www.") + completion;
 
-	if (!m_searchString.startsWith(QLatin1String("www.")) && completion.startsWith(QLatin1String("www."))) 
+	if (!m_searchString.startsWith(QLatin1String("www.")) && completion.startsWith(QLatin1String("www.")))
 		return completion.mid(4);
 
 	return completion;
-}
-
-bool AddressBarCompleterRefreshJob::countBiggerThan(const QStandardItem* item1, const QStandardItem* item2)
-{
-	int i1Count{item1->data(AddressBarCompleterModel::CountRole).toInt()};
-	int i2Count{item2->data(AddressBarCompleterModel::CountRole).toInt()};
-
-	return i1Count > i2Count;
 }
 }
