@@ -1,4 +1,0 @@
-﻿  Building Custom Rule D:/Cpp/Projects/CLion/sielo-browser/third-party/ndb/CMakeLists.txt
-  CMake does not need to re-run because D:/Cpp/Projects/CLion/sielo-browser/third-party/ndb/cmake-build/CMakeFiles/generate.stamp is up-to-date.
-  sqlite3.c
-  lib_sqlite.vcxproj -> D:\Cpp\Projects\CLion\sielo-browser\third-party\ndb\cmake-build\lib_sqlite.dir\Debug\lib_sqlite.lib
