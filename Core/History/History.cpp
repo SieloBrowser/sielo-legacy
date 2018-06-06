@@ -121,7 +121,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	auto& oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString().toStdString());
 
 	if (!oquery.has_result()) {
-		auto& query = ndb::query<dbs::password>() + (
+		ndb::query<dbs::navigation>() + (
 			history.title = title.toStdString(),
 			history.url = url.toString().toStdString(),
 			history.date = static_cast<int>(QDateTime::currentMSecsSinceEpoch()),
