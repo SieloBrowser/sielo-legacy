@@ -50,21 +50,29 @@ ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createHistoryQuery(
 		"SELECT * FROM " + QString::fromStdString(ndb::name(history)) + " WHERE ");
 
 	if (exactMatch) {
-		queryString.append(QLatin1String("title LIKE ? OR url LIKE ? "));
+		queryString.append(QString::fromStdString(ndb::name(history.title)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ? ");
 	}
 	else {
 		searchList = searchString.split(QLatin1Char(' '), QString::SkipEmptyParts);
 		const int slSize = searchList.size();
 		for (int i = 0; i < slSize; ++i) {
-			queryString.append(QLatin1String("(title LIKE ? OR url LIKE ?) "));
+			queryString.append("(" + QString::fromStdString(ndb::name(history.title)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ?) ");
 			if (i < slSize - 1) {
 				queryString.append(QLatin1String("AND "));
 			}
 		}
 	}
 
-	queryString.append(QLatin1String("ORDER BY date DESC LIMIT ?"));
+	queryString.append("ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT ?");
 
+	try {
+		std::string string = queryString.toStdString();
+		ndb::sqlite_query<dbs::navigation> query{ string };
+	}
+	catch (std::exception e) {
+		std::string what = e.what();
+		int integer = 0;
+	}
 	std::string string = queryString.toStdString();
 	ndb::sqlite_query<dbs::navigation> query{string};
 
@@ -85,15 +93,14 @@ ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createHistoryQuery(
 ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createDomainQuery(const QString& text)
 {
 	bool withoutWww{text.startsWith(QLatin1Char('w')) && !text.startsWith(QLatin1String("www."))};
-	QString queryString = "SELECT url FROM history WHERE ";
+	QString queryString = "SELECT " + QString::fromStdString(ndb::name(history.url)) + " FROM " + QString::fromStdString(ndb::name(history)) + " WHERE ";
 
 	if (withoutWww)
-		queryString.append(QLatin1String("url NOT LIKE ? AND url NOT LIKE ? AND "));
+		queryString.append(QString::fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND " + QString::fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND ");
 	else
-		queryString.append(QLatin1String("url LIKE ? OR url LIKE ? OR "));
+		queryString.append(QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR ");
 
-
-	queryString.append(QLatin1String("(url LIKE ? OR url LIKE ?) ORDER BY date DESC LIMIT 1"));
+	queryString.append("(" + QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ?) ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT 1");
 
 	ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
 
@@ -171,6 +178,10 @@ void AddressBarCompleterModel::setTabPosition(QStandardItem* item) const
 			}
 		}
 	}
+
+	// Tab wasn't found
+	item->setData(QVariant::fromValue<void*>(static_cast<void*>(0)), TabPositionTabsSpaceRole);
+	item->setData(-1, TabPositionTabRole);
 }
 
 void AddressBarCompleterModel::refreshTabPositions() const

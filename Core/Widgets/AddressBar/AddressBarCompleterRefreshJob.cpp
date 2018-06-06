@@ -87,11 +87,45 @@ void AddressBarCompleterRefreshJob::runJob()
 
 	if (!m_searchString.isEmpty()) {
 		if (!(m_searchString.isEmpty() || m_searchString == QLatin1String("www."))) {
-			ndb::sqlite_query<dbs::navigation> query = AddressBarCompleterModel::createDomainQuery(m_searchString);
+			// TODO: waiting for fix
+			//ndb::sqlite_query<dbs::navigation> query = AddressBarCompleterModel::createDomainQuery(m_searchString);
 
-			auto& result = query.exec<ndb::objects::history>();
+			bool withoutWww{m_searchString.startsWith(QLatin1Char('w')) && !m_searchString.startsWith(QLatin1String("www."))};
+			QString queryString = "SELECT " + QString::fromStdString(ndb::name(history.url)) + " FROM " + QString::
+				fromStdString(ndb::name(history)) + " WHERE ";
+
+			if (withoutWww)
+				queryString.append(
+					QString::fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND " + QString::
+					fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND ");
+			else
+				queryString.append(
+					QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) +
+					" LIKE ? OR ");
+
+			queryString.append(
+				"(" + QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::
+				fromStdString(ndb::name(history.url)) + " LIKE ?) ORDER BY " + QString::fromStdString(ndb::name(history.date)) +
+				" DESC LIMIT 1");
+
+			ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
+
+			if (withoutWww) {
+				query.bind(QString("http://www.%").toStdString());
+				query.bind(QString("https://www.%").toStdString());
+				query.bind(QString("http://%1%").arg(m_searchString).toStdString());
+				query.bind(QString("https://%1%").arg(m_searchString).toStdString());
+			}
+			else {
+				query.bind(QString("http://%1%").arg(m_searchString).toStdString());
+				query.bind(QString("https://%1%").arg(m_searchString).toStdString());
+				query.bind(QString("http://www.%1%").arg(m_searchString).toStdString());
+				query.bind(QString("https://www.%1%").arg(m_searchString).toStdString());
+			}
+
+			auto result = query.exec();
 			if (result.has_result())
-				m_domainCompletion = createDomainCompletion(QUrl(QString::fromStdString(result[0].url)).host());
+				m_domainCompletion = createDomainCompletion(QUrl(QString::fromStdString(result[0][history.url])).host());
 		}
 	}
 
@@ -133,8 +167,37 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 
 	if (showType == HistoryAndBookmarks || showType == History) {
 		const int historyLimit{20};
-		
-		ndb::sqlite_query<dbs::navigation> query = AddressBarCompleterModel::createHistoryQuery(m_searchString, historyLimit);
+
+		// TODO: waiting for fix
+		//ndb::sqlite_query<dbs::navigation>& query = AddressBarCompleterModel::createHistoryQuery(m_searchString, historyLimit);
+
+		QStringList searchList;
+		// TODO: Use ndb database name methode when it will be ok
+		QString queryString = QString(
+			"SELECT * FROM " + QString::fromStdString(ndb::name(history)) + " WHERE ");
+
+		searchList = m_searchString.split(QLatin1Char(' '), QString::SkipEmptyParts);
+		const int slSize = searchList.size();
+		for (int i = 0; i < slSize; ++i) {
+			queryString.append(
+				"(" + QString::fromStdString(ndb::name(history.title)) + " LIKE ? OR " + QString::fromStdString(
+					ndb::name(history.url)) + " LIKE ?) ");
+			if (i < slSize - 1) {
+				queryString.append(QLatin1String("AND "));
+			}
+		}
+
+		queryString.append("ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT ?");
+
+		ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
+
+		foreach(const QString &str, searchList) {
+			std::string bind = QString("%%1%").arg(str).toStdString();
+			query.bind(QString("%%1%").arg(str).toStdString());
+			query.bind(QString("%%1%").arg(str).toStdString());
+		}
+
+		query.bind(historyLimit);
 
 		for (auto& entry : query.exec<ndb::objects::history>()) {
 			const QUrl url{QUrl(QString::fromStdString(entry.url))};
