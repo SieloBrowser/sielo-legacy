@@ -61,9 +61,7 @@ public slots:
 
 protected:
 	void contextMenuEvent(QContextMenuEvent* event);
-	void mouseMoveEvent(QMouseEvent* event);
 	void mousePressEvent(QMouseEvent* event);
-	void mouseReleaseEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
 	void keyPressEvent(QKeyEvent* event);
 
