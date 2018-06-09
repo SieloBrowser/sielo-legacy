@@ -63,7 +63,7 @@ ndb_table(history,
 	ndb_field_id,
 	ndb_field(title, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(url, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(date, int, ndb::option<Opt_NotNull>),
+	ndb_field(date, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(count, int, ndb::option<Opt_NotNull>)
 )
 

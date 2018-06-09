@@ -221,8 +221,7 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 
 void AddressBarCompleterRefreshJob::completeMostVisited()
 {
-	for (auto& entry : ndb::oquery<dbs::navigation>() << (history << ndb::sort(ndb::desc(history.count)) << ndb::limit(15))
-	) {
+	for (auto& entry : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(15))) {
 		QStandardItem* item{new QStandardItem()};
 		const QUrl url{QUrl(QString::fromStdString(entry.url))};
 

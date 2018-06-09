@@ -40,14 +40,15 @@ static QString dateTimeToString(const QDateTime& dateTime)
 {
 	const QDateTime current = QDateTime::currentDateTime();
 	if (current.date() == dateTime.date()) {
-		return dateTime.time().toString("h:mm");
+		return dateTime.time().toString("hh:mm");
 	}
 
-	return dateTime.toString("d.M.yyyy h:mm");
+	return dateTime.toString("dd/MM/yyyy hh:mm");
 }
 
 HistoryModel::HistoryModel(History* history) :
 	QAbstractItemModel(history),
+	m_rootItem(new HistoryItem(nullptr)),
 	m_history(history)
 {
 	init();
@@ -236,13 +237,22 @@ void HistoryModel::fetchMore(const QModelIndex& parent)
 	for (int i{0}; i < parentItem->childCount(); ++i)
 		idList.append(parentItem->child(i)->historyEntry.id);
 
-	for (auto& data : ndb::oquery<dbs::navigation>() << ((history)
-		     << ndb::range(history.date, static_cast<int>(parentItem->endTimestamp()), static_cast<int>(parentItem->startTimestamp())))) {
+	auto oquery = ndb::oquery<dbs::navigation>() <<
+	(
+		ndb::range(
+			history.date,
+			QString::number(parentItem->endTimestamp()).toStdString(),
+			QString::number(parentItem->startTimestamp()).toStdString()
+		)
+	);
+
+	for (auto& data : oquery) {
 		History::HistoryEntry entry{data};
 
 		if (!idList.contains(entry.id))
 			list.append(entry);
 	}
+
 
 	if (list.isEmpty())
 		return;
@@ -412,7 +422,7 @@ void HistoryModel::init()
 	if (!minDateQuery.has_result())
 		return;
 
-	const qint64 minTimestamp = minDateQuery[0][0].get<int>();
+	const qint64 minTimestamp = QString::fromStdString(minDateQuery[0][0].get<std::string>()).toLongLong();
 
 	if (minTimestamp <= 0)
 		return;
@@ -442,18 +452,20 @@ void HistoryModel::init()
 			itemName = tr("This Month");
 		}
 		else {
-			QDate startDate{ timestampDate.year(), timestampDate.month(), timestampDate.daysInMonth() };
-			QDate endDate{ startDate.year(), startDate.month(), 1 };
+			QDate startDate{timestampDate.year(), timestampDate.month(), timestampDate.daysInMonth()};
+			QDate endDate{startDate.year(), startDate.month(), 1};
 
 			timestamp = QDateTime(startDate, QTime(23, 59, 59)).toMSecsSinceEpoch();
 			endTimestamp = QDateTime(endDate).toMSecsSinceEpoch();
-			itemName = QString("%1 %2").arg(History::titleCaseLocalizedMonth(timestampDate.month()), QString::number(timestampDate.year()));
+			itemName = QString("%1 %2").arg(History::titleCaseLocalizedMonth(timestampDate.month()),
+			                                QString::number(timestampDate.year()));
 		}
 
-		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, static_cast<int>(endTimestamp), static_cast<int>(timestamp)));
+		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, QString::number(endTimestamp).toStdString(),
+		                                                           QString::number(timestamp).toStdString()));
 
 		if (query.has_result()) {
-			HistoryItem* item{ new HistoryItem(m_rootItem) };
+			HistoryItem* item{new HistoryItem(m_rootItem)};
 			item->setStartTimestamp(timestamp == currentTimestamp ? -1 : timestamp);
 			item->setEndTimestamp(endTimestamp);
 			item->title = itemName;
@@ -467,4 +479,3 @@ void HistoryModel::init()
 	}
 }
 }
-

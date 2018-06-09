@@ -124,7 +124,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 		ndb::query<dbs::navigation>() + (
 			history.title = title.toStdString(),
 			history.url = url.toString().toStdString(),
-			history.date = static_cast<int>(QDateTime::currentMSecsSinceEpoch()),
+			history.date = QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(),
 			history.count = 1
 		);
 
@@ -143,13 +143,13 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	else {
 		int id{oquery[0].id};
 		int count{oquery[0].count};
-		QDateTime date{QDateTime::fromMSecsSinceEpoch(oquery[0].date)};
+		QDateTime date{QDateTime::fromMSecsSinceEpoch(QString::fromStdString(oquery[0].date).toLongLong())};
 		QString oldTitle{QString::fromStdString(oquery[0].title)};
 
 		ndb::query<dbs::navigation>() >> (
 			(
 				history.count = count + 1,
-				history.date = static_cast<int>(QDateTime::currentMSecsSinceEpoch()),
+				history.date = QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(),
 				history.title = title.toStdString()
 			)
 			<< (history.url == url.toString().toStdString())
@@ -183,7 +183,7 @@ void History::deleteHistoryEntry(int index)
 void History::deleteHistoryEntry(const QList<int>& list)
 {
 	for (int index : list) {
-		auto query = ndb::oquery<dbs::navigation>() << ((history) << (history.id == index));
+		auto query = ndb::oquery<dbs::navigation>() << (history.id == index);
 
 		if (!query.has_result())
 			return;
@@ -215,7 +215,8 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 	if (start < 0 || end < 0)
 		return list;
 
-	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(history.date, static_cast<int>(end), static_cast<int>(start))))
+	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(
+		     history.date, QString::number(end).toStdString(), QString::number(start).toStdString())))
 		list.append(data[history.id]);
 
 	return list;
@@ -232,13 +233,22 @@ QVector<History::HistoryEntry> History::mostVisited(int count)
 {
 	QVector<HistoryEntry> list{};
 
-	for (auto& data : ndb::oquery<dbs::navigation>() <<
-	     (
-		     (history)
-		     << ndb::sort(ndb::desc(history.count))
-		     << ndb::limit(count)
-	     )) {
-		HistoryEntry entry{data};
+	// TODO: waiting for ndb::sort fix
+	//for (auto& data : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
+	//	HistoryEntry entry{data};
+	//	
+	//	list.append(entry);
+	//}
+
+	for (auto& data : ndb::query<dbs::navigation>() << ((history.id, history.url, history.title, history.count, history.date) << ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
+		HistoryEntry entry{};
+
+		entry.id = data[history.id];
+		entry.date = QDateTime::fromMSecsSinceEpoch(QString::fromStdString(data[history.date]).toLongLong());
+		entry.url = QUrl(QString::fromStdString(data[history.url]));
+		entry.urlString = QUrl(QString::fromStdString(data[history.url])).toEncoded();
+		entry.title = QString::fromStdString(data[history.title]);
+		
 		list.append(entry);
 	}
 
@@ -253,6 +263,7 @@ void History::clearHistory()
 
 	emit resetHistory();
 }
+
 void History::setSaving(bool state)
 {
 	m_isSaving = state;
