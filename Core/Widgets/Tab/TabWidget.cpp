@@ -35,6 +35,7 @@
 #include "BrowserWindow.hpp"
 
 //#include "History/HistoryDialog.hpp"
+#include "History/HistoryManager.hpp"
 
 #include "Bookmarks/BookmarkManager.hpp"
 #include "Bookmarks/BookmarksDialog.hpp"
@@ -1011,6 +1012,8 @@ void TabWidget::openHistoryDialog()
 															 const QUrl&)));
 
 	dialog->show();*/
+	HistoryManager* dialog{ new HistoryManager(m_window) };
+	dialog->show();
 }
 
 bool TabWidget::validIndex(int index) const
