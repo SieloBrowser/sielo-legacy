@@ -39,7 +39,7 @@
 #include "Bookmarks/BookmarksModel.hpp"
 #include "Bookmarks/BookmarksToolBar.hpp"
 
-//#include "History/HistoryMenu.hpp"
+#include "History/HistoryMenu.hpp"
 
 #include "Download/DownloadManager.hpp"
 
@@ -87,7 +87,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
 	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	//m_historyMenu = new HistoryMenu(this);
+	m_historyMenu = new HistoryMenu(this);
+	m_historyMenu->setMainWindow(m_tabWidget->window());
 	//m_historyMenu->setTitle(tr("&History"));
 	//m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
 
@@ -115,7 +116,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction* findAction = createAction("Find", this, Application::getAppIcon("search"), tr("&Find"), "Ctrl+F");
 	addSeparator();
 	addMenu(m_bookmarksMenu);
-	//addMenu(m_historyMenu);
+	addMenu(m_historyMenu);
 	addMenu(m_toolsMenu);
 	QAction* showSiteInfoAction = createAction("ShowSiteInfo", m_toolsMenu, QIcon(), tr("Show Site Info"));
 	QAction* showDownloadManagerAction =

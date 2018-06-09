@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,81 +23,48 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#ifndef SIELOBROWSER_HISTORYMENU_HPP
+#define SIELOBROWSER_HISTORYMENU_HPP
 
 #include <QMenu>
-#include <QAction>
 
-#include <QHash>
 #include <QPointer>
 
-namespace Sn {
-class TabWidget;
-class PreferencesDialog;
+namespace Sn
+{
+class BrowserWindow;
 
-class BookmarksMenu;
-class HistoryMenu;
-
-class MainMenu: public QMenu {
+// TODO: manage ctrl and shift
+class HistoryMenu: public QMenu {
 Q_OBJECT
 
 public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
+	HistoryMenu(QWidget* parent = nullptr);
+	~HistoryMenu();
 
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
+	void setMainWindow(BrowserWindow* window);
 
 private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
+	void goBack();
+	void goForward();
+	void goHome();
+	void showHistoryManager();
 
-	void selectAll();
-	void find();
+	void aboutToShow();
+	void aboutToHide();
 
-	void showAllBookmarks();
-	void addBookmarks();
+	void aboutToShowMostVisited();
+	void aboutToShowClosedTabs();
 
-	void webBack();
-	void webForward();
-	void webHome();
+	void historyEntryActivated();
 
 	void openUrl(const QUrl& url);
 
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showPartners();
-	void showHelpUs();
-
-	void quit();
-
 private:
-	void addActionsToTabWidget();
-
-	QAction* m_toggleBookmarksAction{nullptr};
-
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
-
-	TabWidget* m_tabWidget{nullptr};
-
-	QPointer<PreferencesDialog> m_preferences{};
-
-	QHash<QString, QAction*> m_actions{};
+	QPointer<BrowserWindow> m_window{};
+	QMenu* m_menuMostVisited{nullptr};
+	QMenu* m_menuClosedTabs{nullptr};
 };
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+#endif //SIELOBROWSER_HISTORYMENU_HPP
