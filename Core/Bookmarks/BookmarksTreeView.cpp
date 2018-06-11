@@ -50,6 +50,10 @@ BookmarksTreeView::~BookmarksTreeView()
 	setUniformRowHeights(true);
 	setDropIndicatorShown(true);
 	setAllColumnsShowFocus(true);
+	setColumnHidden(1, false);
+	setHeaderHidden(false);
+	setMouseTracking(false);
+	setSelectionMode(QAbstractItemView::ExtendedSelection);
 	setItemDelegate(new BookmarksItemDelegate(this));
 
 	header()->resizeSections(QHeaderView::ResizeToContents);
