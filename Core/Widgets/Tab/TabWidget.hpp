@@ -157,8 +157,7 @@ public slots:
 
 	void tabBarOverFlowChanged(bool overflowed);
 
-	void openAddBookmarkDialog();
-	void openBookmarkDialog();
+	void openBookmarksDialog();
 	void openHistoryDialog();
 private slots:
 	void save();

@@ -37,9 +37,7 @@
 //#include "History/HistoryDialog.hpp"
 #include "History/HistoryManager.hpp"
 
-#include "Bookmarks/BookmarkManager.hpp"
-#include "Bookmarks/BookmarksDialog.hpp"
-#include "Bookmarks/AddBookmarkDialog.hpp"
+#include "Bookmarks/BookmarksManager.hpp"
 
 #include "Download/DownloadManager.hpp"
 
@@ -59,10 +57,11 @@
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
 #include "Widgets/Tab/AddTabButton.hpp"
+
 //#include "Widgets/Tab/TabLabel.hpp"
 
-namespace Sn {
-
+namespace Sn
+{
 TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWidget* parent) :
 	TabStackedWidget(parent),
 	m_saveTimer(new AutoSaver(this)),
@@ -147,7 +146,7 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	connect(m_tabBar, SIGNAL(duplicateTab(int)), this, SLOT(duplicateTab(int)));
 	connect(m_tabBar, SIGNAL(detachTab(int)), this, SLOT(detachTab(int)));
 	connect(m_tabBar, SIGNAL(detachFromDrop(int)), this, SLOT(detachTabFromDrop(int)));
-//	connect(m_tabBar, SIGNAL(detachTab(int, QPoint)), this, SLOT(detachTab(int, QPoint)));
+	//	connect(m_tabBar, SIGNAL(detachTab(int, QPoint)), this, SLOT(detachTab(int, QPoint)));
 	connect(m_tabBar, &MainTabBar::tabMoved, this, &TabWidget::tabMoved);
 	connect(m_tabBar, &MainTabBar::moveAddTabButton, this, &TabWidget::moveAddTabButton);
 	connect(m_tabBar, &MainTabBar::overFlowChanged, this, &TabWidget::tabBarOverFlowChanged);
@@ -258,7 +257,7 @@ QByteArray TabWidget::saveState()
 	int tabListCount = tabList.count();
 	stream << tabListCount;
 
-		foreach (const WebTab::SavedTab& tab, tabList) stream << tab;
+	foreach (const WebTab::SavedTab& tab, tabList) stream << tab;
 
 	stream << currentIndex();
 
@@ -296,10 +295,10 @@ bool TabWidget::restoreState(const QVector<WebTab::SavedTab>& tabs, int currentT
 
 void TabWidget::closeRecoveryTab()
 {
-		foreach (WebTab* tab, allTabs(false)) {
-			if (tab->url().toString() == QLatin1String("sielo:restore"))
-				closeTab(tab->tabIndex());
-		}
+	foreach (WebTab* tab, allTabs(false)) {
+		if (tab->url().toString() == QLatin1String("sielo:restore"))
+			closeTab(tab->tabIndex());
+	}
 }
 
 void TabWidget::setCurrentIndex(int index)
@@ -314,6 +313,7 @@ void TabWidget::nextTab()
 	QKeyEvent fakeEvent{QKeyEvent::KeyPress, Qt::Key_Tab, Qt::ControlModifier};
 	keyPressEvent(&fakeEvent);
 }
+
 void TabWidget::previousTab()
 {
 	QKeyEvent fakeEvent
@@ -436,13 +436,13 @@ int TabWidget::addView(const QUrl& url)
 }
 
 int TabWidget::addView(const LoadRequest& request, const Application::NewTabTypeFlags& openFlags, bool selectLine,
-					   bool pinned)
+                       bool pinned)
 {
 	return addView(request, QString(), openFlags, selectLine, -1, pinned);
 }
 
 int TabWidget::addView(const LoadRequest& request, const QString& title, const Application::NewTabTypeFlags& openFlags,
-					   bool selectLine, int position, bool pinned)
+                       bool selectLine, int position, bool pinned)
 {
 	QUrl url{request.url()};
 	m_lastTabIndex = currentIndex();
@@ -483,8 +483,7 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 
 	connect(webTab->webView(), &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	connect(webTab->webView(), SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
-	connect(webTab->webView(), &WebView::urlChanged, this, [this](const QUrl& url)
-	{
+	connect(webTab->webView(), &WebView::urlChanged, this, [this](const QUrl& url) {
 		if (url != m_urlOnNewTab)
 			m_currentTabFresh = false;
 	});
@@ -648,14 +647,14 @@ void TabWidget::closeAllButCurrent(int index)
 
 	WebTab* akt{weTab(index)};
 
-		foreach (WebTab* tab, allTabs(false)) {
-			int tabIndex{tab->tabIndex()};
+	foreach (WebTab* tab, allTabs(false)) {
+		int tabIndex{tab->tabIndex()};
 
-			if (akt == widget(tabIndex))
-				continue;
+		if (akt == widget(tabIndex))
+			continue;
 
-			requestCloseTab(tabIndex);
-		}
+		requestCloseTab(tabIndex);
+	}
 }
 
 void TabWidget::closeToRight(int index)
@@ -663,14 +662,14 @@ void TabWidget::closeToRight(int index)
 	if (!validIndex(index))
 		return;
 
-		foreach (WebTab* tab, allTabs(false)) {
-			int tabIndex{tab->tabIndex()};
+	foreach (WebTab* tab, allTabs(false)) {
+		int tabIndex{tab->tabIndex()};
 
-			if (index >= tabIndex)
-				continue;
+		if (index >= tabIndex)
+			continue;
 
-			requestCloseTab(tabIndex);
-		}
+		requestCloseTab(tabIndex);
+	}
 }
 
 void TabWidget::closeToLeft(int index)
@@ -678,14 +677,14 @@ void TabWidget::closeToLeft(int index)
 	if (!validIndex(index))
 		return;
 
-		foreach (WebTab* tab, allTabs(false)) {
-			int tabIndex{tab->tabIndex()};
+	foreach (WebTab* tab, allTabs(false)) {
+		int tabIndex{tab->tabIndex()};
 
-			if (index <= tabIndex)
-				continue;
+		if (index <= tabIndex)
+			continue;
 
-			requestCloseTab(tabIndex);
-		}
+		requestCloseTab(tabIndex);
+	}
 }
 
 void TabWidget::detachTab(int index)
@@ -777,11 +776,11 @@ void TabWidget::restoreAllClosedTabs()
 
 	const QLinkedList<ClosedTabsManager::Tab>& closedTabs = m_closedTabsManager->allClosedTab();
 
-		foreach (const ClosedTabsManager::Tab& tab, closedTabs) {
-			int index{addView(QUrl(), tab.title, Application::NTT_CleanSelectedTab)};
-			WebTab* webTab{weTab(index)};
-			webTab->p_restoreTab(tab.url, tab.history, tab.zoomLevel);
-		}
+	foreach (const ClosedTabsManager::Tab& tab, closedTabs) {
+		int index{addView(QUrl(), tab.title, Application::NTT_CleanSelectedTab)};
+		WebTab* webTab{weTab(index)};
+		webTab->p_restoreTab(tab.url, tab.history, tab.zoomLevel);
+	}
 
 	clearClosedTabsList();
 }
@@ -816,8 +815,7 @@ void TabWidget::fullScreenRequested(QWebEngineFullScreenRequest request)
 			QAction* exitFullScreenAction = new QAction(m_fullScreenView);
 			exitFullScreenAction->setShortcut(Qt::Key_Escape);
 
-			connect(exitFullScreenAction, &QAction::triggered, [webPage]
-			{
+			connect(exitFullScreenAction, &QAction::triggered, [webPage] {
 				webPage->triggerAction(QWebEnginePage::ExitFullScreen);
 			});
 
@@ -922,11 +920,11 @@ void TabWidget::aboutToShowClosedTabsMenu()
 	int i{0};
 	const QLinkedList<ClosedTabsManager::Tab> closedTabs = closedTabsManager()->allClosedTab();
 
-		foreach (const ClosedTabsManager::Tab& tab, closedTabs) {
-			const QString title{tab.title.length() > 40 ? tab.title.left(40) + QLatin1String("...") : tab.title};
-			QAction* action{m_menuClosedTabs->addAction(tab.icon, title, this, SLOT(restoreClosedTab()))};
-			action->setData(++i);
-		}
+	foreach (const ClosedTabsManager::Tab& tab, closedTabs) {
+		const QString title{tab.title.length() > 40 ? tab.title.left(40) + QLatin1String("...") : tab.title};
+		QAction* action{m_menuClosedTabs->addAction(tab.icon, title, this, SLOT(restoreClosedTab()))};
+		action->setData(++i);
+	}
 
 	if (m_menuClosedTabs->isEmpty())
 		m_menuClosedTabs->addAction(tr("Empty"))->setEnabled(false);
@@ -959,45 +957,29 @@ void TabWidget::tabMoved(int before, int after)
 	emit changed();
 }
 
-WebTab* TabWidget::weTab()
+WebTab *TabWidget::weTab()
 {
 	return weTab(currentIndex());
 }
 
-WebTab* TabWidget::weTab(int index)
+WebTab *TabWidget::weTab(int index)
 {
 	return qobject_cast<WebTab*>(widget(index));
 }
 
-TabIcon* TabWidget::tabIcon(int index)
+TabIcon *TabWidget::tabIcon(int index)
 {
 	return weTab(index)->tabIcon();
 }
 
-QAction* TabWidget::action(const QString& name) const
+QAction *TabWidget::action(const QString& name) const
 {
 	return static_cast<MainMenu*>(m_buttonMainMenu->menu())->action(name);
 }
 
-void TabWidget::openAddBookmarkDialog()
+void TabWidget::openBookmarksDialog()
 {
-	QString url = weTab()->url().toString();
-	QString title = weTab()->title();
-
-	AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
-	dialog->setAttribute(Qt::WA_DeleteOnClose);
-
-	dialog->show();
-}
-
-void TabWidget::openBookmarkDialog()
-{
-	BookmarksDialog* dialog{new BookmarksDialog(this)};
-	dialog->setAttribute(Qt::WA_DeleteOnClose);
-
-	connect(dialog, SIGNAL(openUrl(
-							   const QUrl&)), this, SLOT(addView(
-															 const QUrl&)));
+	BookmarksManager* dialog{new BookmarksManager(m_window, m_window)};
 
 	dialog->show();
 }
@@ -1012,7 +994,7 @@ void TabWidget::openHistoryDialog()
 															 const QUrl&)));
 
 	dialog->show();*/
-	HistoryManager* dialog{ new HistoryManager(m_window) };
+	HistoryManager* dialog{new HistoryManager(m_window, m_window)};
 	dialog->show();
 }
 

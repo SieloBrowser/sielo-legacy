@@ -110,7 +110,9 @@ public slots:
 	void tabsSpaceInFullView(QWidget* widget);
 	void arrangeTabsSpaces();
 
+	void bookmarkPage();
 	void bookmarkAllTabs();
+	void addBookmark(const QUrl& url, const QString& title);
 
 protected:
 	void shotBackground();
@@ -129,7 +131,6 @@ private slots:
 	void forward();
 	void back();
 	void newTab();
-	void openAddBookmarkDialog();
 
 private:
 	void setupUi();
