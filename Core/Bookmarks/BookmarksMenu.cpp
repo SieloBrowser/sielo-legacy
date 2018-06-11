@@ -145,7 +145,7 @@ void BookmarksMenu::addActionToMenu(QMenu* menu, BookmarkItem* item)
 		addFolderToMenu(menu, item);
 		break;
 	case BookmarkItem::Separator:
-		addSeparatorToMenu(item);
+		addSeparatorToMenu(menu, item);
 		break;
 	default:
 		break;
