@@ -161,7 +161,7 @@ int BookmarksModel::columnCount(const QModelIndex& parent) const
 	if (parent.column() > 0)
 		return 0;
 
-	return 0;
+	return 2;
 }
 
 bool BookmarksModel::hasChildren(const QModelIndex& parent) const
