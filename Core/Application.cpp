@@ -77,8 +77,8 @@
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
 
-namespace Sn {
-
+namespace Sn
+{
 QString Application::currentVersion = QString("1.14.00b");
 
 // Static member
@@ -99,7 +99,7 @@ QList<QString> Application::paths()
 	return paths;
 }
 
-Application* Application::instance()
+Application *Application::instance()
 {
 	return (static_cast<Application*>(QCoreApplication::instance()));
 }
@@ -113,14 +113,16 @@ QIcon Application::getAppIcon(const QString& name, const QString& directory, con
 
 QByteArray Application::readAllFileByteContents(const QString& filename)
 {
-	QFile file{ filename };
+	QFile file{filename};
 
 	if (!filename.isEmpty() && file.open(QFile::ReadOnly)) {
-		const QByteArray array{ file.readAll() };
+		const QByteArray byteArray{file.readAll()};
 
 		file.close();
 
-		return array;
+		std::string str = byteArray.toStdString();
+
+		return byteArray;
 	}
 
 	return QByteArray();
@@ -128,28 +130,28 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
-		SingleApplication(argc, argv, true),
-		m_plugins(nullptr),
-		m_autoFill(nullptr),
-		m_cookieJar(nullptr),
-		m_history(nullptr),
-		m_networkManager(nullptr),
-		m_webProfile(nullptr)
+	SingleApplication(argc, argv, true),
+	m_plugins(nullptr),
+	m_autoFill(nullptr),
+	m_cookieJar(nullptr),
+	m_history(nullptr),
+	m_networkManager(nullptr),
+	m_webProfile(nullptr)
 {
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.14.00"));
-/*
-	// QSQLITE database plugin is required
-	if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
-		QMessageBox::critical(0,
-							  QStringLiteral("Error"),
-							  QStringLiteral(
-									  "Qt SQLite database plugin is not available. Please install it and restart the application."));
-		return;
-	}
-*/
+	/*
+		// QSQLITE database plugin is required
+		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
+			QMessageBox::critical(0,
+								  QStringLiteral("Error"),
+								  QStringLiteral(
+										  "Qt SQLite database plugin is not available. Please install it and restart the application."));
+			return;
+		}
+	*/
 	// Loading fonts information
 	/*int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
@@ -169,40 +171,40 @@ Application::Application(int& argc, char** argv) :
 	if (argc > 1) {
 		CommandLineOption command{};
 
-				foreach (const CommandLineOption::ActionPair& pair, command.getActions()) {
-				switch (pair.action) {
-				case Application::CL_NewTab:
-					messages.append(QLatin1String("ACTION:NewTab"));
-					m_postLaunchActions.append(OpenNewTab);
-					break;
-				case Application::CL_NewWindow:
-					messages.append(QLatin1String("ACTION:NewWindow"));
-					break;
-				case Application::CL_StartPrivateBrowsing:
-					m_privateBrowsing = true;
-					break;
-				case Application::CL_StartNewInstance:
-					newInstance = true;
-					break;
-				case Application::CL_OpenUrlInCurrentTab:
-					startUrl = QUrl::fromUserInput(pair.text);
-					messages.append("ACTION:OpenUrlInCurrentTab" + pair.text);
-					break;
-				case Application::CL_OpenUrlInNewWindow:
-					startUrl = QUrl::fromUserInput(pair.text);
-					messages.append("ACTION:OpenUrlInNewWindow" + pair.text);
-					break;
-				case Application::CL_OpenUrl:
-					startUrl = QUrl::fromUserInput(pair.text);
-					messages.append("URL:" + pair.text);
-					break;
-				case Application::CL_ExitAction:
-					m_isClosing = true;
-				default:
-					break;
+		foreach (const CommandLineOption::ActionPair& pair, command.getActions()) {
+			switch (pair.action) {
+			case Application::CL_NewTab:
+				messages.append(QLatin1String("ACTION:NewTab"));
+				m_postLaunchActions.append(OpenNewTab);
+				break;
+			case Application::CL_NewWindow:
+				messages.append(QLatin1String("ACTION:NewWindow"));
+				break;
+			case Application::CL_StartPrivateBrowsing:
+				m_privateBrowsing = true;
+				break;
+			case Application::CL_StartNewInstance:
+				newInstance = true;
+				break;
+			case Application::CL_OpenUrlInCurrentTab:
+				startUrl = QUrl::fromUserInput(pair.text);
+				messages.append("ACTION:OpenUrlInCurrentTab" + pair.text);
+				break;
+			case Application::CL_OpenUrlInNewWindow:
+				startUrl = QUrl::fromUserInput(pair.text);
+				messages.append("ACTION:OpenUrlInNewWindow" + pair.text);
+				break;
+			case Application::CL_OpenUrl:
+				startUrl = QUrl::fromUserInput(pair.text);
+				messages.append("URL:" + pair.text);
+				break;
+			case Application::CL_ExitAction:
+				m_isClosing = true;
+			default:
+				break;
 
-				}
 			}
+		}
 	}
 
 	if (messages.isEmpty()) {
@@ -212,9 +214,9 @@ Application::Application(int& argc, char** argv) :
 	// Check is there is already an instance of Sielo running
 	if (isSecondary() && !newInstance && !privateBrowsing()) {
 		m_isClosing = true;
-				foreach (const QString& message, messages) {
-				sendMessage(message.toUtf8());
-			}
+		foreach (const QString& message, messages) {
+			sendMessage(message.toUtf8());
+		}
 
 		return;
 	}
@@ -302,7 +304,7 @@ void Application::loadSettings()
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
 	// Load specific settings for all windows
-			foreach (BrowserWindow* window, m_windows) window->loadSettings();
+	foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
 	// Load settings for password
 	if (m_autoFill)
@@ -323,7 +325,7 @@ void Application::loadWebSettings()
 
 	QString defaultUserAgent = webProfile->httpUserAgent();
 	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
-							 QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
+	                         QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
 	webProfile->setHttpUserAgent(defaultUserAgent);
 
 	settings.beginGroup("Web-Settings");
@@ -331,13 +333,13 @@ void Application::loadWebSettings()
 	webSettings->setAttribute(QWebEngineSettings::PluginsEnabled, settings.value("allowPlugins", true).toBool());
 	webSettings->setAttribute(QWebEngineSettings::JavascriptEnabled, settings.value("allowJavaScript", true).toBool());
 	webSettings->setAttribute(QWebEngineSettings::LinksIncludedInFocusChain,
-							  settings.value("includeLinkInFocusChain", false).toBool());
+	                          settings.value("includeLinkInFocusChain", false).toBool());
 	webSettings->setAttribute(QWebEngineSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
 	webSettings
-			->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled,
-						   settings.value("animateScrolling", true).toBool());
+		->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled,
+		               settings.value("animateScrolling", true).toBool());
 	webSettings->setAttribute(QWebEngineSettings::SpatialNavigationEnabled,
-							  settings.value("spatialNavigation", false).toBool());
+	                          settings.value("spatialNavigation", false).toBool());
 	webSettings->setAttribute(QWebEngineSettings::HyperlinkAuditingEnabled, false);
 	webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
 	webSettings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
@@ -370,24 +372,24 @@ void Application::loadApplicationSettings()
 			// Update with new bookmarks
 			QString directory{Application::instance()->paths()[Application::P_Data]};
 			QFile::remove(directory
-						  + QLatin1String("/bookmarks.xbel"));
+				+ QLatin1String("/bookmarks.xbel"));
 			QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
-															   + QLatin1String("/bookmarks.xbel"));
+			            + QLatin1String("/bookmarks.xbel"));
 			QFile::setPermissions(directory
-								  + QLatin1String("/bookmarks.xbel"),
-								  QFileDevice::ReadUser | QFileDevice::WriteUser);
+			                      + QLatin1String("/bookmarks.xbel"),
+			                      QFileDevice::ReadUser | QFileDevice::WriteUser);
 		}
 
 		// Update home page to use last version of doosearch
 		settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
 		settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
 
-				foreach (BrowserWindow* window, m_windows) {
-				window->loadSettings();
-				for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-					window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
-				}
+		foreach (BrowserWindow* window, m_windows) {
+			window->loadSettings();
+			for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+				window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
 			}
+		}
 
 		settings.setValue("versionNumber", 12);
 	}
@@ -398,9 +400,11 @@ void Application::loadThemesSettings()
 	QSettings settings{};
 
 	// Load theme info
-	QFileInfo themeInfo{paths()[Application::P_Themes] + QLatin1Char('/')
-						+ settings.value("Themes/currentTheme", "sielo-default").toString()
-						+ QLatin1String("/main.sss")};
+	QFileInfo themeInfo{
+		paths()[Application::P_Themes] + QLatin1Char('/')
+		+ settings.value("Themes/currentTheme", "sielo-default").toString()
+		+ QLatin1String("/main.sss")
+	};
 
 	// Check if the theme existe
 	if (themeInfo.exists()) {
@@ -432,7 +436,7 @@ void Application::loadThemesSettings()
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
-				  settings.value("Themes/lightness", QLatin1String("dark")).toString());
+		          settings.value("Themes/lightness", QLatin1String("dark")).toString());
 
 	}
 	else {
@@ -500,7 +504,7 @@ QString Application::currentLanguage() const
 	return lang.left(lang.length() - 3);
 }
 
-QWebEngineProfile* Application::webProfile()
+QWebEngineProfile *Application::webProfile()
 {
 	if (!m_webProfile) {
 		m_webProfile = QWebEngineProfile::defaultProfile();
@@ -513,7 +517,7 @@ int Application::windowCount() const
 	return m_windows.count();
 }
 
-BrowserWindow* Application::getWindow() const
+BrowserWindow *Application::getWindow() const
 {
 	if (m_lastActiveWindow)
 		return m_lastActiveWindow.data();
@@ -521,7 +525,7 @@ BrowserWindow* Application::getWindow() const
 	return m_windows.isEmpty() ? nullptr : m_windows[0];
 }
 
-BrowserWindow* Application::createWindow(Application::WindowType type, const QUrl& startUrl)
+BrowserWindow *Application::createWindow(Application::WindowType type, const QUrl& startUrl)
 {
 	if (windowCount() == 0)
 		type = Application::WT_FirstAppWindow;
@@ -574,15 +578,15 @@ bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
 
 	processEvents();
 
-			foreach (const RestoreManager::WindowData& data, restoreData) {
-			BrowserWindow* window{createWindow(Application::WT_OtherRestoredWindow)};
+	foreach (const RestoreManager::WindowData& data, restoreData) {
+		BrowserWindow* window{createWindow(Application::WT_OtherRestoredWindow)};
 
-			window->setUpdatesEnabled(false);
-			window->restoreWindowState(data);
-			window->setUpdatesEnabled(true);
+		window->setUpdatesEnabled(false);
+		window->restoreWindowState(data);
+		window->setUpdatesEnabled(true);
 
-			processEvents();
-		}
+		processEvents();
+	}
 
 	destroyRestoreManager();
 	restoreOverrideCursor();
@@ -615,8 +619,10 @@ void Application::saveSettings()
 
 	// Check if we want to remove history and|or cookies. Remove them if needed
 	bool deleteHistory
-			{settings.value("deleteHistoryOnClose", false).toBool() ||
-			 !settings.value("allowHistory", true).toBool()};
+	{
+		settings.value("deleteHistoryOnClose", false).toBool() ||
+		!settings.value("allowHistory", true).toBool()
+	};
 
 	settings.endGroup();
 
@@ -626,7 +632,6 @@ void Application::saveSettings()
 		m_history->clearHistory();
 	if (deleteCookies)
 		m_cookieJar->deleteAllCookies();
-
 }
 
 void Application::saveSession(bool saveForHome)
@@ -642,18 +647,18 @@ void Application::saveSession(bool saveForHome)
 	stream << m_windows.count();
 
 	// Save tabs of all windows
-			foreach (BrowserWindow* window, m_windows) {
-			window->titleBar()->saveToolBarsPositions();
-			stream << window->saveTabs();
+	foreach (BrowserWindow* window, m_windows) {
+		window->titleBar()->saveToolBarsPositions();
+		stream << window->saveTabs();
 
-			// Save state of window (is it's in full screen)
-			if (window->isFullScreen())
-				stream << QByteArray();
-			else
-				stream << window->saveState();
+		// Save state of window (is it's in full screen)
+		if (window->isFullScreen())
+			stream << QByteArray();
+		else
+			stream << window->saveState();
 
-			stream << window->saveGeometry();
-		}
+		stream << window->saveGeometry();
+	}
 
 	// Save data to a file
 	QFile file{};
@@ -693,7 +698,7 @@ void Application::postLaunch()
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-				->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTabAtEnd);
+		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTabAtEnd);
 		settings.setValue("installed", true);
 	}
 
@@ -800,7 +805,7 @@ void Application::setUserStyleSheet(const QString& filePath)
 	m_webProfile->scripts()->insert(script);
 }
 
-CookieJar* Application::cookieJar()
+CookieJar *Application::cookieJar()
 {
 	if (!m_cookieJar)
 		m_cookieJar = new CookieJar();
@@ -808,7 +813,7 @@ CookieJar* Application::cookieJar()
 	return m_cookieJar;
 }
 
-History* Application::history()
+History *Application::history()
 {
 	if (!m_history)
 		m_history = new History(this);
@@ -816,7 +821,7 @@ History* Application::history()
 	return m_history;
 }
 
-Bookmarks* Application::bookmarks()
+Bookmarks *Application::bookmarks()
 {
 	if (!m_bookmarks)
 		m_bookmarks = new Bookmarks(this);
@@ -824,7 +829,7 @@ Bookmarks* Application::bookmarks()
 	return m_bookmarks;
 }
 
-DownloadManager* Application::downloadManager()
+DownloadManager *Application::downloadManager()
 {
 	if (!m_downloadManager)
 		m_downloadManager = new DownloadManager();
@@ -832,7 +837,7 @@ DownloadManager* Application::downloadManager()
 	return m_downloadManager;
 }
 
-HTML5PermissionsManager* Application::permissionsManager()
+HTML5PermissionsManager *Application::permissionsManager()
 {
 	if (!m_permissionsManager)
 		m_permissionsManager = new HTML5PermissionsManager(this);
@@ -847,16 +852,16 @@ void Application::startAfterCrash()
 	requestAction.setText(QApplication::tr("You are starting Sielo after a crash. What would you like to do?"));
 
 	QAbstractButton* startBlankSession = requestAction.addButton(QApplication::tr("Start New Session"),
-																 QMessageBox::NoRole);
+	                                                             QMessageBox::NoRole);
 	QAbstractButton* restoreSession = requestAction.addButton(QApplication::tr("Restore Session"),
-															  QMessageBox::YesRole);
+	                                                          QMessageBox::YesRole);
 
 	requestAction.exec();
 
 	// Since some people seem to be able to run only the 32 bit version...
 	if (!is32bit()) {
 		QMessageBox::information(nullptr, QApplication::tr("Info"), QApplication::tr(
-				"Please, if Sielo continues crashing, consider trying this 32bit version."));
+			                         "Please, if Sielo continues crashing, consider trying this 32bit version."));
 	}
 
 	if (requestAction.clickedButton() == restoreSession) {
@@ -879,7 +884,7 @@ void Application::connectDatabase()
 
 	// Databases are stored in a specific folder in %appdata%
 	params.path = QString(paths()[Application::P_Data] + QLatin1String("/database")).toStdString();
-	
+
 	// Connecte databases
 	ndb::connect<dbs::password>(params);
 	ndb::connect<dbs::navigation>(params);
@@ -941,7 +946,6 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 	}
 
 	return info.absoluteFilePath();
-
 }
 
 void Application::processCommand(const QString& command, const QStringList args)
@@ -954,7 +958,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		siteRequest.setUrl(QUrl("http://www.feldrise.com/Sielo/"));
 
 		getWindow()->tabWidget()->weTab()->webView()
-				->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
+		           ->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
 	if (command == "github") {
@@ -962,7 +966,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		githubRequest.setUrl(QUrl("https://github.com/Feldrise/SieloNavigateur"));
 
 		getWindow()->tabWidget()->weTab()->webView()
-				->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
+		           ->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
 	/*if (command == "witcher") {
@@ -1025,21 +1029,21 @@ void Application::processCommand(const QString& command, const QStringList args)
 	if (command == "easteregg") {
 		QStringList eastereggs{};
 		eastereggs << "http://feldrise.com"
-				   << "http://www.perdu.com/"
-				   << "http://po.ta.to/"
-				   << "https://procatinator.com/"
-				   << "http://tholman.com/texter/"
-				   << "http://hristu.net/"
-				   << "https://omfgdogs.com/"
-				   << "http://fallingfalling.com/"
-				   << "http://zombo.com/"
-				   << "http://thenicestplaceontheinter.net/"
-				   << "http://pointerpointer.com/"
-				   << "http://ducksarethebest.com/"
-				   << "http://www.koalastothemax.com/"
-				   << "http://ninjaflex.com/"
-				   << "http://www.taghua.com/"
-				   << "https://www.staggeringbeauty.com/";
+			<< "http://www.perdu.com/"
+			<< "http://po.ta.to/"
+			<< "https://procatinator.com/"
+			<< "http://tholman.com/texter/"
+			<< "http://hristu.net/"
+			<< "https://omfgdogs.com/"
+			<< "http://fallingfalling.com/"
+			<< "http://zombo.com/"
+			<< "http://thenicestplaceontheinter.net/"
+			<< "http://pointerpointer.com/"
+			<< "http://ducksarethebest.com/"
+			<< "http://www.koalastothemax.com/"
+			<< "http://ninjaflex.com/"
+			<< "http://www.taghua.com/"
+			<< "https://www.staggeringbeauty.com/";
 
 		int sitesCount{eastereggs.count()};
 		int easteregg{qrand() % ((sitesCount) - 0) + 0};
@@ -1048,7 +1052,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		eastereggRequest.setUrl(eastereggs[easteregg]);
 
 		getWindow()->tabWidget()->weTab()->webView()
-				->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
+		           ->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 }
 
@@ -1058,8 +1062,8 @@ void Application::addNewTab(const QUrl& url)
 
 	if (window) {
 		window->tabWidget()
-				->addView(url,
-						  url.isEmpty() ? Application::NTT_SelectedNewEmptyTab : Application::NTT_SelectedTabAtEnd);
+		      ->addView(url,
+		                url.isEmpty() ? Application::NTT_SelectedNewEmptyTab : Application::NTT_SelectedTabAtEnd);
 	}
 }
 
@@ -1078,8 +1082,8 @@ void Application::startPrivateBrowsing(const QUrl& startUrl)
 
 	if (!QProcess::startDetached(applicationFilePath(), args))
 		QMessageBox::warning(nullptr,
-							 "Failed",
-							 "Cannot start new browser process for private browsing! " + applicationFilePath());
+		                     "Failed",
+		                     "Cannot start new browser process for private browsing! " + applicationFilePath());
 }
 
 void Application::loadTheme(const QString& name, const QString& lightness)
@@ -1110,7 +1114,7 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 		QString relativePath{QDir::current().relativeFilePath(activeThemePath)};
 
 		sss = parseSSS(sss, relativePath, lightness);
-//		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*main\\s*(\\s*,\\s*)\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\\s*(,\\s*normal))\\s*\\)")), "testeee");
+		//		sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*main\\s*(\\s*,\\s*)\b([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\b\\s*(,\\s*normal))\\s*\\)")), "testeee");
 
 		setStyleSheet(sss);
 	}
@@ -1123,7 +1127,7 @@ QString Application::parseSSS(QString& sss, const QString& relativePath, const Q
 {
 	// Replace url with absolute path
 	sss.replace(RegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
-				QString("url(%1/\\1)").arg(relativePath));
+	            QString("url(%1/\\1)").arg(relativePath));
 
 	// Replace some Sielo API properties to Qt properties
 	sss.replace("sproperty", "qproperty");
@@ -1138,14 +1142,15 @@ QString Application::parseSSS(QString& sss, const QString& relativePath, const Q
 QString Application::parseSSSColor(QString& sss, const QString& lightness)
 {
 	sss.replace(RegExp(QStringLiteral(
-							   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)")),
-				"rgba($color\\1\\2, \\3\\4)");
+		            "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*,\\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\\s*\\)"
+	            )),
+	            "rgba($color\\1\\2, \\3\\4)");
 	sss.replace(
-			RegExp(QStringLiteral(
-						   "scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
-			"rgba($color\\1\\2, 255)");
+		RegExp(QStringLiteral(
+			"scolor\\s*\\(\\s*(main|second|accent|text)\\s*,\\s*(normal|light|dark)\\s*\\)")),
+		"rgba($color\\1\\2, 255)");
 	sss.replace(RegExp(QStringLiteral("scolor\\s*\\(\\s*(main|second|accent|text)\\s*\\)")),
-				"rgba($color\\1normal, 255)");
+	            "rgba($color\\1normal, 255)");
 
 	sss.replace(QLatin1String("\\4"), "");
 
@@ -1187,36 +1192,39 @@ bool Application::copyPath(const QString& fromDir, const QString& toDir, bool co
 {
 	QDir sourceDir(fromDir);
 	QDir targetDir(toDir);
-	if (!targetDir.exists()) {    /* if directory don't exists, build it */
+	if (!targetDir.exists()) {
+		/* if directory don't exists, build it */
 		if (!targetDir.mkdir(targetDir.absolutePath()))
 			return false;
 	}
 
 	QFileInfoList fileInfoList = sourceDir.entryInfoList();
-			foreach(QFileInfo fileInfo, fileInfoList) {
-			if (fileInfo.fileName() == "." || fileInfo.fileName() == "..")
-				continue;
+	foreach(QFileInfo fileInfo, fileInfoList) {
+		if (fileInfo.fileName() == "." || fileInfo.fileName() == "..")
+			continue;
 
-			if (fileInfo.isDir()) {    /* if it is directory, copy recursively*/
-				if (!copyPath(fileInfo.filePath(),
-							  targetDir.filePath(fileInfo.fileName()),
-							  coverFileIfExist))
-					return false;
+		if (fileInfo.isDir()) {
+			/* if it is directory, copy recursively*/
+			if (!copyPath(fileInfo.filePath(),
+			              targetDir.filePath(fileInfo.fileName()),
+			              coverFileIfExist))
+				return false;
+		}
+		else {
+			/* if coverFileIfExist == true, remove old file first */
+			if (coverFileIfExist && targetDir.exists(fileInfo.fileName())) {
+				targetDir.remove(fileInfo.fileName());
 			}
-			else {            /* if coverFileIfExist == true, remove old file first */
-				if (coverFileIfExist && targetDir.exists(fileInfo.fileName())) {
-					targetDir.remove(fileInfo.fileName());
-				}
 
-				// files copy
-				if (!QFile::copy(fileInfo.filePath(),
-								 targetDir.filePath(fileInfo.fileName())) ||
-					!QFile::setPermissions(targetDir.filePath(fileInfo.fileName()),
-										   QFileDevice::ReadUser | QFileDevice::WriteUser)) {
-					return false;
-				}
+			// files copy
+			if (!QFile::copy(fileInfo.filePath(),
+			                 targetDir.filePath(fileInfo.fileName())) ||
+				!QFile::setPermissions(targetDir.filePath(fileInfo.fileName()),
+				                       QFileDevice::ReadUser | QFileDevice::WriteUser)) {
+				return false;
 			}
 		}
+	}
 	return true;
 }
 
@@ -1234,5 +1242,4 @@ QString Application::readFile(const QString& filename)
 
 	return QString();
 }
-
 }

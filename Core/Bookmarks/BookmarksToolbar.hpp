@@ -73,7 +73,6 @@ private:
 	Bookmarks* m_bookmarks{nullptr};
 	BookmarkItem* m_clickedBookmark{nullptr};
 
-	QHBoxLayout* m_layout{nullptr};
 	QTimer* m_updateTimer{nullptr};
 
 	QAction* m_actionShowOnlyIcons{nullptr};

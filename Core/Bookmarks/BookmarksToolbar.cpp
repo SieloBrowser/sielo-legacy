@@ -45,12 +45,6 @@ BookmarksToolbar::BookmarksToolbar(BrowserWindow* window, QWidget* parent) :
 	setAcceptDrops(true);
 	setContextMenuPolicy(Qt::CustomContextMenu);
 
-	m_layout = new QHBoxLayout(this);
-	m_layout->setMargin(1);
-#ifndef Q_OS_MACOS
-	m_layout->setSpacing(0);
-#endif
-
 	setMinimumHeight(25);
 
 	m_updateTimer = new QTimer(this);
@@ -133,8 +127,6 @@ void BookmarksToolbar::refresh()
 
 	foreach(BookmarkItem* child, folder->children())
 		addItem(child);
-
-	m_layout->addStretch();
 }
 
 void BookmarksToolbar::bookmarksChanged()
@@ -148,8 +140,8 @@ void BookmarksToolbar::showOnlyIconsChanged(bool state)
 		m_actionShowOnlyText->setChecked(false);
 
 
-	for (int i{0}; i < m_layout->count(); ++i) {
-		BookmarksToolbarButton* bookmark = qobject_cast<BookmarksToolbarButton*>(m_layout->itemAt(i)->widget());
+	for (int i{ 0 }; i < actions().count(); ++i) {
+		BookmarksToolbarButton* bookmark = qobject_cast<BookmarksToolbarButton*>(actions()[i]);
 		if (bookmark)
 			bookmark->setShowOnlyIcon(state);
 	}
@@ -160,8 +152,8 @@ void BookmarksToolbar::showOnlyTextChanged(bool state)
 	if (state && m_actionShowOnlyIcons)
 		m_actionShowOnlyIcons->setChecked(false);
 
-	for (int i{0}; i < m_layout->count(); ++i) {
-		BookmarksToolbarButton* bookmark = qobject_cast<BookmarksToolbarButton*>(m_layout->itemAt(i)->widget());
+	for (int i{0}; i < actions().count(); ++i) {
+		BookmarksToolbarButton* bookmark = qobject_cast<BookmarksToolbarButton*>(actions()[i]);
 		if (bookmark)
 			bookmark->setShowOnlyText(state);
 	}
@@ -200,15 +192,8 @@ void BookmarksToolbar::deleteBookmark()
 
 void BookmarksToolbar::clear()
 {
-	int count{m_layout->count()};
-
-	for (int i{0}; i < count; ++i) {
-		QLayoutItem* item{m_layout->takeAt(0)};
-		delete item->widget();
-		delete item;
-	}
-
-	Q_ASSERT(m_layout->isEmpty());
+	for (int i{ 0 }; i < this->actions().count(); ++i)
+		removeAction(actions()[i]);
 }
 
 void BookmarksToolbar::addItem(BookmarkItem* item)
@@ -221,9 +206,9 @@ void BookmarksToolbar::addItem(BookmarkItem* item)
 	button->setShowOnlyIcon(m_bookmarks->showOnlyIconsInToolbar());
 	button->setShowOnlyText(m_bookmarks->showOnlyTextInToolbar());
 
-	m_layout->addWidget(button);
+	this->addWidget(button);
 
-	setFixedHeight(m_layout->spacing() * 2 + button->preferredHeight());
+	setFixedHeight(button->preferredHeight());
 }
 
 BookmarksToolbarButton *BookmarksToolbar::buttonAt(const QPoint& pos)

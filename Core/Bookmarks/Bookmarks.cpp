@@ -208,6 +208,9 @@ void Bookmarks::loadBookmarks()
 	QJsonDocument json = QJsonDocument::fromJson(Application::readAllFileByteContents(bookmarksFile), &error);
 	const QVariant res = json.toVariant();
 
+	std::string strJson = json.toJson().toStdString();
+	std::string strError = error.errorString().toStdString();
+
 	if (error.error != QJsonParseError::NoError || res.type() != QVariant::Map) {
 		if (QFile(bookmarksFile).exists()) {
 			qWarning() << "Bookmarks::init() Error parsing bookmarks! Using default bookmarks!";
@@ -220,6 +223,9 @@ void Bookmarks::loadBookmarks()
 
 		json = QJsonDocument::fromJson(Application::readAllFileByteContents(QStringLiteral(":data/bookmarks.json")), &error);
 		const QVariant data = json.toVariant();
+
+		std::string strJson = res.toString().toStdString();
+		std::string strError = error.errorString().toStdString();
 
 		Q_ASSERT(error.error == QJsonParseError::NoError);
 		Q_ASSERT(data.type() == QVariant::Map);
@@ -269,7 +275,7 @@ QVariantMap Bookmarks::writeFolder(BookmarkItem* folder)
 {
 	QVariantMap map{};
 
-	map.insert("childer", writeBookmarks(folder));
+	map.insert("children", writeBookmarks(folder));
 	map.insert("expanded", folder->isExpanded());
 	map.insert("name", folder->title());
 	map.insert("description", folder->description());

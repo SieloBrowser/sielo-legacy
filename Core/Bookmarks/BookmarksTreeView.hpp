@@ -68,7 +68,6 @@ private:
 	void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 	void contextMenuEvent(QContextMenuEvent* event);
-	void mouseMoveEvent(QMouseEvent* event);
 	void mousePressEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
 	void keyPressEvent(QKeyEvent* event);

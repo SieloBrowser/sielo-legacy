@@ -130,7 +130,28 @@ void BookmarksMenu::openBookmark(BookmarkItem* item)
 		BookmarksUtils::openBookmark(m_window, item);
 }
 
-void BookmarksMenu::refresh() {}
+void BookmarksMenu::refresh()
+{
+	while (actions().count() != 4) {
+		QAction* action{actions()[4]};
+		if (action->menu()) 
+			action->menu()->clear();
+
+		removeAction(action);
+		delete action;
+	}
+
+	addActionToMenu(this, Application::instance()->bookmarks()->toolbarFolder());
+
+	addSeparator();
+
+	foreach(BookmarkItem* child, Application::instance()->bookmarks()->menuFolder()->children()) 
+		addActionToMenu(this, child);
+
+	addSeparator();
+
+	addActionToMenu(this, Application::instance()->bookmarks()->unsortedFolder());
+}
 
 void BookmarksMenu::addActionToMenu(QMenu* menu, BookmarkItem* item)
 {

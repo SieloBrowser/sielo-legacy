@@ -40,9 +40,7 @@ BookmarksTreeView::BookmarksTreeView(QWidget* parent) :
 	QTreeView(parent),
 	m_bookmarks(Application::instance()->bookmarks()),
 	m_model(m_bookmarks->model()),
-	m_filter(new BookmarksFilterModel(m_model)) {}
-
-BookmarksTreeView::~BookmarksTreeView()
+	m_filter(new BookmarksFilterModel(m_model))
 {
 	setModel(m_filter);
 	setDragEnabled(true);
@@ -60,6 +58,11 @@ BookmarksTreeView::~BookmarksTreeView()
 
 	connect(this, &QTreeView::expanded, this, &BookmarksTreeView::indexExpanded);
 	connect(this, &QTreeView::collapsed, this, &BookmarksTreeView::indexCollapsed);
+}
+
+BookmarksTreeView::~BookmarksTreeView()
+{
+	// Empty
 }
 
 BookmarkItem *BookmarksTreeView::selectedBookmark() const

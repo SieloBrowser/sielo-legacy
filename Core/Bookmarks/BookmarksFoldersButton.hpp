@@ -42,7 +42,7 @@ public:
 	BookmarksFoldersButton(QWidget* parent, BookmarkItem* folder = nullptr);
 	~BookmarksFoldersButton();
 
-	BookmarkItem *selectedFolder() const;
+	BookmarkItem *selectedFolder() const { return m_selectedFolder; }
 
 signals:
 	void selectedFolderChanged(BookmarkItem* folder);
