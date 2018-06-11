@@ -685,8 +685,7 @@ void BrowserWindow::newTab()
 
 void BrowserWindow::setupUi()
 {
-	BookmarksModel* bookmarksModel{Application::instance()->bookmarksManager()->bookmarksModel()};
-	m_titleBar = new TitleBar(bookmarksModel, this);
+	m_titleBar = new TitleBar(this);
 
 	QWidget* widget{new QWidget(this)};
 

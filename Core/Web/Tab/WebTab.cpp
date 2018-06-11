@@ -35,8 +35,6 @@
 #include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
-#include "Bookmarks/BookmarkManager.hpp"
-
 #include "Widgets/FloatingButton.hpp"
 #include "Widgets/SearchToolBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"

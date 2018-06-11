@@ -370,7 +370,7 @@ void BookmarksToolbarButton::addUrlToMenu(QMenu* menu, BookmarkItem* bookmark)
 	action->setData(QVariant::fromValue<void*>(static_cast<void*>(bookmark)));
 	action->setIconVisibleInMenu(true);
 
-	connect(action, &QAction::triggered, this, &BookmarksToolbarButton::bookmarkActivated);
+	connect(action, SIGNAL(triggered()), this, SLOT(bookmarkActivated()));
 
 	menu->addAction(action);
 }
