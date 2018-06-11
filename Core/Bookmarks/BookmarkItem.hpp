@@ -49,7 +49,7 @@ public:
 	BookmarkItem(Type type, BookmarkItem* parent = nullptr);
 	~BookmarkItem();
 
-	Type type() const { return m_type };
+	Type type() const { return m_type; }
 	void setType(Type type);
 
 	bool isFolder() const;
@@ -76,7 +76,7 @@ public:
 	QString keyword() const { return m_keyword; }
 	void setKeyword(const QString& keyword);
 
-	int visitCount() const { return m_visitCount}
+	int visitCount() const { return m_visitCount; }
 	void setVisitCount(int count);
 
 	void updateVisitCount();
@@ -106,8 +106,6 @@ private:
 	int m_visitCount{};
 	bool m_expanded{};
 };
-};
-
 }
 
 #endif //SIELOBROWSER_BOOKMARKITEM_HPP

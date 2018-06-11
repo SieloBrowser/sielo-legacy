@@ -60,7 +60,7 @@ bool BookmarkItem::isUrl() const
 
 bool BookmarkItem::isSeparator() const
 {
-	return m_type == Separator
+	return m_type == Separator;
 }
 
 QIcon BookmarkItem::icon()
@@ -142,7 +142,7 @@ void BookmarkItem::addChild(BookmarkItem* child, int index)
 	if (index < 0)
 		m_children.append(child);
 	else
-		m_children.insert(index, child), 
+		m_children.insert(index, child);
 }
 
 void BookmarkItem::removeChild(BookmarkItem* child)

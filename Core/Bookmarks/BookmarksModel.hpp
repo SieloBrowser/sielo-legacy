@@ -28,6 +28,8 @@
 
 #include <QAbstractItemModel>
 
+#include <QModelIndex>
+
 namespace Sn
 {
 class Bookmarks;
@@ -46,7 +48,7 @@ public:
 		DescriptionRole = Qt::UserRole + 6,
 		KeywordRole = Qt::UserRole + 7,
 		VisitCountRole = Qt::UserRole + 8,
-		ExpandedRole = Qt::UserRole + 9,
+		ExpandedRole = Qt::UserRole + 9
 	};
 
 	BookmarksModel(BookmarkItem* root, Bookmarks* bookmarks, QObject* parent = nullptr);
