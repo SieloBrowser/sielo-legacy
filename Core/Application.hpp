@@ -46,7 +46,7 @@ class AutoFill;
 class CookieJar;
 class PluginProxy;
 class History;
-class BookmarksManager;
+class Bookmarks;
 class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
@@ -195,7 +195,7 @@ public:
 	AutoFill* autoFill() const { return m_autoFill; }
 	CookieJar* cookieJar();
 	History* history();
-	BookmarksManager* bookmarksManager();
+	Bookmarks* bookmarks();
 	DownloadManager* downloadManager();
 	HTML5PermissionsManager* permissionsManager();
 	NetworkManager* networkManager() const { return m_networkManager; }
@@ -236,6 +236,7 @@ public:
 	static QList<QString> paths();
 	static Application* instance();
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
+	static QByteArray readAllFileByteContents(const QString& filename);
 
 public slots:
 	/*!
@@ -300,7 +301,7 @@ private:
 	AutoFill* m_autoFill{nullptr};
 	CookieJar* m_cookieJar{nullptr};
 	History* m_history{nullptr};
-	BookmarksManager* m_bookmarksManager{nullptr};
+	Bookmarks* m_bookmarks{nullptr};
 	DownloadManager* m_downloadManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 

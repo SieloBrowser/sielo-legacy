@@ -57,7 +57,7 @@
 #include "Cookies/CookieJar.hpp"
 
 #include "History/History.hpp"
-#include "Bookmarks/BookmarkManager.hpp"
+#include "Bookmarks/Bookmarks.hpp"
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
@@ -109,6 +109,21 @@ QIcon Application::getAppIcon(const QString& name, const QString& directory, con
 	// Return icon from active theme folder (in %data%/themes/%ativetheme%/%logo-path%
 	// Else, it return the default icon from icon.qrc file
 	return QIcon::fromTheme(name, QIcon(":icons/" + directory + '/' + name + format));
+}
+
+QByteArray Application::readAllFileByteContents(const QString& filename)
+{
+	QFile file{ filename };
+
+	if (!filename.isEmpty() && file.open(QFile::ReadOnly)) {
+		const QByteArray array{ file.readAll() };
+
+		file.close();
+
+		return array;
+	}
+
+	return QByteArray();
 }
 
 // Constructor&  destructor
@@ -801,12 +816,12 @@ History* Application::history()
 	return m_history;
 }
 
-BookmarksManager* Application::bookmarksManager()
+Bookmarks* Application::bookmarks()
 {
-	if (!m_bookmarksManager)
-		m_bookmarksManager = new BookmarksManager();
+	if (!m_bookmarks)
+		m_bookmarks = new Bookmarks(this);
 
-	return m_bookmarksManager;
+	return m_bookmarks;
 }
 
 DownloadManager* Application::downloadManager()
