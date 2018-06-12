@@ -55,7 +55,7 @@ BookmarksManager::BookmarksManager(BrowserWindow* window, QWidget* parent) :
 	connect(m_title, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
 	connect(m_address, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
 	connect(m_keyword, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
-	connect(m_description, &QPlainTextEdit::textChanged, this, &BookmarksManager::bookmarkEdited);
+	connect(m_description, &QPlainTextEdit::textChanged, this, &BookmarksManager::descriptionEdited);
 }
 
 BookmarksManager::~BookmarksManager()
