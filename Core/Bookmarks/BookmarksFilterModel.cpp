@@ -50,6 +50,8 @@ BookmarksFilterModel::~BookmarksFilterModel()
 void BookmarksFilterModel::setFilterFixedString(const QString& pattern)
 {
 	m_pattern = pattern;
+
+	m_filterTimer->start();
 }
 
 bool BookmarksFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
