@@ -58,6 +58,8 @@ BookmarksTreeView::BookmarksTreeView(QWidget* parent) :
 
 	connect(this, &QTreeView::expanded, this, &BookmarksTreeView::indexExpanded);
 	connect(this, &QTreeView::collapsed, this, &BookmarksTreeView::indexCollapsed);
+
+	restoreExpandedState(QModelIndex());
 }
 
 BookmarksTreeView::~BookmarksTreeView()
@@ -69,7 +71,7 @@ BookmarkItem *BookmarksTreeView::selectedBookmark() const
 {
 	QList<BookmarkItem*> items = selectedBookmarks();
 
-	return items.count() == 1 ? items[0] : 0;
+	return items.count() == 1 ? items[0] : nullptr;
 }
 
 QList<BookmarkItem*> BookmarksTreeView::selectedBookmarks() const

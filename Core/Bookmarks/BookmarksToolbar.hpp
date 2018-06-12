@@ -62,7 +62,6 @@ private slots:
 	void deleteBookmark();
 
 private:
-	void clear();
 	void addItem(BookmarkItem* item);
 	BookmarksToolbarButton *buttonAt(const QPoint& pos);
 

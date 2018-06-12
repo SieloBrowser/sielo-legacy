@@ -190,12 +190,6 @@ void BookmarksToolbar::deleteBookmark()
 		m_bookmarks->removeBookmark(m_clickedBookmark);
 }
 
-void BookmarksToolbar::clear()
-{
-	for (int i{ 0 }; i < this->actions().count(); ++i)
-		removeAction(actions()[i]);
-}
-
 void BookmarksToolbar::addItem(BookmarkItem* item)
 {
 	Q_ASSERT(item);

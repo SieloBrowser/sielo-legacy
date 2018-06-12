@@ -316,7 +316,7 @@ void BookmarksManager::updateEditBox(BookmarkItem* item)
 
 	m_blockDescriptionChangedSignal = false;
 
-	QTimer::singleShot(10, this, SLOT(enableUpdates()));
+	setUpdatesEnabled(true);
 }
 
 bool BookmarksManager::bookmarkEditable(BookmarkItem* item) const
