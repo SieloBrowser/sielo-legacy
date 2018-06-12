@@ -114,6 +114,8 @@ QVariant BookmarksModel::data(const QModelIndex& index, int role) const
 	case Qt::ToolTipRole:
 		if (index.column() == 0 && itm->isUrl())
 			return QString("%1\n%2").arg(itm->title(), QString::fromUtf8(itm->url().toEncoded()));
+
+		// fallthrough
 	case Qt::DisplayRole:
 		switch (index.column()) {
 		case 0:
@@ -191,7 +193,7 @@ QMimeData *BookmarksModel::mimeData(const QModelIndexList& indexes) const
 	QByteArray encodedData{};
 	QDataStream stream{&encodedData, QIODevice::WriteOnly};
 
-	foreach (const QModelIndex& index, indexes) {
+	foreach(const QModelIndex& index, indexes) {
 		if (index.isValid() && index.column() == 0 && !indexes.contains(index.parent()))
 			stream << index.row() << reinterpret_cast<quintptr>(index.internalPointer());
 	}
@@ -225,7 +227,7 @@ bool BookmarksModel::dropMimeData(const QMimeData* data, Qt::DropAction action, 
 
 		stream >> row >> ptr;
 
-		QModelIndex index = createIndex(row, 0, reinterpret_cast<void*>(ptr));
+		QModelIndex index{createIndex(row, 0, reinterpret_cast<void*>(ptr))};
 		BookmarkItem* itm{item(index)};
 
 		Q_ASSERT(index.isValid());
@@ -241,7 +243,7 @@ bool BookmarksModel::dropMimeData(const QMimeData* data, Qt::DropAction action, 
 
 	foreach(BookmarkItem* itm, items) {
 		if (itm->parent() == parentItm && itm->parent()->children().indexOf(itm) < row)
-			--row;
+			row--;
 
 		m_bookmarks->removeBookmark(itm);
 		m_bookmarks->insertBookmark(parentItm, row++, itm);
@@ -250,10 +252,9 @@ bool BookmarksModel::dropMimeData(const QMimeData* data, Qt::DropAction action, 
 	return true;
 }
 
-
 QModelIndex BookmarksModel::parent(const QModelIndex& child) const
 {
-	if (child.isValid())
+	if (!child.isValid())
 		return QModelIndex();
 
 	BookmarkItem* itm{item(child)};
