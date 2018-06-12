@@ -52,6 +52,7 @@ BookmarksManager::BookmarksManager(BrowserWindow* window, QWidget* parent) :
 
 	updateEditBox(nullptr);
 
+	connect(m_search, &QLineEdit::textEdited, this, &BookmarksManager::search);
 	connect(m_title, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
 	connect(m_address, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
 	connect(m_keyword, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
@@ -118,7 +119,7 @@ void BookmarksManager::createContextMenu(const QPoint& pos)
 
 	connect(actionNewTab, SIGNAL(triggered()), this, SLOT(openBookmarkInNewTab()));
 	connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(openBookmarkInNewWindow()));
-	connect(actionNewPrivateWindow, SIGNAL(triggered()), this, SLOT(openBookmarkInNewPrivateWindow())); 
+	connect(actionNewPrivateWindow, SIGNAL(triggered()), this, SLOT(openBookmarkInNewPrivateWindow()));
 	connect(actionDelete, &QAction::triggered, this, &BookmarksManager::deleteBookmarks);
 
 	bool canBeDeleted{false};
@@ -238,8 +239,11 @@ void BookmarksManager::setupUI()
 
 	m_editBox = new QGroupBox(this);
 
-	m_layout = new QVBoxLayout(this);
+	m_layout = new QGridLayout(this);
 	m_editLayout = new QFormLayout(m_editBox);
+
+	m_search = new QLineEdit(this);
+	m_search->setPlaceholderText(tr("Search..."));
 
 	m_view = new BookmarksTreeView(this);
 
@@ -261,8 +265,9 @@ void BookmarksManager::setupUI()
 	m_editLayout->setWidget(3, QFormLayout::LabelRole, m_descriptionDesc);
 	m_editLayout->setWidget(3, QFormLayout::FieldRole, m_description);
 
-	m_layout->addWidget(m_view);
-	m_layout->addWidget(m_editBox);
+	m_layout->addWidget(m_search, 0, 1, 1, 1);
+	m_layout->addWidget(m_view, 1, 0, 1, 2);
+	m_layout->addWidget(m_editBox, 2, 0, 1, 2);
 }
 
 void BookmarksManager::updateEditBox(BookmarkItem* item)

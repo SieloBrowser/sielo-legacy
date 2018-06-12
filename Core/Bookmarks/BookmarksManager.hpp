@@ -28,7 +28,7 @@
 
 #include <QDialog>
 
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QFormLayout>
 
 #include <QGroupBox>
@@ -36,6 +36,7 @@
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QDialogButtonBox>
+#include <QSpacerItem>
 
 #include <QPointer>
 
@@ -101,12 +102,14 @@ private:
 	bool m_blockDescriptionChangedSignal{false};
 	bool m_adjustHeaderSizesOnShow{true};
 
-	QVBoxLayout* m_layout{nullptr};
+	QGridLayout* m_layout{nullptr};
 	QFormLayout* m_editLayout{nullptr};
 
 	QGroupBox* m_editBox{nullptr};
 
+	QLineEdit* m_search{nullptr};
 	BookmarksTreeView* m_view{nullptr};
+
 	QLabel* m_titleDesc{nullptr};
 	QLineEdit* m_title{nullptr};
 	QLabel* m_addressDesc{nullptr};
