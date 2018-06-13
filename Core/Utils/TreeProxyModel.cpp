@@ -31,7 +31,7 @@ namespace Sn {
 TreeProxyModel::TreeProxyModel(QObject* parent) :
 	QSortFilterProxyModel(parent)
 {
-	setSortRole(HistoryModel::DateTimeRole);
+	//setSortRole(HistoryModel::Roles::);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 

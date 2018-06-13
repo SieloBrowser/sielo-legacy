@@ -62,9 +62,6 @@ private slots:
 	void selectAll();
 	void find();
 
-	void showAllBookmarks();
-	void addBookmarks();
-
 	void webBack();
 	void webForward();
 	void webHome();

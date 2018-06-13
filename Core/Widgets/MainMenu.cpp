@@ -33,11 +33,6 @@
 #include "BrowserWindow.hpp"
 
 #include "Bookmarks/BookmarksMenu.hpp"
-#include "Bookmarks/BookmarksDialog.hpp"
-#include "Bookmarks/AddBookmarkDialog.hpp"
-#include "Bookmarks/BookmarkManager.hpp"
-#include "Bookmarks/BookmarksModel.hpp"
-#include "Bookmarks/BookmarksToolBar.hpp"
 
 #include "History/HistoryMenu.hpp"
 
@@ -63,20 +58,11 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 {
 	setObjectName("main-menu");
 
-	QAction* showAllBookmarksAction = new QAction(Application::getAppIcon("bookmarks"), tr("Show All Bookmarks"), this);
-	QAction* addBookmarksAction = new QAction(Application::getAppIcon("add-bookmark"), tr("Add Bookmark..."), this);
 	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"),
 										  this);
 
 	m_toggleBookmarksAction->setCheckable(true);
-	addBookmarksAction->setShortcut(QKeySequence("Ctrl+D"));
-	addBookmarksAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-
-	m_bookmarksMenu = new BookmarksMenu(this);
-	m_bookmarksMenu->setTitle(tr("&Bookmarks"));
-	m_bookmarksMenu->setInitialActions(
-			QList<QAction*>() << showAllBookmarksAction << addBookmarksAction << m_toggleBookmarksAction);
-
+	
 	QAction* backAction = new QAction(Application::getAppIcon("arrow-left"), tr("Back"), this);
 	QAction* nextAction = new QAction(Application::getAppIcon("arrow-right"), tr("Forward"), this);
 	QAction* homeAction = new QAction(Application::getAppIcon("home"), tr("Home"), this);
@@ -87,9 +73,13 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
 	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
+	m_bookmarksMenu = new BookmarksMenu(this);
+	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
+
 	m_historyMenu = new HistoryMenu(this);
-	m_historyMenu->setTitle(tr("&History"));
-	m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
+	m_historyMenu->setMainWindow(m_tabWidget->window());
+	//m_historyMenu->setTitle(tr("&History"));
+	//m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
 
 	m_toolsMenu = new QMenu(this);
 	m_toolsMenu->setTitle(tr("&Tools"));
@@ -150,13 +140,10 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(selectAllAction, &QAction::triggered, this, &MainMenu::selectAll);
 	connect(findAction, &QAction::triggered, this, &MainMenu::find);
 
-	connect(showAllBookmarksAction, &QAction::triggered, this, &MainMenu::showAllBookmarks);
-	connect(addBookmarksAction, &QAction::triggered, this, &MainMenu::addBookmarks);
-	connect(m_bookmarksMenu, &BookmarksMenu::openUrl, this, &MainMenu::openUrl);
 	connect(backAction, &QAction::triggered, this, &MainMenu::webBack);
 	connect(nextAction, &QAction::triggered, this, &MainMenu::webForward);
 	connect(homeAction, &QAction::triggered, this, &MainMenu::webHome);
-	connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
+	//connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
 	connect(showSiteInfoAction, &QAction::triggered, this, &MainMenu::showSiteInfo);
 	connect(showDownloadManagerAction, &QAction::triggered, this, &MainMenu::showDownloadManager);
 	connect(showCookiesManagerAction, &QAction::triggered, this, &MainMenu::showCookiesManager);
@@ -258,21 +245,6 @@ void MainMenu::find()
 {
 	if (m_tabWidget)
 		m_tabWidget->weTab()->showSearchToolBar();
-}
-
-void MainMenu::showAllBookmarks()
-{
-	BookmarksDialog* dialog{new BookmarksDialog(m_tabWidget, Application::instance()->bookmarksManager())};
-	dialog->show();
-}
-
-void MainMenu::addBookmarks()
-{
-	AddBookmarkDialog* dialog{new AddBookmarkDialog(m_tabWidget->weTab()->url().toString(),
-													m_tabWidget->weTab()->title(),
-													m_tabWidget,
-													Application::instance()->bookmarksManager())};
-	dialog->show();
 }
 
 void MainMenu::webBack()

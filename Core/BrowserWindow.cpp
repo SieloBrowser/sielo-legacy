@@ -35,18 +35,16 @@
 #include <QTimer>
 #include <QMessageBox>
 
-#include "Bookmarks/AddBookmarkDialog.hpp"
-#include "Bookmarks/BookmarkManager.hpp"
-#include "Bookmarks/BookmarksToolBar.hpp"
+#include "Bookmarks/BookmarksUtils.hpp"
 
 #include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
-#include "Widgets/AddressBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
@@ -443,9 +441,21 @@ void BrowserWindow::arrangeTabsSpaces()
 	m_mainSplitter->setSizes(sizes);
 }
 
+void BrowserWindow::bookmarkPage()
+{
+	TabbedWebView* view{ webView() };
+
+	BookmarksUtils::addBookmarkDialog(this, view->url(), view->title());
+}
+
 void BrowserWindow::bookmarkAllTabs()
 {
-	// Empty
+	BookmarksUtils::bookmarkAllTabsDialog(this, tabWidget());
+}
+
+void BrowserWindow::addBookmark(const QUrl& url, const QString& title)
+{
+	BookmarksUtils::addBookmarkDialog(this, url, title);
 }
 
 void BrowserWindow::shotBackground()
@@ -673,29 +683,9 @@ void BrowserWindow::newTab()
 		}
 }
 
-void BrowserWindow::openAddBookmarkDialog()
-{
-			foreach (TabWidget* tabWidget, m_tabWidgets) {
-			QRect tabWidgetRect = tabWidget->geometry();
-
-			if (tabWidgetRect.contains(tabWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))) {
-				m_currentTabWidget = m_tabWidgets.indexOf(tabWidget);
-				QString url = tabWidget->weTab()->url().toString();
-				QString title = tabWidget->weTab()->title();
-
-				AddBookmarkDialog* dialog{new AddBookmarkDialog(url, title)};
-				dialog->setAttribute(Qt::WA_DeleteOnClose);
-
-				dialog->show();
-				return;
-			}
-		}
-}
-
 void BrowserWindow::setupUi()
 {
-	BookmarksModel* bookmarksModel{Application::instance()->bookmarksManager()->bookmarksModel()};
-	m_titleBar = new TitleBar(bookmarksModel, this);
+	m_titleBar = new TitleBar(this);
 
 	QWidget* widget{new QWidget(this)};
 
@@ -810,11 +800,11 @@ void BrowserWindow::setupFloatingButton()
 	connect(m_fButton, &RootFloatingButton::patternChanged, this, &BrowserWindow::floatingButtonPatternChange);
 
 	connect(m_fButton->button("fbutton-view-bookmarks"), &FloatingButton::isClicked, tabWidget(),
-			&TabWidget::openBookmarkDialog);
+			&TabWidget::openBookmarksDialog);
 	connect(m_fButton->button("fbutton-view-history"), &FloatingButton::isClicked, tabWidget(),
 			&TabWidget::openHistoryDialog);
 	connect(m_fButton->button("fbutton-add-bookmark"), &FloatingButton::isClicked, this,
-			&BrowserWindow::openAddBookmarkDialog);
+			&BrowserWindow::bookmarkPage);
 	connect(m_fButton->button("fbutton-new-window"), &FloatingButton::isClicked, this, &BrowserWindow::newWindow);
 	connect(m_fButton->button("fbutton-home"), &FloatingButton::isClicked, this, &BrowserWindow::goHome);
 	connect(m_fButton->button("fbutton-next"), &FloatingButton::isClicked, this, &BrowserWindow::forward);
@@ -879,7 +869,6 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
 	connect(m_titleBar, &TitleBar::toggleBookmarksBar, tabWidget,
 			&TabWidget::updateShowBookmarksBarText);
-	connect(m_titleBar->bookmarksToolBar(), &BookmarksToolBar::openUrl, this, &BrowserWindow::loadUrlInNewTab);
 
 	return widget;
 }

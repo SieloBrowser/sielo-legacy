@@ -50,6 +50,22 @@ namespace ndb
         return ndb::expression<decltype(keyword), expr_type_code::keyword, decltype(expr), expr_clause_code::condition> { keyword, expr };
     }
 
+    template<class T>
+    constexpr auto match(const T& t, const std::string& match_expr)
+    {
+        auto expr_field = ndb::expression<T, ndb::expr_type_code::field, void, ndb::expr_clause_code::condition> {};
+        auto expr = ndb::expr_make(match_expr);
+        return ndb::expression<decltype(expr_field), expr_type_code::op_match, decltype(expr), expr_clause_code::condition> { expr_field, expr };
+    }
+
+    template<class T>
+    constexpr auto like(const T& t, const std::string& match_expr)
+    {
+        auto expr_field = ndb::expression<T, ndb::expr_type_code::field, void, ndb::expr_clause_code::condition> {};
+        auto expr = ndb::expr_make(match_expr);
+        return ndb::expression<decltype(expr_field), expr_type_code::op_like, decltype(expr), expr_clause_code::condition> { expr_field, expr };
+    }
+
     constexpr auto limit(int count, int offset = 0)
     {
         auto keyword = ndb::expr_make_keyword<expr_keyword_code::limit>();
@@ -88,7 +104,7 @@ namespace ndb
         auto expr_field = ndb::expression<T, ndb::expr_type_code::field, void, ndb::expr_clause_code::condition> {};
         auto expr_values = ndb::expr_make(a) && ndb::expr_make(b);
 
-        auto expr = ndb::expression<decltype(keyword), expr_type_code::null, decltype(expr_values)> { keyword, expr_values };
+        auto expr = ndb::expression<decltype(keyword), expr_type_code::null, decltype(expr_values), ndb::expr_clause_code::condition> { keyword, expr_values };
 
         return ndb::expression<decltype(expr_field), expr_type_code::null, decltype(expr)> { expr_field, expr };
     }

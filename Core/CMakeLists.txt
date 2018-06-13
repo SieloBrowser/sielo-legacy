@@ -25,7 +25,7 @@ endif()
 
 # ndb
 set(NDB_ENGINE_SQLITE ON)
-add_subdirectory(${CMAKE_SOURCE_DIR}/third-party/ndb ${THIRD_PARTY_ROOT}/ndb/cmake-build)
+add_subdirectory(${CMAKE_SOURCE_DIR}/third-party/ndb ${CMAKE_SOURCE_DIR}/third-party/ndb/cmake-build)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)

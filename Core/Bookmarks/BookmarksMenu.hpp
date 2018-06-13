@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,42 +23,53 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_BOOKMARKSMENU_HPP
-#define SIELO_BROWSER_BOOKMARKSMENU_HPP
+#ifndef SIELOBROWSER_BOOKMARKSMENU_HPP
+#define SIELOBROWSER_BOOKMARKSMENU_HPP
 
-#include "Widgets/ModelMenu.hpp"
+#include <QMenu>
 
-#include <QWidget>
+#include <QPointer>
 
-#include <QAction>
-#include <QModelIndex>
+namespace Sn
+{
+class BrowserWindow;
 
-#include <QList>
+class BookmarkItem;
 
-namespace Sn {
-class BookmarksManager;
-
-class BookmarksMenu: public ModelMenu {
+class BookmarksMenu: public QMenu {
 Q_OBJECT
 
 public:
 	BookmarksMenu(QWidget* parent = nullptr);
+	~BookmarksMenu();
 
-	void setInitialActions(QList<QAction*> actions);
-
-signals:
-	void openUrl(const QUrl& url);
-
-protected:
-	bool prePopulated();
+	void setMainWindow(BrowserWindow* window);
 
 private slots:
-	void activated(const QModelIndex& index);
+	void bookmarkPage();
+	void bookmarkAllTabs();
+	void showBookmarksManager();
+
+	void bookmarksChanged();
+	void aboutToShow();
+	void menuAboutToShow();
+
+	void bookmarkActivated();
+
+	void openBookmark(BookmarkItem* item);
 
 private:
-	BookmarksManager* m_bookmarksManager{nullptr};
-	QList<QAction*> m_initialActions{};
+	void refresh();
+
+	void addActionToMenu(QMenu* menu, BookmarkItem* item);
+	void addUrlToMenu(QMenu* menu, BookmarkItem* bookmark);
+	void addFolderToMenu(QMenu* menu, BookmarkItem* folder);
+	void addSeparatorToMenu(QMenu* menu, BookmarkItem* separator);
+	void addFolderContentsToMenu(QMenu* menu, BookmarkItem* folder);
+
+	QPointer<BrowserWindow> m_window{};
+	bool m_changed{true};
 };
 }
 
-#endif //SIELO_BROWSER_BOOKMARKSMENU_HPP
+#endif //SIELOBROWSER_BOOKMARKSMENU_HPP

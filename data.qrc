@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>data/bookmarks.xbel</file>
+        <file>data/bookmarks.json</file>
         <file>data/fonts/morpheus.ttf</file>
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>

@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -24,79 +24,200 @@
 
 #include "HistoryMenu.hpp"
 
+#include <QAction>
 
-#include "History/HistoryManager.hpp"
-#include "History/HistoryDialog.hpp"
-#include "History/HistoryMenuModel.hpp"
-#include "HistoryModel.hpp"
+#include <ndb/query.hpp>
 
+#include "History/History.hpp"
+
+#include "Database/SqlDatabase.hpp"
+
+#include "Utils/ClosedTabsManager.hpp"
+
+#include "Web/Tab/TabbedWebView.hpp"
+
+#include "Widgets/Tab/TabWidget.hpp"
+
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
-namespace Sn {
+constexpr auto& history = ndb::models::navigation.history;
 
+namespace Sn
+{
 HistoryMenu::HistoryMenu(QWidget* parent) :
-	ModelMenu(parent)
+	QMenu(parent)
 {
-	connect(this, &ModelMenu::activated, this, &HistoryMenu::activated);
+	setTitle(tr("Hi&story"));
 
-	setHoverRole(HistoryModel::UrlStringRole);
+	QAction* action = addAction(Application::getAppIcon("arrow-left"), tr("&Back"), this, &HistoryMenu::goBack);
+
+	action = addAction(Application::getAppIcon("arrow-right"), tr("&Forward"), this, &HistoryMenu::goForward);
+
+	action = addAction(Application::getAppIcon("home"), tr("&Home"), this, &HistoryMenu::goHome);
+	action->setShortcut(QKeySequence(Qt::ALT + Qt::Key_Home));
+
+	action = addAction(Application::getAppIcon("history"), tr("Show &All History"), this,
+	                   &HistoryMenu::showHistoryManager);
+	action->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_H));
+
+	addSeparator();
+
+	m_menuMostVisited = new QMenu(tr("Most Visited"), this);
+	m_menuClosedTabs = new QMenu(tr("Closed Tabs"), this);
+
+	addMenu(m_menuMostVisited);
+	addMenu(m_menuClosedTabs);
+
+	connect(this, &QMenu::aboutToShow, this, &HistoryMenu::aboutToShow);
+	connect(this, &QMenu::aboutToHide, this, &HistoryMenu::aboutToHide);
+	connect(m_menuMostVisited, &QMenu::aboutToShow, this, &HistoryMenu::aboutToShowMostVisited);
+	connect(m_menuClosedTabs, &QMenu::aboutToShow, this, &HistoryMenu::aboutToShowClosedTabs);
 }
 
-void HistoryMenu::setInitialActions(QList<QAction*> actions)
+HistoryMenu::~HistoryMenu()
 {
-	m_initialActions = actions;
-
-	for (int i{0}; i < m_initialActions.count(); ++i)
-		addAction(m_initialActions[i]);
+	// Empty
 }
 
-bool HistoryMenu::prePopulated()
+void HistoryMenu::setMainWindow(BrowserWindow* window)
 {
-	if (!m_history) {
-		m_history = Application::instance()->historyManager();
-		m_historyMenuModel = new HistoryMenuModel(m_history->historyTreeModel(), this);
+	m_window = window;
+}
 
-		setModel(m_historyMenuModel);
+void HistoryMenu::goBack()
+{
+	if (m_window)
+		m_window->webView()->back();
+}
+
+void HistoryMenu::goForward()
+{
+	if (m_window)
+		m_window->webView()->forward();
+}
+
+void HistoryMenu::goHome()
+{
+	if (m_window)
+		m_window->loadUrl(m_window->homePageUrl());
+}
+
+void HistoryMenu::showHistoryManager()
+{
+	if (m_window)
+		m_window->tabWidget()->openHistoryDialog();
+}
+
+void HistoryMenu::aboutToShow()
+{
+	TabbedWebView* view{m_window ? m_window->webView() : 0};
+
+	if (view) {
+		actions()[0]->setEnabled(view->history()->canGoBack());
+		actions()[1]->setEnabled(view->history()->canGoForward());
 	}
 
-	for (int i{0}; i < m_initialActions.count(); ++i)
-		addAction(m_initialActions[i]);
+	while (actions().count() != 7) {
+		QAction* act = actions()[7];
+		if (act->menu()) {
+			act->menu()->clear();
+		}
 
-	if (!m_initialActions.isEmpty())
-		addSeparator();
+		removeAction(act);
+		delete act;
+	}
 
-	setFirstSeparator(m_historyMenuModel->bumpedRows());
+	addSeparator();
 
-	return false;
+	for (auto& entry : ndb::query<dbs::navigation>() << ((history.url, history.title) << ndb::sort(ndb::desc(history.date)) << ndb::limit(10))) {
+		const QUrl url{QString::fromStdString(entry[history.url])};
+		QString title = QString::fromStdString(entry[history.title]);
+
+		if (title.length() > 40)
+			title = title.left(40) + QLatin1String("..");
+
+		QAction* action{ new QAction(title) };
+		action->setData(url);
+		// TODO: icon
+		action->setIcon(Application::getAppIcon("webpage"));
+
+		connect(action, &QAction::triggered, this, &HistoryMenu::historyEntryActivated);
+
+		addAction(action);
+	}
 }
 
-void HistoryMenu::postPopulated()
+void HistoryMenu::aboutToHide()
 {
-	if (m_history->history().count() > 0)
-		addSeparator();
-
-	QAction* showAllAction{new QAction(Application::getAppIcon("history"), tr("Show All History"), this)};
-	QAction* clearAction{new QAction(tr("Clear History"), this)};
-
-	connect(showAllAction, &QAction::triggered, this, &HistoryMenu::showHistoryDialog);
-	connect(clearAction, &QAction::triggered, m_history, &HistoryManager::clear);
-
-	addAction(showAllAction);
-	addAction(clearAction);
+	actions()[0]->setEnabled(true);
+	actions()[1]->setEnabled(true);
 }
-
-void HistoryMenu::activated(const QModelIndex& index)
+void HistoryMenu::aboutToShowMostVisited()
 {
-	emit openUrl(index.data(HistoryModel::UrlRole).toUrl());
-}
+	m_menuMostVisited->clear();
 
-void HistoryMenu::showHistoryDialog()
+	const QVector<History::HistoryEntry> mostVisited = Application::instance()->history()->mostVisited(10);
+
+	foreach (const History::HistoryEntry& entry, mostVisited)
+	{
+		QString title{ entry.title };
+
+		if (title.length() > 40)
+			title = title.left(40) + QLatin1String("..");
+
+		QAction* action{ new QAction(title) };
+		action->setData(entry.url);
+		// TODO: icon
+		action->setIcon(Application::getAppIcon("webpage"));
+
+		connect(action, &QAction::triggered, this, &HistoryMenu::historyEntryActivated);
+
+		m_menuMostVisited->addAction(action);
+	}
+
+	if (m_menuMostVisited->isEmpty())
+		m_menuMostVisited->addAction(tr("Empty"))->setEnabled(false);
+}
+void HistoryMenu::aboutToShowClosedTabs()
 {
-	HistoryDialog* dialog{new HistoryDialog(this)};
+	m_menuClosedTabs->clear();
 
-	connect(dialog, SIGNAL(openUrl(QUrl)), this, SIGNAL(openUrl(QUrl)));
+	if (!m_window)
+		return;
 
-	dialog->show();
+	TabWidget* tabWidget{ m_window->tabWidget() };
+	int i{ 0 };
+	const QLinkedList<ClosedTabsManager::Tab> closedTabs = tabWidget->closedTabsManager()->allClosedTab();
+
+	foreach (const ClosedTabsManager::Tab& tab, closedTabs)
+	{
+		QString title = tab.title;
+
+		if (title.length() > 40)
+			title = title.left(40) + QLatin1String("..");
+
+		QAction* action = m_menuClosedTabs->addAction(tab.icon, title, tabWidget, SLOT(restoreClosedTab()));
+		action->setData(i++);
+	}
+
+	if (m_menuClosedTabs->isEmpty()) {
+		m_menuClosedTabs->addAction(tr("Empty"))->setEnabled(false);
+	}
+	else {
+		m_menuClosedTabs->addSeparator();
+		m_menuClosedTabs->addAction(tr("Restore All Closed Tabs"), tabWidget, &TabWidget::restoreAllClosedTabs);
+		m_menuClosedTabs->addAction(tr("Clear list"), tabWidget, &TabWidget::clearClosedTabsList);
+	}
 }
-
+void HistoryMenu::historyEntryActivated()
+{
+	if (QAction* action = qobject_cast<QAction*>(sender()))
+		openUrl(action->data().toUrl());
+}
+void HistoryMenu::openUrl(const QUrl& url)
+{
+	if (m_window)
+		m_window->loadUrl(url);
+}
 }

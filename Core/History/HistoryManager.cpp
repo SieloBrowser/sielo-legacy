@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,416 +22,198 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "History/HistoryManager.hpp"
+#include "HistoryManager.hpp"
 
-#include <QSettings>
+#include <QClipboard>
 
-#include <QDateTime>
-#include <QAbstractItemModel>
+#include <QMessageBox>
 
-#include <QByteArray>
-#include <QIODevice>
-#include <QFile>
-#include <QDir>
-#include <QTemporaryFile>
-#include <QDataStream>
+#include "History/History.hpp"
+#include "History/HistoryTreeView.hpp"
 
-#include <QtDebug>
-#include <QtCore/QBuffer>
+#include "Web/Tab/TabbedWebView.hpp"
 
-#include "History/HistoryModel.hpp"
-#include "History/HistoryDialog.hpp"
-#include "History/HistoryFilterModel.hpp"
-#include "History/HistoryTreeModel.hpp"
+#include "Widgets/Tab/TabWidget.hpp"
 
-#include "Utils/AutoSaver.hpp"
-
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
-namespace Sn {
-
-static const unsigned int HISTORY_VERSION = 17;
-
-HistoryManager::HistoryManager(QObject* parent) :
-	QObject(parent),
-	m_saveTimer(new AutoSaver(this)),
-	m_historyLimit(30),
-	m_historyModel(nullptr),
-	m_historyFilterModel(nullptr),
-	m_historyTreeModel(nullptr)
+namespace Sn
 {
-	m_expiredTimer.setSingleShot(true);
+HistoryManager::HistoryManager(BrowserWindow* window, QWidget* parent) :
+	QDialog(parent),
+	m_window(window)
+{
+	setAttribute(Qt::WA_DeleteOnClose);
 
-	connect(&m_expiredTimer, SIGNAL(timeout()), this, SLOT(checkForExpired()));
+	setupUI();
 
-	connect(this, &HistoryManager::entryAdded, m_saveTimer, &AutoSaver::changeOccurred);
-	connect(this, &HistoryManager::entryRemoved, m_saveTimer, &AutoSaver::changeOccurred);
+	connect(m_view, &HistoryTreeView::urlActivated, this, &HistoryManager::urlActivated);
+	connect(m_view, &HistoryTreeView::urlCtrlActivated, this, &HistoryManager::urlCtrlActivated);
+	connect(m_view, &HistoryTreeView::urlShiftActivated, this, &HistoryManager::urlShiftActivated);
+	connect(m_view, &HistoryTreeView::contextMenuRequested, this, &HistoryManager::createContextMenu);
 
-	load();
+	connect(m_search, &QLineEdit::textChanged, this, &HistoryManager::search);
+	connect(m_clearButton, &QPushButton::clicked, m_view, &HistoryTreeView::removeSelectedItems);
+	connect(m_deleteAllButton, &QPushButton::clicked, this, &HistoryManager::clearHistory);
 
-	m_historyModel = new HistoryModel(this, this);
-	m_historyFilterModel = new HistoryFilterModel(m_historyModel, this);
-	m_historyTreeModel = new HistoryTreeModel(m_historyFilterModel, this);
+	m_view->setFocus();
 }
 
 HistoryManager::~HistoryManager()
 {
-	m_saveTimer->saveIfNeccessary();
+	// Empty
 }
 
-bool HistoryManager::historyContains(const QString& url) const
+void HistoryManager::setMainWindow(BrowserWindow* window)
 {
-	return m_historyFilterModel->historyContains(url);
+	if (window)
+		m_window = window;
 }
 
-void HistoryManager::addHistoryEntry(const QString& url)
+void HistoryManager::search(const QString& searchText)
 {
-	QUrl cleanUrl{url};
-
-	cleanUrl.setPassword(QString());
-	cleanUrl.setHost(cleanUrl.host().toLower());
-
-	HistoryItem item{cleanUrl.toString(), QDateTime::currentDateTime()};
-
-	addHistoryItem(item);
+	m_view->search(searchText);
 }
 
-void HistoryManager::removeHistoryEntry(const QString& url)
+void HistoryManager::urlActivated(const QUrl& url)
 {
-	QUrl cleanUrl{url};
-
-	cleanUrl.setPassword(QString());
-	cleanUrl.setHost(cleanUrl.host().toLower());
-
-	HistoryItem item{cleanUrl.toString(), QDateTime::currentDateTime()};
-
-	removeHistoryItem(item);
+	openUrl(url);
 }
 
-void HistoryManager::updateHistoryItem(const QUrl& url, const QString& title)
+void HistoryManager::urlCtrlActivated(const QUrl& url)
 {
-	for (int i{0}; i < m_history.count(); ++i) {
-		if (url == m_history[i].url) {
-			m_history[i].title = title;
-			m_saveTimer->changeOccurred();
+	openUrlInNewTab(url);
+}
 
-			if (m_lastSavedUrl.isEmpty())
-				m_lastSavedUrl = m_history[i].url;
+void HistoryManager::urlShiftActivated(const QUrl& url)
+{
+	openUrlInNewWindow(url);
+}
 
-			emit entryUpdate(i);
-			break;
-		}
+void HistoryManager::openUrl(const QUrl& url)
+{
+	const QUrl u{!url.isEmpty() ? url : m_view->selectedUrl()};
+
+	m_window->webView()->load(u);
+}
+
+void HistoryManager::openUrlInNewTab(const QUrl& url)
+{
+	const QUrl u{!url.isEmpty() ? url : m_view->selectedUrl()};
+
+	m_window->tabWidget()->addView(u);
+}
+
+void HistoryManager::openUrlInNewWindow(const QUrl& url)
+{
+	const QUrl u{!url.isEmpty() ? url : m_view->selectedUrl()};
+
+	Application::instance()->createWindow(Application::WT_NewWindow, u);
+}
+
+void HistoryManager::openUrlInNewPrivateWindow(const QUrl& url)
+{
+	const QUrl u{!url.isEmpty() ? url : m_view->selectedUrl()};
+
+	Application::instance()->startPrivateBrowsing(u);
+}
+
+void HistoryManager::createContextMenu(const QPoint& pos)
+{
+	QMenu menu{};
+	QAction* actionNewTab{menu.addAction(tr("Open In New Tab"))};
+	QAction* actionNewWindow{menu.addAction(Application::getAppIcon("new-window"), tr("Open In New Window"))};
+	QAction* actionNewPrivateWindow{menu.addAction(tr("Open In New Private Window"))};
+
+	menu.addSeparator();
+
+	QAction* actionCopyUrl{menu.addAction(tr("Copy Url"), this, &HistoryManager::copyUrl)};
+	QAction* actionCopyTitle{menu.addAction(tr("Copy Title"), this, &HistoryManager::copyTitle)};
+
+	menu.addSeparator();
+
+	QAction* actionDelete{menu.addAction(tr("Delete"))};
+
+	connect(actionNewTab, SIGNAL(triggered()), this, SLOT(openUrlInNewTab()));
+	connect(actionNewWindow, SIGNAL(triggered()), this, SLOT(openUrlInNewWindow()));
+	connect(actionNewPrivateWindow, SIGNAL(triggered()), this, SLOT(openUrlInNewPrivateWindow()));
+	connect(actionDelete, &QAction::triggered, m_view, &HistoryTreeView::removeSelectedItems);
+
+	if (m_view->selectedUrl().isEmpty()) {
+		actionNewTab->setEnabled(false);
+		actionNewWindow->setEnabled(false);
+		actionNewPrivateWindow->setEnabled(false);
+
+		actionCopyTitle->setEnabled(false);
+		actionCopyUrl->setEnabled(false);
 	}
+
+	menu.exec(pos);
 }
 
-void HistoryManager::setHistoryLimit(int limit)
+void HistoryManager::copyUrl()
 {
-	if (m_historyLimit == limit)
+	QApplication::clipboard()->setText(m_view->selectedUrl().toString());
+}
+
+void HistoryManager::copyTitle()
+{
+	QApplication::clipboard()->setText(m_view->currentIndex().data().toString());
+}
+
+void HistoryManager::clearHistory()
+{
+	QMessageBox::StandardButton button{
+		QMessageBox::warning(this, tr("Confirmation"), tr("Are you sure you want to delete all history?"),
+		                     QMessageBox::Yes | QMessageBox::No)
+	};
+
+	if (button != QMessageBox::Yes)
 		return;
 
-	m_historyLimit = limit;
-	checkForExpired();
-	m_saveTimer->changeOccurred();
+	Application::instance()->history()->clearHistory();
 }
 
-void HistoryManager::setHistory(const QList<HistoryItem>& history, bool loadedAndSorted)
+void HistoryManager::keyPressEvent(QKeyEvent* event)
 {
-	m_history = history;
-
-	if (!loadedAndSorted)
-		qSort(m_history.begin(), m_history.end());
-
-	checkForExpired(loadedAndSorted);
-
-	if (loadedAndSorted)
-		m_lastSavedUrl = m_history.value(0).url;
-	else {
-		m_lastSavedUrl = QString();
-		m_saveTimer->changeOccurred();
+	switch (event->key()) {
+	case  Qt::Key_Delete:
+		m_view->removeSelectedItems();
+		break;
 	}
 
-	emit historyReset();
+	QWidget::keyPressEvent(event);
 }
 
-QVector<HistoryManager::HistoryEntryMatch> HistoryManager::findEntries(const QString& prefix) const
+void HistoryManager::setupUI()
 {
-	QVector<HistoryItem> matchedEntries;
-	QVector<HistoryManager::HistoryEntryMatch> allMatches;
-	QVector<HistoryManager::HistoryEntryMatch> currentMatches;
-	QMultiMap<QDateTime, HistoryManager::HistoryEntryMatch> matchesMap;
+	resize(762, 477);
 
-	for (int i{0}; i < m_history.count(); ++i) {
-		if (matchedEntries.contains(m_history[i]))
-			continue;
+	m_layout = new QGridLayout(this);
 
-		const QString result{matchUrl(QUrl(m_history[i].url), prefix)};
+	m_searchSpacer = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	m_search = new QLineEdit(this);
+	m_search->setPlaceholderText(tr("Search..."));
 
-		if (!result.isEmpty()) {
-			HistoryEntryMatch match;
-			match.item = m_history[i];
-			match.match = result;
+	m_view = new HistoryTreeView(this);
+	m_clearButton = new QPushButton(tr("Delete"), this);
+	m_deleteAllButton = new QPushButton(tr("Clear All History"), this);
+	m_spacer = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-			matchesMap.insert(match.item.dateTime, match);
-			matchedEntries.append(match.item);
-		}
-	}
-
-	currentMatches = matchesMap.values().toVector();
-	matchesMap.clear();
-
-	for (int i{currentMatches.count() - 1}; i >= 0; --i)
-		allMatches.append(currentMatches[i]);
-
-	return allMatches;
+	m_layout->addItem(m_searchSpacer, 0, 0, 1, 2);
+	m_layout->addWidget(m_search, 0, 2, 1, 1);
+	m_layout->addWidget(m_view, 1, 0, 1, 3);
+	m_layout->addWidget(m_clearButton, 2, 0, 1, 1);
+	m_layout->addWidget(m_deleteAllButton, 2, 1, 1, 1);
+	m_layout->addItem(m_spacer, 2, 2, 1, 1);
 }
 
-QString HistoryManager::matchUrl(const QUrl& url, const QString& prefix) const
+BrowserWindow *HistoryManager::getWindow()
 {
-	QString match{url.toString()};
+	if (!m_window)
+		m_window = Application::instance()->getWindow();
 
-	if (match.startsWith(prefix, Qt::CaseInsensitive)) {
-		return match;
-	}
-
-	match = url.toString(QUrl::RemoveScheme).mid(2);
-
-	if (match.startsWith(prefix, Qt::CaseInsensitive)) {
-		return match;
-	}
-
-	if (match.startsWith(QLatin1String("www.")) && url.host().count(QLatin1Char('.')) > 1) {
-		match = match.mid(4);
-
-		if (match.startsWith(prefix, Qt::CaseInsensitive)) {
-			return match;
-		}
-	}
-
-	return QString();
-}
-
-void HistoryManager::clear()
-{
-	m_lastSavedUrl = QString();
-
-	emit historyReset();
-
-	m_saveTimer->changeOccurred();
-	m_saveTimer->saveIfNeccessary();
-}
-
-void HistoryManager::loadSettings()
-{
-	QSettings settings{};
-
-	settings.beginGroup(QLatin1String("History-Settings"));
-
-	m_historyLimit = settings.value(QLatin1String("historyLimit"), 30).toInt();
-
-	settings.endGroup();
-}
-
-void HistoryManager::showDialog()
-{
-	HistoryDialog* dialog{new HistoryDialog(nullptr, this)};
-	dialog->setAttribute(Qt::WA_DeleteOnClose);
-	dialog->show();
-}
-
-void HistoryManager::addHistoryItem(const HistoryItem& item)
-{
-	if (Application::instance()->privateBrowsing())
-		return;
-
-	emit entryAdded(item);
-
-	if (m_history.count() == 1)
-		checkForExpired();
-}
-
-void HistoryManager::removeHistoryItem(const HistoryItem& item)
-{
-	for (int i{m_history.count() - 1}; i >= 0; --i) {
-		if (item.url == m_history[i].url)
-			emit entryRemoved(m_history[i]);
-	}
-}
-
-void HistoryManager::save()
-{
-	QSettings settings{};
-
-	if (!settings.value("Web-Settings/allowHistory", true).toBool())
-		return;
-
-	settings.beginGroup(QLatin1String("History-Settings"));
-
-	settings.setValue(QLatin1String("historyLimit"), m_historyLimit);
-
-	bool saveAll{m_lastSavedUrl.isEmpty()};
-	int first{m_history.count() - 1};
-
-	if (!saveAll) {
-		for (int i{0}; i < m_history.count(); ++i) {
-			if (m_history[i].url == m_lastSavedUrl) {
-				first = i - 1;
-				break;
-			}
-		}
-	}
-
-	if (first == m_history.count() - 1)
-		saveAll = true;
-
-	QString directory{Application::instance()->paths()[Application::P_Data]};
-
-	if (!QFile::exists(directory)) {
-		QDir dir{};
-		dir.mkpath(directory);
-	}
-
-	QFile historyFile{directory + QLatin1String("/history")};
-	QTemporaryFile temporaryFile{};
-	temporaryFile.setAutoRemove(false);
-
-	bool open{false};
-
-	if (saveAll)
-		open = temporaryFile.open();
-	else
-		open = historyFile.open(QFile::Append);
-
-	if (!open) {
-		qWarning() << "Unable to open history file for saving"
-				   << (saveAll ? temporaryFile.fileName() : historyFile.fileName());
-		return;
-	}
-
-	QDataStream out{saveAll ? &temporaryFile : &historyFile};
-
-	for (int i{first}; i >= 0; --i) {
-		QByteArray data{};
-		QDataStream stream{&data, QIODevice::WriteOnly};
-		HistoryItem item = m_history[i];
-
-		stream << HISTORY_VERSION << item.url << item.dateTime << item.title;
-		out << data;
-	}
-
-	temporaryFile.close();
-
-	if (saveAll) {
-		if (historyFile.exists() && !historyFile.remove())
-			qWarning() << "History: error removing old history." << historyFile.errorString();
-		if (!temporaryFile.rename(historyFile.fileName()))
-			qWarning() << "History: error moving new history over old." << temporaryFile.errorString()
-					   << historyFile.fileName();
-	}
-
-	settings.endGroup();
-	m_lastSavedUrl = m_history.value(0).url;
-}
-
-void HistoryManager::checkForExpired(bool removeExpiredEntriesDirectly)
-{
-	if (m_historyLimit < 0 || m_history.isEmpty())
-		return;
-
-	QDateTime now{QDateTime::currentDateTime()};
-	int nextTimeout{0};
-
-	while (!m_history.isEmpty()) {
-		QDateTime checkForExpired{m_history.last().dateTime};
-		checkForExpired.setDate(checkForExpired.date().addDays(m_historyLimit));
-
-		if (now.daysTo(checkForExpired) > 7)
-			nextTimeout = 7 * 86400;
-		else
-			nextTimeout = now.secsTo(checkForExpired);
-
-		if (nextTimeout > 0)
-			break;
-
-		const HistoryItem& item = m_history.last();
-
-		m_lastSavedUrl = QString();
-
-		if (removeExpiredEntriesDirectly)
-			m_history.takeLast();
-		else
-			emit entryRemoved(item);
-
-		if (nextTimeout > 0)
-			m_expiredTimer.start(nextTimeout * 1000);
-	}
-}
-
-void HistoryManager::load()
-{
-	loadSettings();
-
-	QFile historyFile{Application::paths()[Application::P_Data] + QLatin1String("/history")};
-
-	if (!historyFile.exists())
-		return;
-	if (!historyFile.open(QIODevice::ReadOnly)) {
-		qWarning() << "Unable to open history file" << historyFile.fileName();
-		return;
-	}
-
-	QList<HistoryItem> list{};
-	QDataStream in{&historyFile};
-	QDataStream stream{};
-	QByteArray data{};
-	QBuffer buffer{};
-
-	bool needToSort{false};
-	HistoryItem lastInsertedItem{};
-
-	stream.setDevice(&buffer);
-
-	while (!historyFile.atEnd()) {
-		in >> data;
-
-		buffer.close();
-		buffer.setBuffer(&data);
-		buffer.open(QIODevice::ReadOnly);
-
-		quint32 version{};
-		stream >> version;
-		if (version != HISTORY_VERSION)
-			continue;
-
-		HistoryItem item{};
-		stream >> item.url;
-		stream >> item.dateTime;
-		stream >> item.title;
-
-		if (!item.dateTime.isValid())
-			continue;
-
-		if (item == lastInsertedItem) {
-			if (lastInsertedItem.title.isEmpty() && !list.isEmpty())
-				list[0].title = item.title;
-			continue;
-		}
-
-		if (!needToSort && !list.isEmpty() && lastInsertedItem < item)
-			needToSort = true;
-
-		list.prepend(item);
-		lastInsertedItem = item;
-	}
-
-	if (needToSort)
-		qSort(list.begin(), list.end());
-
-	setHistory(list, true);
-
-	if (needToSort) {
-		m_lastSavedUrl = QString();
-		m_saveTimer->changeOccurred();
-	}
-
+	return m_window.data();
 }
 }

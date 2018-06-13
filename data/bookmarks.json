@@ -1,0 +1,116 @@
+{
+    "roots": {
+        "bookmarks_bar": {
+            "children": [
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "Sielo",
+                    "type": "url",
+                    "url": "https://sielo.app/",
+                    "visit_count": 0
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "Sielo | Github",
+                    "type": "url",
+                    "url": "https://github.com/SieloBrowser/SieloBrowser",
+                    "visit_count": 0
+                },
+                {
+                    "type": "separator"
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "Bit Studio",
+                    "type": "url",
+                    "url": "https://bit-studio.com",
+                    "visit_count": 0
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "Le Monde Du PC",
+                    "type": "url",
+                    "url": "https://lemondedupc.fr",
+                    "visit_count": 0
+                }
+            ],
+            "description": "Bookmarks located in Bookmarks Toolbar",
+            "expanded": true,
+            "expanded_sidebar": true,
+            "name": "Bookmarks Toolbar",
+            "type": "folder"
+        },
+        "bookmarks_menu": {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "description": "",
+                            "keyword": "",
+                            "name": "Feldrise",
+                            "type": "url",
+                            "url": "https://feldrise.com",
+                            "visit_count": 0
+                        },
+                        {
+                            "description": "",
+                            "keyword": "",
+                            "name": "Sielo",
+                            "type": "url",
+                            "url": "https://sielo.app",
+                            "visit_count": 0
+                        }
+                    ],
+                    "description": "",
+                    "expanded": false,
+                    "expanded_sidebar": false,
+                    "name": "Feldrise",
+                    "type": "folder"
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "Qt",
+                    "type": "url",
+                    "url": "https://qt.io",
+                    "visit_count": 0
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "GitHub",
+                    "type": "url",
+                    "url": "https://github.com",
+                    "visit_count": 0
+                },
+                {
+                    "description": "",
+                    "keyword": "",
+                    "name": "Zeste De Savoir",
+                    "type": "url",
+                    "url": "https://zestedesavoir.com",
+                    "visit_count": 0
+                }
+            ],
+            "description": "Bookmarks located in Bookmarks Menu",
+            "expanded": true,
+            "expanded_sidebar": true,
+            "name": "Bookmarks Menu",
+            "type": "folder"
+        },
+        "other": {
+            "children": [
+            ],
+            "description": "All other bookmarks",
+            "expanded": true,
+            "expanded_sidebar": true,
+            "name": "Unsorted Bookmarks",
+            "type": "folder"
+        }
+    },
+    "version": 1
+}

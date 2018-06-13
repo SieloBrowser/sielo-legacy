@@ -42,4 +42,5 @@ SettingsList.txt
 build64/
 /cmake-build-debug
 /cmake-build-release
+/third-party/ndb/cmake-build
 translations/commands.txt

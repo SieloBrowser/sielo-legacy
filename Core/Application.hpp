@@ -45,8 +45,8 @@ namespace Sn {
 class AutoFill;
 class CookieJar;
 class PluginProxy;
-class HistoryManager;
-class BookmarksManager;
+class History;
+class Bookmarks;
 class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
@@ -194,8 +194,8 @@ public:
 	PluginProxy* plugins() const { return m_plugins; }
 	AutoFill* autoFill() const { return m_autoFill; }
 	CookieJar* cookieJar();
-	HistoryManager* historyManager();
-	BookmarksManager* bookmarksManager();
+	History* history();
+	Bookmarks* bookmarks();
 	DownloadManager* downloadManager();
 	HTML5PermissionsManager* permissionsManager();
 	NetworkManager* networkManager() const { return m_networkManager; }
@@ -236,6 +236,7 @@ public:
 	static QList<QString> paths();
 	static Application* instance();
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
+	static QByteArray readAllFileByteContents(const QString& filename);
 
 public slots:
 	/*!
@@ -284,7 +285,7 @@ private:
 
 	bool m_privateBrowsing{false};
 	bool m_isPortable{true};
-	bool m_is32bit{true};
+	bool m_is32bit{false};
 	bool m_startingAfterCrash{false};
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
@@ -299,8 +300,8 @@ private:
 	PluginProxy* m_plugins{nullptr};
 	AutoFill* m_autoFill{nullptr};
 	CookieJar* m_cookieJar{nullptr};
-	HistoryManager* m_historyManager{nullptr};
-	BookmarksManager* m_bookmarksManager{nullptr};
+	History* m_history{nullptr};
+	Bookmarks* m_bookmarks{nullptr};
 	DownloadManager* m_downloadManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 

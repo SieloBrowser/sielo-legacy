@@ -94,6 +94,7 @@ public:
 
 	TabWidget* tabWidget() const;
 	TabWidget* tabWidget(int index) const;
+	QVector<TabWidget*> tabWidgets() const { return m_tabWidgets; }
 	int tabWidgetsCount() const;
 
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
@@ -109,7 +110,9 @@ public slots:
 	void tabsSpaceInFullView(QWidget* widget);
 	void arrangeTabsSpaces();
 
+	void bookmarkPage();
 	void bookmarkAllTabs();
+	void addBookmark(const QUrl& url, const QString& title);
 
 protected:
 	void shotBackground();
@@ -128,7 +131,6 @@ private slots:
 	void forward();
 	void back();
 	void newTab();
-	void openAddBookmarkDialog();
 
 private:
 	void setupUi();

@@ -1,7 +1,10 @@
 #ifndef ENGINE_BASIC_H_NDB
 #define ENGINE_BASIC_H_NDB
 
-#include <ndb/error.hpp>
+#include <ndb/engine/connection_param.hpp>
+#include <ndb/engine/sqlite/connection.hpp>
+
+#include <unordered_map>
 
 namespace ndb
 {
@@ -9,33 +12,31 @@ namespace ndb
     class basic_engine
     {
     public:
-        static Engine& instance()
-        {
-            if (instance_ == nullptr) ndb_error("engine not initialized");
-            return *instance_;
-        }
+        static Engine& instance();
+
+        template<class Database>
+        inline void connect(ndb::connection_param params);
+
+        template<class Database>
+        inline ndb::engine_connection<Engine>& connection() const;
 
     protected:
-        basic_engine()
-        {
-            if (instance_ == nullptr)
-            {
-                instance_ = static_cast<Engine*>(this);
-            }
-            else ndb_error("engine already initialized");
-        }
+        basic_engine();
+        ~basic_engine();
 
-        ~basic_engine()
-        {
-            instance_ = nullptr;
-        }
+        basic_engine(const basic_engine&) = delete;
+        basic_engine& operator=(const basic_engine&) = delete;
+
+        template<class Database>
+        inline void make();
 
     private:
         static Engine* instance_;
-    };
 
-    template<class Engine>
-    Engine* basic_engine<Engine>::instance_ = nullptr;
+        std::unordered_map<int, std::unique_ptr<ndb::engine_connection<Engine>>> connections_;
+    };
 } // ndb
+
+#include <ndb/engine/basic.tpp>
 
 #endif // ENGINE_BASIC_H_NDB

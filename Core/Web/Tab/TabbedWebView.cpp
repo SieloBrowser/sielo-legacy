@@ -30,11 +30,11 @@
 
 #include "BrowserWindow.hpp"
 
-#include "History/HistoryManager.hpp"
+#include "History/History.hpp"
 
-#include "Widgets/AddressBar.hpp"
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
@@ -162,11 +162,6 @@ void TabbedWebView::sLoadFinished()
 
 void TabbedWebView::urlChanged(const QUrl& url)
 {
-	if (m_webTab->isCurrentTab() && url.isValid()) {
-		HistoryManager* manager = Application::instance()->historyManager();
-		manager->addHistoryEntry(url.toString());
-	}
-
 	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabBar()->tabWidget()))
 		m_webTab->tabBar()->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
 

@@ -84,6 +84,9 @@ namespace ndb
     static constexpr bool is_field_entity_vector = is_field_entity<T> && (T{}.detail_.size == 0);
 
     template<class T>
+    static constexpr bool is_database =  internal::is_base_of<ndb::database_base, T>::value;
+
+    template<class T>
     static constexpr bool is_option = internal::is_base_of<ndb::option_base, T>::value;
 
     template<class T>
@@ -212,6 +215,23 @@ namespace ndb
     void for_each(F&& f, Ts&&... args)
     {
         detail::for_each_impl(std::index_sequence_for<Ts...>{}, std::forward<F>(f), std::forward<Ts>(args)...);
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////             NAMES              ////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    template<class T>
+    std::string name()
+    {
+        if constexpr (ndb::is_field<T>) return "F" + std::to_string(ndb::field_id<T>);
+        else if constexpr (ndb::is_table<T>) return "T" + std::to_string(ndb::table_id<T>);
+        else if constexpr (ndb::is_database<T>) return std::string(T::group::name) + "_D" + std::to_string(ndb::database_id<T>);
+    }
+
+    template<class T>
+    std::string name(const T&)
+    {
+        return name<T>();
     }
 } // ndb
 
