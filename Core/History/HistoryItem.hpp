@@ -60,10 +60,10 @@ public:
 	QIcon icon() const { return m_icon; }
 	void setIcon(const QIcon& icon);
 
-	quint64 startTimestamp() const;
+	qint64 startTimestamp() const;
 	void setStartTimestamp(quint64 start);
 
-	quint64 endTimestamp() const { return m_endTimestamp; }
+	qint64 endTimestamp() const { return m_endTimestamp; }
 	void setEndTimestamp(quint64 end);
 
 	History::HistoryEntry historyEntry{};

@@ -62,10 +62,10 @@ public:
 		{
 			id = entry.id;
 			count = entry.count;
-			date = QDateTime::fromMSecsSinceEpoch(QString::fromStdString(entry.date).toLongLong());
-			url = QUrl(QString::fromStdString(entry.url));
-			urlString = QUrl(QString::fromStdString(entry.url)).toEncoded();
-			title = QString::fromStdString(entry.title);
+			date = QDateTime::fromMSecsSinceEpoch(entry.date);
+			url = QUrl(entry.url);
+			urlString = QUrl(entry.url).toEncoded();
+			title = entry.title;
 		}
 	};
 

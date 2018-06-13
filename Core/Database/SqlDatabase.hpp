@@ -29,6 +29,9 @@
 #include <ndb/initializer.hpp>
 #include <ndb/engine/sqlite/sqlite.hpp>
 #include <ndb/preprocessor.hpp>
+#include <ndb/type.hpp>
+
+#include <QString>
 
 using Opt_NotNull = ndb::field_option::not_null;
 
@@ -61,9 +64,9 @@ ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)
 // History and Bookmarks (called "Navigation")
 ndb_table(history,
 	ndb_field_id,
-	ndb_field(title, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(url, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(date, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(title, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(url, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(date, qint64, ndb::option<Opt_NotNull>),
 	ndb_field(count, int, ndb::option<Opt_NotNull>)
 )
 
@@ -77,4 +80,10 @@ using password = ndb::databases::sielo::password_;
 using navigation = ndb::databases::sielo::navigation_;
 }
 
+using sielo_scope = ndb::scope::group<ndb::databases::sielo>;
+
+namespace ndb {
+	ndb_bijective_type_map(string_, QString, sielo_scope)
+	ndb_bijective_type_map(ndb::types::int64_, qint64, sielo_scope)
+}
 #endif //SIELO_BROWSER_SQLDATABASE_HPP

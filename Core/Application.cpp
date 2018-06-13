@@ -120,7 +120,7 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 
 		file.close();
 
-		std::string str = byteArray.toStdString();
+		std::string str = byteArray;
 
 		return byteArray;
 	}

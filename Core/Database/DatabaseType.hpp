@@ -32,12 +32,5 @@
 
 #include "SqlDatabase.hpp"
 
-namespace ndb
-{
-template <>
-struct type_map<ndb::string_, scope::group<ndb::databases::sielo>> {
-	using type = QString;
-};
-}
 
 #endif //SIELOBROWSER_DATABASETYPE_HPP

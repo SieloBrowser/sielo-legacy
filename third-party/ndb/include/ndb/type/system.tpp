@@ -8,9 +8,7 @@
 namespace ndb
 {
     // system type_map
-    #define ndb_internal_bijective_type_map(NDB_TYPE, CPP_TYPE) \
-    template<> struct type_map<NDB_TYPE, scope::system> { using type = CPP_TYPE; }; \
-    template<> struct type_map<CPP_TYPE, scope::system> { using type = NDB_TYPE; };
+    #define ndb_internal_bijective_type_map(NDB_TYPE, CPP_TYPE) ndb_bijective_type_map(NDB_TYPE, CPP_TYPE, scope::system)
 
     ndb_internal_bijective_type_map(bool_, bool);
     ndb_internal_bijective_type_map(int_, int);

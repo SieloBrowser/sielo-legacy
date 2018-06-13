@@ -241,8 +241,8 @@ void HistoryModel::fetchMore(const QModelIndex& parent)
 	(
 		ndb::range(
 			history.date,
-			QString::number(parentItem->endTimestamp()).toStdString(),
-			QString::number(parentItem->startTimestamp()).toStdString()
+			parentItem->endTimestamp(),
+			parentItem->startTimestamp()
 		)
 	);
 
@@ -422,7 +422,7 @@ void HistoryModel::init()
 	if (!minDateQuery.has_result())
 		return;
 
-	const qint64 minTimestamp = QString::fromStdString(minDateQuery[0][0].get<std::string>()).toLongLong();
+	const qint64 minTimestamp = minDateQuery[0][0].get<qint64>();
 
 	if (minTimestamp <= 0)
 		return;
@@ -458,11 +458,10 @@ void HistoryModel::init()
 			timestamp = QDateTime(startDate, QTime(23, 59, 59)).toMSecsSinceEpoch();
 			endTimestamp = QDateTime(endDate).toMSecsSinceEpoch();
 			itemName = QString("%1 %2").arg(History::titleCaseLocalizedMonth(timestampDate.month()),
-			                                QString::number(timestampDate.year()));
+			                                timestampDate.year());
 		}
 
-		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, QString::number(endTimestamp).toStdString(),
-		                                                           QString::number(timestamp).toStdString()));
+		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp));
 
 		if (query.has_result()) {
 			HistoryItem* item{new HistoryItem(m_rootItem)};

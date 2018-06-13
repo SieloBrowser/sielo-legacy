@@ -131,8 +131,8 @@ void HistoryMenu::aboutToShow()
 	addSeparator();
 
 	for (auto& entry : ndb::query<dbs::navigation>() << ((history.url, history.title) << ndb::sort(ndb::desc(history.date)) << ndb::limit(10))) {
-		const QUrl url{QString::fromStdString(entry[history.url])};
-		QString title = QString::fromStdString(entry[history.title]);
+		const QUrl url{QString(entry[history.url])};
+		QString title = entry[history.title];
 
 		if (title.length() > 40)
 			title = title.left(40) + QLatin1String("..");

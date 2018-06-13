@@ -128,7 +128,7 @@ void HistoryItem::setIcon(const QIcon& icon)
 	m_icon = icon;
 }
 
-quint64 HistoryItem::startTimestamp() const
+qint64 HistoryItem::startTimestamp() const
 {
 	if (m_startTimestamp == -1)
 		return QDateTime::currentDateTime().toMSecsSinceEpoch();
