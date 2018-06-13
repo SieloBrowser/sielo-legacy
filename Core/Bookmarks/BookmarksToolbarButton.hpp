@@ -54,7 +54,6 @@ public:
 
 	QSize sizeHint() const;
 	QSize minimumSizeHint() const;
-	int preferredHeight() const;
 
 private slots:
 	void createMenu();
@@ -76,7 +75,6 @@ private:
 	void leaveEvent(QEvent* event);
 	void mousePressEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
-	void paintEvent(QPaintEvent* event);
 
 	void addActionToMenu(QMenu* menu, BookmarkItem* item);
 	void addUrlToMenu(QMenu* menu, BookmarkItem* bookmark);

@@ -50,6 +50,9 @@ BookmarksToolbarButton::BookmarksToolbarButton(BookmarkItem* bookmark, QWidget* 
 	setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 	setToolTip(createTooltip());
 
+	setIcon(bookmark->icon());
+	setText(bookmark->title());
+
 	if (m_bookmark->isFolder()) {
 		QMenu* menu{new QMenu(this)};
 		setMenu(menu);
@@ -71,6 +74,9 @@ void BookmarksToolbarButton::setShowOnlyIcon(bool show)
 {
 	m_showOnlyIcon = show;
 
+	setIcon(m_bookmark->icon());
+	setText("");
+
 	updateGeometry();
 	update();
 }
@@ -78,6 +84,9 @@ void BookmarksToolbarButton::setShowOnlyIcon(bool show)
 void BookmarksToolbarButton::setShowOnlyText(bool show)
 {
 	m_showOnlyText = show;
+
+	setIcon(QIcon());
+	setText(m_bookmark->title());
 
 	updateGeometry();
 	update();
@@ -99,7 +108,7 @@ QSize BookmarksToolbarButton::sizeHint() const
 			width += PADDING + 8;
 	}
 
-	return QSize(qMin(width, MAX_WIDTH), preferredHeight());
+	return QSize(qMin(width, MAX_WIDTH), height());
 }
 
 QSize BookmarksToolbarButton::minimumSizeHint() const
@@ -114,12 +123,7 @@ QSize BookmarksToolbarButton::minimumSizeHint() const
 	else if (!m_showOnlyIcon && menu())
 		width += PADDING + 8;
 
-	return QSize(width, preferredHeight());
-}
-
-int BookmarksToolbarButton::preferredHeight() const
-{
-	return fontMetrics().height() + PADDING * 2;
+	return QSize(width, height());
 }
 
 void BookmarksToolbarButton::createMenu()
@@ -267,74 +271,6 @@ void BookmarksToolbarButton::mouseReleaseEvent(QMouseEvent* event)
 	}
 
 	QToolButton::mouseReleaseEvent(event);
-}
-
-void BookmarksToolbarButton::paintEvent(QPaintEvent* event)
-{
-	Q_UNUSED(event)
-
-	QPainter p{this};
-
-	// Just draw separator
-	if (m_bookmark->isSeparator()) {
-		QStyleOption opt{};
-		opt.initFrom(this);
-		opt.state |= QStyle::State_Horizontal;
-
-		style()->drawPrimitive(QStyle::PE_IndicatorToolBarSeparator, &opt, &p);
-		return;
-	}
-
-	QStyleOptionToolButton option{};
-	initStyleOption(&option);
-
-	option.features &= ~QStyleOptionButton::HasMenu;
-
-	if (isDown() || underMouse()) {
-		option.state |= QStyle::State_AutoRaise | QStyle::State_Raised;
-		style()->drawPrimitive(QStyle::PE_PanelButtonTool, &option, &p, this);
-	}
-
-	const int shiftX{isDown() ? style()->pixelMetric(QStyle::PM_ButtonShiftHorizontal, &option, this) : 0};
-	const int shiftY{isDown() ? style()->pixelMetric(QStyle::PM_ButtonShiftVertical, &option, this) : 0};
-
-	const int height{option.rect.height()};
-	const int center{height / 2 + option.rect.top() + shiftY};
-
-	const int iconSize{16};
-	const int iconYPos{center - iconSize / 2};
-
-	int leftPosition{PADDING + shiftX};
-	int rightPosition{option.rect.right() - PADDING};
-
-	if (!m_showOnlyText) {
-		QRect iconRect{leftPosition, iconYPos, iconSize, iconSize};
-
-		p.drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect), m_bookmark->icon().pixmap(iconSize));
-		leftPosition = iconRect.right() + PADDING;
-	}
-
-	if (!m_showOnlyIcon && menu()) {
-		const int arrowSize{8};
-		QStyleOption opt{};
-		opt.initFrom(this);
-		const QRect rect{rightPosition - 8, center - arrowSize / 2, arrowSize, arrowSize};
-		opt.rect = QStyle::visualRect(option.direction, option.rect, rect);
-		opt.state &= ~QStyle::State_MouseOver;
-
-		style()->drawPrimitive(QStyle::PE_IndicatorArrowDown, &opt, &p, this);
-		rightPosition = rect.left() - PADDING;
-	}
-
-	if (!m_showOnlyIcon) {
-		const int textWidth{rightPosition - leftPosition};
-		const int textYPos{center - fontMetrics().height() / 2};
-		const QString txt{fontMetrics().elidedText(m_bookmark->title(), Qt::ElideRight, textWidth)};
-		QRect textRect{leftPosition, textYPos, textWidth, fontMetrics().height()};
-
-		style()->drawItemText(&p, QStyle::visualRect(option.direction, option.rect, textRect),
-		                      Qt::TextSingleLine | Qt::AlignCenter, option.palette, true, txt);
-	}
 }
 
 void BookmarksToolbarButton::addActionToMenu(QMenu* menu, BookmarkItem* item)

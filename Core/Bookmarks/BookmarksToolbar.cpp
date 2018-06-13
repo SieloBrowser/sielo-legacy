@@ -125,7 +125,7 @@ void BookmarksToolbar::refresh()
 
 	BookmarkItem* folder{Application::instance()->bookmarks()->toolbarFolder()};
 
-	foreach(BookmarkItem* child, folder->children())
+	foreach(BookmarkItem* child, folder->children()) 
 		addItem(child);
 }
 
@@ -194,15 +194,18 @@ void BookmarksToolbar::addItem(BookmarkItem* item)
 {
 	Q_ASSERT(item);
 
-	BookmarksToolbarButton* button{new BookmarksToolbarButton(item, this)};
+	if (item->isSeparator())
+		addSeparator();
+	else {
 
-	button->setMainWindow(m_window);
-	button->setShowOnlyIcon(m_bookmarks->showOnlyIconsInToolbar());
-	button->setShowOnlyText(m_bookmarks->showOnlyTextInToolbar());
+		BookmarksToolbarButton* button{ new BookmarksToolbarButton(item, this) };
 
-	this->addWidget(button);
+		button->setMainWindow(m_window);
+		button->setShowOnlyIcon(m_bookmarks->showOnlyIconsInToolbar());
+		button->setShowOnlyText(m_bookmarks->showOnlyTextInToolbar());
 
-	setFixedHeight(button->preferredHeight());
+		addWidget(button);
+	}
 }
 
 BookmarksToolbarButton *BookmarksToolbar::buttonAt(const QPoint& pos)
