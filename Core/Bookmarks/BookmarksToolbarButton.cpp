@@ -49,6 +49,7 @@ BookmarksToolbarButton::BookmarksToolbarButton(BookmarkItem* bookmark, QWidget* 
 	setFocusPolicy(Qt::NoFocus);
 	setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 	setToolTip(createTooltip());
+	setFlat(true);
 
 	setIcon(bookmark->icon());
 	setText(bookmark->title());

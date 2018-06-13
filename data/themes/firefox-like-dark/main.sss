@@ -453,7 +453,7 @@ QTabBar::tab:!selected:hover
   background: #323234;
 }
 
-#bookmarks-toolbar QToolButton {
+#bookmarks-toolbar QPushButton {
   height: 25px;
   border: none;
   border-right: 1px solid #c4c4c4;
@@ -462,25 +462,25 @@ QTabBar::tab:!selected:hover
   color: #ffffff;
 }
 
-#bookmarks-toolbar QToolButton:hover {
+#bookmarks-toolbar QPushButton:hover {
   border-radius: 3px;
   background: #d2d2d3;
 }
 
-#bookmarks-toolbar QToolButton[popupMode="2"] {
+#bookmarks-toolbar QPushButton[popupMode="2"] {
     padding-right: 10px;
 }
 
-#bookmarks-toolbar QToolButton:open {
+#bookmarks-toolbar QPushButton:open {
   background: scolor(accent, normal);
 }
 
-#bookmarks-toolbar QToolButton::menu-indicator {
+#bookmarks-toolbar QPushButton::menu-indicator {
     subcontrol-origin: padding;
     subcontrol-position: center right;
 }
 
-#bookmarks-toolbar QToolButton::menu-indicator:pressed, #bookmarks-toolbar QToolButton::menu-indicator:open {
+#bookmarks-toolbar QPushButton::menu-indicator:pressed, #bookmarks-toolbar QPushButton::menu-indicator:open {
     position: relative;
     top: 2px; left: 2px;
 }
