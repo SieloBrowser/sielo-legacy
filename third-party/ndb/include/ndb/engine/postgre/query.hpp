@@ -6,12 +6,15 @@
 #include <ndb/engine/postgre/postgre.hpp>
 #include <ndb/result.hpp>
 
-#include <libpq-fe.h>
+#include <postgresql/libpq-fe.h>
 
 #include <string>
 
 namespace ndb
 {
+    template<class Engine>
+    class engine_connection;
+
     template<class Database>
     class postgre_query
     {
@@ -31,16 +34,21 @@ namespace ndb
         template<class T>
         void bind_value(const T& value)
         {
-            //data_values_.push_back('a');
-            //data_values_.push_back('b');
-            //data_sizes_.push_back(2);
+            if constexpr (std::is_same_v<std::string, T>)
+            {
+                // copy string data, add '\0'
+                std::copy(value.begin(), value.end() + 1, std::back_inserter(data_values_));
+                data_sizes_.push_back(value.size() + 1);
+            }
+
+            data_count_++;
         }
 
         template<class T>
         void bind(const T& value)
         {
             if constexpr (ndb::is_native_type_v<ndb::postgre, T>) bind_value(value);
-            else bind_value(ndb::custom_type<T, Database>::encode(value)); //check encoders if you have an error here
+            else bind_value(ndb::custom_type_db<T, Database>::internal_encode(value)); //check encoders if you have an error here
         };
 
         template<class Result_type = ndb::line<Database>>

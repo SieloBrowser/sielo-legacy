@@ -1,11 +1,12 @@
 #include <ndb/expression/sql.hpp>
 #include <ndb/engine/postgre/query.hpp>
 #include <ndb/expression/deduce.hpp>
+#include <ndb/option.hpp>
 
 namespace ndb
 {
     template<class Database, class Result_type>
-    auto postgre::exec(postgre_query<Database>& query) const
+    auto postgre::exec(const postgre_query<Database>& query) const
     {
         return query.exec();
     }
@@ -26,7 +27,7 @@ namespace ndb
                           using value_type = std::decay_t<decltype(e.value())>;
                           using native_type = ndb::native_type<value_type, Database>;
 
-                          //query.bind(e.value());
+                          query.bind(e.value());
                       }
                   });
 
@@ -64,22 +65,26 @@ namespace ndb
                 bool need_size = false;
 
                 // field type
+                std::string str_field_type;
                 using field_value_type = typename std::decay_t<decltype(field)>::value_type;
                 using field_ndb_type = ndb_type_t<field_value_type, Database>;
-                if constexpr (std::is_same_v<int_, field_ndb_type>) output += " integer ";
-                if constexpr (std::is_same_v<double_, field_ndb_type>) output += " float ";
+                if constexpr (std::is_same_v<int_, field_ndb_type>) str_field_type += " integer ";
+                if constexpr (std::is_same_v<double_, field_ndb_type>) str_field_type += " float ";
                 if constexpr (std::is_same_v<string_, field_ndb_type>)
                 {
-                    output += " varchar ";
+                    str_field_type += " varchar ";
                     need_size = true;
                 }
-                if constexpr (std::is_same_v<byte_array_, field_ndb_type>) output += " blob ";
+                if constexpr (std::is_same_v<byte_array_, field_ndb_type>) str_field_type += " blob ";
 
                 // field size
-                if (field.detail_.size > 0 && need_size) output += "(" + std::to_string(field.detail_.size) + ")";
+                if (field.detail_.size > 0 && need_size) str_field_type += "(" + std::to_string(field.detail_.size) + ")";
+
+                if (field.detail_.is_oid) output += " serial";
+                else output += str_field_type;
 
                 // field option
-                if (field.detail_.is_primary || field.detail_.is_oid) output += " primary key";
+                if (field.detail_.is_primary) output += " primary key";
                 if (field.detail_.is_auto_increment) output += " autoincrement";
                 if (field.detail_.is_not_null) output += " not null";
                 if (field.detail_.is_unique) output += " unique";

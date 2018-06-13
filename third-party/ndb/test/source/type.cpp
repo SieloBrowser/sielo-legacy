@@ -7,8 +7,6 @@ struct unregistered_user_type{};
 
 struct user_string{};
 
-
-
 ndb_table(
     movie
     , ndb_field(id, int)
@@ -31,89 +29,103 @@ using db = ndb::databases::group::db_;
 using db2 = ndb::databases::group::db2_;
 using dbgroup2 = ndb::databases::group2::db_;
 
-struct map_group{};
-struct map_group2{};
-struct map_db{};
-struct map_db2{};
+struct type_group{};
+struct type_group2{};
+struct type_group_db{};
+struct type_group_db2{};
+struct type_group2_db{};
+struct type_global{};
+struct type_engine{};
+template<class T>
+struct scoped_type{};
 
-namespace ndb
+
+#define TYPE_MAP_CHECK(T, T2, Scope) ASSERT_TRUE(( std::is_same_v< ndb::type_get<T, Scope>, T2 > ));
+
+#define BIJECTIVE_TYPE_MAP_CHECK(T, T2, Scope) \
+ASSERT_TRUE(( std::is_same_v< ndb::type_get<T, Scope>, T2 > )); \
+ASSERT_TRUE(( std::is_same_v< ndb::type_get<T2, Scope>, T > ));
+
+TEST(type_map, system_scope)
 {
-    // user type
-    template<class Database>
-    struct custom_type<user_type, Database>
-    {
-        using ndb_type = ndb::int_;
-    };
+    BIJECTIVE_TYPE_MAP_CHECK(ndb::int_, int, ndb::scope::system);
+    BIJECTIVE_TYPE_MAP_CHECK(ndb::float_, float, ndb::scope::system);
+    BIJECTIVE_TYPE_MAP_CHECK(ndb::double_, double, ndb::scope::system);
+    BIJECTIVE_TYPE_MAP_CHECK(ndb::string_, std::string, ndb::scope::system);
+    BIJECTIVE_TYPE_MAP_CHECK(ndb::byte_array_, std::vector<char>, ndb::scope::system);
 }
-
-
-#define TYPE_MAP_CHECK(NDB_TYPE, CPP_TYPE) \
-ASSERT_TRUE(( std::is_same_v< ndb::cpp_type_t<NDB_TYPE>, CPP_TYPE > )); \
-ASSERT_TRUE(( std::is_same_v< ndb::ndb_type_t<CPP_TYPE>, NDB_TYPE > ));
-
-TEST(type_map, global)
-{
-    TYPE_MAP_CHECK(ndb::int_, int);
-    TYPE_MAP_CHECK(ndb::float_, float);
-    TYPE_MAP_CHECK(ndb::double_, double);
-    TYPE_MAP_CHECK(ndb::string_, std::string);
-    TYPE_MAP_CHECK(ndb::byte_array_, std::vector<char>);
-
-    // custom type
-    ASSERT_TRUE(( ndb::is_custom_type<user_type>::value ));
-    ASSERT_TRUE(( std::is_same_v< ndb::ndb_type_t<user_type>, ndb::int_ > ));
-    ASSERT_FALSE(( std::is_same_v< ndb::ndb_type_t<user_type>, ndb::float_ > ));
-
-    // unregistered user type
-    ASSERT_FALSE(( std::is_same_v< ndb::ndb_type_t<unregistered_user_type>, ndb::int_ > ));
-    ASSERT_FALSE(( ndb::is_custom_type<unregistered_user_type>::value ));
-}
-
 
 // spe group
 namespace ndb
 {
-    template< class Database, class Engine>
-    struct type_map<ndb::string_, Database, ndb::databases::group, Engine> { using type = map_group; };
+    //template<> struct type_map<string_> { using type = std::string; };
+    template<> struct type_map<string_, scope::group<ndb::databases::group>> { using type = type_group; };
+    template<> struct type_map<type_group, scope::group<ndb::databases::group>> { using type = string_; };
 }
 
-#define TYPE_MAP_CHECK_GROUP(NDB_TYPE, CPP_TYPE) \
-ASSERT_TRUE(( std::is_same_v< ndb::cpp_type_t<NDB_TYPE, ndb::global_database, ndb::databases::group>, CPP_TYPE > )); \
-ASSERT_TRUE(( std::is_same_v< ndb::ndb_type_t<CPP_TYPE, ndb::global_database, ndb::databases::group>, NDB_TYPE > ));
-
-TEST(type_map, group)
+TEST(type_map, group_scope)
 {
     // new map for group
-    TYPE_MAP_CHECK_GROUP(ndb::string_, map_group);
+    TYPE_MAP_CHECK(ndb::string_, type_group, ndb::scope::group<ndb::databases::group>);
+    TYPE_MAP_CHECK(type_group, ndb::string_, ndb::scope::group<ndb::databases::group>);
 }
 
 // spe db
 namespace ndb
 {
-    template< class Engine>
-    struct type_map<ndb::string_, db, ndb::databases::group, Engine> { using type = map_db; };
+    template<> struct type_map<string_, scope::database<db>> { using type = type_group_db; };
+    template<> struct type_map<string_, scope::database<db2>> { using type = type_group_db2; };
+    template<> struct type_map<string_, scope::database<dbgroup2>> { using type = type_group2_db; };
+}
 
+TEST(type_map, database_scope)
+{
+    TYPE_MAP_CHECK(ndb::string_, type_group_db, ndb::scope::database<db>);
+
+    ASSERT_TRUE(( std::is_same_v< ndb::cpp_type_t<ndb::string_, db2>, type_group_db2 > ));
+    ASSERT_TRUE(( std::is_same_v< ndb::cpp_type_t<ndb::string_, dbgroup2>, type_group2_db > ));
+
+    ASSERT_TRUE(( std::is_same_v< ndb::cpp_type_t<ndb::string_, dbgroup2>, type_group2_db > ));
+
+    ASSERT_FALSE(( std::is_same_v< ndb::cpp_type_t<ndb::string_, db2>, type_group_db > ));
+}
+
+namespace ndb
+{
+    template<> struct type_map<ndb::int_, scope::database<db>> { using type = scoped_type<db>; };
+    template<> struct type_map<ndb::int_, scope::group<ndb::databases::group>> { using type = scoped_type<ndb::databases::group>; };
+    template<> struct type_map<ndb::int_, scope::engine<ndb::sqlite>> { using type = scoped_type<ndb::sqlite>; };
+    template<> struct type_map<ndb::int_, scope::global> { using type = type_global; };
+}
+
+TEST(type_map, scope_priority)
+{
+    TYPE_MAP_CHECK(ndb::int_, scoped_type<db>, ndb::scope::database<db>);
+    TYPE_MAP_CHECK(ndb::int_, scoped_type<ndb::databases::group>, ndb::scope::group<ndb::databases::group>);
+    TYPE_MAP_CHECK(ndb::int_, scoped_type<ndb::sqlite>, ndb::scope::engine<ndb::sqlite>);
+    TYPE_MAP_CHECK(ndb::int_, type_global, ndb::scope::global);
+    TYPE_MAP_CHECK(ndb::int_, int, ndb::scope::system);
+}
+
+// custom type, defined after tpye_maps
+namespace ndb
+{
     // user type
-    template<>
-    struct custom_type<user_type, db>
+    template<class Database>
+    struct custom_type<user_type, Database> : basic_type<user_type, bool_, Database>
     {
-        using ndb_type = ndb::string_;
+
     };
 }
 
-
-#define TYPE_MAP_CHECK_DB(NDB_TYPE, CPP_TYPE) \
-ASSERT_TRUE(( std::is_same_v< ndb::cpp_type_t<NDB_TYPE, db>, CPP_TYPE > )); \
-ASSERT_TRUE(( std::is_same_v< ndb::ndb_type_t<CPP_TYPE, db>, NDB_TYPE > ));
-
-TEST(type_map, db)
+TEST(type_map, custom_type)
 {
-    // new map for db
-    TYPE_MAP_CHECK_DB(ndb::string_, map_db);
-
     // custom type
-    ASSERT_TRUE(( std::is_same_v< ndb::ndb_type_t<user_type, db>, ndb::string_ > ));
-    // global user type is false
-    ASSERT_FALSE(( std::is_same_v< ndb::ndb_type_t<user_type, db>, ndb::int_ > ));
-}
+    ASSERT_TRUE(( ndb::is_custom_type<user_type, db>::value ));
+    ASSERT_TRUE(( std::is_same_v< ndb::ndb_type_t<user_type, db>, ndb::bool_ > ));
+    ASSERT_FALSE(( std::is_same_v< ndb::ndb_type_t<user_type, db>, ndb::float_ > ));
 
+    // unregistered user type
+    ASSERT_FALSE(( std::is_same_v< ndb::ndb_type_t<unregistered_user_type, db>, ndb::int_ > ));
+    ASSERT_FALSE(( ndb::is_custom_type<unregistered_user_type, db>::value ));
+}

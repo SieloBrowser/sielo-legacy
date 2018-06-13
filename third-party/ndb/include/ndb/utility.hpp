@@ -4,9 +4,16 @@
 //! \brief utility functions
 
 #include <ndb/fwd.hpp>
-#include <utility>
 #include <ndb/cx_error.hpp>
+#include <ndb/engine/type.hpp>
 #include <ndb/expression/code.hpp>
+#include <ndb/scope.hpp>
+
+#include <utility>
+
+#ifdef __GNUC__
+    #include <cxxabi.h>
+#endif
 
 namespace ndb
 {
@@ -56,6 +63,24 @@ namespace ndb
     {
         constexpr static auto value = 1 + index_of<T, Container<Ts...>>::value;
     };
+
+    namespace internal
+    {
+        template<class Needle, class Haystack>
+        class has_type;
+
+        template<class Needle, template<class...> class Haystack, class T1, class... T>
+        struct has_type<Needle, Haystack<T1, T...>> { static constexpr bool value = has_type<Needle, Haystack<T...>>::value; };
+
+        template<class Needle, template<class...> class Haystack>
+        struct has_type<Needle, Haystack<>> : std::false_type {};
+
+        template<class Needle, template<class...> class Haystack, class... T>
+        struct has_type<Needle, Haystack<Needle, T...>> : std::true_type {};
+    } // internal
+
+    template<class Needle, class Haystack>
+    constexpr auto has_type_v = internal::has_type<Needle, Haystack>::value;
 
     struct void_{};
     template<class F, class... Args>
@@ -215,6 +240,42 @@ namespace ndb
     void for_each(F&& f, Ts&&... args)
     {
         detail::for_each_impl(std::index_sequence_for<Ts...>{}, std::forward<F>(f), std::forward<Ts>(args)...);
+    }
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////             TYPES              ////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+    template<class T>
+    struct is_proxy_type { static constexpr bool value = std::is_base_of<ndb::proxy_type_base, T>::value; };
+
+    // type is native for the engine (no storage type mapping)
+    template<class Engine, class T>
+    struct is_native_type { static constexpr bool value = is_proxy_type<T>::value
+                                                           && std::is_same_v<T, ndb::storage_type_t<Engine, T>>; };
+
+    template<class Engine, class T>
+    struct is_storage_type { static constexpr bool value = is_proxy_type<T>::value
+                                                           && !std::is_same_v<T, ndb::storage_type_t<Engine, T>>; };
+    template<class Engine, class T>
+    static constexpr bool is_storage_type_v = is_storage_type<Engine, T>::value;
+
+    template<class T, class Database>
+    struct is_custom_type { static constexpr bool value = !std::is_same<ndb::internal::custom_type_not_found, typename ndb::custom_type<T, Database>::ndb_type>::value; };
+
+    template<class T, class Database>
+    static constexpr auto is_custom_type_v = is_custom_type<T, Database>::value;
+
+
+    template<class T>
+    std::string type_str()
+    {
+        std::string output;
+        #ifdef __GNUC__
+            output = abi::__cxa_demangle(typeid(T).name(), 0, 0, 0);
+        #else
+            output = typeid(T).name();
+        #endif
+
+        return output;
     }
 
 ////////////////////////////////////////////////////////////////////////////////

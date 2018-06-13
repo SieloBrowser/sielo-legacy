@@ -5,6 +5,7 @@
 #include <ndb/engine.hpp>
 #include <ndb/engine/sqlite/type.hpp>
 #include <ndb/result.hpp>
+#include <ndb/type.hpp>
 
 #include <sqlite3.h>
 
@@ -41,18 +42,22 @@ namespace ndb
         template<class T>
         void bind_value(const T& value)
         {
-            if constexpr (std::is_same_v<int, T>) sqlite3_bind_int(statement_, bind_index_, value);
-            if constexpr (std::is_same_v<double, T>) sqlite3_bind_double(statement_, bind_index_, value);
-            if constexpr (std::is_same_v<std::string, T>) sqlite3_bind_text(statement_, bind_index_, value.c_str(), -1, SQLITE_TRANSIENT); //TODO: use SQLITE_STATIC
-            if constexpr (std::is_same_v<std::vector<char>, T>) sqlite3_bind_blob(statement_, bind_index_, value.data(), value.size(), SQLITE_TRANSIENT);
+            using storage_type = ndb::storage_type_t<typename Database::engine, ndb_type_t<T, Database>>;
+
+            if constexpr (std::is_same_v<int_, storage_type>) sqlite3_bind_int(statement_, bind_index_, value);
+            else if constexpr (std::is_same_v<int64_, storage_type>) sqlite3_bind_int64(statement_, bind_index_, value);
+            else if constexpr (std::is_same_v<double_, storage_type>) sqlite3_bind_double(statement_, bind_index_, value);
+            else if constexpr (std::is_same_v<string_, storage_type>) sqlite3_bind_text(statement_, bind_index_, value.c_str(), -1, SQLITE_TRANSIENT); //TODO: use SQLITE_STATIC
+            else if constexpr (std::is_same_v<byte_array_, storage_type>) sqlite3_bind_blob(statement_, bind_index_, value.data(), value.size(), SQLITE_TRANSIENT);
+            else ncx_error(sqlite_query, cx_err_type_unknown, storage_type); // type unknown, add a custom type or use an engine type
             bind_index_++;
         }
 
         template<class T>
         void bind(const T& value)
         {
-            if constexpr (ndb::is_native_type_v<ndb::sqlite, T>) bind_value(value);
-            else bind_value(ndb::custom_type<T, Database>::encode(value)); //check encoders if you have an error here
+            if constexpr (ndb::is_custom_type_v<T, Database>) bind_value(ndb::custom_type<T, Database>::internal_encode(value));
+            else bind_value(value);
         };
 
         template<class Result_type = ndb::line<Database>>
@@ -90,9 +95,9 @@ namespace ndb
 
                     switch(field_type_id)
                     {
-                        case ndb::engine_type_id<sqlite, int_>::value:
+                        case ndb::engine_type_id<sqlite, int64_>::value:
                             line.add(field_id,
-                                     cpp_type_t<int_, Database>{ sqlite3_value_int(field_value) } ); break;
+                                     cpp_type_t<int64_, Database>{ sqlite3_value_int64(field_value) } ); break;
 
                         case ndb::engine_type_id<sqlite, double_>::value:
                             line.add(field_id,
@@ -107,7 +112,7 @@ namespace ndb
                             data = reinterpret_cast<const char*>(sqlite3_value_blob(field_value));
                             data_size = sqlite3_value_bytes(field_value);
                             line.add(field_id,
-                                     cpp_type_t<string_, Database>{ data, data + data_size } );
+                                     cpp_type_t<byte_array_, Database>{ data, data + data_size } );
                             break;
 
                         case ndb::engine_type_id<sqlite, null_>::value:

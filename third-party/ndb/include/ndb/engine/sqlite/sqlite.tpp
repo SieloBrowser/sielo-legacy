@@ -28,9 +28,6 @@ namespace ndb
                       // e is expr_value
                       if constexpr (ndb::expr_is_value<expr_type>)
                       {
-                          using value_type = std::decay_t<decltype(e.value())>;
-                          using native_type = ndb::native_type<value_type, Database>;
-
                           query.bind(e.value());
                       }
                   });
