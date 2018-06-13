@@ -43,8 +43,6 @@ BookmarksToolbar::BookmarksToolbar(BrowserWindow* window, QWidget* parent) :
 {
 	setObjectName(QLatin1String("bookmarks-toolbar"));
 	setAcceptDrops(true);
-	setContextMenuPolicy(Qt::CustomContextMenu);
-
 	setMinimumHeight(25);
 
 	m_updateTimer = new QTimer(this);
@@ -58,7 +56,6 @@ BookmarksToolbar::BookmarksToolbar(BrowserWindow* window, QWidget* parent) :
 	connect(m_bookmarks, SIGNAL(bookmarkChanged(BookmarkItem*)), this, SLOT(bookmarksChanged()));
 	connect(m_bookmarks, &Bookmarks::showOnlyIconsInToolbarChanged, this, &BookmarksToolbar::showOnlyIconsChanged);
 	connect(m_bookmarks, &Bookmarks::showOnlyTextInToolbarChanged, this, &BookmarksToolbar::showOnlyTextChanged);
-	connect(this, &QToolBar::customContextMenuRequested, this, &BookmarksToolbar::contextMenuRequested);
 
 	refresh();
 }
@@ -68,12 +65,11 @@ BookmarksToolbar::~BookmarksToolbar()
 	// Empty
 }
 
-void BookmarksToolbar::contextMenuRequested(const QPoint& pos)
+void BookmarksToolbar::createContextMenu(QMenu& menu, const QPoint& pos)
 {
 	BookmarksToolbarButton* button = buttonAt(pos);
 	m_clickedBookmark = button ? button->bookmark() : nullptr;
 
-	QMenu menu{};
 	QAction* actionNewTab{menu.addAction(tr("Open in new tab"))};
 	QAction* actionNewWindow{menu.addAction(Application::getAppIcon("new-window"), tr("Open in new window"))};
 	QAction* actionNewPrivateWindow{menu.addAction(tr("Open in new private window"))};
@@ -108,12 +104,10 @@ void BookmarksToolbar::contextMenuRequested(const QPoint& pos)
 	actionNewPrivateWindow->setEnabled(m_clickedBookmark && m_clickedBookmark->isUrl());
 	actionEdit->setEnabled(m_clickedBookmark && m_bookmarks->canBeModified(m_clickedBookmark));
 	actionDelete->setEnabled(m_clickedBookmark && m_bookmarks->canBeModified(m_clickedBookmark));
+}
 
-	menu.exec(mapToGlobal(pos));
-
-	if (button)
-		button->update();
-
+void BookmarksToolbar::contextMenuCreated()
+{
 	m_clickedBookmark = nullptr;
 	m_actionShowOnlyIcons = nullptr;
 	m_actionShowOnlyText = nullptr;
@@ -122,10 +116,11 @@ void BookmarksToolbar::contextMenuRequested(const QPoint& pos)
 void BookmarksToolbar::refresh()
 {
 	clear();
+	m_buttons.clear();
 
 	BookmarkItem* folder{Application::instance()->bookmarks()->toolbarFolder()};
 
-	foreach(BookmarkItem* child, folder->children()) 
+	foreach(BookmarkItem* child, folder->children())
 		addItem(child);
 }
 
@@ -139,12 +134,8 @@ void BookmarksToolbar::showOnlyIconsChanged(bool state)
 	if (state && m_actionShowOnlyText)
 		m_actionShowOnlyText->setChecked(false);
 
-
-	for (int i{ 0 }; i < actions().count(); ++i) {
-		BookmarksToolbarButton* bookmark = qobject_cast<BookmarksToolbarButton*>(actions()[i]);
-		if (bookmark)
-			bookmark->setShowOnlyIcon(state);
-	}
+	foreach(BookmarksToolbarButton* bookmark, m_buttons)
+		bookmark->setShowOnlyIcon(state);
 }
 
 void BookmarksToolbar::showOnlyTextChanged(bool state)
@@ -152,11 +143,8 @@ void BookmarksToolbar::showOnlyTextChanged(bool state)
 	if (state && m_actionShowOnlyIcons)
 		m_actionShowOnlyIcons->setChecked(false);
 
-	for (int i{0}; i < actions().count(); ++i) {
-		BookmarksToolbarButton* bookmark = qobject_cast<BookmarksToolbarButton*>(actions()[i]);
-		if (bookmark)
-			bookmark->setShowOnlyText(state);
-	}
+	foreach(BookmarksToolbarButton* bookmark, m_buttons)
+		bookmark->setShowOnlyText(state);
 }
 
 void BookmarksToolbar::openBookmarkInNewTab()
@@ -197,14 +185,14 @@ void BookmarksToolbar::addItem(BookmarkItem* item)
 	if (item->isSeparator())
 		addSeparator();
 	else {
-
-		BookmarksToolbarButton* button{ new BookmarksToolbarButton(item, this) };
+		BookmarksToolbarButton* button{new BookmarksToolbarButton(item, this)};
 
 		button->setMainWindow(m_window);
 		button->setShowOnlyIcon(m_bookmarks->showOnlyIconsInToolbar());
 		button->setShowOnlyText(m_bookmarks->showOnlyTextInToolbar());
 
 		addWidget(button);
+		m_buttons.append(button);
 	}
 }
 

@@ -47,9 +47,10 @@ public:
 	BookmarksToolbar(BrowserWindow* window, QWidget* parent = nullptr);
 	~BookmarksToolbar();
 
-private slots:
-	void contextMenuRequested(const QPoint& pos);
+	void createContextMenu(QMenu& menu, const QPoint& pos);
+	void contextMenuCreated();
 
+private slots:
 	void refresh();
 	void bookmarksChanged();
 	void showOnlyIconsChanged(bool state);
@@ -74,6 +75,7 @@ private:
 
 	QTimer* m_updateTimer{nullptr};
 
+	QList<BookmarksToolbarButton*> m_buttons{};
 	QAction* m_actionShowOnlyIcons{nullptr};
 	QAction* m_actionShowOnlyText{nullptr};
 };

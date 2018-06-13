@@ -26,7 +26,7 @@
 #ifndef SIELOBROWSER_BOOKMARKSTOOLBARBUTTON_HPP
 #define SIELOBROWSER_BOOKMARKSTOOLBARBUTTON_HPP
 
-#include <QToolButton>
+#include <QPushButton>
 
 #include <QMenu>
 
@@ -36,7 +36,7 @@ class BookmarkItem;
 
 class BrowserWindow;
 
-class BookmarksToolbarButton: public QToolButton {
+class BookmarksToolbarButton: public QPushButton {
 Q_OBJECT
 
 public:
@@ -69,6 +69,7 @@ private slots:
 	void openBookmarkInNewWindow(BookmarkItem* item);
 
 private:
+	void refresh();
 	QString createTooltip() const;
 
 	void enterEvent(QEvent* event);

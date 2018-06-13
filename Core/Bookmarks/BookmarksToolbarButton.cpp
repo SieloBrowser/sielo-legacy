@@ -41,7 +41,7 @@ constexpr const int PADDING = 5;
 namespace Sn
 {
 BookmarksToolbarButton::BookmarksToolbarButton(BookmarkItem* bookmark, QWidget* parent) :
-	QToolButton(parent),
+	QPushButton(parent),
 	m_bookmark(bookmark)
 {
 	Q_ASSERT(m_bookmark);
@@ -74,9 +74,7 @@ void BookmarksToolbarButton::setShowOnlyIcon(bool show)
 {
 	m_showOnlyIcon = show;
 
-	setIcon(m_bookmark->icon());
-	setText("");
-
+	refresh();
 	updateGeometry();
 	update();
 }
@@ -85,9 +83,7 @@ void BookmarksToolbarButton::setShowOnlyText(bool show)
 {
 	m_showOnlyText = show;
 
-	setIcon(QIcon());
-	setText(m_bookmark->title());
-
+	refresh();
 	updateGeometry();
 	update();
 }
@@ -211,6 +207,17 @@ void BookmarksToolbarButton::openBookmarkInNewWindow(BookmarkItem* item)
 	BookmarksUtils::openBookmarkInNewWindow(item);
 }
 
+void BookmarksToolbarButton::refresh()
+{
+	setIcon(QIcon());
+	setText("");
+
+	if (!m_showOnlyIcon)
+		setText(m_bookmark->title());
+	if (!m_showOnlyText)
+		setIcon(m_bookmark->icon());
+}
+
 QString BookmarksToolbarButton::createTooltip() const
 {
 	if (!m_bookmark->description().isEmpty()) {
@@ -228,14 +235,14 @@ QString BookmarksToolbarButton::createTooltip() const
 
 void BookmarksToolbarButton::enterEvent(QEvent* event)
 {
-	QToolButton::enterEvent(event);
+	QPushButton::enterEvent(event);
 
 	update();
 }
 
 void BookmarksToolbarButton::leaveEvent(QEvent* event)
 {
-	QToolButton::leaveEvent(event);
+	QPushButton::leaveEvent(event);
 
 	update();
 }
@@ -249,7 +256,7 @@ void BookmarksToolbarButton::mousePressEvent(QMouseEvent* event)
 		}
 	}
 
-	QToolButton::mousePressEvent(event);
+	QPushButton::mousePressEvent(event);
 }
 
 void BookmarksToolbarButton::mouseReleaseEvent(QMouseEvent* event)
@@ -270,7 +277,7 @@ void BookmarksToolbarButton::mouseReleaseEvent(QMouseEvent* event)
 			openFolder(m_bookmark);
 	}
 
-	QToolButton::mouseReleaseEvent(event);
+	QPushButton::mouseReleaseEvent(event);
 }
 
 void BookmarksToolbarButton::addActionToMenu(QMenu* menu, BookmarkItem* item)
