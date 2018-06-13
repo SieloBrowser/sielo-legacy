@@ -35,25 +35,25 @@ using Opt_NotNull = ndb::field_option::not_null;
 // Password
 ndb_table(autofill,
 	ndb_field_id,
-	ndb_field(data, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(password, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(username, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
+	ndb_field(data, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(password, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(username, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(server, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(last_used, QString, ndb::size<16>, ndb::option<Opt_NotNull>)
 )
 
 ndb_table(autofill_encrypted,
 	ndb_field_id,
-	ndb_field(data_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(password_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(username_encrypted, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>),
-	ndb_field(last_used, std::string, ndb::size<16>, ndb::option<Opt_NotNull>)
+	ndb_field(data_encrypted, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(password_encrypted, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(username_encrypted, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(server, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
+	ndb_field(last_used, QString, ndb::size<16>, ndb::option<Opt_NotNull>)
 )
 
 ndb_table(autofill_exceptions,
 	ndb_field_id,
-	ndb_field(server, std::string, ndb::size<255>, ndb::option<Opt_NotNull>)
+	ndb_field(server, QString, ndb::size<255>, ndb::option<Opt_NotNull>)
 )
 
 ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)

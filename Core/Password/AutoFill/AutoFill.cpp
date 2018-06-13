@@ -153,7 +153,7 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 		server = url.toString();
 
 	auto& ids = ndb::query<dbs::password>()
-			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server.toStdString()));
+			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server));
 
 	if (!ids.has_result())
 		return false;
@@ -168,7 +168,7 @@ void AutoFill::blockStoringForUrl(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	ndb::query<dbs::password>() + (autofill_exceptions.server = server.toStdString());
+	ndb::query<dbs::password>() + (autofill_exceptions.server = server);
 }
 
 QVector<PasswordEntry> AutoFill::getFormData(const QUrl& url)
