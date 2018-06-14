@@ -58,6 +58,7 @@
 
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
+#include "Mockup/Mockups.hpp"
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
@@ -95,6 +96,7 @@ QList<QString> Application::paths()
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/mockups"));
 
 	return paths;
 }
@@ -704,6 +706,9 @@ void Application::postLaunch()
 
 	connect(this, &Application::receivedMessage, this, &Application::messageReceived);
 	connect(this, &Application::aboutToQuit, this, &Application::saveSettings);
+
+	//** TESTES **/
+	//BrowserWindow* mockupWindow = new BrowserWindow(mockups()->mockups()[0]);
 }
 
 void Application::windowDestroyed(QObject* window)
@@ -827,6 +832,14 @@ Bookmarks *Application::bookmarks()
 		m_bookmarks = new Bookmarks(this);
 
 	return m_bookmarks;
+}
+
+Mockups* Application::mockups()
+{
+	if (!m_mockups)
+		m_mockups = new Mockups(this);
+
+	return m_mockups;
 }
 
 DownloadManager *Application::downloadManager()

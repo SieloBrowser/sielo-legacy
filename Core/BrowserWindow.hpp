@@ -53,6 +53,8 @@ class RootFloatingButton;
 class StatusBarMessage;
 class TitleBar;
 
+class MockupItem;
+
 class BrowserWindow: public QMainWindow {
 Q_OBJECT
 
@@ -65,6 +67,7 @@ public:
 	};
 
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
+	BrowserWindow(MockupItem* mockup);
 	~BrowserWindow();
 
 	void loadSettings();

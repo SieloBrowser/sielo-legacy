@@ -41,12 +41,14 @@
 #include "Utils/RestoreManager.hpp"
 #include "3rdparty/singleapplication.h"
 
-namespace Sn {
+namespace Sn
+{
 class AutoFill;
 class CookieJar;
 class PluginProxy;
 class History;
 class Bookmarks;
+class Mockups;
 class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
@@ -60,78 +62,105 @@ class BrowserWindow;
  * This class will also hande OS signals like new tab request, links open request, etc.
  *
  */
-class Q_DECL_EXPORT Application : public SingleApplication {
+class Q_DECL_EXPORT Application: public SingleApplication {
 public:
 	//! Command line actions
 	/*! All command line option that can be requested to Sielo. This can be request from OS. */
 	enum CommandLineAction {
-		CL_NoAction, /*!< No action requested */
-		CL_OpenUrl, /*!< We want to open a URL */
-		CL_OpenUrlInCurrentTab, /*!< We want to open the url in the current tab */
-		CL_OpenUrlInNewWindow, /*!< We want to open the url in a new window */
-		CL_NewTab, /*!< We want to open a new tab */
-		CL_NewWindow, /*!< We want to open a new window */
-		CL_StartPrivateBrowsing, /*!< We want to open a new private browsing window */
-		CL_StartNewInstance, /*!< We want to start a new instance of Sielo */
+		CL_NoAction,
+		/*!< No action requested */
+		CL_OpenUrl,
+		/*!< We want to open a URL */
+		CL_OpenUrlInCurrentTab,
+		/*!< We want to open the url in the current tab */
+		CL_OpenUrlInNewWindow,
+		/*!< We want to open the url in a new window */
+		CL_NewTab,
+		/*!< We want to open a new tab */
+		CL_NewWindow,
+		/*!< We want to open a new window */
+		CL_StartPrivateBrowsing,
+		/*!< We want to open a new private browsing window */
+		CL_StartNewInstance,
+		/*!< We want to start a new instance of Sielo */
 		CL_ExitAction /*!< We want to close Sielo */
 	};
 
 	//! Object name
 	/*! Name of object accessible for applications. It can be used when one of this object emit a signal for all applications running. */
 	enum ObjectName {
-		ON_WebView, /*!< Web view object */
-		ON_TabBar, /*!< Tab bar object */
+		ON_WebView,
+		/*!< Web view object */
+		ON_TabBar,
+		/*!< Tab bar object */
 		ON_BrowserWindow /*!< Browser window object */
 	};
 
 	//! Window type
 	/*! Describe the type of the window. */
 	enum WindowType {
-		WT_FirstAppWindow, /*!< The window is the first window of the application */
-		WT_NewWindow, /*!< The window is a simple new window */
+		WT_FirstAppWindow,
+		/*!< The window is the first window of the application */
+		WT_NewWindow,
+		/*!< The window is a simple new window */
 		WT_OtherRestoredWindow /*!< The window is a restored window */
 	};
 
 	//! Tabs space type
 	/*! Type of the tabs space */
 	enum TabsSpaceType {
-		TST_Web, /*!< The tabs space run application */
+		TST_Web,
+		/*!< The tabs space run application */
 		TST_Application /*!< The tabs space run web pages */
 	};
 
 	//! Tab type
 	/*! Type of the new tab */
 	enum NewTabType {
-		NTT_SelectedTab = 1, /*!< The tab will be selected */
-		NTT_NotSelectedTab = 2, /*!< The tab will not be selected */
-		NTT_CleanTab = 4, /*!< The tab will be clean */
-		NTT_TabAtEnd = 8, /*!< The tab will be at the end */
-		NTT_NewEmptyTab = 16, /*!< The tab will be blank */
+		NTT_SelectedTab = 1,
+		/*!< The tab will be selected */
+		NTT_NotSelectedTab = 2,
+		/*!< The tab will not be selected */
+		NTT_CleanTab = 4,
+		/*!< The tab will be clean */
+		NTT_TabAtEnd = 8,
+		/*!< The tab will be at the end */
+		NTT_NewEmptyTab = 16,
+		/*!< The tab will be blank */
 		/* ------------------------- */
-				NTT_SelectedNewEmptyTab = NTT_SelectedTab | NTT_TabAtEnd | NTT_NewEmptyTab,
+		NTT_SelectedNewEmptyTab = NTT_SelectedTab | NTT_TabAtEnd | NTT_NewEmptyTab,
 		NTT_SelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd,
 		NTT_NotSelectedTabAtEnd = NTT_NotSelectedTab | NTT_TabAtEnd,
 		NTT_CleanSelectedTabAtEnd = NTT_SelectedTab | NTT_TabAtEnd | NTT_CleanTab,
 		NTT_CleanSelectedTab = NTT_CleanTab | NTT_SelectedTab,
 		NTT_CleanNotSelectedTab = NTT_CleanTab | NTT_NotSelectedTab
 	};
+
 	Q_DECLARE_FLAGS(NewTabTypeFlags, NewTabType);
 
 	//! Paths
 	/*! Path of differents Sielo's needed folders */
 	enum Path {
-		P_Data = 0, /*!< Path of data */
-		P_Plugin = 1, /*!< Path of plugin (will be applications) */
-		P_Themes = 2, /*!< Path of themes */
-		P_Translations = 3 /*!< Path of translations */
+		P_Data = 0,
+		/*!< Path of data */
+		P_Plugin = 1,
+		/*!< Path of plugin (will be applications) */
+		P_Themes = 2,
+		/*!< Path of themes */
+		P_Translations = 3,
+		/*!< Path of translations */
+		P_Mockups = 4 /*!< Path of mockups */
 	};
 
 	//! After launch action
 	/*! Action that should be exectued after Sielo startup */
 	enum AfterLaunch {
-		OpenBlankPage = 0, /*!< Open a blank page */
-		OpenHomePage = 1, /*!< Open the home page */
-		RestoreSession = 2, /*!< Restore the previous session */
+		OpenBlankPage = 0,
+		/*!< Open a blank page */
+		OpenHomePage = 1,
+		/*!< Open the home page */
+		RestoreSession = 2,
+		/*!< Restore the previous session */
 		OpenSavedSession = 3 /*!< Restore the saved session */
 	};
 
@@ -176,14 +205,14 @@ public:
 
 	QList<BrowserWindow*> windows() const { return m_windows; }
 
-	BrowserWindow* getWindow() const;
+	BrowserWindow *getWindow() const;
 	/*!
 	 * Create a new window in this instance.
 	 * @param type The type of the new window.
 	 * @param startUrl The start url for the new window (if it's empty, it will take the home page url)
 	 * @return The new window created
 	 */
-	BrowserWindow* createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
+	BrowserWindow *createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
 
 	AfterLaunch afterCrashLaunch() const { return m_afterCrashLaunch; }
 	AfterLaunch afterLaunch() const;
@@ -191,17 +220,18 @@ public:
 	bool restoreSession(BrowserWindow* window, RestoreData restoreData);
 	void destroyRestoreManager();
 
-	PluginProxy* plugins() const { return m_plugins; }
-	AutoFill* autoFill() const { return m_autoFill; }
-	CookieJar* cookieJar();
-	History* history();
-	Bookmarks* bookmarks();
-	DownloadManager* downloadManager();
-	HTML5PermissionsManager* permissionsManager();
-	NetworkManager* networkManager() const { return m_networkManager; }
-	RestoreManager* restoreManager() const { return m_restoreManager; }
+	PluginProxy *plugins() const { return m_plugins; }
+	AutoFill *autoFill() const { return m_autoFill; }
+	CookieJar *cookieJar();
+	History *history();
+	Bookmarks *bookmarks();
+	Mockups* mockups();
+	DownloadManager *downloadManager();
+	HTML5PermissionsManager *permissionsManager();
+	NetworkManager *networkManager() const { return m_networkManager; }
+	RestoreManager *restoreManager() const { return m_restoreManager; }
 
-	QWebEngineProfile* webProfile();
+	QWebEngineProfile *webProfile();
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool useTopToolBar() const { return m_useTopToolBar; }
@@ -213,9 +243,9 @@ public:
 
 	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
-//	QFont morpheusFont() const { return m_morpheusFont; }
+	//	QFont morpheusFont() const { return m_morpheusFont; }
 
-//	QFont normalFont() const { return m_normalFont; }
+	//	QFont normalFont() const { return m_normalFont; }
 
 	bool copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist = true);
 	QString readFile(const QString& filename);
@@ -234,7 +264,7 @@ public:
 
 	static QString currentVersion;
 	static QList<QString> paths();
-	static Application* instance();
+	static Application *instance();
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
 	static QByteArray readAllFileByteContents(const QString& filename);
 
@@ -302,6 +332,7 @@ private:
 	CookieJar* m_cookieJar{nullptr};
 	History* m_history{nullptr};
 	Bookmarks* m_bookmarks{nullptr};
+	Mockups* m_mockups{nullptr};
 	DownloadManager* m_downloadManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 
@@ -322,6 +353,5 @@ private:
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
-
 }
 #endif // CORE_APPLICATION_HPP
