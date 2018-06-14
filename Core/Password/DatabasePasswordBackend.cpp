@@ -79,7 +79,7 @@ void DatabasePasswordBackend::addEntry(const PasswordEntry& entry)
 	}
 
 	ndb::query<dbs::password>() + (autofill.server = entry.host,
-								   autofill.data = entry.data,
+								   autofill.data = QString::fromUtf8(entry.data),
 								   autofill.username = entry.username,
 								   autofill.password = entry.password,
 								   autofill.last_used = ndb::now());
@@ -93,7 +93,7 @@ bool DatabasePasswordBackend::updateEntry(const PasswordEntry& entry)
 				<< (autofill.server == entry.host));
 	}
 	else {
-		ndb::query<dbs::password>() >> ((autofill.data = entry.data,
+		ndb::query<dbs::password>() >> ((autofill.data = QString::fromUtf8(entry.data),
 										 autofill.username = entry.username,
 										 autofill.password = entry.password)
 				<< (autofill.id == entry.id.toInt()));

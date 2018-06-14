@@ -158,7 +158,7 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 	if (!ids.has_result())
 		return false;
 
-	return ids[0][0].get<int>() <= 0;
+	return ids[0][0].get<qint64>() <= 0;
 }
 
 void AutoFill::blockStoringForUrl(const QUrl& url)

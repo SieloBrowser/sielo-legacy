@@ -129,7 +129,7 @@ void DatabaseEncryptedPasswordBackend::addEntry(const PasswordEntry& entry)
 
 	if (hasPermission() && encryptPasswordEntry(encryptedEntry, &aesEncryptor)) {
 		ndb::query<dbs::password>() + (autofill_encrypted.server = encryptedEntry.host,
-									   autofill_encrypted.data_encrypted = encryptedEntry.data,
+									   autofill_encrypted.data_encrypted = QString::fromUtf8(encryptedEntry.data),
 									   autofill_encrypted.password_encrypted = encryptedEntry.password,
 									   autofill_encrypted.username_encrypted = encryptedEntry.username,
 									   autofill_encrypted.last_used = ndb::now());
@@ -143,12 +143,12 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 
 	if (hasPermission() && encryptPasswordEntry(encryptedEntry, &aesEncryptor)) {
 		if (entry.data.isEmpty()) {
-			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = encryptedEntry.data,
+			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = QString::fromUtf8(encryptedEntry.data),
 					autofill_encrypted.username_encrypted = encryptedEntry.username)
 					<< (autofill_encrypted.server == encryptedEntry.host));
 		}
 		else {
-			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = encryptedEntry.data,
+			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = QString::fromUtf8(encryptedEntry.data),
 											 autofill_encrypted.username_encrypted = encryptedEntry.username,
 											 autofill_encrypted.password_encrypted = encryptedEntry.password)
 					<< (autofill_encrypted.id == encryptedEntry.id.toInt()));
@@ -333,9 +333,9 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 			username = encryptor.encrypt(username, encryptorPassword);
 		}
 
-		ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = data,
-										 autofill_encrypted.password_encrypted = password,
-										 autofill_encrypted.username_encrypted = username)
+		ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = QString::fromUtf8(data),
+										 autofill_encrypted.password_encrypted = QString::fromUtf8(password),
+										 autofill_encrypted.username_encrypted = QString::fromUtf8(username))
 				<< (autofill_encrypted.id == id));
 	}
 }

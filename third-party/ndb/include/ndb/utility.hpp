@@ -49,7 +49,7 @@ namespace ndb
     template<class T, template<class...> class Container>
     struct index_of<T, Container<>>
     {
-        constexpr static auto value = ncx_error(index_of, cx_err_type_not_found, T, Container);
+        constexpr static auto value = ncx_error_value(index_of, cx_err_type_not_found, T, Container);
     };
 
     template<class T, template<class...> class Container, class... Ts>
