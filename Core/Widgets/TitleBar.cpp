@@ -233,10 +233,6 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 		emit toggleBookmarksBar(m_showBookmarks);
 	});
 
-	QAction* addBookmark(menu.addAction(tr("Add Bookmark")));
-
-	connect(addBookmark, &QAction::toggled, m_window, &BrowserWindow::bookmarkPage);
-
 	if (obj != nullptr) {
 		QToolBar* toolbar = qobject_cast<QToolBar*>(obj);
 		QAction* lockToolbar(menu.addAction(tr("Lock Toolbar")));
@@ -248,11 +244,18 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 			toolbar->setMovable(!toolbar->isMovable());
 			Application::instance()->saveSession();
 		});
+
+		if (toolbar->objectName() == "bookmarks-toolbar") {
+			menu.addSeparator();
+			m_bookmarksToolbar->createContextMenu(menu, event->pos());
+		}
 	}
 
 	const QPoint position{ event->globalPos() };
 	QPoint point{ position.x(), position.y() + 1 };
 	menu.exec(point);
+
+	m_bookmarksToolbar->contextMenuCreated();
 }
 
 void TitleBar::build()

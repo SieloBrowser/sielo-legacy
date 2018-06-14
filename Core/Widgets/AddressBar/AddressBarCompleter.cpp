@@ -26,6 +26,9 @@
 
 #include <QWindow>
 
+#include "Bookmarks/Bookmarks.hpp"
+#include "Bookmarks/BookmarkItem.hpp"
+
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/AddressBar/AddressBarCompleterModel.hpp"
 #include "Widgets/AddressBar/AddressBarCompleterView.hpp"
@@ -200,7 +203,8 @@ void AddressBarCompleter::indexActivated(const QModelIndex& index)
 	}
 
 	if (index.data(AddressBarCompleterModel::BookmarkRole).toBool()) {
-		// TODO: bookmarks
+		BookmarkItem* bookmark{ static_cast<BookmarkItem*>(index.data(AddressBarCompleterModel::BookmarkItemRole).value<void*>()) };
+		bookmark->updateVisitCount();
 	}
 
 	QString urlString{index.data(AddressBarCompleterModel::UrlRole).toString()};
@@ -217,7 +221,8 @@ void AddressBarCompleter::indexCtrlActivated(const QModelIndex& index)
 	Q_ASSERT(m_tabWidget);
 
 	if (index.data(AddressBarCompleterModel::BookmarkRole).toBool()) {
-		// TODO: bookmarks
+		BookmarkItem* bookmark{ static_cast<BookmarkItem*>(index.data(AddressBarCompleterModel::BookmarkItemRole).value<void*>()) };
+		bookmark->updateVisitCount();
 	}
 
 	const QUrl url{index.data(AddressBarCompleterModel::UrlRole).toUrl()};
@@ -235,7 +240,8 @@ void AddressBarCompleter::indexShiftActivated(const QModelIndex& index)
 	Q_ASSERT(index.isValid());
 
 	if (index.data(AddressBarCompleterModel::BookmarkRole).toBool()) {
-		// TODO: bookmarks
+		BookmarkItem* bookmark{ static_cast<BookmarkItem*>(index.data(AddressBarCompleterModel::BookmarkItemRole).value<void*>()) };
+		bookmark->updateVisitCount();
 	}
 
 	const QString urlString{index.data(AddressBarCompleterModel::UrlRole).toString()};
@@ -259,7 +265,8 @@ void AddressBarCompleter::indexDeleteRequested(const QModelIndex& index)
 		return;
 
 	if (index.data(AddressBarCompleterModel::BookmarkRole).toBool()) {
-		//TODO: bookmarks
+		BookmarkItem* bookmark{ static_cast<BookmarkItem*>(index.data(AddressBarCompleterModel::BookmarkItemRole).value<void*>()) };
+		Application::instance()->bookmarks()->removeBookmark(bookmark);
 	}
 	else {
 		int id = index.data(AddressBarCompleterModel::IdRole).toInt();

@@ -30,13 +30,15 @@
 
 #include <algorithm>
 
-#include <ndb/function.hpp>
+#include <ndb/query.hpp>
 #include <ndb/engine/sqlite/query.hpp>
+
+#include "Bookmarks/Bookmarks.hpp"
+#include "Bookmarks/BookmarkItem.hpp"
 
 #include "Widgets/AddressBar/AddressBarCompleterModel.hpp"
 
 #include "Application.hpp"
-#include <ndb/query.hpp>
 
 constexpr auto& history = ndb::models::navigation.history;
 
@@ -155,7 +157,28 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 	Type showType = History;
 
 	if (showType == HistoryAndBookmarks || showType == Bookmarks) {
-		// TODO: Bookmarks completion
+		const int bookmarksLimit = 10;
+		QList<BookmarkItem*> bookmarks = Application::instance()->bookmarks()->searchBookmarks(m_searchString, bookmarksLimit);
+
+		foreach(BookmarkItem* bookmark, bookmarks) {
+			Q_ASSERT(bookmark->isUrl());
+
+			if (bookmark->keyword() == m_searchString) 
+				continue;
+
+			QStandardItem* item = new QStandardItem();
+			item->setText(bookmark->url().toEncoded());
+			item->setData(-1, AddressBarCompleterModel::IdRole);
+			item->setData(bookmark->title(), AddressBarCompleterModel::TitleRole);
+			item->setData(bookmark->url(), AddressBarCompleterModel::UrlRole);
+			item->setData(bookmark->visitCount(), AddressBarCompleterModel::CountRole);
+			item->setData(true, AddressBarCompleterModel::BookmarkRole);
+			item->setData(QVariant::fromValue<void*>(static_cast<void*>(bookmark)), AddressBarCompleterModel::BookmarkItemRole);
+			item->setData(m_searchString, AddressBarCompleterModel::SearchStringRole);
+
+			urlList.append(bookmark->url());
+			m_items.append(item);
+		}
 	}
 
 	std::sort(m_items.begin(), m_items.end(), [](const QStandardItem* item1, const QStandardItem* item2) {
