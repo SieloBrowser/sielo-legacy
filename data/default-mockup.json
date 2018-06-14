@@ -1,0 +1,65 @@
+{
+    "version": 1,
+    "tabs_spaces": [
+        {
+            "tabs": [
+                {
+                    "title": "Google",
+                    "url": "https://google.com",
+                    "selected": false
+                },
+                {
+                    "title": "Qwant",
+                    "url": "https://qwant.fr",
+                    "selected": true
+                },
+                {
+                    "title": "Lilo",
+                    "url": "https://lilo.org",
+                    "selected": false
+                }
+            ],
+            "vertical_index": 0
+        },
+        {
+            "tabs": [
+                {
+                    "title": "Feldrise",
+                    "url": "https://feldrise.com",
+                    "selected": true
+                },
+                {
+                    "title": "Sielo",
+                    "url": "https://sielo.app",
+                    "selected": false
+                }
+            ],
+            "vertical_index": 0
+        },
+        {
+            "tabs": [
+                {
+                    "title": "GitHub",
+                    "url": "https://github.com",
+                    "selected": false
+                },
+                {
+                    "title": "Qt",
+                    "url": "https://www.qt.io",
+                    "selected": false
+                },
+                {
+                    "title": "Qt > Documantation",
+                    "url": "https://wiki.qt.io",
+                    "selected": false
+                },
+                {
+                    "title": "YouTube",
+                    "url": "https://youtube.com",
+                    "selected": true
+                }
+            ],
+            "vertical_index": 1
+        }
+    ]
+}
