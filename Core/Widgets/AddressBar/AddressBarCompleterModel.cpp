@@ -65,25 +65,16 @@ ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createHistoryQuery(
 
 	queryString.append("ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT ?");
 
-	try {
-		std::string string = queryString.toStdString();
-		ndb::sqlite_query<dbs::navigation> query{ string };
-	}
-	catch (std::exception e) {
-		std::string what = e.what();
-		int integer = 0;
-	}
-	std::string string = queryString.toStdString();
-	ndb::sqlite_query<dbs::navigation> query{string};
+	ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
 
 	if (exactMatch) {
-		query.bind(QString("%%1%").arg(searchString).toStdString());
-		query.bind(QString("%%1%").arg(searchString).toStdString());
+		query.bind(QString("%%1%").arg(searchString));
+		query.bind(QString("%%1%").arg(searchString));
 	}
 	else {
 		foreach(const QString &str, searchList) {
-			query.bind(QString("%%1%").arg(str).toStdString());
-			query.bind(QString("%%1%").arg(str).toStdString());
+			query.bind(QString("%%1%").arg(str));
+			query.bind(QString("%%1%").arg(str));
 		}
 	}
 
@@ -105,16 +96,16 @@ ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createDomainQuery(c
 	ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
 
 	if (withoutWww) {
-		query.bind(QString("http://www.%").toStdString());
-		query.bind(QString("https://www.%").toStdString());
-		query.bind(QString("http://%1%").arg(text).toStdString());
-		query.bind(QString("https://%1%").arg(text).toStdString());
+		query.bind(QString("http://www.%"));
+		query.bind(QString("https://www.%"));
+		query.bind(QString("http://%1%").arg(text));
+		query.bind(QString("https://%1%").arg(text));
 	}
 	else {
-		query.bind(QString("http://%1%").arg(text).toStdString());
-		query.bind(QString("https://%1%").arg(text).toStdString());
-		query.bind(QString("http://www.%1%").arg(text).toStdString());
-		query.bind(QString("https://www.%1%").arg(text).toStdString());
+		query.bind(QString("http://%1%").arg(text));
+		query.bind(QString("https://%1%").arg(text));
+		query.bind(QString("http://www.%1%").arg(text));
+		query.bind(QString("https://www.%1%").arg(text));
 	}
 
 	return query;

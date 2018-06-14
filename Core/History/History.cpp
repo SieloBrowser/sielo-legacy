@@ -118,13 +118,13 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	if (title.isEmpty())
 		title = tr("Empty page");
 
-	auto& oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString().toStdString());
+	auto& oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString());
 
 	if (!oquery.has_result()) {
 		ndb::query<dbs::navigation>() + (
-			history.title = title.toStdString(),
-			history.url = url.toString().toStdString(),
-			history.date = QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(),
+			history.title = title,
+			history.url = url.toString(),
+			history.date = QDateTime::currentMSecsSinceEpoch(),
 			history.count = 1
 		);
 
@@ -143,16 +143,16 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	else {
 		int id{oquery[0].id};
 		int count{oquery[0].count};
-		QDateTime date{QDateTime::fromMSecsSinceEpoch(QString::fromStdString(oquery[0].date).toLongLong())};
-		QString oldTitle{QString::fromStdString(oquery[0].title)};
+		QDateTime date{QDateTime::fromMSecsSinceEpoch(oquery[0].date)};
+		QString oldTitle{oquery[0].title};
 
 		ndb::query<dbs::navigation>() >> (
 			(
 				history.count = count + 1,
-				history.date = QString::number(QDateTime::currentMSecsSinceEpoch()).toStdString(),
-				history.title = title.toStdString()
+				history.date = QDateTime::currentMSecsSinceEpoch(),
+				history.title = title
 			)
-			<< (history.url == url.toString().toStdString())
+			<< (history.url == url.toString())
 		);
 
 		HistoryEntry before{};
@@ -191,7 +191,7 @@ void History::deleteHistoryEntry(const QList<int>& list)
 		HistoryEntry entry{query[0]};
 
 		ndb::query<dbs::navigation>() - (history.id == index);
-		ndb::query<dbs::navigation>() - (history.url == entry.url.toEncoded(QUrl::RemoveFragment).toStdString());
+		ndb::query<dbs::navigation>() - (history.url == QString::fromUtf8(entry.url.toEncoded(QUrl::RemoveFragment)));
 
 		emit historyEntryDeleted(entry);
 	}
@@ -199,8 +199,8 @@ void History::deleteHistoryEntry(const QList<int>& list)
 
 void History::deleteHistoryEntry(const QString& url, const QString& title)
 {
-	auto query = ndb::query<dbs::navigation>() << ((history.id) << (history.url == url.toStdString() && history.title ==
-		title.toStdString()));
+	auto query = ndb::query<dbs::navigation>() << ((history.id) << (history.url == url && history.title ==
+		title));
 
 	if (query.has_result()) {
 		int id = query[0][history.id];
@@ -216,7 +216,7 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 		return list;
 
 	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(
-		     history.date, QString::number(end).toStdString(), QString::number(start).toStdString())))
+		     history.date, end, start)))
 		list.append(data[history.id]);
 
 	return list;
@@ -224,7 +224,7 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 
 bool History::urlIsStored(const QString& url)
 {
-	auto& query = ndb::query<dbs::navigation>() << (history.url == url.toStdString());
+	auto& query = ndb::query<dbs::navigation>() << (history.url == url);
 
 	return query.has_result();
 }
@@ -244,10 +244,10 @@ QVector<History::HistoryEntry> History::mostVisited(int count)
 		HistoryEntry entry{};
 
 		entry.id = data[history.id];
-		entry.date = QDateTime::fromMSecsSinceEpoch(QString::fromStdString(data[history.date]).toLongLong());
-		entry.url = QUrl(QString::fromStdString(data[history.url]));
-		entry.urlString = QUrl(QString::fromStdString(data[history.url])).toEncoded();
-		entry.title = QString::fromStdString(data[history.title]);
+		entry.date = QDateTime::fromMSecsSinceEpoch(data[history.date]);
+		entry.url = QUrl(data[history.url]);
+		entry.urlString = QUrl(data[history.url]).toEncoded();
+		entry.title = data[history.title];
 		
 		list.append(entry);
 	}

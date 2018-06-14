@@ -23,87 +23,14 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_History_HPP
-#define SIELOBROWSER_History_HPP
+#ifndef SIELOBROWSER_DATABASETYPE_HPP
+#define SIELOBROWSER_DATABASETYPE_HPP
 
-#include <QObject>
-
-#include <QUrl>
 #include <QString>
-#include <QVector>
-#include <QDateTime>
 
-#include "Database/SqlDatabase.hpp"
+#include <ndb/type.hpp>
 
-namespace Sn
-{
-class WebView;
+#include "SqlDatabase.hpp"
 
-class HistoryModel;
 
-class History: public QObject {
-Q_OBJECT
-
-public:
-	History(QObject* parent);
-	~History();
-
-	struct HistoryEntry {
-		int id;
-		int count;
-		QDateTime date;
-		QUrl url;
-		QString urlString;
-		QString title;
-
-		HistoryEntry() {}
-
-		HistoryEntry(ndb::objects::history entry)
-		{
-			id = entry.id;
-			count = entry.count;
-			date = QDateTime::fromMSecsSinceEpoch(entry.date);
-			url = QUrl(entry.url);
-			urlString = QUrl(entry.url).toEncoded();
-			title = entry.title;
-		}
-	};
-
-	HistoryModel *model();
-
-	void addHistoryEntry(WebView* view);
-	void addHistoryEntry(const QUrl& url, QString title);
-
-	void deleteHistoryEntry(int index);
-	void deleteHistoryEntry(const QList<int>& list);
-	void deleteHistoryEntry(const QString& url, const QString& title);
-
-	QList<int> indexesFromTimeRange(qint64 start, qint64 end);
-
-	bool urlIsStored(const QString& url);
-
-	QVector<HistoryEntry> mostVisited(int count);
-
-	void clearHistory();
-	bool isSaving() const { return m_isSaving; }
-	void setSaving(bool state);
-
-	void loadSettings();
-
-	static QString titleCaseLocalizedMonth(int month);
-
-signals:
-	void historyEntryAdded(const HistoryEntry& entry);
-	void historyEntryDeleted(const HistoryEntry& entry);
-	void historyEntryEdited(const HistoryEntry& before, const HistoryEntry& after);
-
-	void resetHistory();
-
-private:
-	bool m_isSaving{true};
-
-	HistoryModel* m_model{nullptr};
-};
-}
-
-#endif //SIELOBROWSER_History_HPP
+#endif //SIELOBROWSER_DATABASETYPE_HPP

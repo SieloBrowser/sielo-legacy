@@ -113,21 +113,21 @@ void AddressBarCompleterRefreshJob::runJob()
 			ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
 
 			if (withoutWww) {
-				query.bind(QString("http://www.%").toStdString());
-				query.bind(QString("https://www.%").toStdString());
-				query.bind(QString("http://%1%").arg(m_searchString).toStdString());
-				query.bind(QString("https://%1%").arg(m_searchString).toStdString());
+				query.bind(QString("http://www.%"));
+				query.bind(QString("https://www.%"));
+				query.bind(QString("http://%1%").arg(m_searchString));
+				query.bind(QString("https://%1%").arg(m_searchString));
 			}
 			else {
-				query.bind(QString("http://%1%").arg(m_searchString).toStdString());
-				query.bind(QString("https://%1%").arg(m_searchString).toStdString());
-				query.bind(QString("http://www.%1%").arg(m_searchString).toStdString());
-				query.bind(QString("https://www.%1%").arg(m_searchString).toStdString());
+				query.bind(QString("http://%1%").arg(m_searchString));
+				query.bind(QString("https://%1%").arg(m_searchString));
+				query.bind(QString("http://www.%1%").arg(m_searchString));
+				query.bind(QString("https://www.%1%").arg(m_searchString));
 			}
 
 			auto result = query.exec();
 			if (result.has_result())
-				m_domainCompletion = createDomainCompletion(QUrl(QString::fromStdString(result[0][history.url])).host());
+				m_domainCompletion = createDomainCompletion(QUrl(result[0][history.url]).host());
 		}
 	}
 
@@ -215,15 +215,15 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 		ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
 
 		foreach(const QString &str, searchList) {
-			std::string bind = QString("%%1%").arg(str).toStdString();
-			query.bind(QString("%%1%").arg(str).toStdString());
-			query.bind(QString("%%1%").arg(str).toStdString());
+			QString bind = QString("%%1%").arg(str);
+			query.bind(QString("%%1%").arg(str));
+			query.bind(QString("%%1%").arg(str));
 		}
 
 		query.bind(historyLimit);
 
 		for (auto& entry : query.exec<ndb::objects::history>()) {
-			const QUrl url{QUrl(QString::fromStdString(entry.url))};
+			const QUrl url{QUrl(entry.url)};
 
 			if (urlList.contains(url))
 				continue;
@@ -231,7 +231,7 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 			QStandardItem* item{new QStandardItem()};
 			item->setText(url.toEncoded());
 			item->setData(entry.id, AddressBarCompleterModel::IdRole);
-			item->setData(QString::fromStdString(entry.title), AddressBarCompleterModel::TitleRole);
+			item->setData(entry.title, AddressBarCompleterModel::TitleRole);
 			item->setData(url, AddressBarCompleterModel::UrlRole);
 			item->setData(entry.count, AddressBarCompleterModel::CountRole);
 			item->setData(QVariant(false), AddressBarCompleterModel::BookmarkRole);
@@ -246,11 +246,11 @@ void AddressBarCompleterRefreshJob::completeMostVisited()
 {
 	for (auto& entry : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(15))) {
 		QStandardItem* item{new QStandardItem()};
-		const QUrl url{QUrl(QString::fromStdString(entry.url))};
+		const QUrl url{QUrl(entry.url)};
 
 		item->setText(url.toEncoded());
 		item->setData(entry.id, AddressBarCompleterModel::IdRole);
-		item->setData(QString::fromStdString(entry.title), AddressBarCompleterModel::TitleRole);
+		item->setData(entry.title, AddressBarCompleterModel::TitleRole);
 		item->setData(url, AddressBarCompleterModel::UrlRole);
 		item->setData(QVariant(false), AddressBarCompleterModel::BookmarkRole);
 

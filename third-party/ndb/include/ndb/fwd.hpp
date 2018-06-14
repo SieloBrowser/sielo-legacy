@@ -22,6 +22,13 @@ namespace ndb
     class option_base;
     class database_base;
 
+    // type
+    struct proxy_type_base;
+    namespace internal { struct custom_type_not_found; }
+    namespace scope { struct global; }
+    template<class T, class Database>
+    struct custom_type;
+
     // expression
     enum class expr_clause_code;
     enum class expr_type_code;

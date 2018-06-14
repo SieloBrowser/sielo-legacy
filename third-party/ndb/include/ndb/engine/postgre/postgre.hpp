@@ -18,7 +18,7 @@ namespace ndb
         inline postgre() = default;
 
         template<class Database, class Result_type = ndb::line<Database>>
-        inline auto exec(postgre_query<Database>& query) const;
+        inline auto exec(const postgre_query<Database>& query) const;
 
         template<class Database, class Query_option, class Expr>
         inline auto exec(const Expr& expr) const;
