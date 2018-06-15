@@ -59,6 +59,7 @@
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
 #include "Mockup/Mockups.hpp"
+#include "Mockup/MockupsManager.hpp"
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
@@ -709,6 +710,8 @@ void Application::postLaunch()
 
 	//** TESTES **/
 	//BrowserWindow* mockupWindow = new BrowserWindow(mockups()->mockups()[0]);
+	MockupsManager* dialog{ new MockupsManager() };
+	dialog->show();
 }
 
 void Application::windowDestroyed(QObject* window)

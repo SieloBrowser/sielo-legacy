@@ -85,15 +85,15 @@ BrowserWindow::BrowserWindow(MockupItem* mockup) :
 	BrowserWindow(Application::WT_OtherRestoredWindow)
 {	
 	Q_ASSERT(mockup->tabsSpaces().count() >= 1);
-	Q_ASSERT(mockup->tabsSpaces()[0].tabs.count() >= 1);
+	Q_ASSERT(mockup->tabsSpaces()[0]->tabs.count() >= 1);
 
 	int selectedTab{ 0 };
-	for (int i{0}; i < mockup->tabsSpaces()[0].tabs.count(); ++i) {
-		const MockupItem::Tab& tab = mockup->tabsSpaces()[0].tabs[i];
+	for (int i{0}; i < mockup->tabsSpaces()[0]->tabs.count(); ++i) {
+		MockupItem::Tab* tab = mockup->tabsSpaces()[0]->tabs[i];
 
-		tabWidget(0)->addView(tab.url);
+		tabWidget(0)->addView(tab->url);
 
-		if (tab.selected)
+		if (tab->selected)
 			selectedTab = i;
 	}
 
@@ -101,21 +101,21 @@ BrowserWindow::BrowserWindow(MockupItem* mockup) :
 
 	int workingVerticalIndex{ 0 };
 	for (int i{1}; i < mockup->tabsSpaces().count(); ++i) {
-		const MockupItem::TabsSpace& tabsSpace = mockup->tabsSpaces()[i];
+		MockupItem::TabsSpace* tabsSpace = mockup->tabsSpaces()[i];
 
-		if (tabsSpace.verticalIndex == workingVerticalIndex) 
+		if (tabsSpace->verticalIndex == workingVerticalIndex) 
 			createNewTabsSpace(BrowserWindow::TSP_Bottom, nullptr);
 		else {
 			createNewTabsSpace(BrowserWindow::TSP_Right, nullptr);
-			workingVerticalIndex = tabsSpace.verticalIndex;
+			workingVerticalIndex = tabsSpace->verticalIndex;
 		}
 
-		for (int j{0}; j < tabsSpace.tabs.count(); ++j) {
-			const MockupItem::Tab& tab = tabsSpace.tabs[j];
+		for (int j{0}; j < tabsSpace->tabs.count(); ++j) {
+			MockupItem::Tab* tab = tabsSpace->tabs[j];
 
-			tabWidget(i)->addView(tab.url);
+			tabWidget(i)->addView(tab->url);
 
-			if (tab.selected)
+			if (tab->selected)
 				selectedTab = j;
 		}
 
