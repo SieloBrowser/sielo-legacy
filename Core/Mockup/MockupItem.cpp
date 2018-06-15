@@ -50,26 +50,36 @@ void MockupItem::setName(const QString& name)
 	m_name = name;
 }
 
+void MockupItem::clear()
+{
+	m_tabsSpaces.clear();
+}
+
+void MockupItem::addTabsSpace(TabsSpace* tabsSpace)
+{
+	m_tabsSpaces.append(tabsSpace);
+}
+
 void MockupItem::saveMockup()
 {
 	QVariantMap map{};
 	QVariantList tabsSpacesList{};
 
-	foreach(MockupItem::TabsSpace tabsSpace, m_tabsSpaces) {
+	foreach(MockupItem::TabsSpace* tabsSpace, m_tabsSpaces) {
 		QVariantMap tabsSpaceMap{};
 		QVariantList tabsList{};
 
-		foreach(MockupItem::Tab tab, tabsSpace.tabs) {
+		foreach(MockupItem::Tab* tab, tabsSpace->tabs) {
 			QVariantMap tabMap{};
-			tabMap.insert("title", tab.title);
-			tabMap.insert("url", tab.url);
-			tabMap.insert("seleted", tab.selected);
+			tabMap.insert("title", tab->title);
+			tabMap.insert("url", tab->url);
+			tabMap.insert("seleted", tab->selected);
 
 			tabsList.append(tabMap);
 		}
 
 		tabsSpaceMap.insert("tabs", tabsList);
-		tabsSpaceMap.insert("vertical_index", tabsSpace.verticalIndex);
+		tabsSpaceMap.insert("vertical_index", tabsSpace->verticalIndex);
 
 		tabsSpacesList.append(tabsSpaceMap);
 	}
@@ -142,22 +152,24 @@ void MockupItem::loadMockupFromMap(const QVariantMap& map)
 {
 	foreach (QVariant tabsSpaceData, map.value("tabs_spaces").toList()) {
 		QVariantMap tabsSpaceMap{tabsSpaceData.toMap()};
-		MockupItem::TabsSpace tabsSpace{};
+		MockupItem::TabsSpace* tabsSpace{new MockupItem::TabsSpace()};
 
 		foreach (QVariant tabData, tabsSpaceMap.value("tabs").toList()) {
 			QVariantMap tabMap{tabData.toMap()};
-			MockupItem::Tab tab{};
+			MockupItem::Tab* tab{new MockupItem::Tab()};
 
 			// TODO: icon
-			tab.icon = Application::getAppIcon("webpage");
-			tab.title = tabMap.value("title").toString();
-			tab.url = tabMap.value("url").toUrl();
-			tab.selected = tabMap.value("selected").toBool();
+			tab->icon = Application::getAppIcon("webpage");
+			tab->title = tabMap.value("title").toString();
+			tab->url = tabMap.value("url").toUrl();
+			tab->selected = tabMap.value("selected").toBool();
+			tab->parent = tabsSpace;
 
-			tabsSpace.tabs.append(tab);
+			tabsSpace->tabs.append(tab);
 		}
 
-		tabsSpace.verticalIndex = tabsSpaceMap.value("vertical_index").toInt();
+		tabsSpace->verticalIndex = tabsSpaceMap.value("vertical_index").toInt();
+		tabsSpace->parent = this;
 
 		m_tabsSpaces.append(tabsSpace);
 	}

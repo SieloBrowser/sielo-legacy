@@ -22,62 +22,71 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_MOCKUPITEM_HPP
-#define SIELOBROWSER_MOCKUPITEM_HPP
+#include "MockupsTabsList.hpp"
 
-#include <QIcon>
+#include <QMimeData>
 
-#include <QUrl>
-#include <QString>
-
-#include <QVector>
+#include "Mockup/MockupsManager.hpp"
 
 namespace Sn
 {
-class MockupItem {
-public:
-	struct TabsSpace;
+MockupsTabsList::MockupsTabsList(MockupsManager* manager, QWidget* parent) :
+	QListWidget(parent),
+	m_mockupManager(manager)
+{
+	setObjectName(QLatin1String("mockups-tabslist"));
 
-	struct Tab {
-		QIcon icon{};
-		QString title{};
-		QUrl url{};
+	setMinimumSize(218, 218);
 
-		bool selected{false};
-
-		TabsSpace* parent{nullptr};
-	};
-
-	struct TabsSpace {
-		~TabsSpace() { qDeleteAll(tabs); }
-
-		QVector<MockupItem::Tab*> tabs{};
-		int verticalIndex{0};
-
-		MockupItem* parent{nullptr};
-	};
-
-	MockupItem(const QString& name);
-	~MockupItem();
-
-	const QString &name() const { return m_name; }
-	void setName(const QString& name);
-
-	void clear();
-
-	void addTabsSpace(TabsSpace* tabsSpace);
-	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
-
-	void saveMockup();
-private:
-	void loadMockup();
-	void loadMockupFromMap(const QVariantMap& map);
-
-	QList<TabsSpace*> m_tabsSpaces{};
-
-	QString m_name{};
-};
+	setAcceptDrops(true);
+	setDragEnabled(true);
+	setDropIndicatorShown(true);
+	setDefaultDropAction(Qt::MoveAction);
+	setDragDropMode(QAbstractItemView::DragDrop);
+	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
-#endif //SIELOBROWSER_MOCKUPITEM_HPP
+MockupsTabsList::~MockupsTabsList()
+{
+	// Empty
+}
+
+void MockupsTabsList::setParentLayout(QVBoxLayout* layout)
+{
+	m_parentLayout = layout;
+}
+
+MockupItem::TabsSpace* MockupsTabsList::tabsSpace()
+{
+	MockupItem::TabsSpace* tabsSpace{ new MockupItem::TabsSpace() };
+
+	for (int i{0}; i < count(); ++i) {
+		MockupItem::Tab* tab{ new MockupItem::Tab() };
+		QListWidgetItem* itm{ item(i) };
+
+		tab->icon = itm->icon();
+		tab->title = itm->data(MockupsManager::TitleRole).toString();
+		tab->url = itm->data(MockupsManager::UrlRole).toUrl();
+		tab->selected = i == 0;
+		tab->parent = tabsSpace;
+
+		tabsSpace->tabs.append(tab);
+	}
+
+	return tabsSpace;
+}
+
+void MockupsTabsList::dropEvent(QDropEvent* event)
+{
+	if (event->dropAction() == Qt::IgnoreAction)
+		return;
+
+	MockupsTabsList* source = qobject_cast<MockupsTabsList*>(event->source());
+	int count = source->count();
+
+	QListWidget::dropEvent(event);
+
+	if (source->count() <= 1) 
+		m_mockupManager->removeTabsSpace(source);
+}
+}

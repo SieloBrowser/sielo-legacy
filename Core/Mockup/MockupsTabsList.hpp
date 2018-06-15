@@ -23,61 +23,41 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_MOCKUPITEM_HPP
-#define SIELOBROWSER_MOCKUPITEM_HPP
+#ifndef SIELOBROWSER_MOCKUPSTABSLIST_HPP
+#define SIELOBROWSER_MOCKUPSTABSLIST_HPP
 
-#include <QIcon>
+#include <QListWidget>
 
-#include <QUrl>
-#include <QString>
+#include <QDropEvent>
 
-#include <QVector>
+#include <QVBoxLayout>
+
+#include "Mockup/MockupItem.hpp"
 
 namespace Sn
 {
-class MockupItem {
+class MockupsManager;
+
+class MockupsTabsList: public QListWidget {
+Q_OBJECT
+
 public:
-	struct TabsSpace;
+	MockupsTabsList(MockupsManager* manager, QWidget* parent = nullptr);
+	~MockupsTabsList();
 
-	struct Tab {
-		QIcon icon{};
-		QString title{};
-		QUrl url{};
+	QVBoxLayout* parentLayout() const { return m_parentLayout; }
+	void setParentLayout(QVBoxLayout* layout);
 
-		bool selected{false};
+	MockupItem::TabsSpace* tabsSpace();
 
-		TabsSpace* parent{nullptr};
-	};
+protected:
+	void dropEvent(QDropEvent* event);
 
-	struct TabsSpace {
-		~TabsSpace() { qDeleteAll(tabs); }
-
-		QVector<MockupItem::Tab*> tabs{};
-		int verticalIndex{0};
-
-		MockupItem* parent{nullptr};
-	};
-
-	MockupItem(const QString& name);
-	~MockupItem();
-
-	const QString &name() const { return m_name; }
-	void setName(const QString& name);
-
-	void clear();
-
-	void addTabsSpace(TabsSpace* tabsSpace);
-	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
-
-	void saveMockup();
 private:
-	void loadMockup();
-	void loadMockupFromMap(const QVariantMap& map);
+	MockupsManager* m_mockupManager{nullptr};
+	QVBoxLayout* m_parentLayout{ nullptr };
 
-	QList<TabsSpace*> m_tabsSpaces{};
-
-	QString m_name{};
 };
 }
 
-#endif //SIELOBROWSER_MOCKUPITEM_HPP
+#endif //SIELOBROWSER_MOCKUPSTABSLIST_HPP
