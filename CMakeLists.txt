@@ -48,6 +48,8 @@ if (WIN32)
 
     add_custom_command(TARGET sielo-browser POST_BUILD
             COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
+			file(GLOB OPENSSL_CRYPTO_DLLS "${CMAKE_SOURCE_DIR}/third-party/openssl/windows/x64/bin/*.dll")
+			file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
 
 
 elseif(APPLE)
