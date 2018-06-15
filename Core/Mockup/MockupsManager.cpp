@@ -160,7 +160,7 @@ void MockupsManager::createVerticalTabsSpace()
 
 	list->setParentLayout(layout);
 
-	//m_saver->changeOccurred();
+	m_saver->changeOccurred();
 }
 
 void MockupsManager::createHorizontalTabsSpace()
@@ -188,7 +188,7 @@ void MockupsManager::createHorizontalTabsSpace()
 	m_tabsSpacesLayout->insertLayout(index + 1, tabsSpaceLayout);
 	m_tabsSpacesLayout->insertLayout(index + 2, addRightLayout);
 
-	//m_saver->changeOccurred();
+	m_saver->changeOccurred();
 }
 
 void MockupsManager::removeTabsSpace(MockupsTabsList* tabsSpace)
@@ -235,8 +235,10 @@ void MockupsManager::mockupChanged(QListWidgetItem* item)
 	if (row == m_mockupsListWidget->count() - 1) {
 		// TODO: generate from session
 	}
-	else 
+	else {
+		m_saver->saveIfNeccessary();
 		refresh(m_mockups->mockups()[row]);
+	}
 }
 
 void MockupsManager::tabChanged()
@@ -273,6 +275,8 @@ void MockupsManager::refresh(MockupItem* item)
 	m_workingItem = item;
 
 	m_verticalLayouts.clear();
+	m_tabsLists.clear();
+
 	m_tabsSpacesWidget->deleteLater();
 	m_tabsSpacesLayout->deleteLater();
 
