@@ -874,7 +874,6 @@ void TabWidget::updateShowBookmarksBarText(bool visible)
 void TabWidget::tabBarOverFlowChanged(bool overflowed)
 {
 	m_buttonAddTab->setVisible(!overflowed);
-
 	m_buttonAddTab2->setVisible(overflowed);
 	m_buttonListTabs->setVisible(overflowed);
 	m_buttonClosedTabs->setVisible(m_showClosedTabsButton);

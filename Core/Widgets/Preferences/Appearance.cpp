@@ -108,11 +108,9 @@ void AppearancePage::save()
 	}
 
 	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
-	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
-					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
-	settings
-			.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
-					  m_hideBookmarksHistoryActionsByDefault->isChecked());
+	settings.setValue(QLatin1String("floatingButtonFoloweMouse"), m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
+	settings.setValue(QLatin1String("NavigationToolBarMode"), m_useRealToolBar->isChecked());
+	settings.setValue(QLatin1String("hideBookmarksHistoryByDefault"), m_hideBookmarksHistoryActionsByDefault->isChecked());
 
 	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
 		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
@@ -259,7 +257,8 @@ void AppearancePage::getColor()
 void AppearancePage::useRealToolBarChanged(bool enabled)
 {
 	Q_UNUSED(enabled);
-	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
+	m_floatingButtonFoloweMouse->setDisabled(m_useRealToolBar->isChecked());
+	m_navigationToolBarFocusedMode->setEnabled(m_useRealToolBar->isChecked());
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 }
 
@@ -323,19 +322,15 @@ void AppearancePage::loadSettings()
 
 	settings.beginGroup("Settings");
 
-	m_fullyLoadThemes
-			->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
-								 .toBool());
-	m_useRealToolBar
-			->setChecked(
-					settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
-	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
-																	  Application::instance()
-																			  ->hideBookmarksHistoryActions()).toBool());
-	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
-														   Application::instance()->floatingButtonFoloweMouse())
-													.toBool());
+	m_fullyLoadThemes->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes()).toBool());
+	m_useRealToolBar->setChecked(settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
+	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),Application::instance()->hideBookmarksHistoryActions()).toBool());
+	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),Application::instance()->floatingButtonFoloweMouse()).toBool());
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
+	m_navigationToolBarFocusedMode->setChecked(settings.value(QLatin1String("NavigationToolBarMode"),Application::instance()->navigationToolBarFocusedMode()).toBool());
+	m_navigationToolBarFocusedMode->setEnabled(m_useRealToolBar->isChecked());
+
+
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
@@ -475,6 +470,7 @@ void AppearancePage::setupUI()
 	m_hideBookmarksHistoryActionsByDefault =
 			new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
+	m_navigationToolBarFocusedMode = new QCheckBox(tr("Navigation ToolBar only visible in focused tabs space"));
 
 	m_tabsSpacesPaddingLabel = new QLabel(tr("Tabs spaces padding (in px)"), this);
 	m_tabsSpacesPadding = new QSlider(Qt::Horizontal, this);
@@ -520,6 +516,7 @@ void AppearancePage::setupUI()
 	m_advancedPageLayout->addWidget(m_useRealToolBar);
 	m_advancedPageLayout->addWidget(m_hideBookmarksHistoryActionsByDefault);
 	m_advancedPageLayout->addWidget(m_floatingButtonFoloweMouse);
+	m_advancedPageLayout->addWidget(m_navigationToolBarFocusedMode);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPaddingLabel);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
 	m_advancedPageLayout->addWidget(m_repeatBackground);

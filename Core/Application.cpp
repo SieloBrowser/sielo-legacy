@@ -79,7 +79,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.15.00 closed-beta");
+QString Application::currentVersion = QString("1.15.01 closed-beta");
 
 // Static member
 QList<QString> Application::paths()
@@ -302,6 +302,7 @@ void Application::loadSettings()
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
+	m_navigationToolBarFocusedMode = settings.value("settings/NavigationToolBarMode", false).toBool();
 
 	// Load specific settings for all windows
 	foreach (BrowserWindow* window, m_windows) window->loadSettings();
@@ -325,7 +326,7 @@ void Application::loadWebSettings()
 
 	QString defaultUserAgent = webProfile->httpUserAgent();
 	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
-	                         QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
+	                         QStringLiteral("Sielo/%1 P-Codecs").arg(QCoreApplication::applicationVersion()));
 	webProfile->setHttpUserAgent(defaultUserAgent);
 
 	settings.beginGroup("Web-Settings");
@@ -354,7 +355,7 @@ void Application::loadWebSettings()
 
 	settings.endGroup();
 
-	// Force local storage to be disabled if it's a provate session
+	// Force local storage to be disabled if it's a private session
 	if (privateBrowsing()) {
 		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
 		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
