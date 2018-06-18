@@ -120,7 +120,7 @@ private:
 	void setupUI();
 
 	AutoSaver* m_saver{nullptr};
-	BrowserWindow* m_window{ nullptr };
+	BrowserWindow* m_window{nullptr};
 
 	QList<QVBoxLayout*> m_verticalLayouts{};
 	QList<MockupsTabsList*> m_tabsLists{};
@@ -130,9 +130,9 @@ private:
 
 	QListWidget* m_mockupsListWidget{nullptr};
 	QLineEdit* m_mockupName{nullptr};
-	QPushButton* m_newMockup{ nullptr };
-	QPushButton* m_newMockupFromCurrentSession{ nullptr };
-	QPushButton* m_deleteMockup{ nullptr };
+	QPushButton* m_newMockup{nullptr};
+	QPushButton* m_newMockupFromCurrentSession{nullptr};
+	QPushButton* m_deleteMockup{nullptr};
 
 	QGroupBox* m_editBox{nullptr};
 

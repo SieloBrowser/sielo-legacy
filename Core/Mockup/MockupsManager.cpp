@@ -42,6 +42,7 @@ MockupsManager::MockupsManager(BrowserWindow* window) :
 	m_mockups(Application::instance()->mockups())
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setObjectName(QLatin1String("mockups-manager"));
 	setupUI();
 
 	setupMockupsList();
@@ -276,6 +277,10 @@ void MockupsManager::removeTabsSpace(MockupsTabsList* tabsSpace)
 		layout->deleteLater();
 	}
 
+	m_workingItem = nullptr;
+	m_activeItem = nullptr;
+	updateEditInputs();
+
 	m_saver->changeOccurred();
 }
 
@@ -435,6 +440,7 @@ void MockupsManager::setupTabsSpaces()
 
 void MockupsManager::setupUI()
 {
+	int maxListWidth{ 220 };
 	resize(1082, 764);
 
 	m_editBox = new QGroupBox(this);
@@ -443,16 +449,25 @@ void MockupsManager::setupUI()
 	m_editLayout = new QVBoxLayout(m_editBox);
 
 	m_mockupsListWidget = new QListWidget(this);
+	m_mockupsListWidget->setMaximumWidth(maxListWidth);
 
 	m_mockupName = new QLineEdit(this);
 	m_newMockup = new QPushButton(tr("Add Mockup"), this);
 	m_newMockupFromCurrentSession = new QPushButton(tr("Add Mockup From Current Session"), this);
 	m_deleteMockup = new QPushButton(tr("Delete Mockup"), this);
 
+	m_mockupName->setMaximumWidth(maxListWidth);
+	m_newMockup->setMaximumWidth(maxListWidth);
+	m_newMockupFromCurrentSession->setMaximumWidth(maxListWidth);
+	m_deleteMockup->setMaximumWidth(maxListWidth);
+
 	m_scrollArea = new QScrollArea(this);
 	m_tabsSpacesWidget = new QWidget(m_scrollArea);
 	m_tabsSpacesLayout = new QHBoxLayout(m_tabsSpacesWidget);
 
+	m_tabsSpacesWidget->setObjectName(QLatin1String("mockups-area-tabsspaces"));
+
+	m_scrollArea->setObjectName(QLatin1String("mockups-area-tabsspaces"));
 	m_scrollArea->setFrameShape(QFrame::NoFrame);
 	m_scrollArea->setWidgetResizable(true);
 	m_scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
