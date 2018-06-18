@@ -384,6 +384,38 @@ void BrowserWindow::loadUrlInNewTab(const QUrl& url)
 	tabWidget()->addView(url);
 }
 
+MockupItem* BrowserWindow::mockupItem() const
+{
+	MockupItem* item{ new MockupItem(tr("Session"), true) };
+	item->clear();
+
+	foreach (TabWidget* tabWidget, m_tabWidgets)
+	{
+		MockupItem::TabsSpace* tabsSpace{ new MockupItem::TabsSpace() };
+
+		foreach (WebTab* tab, tabWidget->allTabs())
+		{
+			MockupItem::Tab* mockupTab{ new MockupItem::Tab() };
+			mockupTab->icon = tab->icon();
+			mockupTab->title = tab->title();
+			mockupTab->url = tab->url();
+			mockupTab->selected = tabWidget->weTab() == tab;
+			mockupTab->parent = tabsSpace;
+
+			tabsSpace->tabs.append(mockupTab);
+		}
+
+		QSplitter* splitter{ qobject_cast<QSplitter*>(tabWidget->parent()->parent()) };
+
+		tabsSpace->verticalIndex = m_mainSplitter->indexOf(splitter);
+		tabsSpace->parent = item;
+
+		item->addTabsSpace(tabsSpace);
+	}
+
+	return item;
+}
+
 TabbedWebView* BrowserWindow::webView() const
 {
 	return webView(tabWidget()->currentIndex());

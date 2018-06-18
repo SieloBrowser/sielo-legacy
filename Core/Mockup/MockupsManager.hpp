@@ -48,6 +48,8 @@ namespace Sn
 {
 class AutoSaver;
 
+class BrowserWindow;
+
 class Mockups;
 class MockupsTabsList;
 class MockupsModel;
@@ -79,7 +81,7 @@ public:
 		UrlRole = Qt::UserRole + 2
 	};
 
-	MockupsManager(QWidget* parent = nullptr);
+	MockupsManager(BrowserWindow* window);
 	~MockupsManager();
 
 	MockupsTabsList *createNewTabsList();
@@ -118,6 +120,7 @@ private:
 	void setupUI();
 
 	AutoSaver* m_saver{nullptr};
+	BrowserWindow* m_window{ nullptr };
 
 	QList<QVBoxLayout*> m_verticalLayouts{};
 	QList<MockupsTabsList*> m_tabsLists{};

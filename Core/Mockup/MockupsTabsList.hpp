@@ -32,6 +32,8 @@
 
 #include <QVBoxLayout>
 
+#include <QPushButton>
+
 #include "Mockup/MockupItem.hpp"
 
 namespace Sn
@@ -45,17 +47,26 @@ public:
 	MockupsTabsList(MockupsManager* manager, QWidget* parent = nullptr);
 	~MockupsTabsList();
 
-	QVBoxLayout* parentLayout() const { return m_parentLayout; }
+	QVBoxLayout *parentLayout() const { return m_parentLayout; }
 	void setParentLayout(QVBoxLayout* layout);
 
-	MockupItem::TabsSpace* tabsSpace();
+	MockupItem::TabsSpace *tabsSpace();
+
+private slots:
+	void deleteItem();
+	void addTab();
 
 protected:
 	void dropEvent(QDropEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 
 private:
 	MockupsManager* m_mockupManager{nullptr};
-	QVBoxLayout* m_parentLayout{ nullptr };
+	QVBoxLayout* m_parentLayout{nullptr};
+
+	QPushButton* m_deleteButton{nullptr};
+	QPushButton* m_addTabButton{nullptr};
 
 };
 }

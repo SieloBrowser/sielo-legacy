@@ -30,6 +30,8 @@
 
 #include "Mockup/MockupsManager.hpp"
 
+#include "Application.hpp"
+
 namespace Sn
 {
 MockupsTabsList::MockupsTabsList(MockupsManager* manager, QWidget* parent) :
@@ -46,6 +48,17 @@ MockupsTabsList::MockupsTabsList(MockupsManager* manager, QWidget* parent) :
 	setDefaultDropAction(Qt::MoveAction);
 	setDragDropMode(QAbstractItemView::DragDrop);
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	m_deleteButton = new QPushButton(tr("X"), this);
+	m_deleteButton->setObjectName(QLatin1String("mockups-tabslist-btn-delete-tabsspace"));
+	m_deleteButton->hide();
+
+	m_addTabButton = new QPushButton(tr("+"), this);
+	m_addTabButton->setObjectName(QLatin1String("mockups-tabslist-btn-addtab"));
+	m_addTabButton->hide();
+
+	connect(m_deleteButton, &QPushButton::clicked, this, &MockupsTabsList::deleteItem);
+	connect(m_addTabButton, &QPushButton::clicked, this, &MockupsTabsList::addTab);
 }
 
 MockupsTabsList::~MockupsTabsList()
@@ -58,13 +71,13 @@ void MockupsTabsList::setParentLayout(QVBoxLayout* layout)
 	m_parentLayout = layout;
 }
 
-MockupItem::TabsSpace* MockupsTabsList::tabsSpace()
+MockupItem::TabsSpace *MockupsTabsList::tabsSpace()
 {
-	MockupItem::TabsSpace* tabsSpace{ new MockupItem::TabsSpace() };
+	MockupItem::TabsSpace* tabsSpace{new MockupItem::TabsSpace()};
 
 	for (int i{0}; i < count(); ++i) {
-		MockupItem::Tab* tab{ new MockupItem::Tab() };
-		QListWidgetItem* itm{ item(i) };
+		MockupItem::Tab* tab{new MockupItem::Tab()};
+		QListWidgetItem* itm{item(i)};
 
 		tab->icon = itm->icon();
 		tab->title = itm->data(MockupsManager::TitleRole).toString();
@@ -76,6 +89,29 @@ MockupItem::TabsSpace* MockupsTabsList::tabsSpace()
 	}
 
 	return tabsSpace;
+}
+
+void MockupsTabsList::deleteItem()
+{
+	delete currentItem();
+
+	if (count() <= 0)
+		m_mockupManager->removeTabsSpace(this);
+	else 
+		m_mockupManager->saver()->changeOccurred();
+}
+
+void MockupsTabsList::addTab()
+{
+	QListWidgetItem* newTab{
+		new QListWidgetItem(Application::getAppIcon("webpage"), QString("%1 (%2)").arg(tr("New Tab")).arg("https://"))
+	};
+	newTab->setData(MockupsManager::TitleRole, tr("New Tab"));
+	newTab->setData(MockupsManager::UrlRole, QUrl("https://"));
+
+	addItem(newTab);
+
+	m_mockupManager->saver()->changeOccurred();
 }
 
 void MockupsTabsList::dropEvent(QDropEvent* event)
@@ -90,7 +126,25 @@ void MockupsTabsList::dropEvent(QDropEvent* event)
 
 	m_mockupManager->saver()->changeOccurred();
 
-	if (source->count() <= 1) 
+	if (source->count() <= 1)
 		m_mockupManager->removeTabsSpace(source);
+}
+
+void MockupsTabsList::enterEvent(QEvent* event)
+{
+	m_deleteButton->move(width() - m_deleteButton->height(), 0);
+	m_addTabButton->move(width() - m_deleteButton->height() - m_addTabButton->height(), 0);
+
+	m_deleteButton->show();
+	m_addTabButton->show();
+}
+
+void MockupsTabsList::leaveEvent(QEvent* event)
+{
+	m_deleteButton->move(width() - m_deleteButton->height(), 0);
+	m_addTabButton->move(width() - m_deleteButton->height() - m_addTabButton->height(), 0);
+
+	m_deleteButton->hide();
+	m_addTabButton->hide();
 }
 }

@@ -90,6 +90,8 @@ public:
 	void loadUrl(const QUrl& url);
 	void loadUrlInNewTab(const QUrl& url);
 
+	MockupItem* mockupItem() const;
+
 	QUrl homePageUrl() const { return m_homePage; }
 
 	TabbedWebView* webView() const;

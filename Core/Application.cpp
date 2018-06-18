@@ -742,7 +742,7 @@ void Application::postLaunch()
 
 	//** TESTES **/
 	//BrowserWindow* mockupWindow = new BrowserWindow(mockups()->mockups()[0]);
-	MockupsManager* dialog{new MockupsManager()};
+	MockupsManager* dialog{new MockupsManager(getWindow())};
 	dialog->show();
 }
 
