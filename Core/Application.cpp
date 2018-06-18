@@ -131,6 +131,37 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 	return QByteArray();
 }
 
+QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
+{
+	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
+
+	QFileInfo info{name};
+
+	if (!info.exists())
+		return name;
+
+	const QDir dir{info.absoluteDir()};
+	const QString fileName{info.fileName()};
+
+	int i{1};
+
+	while (info.exists()) {
+		QString file{fileName};
+		int index{file.lastIndexOf(QLatin1Char('.'))};
+		const QString appendString{appendFormat.arg(i)};
+
+		if (index == -1)
+			file.append(appendString);
+		else
+			file = file.left(index) + appendString + file.mid(index);
+
+		info.setFile(dir, file);
+		++i;
+	}
+
+	return info.absoluteFilePath();
+}
+
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
 	SingleApplication(argc, argv, true),
@@ -701,7 +732,8 @@ void Application::postLaunch()
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTabAtEnd);
+		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"),
+		                     Application::NTT_CleanSelectedTabAtEnd);
 		settings.setValue("installed", true);
 	}
 
@@ -710,7 +742,7 @@ void Application::postLaunch()
 
 	//** TESTES **/
 	//BrowserWindow* mockupWindow = new BrowserWindow(mockups()->mockups()[0]);
-	MockupsManager* dialog{ new MockupsManager() };
+	MockupsManager* dialog{new MockupsManager()};
 	dialog->show();
 }
 
@@ -837,7 +869,7 @@ Bookmarks *Application::bookmarks()
 	return m_bookmarks;
 }
 
-Mockups* Application::mockups()
+Mockups *Application::mockups()
 {
 	if (!m_mockups)
 		m_mockups = new Mockups(this);
@@ -931,37 +963,6 @@ void Application::connectDatabase()
 		qWarning() << "Cannot open SQLite database! Continuing without database...";
 */
 	m_databaseConnected = true;
-}
-
-QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
-{
-	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
-
-	QFileInfo info{name};
-
-	if (!info.exists())
-		return name;
-
-	const QDir directory{info.absoluteFilePath()};
-	const QString fileName{info.fileName()};
-	int i{1};
-
-	// While the file exist, we add 1 to new file name
-	while (info.exists()) {
-		QString file{fileName};
-		int index{file.lastIndexOf(QLatin1Char('.'))};
-		const QString appendString{appendFormat.arg(i)};
-
-		if (index == -1)
-			file.append(appendString);
-		else
-			file = file.left(index) + appendString + file.mid(index);
-
-		info.setFile(directory, file);
-		++i;
-	}
-
-	return info.absoluteFilePath();
 }
 
 void Application::processCommand(const QString& command, const QStringList args)

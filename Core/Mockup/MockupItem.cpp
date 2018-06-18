@@ -28,15 +28,16 @@
 #include <QJsonDocument>
 
 #include <QSaveFile>
+#include <QFileInfo>
 
 #include "Application.hpp"
 
 namespace Sn
 {
-MockupItem::MockupItem(const QString& name) :
+MockupItem::MockupItem(const QString& name, bool loadDefault) :
 	m_name(name)
 {
-	loadMockup();
+	loadMockup(loadDefault);
 }
 
 MockupItem::~MockupItem()
@@ -44,10 +45,23 @@ MockupItem::~MockupItem()
 	// Empty
 }
 
-void MockupItem::setName(const QString& name)
+void MockupItem::setName(const QString& name, bool isDefaultName)
 {
-	// TODO: setName (changing filename)
-	m_name = name;
+	QString oldFile{Application::paths()[Application::P_Mockups] + QLatin1Char('/') + m_name + QLatin1String(".json")};
+	QString newFile{
+		Application::ensureUniqueFilename(
+			Application::paths()[Application::P_Mockups] + QLatin1Char('/') + name + QLatin1String(".json"))
+	};
+
+	std::string strOldFile = oldFile.toStdString();
+	std::string strNewFile = newFile.toStdString();
+	std::string strName = name.toStdString();
+	std::string strBase = QFileInfo(newFile).baseName().toStdString();
+
+	if (!isDefaultName && QFile::rename(oldFile, newFile))
+		m_name = QFileInfo(newFile).baseName();
+	else if (isDefaultName)
+		m_name = QFileInfo(newFile).baseName();
 }
 
 void MockupItem::clear()
@@ -87,8 +101,8 @@ void MockupItem::saveMockup()
 	map.insert("version", 1);
 	map.insert("tabs_spaces", tabsSpacesList);
 
-	const QJsonDocument json{ QJsonDocument::fromVariant(map) };
-	const QByteArray data{ json.toJson() };
+	const QJsonDocument json{QJsonDocument::fromVariant(map)};
+	const QByteArray data{json.toJson()};
 
 	if (data.isEmpty()) {
 		qWarning() << "MockupItem::saveMockup() Error serializing mockup!";
@@ -108,7 +122,7 @@ void MockupItem::saveMockup()
 	file.commit();
 }
 
-void MockupItem::loadMockup()
+void MockupItem::loadMockup(bool loadDefault)
 {
 	const QString mockupFile{
 		Application::paths()[Application::P_Mockups] + QLatin1Char('/') + m_name + QLatin1String(".json")
@@ -119,18 +133,14 @@ void MockupItem::loadMockup()
 	QJsonDocument json = QJsonDocument::fromJson(Application::readAllFileByteContents(mockupFile), &err);
 	const QVariant res = json.toVariant();
 
-	if (err.error != QJsonParseError::NoError || res.type() != QVariant::Map) {
-		if (QFile(mockupFile).exists()) {
+	if (loadDefault || err.error != QJsonParseError::NoError || res.type() != QVariant::Map) {
+		if (QFile(mockupFile).exists() && !loadDefault) {
 			qWarning() << "MockupItem::loadMockup() Error parsing mockup! Using default mockup!";
 			qWarning() << "MockupItem::loadMockup() Your mockup have been backed up in" << backupFile;
 
 			QFile::remove(backupFile);
 			QFile::copy(mockupFile, backupFile);
 		}
-
-		std::string strPath = mockupFile.toStdString();
-		std::string strJson = json.toJson().toStdString();
-		std::string strError = err.errorString().toStdString();
 
 		json = QJsonDocument::fromJson(
 			Application::readAllFileByteContents(QStringLiteral(":data/default-mockup.json")), &err);
@@ -141,6 +151,7 @@ void MockupItem::loadMockup()
 
 		loadMockupFromMap(data.toMap());
 
+		setName(m_name, true);
 		saveMockup();
 	}
 	else {

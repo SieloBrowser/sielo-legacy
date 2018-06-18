@@ -44,36 +44,23 @@ MockupsManager::MockupsManager(QWidget* parent) :
 	setupUI();
 
 	setupMockupsList();
+	m_mockupsListWidget->setCurrentRow(0);
 	refresh(m_mockups->mockups()[0]);
+
+	connect(m_mockupName, &QLineEdit::textEdited, this, &MockupsManager::changeMockupName);
+	connect(m_newMockup, &QPushButton::clicked, this, &MockupsManager::newMockup);
+	connect(m_newMockupFromCurrentSession, &QPushButton::clicked, this, &MockupsManager::newMockupFromCurrentSession);
+	connect(m_deleteMockup, &QPushButton::clicked, this, &MockupsManager::deleteMockup);
 
 	connect(m_title, SIGNAL(textEdited(QString)), this, SLOT(tabChanged()));
 	connect(m_url, SIGNAL(textEdited(QString)), this, SLOT(tabChanged()));
+	
 	connect(m_mockupsListWidget, &QListWidget::itemClicked, this, &MockupsManager::mockupChanged);
 }
 
 MockupsManager::~MockupsManager()
 {
 	m_saver->saveIfNeccessary();
-}
-
-void MockupsManager::save()
-{
-	if (!m_workingItem)
-		return;
-
-	m_workingItem->clear();
-
-	foreach (MockupsTabsList* list, m_tabsLists) {
-		MockupItem::TabsSpace* tabsSpace{list->tabsSpace()};
-
-		// "- 1" is a workaroud to be sure to have a 0 index for first column of tabs spaces
-		tabsSpace->verticalIndex = m_verticalLayouts.indexOf(list->parentLayout()) - 1;
-		tabsSpace->parent = m_workingItem;
-
-		m_workingItem->addTabsSpace(tabsSpace);
-	}
-
-	m_workingItem->saveMockup();
 }
 
 MockupsTabsList *MockupsManager::createNewTabsList()
@@ -138,6 +125,68 @@ QVBoxLayout *MockupsManager::createNewTabsSpaceLayout(MockupsTabsList* list)
 	list->setParentLayout(tabsSpaceLayout);
 
 	return tabsSpaceLayout;
+}
+
+void MockupsManager::save()
+{
+	if (!m_workingItem)
+		return;
+
+	QListWidgetItem* mockupListWidget{ m_mockupsListWidget->currentItem() };
+
+	if (mockupListWidget->text() != m_workingItem->name())
+		m_workingItem->setName(mockupListWidget->text());
+
+	mockupListWidget->setText(m_workingItem->name());
+	m_mockupName->setText(m_workingItem->name());
+
+	m_workingItem->clear();
+
+	foreach(MockupsTabsList* list, m_tabsLists) {
+		MockupItem::TabsSpace* tabsSpace{ list->tabsSpace() };
+
+		// "- 1" is a workaroud to be sure to have a 0 index for first column of tabs spaces
+		tabsSpace->verticalIndex = m_verticalLayouts.indexOf(list->parentLayout()) - 1;
+		tabsSpace->parent = m_workingItem;
+
+		m_workingItem->addTabsSpace(tabsSpace);
+	}
+
+	m_workingItem->saveMockup();
+}
+
+void MockupsManager::newMockup()
+{
+	MockupItem* item{ new MockupItem("mockup", true) };
+
+	m_mockups->addMockup(item);
+
+	m_mockupsListWidget->addItem(item->name());
+	m_mockupsListWidget->setCurrentRow(m_mockupsListWidget->count() - 1);
+	refresh(m_mockups->mockups().last());
+
+	save();
+}
+
+void MockupsManager::newMockupFromCurrentSession()
+{
+	
+}
+
+void MockupsManager::deleteMockup()
+{
+	if (!m_workingItem)
+		return;
+
+	QListWidgetItem* itemToDelet{ m_mockupsListWidget->currentItem() };
+	delete itemToDelet;
+	m_mockups->removeMockup(m_workingItem);
+
+	if (m_mockupsListWidget->count() <= 0)
+		newMockup();
+
+	m_mockupsListWidget->setCurrentRow(0);
+	refresh(m_mockups->mockups()[0]);
 }
 
 void MockupsManager::createVerticalTabsSpace()
@@ -241,6 +290,16 @@ void MockupsManager::mockupChanged(QListWidgetItem* item)
 	}
 }
 
+void MockupsManager::changeMockupName(const QString& newName)
+{
+	if (!m_workingItem)
+		return;
+
+	m_mockupsListWidget->currentItem()->setText(newName);
+
+	m_saver->changeOccurred();
+}
+
 void MockupsManager::tabChanged()
 {
 	Q_ASSERT(m_activeItem);
@@ -273,6 +332,7 @@ void MockupsManager::refresh(MockupItem* item)
 		return;
 
 	m_workingItem = item;
+	m_mockupName->setText(item->name());
 
 	m_verticalLayouts.clear();
 	m_tabsLists.clear();
@@ -294,8 +354,6 @@ void MockupsManager::setupMockupsList()
 		QListWidgetItem* item{ new QListWidgetItem(mitem->name()) };
 		m_mockupsListWidget->addItem(item);
 	}
-
-	m_mockupsListWidget->addItem(tr("Add from current session"));
 }
 
 void MockupsManager::setupFirstTabsSpace()
@@ -380,6 +438,11 @@ void MockupsManager::setupUI()
 
 	m_mockupsListWidget = new QListWidget(this);
 
+	m_mockupName = new QLineEdit(this);
+	m_newMockup = new QPushButton(tr("Add Mockup"), this);
+	m_newMockupFromCurrentSession = new QPushButton(tr("Add Mockup From Current Session"), this);
+	m_deleteMockup = new QPushButton(tr("Delete Mockup"), this);
+
 	m_scrollArea = new QScrollArea(this);
 	m_tabsSpacesWidget = new QWidget(m_scrollArea);
 	m_tabsSpacesLayout = new QHBoxLayout(m_tabsSpacesWidget);
@@ -402,8 +465,12 @@ void MockupsManager::setupUI()
 	m_editLayout->addWidget(m_urlDesc);
 	m_editLayout->addWidget(m_url);
 
-	m_layout->addWidget(m_mockupsListWidget, 0, 0, 2, 1);
+	m_layout->addWidget(m_mockupsListWidget, 0, 0, 1, 1);
+	m_layout->addWidget(m_mockupName, 1, 0, 1, 1);
+	m_layout->addWidget(m_newMockup, 2, 0, 1, 1);
+	m_layout->addWidget(m_newMockupFromCurrentSession, 3, 0, 1, 1);
+	m_layout->addWidget(m_deleteMockup, 4, 0, 1, 1);
 	m_layout->addWidget(m_scrollArea, 0, 1, 1, 1);
-	m_layout->addWidget(m_editBox, 1, 1, 1, 1);
+	m_layout->addWidget(m_editBox, 1, 1, 4, 1);
 }
 }

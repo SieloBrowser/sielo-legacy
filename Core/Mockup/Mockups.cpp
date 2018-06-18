@@ -59,6 +59,7 @@ void Mockups::addMockup(MockupItem* mockup)
 void Mockups::removeMockup(MockupItem* mockup)
 {
 	m_mockups.removeOne(mockup);
+	QFile::remove(Application::paths()[Application::P_Mockups] + QLatin1Char('/') + mockup->name() + QLatin1String(".json"));
 
 	emit mockupRemoved(mockup);
 

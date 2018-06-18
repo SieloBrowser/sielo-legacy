@@ -58,11 +58,11 @@ public:
 		MockupItem* parent{nullptr};
 	};
 
-	MockupItem(const QString& name);
+	MockupItem(const QString& name, bool loadDefault = false);
 	~MockupItem();
 
 	const QString &name() const { return m_name; }
-	void setName(const QString& name);
+	void setName(const QString& name, bool isDefaultName = false);
 
 	void clear();
 
@@ -71,7 +71,7 @@ public:
 
 	void saveMockup();
 private:
-	void loadMockup();
+	void loadMockup(bool loadDefault);
 	void loadMockupFromMap(const QVariantMap& map);
 
 	QList<TabsSpace*> m_tabsSpaces{};

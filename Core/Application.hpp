@@ -241,8 +241,6 @@ public:
 	void startAfterCrash();
 	void connectDatabase();
 
-	QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
-
 	//	QFont morpheusFont() const { return m_morpheusFont; }
 
 	//	QFont normalFont() const { return m_normalFont; }
@@ -267,6 +265,7 @@ public:
 	static Application *instance();
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
 	static QByteArray readAllFileByteContents(const QString& filename);
+	static QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 
 public slots:
 	/*!

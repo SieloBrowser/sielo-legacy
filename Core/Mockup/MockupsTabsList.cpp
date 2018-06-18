@@ -26,6 +26,8 @@
 
 #include <QMimeData>
 
+#include "Utils/AutoSaver.hpp"
+
 #include "Mockup/MockupsManager.hpp"
 
 namespace Sn
@@ -85,6 +87,8 @@ void MockupsTabsList::dropEvent(QDropEvent* event)
 	int count = source->count();
 
 	QListWidget::dropEvent(event);
+
+	m_mockupManager->saver()->changeOccurred();
 
 	if (source->count() <= 1) 
 		m_mockupManager->removeTabsSpace(source);

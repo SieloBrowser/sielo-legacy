@@ -86,8 +86,14 @@ public:
 	MockupsTabsList *createTabsList(MockupItem::TabsSpace* tabsSpace);
 	QVBoxLayout *createNewTabsSpaceLayout(MockupsTabsList* list);
 
+	AutoSaver *saver() const { return m_saver; }
+
 public slots:
 	void save();
+
+	void newMockup();
+	void newMockupFromCurrentSession();
+	void deleteMockup();
 
 	void createVerticalTabsSpace();
 	void createHorizontalTabsSpace();
@@ -96,6 +102,8 @@ public slots:
 private slots:
 	void itemClicked(QListWidgetItem* item);
 	void mockupChanged(QListWidgetItem* item);
+
+	void changeMockupName(const QString& newName);
 
 	void tabChanged();
 
@@ -109,7 +117,7 @@ private:
 	void setupTabsSpaces();
 	void setupUI();
 
-	AutoSaver* m_saver{ nullptr };
+	AutoSaver* m_saver{nullptr};
 
 	QList<QVBoxLayout*> m_verticalLayouts{};
 	QList<MockupsTabsList*> m_tabsLists{};
@@ -117,7 +125,12 @@ private:
 	QGridLayout* m_layout{nullptr};
 	QVBoxLayout* m_editLayout{nullptr};
 
-	QListWidget* m_mockupsListWidget{ nullptr };
+	QListWidget* m_mockupsListWidget{nullptr};
+	QLineEdit* m_mockupName{nullptr};
+	QPushButton* m_newMockup{ nullptr };
+	QPushButton* m_newMockupFromCurrentSession{ nullptr };
+	QPushButton* m_deleteMockup{ nullptr };
+
 	QGroupBox* m_editBox{nullptr};
 
 	QWidget* m_tabsSpacesWidget{nullptr};
@@ -131,7 +144,7 @@ private:
 
 	QListWidgetItem* m_activeItem{nullptr};
 	MockupItem* m_workingItem{nullptr};
-	Mockups* m_mockups{ nullptr };
+	Mockups* m_mockups{nullptr};
 };
 }
 
