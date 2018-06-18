@@ -32,11 +32,13 @@
 #include <QHash>
 #include <QPointer>
 
-namespace Sn {
+namespace Sn
+{
 class TabWidget;
 class PreferencesDialog;
 
 class BookmarksMenu;
+class MockupsMenu;
 class HistoryMenu;
 
 class MainMenu: public QMenu {
@@ -45,9 +47,9 @@ Q_OBJECT
 public:
 	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
 
-	QAction* action(const QString& name) const;
-	QAction* createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-						  const QString& shortcut = QString());
+	QAction *action(const QString& name) const;
+	QAction *createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
+	                      const QString& shortcut = QString());
 public slots:
 	void setTabWidget(TabWidget* tabWidget);
 	void updateShowBookmarksBarText(bool visible);
@@ -86,6 +88,7 @@ private:
 	QAction* m_toggleBookmarksAction{nullptr};
 
 	BookmarksMenu* m_bookmarksMenu{nullptr};
+	MockupsMenu* m_mockupsMenu{nullptr};
 	HistoryMenu* m_historyMenu{nullptr};
 	QMenu* m_toolsMenu{nullptr};
 

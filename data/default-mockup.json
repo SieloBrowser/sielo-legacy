@@ -38,9 +38,9 @@
         {
             "tabs": [
                 {
-                    "seleted": true,
-                    "title": "Qt",
-                    "url": "https://www.qt.io"
+                    "seleted": false,
+                    "title": "Bit Studio",
+                    "url": "https://bit-studio.com"
                 },
                 {
                     "seleted": false,
@@ -49,13 +49,13 @@
                 },
                 {
                     "seleted": false,
-                    "title": "Bit Studio",
-                    "url": "https://bit-studio.com"
+                    "title": "Le Monde Du PC",
+                    "url": "https://lemondedupc.fr"
                 },
                 {
                     "seleted": false,
-                    "title": "Le Monde Du PC",
-                    "url": "https://lemondedupc.fr"
+                    "title": "Qt",
+                    "url": "https://www.qt.io"
                 }
             ],
             "vertical_index": 2

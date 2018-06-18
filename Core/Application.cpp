@@ -571,6 +571,12 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 	return window;
 }
 
+BrowserWindow* Application::createWindow(MockupItem* item)
+{
+	BrowserWindow* mockupWindow = new BrowserWindow(item);
+	return mockupWindow;
+}
+
 Application::AfterLaunch Application::afterLaunch() const
 {
 	QSettings settings{};
@@ -739,11 +745,6 @@ void Application::postLaunch()
 
 	connect(this, &Application::receivedMessage, this, &Application::messageReceived);
 	connect(this, &Application::aboutToQuit, this, &Application::saveSettings);
-
-	//** TESTES **/
-	//BrowserWindow* mockupWindow = new BrowserWindow(mockups()->mockups()[0]);
-	MockupsManager* dialog{new MockupsManager(getWindow())};
-	dialog->show();
 }
 
 void Application::windowDestroyed(QObject* window)

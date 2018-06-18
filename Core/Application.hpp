@@ -55,6 +55,8 @@ class NetworkManager;
 
 class BrowserWindow;
 
+class MockupItem;
+
 //! The This class manage Sielo instance, windows and settings.
 /*!
  * This application give access to all settings and informations on Sielo. There is usually only **one** instance of this class for the entire browser
@@ -213,7 +215,13 @@ public:
 	 * @return The new window created
 	 */
 	BrowserWindow *createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
-
+	/*!
+	 * Create a new window from a mockup in this instance.
+	 * @param item The mockup to load
+	 * @return The new window create
+	 */
+	BrowserWindow* createWindow(MockupItem* item);
+	
 	AfterLaunch afterCrashLaunch() const { return m_afterCrashLaunch; }
 	AfterLaunch afterLaunch() const;
 

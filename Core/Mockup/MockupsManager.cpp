@@ -302,6 +302,7 @@ void MockupsManager::changeMockupName(const QString& newName)
 		return;
 
 	m_mockupsListWidget->currentItem()->setText(newName);
+	m_mockups->changeMockup(m_workingItem);
 
 	m_saver->changeOccurred();
 }

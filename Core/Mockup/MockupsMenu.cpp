@@ -22,74 +22,86 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Mockups.hpp"
-
-#include <QDir>
+#include "MockupsMenu.hpp"
 
 #include "Mockup/MockupItem.hpp"
+#include "Mockup/Mockups.hpp"
+#include "Mockup/MockupsManager.hpp"
 
-#include "Utils/AutoSaver.hpp"
-
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn
 {
-Mockups::Mockups(QObject* parent) :
-	QObject(parent),
-	m_saver(new AutoSaver(this))
+MockupsMenu::MockupsMenu(BrowserWindow* window) :
+	QMenu(window),
+	m_window(window)
 {
-	loadMockups();
+	setTitle(tr("&Mockups"));
+
+	addAction(tr("Open Mockups Manager"), this, &MockupsMenu::openMockupManager);
+	addSeparator();
+
+	connect(this, &QMenu::aboutToShow, this, &MockupsMenu::aboutToShow);
+
+	connect(Application::instance()->mockups(), SIGNAL(mockupAdded(MockupItem*)), this, SLOT(mockupsChanged()));
+	connect(Application::instance()->mockups(), SIGNAL(mockupRemoved(MockupItem*)), this, SLOT(mockupsChanged()));
+	connect(Application::instance()->mockups(), SIGNAL(mockupChanged(MockupItem*)), this, SLOT(mockupsChanged()));
 }
 
-Mockups::~Mockups()
+MockupsMenu::~MockupsMenu()
 {
-	m_saver->saveIfNeccessary();
-	qDeleteAll(m_mockups);
+	// Empty
 }
 
-void Mockups::addMockup(MockupItem* mockup)
+void MockupsMenu::aboutToShow()
 {
-	m_mockups.append(mockup);
-
-	emit mockupAdded(mockup);
-
-	m_saver->changeOccurred();
+	if (m_changed) {
+		refresh();
+		m_changed = false;
+	}
 }
 
-void Mockups::removeMockup(MockupItem* mockup)
+void MockupsMenu::mockupsChanged()
 {
-	m_mockups.removeOne(mockup);
-	QFile::remove(Application::paths()[Application::P_Mockups] + QLatin1Char('/') + mockup->name() + QLatin1String(".json"));
-
-	emit mockupRemoved(mockup);
-
-	m_saver->changeOccurred();
+	m_changed = true;
 }
 
-void Mockups::changeMockup(MockupItem* mockup)
+void MockupsMenu::openMockupManager()
 {
-	emit mockupChanged(mockup);
-
-	m_saver->changeOccurred();
+	MockupsManager* manager{new MockupsManager(m_window)};
+	manager->show();
 }
 
-void Mockups::loadMockups()
+void MockupsMenu::mockupActivated()
 {
-	QDir directory{Application::paths()[Application::P_Mockups]};
-	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
+	if (QAction* action = qobject_cast<QAction*>(sender())) {
+		MockupItem* item{static_cast<MockupItem*>(action->data().value<void*>())};
+		Q_ASSERT(item);
+		openMockup(item);
+	}
+}
 
-	foreach(const QFileInfo& info, files) {
-		MockupItem* mockup{new MockupItem(info.baseName())};
-		m_mockups.append(mockup);
+void MockupsMenu::openMockup(MockupItem* item)
+{
+	Application::instance()->createWindow(item);
+}
+
+void MockupsMenu::refresh()
+{
+	while (actions().count() != 1) {
+		QAction* action{actions()[1]};
+		removeAction(action);
+		delete action;
 	}
 
-	if (m_mockups.isEmpty())
-		m_mockups.append(new MockupItem("mockup", true));
-}
+	foreach (MockupItem* item, Application::instance()->mockups()->mockups()) {
+		QAction* action{new QAction(Application::getAppIcon("new-window"), item->name())};
+		action->setData(QVariant::fromValue<void*>(static_cast<void*>(item)));
 
-void Mockups::save()
-{
-	foreach(MockupItem* mockup, m_mockups)
-		mockup->saveMockup();
+		addAction(action);
+
+		connect(action, &QAction::triggered, this, &MockupsMenu::mockupActivated);
+	}
 }
 }
