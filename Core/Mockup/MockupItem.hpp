@@ -74,6 +74,9 @@ private:
 	void loadMockup(bool loadDefault);
 	void loadMockupFromMap(const QVariantMap& map);
 
+	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
+
+
 	QList<TabsSpace*> m_tabsSpaces{};
 
 	QString m_name{};

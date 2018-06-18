@@ -53,10 +53,10 @@ void MockupItem::setName(const QString& name, bool isDefaultName)
 			Application::paths()[Application::P_Mockups] + QLatin1Char('/') + name + QLatin1String(".json"))
 	};
 
-	std::string strOldFile = oldFile.toStdString();
-	std::string strNewFile = newFile.toStdString();
-	std::string strName = name.toStdString();
-	std::string strBase = QFileInfo(newFile).baseName().toStdString();
+	//std::string strOldFile = oldFile.toStdString();
+	//std::string strNewFile = newFile.toStdString();
+	//std::string strName = name.toStdString();
+	//std::string strBase = QFileInfo(newFile).baseName().toStdString();
 
 	if (!isDefaultName && QFile::rename(oldFile, newFile))
 		m_name = QFileInfo(newFile).baseName();
@@ -76,6 +76,10 @@ void MockupItem::addTabsSpace(TabsSpace* tabsSpace)
 
 void MockupItem::saveMockup()
 {
+	std::sort(m_tabsSpaces.begin(), m_tabsSpaces.end(), [](MockupItem::TabsSpace* first, MockupItem::TabsSpace* second) {
+		return first->verticalIndex < second->verticalIndex;
+	});
+
 	QVariantMap map{};
 	QVariantList tabsSpacesList{};
 
