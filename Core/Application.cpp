@@ -347,6 +347,7 @@ void Application::loadSettings()
 	loadWebSettings();
 	loadApplicationSettings();
 	loadThemesSettings();
+	loadTranslationSettings();
 }
 
 void Application::loadWebSettings()
@@ -481,6 +482,17 @@ void Application::loadThemesSettings()
 	}
 }
 
+void Application::loadTranslationSettings()
+{
+	QSettings settings{};
+	settings.beginGroup("Language");
+
+	if (settings.value("version", 0).toInt() < 1) {
+		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Data]);
+		settings.setValue("version", 1);
+	}
+}
+
 void Application::translateApplication()
 {
 	QSettings settings{};
@@ -571,7 +583,7 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 	return window;
 }
 
-BrowserWindow* Application::createWindow(MockupItem* item)
+BrowserWindow *Application::createWindow(MockupItem* item)
 {
 	BrowserWindow* mockupWindow = new BrowserWindow(item);
 	return mockupWindow;

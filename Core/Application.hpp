@@ -183,6 +183,7 @@ public:
 	void loadWebSettings();
 	void loadApplicationSettings();
 	void loadThemesSettings();
+	void loadTranslationSettings();
 
 	void translateApplication();
 	QString currentLanguageFile() const { return m_languageFile; }
