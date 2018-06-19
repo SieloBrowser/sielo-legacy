@@ -4,32 +4,32 @@
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../Core/Application.cpp" line="910"/>
+        <location filename="../Core/Application.cpp" line="912"/>
         <source>Start after crash</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="911"/>
+        <location filename="../Core/Application.cpp" line="913"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="913"/>
+        <location filename="../Core/Application.cpp" line="915"/>
         <source>Start New Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="915"/>
+        <location filename="../Core/Application.cpp" line="917"/>
         <source>Restore Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="922"/>
+        <location filename="../Core/Application.cpp" line="924"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="922"/>
+        <location filename="../Core/Application.cpp" line="924"/>
         <source>Please, if Sielo continues crashing, consider trying this 32bit version.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2930,8 +2930,8 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="121"/>
+        <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
