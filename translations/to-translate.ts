@@ -407,7 +407,7 @@
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="412"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="528"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="531"/>
         <source>Themes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -492,22 +492,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="484"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="487"/>
         <source>Repeate the background if the picture is too small</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="489"/>
         <source>Background: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="491"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="529"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="532"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>

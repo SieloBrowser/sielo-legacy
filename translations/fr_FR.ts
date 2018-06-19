@@ -407,7 +407,7 @@
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="412"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="528"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="531"/>
         <source>Themes</source>
         <translation>Thèmes</translation>
     </message>
@@ -492,22 +492,22 @@
         <translation>Espace entre les espaces d&apos;onglets</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="484"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="487"/>
         <source>Repeate the background if the picture is too small</source>
         <translation>Activer la mosaïque si le fond d&apos;écran est trop petit</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="489"/>
         <source>Background: </source>
         <translation>Fond d&apos;écran : </translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="491"/>
         <source>...</source>
         <translation>…</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="529"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="532"/>
         <source>Advanced</source>
         <translation>Avancés</translation>
     </message>
@@ -1857,7 +1857,7 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="55"/>
         <source>&amp;Forward</source>
-        <translation>&amp;Flèche</translation>
+        <translation>&amp;Suivant</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="57"/>
@@ -2813,7 +2813,7 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="168"/>
         <source>This preview is not available!</source>
-        <translation>Cette apperçu c&apos;est pas disponible</translation>
+        <translation>Cette aperçu c&apos;est pas disponible</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="205"/>
@@ -2833,7 +2833,7 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="237"/>
         <source>Preview not available</source>
-        <translation>Apperçu non disponible</translation>
+        <translation>Aperçu non disponible</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="277"/>
