@@ -586,7 +586,12 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 
 BrowserWindow *Application::createWindow(MockupItem* item)
 {
+	Q_ASSERT(windowCount() != 0);
 	BrowserWindow* mockupWindow = new BrowserWindow(item);
+
+	QObject::connect(mockupWindow, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
+
+	m_windows.prepend(mockupWindow);
 	return mockupWindow;
 }
 
