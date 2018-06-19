@@ -1,0 +1,1 @@
+lupdate ..\Core -ts "fr_FR.ts" && lupdate ..\Core -ts "de_DE.ts" && lupdate ..\Core -ts "en_ES.ts" && lupdate ..\Core -ts "to-translate.ts"
