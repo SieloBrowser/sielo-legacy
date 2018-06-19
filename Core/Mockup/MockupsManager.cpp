@@ -277,7 +277,6 @@ void MockupsManager::removeTabsSpace(MockupsTabsList* tabsSpace)
 		layout->deleteLater();
 	}
 
-	m_workingItem = nullptr;
 	m_activeItem = nullptr;
 	updateEditInputs();
 
