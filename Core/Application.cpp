@@ -104,7 +104,7 @@ QList<QString> Application::paths()
 
 Application *Application::instance()
 {
-	return (dynamic_cast<Application*>(QCoreApplication::instance()));
+	return dynamic_cast<Application*>(QCoreApplication::instance());
 }
 
 QIcon Application::getAppIcon(const QString& name, const QString& directory, const QString& format)

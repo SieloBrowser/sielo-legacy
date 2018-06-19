@@ -137,10 +137,10 @@ QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alp
 void TabbedWebView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
-	if (m_window->getBackground() != nullptr) {
+	if (m_window->background() != nullptr) {
 		QPoint global_position = mapTo(m_window, QPoint(0, 0));
 		QRect shot_rect(global_position.x(), global_position.y(), width(), height());
-		painter.drawImage(QPoint(), applyBlur(m_window->getBackground()->toImage(), 100), shot_rect);
+		painter.drawImage(QPoint(), applyBlur(m_window->background()->toImage(), 100), shot_rect);
 	}
 	WebView::paintEvent(event);
 }

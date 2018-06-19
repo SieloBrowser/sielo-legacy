@@ -169,7 +169,7 @@ public:
 	/*!
 	 * This constructor call functions to load SQL database and load settings.
 	 *
-	 * It will also determine command line options given and check for updates
+	 * It will also determine command line options given and check for updates.
 	 */
 	Application(int& argc, char** argv);
 	/*!
@@ -211,14 +211,14 @@ public:
 	/*!
 	 * Create a new window in this instance.
 	 * @param type The type of the new window.
-	 * @param startUrl The start url for the new window (if it's empty, it will take the home page url)
-	 * @return The new window created
+	 * @param startUrl The start url for the new window (if it's empty, it will take the home page url).
+	 * @return The new window created.
 	 */
 	BrowserWindow *createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
 	/*!
 	 * Create a new window from a mockup in this instance.
-	 * @param item The mockup to load
-	 * @return The new window create
+	 * @param item The mockup to load.
+	 * @return The new window create.
 	 */
 	BrowserWindow* createWindow(MockupItem* item);
 	
@@ -263,8 +263,8 @@ public:
 	 *  - github : open the Sielo repository.
 	 *  - witcher [enable/disable] : enable or disable witcher font in the browser.
 	 *  - easteregg : open a random crasy site.
-	 * @param command The command name
-	 * @param args The command arguments
+	 * @param command The command name.
+	 * @param args The command arguments.
 	 */
 	void processCommand(const QString& command, const QStringList args);
 
@@ -277,7 +277,7 @@ public:
 
 public slots:
 	/*!
-	 * Add a new tab to the current tabs space
+	 * Add a new tab to the current tabs space.
 	 * @param url The url open in the new tab. By default it's the user new tab url.
 	 */
 	void addNewTab(const QUrl& url = QUrl());
@@ -288,7 +288,7 @@ public slots:
 	void startPrivateBrowsing(const QUrl& startUrl = QUrl());
 
 	/*!
-	 * Save application settings
+	 * Save application settings.
 	 */
 	void saveSettings();
 	/*!
