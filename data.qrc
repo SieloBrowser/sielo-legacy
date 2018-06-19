@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>data/bookmarks.xbel</file>
+        <file>data/bookmarks.json</file>
+        <file>data/default-mockup.json</file>
         <file>data/fonts/morpheus.ttf</file>
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>
@@ -10,10 +11,12 @@
         <file>data/toolbar/new-tab.png</file>
         <file>data/toolbar/new-window.png</file>
         <file>data/toolbar/home.png</file>
-        <file>data/browsedata.db</file>
 
         <file>data/partners/bs.jpg</file>
         <file>data/partners/lmdpc.jpg</file>
+
+        <!-- Sielo translations -->
+        <file>data/locale/fr_FR.qm</file>
 
         <!-- Sielo default theme -->
         <file>data/themes/sielo-default/dark/edit/edit-clear.png</file>

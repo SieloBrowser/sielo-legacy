@@ -89,7 +89,7 @@ public:
 		LeftToolbar = 5
 	};
 
-	RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern = BottomToolbar);
+	RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern = RightToolbar);
 
 	void addButton(const QString& name, const QString& toolTip);
 	FloatingButton* button(const QString& name);

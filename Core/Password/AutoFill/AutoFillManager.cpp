@@ -119,7 +119,7 @@ void AutoFillManager::loadPasswords()
 	for (auto& entry : ndb::oquery<dbs::password>() << autofill_exceptions) {
 		QTreeWidgetItem* item{new QTreeWidgetItem(m_exceptionsTree)};
 
-		item->setText(0, QString::fromStdString(entry.server));
+		item->setText(0, entry.server);
 		item->setData(0, Qt::UserRole + 10, QString::number(entry.id));
 
 		m_exceptionsTree->addTopLevelItem(item);

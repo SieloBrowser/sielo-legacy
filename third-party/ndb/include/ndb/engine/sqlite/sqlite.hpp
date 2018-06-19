@@ -15,28 +15,19 @@
 
 namespace ndb
 {
+    template<class Database>
+    class sqlite_query;
+
     class sqlite : public basic_engine<sqlite>
     {
     public:
-        inline sqlite();
+        inline sqlite() = default;
 
         template<class Database>
-        inline void connect(const std::string& path = "");
+        inline void exec(const std::string& str_statement) const;
 
-        template<class Database>
-        inline void config(ndb::connection_flag);
-
-        template<class Database>
-        inline sqlite_connection& connection() const;
-
-        template<class T>
-        inline void bind(sqlite3_stmt* statement, int bind_index, const T& v) const;
-
-        template<class Database>
-        inline void exec(const char* str_query) const;
-
-        template<class Database>
-        inline void exec(const std::string& str_query) const;
+        template<class Database, class Result_type = ndb::line<Database>>
+        inline auto exec(const sqlite_query<Database>& query) const;
 
         template<class Database, class Query_option, class Expr>
         inline auto exec(const Expr& expr) const;
@@ -44,20 +35,16 @@ namespace ndb
         template<class Database>
         inline void make();
 
+        template<class Database>
+        auto last_id() const
+        {
+            return sqlite3_last_insert_rowid(connection<Database>());
+        }
+
         template<class Expr>
         inline static std::string to_string(const Expr&);
 
         inline static constexpr auto expr_category();
-
-        template<class T>
-        static constexpr bool is_native = std::is_same_v<std::decay_t<T>, int>
-                                          || std::is_same_v<std::decay_t<T>, double>
-                                          || std::is_same_v<std::decay_t<T>, std::string>
-                                          || std::is_same_v<std::decay_t<T>, std::vector<char>>;
-
-    private:
-        std::unordered_map<int, std::unique_ptr<sqlite_connection>> connections_;
-        std::unordered_map<int, ndb::connection_flag> connections_flag_;
     };
 } // ndb
 

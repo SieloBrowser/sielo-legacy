@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -24,51 +24,209 @@
 
 #include "BookmarksMenu.hpp"
 
+#include <QAction>
 
-#include "Bookmarks/BookmarkManager.hpp"
-#include "Bookmarks/BookmarksModel.hpp"
+#include "Bookmarks/Bookmarks.hpp"
+#include "Bookmarks/BookmarksUtils.hpp"
+#include "Bookmarks/BookmarkItem.hpp"
 
+#include "Widgets/Tab/TabWidget.hpp"
+
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
-namespace Sn {
-
+namespace Sn
+{
 BookmarksMenu::BookmarksMenu(QWidget* parent) :
-	ModelMenu(parent)
+	QMenu(parent)
 {
-	connect(this, &ModelMenu::activated, this, &BookmarksMenu::activated);
+	setTitle(tr("&Bookmarks"));
 
-	setMaxRows(-1);
-	setHoverRole(BookmarksModel::UrlStringRole);
-	setSeparatorRole(BookmarksModel::SeparatorRole);
+	addAction(Application::getAppIcon("add-bookmark"), tr("Bookmark &This Page"), this, &BookmarksMenu::bookmarkPage)->
+		setShortcut(QKeySequence("Ctrl+D"));
+	addAction(tr("Bookmark &All Tabs"), this, &BookmarksMenu::bookmarkAllTabs);
+	addAction(Application::getAppIcon("bookmarks"), tr("Organize &Bookmarks"), this, &BookmarksMenu::showBookmarksManager)
+		->setShortcut(QKeySequence("Ctrl+Shift+D"));
+
+	addSeparator();
+
+	connect(Application::instance()->bookmarks(), SIGNAL(bookmarkAdded(BookmarkItem*)), this, SLOT(bookmarksChanged()));
+	connect(Application::instance()->bookmarks(), SIGNAL(bookmarkRemoved(BookmarkItem*)), this, SLOT(bookmarksChanged()));
+	connect(Application::instance()->bookmarks(), SIGNAL(bookmarkChanged(BookmarkItem*)), this, SLOT(bookmarksChanged()));
+
+	connect(this, &QMenu::aboutToShow, this, &BookmarksMenu::aboutToShow);
+	connect(this, &QMenu::aboutToShow, this, &BookmarksMenu::menuAboutToShow);
 }
 
-void BookmarksMenu::setInitialActions(QList<QAction*> actions)
+BookmarksMenu::~BookmarksMenu()
 {
-	m_initialActions = actions;
-
-	for (int i{0}; i < m_initialActions.count(); ++i)
-		addAction(m_initialActions[i]);
+	// Empty
 }
 
-bool BookmarksMenu::prePopulated()
+void BookmarksMenu::setMainWindow(BrowserWindow* window)
 {
-	m_bookmarksManager = Application::instance()->bookmarksManager();
+	Q_ASSERT(window);
 
-	setModel(m_bookmarksManager->bookmarksModel());
-	setRootIndex(QModelIndex());
-
-	for (int i{0}; i < m_initialActions.count(); ++i)
-		addAction(m_initialActions[i]);
-
-	if (!m_initialActions.isEmpty())
-		addSeparator();
-
-	return true;
+	m_window = window;
 }
 
-void BookmarksMenu::activated(const QModelIndex& index)
+void BookmarksMenu::bookmarkPage()
 {
-	emit openUrl(index.data(BookmarksModel::UrlRole).toUrl());
+	if (m_window)
+		m_window->bookmarkPage();
 }
 
+void BookmarksMenu::bookmarkAllTabs()
+{
+	if (m_window)
+		BookmarksUtils::bookmarkAllTabsDialog(m_window, m_window->tabWidget());
+}
+
+void BookmarksMenu::showBookmarksManager()
+{
+	if (m_window)
+		m_window->tabWidget()->openBookmarksDialog();
+}
+
+void BookmarksMenu::bookmarksChanged()
+{
+	m_changed = true;
+}
+
+void BookmarksMenu::aboutToShow()
+{
+	if (m_changed) {
+		refresh();
+		m_changed = false;
+	}
+}
+
+void BookmarksMenu::menuAboutToShow()
+{
+	Q_ASSERT(qobject_cast<QMenu*>(sender()));
+	QMenu* menu = static_cast<QMenu*>(sender());
+
+	foreach(QAction *action, menu->actions()) {
+		BookmarkItem* item{static_cast<BookmarkItem*>(action->data().value<void*>())};
+		if (item && item->type() == BookmarkItem::Url && action->icon().isNull())
+			action->setIcon(item->icon());
+	}
+}
+
+void BookmarksMenu::bookmarkActivated()
+{
+	if (QAction* action = qobject_cast<QAction*>(sender())) {
+		BookmarkItem* item{static_cast<BookmarkItem*>(action->data().value<void*>())};
+		Q_ASSERT(item);
+		openBookmark(item);
+	}
+}
+
+void BookmarksMenu::openBookmark(BookmarkItem* item)
+{
+	Q_ASSERT(item->isUrl());
+
+	if (m_window)
+		BookmarksUtils::openBookmark(m_window, item);
+}
+
+void BookmarksMenu::refresh()
+{
+	while (actions().count() != 4) {
+		QAction* action{actions()[4]};
+		if (action->menu()) 
+			action->menu()->clear();
+
+		removeAction(action);
+		delete action;
+	}
+
+	addActionToMenu(this, Application::instance()->bookmarks()->toolbarFolder());
+
+	addSeparator();
+
+	foreach(BookmarkItem* child, Application::instance()->bookmarks()->menuFolder()->children()) 
+		addActionToMenu(this, child);
+
+	addSeparator();
+
+	addActionToMenu(this, Application::instance()->bookmarks()->unsortedFolder());
+}
+
+void BookmarksMenu::addActionToMenu(QMenu* menu, BookmarkItem* item)
+{
+	Q_ASSERT(menu);
+	Q_ASSERT(item);
+
+	switch (item->type()) {
+	case BookmarkItem::Url:
+		addUrlToMenu(menu, item);
+		break;
+	case BookmarkItem::Folder:
+		addFolderToMenu(menu, item);
+		break;
+	case BookmarkItem::Separator:
+		addSeparatorToMenu(menu, item);
+		break;
+	default:
+		break;
+	}
+}
+
+void BookmarksMenu::addUrlToMenu(QMenu* menu, BookmarkItem* bookmark)
+{
+	Q_ASSERT(menu);
+	Q_ASSERT(bookmark);
+	Q_ASSERT(bookmark->isUrl());
+
+	QAction* action{new QAction(menu)};
+	QString title{QFontMetrics(action->font()).elidedText(bookmark->title(), Qt::ElideRight, 250)};
+
+	action->setText(title);
+	action->setData(QVariant::fromValue<void*>(static_cast<void*>(bookmark)));
+	action->setIconVisibleInMenu(true);
+
+	connect(action, &QAction::triggered, this, &BookmarksMenu::bookmarkActivated);
+
+	menu->addAction(action);
+}
+
+void BookmarksMenu::addFolderToMenu(QMenu* menu, BookmarkItem* folder)
+{
+	Q_ASSERT(menu);
+	Q_ASSERT(folder);
+	Q_ASSERT(folder->isFolder());
+
+	QMenu* m{new QMenu(menu)};
+	QString title{QFontMetrics(m->font()).elidedText(folder->title(), Qt::ElideRight, 250)};
+
+	m->setTitle(title);
+	m->setIcon(folder->icon());
+
+	addFolderContentsToMenu(m, folder);
+
+	QAction* action{menu->addMenu(m)};
+	action->setData(QVariant::fromValue<void*>(static_cast<void*>(folder)));
+	action->setIconVisibleInMenu(true);
+}
+
+void BookmarksMenu::addSeparatorToMenu(QMenu* menu, BookmarkItem* separator)
+{
+	Q_UNUSED(separator)
+	Q_ASSERT(menu);
+	Q_ASSERT(separator->isSeparator());
+
+	menu->addSeparator();
+}
+
+void BookmarksMenu::addFolderContentsToMenu(QMenu* menu, BookmarkItem* folder)
+{
+	connect(menu, &QMenu::aboutToShow, this, &BookmarksMenu::menuAboutToShow);
+
+	foreach(BookmarkItem* child, folder->children())
+		addActionToMenu(menu, child);
+
+	if (menu->isEmpty())
+		menu->addAction(tr("Empty"))->setEnabled(false);
+}
 }

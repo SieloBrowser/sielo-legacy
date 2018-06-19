@@ -380,7 +380,7 @@ QTabBar::tab:!selected:hover
   background: transparent;
 }
 
-#bookmarks-toolbar QToolButton {
+#bookmarks-toolbar QPushButton {
   height: 25px;
   border: 2px solid transparent;
   border-radius: 5px;
@@ -389,20 +389,20 @@ QTabBar::tab:!selected:hover
   color: scolor(text, normal);
 }
 
-#bookmarks-toolbar QToolButton[popupMode="2"] {
+#bookmarks-toolbar QPushButton[popupMode="2"] {
     padding-right: 10px;
 }
 
-#bookmarks-toolbar QToolButton:open {
+#bookmarks-toolbar QPushButton:open {
   background: scolor(accent, normal);
 }
 
-#bookmarks-toolbar QToolButton::menu-indicator {
+#bookmarks-toolbar QPushButton::menu-indicator {
     subcontrol-origin: padding;
     subcontrol-position: center right;
 }
 
-#bookmarks-toolbar QToolButton::menu-indicator:pressed, #bookmarks-toolbar QToolButton::menu-indicator:open {
+#bookmarks-toolbar QPushButton::menu-indicator:pressed, #bookmarks-toolbar QPushButton::menu-indicator:open {
     position: relative;
     top: 2px; left: 2px;
 }
@@ -472,6 +472,27 @@ QTabBar::tab:!selected:hover
 #preferences-title
 {
   color: scolor(accent);
+}
+
+/**
+ * Mockups Manager rules
+ */
+
+ #mockups-area-tabsspaces > QWidget > QWidget {
+  background: scolor(main);
+}
+
+#mockups-tabslist {
+  background: scolor(second);
+  border: none;
+}
+
+#mockups-tabslist-btn-delete-tabsspace {
+  background: rgba(183, 28, 28, 155);
+}
+
+#mockups-tabslist-btn-addtab {
+  background: rgba(69, 90, 100, 155);
 }
 
 /** 

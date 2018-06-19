@@ -31,7 +31,7 @@ namespace ndb
 
         constexpr void push_back_value()
         {
-            value_++;
+            value_ += 2;
         }
 
         constexpr void push_back(const char *v)
@@ -59,6 +59,7 @@ namespace ndb
 
         constexpr explicit sql_expression() :
             size_{ 0 },
+            value_index_{ 1 },
             data_{}
         {
             Expr::template static_make(*this);
@@ -88,7 +89,9 @@ namespace ndb
         constexpr void push_back_value()
         {
             data_[size_] = '?';
-            size_++;
+            data_[size_ + 1] = '0' + value_index_;
+            size_ += 2;
+            value_index_++;
         }
 
         constexpr void push_back(const char* v)
@@ -117,6 +120,7 @@ namespace ndb
 
     private:
         size_t size_;
+        unsigned int value_index_;
         std::array<char, Capacity> data_;
     };
 } // ndb

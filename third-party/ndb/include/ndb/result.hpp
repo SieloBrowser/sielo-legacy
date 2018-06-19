@@ -1,6 +1,7 @@
 #ifndef RESULT_H_NDB
 #define RESULT_H_NDB
 
+#include <ndb/engine.hpp>
 #include <ndb/line.hpp>
 #include <vector>
 
@@ -24,21 +25,12 @@ namespace ndb
     {
         using iterator = typename std::vector<T>::iterator;
 
-    private:
-        std::vector<T> line_list_;
-        int add_id_;
-
     public:
-        result() : add_id_{ 0 } {}
+        result() = default;
 
         void add(T l)
         {
             line_list_.push_back(std::move(l));
-        }
-
-        int add_id() const
-        {
-            return add_id_;
         }
 
         size_t size() const
@@ -65,7 +57,16 @@ namespace ndb
 
         iterator begin() { return line_list_.begin(); }
         iterator end() { return line_list_.end(); }
+
+    private:
+        std::vector<T> line_list_;
     };
+
+    template<class Database>
+    auto last_id()
+    {
+        return ndb::engine<typename Database::engine>::get().template last_id<Database>();
+    }
 } // ndb
 
 namespace std

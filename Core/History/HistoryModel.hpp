@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,43 +23,74 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_HISTORYMODEL_HPP
-#define SIELOBROWSER_HISTORYMODEL_HPP
+#ifndef SIELOBROWSER_HistoryModel_HPP
+#define SIELOBROWSER_HistoryModel_HPP
 
-#include <QAbstractTableModel>
+#include <QAbstractItemModel>
+#include <QModelIndex>
 
 #include <QVariant>
 
-namespace Sn {
-struct HistoryItem;
-class HistoryManager;
+#include "History/History.hpp"
 
-class HistoryModel: public QAbstractTableModel {
+namespace Sn
+{
+class HistoryItem;
+
+class HistoryModel: public QAbstractItemModel {
 Q_OBJECT
 
 public:
 	enum Roles {
-		DateRole = Qt::UserRole + 1,
-		DateTimeRole = Qt::UserRole + 2,
+		IdRole = Qt::UserRole + 1,
+		TitleRole = Qt::UserRole + 2,
 		UrlRole = Qt::UserRole + 3,
-		UrlStringRole = Qt::UserRole + 4
+		UrlStringRole = Qt::UserRole + 4,
+		IconRole = Qt::UserRole + 5,
+		IsTopLevelRole = Qt::UserRole + 7,
+		TimestampStartRole = Qt::UserRole + 8,
+		TimestampEndRole = Qt::UserRole + 9,
+		MaxRole = TimestampEndRole
 	};
 
-	HistoryModel(HistoryManager* history, QObject* parent = nullptr);
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-	int columnCount(const QModelIndex& parent = QModelIndex()) const;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const;
-	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
+	HistoryModel(History* history);
 
-public slots:
-	void historyReset();
-	void entryAdded(const HistoryItem& item);
-	void entryRemoved(const HistoryItem& item);
-	void entryUpdated(int offset);
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	QVariant data(const QModelIndex& index, int role) const;
+	bool setData(const QModelIndex& index, const QVariant& value, int role);
+
+	QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+	QModelIndex parent(const QModelIndex& child) const;
+	Qt::ItemFlags flags(const QModelIndex& index) const;
+
+	int rowCount(const QModelIndex& parent = QModelIndex()) const;
+	int columnCount(const QModelIndex& parent = QModelIndex()) const;
+
+	bool canFetchMore(const QModelIndex& parent) const;
+	void fetchMore(const QModelIndex& parent);
+
+	bool hasChildren(const QModelIndex& parent) const;
+
+	HistoryItem *itemFromIndex(const QModelIndex& index) const;
+
+	void removeTopLevelIndexes(const QList<QPersistentModelIndex>& indexes);
+
+private slots:
+	void resetHistory();
+
+	void historyEntryAdded(const History::HistoryEntry& entry);
+	void historyEntryDeleted(const History::HistoryEntry& entry);
+	void historyEntryEdited(const History::HistoryEntry& before, const History::HistoryEntry& after);
+
 private:
-	HistoryManager* m_history{nullptr};
+	HistoryItem *findHistoryItem(const History::HistoryEntry& entry);
+	void checkEmptyParentItem(HistoryItem* item);
+	void init();
+
+	HistoryItem* m_rootItem{nullptr};
+	HistoryItem* m_todayItem{nullptr};
+	History* m_history{nullptr};
 };
 }
 
-#endif //SIELOBROWSER_HISTORYMODEL_HPP
+#endif //SIELOBROWSER_HistoryModel_HPP

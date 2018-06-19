@@ -20,15 +20,15 @@ set(THIRD_PARTY_ROOT ${NDB_ROOT}/third_party)
 
 option(NDB_ENGINE_SQLITE "Build sqlite" ${NDB_ENGINE_SQLITE})
 option(NDB_ENGINE_MONGO "Build mongo" ${NDB_ENGINE_MONGO})
-option(NDB_ENGINE_MYSQL "Build mysql" ${NDB_ENGINE_MONGO})
-option(NDB_BUILD_EXP "Build experimentals" ${NDB_ENGINE_MONGO})
-option(NDB_BUILD_TEST "Build tests" ${NDB_ENGINE_MONGO})
-option(NDB_BUILD_EXAMPLE "Build examples" ${NDB_ENGINE_MONGO})
+option(NDB_ENGINE_POSTGRE "Build postgresql" ${NDB_ENGINE_POSTGRE})
+option(NDB_BUILD_EXP "Build experimentals" ${NDB_BUILD_EXP})
+option(NDB_BUILD_TEST "Build tests" ${NDB_BUILD_TEST})
+option(NDB_BUILD_EXAMPLE "Build examples" ${NDB_BUILD_EXAMPLE})
 
 # display config
 message("SQLITE : ${NDB_ENGINE_SQLITE}")
 message("MONGO : ${NDB_ENGINE_MONGO}")
-message("MYSQL : ${NDB_ENGINE_MYSQL}")
+message("POSTGRESQL : ${NDB_ENGINE_POSTGRE}")
 message("BUILD_EXP : ${NDB_BUILD_EXP}")
 message("BUILD_TEST : ${NDB_BUILD_TEST}")
 message("BUILD_EXAMPLE : ${NDB_BUILD_EXAMPLE}")
@@ -59,30 +59,20 @@ endif()
 #-------------------------------------------------------
 #                       ENGINE
 #-------------------------------------------------------
-if (NDB_ENGINE_MONGO)
-    include(third_party/mongo.cmake)
-endif()
-
-if (NDB_ENGINE_MYSQL)
-    set(MYSQL_ROOT C:/lib/mysql-connector)
-    set(MYSQL_LIB mysqlcppconn)
-endif()
-
-if (NDB_ENGINE_SQLITE)
-    add_definitions(-DNDB_ENGINE_SQLITE)
-    add_library(lib_sqlite OBJECT ${THIRD_PARTY_ROOT}/sqlite/source/sqlite3.c)
-    add_dependencies(lib_ndb lib_sqlite)
-    set(SQLITE_LIB $<TARGET_OBJECTS:lib_sqlite>)
-    list(APPEND ENGINE_INCLUDE ${THIRD_PARTY_ROOT}/sqlite/include)
-    list(APPEND ENGINE_LIB ${SQLITE_LIB})
-endif()
+include(third_party/sqlite.cmake)
+include(third_party/postgre.cmake)
+include(third_party/mongo.cmake)
 
 
 #-------------------------------------------------------
 #                     NDB INTERFACE
 #-------------------------------------------------------
-target_include_directories(lib_ndb INTERFACE include ${THIRD_PARTY_ROOT}/boost ${THIRD_PARTY_ROOT}/mpl/src ${ENGINE_INCLUDE})
-target_link_libraries(lib_ndb INTERFACE ${ENGINE_LIB} ${NDB_LIB})
+target_include_directories(lib_ndb INTERFACE
+        include
+        ${THIRD_PARTY_ROOT}/boost
+        ${THIRD_PARTY_ROOT}/mpl/src
+        ${NDB_ENGINE_INCLUDE})
+target_link_libraries(lib_ndb INTERFACE ${NDB_ENGINE_LIB} ${NDB_LIB})
 
 
 #-------------------------------------------------------
@@ -97,10 +87,3 @@ endif()
 if (NDB_BUILD_EXAMPLE)
     add_subdirectory(example)
 endif()
-
-# delete some cache variables
-unset(NDB_ENGINE_MONGO CACHE)
-unset(NDB_ENGINE_MYSQL CACHE)
-unset(NDB_BUILD_EXP CACHE)
-unset(NDB_BUILD_TEST CACHE)
-unset(NDB_BUILD_EXAMPLE CACHE)

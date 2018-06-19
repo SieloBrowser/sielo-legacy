@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,47 +23,48 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_HISTORYMENU_HPP
-#define SIELO_BROWSER_HISTORYMENU_HPP
+#ifndef SIELOBROWSER_HISTORYMENU_HPP
+#define SIELOBROWSER_HISTORYMENU_HPP
 
-#include <QWidget>
+#include <QMenu>
 
-#include <QAction>
+#include <QPointer>
 
-#include <QList>
+namespace Sn
+{
+class BrowserWindow;
 
-#include "Widgets/ModelMenu.hpp"
-#include "HistoryMenuModel.hpp"
-
-namespace Sn {
-class HistoryManager;
-class HistoryMenuModel;
-
-class HistoryMenu: public ModelMenu {
+// TODO: manage ctrl and shift
+class HistoryMenu: public QMenu {
 Q_OBJECT
 
 public:
-	HistoryMenu(QWidget* parent = 0);
+	HistoryMenu(QWidget* parent = nullptr);
+	~HistoryMenu();
 
-	void setInitialActions(QList<QAction*> actions);
-
-signals:
-	void openUrl(const QUrl& url);
-
-protected:
-	bool prePopulated();
-	void postPopulated();
+	void setMainWindow(BrowserWindow* window);
 
 private slots:
-	void activated(const QModelIndex& index);
-	void showHistoryDialog();
+	void goBack();
+	void goForward();
+	void goHome();
+	void showHistoryManager();
+
+	void aboutToShow();
+	void aboutToHide();
+
+	void aboutToShowMostVisited();
+	void aboutToShowClosedTabs();
+
+	void historyEntryActivated();
+
+	void openUrl(const QUrl& url);
 
 private:
-	HistoryManager* m_history{nullptr};
-	HistoryMenuModel* m_historyMenuModel{nullptr};
-	QList<QAction*> m_initialActions{};
+	QPointer<BrowserWindow> m_window{};
+	QMenu* m_menuMostVisited{nullptr};
+	QMenu* m_menuClosedTabs{nullptr};
 };
-
 }
 
-#endif //SIELO_BROWSER_HISTORYMENU_HPP
+#endif //SIELOBROWSER_HISTORYMENU_HPP

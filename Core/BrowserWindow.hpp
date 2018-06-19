@@ -53,22 +53,53 @@ class RootFloatingButton;
 class StatusBarMessage;
 class TitleBar;
 
+class MockupItem;
+
+//! Represent a window of the browser.
+/*!
+ * This class provide various access to make operation in a window of Sielo.
+ */
 class BrowserWindow: public QMainWindow {
 Q_OBJECT
 
 public:
+	//! Tabs Space Position.
+	/* Position where a tabs space can be create. */
 	enum TabsSpacePosition {
-		TSP_Left,
-		TSP_Right,
-		TSP_Top,
-		TSP_Bottom
+		TSP_Left, /*!< Create tabs space to the left. */
+		TSP_Right, /*!< Create tabs space to the right. */
+		TSP_Top, /*!< Create tabs space to the top. */
+		TSP_Bottom /*!< Create tabs space to the bottom. */
 	};
 
+	/*!
+	 * This constructor build the window.
+	 * 
+	 * This construct **should never be called manually**. Prefere using the `createWindow` methode from the Application class. 
+	 */
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
+	/*!
+	 * This constrcutor allow to create a window an load a mockup.
+	 * 
+	 * It calls the first BrowserWindow constructor with "RestoredWindow". 
+	 * Therefore, as the other constrcutor this construct **should never be called manually**. Prefere using the `createWindow` methode from the Application class. 
+	 */
+	BrowserWindow(MockupItem* mockup);
 	~BrowserWindow();
 
+	/*! 
+	 * Load settings.
+	 * 
+	 *  - Home page.
+	 *  - Padding between tabs space.
+	 *  - Background.
+	 *  - Show bookmarks toolbar.
+	 */
 	void loadSettings();
 
+	/*!
+	 * Return encoded data that can be stored as binary of current tabs spaces.
+	 */
 	QByteArray saveTabs();
 
 	void setStartTab(WebTab* tab);
@@ -78,14 +109,50 @@ public:
 
 	void currentTabChanged(WebTab* oldTab);
 
+	/*!
+	 * Create a new tabs space.
+	 * 
+	 * This function create a new tabs space with the given tab to the given position.
+	 * @param position The position where the tabs space must be created.
+	 * @param tab The tab of the tabs space.
+	 * @param from The tab widget who requested a new tabs space, if one.
+	 */
 	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab, TabWidget* from = nullptr);
 	void createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab = nullptr);
+	/*!
+	 * Insert a tabs space.
+	 * 
+	 * This function insert the tabs space into the window.
+	 * @param position The position where the tabs space must be created.
+	 * @param widgetTabWidget The tabs space itself (it generally have been builded with `createWidgetTabWidget`).
+	 * @param from The tab widget who requested a new tabs space.
+	 */
 	void insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget, TabWidget* from);
+	/*!
+	 * Close a tabs space.
+	 * 
+	 * @param tabWidget The tab widget of the tabs space. All parents will be deduced.
+	 */
 	void closeTabsSpace(TabWidget* tabWidget);
+	/*!
+	 * Resize all tabs space to be a maximum equals.
+	 */
 	void autoResizeTabsSpace();
 
+	/*!
+	 * Load an url in the current tab.
+	 */
 	void loadUrl(const QUrl& url);
+	/*!
+	 * Load an url in a new tab
+	 */
 	void loadUrlInNewTab(const QUrl& url);
+
+	/*!
+	 * This return the mockup corresponding to the current session.
+	 * @return The mockup corresponding to the current session.
+	 */
+	MockupItem* mockupItem() const;
 
 	QUrl homePageUrl() const { return m_homePage; }
 
@@ -94,12 +161,13 @@ public:
 
 	TabWidget* tabWidget() const;
 	TabWidget* tabWidget(int index) const;
+	QVector<TabWidget*> tabWidgets() const { return m_tabWidgets; }
 	int tabWidgetsCount() const;
 
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 	TitleBar* titleBar() const { return m_titleBar; }
 
-	const QPixmap* getBackground();
+	const QPixmap* background();
 
 public slots:
 	void setWindowTitle(const QString& title);
@@ -109,7 +177,9 @@ public slots:
 	void tabsSpaceInFullView(QWidget* widget);
 	void arrangeTabsSpaces();
 
+	void bookmarkPage();
 	void bookmarkAllTabs();
+	void addBookmark(const QUrl& url, const QString& title);
 
 protected:
 	void shotBackground();
@@ -128,7 +198,6 @@ private slots:
 	void forward();
 	void back();
 	void newTab();
-	void openAddBookmarkDialog();
 
 private:
 	void setupUi();
