@@ -132,8 +132,8 @@ void MockupsTabsList::dropEvent(QDropEvent* event)
 
 void MockupsTabsList::enterEvent(QEvent* event)
 {
-	m_deleteButton->move(width() - m_deleteButton->height(), 0);
-	m_addTabButton->move(width() - m_deleteButton->height() - m_addTabButton->height(), 0);
+	m_deleteButton->move(width() - m_deleteButton->width(), 0);
+	m_addTabButton->move(width() - m_addTabButton->width(), m_deleteButton->height());
 
 	m_deleteButton->show();
 	m_addTabButton->show();
@@ -141,8 +141,8 @@ void MockupsTabsList::enterEvent(QEvent* event)
 
 void MockupsTabsList::leaveEvent(QEvent* event)
 {
-	m_deleteButton->move(width() - m_deleteButton->height(), 0);
-	m_addTabButton->move(width() - m_deleteButton->height() - m_addTabButton->height(), 0);
+	m_deleteButton->move(width() - m_deleteButton->width(), 0);
+	m_addTabButton->move(width() - m_addTabButton->width(), m_deleteButton->height());
 
 	m_deleteButton->hide();
 	m_addTabButton->hide();
