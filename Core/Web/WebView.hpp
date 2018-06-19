@@ -88,6 +88,8 @@ public:
 	QWidget* inputWidget() const;
 	virtual QWidget* overlayWidget() = 0;
 
+	bool isTransparent() const;
+
 signals:
 	void focusChanged(bool);
 	void viewportResized(QSize);
