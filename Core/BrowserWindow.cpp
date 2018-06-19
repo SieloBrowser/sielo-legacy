@@ -108,8 +108,9 @@ BrowserWindow::BrowserWindow(MockupItem* mockup) :
 	for (int i{1}; i < mockup->tabsSpaces().count(); ++i) {
 		MockupItem::TabsSpace* tabsSpace = mockup->tabsSpaces()[i];
 
-		if (tabsSpace->verticalIndex == workingVerticalIndex)
-			createNewTabsSpace(BrowserWindow::TSP_Bottom, nullptr);
+		if (tabsSpace->verticalIndex == workingVerticalIndex) {
+			createNewTabsSpace(BrowserWindow::TSP_Bottom, nullptr, m_tabWidgets.last());
+		}
 		else {
 			createNewTabsSpace(BrowserWindow::TSP_Right, nullptr);
 			workingVerticalIndex = tabsSpace->verticalIndex;
