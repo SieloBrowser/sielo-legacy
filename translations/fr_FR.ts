@@ -1492,91 +1492,101 @@
 <context>
     <name>Sn::GeneralPage</name>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="266"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="269"/>
         <source>Open saved session</source>
         <translation>Ouvrir une session sauvegardée</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="229"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="232"/>
         <source>Saved</source>
         <translation>Sauvegardé</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="229"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="195"/>
+        <source>Warning</source>
+        <translation>Attention</translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="195"/>
+        <source>Some changes need Sielo restart to have effects</source>
+        <translation>Des changements requierent le redémarrage de Sielo pour être actifs</translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="232"/>
         <source>Your session will be restored at startup</source>
         <translation>Votre session sera restaurée au démarrage</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="240"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="243"/>
         <source>Home page</source>
         <translation>Page d&apos;accueil</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="242"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="252"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="263"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="245"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="255"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="266"/>
         <source>Open blank page</source>
         <translation>Ouvrir une page vierge</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="243"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="254"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="246"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="257"/>
         <source>Open custom url</source>
         <translation>Ouvrir un URL personnalisé</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="248"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="251"/>
         <source>Home page url</source>
         <translation>URL de la page d&apos;accueil</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="250"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="253"/>
         <source>New tab</source>
         <translation>Nouvel onglet</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="253"/>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="264"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="256"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="267"/>
         <source>Open home page</source>
         <translation>Ouvrir la page d&apos;accueil</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="259"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="262"/>
         <source>New tab url</source>
         <translation>Url des nouveaux onglets</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="270"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="273"/>
         <source>Save current session</source>
         <translation>Enregistrer la session en cours</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="265"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="268"/>
         <source>Restore session</source>
         <translation>Restaurer la session</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="261"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="264"/>
         <source>New Session</source>
         <translation>Nouvelle Session</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="272"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="275"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="274"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="277"/>
         <source>Available translations:</source>
         <translation>Traductions disponibles :</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="276"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="279"/>
         <source>In order to change language, you must restart your browser.</source>
         <translation>Pour changer de langue, vous devez redémarrer votre navigateur.</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="279"/>
+        <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="282"/>
         <source>Don&apos;t load tabs until selected</source>
         <translation>Ne pas charger les onglets avant de les avoirs séléctionné</translation>
     </message>

@@ -191,6 +191,9 @@ void GeneralPage::save()
 	// Save language
 	settings.beginGroup("Language");
 
+	if (Application::instance()->currentLanguage() != m_languages->itemData(m_languages->currentIndex()).toString())
+		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
+
 	settings.setValue("language", m_languages->itemData(m_languages->currentIndex()).toString());
 
 	settings.endGroup();

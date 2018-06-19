@@ -31,6 +31,7 @@
 namespace Sn
 {
 class AddressBarCompleterDelegate: public QStyledItemDelegate {
+	Q_OBJECT
 public:
 	AddressBarCompleterDelegate(QObject* parent = nullptr);
 
