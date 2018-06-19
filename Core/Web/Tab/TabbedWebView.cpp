@@ -177,16 +177,16 @@ QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alp
 void TabbedWebView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
-	if (m_window->getBackground() != nullptr && isTransparent()) {
+	if (m_window->background() != nullptr && isTransparent()) {
 		QPoint global_position = mapTo(m_window, QPoint(0, 0));
 		QRect shot_rect(global_position.x(), global_position.y(), width(), height());
 		if (m_processed_bg == nullptr)
 		{
-			m_processed_bg = new QImage(applyBlur(m_window->getBackground()->toImage(), 100));
+			m_processed_bg = new QImage(applyBlur(m_window->background()->toImage(), 100));
 		}
 		else if (m_processed_bg->size() != m_window->size())
 		{
-			m_processed_bg = new QImage(applyBlur(m_window->getBackground()->toImage(), 100));
+			m_processed_bg = new QImage(applyBlur(m_window->background()->toImage(), 100));
 		}
 		painter.drawImage(QPoint(), *m_processed_bg, shot_rect);
 	}
