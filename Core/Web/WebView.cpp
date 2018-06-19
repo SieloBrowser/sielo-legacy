@@ -328,6 +328,11 @@ QWidget* WebView::inputWidget() const
 		return const_cast<WebView*>(this);
 }
 
+bool WebView::isTransparent() const
+{
+	return (m_page->backgroundColor() == Qt::transparent);
+}
+
 void WebView::zoomIn()
 {
 	if (m_currentZoomLevel < zoomLevels().count() - 1) {
