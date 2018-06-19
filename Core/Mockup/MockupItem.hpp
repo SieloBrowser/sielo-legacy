@@ -23,41 +23,64 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#ifndef SIELOBROWSER_MOCKUPITEM_HPP
+#define SIELOBROWSER_MOCKUPITEM_HPP
 
-#include <QStyledItemDelegate>
+#include <QIcon>
+
+#include <QUrl>
+#include <QString>
+
+#include <QVector>
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
-	Q_OBJECT
+class MockupItem {
 public:
-	AddressBarCompleterDelegate(QObject* parent = nullptr);
+	struct TabsSpace;
 
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
+	struct Tab {
+		QIcon icon{};
+		QString title{};
+		QUrl url{};
 
-	void setShowSwitchToTab(bool enable);
-	void setOriginalText(const QString& originalText);
+		bool selected{false};
 
-	bool isUrlOrDomain(const QString& text) const;
-	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
+		TabsSpace* parent{nullptr};
+	};
+
+	struct TabsSpace {
+		~TabsSpace() { qDeleteAll(tabs); }
+
+		QVector<MockupItem::Tab*> tabs{};
+		int verticalIndex{0};
+
+		MockupItem* parent{nullptr};
+	};
+
+	MockupItem(const QString& name, bool loadDefault = false);
+	~MockupItem();
+
+	const QString &name() const { return m_name; }
+	void setName(const QString& name, bool isDefaultName = false);
+
+	void clear();
+
+	void addTabsSpace(TabsSpace* tabsSpace);
+	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
+
+	void saveMockup();
 private:
-	// Waiting for additional settings
-	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
+	void loadMockup(bool loadDefault);
+	void loadMockupFromMap(const QVariantMap& map);
 
-	int viewItemDrawText(QPainter* painter,
-	                     const QStyleOptionViewItem* option,
-	                     const QRect& rect,
-	                     const QString& text, const QColor& color,
-	                     const QString& searchText = QString()) const;
+	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
 
-	int m_rowHeight{0};
-	int m_padding{0};
-	bool m_drawSwitchToTab{true};
-	QString m_originalText{};
+
+	QList<TabsSpace*> m_tabsSpaces{};
+
+	QString m_name{};
 };
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#endif //SIELOBROWSER_MOCKUPITEM_HPP

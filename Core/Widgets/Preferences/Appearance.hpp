@@ -43,10 +43,11 @@
 
 #include <QHash>
 
-namespace Sn {
+namespace Sn
+{
 class PreferencesDialog;
 
-class AppearancePage : public QWidget {
+class AppearancePage: public QWidget {
 Q_OBJECT
 
 public:
@@ -134,6 +135,7 @@ private:
 	QLabel* m_backgroundLabel{nullptr};
 	QLineEdit* m_backgroundLocationEdit{nullptr};
 	QPushButton* m_backgroundLocationButton{nullptr};
+	QSpacerItem* m_spacer{nullptr};
 
 	bool m_colorsChanged{false};
 	PreferencesDialog* m_preferencesDialog{nullptr};

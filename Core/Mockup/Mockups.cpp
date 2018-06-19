@@ -22,42 +22,74 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#include "Mockups.hpp"
 
-#include <QStyledItemDelegate>
+#include <QDir>
+
+#include "Mockup/MockupItem.hpp"
+
+#include "Utils/AutoSaver.hpp"
+
+#include "Application.hpp"
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
-	Q_OBJECT
-public:
-	AddressBarCompleterDelegate(QObject* parent = nullptr);
-
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
-
-	void setShowSwitchToTab(bool enable);
-	void setOriginalText(const QString& originalText);
-
-	bool isUrlOrDomain(const QString& text) const;
-	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
-private:
-	// Waiting for additional settings
-	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
-
-	int viewItemDrawText(QPainter* painter,
-	                     const QStyleOptionViewItem* option,
-	                     const QRect& rect,
-	                     const QString& text, const QColor& color,
-	                     const QString& searchText = QString()) const;
-
-	int m_rowHeight{0};
-	int m_padding{0};
-	bool m_drawSwitchToTab{true};
-	QString m_originalText{};
-};
+Mockups::Mockups(QObject* parent) :
+	QObject(parent),
+	m_saver(new AutoSaver(this))
+{
+	loadMockups();
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+Mockups::~Mockups()
+{
+	m_saver->saveIfNeccessary();
+	qDeleteAll(m_mockups);
+}
+
+void Mockups::addMockup(MockupItem* mockup)
+{
+	m_mockups.append(mockup);
+
+	emit mockupAdded(mockup);
+
+	m_saver->changeOccurred();
+}
+
+void Mockups::removeMockup(MockupItem* mockup)
+{
+	m_mockups.removeOne(mockup);
+	QFile::remove(Application::paths()[Application::P_Mockups] + QLatin1Char('/') + mockup->name() + QLatin1String(".json"));
+
+	emit mockupRemoved(mockup);
+
+	m_saver->changeOccurred();
+}
+
+void Mockups::changeMockup(MockupItem* mockup)
+{
+	emit mockupChanged(mockup);
+
+	m_saver->changeOccurred();
+}
+
+void Mockups::loadMockups()
+{
+	QDir directory{Application::paths()[Application::P_Mockups]};
+	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
+
+	foreach(const QFileInfo& info, files) {
+		MockupItem* mockup{new MockupItem(info.baseName())};
+		m_mockups.append(mockup);
+	}
+
+	if (m_mockups.isEmpty())
+		m_mockups.append(new MockupItem("mockup", true));
+}
+
+void Mockups::save()
+{
+	foreach(MockupItem* mockup, m_mockups)
+		mockup->saveMockup();
+}
+}

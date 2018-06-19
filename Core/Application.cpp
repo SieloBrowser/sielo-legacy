@@ -58,6 +58,8 @@
 
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
+#include "Mockup/Mockups.hpp"
+#include "Mockup/MockupsManager.hpp"
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
@@ -95,13 +97,14 @@ QList<QString> Application::paths()
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/mockups"));
 
 	return paths;
 }
 
 Application *Application::instance()
 {
-	return (dynamic_cast<Application*>(QCoreApplication::instance()));
+	return dynamic_cast<Application*>(QCoreApplication::instance());
 }
 
 QIcon Application::getAppIcon(const QString& name, const QString& directory, const QString& format)
@@ -126,6 +129,37 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 	}
 
 	return QByteArray();
+}
+
+QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
+{
+	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
+
+	QFileInfo info{name};
+
+	if (!info.exists())
+		return name;
+
+	const QDir dir{info.absoluteDir()};
+	const QString fileName{info.fileName()};
+
+	int i{1};
+
+	while (info.exists()) {
+		QString file{fileName};
+		int index{file.lastIndexOf(QLatin1Char('.'))};
+		const QString appendString{appendFormat.arg(i)};
+
+		if (index == -1)
+			file.append(appendString);
+		else
+			file = file.left(index) + appendString + file.mid(index);
+
+		info.setFile(dir, file);
+		++i;
+	}
+
+	return info.absoluteFilePath();
 }
 
 // Constructor&  destructor
@@ -313,6 +347,7 @@ void Application::loadSettings()
 	loadWebSettings();
 	loadApplicationSettings();
 	loadThemesSettings();
+	loadTranslationSettings();
 }
 
 void Application::loadWebSettings()
@@ -409,7 +444,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 30) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 32) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -432,7 +467,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 30);
+			settings.setValue("Themes/defaultThemeVersion", 32);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -443,7 +478,19 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 29);
+		settings.setValue("Themes/defaultThemeVersion", 32);
+	}
+}
+
+void Application::loadTranslationSettings()
+{
+	QSettings settings{};
+	settings.beginGroup("Language");
+
+	if (settings.value("version", 0).toInt() < 4) {
+		QDir(paths()[P_Translations]).removeRecursively();
+		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
+		settings.setValue("version", 4);
 	}
 }
 
@@ -535,6 +582,12 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 
 	m_windows.prepend(window);
 	return window;
+}
+
+BrowserWindow *Application::createWindow(MockupItem* item)
+{
+	BrowserWindow* mockupWindow = new BrowserWindow(item);
+	return mockupWindow;
 }
 
 Application::AfterLaunch Application::afterLaunch() const
@@ -698,7 +751,8 @@ void Application::postLaunch()
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"), Application::NTT_CleanSelectedTabAtEnd);
+		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"),
+		                     Application::NTT_CleanSelectedTabAtEnd);
 		settings.setValue("installed", true);
 	}
 
@@ -829,6 +883,14 @@ Bookmarks *Application::bookmarks()
 	return m_bookmarks;
 }
 
+Mockups *Application::mockups()
+{
+	if (!m_mockups)
+		m_mockups = new Mockups(this);
+
+	return m_mockups;
+}
+
 DownloadManager *Application::downloadManager()
 {
 	if (!m_downloadManager)
@@ -915,37 +977,6 @@ void Application::connectDatabase()
 		qWarning() << "Cannot open SQLite database! Continuing without database...";
 */
 	m_databaseConnected = true;
-}
-
-QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
-{
-	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
-
-	QFileInfo info{name};
-
-	if (!info.exists())
-		return name;
-
-	const QDir directory{info.absoluteFilePath()};
-	const QString fileName{info.fileName()};
-	int i{1};
-
-	// While the file exist, we add 1 to new file name
-	while (info.exists()) {
-		QString file{fileName};
-		int index{file.lastIndexOf(QLatin1Char('.'))};
-		const QString appendString{appendFormat.arg(i)};
-
-		if (index == -1)
-			file.append(appendString);
-		else
-			file = file.left(index) + appendString + file.mid(index);
-
-		info.setFile(directory, file);
-		++i;
-	}
-
-	return info.absoluteFilePath();
 }
 
 void Application::processCommand(const QString& command, const QStringList args)

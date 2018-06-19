@@ -104,6 +104,8 @@ private:
 	WebTab* m_webTab{nullptr};
 	QMenu* m_menu{nullptr};
 
+	QImage* m_processed_bg{ nullptr };
+
 	QString m_currentIp{};
 
 	bool m_cursorIn{false};
