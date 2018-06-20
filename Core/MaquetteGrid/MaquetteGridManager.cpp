@@ -42,7 +42,7 @@ MaquetteGridManager::MaquetteGridManager(BrowserWindow* window) :
 	m_maquetteGrid(Application::instance()->maquetteGrid())
 {
 	setAttribute(Qt::WA_DeleteOnClose);
-	setObjectName(QLatin1String("maquetteGrid-manager"));
+	setObjectName(QLatin1String("maquettegrid-manager"));
 	setupUI();
 
 	setupMaquetteGridList();
@@ -464,9 +464,9 @@ void MaquetteGridManager::setupUI()
 	m_tabsSpacesWidget = new QWidget(m_scrollArea);
 	m_tabsSpacesLayout = new QHBoxLayout(m_tabsSpacesWidget);
 
-	m_tabsSpacesWidget->setObjectName(QLatin1String("maquetteGrid-area-tabsspaces"));
+	m_tabsSpacesWidget->setObjectName(QLatin1String("maquettegrid-area-tabsspaces"));
 
-	m_scrollArea->setObjectName(QLatin1String("maquetteGrid-area-tabsspaces"));
+	m_scrollArea->setObjectName(QLatin1String("maquettegrid-area-tabsspaces"));
 	m_scrollArea->setFrameShape(QFrame::NoFrame);
 	m_scrollArea->setWidgetResizable(true);
 	m_scrollArea->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

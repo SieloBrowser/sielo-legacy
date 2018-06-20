@@ -97,7 +97,7 @@ QList<QString> Application::paths()
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
-	paths.append(paths[Application::P_Data] + QLatin1String("/maquetteGrid"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/maquette-grid"));
 
 	return paths;
 }

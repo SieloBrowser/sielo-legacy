@@ -38,7 +38,7 @@ MaquetteGridTabsList::MaquetteGridTabsList(MaquetteGridManager* manager, QWidget
 	QListWidget(parent),
 	m_maquetteGridManager(manager)
 {
-	setObjectName(QLatin1String("maquetteGrid-tabslist"));
+	setObjectName(QLatin1String("maquettegrid-tabslist"));
 
 	setMinimumSize(218, 218);
 
@@ -50,11 +50,11 @@ MaquetteGridTabsList::MaquetteGridTabsList(MaquetteGridManager* manager, QWidget
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_deleteButton = new QPushButton(tr("X"), this);
-	m_deleteButton->setObjectName(QLatin1String("maquetteGrid-tabslist-btn-delete-tabsspace"));
+	m_deleteButton->setObjectName(QLatin1String("maquettegrid-tabslist-btn-delete-tabsspace"));
 	m_deleteButton->hide();
 
 	m_addTabButton = new QPushButton(tr("+"), this);
-	m_addTabButton->setObjectName(QLatin1String("maquetteGrid-tabslist-btn-addtab"));
+	m_addTabButton->setObjectName(QLatin1String("maquettegrid-tabslist-btn-addtab"));
 	m_addTabButton->hide();
 
 	connect(m_deleteButton, &QPushButton::clicked, this, &MaquetteGridTabsList::deleteItem);
