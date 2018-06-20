@@ -439,7 +439,7 @@ void MaquetteGridManager::setupTabsSpaces()
 
 void MaquetteGridManager::setupUI()
 {
-	int maxListWidth{ 320 };
+	int maxListWidth{ 220 };
 	resize(1082, 764);
 
 	m_editBox = new QGroupBox(this);

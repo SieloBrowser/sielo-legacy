@@ -49,11 +49,11 @@ MaquetteGridTabsList::MaquetteGridTabsList(MaquetteGridManager* manager, QWidget
 	setDragDropMode(QAbstractItemView::DragDrop);
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-	m_deleteButton = new QPushButton(tr("X"), this);
+	m_deleteButton = new QPushButton("X", this);
 	m_deleteButton->setObjectName(QLatin1String("maquettegrid-tabslist-btn-delete-tabsspace"));
 	m_deleteButton->hide();
 
-	m_addTabButton = new QPushButton(tr("+"), this);
+	m_addTabButton = new QPushButton("+", this);
 	m_addTabButton->setObjectName(QLatin1String("maquettegrid-tabslist-btn-addtab"));
 	m_addTabButton->hide();
 
@@ -93,6 +93,9 @@ MaquetteGridItem::TabsSpace *MaquetteGridTabsList::tabsSpace()
 
 void MaquetteGridTabsList::deleteItem()
 {
+	if (!currentItem())
+		return;
+
 	delete currentItem();
 
 	if (count() <= 0)
@@ -146,5 +149,13 @@ void MaquetteGridTabsList::leaveEvent(QEvent* event)
 
 	m_deleteButton->hide();
 	m_addTabButton->hide();
+}
+
+void MaquetteGridTabsList::keyPressEvent(QKeyEvent* event)
+{
+	if ((event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace) && model())
+		deleteItem();
+	else
+		QListWidget::keyPressEvent(event);
 }
 }
