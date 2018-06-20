@@ -316,7 +316,7 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 		if (qdata.server == INTERNAL_SERVER_ID)
 			continue;
 
-		int id{qdata.id};
+		int id{static_cast<int>(qdata.id)};
 		QByteArray data = qdata.data_encrypted.toUtf8();
 		QByteArray password = qdata.password_encrypted.toUtf8();
 		QByteArray username = qdata.username_encrypted.toUtf8();

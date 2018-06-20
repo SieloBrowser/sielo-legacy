@@ -141,7 +141,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 		emit historyEntryAdded(entry);
 	}
 	else {
-		int id{oquery[0].id};
+		int id{static_cast<int>(oquery[0].id)};
 		int count{oquery[0].count};
 		QDateTime date{QDateTime::fromMSecsSinceEpoch(oquery[0].date)};
 		QString oldTitle{oquery[0].title};
