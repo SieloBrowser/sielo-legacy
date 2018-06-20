@@ -188,28 +188,47 @@
 <context>
     <name>Sn::AboutDialog</name>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="60"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="37"/>
         <source>About Sielo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="85"/>
-        <source>&lt;p&gt;&lt;b&gt;Sielo version %1&lt;/b&gt;&lt;br /&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="64"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="82"/>
+        <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="86"/>
-        <source>&lt;b&gt;QtWebEngine version %1&lt;/b&gt;&lt;/p&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="65"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="83"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="110"/>
+        <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="89"/>
-        <source>&lt;p&gt;&lt;b&gt;Main developer:&lt;/b&gt;&lt;br /&gt;%1 &amp;lt;%2&amp;gt;&lt;/p&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="73"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="111"/>
+        <source>Our partners</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="91"/>
-        <source>&lt;p&gt;&lt;b&gt;Contributors:&lt;/b&gt;&lt;br /&gt;%1&lt;/p&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="93"/>
+        <source>What&apos;s Sielo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="132"/>
+        <source>&lt;p&gt;&lt;b&gt;Sielo&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Sielo is a powerful web browser with a unique concept: tabs spaces.Sielo has many contribution and I would like to give special thanks&lt;br/&gt;to Hotaru for always being here, Echostorm for his awesome contribution,&lt;br/&gt;Kaktus for the design and all other contributors!&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2018 Victor DENIS&lt;br /&gt;&lt;a href=&quot;mailto:admin@feldrise.com&quot;&gt;admin@feldrise.com&lt;/a&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="148"/>
+        <source>&lt;b&gt;Bit-Studio.com&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Created in 2011, this concept aims to promote promising IT projects in order to help them take off.&lt;br/&gt;After a few years of operation, the project was put on hold. It was too much work for one man. In 2018, a team was formed and Bit-Studio was reborn from its ashes, stronger than ever.&lt;br/&gt;From then on, discover regularly, in preview, the mastodons of tomorrow on Bit-Studio.com.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="157"/>
+        <source>&lt;b&gt;Le Monde Du PC&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;&quot;Le Monde Du PC&quot;, put online in September 2017, is a site that aims to share our knowledge so that, for example, some subjects in computing are not only understood by those who master them. Today, the team is complete and a 2.0 version will normally be released in September.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
