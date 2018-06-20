@@ -59,6 +59,12 @@ public:
 	void saveToolBarsPositions();
 	void restoreToolBarsPositions();
 
+	void hide();
+	void show();
+
+	bool isView();
+	void setView(bool view);
+
 signals:
 	void toggleBookmarksBar(bool shown);
 
@@ -83,6 +89,7 @@ private:
 	bool m_isMaximized{false};
 	bool m_isOnSide{false};
 	bool m_canMove{true};
+	bool m_show{true};
 
 	QLabel* m_title{nullptr};
 	QToolButton* m_closeButton{nullptr};

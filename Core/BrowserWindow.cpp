@@ -451,9 +451,15 @@ void BrowserWindow::bookmarkAllTabs()
 void BrowserWindow::shotBackground()
 {
 	m_mainSplitter->hide();
+	if (m_fButton) 
+		m_fButton->hide();
+	m_titleBar->hide();
+
 	m_bg = new QPixmap(size());
 	render(m_bg, QPoint(), QRect(0, 0, width(), height()));
 	m_mainSplitter->show();
+	m_titleBar->show();
+	if(m_fButton) m_fButton->show();
 }
 
 void BrowserWindow::paintEvent(QPaintEvent* event)
