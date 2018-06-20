@@ -34,7 +34,7 @@
 
 #include "Bookmarks/BookmarksMenu.hpp"
 
-#include "Mockup/MockupsMenu.hpp"
+#include "MaquetteGrid/MaquetteGridMenu.hpp"
 
 #include "History/HistoryMenu.hpp"
 
@@ -78,7 +78,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
 
-	m_mockupsMenu = new MockupsMenu(m_tabWidget->window());
+	m_maquetteGridMenu = new MaquetteGridMenu(m_tabWidget->window());
 
 	m_historyMenu = new HistoryMenu(this);
 	m_historyMenu->setMainWindow(m_tabWidget->window());
@@ -109,7 +109,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction* findAction = createAction("Find", this, Application::getAppIcon("search"), tr("&Find"), "Ctrl+F");
 	addSeparator();
 	addMenu(m_bookmarksMenu);
-	addMenu(m_mockupsMenu);
+	addMenu(m_maquetteGridMenu);
 	addMenu(m_historyMenu);
 	addMenu(m_toolsMenu);
 	QAction* showSiteInfoAction = createAction("ShowSiteInfo", m_toolsMenu, QIcon(), tr("Show Site Info"));

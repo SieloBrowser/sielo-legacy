@@ -58,8 +58,8 @@
 
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
-#include "Mockup/Mockups.hpp"
-#include "Mockup/MockupsManager.hpp"
+#include "MaquetteGrid/MaquetteGrid.hpp"
+#include "MaquetteGrid/MaquetteGridManager.hpp"
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
@@ -97,7 +97,7 @@ QList<QString> Application::paths()
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
-	paths.append(paths[Application::P_Data] + QLatin1String("/mockups"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/maquetteGrid"));
 
 	return paths;
 }
@@ -584,15 +584,15 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 	return window;
 }
 
-BrowserWindow *Application::createWindow(MockupItem* item)
+BrowserWindow *Application::createWindow(MaquetteGridItem* item)
 {
 	Q_ASSERT(windowCount() != 0);
-	BrowserWindow* mockupWindow = new BrowserWindow(item);
+	BrowserWindow* maquetteGridWindow = new BrowserWindow(item);
 
-	QObject::connect(mockupWindow, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
+	QObject::connect(maquetteGridWindow, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
 
-	m_windows.prepend(mockupWindow);
-	return mockupWindow;
+	m_windows.prepend(maquetteGridWindow);
+	return maquetteGridWindow;
 }
 
 Application::AfterLaunch Application::afterLaunch() const
@@ -888,12 +888,12 @@ Bookmarks *Application::bookmarks()
 	return m_bookmarks;
 }
 
-Mockups *Application::mockups()
+MaquetteGrid *Application::maquetteGrid()
 {
-	if (!m_mockups)
-		m_mockups = new Mockups(this);
+	if (!m_maquetteGrid)
+		m_maquetteGrid = new MaquetteGrid(this);
 
-	return m_mockups;
+	return m_maquetteGrid;
 }
 
 DownloadManager *Application::downloadManager()

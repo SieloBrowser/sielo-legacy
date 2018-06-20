@@ -37,31 +37,31 @@ namespace Sn
 {
 class AutoSaver;
 
-class MockupItem;
+class MaquetteGridItem;
 
-class Mockups: public QObject {
+class MaquetteGrid: public QObject {
 Q_OBJECT
 
 public:
-	Mockups(QObject* parent = nullptr);
-	~Mockups();
+	MaquetteGrid(QObject* parent = nullptr);
+	~MaquetteGrid();
 
-	void addMockup(MockupItem* mockup);
-	void removeMockup(MockupItem* mockup);
-	void changeMockup(MockupItem* mockup);
+	void addMaquetteGrid(MaquetteGridItem* maquetteGrid);
+	void removeMaquetteGrid(MaquetteGridItem* maquetteGrid);
+	void changeMaquetteGrid(MaquetteGridItem* maquetteGrid);
 
-	void loadMockups();
+	void loadMaquetteGrid();
 	void save();
 
-	QList<MockupItem*> mockups() { return m_mockups; }
+	QList<MaquetteGridItem*> maquetteGrid() { return m_maquetteGrid; }
 
 signals:
-	void mockupAdded(MockupItem* mockup);
-	void mockupRemoved(MockupItem* mockup);
-	void mockupChanged(MockupItem* mockup);
+	void maquetteGridAdded(MaquetteGridItem* maquetteGrid);
+	void maquetteGridRemoved(MaquetteGridItem* maquetteGrid);
+	void maquetteGridChanged(MaquetteGridItem* maquetteGrid);
 
 private:
-	QList<MockupItem*> m_mockups{};
+	QList<MaquetteGridItem*> m_maquetteGrid{};
 
 	AutoSaver* m_saver{nullptr};
 };

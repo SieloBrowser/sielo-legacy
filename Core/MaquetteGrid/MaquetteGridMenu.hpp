@@ -22,74 +22,39 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Mockups.hpp"
+#pragma once
+#ifndef SIELOBROWSER_MOCKUPSMENU_HPP
+#define SIELOBROWSER_MOCKUPSMENU_HPP
 
-#include <QDir>
-
-#include "Mockup/MockupItem.hpp"
-
-#include "Utils/AutoSaver.hpp"
-
-#include "Application.hpp"
+#include <QMenu>
 
 namespace Sn
 {
-Mockups::Mockups(QObject* parent) :
-	QObject(parent),
-	m_saver(new AutoSaver(this))
-{
-	loadMockups();
+	class BrowserWindow;
+
+class MaquetteGridItem;
+
+class MaquetteGridMenu: public QMenu {
+Q_OBJECT
+
+public:
+	MaquetteGridMenu(BrowserWindow* window);
+	~MaquetteGridMenu();
+
+private slots:
+	void aboutToShow();
+	void maquetteGridChanged();
+
+	void openMaquetteGridManager();
+
+	void maquetteGridActivated();
+	void openMaquetteGrid(MaquetteGridItem* item);
+private:
+	void refresh();
+
+	BrowserWindow* m_window{ nullptr };
+	bool m_changed{true};
+};
 }
 
-Mockups::~Mockups()
-{
-	m_saver->saveIfNeccessary();
-	qDeleteAll(m_mockups);
-}
-
-void Mockups::addMockup(MockupItem* mockup)
-{
-	m_mockups.append(mockup);
-
-	emit mockupAdded(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::removeMockup(MockupItem* mockup)
-{
-	m_mockups.removeOne(mockup);
-	QFile::remove(Application::paths()[Application::P_Mockups] + QLatin1Char('/') + mockup->name() + QLatin1String(".json"));
-
-	emit mockupRemoved(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::changeMockup(MockupItem* mockup)
-{
-	emit mockupChanged(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::loadMockups()
-{
-	QDir directory{Application::paths()[Application::P_Mockups]};
-	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
-
-	foreach(const QFileInfo& info, files) {
-		MockupItem* mockup{new MockupItem(info.baseName())};
-		m_mockups.append(mockup);
-	}
-
-	if (m_mockups.isEmpty())
-		m_mockups.append(new MockupItem("mockup", true));
-}
-
-void Mockups::save()
-{
-	foreach(MockupItem* mockup, m_mockups)
-		mockup->saveMockup();
-}
-}
+#endif //SIELOBROWSER_MOCKUPSMENU_HPP

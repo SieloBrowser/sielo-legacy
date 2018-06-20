@@ -22,7 +22,7 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "MockupItem.hpp"
+#include "MaquetteGridItem.hpp"
 
 #include <QJsonParseError>
 #include <QJsonDocument>
@@ -36,23 +36,23 @@
 
 namespace Sn
 {
-MockupItem::MockupItem(const QString& name, bool loadDefault) :
+MaquetteGridItem::MaquetteGridItem(const QString& name, bool loadDefault) :
 	m_name(name)
 {
-	loadMockup(loadDefault);
+	loadMaquetteGrid(loadDefault);
 }
 
-MockupItem::~MockupItem()
+MaquetteGridItem::~MaquetteGridItem()
 {
 	// Empty
 }
 
-void MockupItem::setName(const QString& name, bool isDefaultName)
+void MaquetteGridItem::setName(const QString& name, bool isDefaultName)
 {
-	QString oldFile{Application::paths()[Application::P_Mockups] + QLatin1Char('/') + m_name + QLatin1String(".json")};
+	QString oldFile{Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + m_name + QLatin1String(".json")};
 	QString newFile{
 		Application::ensureUniqueFilename(
-			Application::paths()[Application::P_Mockups] + QLatin1Char('/') + name + QLatin1String(".json"))
+			Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + name + QLatin1String(".json"))
 	};
 
 	//std::string strOldFile = oldFile.toStdString();
@@ -66,30 +66,30 @@ void MockupItem::setName(const QString& name, bool isDefaultName)
 		m_name = QFileInfo(newFile).baseName();
 }
 
-void MockupItem::clear()
+void MaquetteGridItem::clear()
 {
 	m_tabsSpaces.clear();
 }
 
-void MockupItem::addTabsSpace(TabsSpace* tabsSpace)
+void MaquetteGridItem::addTabsSpace(TabsSpace* tabsSpace)
 {
 	m_tabsSpaces.append(tabsSpace);
 }
 
-void MockupItem::saveMockup()
+void MaquetteGridItem::saveMaquetteGrid()
 {
-	std::sort(m_tabsSpaces.begin(), m_tabsSpaces.end(), [](MockupItem::TabsSpace* first, MockupItem::TabsSpace* second) {
+	std::sort(m_tabsSpaces.begin(), m_tabsSpaces.end(), [](MaquetteGridItem::TabsSpace* first, MaquetteGridItem::TabsSpace* second) {
 		return first->verticalIndex < second->verticalIndex;
 	});
 
 	QVariantMap map{};
 	QVariantList tabsSpacesList{};
 
-	foreach(MockupItem::TabsSpace* tabsSpace, m_tabsSpaces) {
+	foreach(MaquetteGridItem::TabsSpace* tabsSpace, m_tabsSpaces) {
 		QVariantMap tabsSpaceMap{};
 		QVariantList tabsList{};
 
-		foreach(MockupItem::Tab* tab, tabsSpace->tabs) {
+		foreach(MaquetteGridItem::Tab* tab, tabsSpace->tabs) {
 			QVariantMap tabMap{};
 			tabMap.insert("title", tab->title);
 			tabMap.insert("url", tab->url);
@@ -111,16 +111,16 @@ void MockupItem::saveMockup()
 	const QByteArray data{json.toJson()};
 
 	if (data.isEmpty()) {
-		qWarning() << "MockupItem::saveMockup() Error serializing mockup!";
+		qWarning() << "MaquetteGridItem::saveMaquetteGrid() Error serializing maquetteGrid!";
 		return;
 	}
 
 	QSaveFile file{
-		Application::paths()[Application::P_Mockups] + QLatin1Char('/') + m_name + QLatin1String(".json")
+		Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + m_name + QLatin1String(".json")
 	};
 
 	if (!file.open(QFile::WriteOnly)) {
-		qWarning() << "MockupItem::saveMockup() Error opening mockup file for writing!";
+		qWarning() << "MaquetteGridItem::saveMaquetteGrid() Error opening maquetteGrid file for writing!";
 		return;
 	}
 
@@ -128,52 +128,52 @@ void MockupItem::saveMockup()
 	file.commit();
 }
 
-void MockupItem::loadMockup(bool loadDefault)
+void MaquetteGridItem::loadMaquetteGrid(bool loadDefault)
 {
-	const QString mockupFile{
-		Application::paths()[Application::P_Mockups] + QLatin1Char('/') + m_name + QLatin1String(".json")
+	const QString maquetteGridFile{
+		Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + m_name + QLatin1String(".json")
 	};
-	const QString backupFile{mockupFile + QLatin1String(".old")};
+	const QString backupFile{maquetteGridFile + QLatin1String(".old")};
 
 	QJsonParseError err;
-	QJsonDocument json = QJsonDocument::fromJson(Application::readAllFileByteContents(mockupFile), &err);
+	QJsonDocument json = QJsonDocument::fromJson(Application::readAllFileByteContents(maquetteGridFile), &err);
 	const QVariant res = json.toVariant();
 
 	if (loadDefault || err.error != QJsonParseError::NoError || res.type() != QVariant::Map) {
-		if (QFile(mockupFile).exists() && !loadDefault) {
-			qWarning() << "MockupItem::loadMockup() Error parsing mockup! Using default mockup!";
-			qWarning() << "MockupItem::loadMockup() Your mockup have been backed up in" << backupFile;
+		if (QFile(maquetteGridFile).exists() && !loadDefault) {
+			qWarning() << "MaquetteGridItem::loadMaquetteGrid() Error parsing maquetteGrid! Using default maquetteGrid!";
+			qWarning() << "MaquetteGridItem::loadMaquetteGrid() Your maquetteGrid have been backed up in" << backupFile;
 
 			QFile::remove(backupFile);
-			QFile::copy(mockupFile, backupFile);
+			QFile::copy(maquetteGridFile, backupFile);
 		}
 
 		json = QJsonDocument::fromJson(
-			Application::readAllFileByteContents(QStringLiteral(":data/default-mockup.json")), &err);
+			Application::readAllFileByteContents(QStringLiteral(":data/default-maquetteGrid.json")), &err);
 		const QVariant data = json.toVariant();
 
 		Q_ASSERT(err.error == QJsonParseError::NoError);
 		Q_ASSERT(data.type() == QVariant::Map);
 
-		loadMockupFromMap(data.toMap());
+		loadMaquetteGridFromMap(data.toMap());
 
 		setName(m_name, true);
-		saveMockup();
+		saveMaquetteGrid();
 	}
 	else {
-		loadMockupFromMap(res.toMap());
+		loadMaquetteGridFromMap(res.toMap());
 	}
 }
 
-void MockupItem::loadMockupFromMap(const QVariantMap& map)
+void MaquetteGridItem::loadMaquetteGridFromMap(const QVariantMap& map)
 {
 	foreach (QVariant tabsSpaceData, map.value("tabs_spaces").toList()) {
 		QVariantMap tabsSpaceMap{tabsSpaceData.toMap()};
-		MockupItem::TabsSpace* tabsSpace{new MockupItem::TabsSpace()};
+		MaquetteGridItem::TabsSpace* tabsSpace{new MaquetteGridItem::TabsSpace()};
 
 		foreach (QVariant tabData, tabsSpaceMap.value("tabs").toList()) {
 			QVariantMap tabMap{tabData.toMap()};
-			MockupItem::Tab* tab{new MockupItem::Tab()};
+			MaquetteGridItem::Tab* tab{new MaquetteGridItem::Tab()};
 
 			tab->icon = IconProvider::iconForDomain(tabMap.value("url").toUrl());;
 			tab->title = tabMap.value("title").toString();

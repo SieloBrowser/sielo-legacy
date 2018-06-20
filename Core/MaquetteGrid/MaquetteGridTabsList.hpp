@@ -23,64 +23,52 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_MOCKUPITEM_HPP
-#define SIELOBROWSER_MOCKUPITEM_HPP
+#ifndef SIELOBROWSER_MOCKUPSTABSLIST_HPP
+#define SIELOBROWSER_MOCKUPSTABSLIST_HPP
 
-#include <QIcon>
+#include <QListWidget>
 
-#include <QUrl>
-#include <QString>
+#include <QDropEvent>
 
-#include <QVector>
+#include <QVBoxLayout>
+
+#include <QPushButton>
+
+#include "MaquetteGrid/MaquetteGridItem.hpp"
 
 namespace Sn
 {
-class MockupItem {
+class MaquetteGridManager;
+
+class MaquetteGridTabsList: public QListWidget {
+Q_OBJECT
+
 public:
-	struct TabsSpace;
+	MaquetteGridTabsList(MaquetteGridManager* manager, QWidget* parent = nullptr);
+	~MaquetteGridTabsList();
 
-	struct Tab {
-		QIcon icon{};
-		QString title{};
-		QUrl url{};
+	QVBoxLayout *parentLayout() const { return m_parentLayout; }
+	void setParentLayout(QVBoxLayout* layout);
 
-		bool selected{false};
+	MaquetteGridItem::TabsSpace *tabsSpace();
 
-		TabsSpace* parent{nullptr};
-	};
+private slots:
+	void deleteItem();
+	void addTab();
 
-	struct TabsSpace {
-		~TabsSpace() { qDeleteAll(tabs); }
+protected:
+	void dropEvent(QDropEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 
-		QVector<MockupItem::Tab*> tabs{};
-		int verticalIndex{0};
-
-		MockupItem* parent{nullptr};
-	};
-
-	MockupItem(const QString& name, bool loadDefault = false);
-	~MockupItem();
-
-	const QString &name() const { return m_name; }
-	void setName(const QString& name, bool isDefaultName = false);
-
-	void clear();
-
-	void addTabsSpace(TabsSpace* tabsSpace);
-	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
-
-	void saveMockup();
 private:
-	void loadMockup(bool loadDefault);
-	void loadMockupFromMap(const QVariantMap& map);
+	MaquetteGridManager* m_maquetteGridManager{nullptr};
+	QVBoxLayout* m_parentLayout{nullptr};
 
-	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
+	QPushButton* m_deleteButton{nullptr};
+	QPushButton* m_addTabButton{nullptr};
 
-
-	QList<TabsSpace*> m_tabsSpaces{};
-
-	QString m_name{};
 };
 }
 
-#endif //SIELOBROWSER_MOCKUPITEM_HPP
+#endif //SIELOBROWSER_MOCKUPSTABSLIST_HPP

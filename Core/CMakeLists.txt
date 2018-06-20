@@ -48,8 +48,8 @@ file(
         Download/*.hpp
         History/*.cpp
         History/*.hpp
-		Mockup/*.cpp
-		Mockup/*.hpp
+		MaquetteGrid/*.cpp
+		MaquetteGrid/*.hpp
         Network/*.cpp
         Network/*.hpp
         Password/*.cpp

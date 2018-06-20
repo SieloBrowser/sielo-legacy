@@ -22,23 +22,23 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "MockupsTabsList.hpp"
+#include "MaquetteGridTabsList.hpp"
 
 #include <QMimeData>
 
 #include "Utils/AutoSaver.hpp"
 
-#include "Mockup/MockupsManager.hpp"
+#include "MaquetteGrid/MaquetteGridManager.hpp"
 
 #include "Application.hpp"
 
 namespace Sn
 {
-MockupsTabsList::MockupsTabsList(MockupsManager* manager, QWidget* parent) :
+MaquetteGridTabsList::MaquetteGridTabsList(MaquetteGridManager* manager, QWidget* parent) :
 	QListWidget(parent),
-	m_mockupManager(manager)
+	m_maquetteGridManager(manager)
 {
-	setObjectName(QLatin1String("mockups-tabslist"));
+	setObjectName(QLatin1String("maquetteGrid-tabslist"));
 
 	setMinimumSize(218, 218);
 
@@ -50,38 +50,38 @@ MockupsTabsList::MockupsTabsList(MockupsManager* manager, QWidget* parent) :
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_deleteButton = new QPushButton(tr("X"), this);
-	m_deleteButton->setObjectName(QLatin1String("mockups-tabslist-btn-delete-tabsspace"));
+	m_deleteButton->setObjectName(QLatin1String("maquetteGrid-tabslist-btn-delete-tabsspace"));
 	m_deleteButton->hide();
 
 	m_addTabButton = new QPushButton(tr("+"), this);
-	m_addTabButton->setObjectName(QLatin1String("mockups-tabslist-btn-addtab"));
+	m_addTabButton->setObjectName(QLatin1String("maquetteGrid-tabslist-btn-addtab"));
 	m_addTabButton->hide();
 
-	connect(m_deleteButton, &QPushButton::clicked, this, &MockupsTabsList::deleteItem);
-	connect(m_addTabButton, &QPushButton::clicked, this, &MockupsTabsList::addTab);
+	connect(m_deleteButton, &QPushButton::clicked, this, &MaquetteGridTabsList::deleteItem);
+	connect(m_addTabButton, &QPushButton::clicked, this, &MaquetteGridTabsList::addTab);
 }
 
-MockupsTabsList::~MockupsTabsList()
+MaquetteGridTabsList::~MaquetteGridTabsList()
 {
 	// Empty
 }
 
-void MockupsTabsList::setParentLayout(QVBoxLayout* layout)
+void MaquetteGridTabsList::setParentLayout(QVBoxLayout* layout)
 {
 	m_parentLayout = layout;
 }
 
-MockupItem::TabsSpace *MockupsTabsList::tabsSpace()
+MaquetteGridItem::TabsSpace *MaquetteGridTabsList::tabsSpace()
 {
-	MockupItem::TabsSpace* tabsSpace{new MockupItem::TabsSpace()};
+	MaquetteGridItem::TabsSpace* tabsSpace{new MaquetteGridItem::TabsSpace()};
 
 	for (int i{0}; i < count(); ++i) {
-		MockupItem::Tab* tab{new MockupItem::Tab()};
+		MaquetteGridItem::Tab* tab{new MaquetteGridItem::Tab()};
 		QListWidgetItem* itm{item(i)};
 
 		tab->icon = itm->icon();
-		tab->title = itm->data(MockupsManager::TitleRole).toString();
-		tab->url = itm->data(MockupsManager::UrlRole).toUrl();
+		tab->title = itm->data(MaquetteGridManager::TitleRole).toString();
+		tab->url = itm->data(MaquetteGridManager::UrlRole).toUrl();
 		tab->selected = i == 0;
 		tab->parent = tabsSpace;
 
@@ -91,46 +91,46 @@ MockupItem::TabsSpace *MockupsTabsList::tabsSpace()
 	return tabsSpace;
 }
 
-void MockupsTabsList::deleteItem()
+void MaquetteGridTabsList::deleteItem()
 {
 	delete currentItem();
 
 	if (count() <= 0)
-		m_mockupManager->removeTabsSpace(this);
+		m_maquetteGridManager->removeTabsSpace(this);
 	else 
-		m_mockupManager->saver()->changeOccurred();
+		m_maquetteGridManager->saver()->changeOccurred();
 }
 
-void MockupsTabsList::addTab()
+void MaquetteGridTabsList::addTab()
 {
 	QListWidgetItem* newTab{
 		new QListWidgetItem(Application::getAppIcon("webpage"), QString("%1 (%2)").arg(tr("New Tab")).arg("https://"))
 	};
-	newTab->setData(MockupsManager::TitleRole, tr("New Tab"));
-	newTab->setData(MockupsManager::UrlRole, QUrl("https://"));
+	newTab->setData(MaquetteGridManager::TitleRole, tr("New Tab"));
+	newTab->setData(MaquetteGridManager::UrlRole, QUrl("https://"));
 
 	addItem(newTab);
 
-	m_mockupManager->saver()->changeOccurred();
+	m_maquetteGridManager->saver()->changeOccurred();
 }
 
-void MockupsTabsList::dropEvent(QDropEvent* event)
+void MaquetteGridTabsList::dropEvent(QDropEvent* event)
 {
 	if (event->dropAction() == Qt::IgnoreAction)
 		return;
 
-	MockupsTabsList* source = qobject_cast<MockupsTabsList*>(event->source());
+	MaquetteGridTabsList* source = qobject_cast<MaquetteGridTabsList*>(event->source());
 	int count = source->count();
 
 	QListWidget::dropEvent(event);
 
-	m_mockupManager->saver()->changeOccurred();
+	m_maquetteGridManager->saver()->changeOccurred();
 
 	if (source->count() <= 1)
-		m_mockupManager->removeTabsSpace(source);
+		m_maquetteGridManager->removeTabsSpace(source);
 }
 
-void MockupsTabsList::enterEvent(QEvent* event)
+void MaquetteGridTabsList::enterEvent(QEvent* event)
 {
 	m_deleteButton->move(width() - m_deleteButton->width(), 0);
 	m_addTabButton->move(width() - m_addTabButton->width(), m_deleteButton->height());
@@ -139,7 +139,7 @@ void MockupsTabsList::enterEvent(QEvent* event)
 	m_addTabButton->show();
 }
 
-void MockupsTabsList::leaveEvent(QEvent* event)
+void MaquetteGridTabsList::leaveEvent(QEvent* event)
 {
 	m_deleteButton->move(width() - m_deleteButton->width(), 0);
 	m_addTabButton->move(width() - m_addTabButton->width(), m_deleteButton->height());
