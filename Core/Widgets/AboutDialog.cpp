@@ -129,13 +129,13 @@ void AboutDialog::setupAbout()
 {
 	m_images << ":icons/other/aboutsielo.png";
 
-	QString aboutSielo = tr("<p><b>Sielo</b><br/><br/>"
+	QString aboutSielo = tr("<p><b>Sielo (version: %1, WebEngine: %2)</b><br/><br/>"
 		"Sielo is a powerful web browser with a unique concept: tabs spaces."
 		"Sielo has many contribution and I would like to give special thanks<br/>"
 		"to Hotaru for always being here, Echostorm for his awesome contribution,<br/>"
 		"Kaktus for the design and all other contributors!</p>"
 		"<p>Copyright &copy; 2018 Victor DENIS<br />"
-		"<a href=\"mailto:admin@feldrise.com\">admin@feldrise.com</a></p>");
+		"<a href=\"mailto:admin@feldrise.com\">admin@feldrise.com</a></p>").arg(Application::currentVersion).arg(qVersion());
 
 	m_descs << aboutSielo;
 }
