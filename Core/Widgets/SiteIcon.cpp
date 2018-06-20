@@ -26,7 +26,7 @@
 
 #include "Web/WebView.hpp"
 
-#include "Widgets/AddressBar.hpp"
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/SiteInfo.hpp"
 #include "Widgets/SiteInfoWidget.hpp"
 

@@ -1,14 +1,10 @@
 #ifndef OPTION_H_NDB
 #define OPTION_H_NDB
 
+#include <ndb/utility.hpp>
+
 namespace ndb
 {
-    enum class connection_flag
-    {
-        default_ = 0,
-        read_only = 1
-    };
-
     // template options
     struct query_option
     {
@@ -28,20 +24,11 @@ namespace ndb
     template<class...>
     class option {};
 
-    template<class Needle, class Haystack>
-    class has_option;
+    template<class T, class Options>
+    using has_option = internal::has_type<T, Options>;
 
-    template<class Needle, template<class...> class Haystack, class T1, class... T>
-    struct has_option<Needle, Haystack<T1, T...>> { static constexpr bool value = has_option<Needle, Haystack<T...>>::value; };
-
-    template<class Needle, template<class...> class Haystack>
-    struct has_option<Needle, Haystack<>> : std::false_type {};
-
-    template<class Needle, template<class...> class Haystack, class... T>
-    struct has_option<Needle, Haystack<Needle, T...>> : std::true_type {};
-
-    template<class Needle, class Haystack>
-    constexpr auto has_option_v = has_option<Needle, Haystack>::value;
+    template<class T, class Options>
+    static constexpr bool has_option_v = has_type_v<T, Options>;
 
 } // ndb
 

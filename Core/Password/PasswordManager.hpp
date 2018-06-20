@@ -65,20 +65,20 @@ struct PasswordEntry {
 			updated(-1)
 	{
 		id = entry.id;
-		host = QString::fromStdString(entry.server);
-		username = QString::fromStdString(entry.username);
-		password = QString::fromStdString(entry.password);
-		data = QByteArray::fromStdString(entry.data);
+		host = entry.server;
+		username = entry.username;
+		password = entry.password;
+		data = entry.data.toUtf8();
 	}
 
 	PasswordEntry(ndb::objects::autofill_encrypted entry) :
 			updated(-1)
 	{
 		id = entry.id;
-		host = QString::fromStdString(entry.server);
-		username = QString::fromStdString(entry.username_encrypted);
-		password = QString::fromStdString(entry.password_encrypted);
-		data = QByteArray::fromStdString(entry.data_encrypted);
+		host = entry.server;
+		username = entry.username_encrypted;
+		password = entry.password_encrypted;
+		data = entry.data_encrypted.toUtf8();
 	}
 
 	bool isValid() const

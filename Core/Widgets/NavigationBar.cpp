@@ -30,18 +30,17 @@
 
 #include "Utils/ToolButton.hpp"
 
-#include "Bookmarks/BookmarksDialog.hpp"
-#include "Bookmarks/AddBookmarkDialog.hpp"
-
-#include "History/HistoryDialog.hpp"
+//#include "History/HistoryDialog.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
 
-namespace Sn {
+#include "BrowserWindow.hpp"
 
+namespace Sn
+{
 NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	QWidget(tabWidget),
 	m_tabWidget(tabWidget)
@@ -155,7 +154,7 @@ void NavigationToolBar::setSplitterSize(int addressBar, int bookmarksHistoryButt
 	if (addressBar == 0) {
 		int splitterWidth{m_splitter->width()};
 		sizes << static_cast<int>(splitterWidth * 6 / 7)
-			  << static_cast<int>(static_cast<double>(splitterWidth) * 1 / 7);
+			<< static_cast<int>(static_cast<double>(splitterWidth) * 1 / 7);
 	}
 	else if (bookmarksHistoryButtons == -1) {
 		sizes << m_splitter->width() << 0;
@@ -230,12 +229,12 @@ void NavigationToolBar::goHomeInNewTab()
 
 void NavigationToolBar::showBookmarksDialog()
 {
-	m_tabWidget->openBookmarkDialog();
+	m_tabWidget->openBookmarksDialog();
 }
 
 void NavigationToolBar::showAddBookmarkDialog()
 {
-	m_tabWidget->openAddBookmarkDialog();
+	m_tabWidget->window()->bookmarkPage();
 }
 
 void NavigationToolBar::showHistoryDialog()

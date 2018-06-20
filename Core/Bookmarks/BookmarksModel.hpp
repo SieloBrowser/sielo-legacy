@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -27,16 +27,13 @@
 #define SIELOBROWSER_BOOKMARKSMODEL_HPP
 
 #include <QAbstractItemModel>
+
 #include <QModelIndex>
 
-#include <QMimeData>
-
-#include <QUrl>
-#include <QVariant>
-
-namespace Sn {
-class BookmarksManager;
-class BookmarkNode;
+namespace Sn
+{
+class Bookmarks;
+class BookmarkItem;
 
 class BookmarksModel: public QAbstractItemModel {
 Q_OBJECT
@@ -46,41 +43,46 @@ public:
 		TypeRole = Qt::UserRole + 1,
 		UrlRole = Qt::UserRole + 2,
 		UrlStringRole = Qt::UserRole + 3,
-		SeparatorRole = Qt::UserRole + 4
+		TitleRole = Qt::UserRole + 4,
+		IconRole = Qt::UserRole + 5,
+		DescriptionRole = Qt::UserRole + 6,
+		KeywordRole = Qt::UserRole + 7,
+		VisitCountRole = Qt::UserRole + 8,
+		ExpandedRole = Qt::UserRole + 9
 	};
 
-	BookmarksModel(BookmarksManager* bookmarksManager, QObject* parent = nullptr);
+	BookmarksModel(BookmarkItem* root, Bookmarks* bookmarks, QObject* parent = nullptr);
+	~BookmarksModel();
 
-	inline BookmarksManager* bookmarksManager() const { return m_bookmarksManager; }
+	void addBookmark(BookmarkItem* parent, int row, BookmarkItem* item);
+	void removeBookmark(BookmarkItem* item);
 
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-	int columnCount(const QModelIndex& parent = QModelIndex()) const;
-	int rowCount(const QModelIndex& parent = QModelIndex()) const;
-	QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
-	QModelIndex index(BookmarkNode* node) const;
-	QModelIndex parent(const QModelIndex& index = QModelIndex()) const;
 	Qt::ItemFlags flags(const QModelIndex& index) const;
+	QVariant data(const QModelIndex& index, int role) const;
+	QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+	int rowCount(const QModelIndex& parent) const;
+	int columnCount(const QModelIndex& parent) const;
+	bool hasChildren(const QModelIndex& parent) const;
+
 	Qt::DropActions supportedDropActions() const;
-	bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex());
-	bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
-	QMimeData* mimeData(const QModelIndexList& indexes) const;
 	QStringList mimeTypes() const;
+	QMimeData *mimeData(const QModelIndexList& indexes) const;
 	bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent);
-	bool hasChildren(const QModelIndex& parent = QModelIndex()) const;
 
-	BookmarkNode* node(const QModelIndex& index) const;
+	QModelIndex parent(const QModelIndex& child) const;
+	QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
+	QModelIndex index(BookmarkItem* item, int column = 0) const;
 
-public slots:
-	void entryAdded(BookmarkNode* item);
-	void entryRemoved(BookmarkNode* parent, int row, BookmarkNode* item);
-	void entryChanged(BookmarkNode* item);
+	BookmarkItem *item(const QModelIndex& index) const;
+
+private slots:
+	void bookmarkChanged(BookmarkItem* item);
 
 private:
-	bool m_endMacro{false};
+	BookmarkItem* m_root{nullptr};
+	Bookmarks* m_bookmarks{nullptr};
 
-	BookmarksManager* m_bookmarksManager{nullptr};
 };
-
 }
+
 #endif //SIELOBROWSER_BOOKMARKSMODEL_HPP

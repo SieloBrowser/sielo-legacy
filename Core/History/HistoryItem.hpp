@@ -26,32 +26,59 @@
 #ifndef SIELOBROWSER_HISTORYITEM_HPP
 #define SIELOBROWSER_HISTORYITEM_HPP
 
-#include <QDateTime>
-#include <QString>
+#include <QList>
 
-namespace Sn {
+#include <QIcon>
 
-struct Q_DECL_EXPORT HistoryItem {
-	HistoryItem() {};
-	HistoryItem(const QString& c_url, const QDateTime& c_date = QDateTime(), const QString& c_title = QString()) :
-		url(c_url),
-		dateTime(c_date),
-		title(c_title) {}
+#include "History/History.hpp"
 
-	inline bool operator==(const HistoryItem& other) const
-	{
-		return other.url == url && other.dateTime == dateTime && other.title == title;
-	}
+namespace Sn
+{
+class HistoryItem {
+public:
+	HistoryItem(HistoryItem* parent = nullptr);
+	~HistoryItem();
 
-	inline bool operator<(const HistoryItem& other) const
-	{
-		return dateTime > other.dateTime;
-	}
+	void changeParent(HistoryItem* parent);
+	HistoryItem *parent() const { return m_parent; }
 
-	QString url{};
-	QDateTime dateTime{};
+	HistoryItem* child(int row) const;
+	int childCount() const;
+
+	void prependChild(HistoryItem* child);
+	void appendChild(HistoryItem* child);
+	void instertChild(int row, HistoryItem* child);
+
+	void removeChild(int row);
+	void removeChild(HistoryItem* child);
+
+	int row();
+	int indexOfChild(HistoryItem* child) const;
+
+	bool isTopLevel() const;
+
+	QIcon icon() const { return m_icon; }
+	void setIcon(const QIcon& icon);
+
+	qint64 startTimestamp() const;
+	void setStartTimestamp(quint64 start);
+
+	qint64 endTimestamp() const { return m_endTimestamp; }
+	void setEndTimestamp(quint64 end);
+
+	History::HistoryEntry historyEntry{};
 	QString title{};
+	bool canFetchMore{false};
 
+private:
+	HistoryItem* m_parent{nullptr};
+	QList<HistoryItem*> m_children{};
+
+	QIcon m_icon{};
+
+	qint64 m_startTimestamp;
+	qint64 m_endTimestamp;
 };
 }
+
 #endif //SIELOBROWSER_HISTORYITEM_HPP

@@ -44,11 +44,11 @@
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
+#include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/AddTabButton.hpp"
 #include "Widgets/Tab/TabCloseButton.hpp"
 #include "Widgets/Tab/TabBar.hpp"
-#include "Widgets/AddressBar.hpp"
 
 
 namespace Sn {

@@ -36,25 +36,30 @@ int main()
     using namespace std::chrono_literals;
     const auto& movie = ndb::models::library.movie;
 
-    ndb::initializer<ndb::sqlite> init;
-    //! connect to database library
-    ndb::connect<dbs::library>();
-    //! clear movie table
-    ndb::clear<dbs::library>(movie);
-
-    //! add records
-    ndb::query<dbs::library>() + (movie.name = "Interstellar", movie.duration = 2.49h);
-    ndb::query<dbs::library>() + (movie.name = "Watchmen", movie.duration = 3.30h);
-
-    //! get movie with specified duration
-    //! missing informations of the query are deduced compile time
-    //! for SQL-like engines, the string is generated compile time
-    for (auto& line : ndb::query<dbs::library>() << (movie.duration == 3.30h))
+    try
     {
-        //! access fields from result using field name
-        std::cout << "movie.id : " << line[movie.id] << std::endl;
-        std::cout << "movie.name : " << line[movie.name] << std::endl;
-        std::cout << "movie.duration : " << line[movie.duration].count() << " Hours" << std::endl;
+        ndb::initializer<ndb::sqlite> init;
+        //! connect to database library
+        ndb::connect<dbs::library>();
+        //! clear movie table
+        ndb::clear<dbs::library>(movie);
+
+        //! add records
+        ndb::query<dbs::library>() + (movie.name = "Interstellar", movie.duration = 2.49h);
+        ndb::query<dbs::library>() + (movie.name = "Watchmen", movie.duration = 3.30h);
+
+        //! get movie with specified duration
+        //! missing informations of the query are deduced compile time
+        //! for SQL-like engines, the string is generated compile time
+        for (auto& line : ndb::query<dbs::library>() << (movie.duration == 3.30h))
+        {
+            //! access fields from result using field name
+            std::cout << "movie.id : " << line[movie.id] << std::endl;
+            std::cout << "movie.name : " << line[movie.name] << std::endl;
+            std::cout << "movie.duration : " << line[movie.duration].count() << " Hours" << std::endl;
+        }
     }
+    catch (const std::exception& e) { std::cout << e.what(); }
+
     return 0;
 }

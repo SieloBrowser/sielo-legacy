@@ -9,7 +9,7 @@
 #define TEST_SQLITE ndb::sqlite
 
 #ifdef NDB_ENGINE_MONGO
-#include <ndb/engine/mongo/mongo.hpp>
+//#include <ndb/engine/mongo/mongo.hpp>
     #define TEST_MONGO ,ndb::mongo
 #else
     #define TEST_MONGO

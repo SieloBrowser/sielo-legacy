@@ -21,7 +21,9 @@ namespace ndb
         op_assign,
         op_shift_left,
         op_list,
-        op_function
+        op_function,
+        op_match,
+        op_like
     };
 
     enum class expr_keyword_code

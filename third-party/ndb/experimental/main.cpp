@@ -1,3 +1,5 @@
+//#define NDB_DEBUG_QUERY
+
 #include <ndb/initializer.hpp>
 #include <ndb/engine/sqlite/sqlite.hpp>
 #include <ndb/query.hpp>
@@ -42,12 +44,22 @@ struct my_table : ndb::table<Model>, ndb::connection_table<my_ctable>
 
  */
 
-
 // database
 
-ndb_table(movie,
-          ndb_field_id,
-          ndb_field(name, std::string, ndb::size<255>)
+/*
+ndb_table(
+movie
+, ndb_field_id
+, ndb_field(f1, char)
+, ndb_field(f2, int8_t, ndb::size<255>)
+, ndb_field(f3, int16_t, ndb::size<255>)
+, ndb_field(f3, int32_t, ndb::size<255>)
+)*/
+
+ndb_table(movie
+          , ndb_field_id
+          , ndb_field(name, std::string, ndb::size<255>)
+          , ndb_field(director, std::string, ndb::size<255>)
 )
 ndb_table(music,
           ndb_field(id, int),
@@ -63,6 +75,7 @@ ndb_project(exp_main,
 //#include "database.hpp"
 
 
+
 int main()
 {
     using ndb::sqlite;
@@ -75,9 +88,40 @@ int main()
     try
     {
         ndb::initializer<sqlite> init;
-        ndb::connect<db, sqlite>();
+        ndb::connect<db>();
+
+        std::string match_expr = "%test%";
+
+        /*
+        ndb::types<bool_ int8, int16, int32>
+
+        ndb::engine_types<sqlite, null_, int_, float_, string_, vector_>
+
+        // storage types from engine types
+        ndb::storage_type<sqlite, int64_t, null_type, double, std::string>
+
+        int int_
+        int8_t int8_
+        int16_t int16_
+
+        int_ int64
+        int8_ int64
+        int16_ int64
+        bool_ int64
+
+*/
 
 
+        ndb::query<db>() + (library.movie.name = "test");
+
+        std::cout << ndb::last_id<db>();
+
+
+
+        //ndb::query<db>() << (library.movie.name << ndb::native("native_expr") );
+
+
+        //ndb::query<db>() << (ndb::match( library.movie.name, match_expr ) || ndb::match( library.movie.director, match_expr ));
 
 
     } catch(const std::exception& e)

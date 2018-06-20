@@ -28,22 +28,21 @@
 #include <QScreen>
 
 #include <QSettings>
-#include <QtWidgets/QMessageBox>
 
 #include "Application.hpp"
 
-#include "Bookmarks/AddBookmarkDialog.hpp"
+#include "Bookmarks/BookmarksUtils.hpp"
 #include "Bookmarks/BookmarksToolBar.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
-TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookmarks) :
+TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		QWidget(window),
 		m_window(window),
 		m_showBookmarks(showBookmarks)
 {
-	m_bookmarksToolbar = new BookmarksToolBar(model, m_window);
+	m_bookmarksToolbar = new BookmarksToolbar(m_window, m_window);
 	m_controlsToolbar = new QToolBar(m_window);
 
 	m_bookmarksToolbar->setFloatable(false);
@@ -54,7 +53,7 @@ TitleBar::TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookma
 	m_controlsToolbar->setObjectName(QLatin1String("title-bar"));
 	m_controlsToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(m_bookmarksToolbar, &BookmarksToolBar::orientationChanged, this, &TitleBar::build);
+	connect(m_bookmarksToolbar, &BookmarksToolbar::orientationChanged, this, &TitleBar::build);
 	connect(m_controlsToolbar, &QToolBar::orientationChanged, this, &TitleBar::build);
 
 	restoreToolBarsPositions();
@@ -255,15 +254,6 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 		emit toggleBookmarksBar(m_showBookmarks);
 	});
 
-	QAction* addBookmark(menu.addAction(tr("Add Bookmark")));
-
-	connect(addBookmark, &QAction::toggled, this, []() {
-		TabWidget* tabWidget = Application::instance()->getWindow()->tabWidget();
-		AddBookmarkDialog* dialog{
-				new AddBookmarkDialog(tabWidget->weTab()->url().toString(), tabWidget->weTab()->title(), tabWidget,
-									  Application::instance()->bookmarksManager())};
-	});
-
 	if (obj != nullptr) {
 		QToolBar* toolbar = qobject_cast<QToolBar*>(obj);
 		QAction* lockToolbar(menu.addAction(tr("Lock Toolbar")));
@@ -275,11 +265,18 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 			toolbar->setMovable(!toolbar->isMovable());
 			Application::instance()->saveSession();
 		});
+
+		if (toolbar->objectName() == "bookmarks-toolbar") {
+			menu.addSeparator();
+			m_bookmarksToolbar->createContextMenu(menu, event->pos());
+		}
 	}
 
 	const QPoint position{ event->globalPos() };
 	QPoint point{ position.x(), position.y() + 1 };
 	menu.exec(point);
+
+	m_bookmarksToolbar->contextMenuCreated();
 }
 
 void TitleBar::build()

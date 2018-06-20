@@ -30,7 +30,7 @@
 #include <QDialog>
 
 #include <QVBoxLayout>
-#include <QHBoxLayout>;
+#include <QHBoxLayout>
 
 #include <QLabel>
 #include <QPushButton>

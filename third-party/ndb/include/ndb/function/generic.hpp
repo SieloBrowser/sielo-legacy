@@ -11,7 +11,7 @@ namespace ndb::functions
     {
         static auto process()
         {
-            ncx_error(clear, cx_err_not_implemented);
+            ncx_error_not_implemented();
         }
     };
 
@@ -20,7 +20,7 @@ namespace ndb::functions
     {
         static auto process()
         {
-            ncx_error(remove, cx_err_not_implemented);
+            ncx_error_not_implemented();
         }
     };
 } // ndb::functions

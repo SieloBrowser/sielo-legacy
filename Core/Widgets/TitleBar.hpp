@@ -26,7 +26,6 @@
 #define SIELOBROWSER_TITLEBAR_HPP
 
 #include "Bookmarks/BookmarksToolBar.hpp"
-#include "Bookmarks/BookmarksModel.hpp"
 
 #include "BrowserWindow.hpp"
 
@@ -45,12 +44,12 @@ class TitleBar : public QWidget {
 Q_OBJECT
 
 public:
-	TitleBar(BookmarksModel* model, BrowserWindow* window, bool showBookmarks = true);
+	TitleBar(BrowserWindow* window, bool showBookmarks = true);
 	~TitleBar();
 
 	void setTitle(const QString& title);
 
-	BookmarksToolBar* bookmarksToolBar() const { return m_bookmarksToolbar; }
+	BookmarksToolbar* bookmarksToolBar() const { return m_bookmarksToolbar; }
 	bool showBookmarks() const { return m_showBookmarks; }
 	void setShowBookmark(bool show);
 
@@ -98,7 +97,7 @@ private:
 
 	QFrame *m_sizePreview{nullptr};
 
-	BookmarksToolBar* m_bookmarksToolbar{nullptr};
+	BookmarksToolbar* m_bookmarksToolbar{nullptr};
 	QToolBar* m_controlsToolbar{nullptr};
 
 	QRect m_geometry{};

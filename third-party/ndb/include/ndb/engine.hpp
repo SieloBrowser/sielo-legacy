@@ -1,7 +1,7 @@
 #ifndef ENGINE_H_NDB
 #define ENGINE_H_NDB
 
-#include <ndb/option.hpp>
+#include <ndb/engine/connection_param.hpp>
 
 namespace ndb
 {
@@ -15,28 +15,16 @@ namespace ndb
         }
 
         template<class Database>
-        static void connect(const std::string& path = "")
+        static void connect(ndb::connection_param params)
         {
-            get().template connect<Database>(path);
-        }
-
-        template<class Database>
-        static void config(ndb::connection_flag flag)
-        {
-            get().template config<Database>(flag);
+            get().template connect<Database>(std::move(params));
         }
     };
 
     template<class Database, class Engine = typename Database::engine>
-    void connect(const std::string& path = "")
+    void connect(ndb::connection_param params = ndb::connection_param{})
     {
-        ndb::engine<Engine>::template connect<Database>(path);
-    }
-
-    template<class Database, class Engine = typename Database::engine>
-    void config(ndb::connection_flag flag)
-    {
-        ndb::engine<Engine>::template config<Database>(flag);
+        ndb::engine<Engine>::template connect<Database>(std::move(params));
     }
 } // ndb
 
