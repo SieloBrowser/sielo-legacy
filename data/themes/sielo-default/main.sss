@@ -381,7 +381,7 @@ QTabBar::tab:!selected:hover
 }
 
 #bookmarks-toolbar QPushButton {
-  height: 25px;
+  max-height: 25px;
   border: 2px solid transparent;
   border-radius: 5px;
   margin: 2px;
@@ -472,6 +472,27 @@ QTabBar::tab:!selected:hover
 #preferences-title
 {
   color: scolor(accent);
+}
+
+/**
+ * Mockups Manager rules
+ */
+
+ #mockups-area-tabsspaces > QWidget > QWidget {
+  background: scolor(main);
+}
+
+#mockups-tabslist {
+  background: scolor(second);
+  border: none;
+}
+
+#mockups-tabslist-btn-delete-tabsspace {
+  background: rgba(183, 28, 28, 155);
+}
+
+#mockups-tabslist-btn-addtab {
+  background: rgba(69, 90, 100, 155);
 }
 
 /** 

@@ -23,41 +23,48 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#ifndef SIELOBROWSER_MOCKUP_HPP
+#define SIELOBROWSER_MOCKUP_HPP
 
-#include <QStyledItemDelegate>
+#include <QObject>
+
+#include <QIcon>
+
+#include <QUrl>
+#include <QString>
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
-	Q_OBJECT
+class AutoSaver;
+
+class MockupItem;
+
+class Mockups: public QObject {
+Q_OBJECT
+
 public:
-	AddressBarCompleterDelegate(QObject* parent = nullptr);
+	Mockups(QObject* parent = nullptr);
+	~Mockups();
 
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
+	void addMockup(MockupItem* mockup);
+	void removeMockup(MockupItem* mockup);
+	void changeMockup(MockupItem* mockup);
 
-	void setShowSwitchToTab(bool enable);
-	void setOriginalText(const QString& originalText);
+	void loadMockups();
+	void save();
 
-	bool isUrlOrDomain(const QString& text) const;
-	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
+	QList<MockupItem*> mockups() { return m_mockups; }
+
+signals:
+	void mockupAdded(MockupItem* mockup);
+	void mockupRemoved(MockupItem* mockup);
+	void mockupChanged(MockupItem* mockup);
+
 private:
-	// Waiting for additional settings
-	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
+	QList<MockupItem*> m_mockups{};
 
-	int viewItemDrawText(QPainter* painter,
-	                     const QStyleOptionViewItem* option,
-	                     const QRect& rect,
-	                     const QString& text, const QColor& color,
-	                     const QString& searchText = QString()) const;
-
-	int m_rowHeight{0};
-	int m_padding{0};
-	bool m_drawSwitchToTab{true};
-	QString m_originalText{};
+	AutoSaver* m_saver{nullptr};
 };
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#endif //SIELOBROWSER_MOCKUP_HPP

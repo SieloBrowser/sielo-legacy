@@ -23,41 +23,52 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#ifndef SIELOBROWSER_MOCKUPSTABSLIST_HPP
+#define SIELOBROWSER_MOCKUPSTABSLIST_HPP
 
-#include <QStyledItemDelegate>
+#include <QListWidget>
+
+#include <QDropEvent>
+
+#include <QVBoxLayout>
+
+#include <QPushButton>
+
+#include "Mockup/MockupItem.hpp"
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
-	Q_OBJECT
+class MockupsManager;
+
+class MockupsTabsList: public QListWidget {
+Q_OBJECT
+
 public:
-	AddressBarCompleterDelegate(QObject* parent = nullptr);
+	MockupsTabsList(MockupsManager* manager, QWidget* parent = nullptr);
+	~MockupsTabsList();
 
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
+	QVBoxLayout *parentLayout() const { return m_parentLayout; }
+	void setParentLayout(QVBoxLayout* layout);
 
-	void setShowSwitchToTab(bool enable);
-	void setOriginalText(const QString& originalText);
+	MockupItem::TabsSpace *tabsSpace();
 
-	bool isUrlOrDomain(const QString& text) const;
-	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
+private slots:
+	void deleteItem();
+	void addTab();
+
+protected:
+	void dropEvent(QDropEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
+
 private:
-	// Waiting for additional settings
-	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
+	MockupsManager* m_mockupManager{nullptr};
+	QVBoxLayout* m_parentLayout{nullptr};
 
-	int viewItemDrawText(QPainter* painter,
-	                     const QStyleOptionViewItem* option,
-	                     const QRect& rect,
-	                     const QString& text, const QColor& color,
-	                     const QString& searchText = QString()) const;
+	QPushButton* m_deleteButton{nullptr};
+	QPushButton* m_addTabButton{nullptr};
 
-	int m_rowHeight{0};
-	int m_padding{0};
-	bool m_drawSwitchToTab{true};
-	QString m_originalText{};
 };
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#endif //SIELOBROWSER_MOCKUPSTABSLIST_HPP

@@ -281,7 +281,7 @@ Subscription* Manager::addSubscription(const QString& title, const QString& url)
 	fileName.remove(QLatin1Char('>'));
 	fileName.remove(QLatin1Char('|'));
 
-	QString filePath{Application::instance()->ensureUniqueFilename(
+	QString filePath{Application::ensureUniqueFilename(
 			Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/") + fileName)};
 	QByteArray data{QString("Title: %1\nUrl: %2\n[Adblock Plus 2.0]").arg(title, url).toLatin1()};
 	QFile file{filePath};

@@ -23,41 +23,38 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#ifndef SIELOBROWSER_MOCKUPSMENU_HPP
+#define SIELOBROWSER_MOCKUPSMENU_HPP
 
-#include <QStyledItemDelegate>
+#include <QMenu>
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
-	Q_OBJECT
+	class BrowserWindow;
+
+class MockupItem;
+
+class MockupsMenu: public QMenu {
+Q_OBJECT
+
 public:
-	AddressBarCompleterDelegate(QObject* parent = nullptr);
+	MockupsMenu(BrowserWindow* window);
+	~MockupsMenu();
 
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
+private slots:
+	void aboutToShow();
+	void mockupsChanged();
 
-	void setShowSwitchToTab(bool enable);
-	void setOriginalText(const QString& originalText);
+	void openMockupManager();
 
-	bool isUrlOrDomain(const QString& text) const;
-	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
+	void mockupActivated();
+	void openMockup(MockupItem* item);
 private:
-	// Waiting for additional settings
-	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
+	void refresh();
 
-	int viewItemDrawText(QPainter* painter,
-	                     const QStyleOptionViewItem* option,
-	                     const QRect& rect,
-	                     const QString& text, const QColor& color,
-	                     const QString& searchText = QString()) const;
-
-	int m_rowHeight{0};
-	int m_padding{0};
-	bool m_drawSwitchToTab{true};
-	QString m_originalText{};
+	BrowserWindow* m_window{ nullptr };
+	bool m_changed{true};
 };
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#endif //SIELOBROWSER_MOCKUPSMENU_HPP

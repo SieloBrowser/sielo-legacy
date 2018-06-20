@@ -34,6 +34,8 @@
 
 #include "Bookmarks/BookmarksMenu.hpp"
 
+#include "Mockup/MockupsMenu.hpp"
+
 #include "History/HistoryMenu.hpp"
 
 #include "Download/DownloadManager.hpp"
@@ -50,19 +52,19 @@
 
 #include "Web/Tab/TabbedWebView.hpp"
 
-namespace Sn {
-
+namespace Sn
+{
 MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
-		QMenu(parent),
-		m_tabWidget(tabWidget)
+	QMenu(parent),
+	m_tabWidget(tabWidget)
 {
 	setObjectName("main-menu");
 
 	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"),
-										  this);
+	                                      this);
 
 	m_toggleBookmarksAction->setCheckable(true);
-	
+
 	QAction* backAction = new QAction(Application::getAppIcon("arrow-left"), tr("Back"), this);
 	QAction* nextAction = new QAction(Application::getAppIcon("arrow-right"), tr("Forward"), this);
 	QAction* homeAction = new QAction(Application::getAppIcon("home"), tr("Home"), this);
@@ -76,6 +78,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
 
+	m_mockupsMenu = new MockupsMenu(m_tabWidget->window());
+
 	m_historyMenu = new HistoryMenu(this);
 	m_historyMenu->setMainWindow(m_tabWidget->window());
 	//m_historyMenu->setTitle(tr("&History"));
@@ -85,49 +89,50 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_toolsMenu->setTitle(tr("&Tools"));
 
 	QAction* newTabAction =
-			createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
+		createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
 	QAction* newWindowAction =
-			createAction("NewWindow", this, Application::getAppIcon("new-window"), tr("&New Window"), "Ctrl+N");
+		createAction("NewWindow", this, Application::getAppIcon("new-window"), tr("&New Window"), "Ctrl+N");
 	QAction* newPrivateWindowAction =
-			createAction("NewPrivateWindow",
-						 this,
-						 Application::getAppIcon("anonymous", "tabs"),
-						 tr("New &Private Window"),
-						 "Ctrl+Shift+P");
+		createAction("NewPrivateWindow",
+		             this,
+		             Application::getAppIcon("anonymous", "tabs"),
+		             tr("New &Private Window"),
+		             "Ctrl+Shift+P");
 	QAction* openFileAction =
-			createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
+		createAction("OpenFile", this, Application::getAppIcon("open-file"), tr("Open &File"), "Ctrl+O");
 	addSeparator();
 	QAction* selectAllAction = createAction("SelectAll",
-											this,
-											Application::getAppIcon("edit-select-all", "edit"),
-											tr("Select &All"),
-											"Ctrl+A");
+	                                        this,
+	                                        Application::getAppIcon("edit-select-all", "edit"),
+	                                        tr("Select &All"),
+	                                        "Ctrl+A");
 	QAction* findAction = createAction("Find", this, Application::getAppIcon("search"), tr("&Find"), "Ctrl+F");
 	addSeparator();
 	addMenu(m_bookmarksMenu);
+	addMenu(m_mockupsMenu);
 	addMenu(m_historyMenu);
 	addMenu(m_toolsMenu);
 	QAction* showSiteInfoAction = createAction("ShowSiteInfo", m_toolsMenu, QIcon(), tr("Show Site Info"));
 	QAction* showDownloadManagerAction =
-			createAction("ShowDownloadManager",
-						 m_toolsMenu,
-						 Application::getAppIcon("downloads"),
-						 tr("Download Manager"),
-						 "Ctrl+Y");
+		createAction("ShowDownloadManager",
+		             m_toolsMenu,
+		             Application::getAppIcon("downloads"),
+		             tr("Download Manager"),
+		             "Ctrl+Y");
 	QAction
-			* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(),
-													  tr("&Cookies Manager"));
+		* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(),
+		                                          tr("&Cookies Manager"));
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
-											   this,
-											   Application::getAppIcon("preferences", "preferences"),
-											   tr("Pr&eferences"),
-											   QKeySequence(QKeySequence::Preferences).toString());
+	                                           this,
+	                                           Application::getAppIcon("preferences", "preferences"),
+	                                           tr("Pr&eferences"),
+	                                           QKeySequence(QKeySequence::Preferences).toString());
 	QAction* showAboutSieloAction =
-			createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
+		createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
 	QAction* showPartnersAction = createAction("ShowPartners", this, QIcon(), tr("Partners"));
 	QAction* showHelpUsAction =
-			createAction("ShowHelpUs", this, Application::getAppIcon("heart"), tr("&Help Us"));
+		createAction("ShowHelpUs", this, Application::getAppIcon("heart"), tr("&Help Us"));
 	addSeparator();
 	QAction* quitAction = createAction("Quit", this, Application::getAppIcon("exit"), tr("Quit"), "Ctrl+Q");
 
@@ -158,13 +163,13 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	addActionsToTabWidget();
 }
 
-QAction* MainMenu::action(const QString& name) const
+QAction *MainMenu::action(const QString& name) const
 {
 	return m_actions[name];
 }
 
-QAction* MainMenu::createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-								const QString& shortcut)
+QAction *MainMenu::createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
+                                const QString& shortcut)
 {
 	QAction* action{menu->addAction(icon, trName)};
 	action->setShortcut(QKeySequence(shortcut));
@@ -207,11 +212,13 @@ void MainMenu::newPrivateWindow()
 
 void MainMenu::openFile()
 {
-	const QString fileTypes{QString("%1(*.html *.htm *.shtml *.shtm *.xhtml);;"
-									"%2(*.png *.jpg *.jpeg *.bmp *.gif *.svg *.tiff);;"
-									"%3(*.txt);;"
-									"%4(*.*)")
-									.arg(tr("HTML files"), tr("Image files"), tr("Text files"), tr("All files"))};
+	const QString fileTypes{
+		QString("%1(*.html *.htm *.shtml *.shtm *.xhtml);;"
+			"%2(*.png *.jpg *.jpeg *.bmp *.gif *.svg *.tiff);;"
+			"%3(*.txt);;"
+			"%4(*.*)")
+		.arg(tr("HTML files"), tr("Image files"), tr("Text files"), tr("All files"))
+	};
 
 	QString path{QFileDialog::getOpenFileName(m_tabWidget->window(), tr("Open file"), QString(), fileTypes)};
 
@@ -333,5 +340,4 @@ void MainMenu::addActionsToTabWidget()
 		m_tabWidget->addAction(it.value());
 	}
 }
-
 }

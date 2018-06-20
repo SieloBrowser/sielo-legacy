@@ -48,6 +48,8 @@ file(
         Download/*.hpp
         History/*.cpp
         History/*.hpp
+		Mockup/*.cpp
+		Mockup/*.hpp
         Network/*.cpp
         Network/*.hpp
         Password/*.cpp

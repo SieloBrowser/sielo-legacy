@@ -22,42 +22,86 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+#include "MockupsMenu.hpp"
 
-#include <QStyledItemDelegate>
+#include "Mockup/MockupItem.hpp"
+#include "Mockup/Mockups.hpp"
+#include "Mockup/MockupsManager.hpp"
+
+#include "BrowserWindow.hpp"
+#include "Application.hpp"
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
-	Q_OBJECT
-public:
-	AddressBarCompleterDelegate(QObject* parent = nullptr);
+MockupsMenu::MockupsMenu(BrowserWindow* window) :
+	QMenu(window),
+	m_window(window)
+{
+	setTitle(tr("&Mockups"));
 
-	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
-	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index);
+	addAction(tr("Open Mockups Manager"), this, &MockupsMenu::openMockupManager);
+	addSeparator();
 
-	void setShowSwitchToTab(bool enable);
-	void setOriginalText(const QString& originalText);
+	connect(this, &QMenu::aboutToShow, this, &MockupsMenu::aboutToShow);
 
-	bool isUrlOrDomain(const QString& text) const;
-	QSizeF viewItemTextLayout(QTextLayout &textLayout, int lineWidth) const;
-private:
-	// Waiting for additional settings
-	bool drawSwitchToTab() const { return m_drawSwitchToTab; };
-
-	int viewItemDrawText(QPainter* painter,
-	                     const QStyleOptionViewItem* option,
-	                     const QRect& rect,
-	                     const QString& text, const QColor& color,
-	                     const QString& searchText = QString()) const;
-
-	int m_rowHeight{0};
-	int m_padding{0};
-	bool m_drawSwitchToTab{true};
-	QString m_originalText{};
-};
+	connect(Application::instance()->mockups(), SIGNAL(mockupAdded(MockupItem*)), this, SLOT(mockupsChanged()));
+	connect(Application::instance()->mockups(), SIGNAL(mockupRemoved(MockupItem*)), this, SLOT(mockupsChanged()));
+	connect(Application::instance()->mockups(), SIGNAL(mockupChanged(MockupItem*)), this, SLOT(mockupsChanged()));
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
+MockupsMenu::~MockupsMenu()
+{
+	// Empty
+}
+
+void MockupsMenu::aboutToShow()
+{
+	if (m_changed) {
+		refresh();
+		m_changed = false;
+	}
+}
+
+void MockupsMenu::mockupsChanged()
+{
+	m_changed = true;
+}
+
+void MockupsMenu::openMockupManager()
+{
+	MockupsManager* manager{new MockupsManager(m_window)};
+	manager->show();
+}
+
+void MockupsMenu::mockupActivated()
+{
+	if (QAction* action = qobject_cast<QAction*>(sender())) {
+		MockupItem* item{static_cast<MockupItem*>(action->data().value<void*>())};
+		Q_ASSERT(item);
+		openMockup(item);
+	}
+}
+
+void MockupsMenu::openMockup(MockupItem* item)
+{
+	Application::instance()->createWindow(item);
+}
+
+void MockupsMenu::refresh()
+{
+	while (actions().count() != 1) {
+		QAction* action{actions()[1]};
+		removeAction(action);
+		delete action;
+	}
+
+	foreach (MockupItem* item, Application::instance()->mockups()->mockups()) {
+		QAction* action{new QAction(Application::getAppIcon("new-window"), item->name())};
+		action->setData(QVariant::fromValue<void*>(static_cast<void*>(item)));
+
+		addAction(action);
+
+		connect(action, &QAction::triggered, this, &MockupsMenu::mockupActivated);
+	}
+}
+}

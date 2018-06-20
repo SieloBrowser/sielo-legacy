@@ -130,17 +130,65 @@ QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alp
 {
 	QPixmap ret(src.size());
 	QPainter painter(&ret);
-	qt_blurImage(&painter, src, radius, quality, alphaOnly, transposed);
+	{
+		QPixmap big(QSize(src.width() + 2 * radius, src.height() + 2 * radius));
+		QPainter big_painter(&big);
+
+		big_painter.drawImage(QPoint(radius, radius), src);
+
+		{
+			QPixmap	left(QSize(1, big.height())),
+				   right(QSize(1, big.height()));
+
+			QPainter painter_left(&left),
+				    painter_right(&right);
+
+			painter_left.drawImage(QPoint(0, radius), src);
+			painter_right.drawImage(QPoint(1 - src.width(), radius), src);
+
+			for (int i = 0; i < radius; i++) {
+				big_painter.drawImage(QPoint(i, 0), left.toImage());
+				big_painter.drawImage(QPoint(radius + src.width() + i, 0), right.toImage());
+			}
+		}
+
+		{
+			QPixmap top(QSize(big.width(), 1)),
+				 bottom(QSize(big.width(), 1));
+
+			QPainter painter_top(&top),
+				  painter_bottom(&bottom);
+
+			painter_top.drawImage(QPoint(0, -radius), big.toImage());
+			painter_bottom.drawImage(QPoint(0, 1 + radius - big.height()), big.toImage());
+
+			for (int i = 0; i < radius; i++) {
+				big_painter.drawImage(QPoint(0, i), top.toImage());
+				big_painter.drawImage(QPoint(0, radius + src.height() + i), bottom.toImage());
+			}
+		}
+
+		qt_blurImage(&big_painter, big.toImage(), radius, quality, alphaOnly, transposed);
+		painter.drawImage(QPoint(-radius, -radius), big.toImage());
+	}
 	return ret.toImage();
 }
 
 void TabbedWebView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
-	if (m_window->getBackground() != nullptr) {
+	if (m_window->background() != nullptr && isTransparent()) {
 		QPoint global_position = mapTo(m_window, QPoint(0, 0));
 		QRect shot_rect(global_position.x(), global_position.y(), width(), height());
-		painter.drawImage(QPoint(), applyBlur(m_window->getBackground()->toImage(), 100), shot_rect);
+		if (m_processed_bg == nullptr)
+		{
+			m_processed_bg = new QImage(applyBlur(m_window->background()->toImage(), 100));
+		}
+		else if (m_processed_bg->size() != m_window->size())
+		{
+			m_processed_bg = new QImage(applyBlur(m_window->background()->toImage(), 100));
+		}
+		painter.drawImage(QPoint(), *m_processed_bg, shot_rect);
 	}
 	WebView::paintEvent(event);
 }

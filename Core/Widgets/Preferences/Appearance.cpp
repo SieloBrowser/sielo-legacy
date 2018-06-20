@@ -42,8 +42,8 @@
 
 #include "Application.hpp"
 
-namespace Sn {
-
+namespace Sn
+{
 QString AppearancePage::colorString(QString id)
 {
 	QColor returnColor{};
@@ -66,12 +66,12 @@ QString AppearancePage::colorString(QString id)
 		returnColor = returnColor.darker();
 
 	return QString::number(returnColor.red()) + ", " + QString::number(returnColor.green()) + ", " +
-		   QString::number(returnColor.blue());
+		QString::number(returnColor.blue());
 }
 
 AppearancePage::AppearancePage(QWidget* parent, PreferencesDialog* preferencesDialog) :
-		QWidget(parent),
-		m_preferencesDialog(preferencesDialog)
+	QWidget(parent),
+	m_preferencesDialog(preferencesDialog)
 {
 	setupUI();
 	loadSettings();
@@ -104,15 +104,17 @@ void AppearancePage::save()
 	settings.setValue(QLatin1String("fullyLoadThemes"), m_fullyLoadThemes->isChecked());
 
 	if (!m_fullyLoadThemes->isChecked() && Application::instance()->fullyLoadThemes()) {
-		QMessageBox::warning(this, tr("Warning"), tr("Be aware, if you only load theme's icons, floating button will disappear. You should disable floating button when you don't load full theme."));
+		QMessageBox::warning(this, tr("Warning"),
+		                     tr(
+			                     "Be aware, if you only load theme's icons, floating button will disappear. You should disable floating button when you don't load full theme."));
 	}
 
 	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
-					  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
+	                  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
 	settings
-			.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
-					  m_hideBookmarksHistoryActionsByDefault->isChecked());
+		.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
+		          m_hideBookmarksHistoryActionsByDefault->isChecked());
 
 	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
 		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
@@ -149,7 +151,6 @@ void AppearancePage::save()
 
 	Application::instance()->loadTheme(m_activeTheme);
 	m_preferencesDialog->reloadTheme();
-
 }
 
 void AppearancePage::currentChanged()
@@ -179,10 +180,11 @@ void AppearancePage::tabsSpacesPaddingValueChanged(int value)
 
 void AppearancePage::backgroundLocationClicked()
 {
-
-	QString backgroundLocation{QFileDialog::getOpenFileName(this, tr("Choose background"),
-															QFileInfo(m_backgroundLocationEdit->text()).absolutePath(),
-															"Images (*.png *.jpg *.jpeg)")};
+	QString backgroundLocation{
+		QFileDialog::getOpenFileName(this, tr("Choose background"),
+		                             QFileInfo(m_backgroundLocationEdit->text()).absolutePath(),
+		                             "Images (*.png *.jpg *.jpeg)")
+	};
 
 	if (backgroundLocation.isEmpty())
 		return;
@@ -203,10 +205,11 @@ void AppearancePage::addTheme()
 	QString compilerName = "sielo-compiler";
 #endif
 	if (!QFile(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName)
-			.exists()) {
+		.exists()) {
 		QMessageBox::critical(this,
-							  tr("Error"),
-							  tr("Can't decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser."));
+		                      tr("Error"),
+		                      tr(
+			                      "Can't decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser."));
 		return;
 	}
 
@@ -215,28 +218,29 @@ void AppearancePage::addTheme()
 	if (themeFile.isEmpty())
 		return;
 
-	QFileInfo themeInfo{Application::paths()[Application::P_Themes] + QLatin1Char('/')
-						+ QFileInfo(themeFile).baseName()
-						+ QLatin1String("/main.sss")};
+	QFileInfo themeInfo{
+		Application::paths()[Application::P_Themes] + QLatin1Char('/')
+		+ QFileInfo(themeFile).baseName()
+		+ QLatin1String("/main.sss")
+	};
 
 	if (themeInfo.exists()) {
 		QMessageBox::warning(this,
-							 tr("Theme exist"),
-							 tr("The theme already exist and is going to be update with the new version."));
+		                     tr("Theme exist"),
+		                     tr("The theme already exist and is going to be update with the new version."));
 		QDir(Application::paths()[Application::P_Themes] + QLatin1Char('/') + QFileInfo(themeFile).baseName())
-				.removeRecursively();
+			.removeRecursively();
 	}
 
 	QStringList decompileArgs{};
 	decompileArgs << "decompile" << themeFile
-				  << Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/')
-					 + QFileInfo(themeFile).baseName() << "Theme successfully decompiled";
+		<< Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/')
+		+ QFileInfo(themeFile).baseName() << "Theme successfully decompiled";
 
 	QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName,
-					  decompileArgs);
+	                  decompileArgs);
 
 	QTimer::singleShot(500, this, &AppearancePage::loadSettings);
-
 }
 
 void AppearancePage::getColor()
@@ -244,14 +248,15 @@ void AppearancePage::getColor()
 	QPushButton* button{qobject_cast<QPushButton*>(sender())};
 
 	QColor choosenColor{
-			QColorDialog::getColor(button->property("color").value<QColor>(), m_themeColorsBox, tr("Select a color"))};
+		QColorDialog::getColor(button->property("color").value<QColor>(), m_themeColorsBox, tr("Select a color"))
+	};
 
 	if (choosenColor.isValid() && choosenColor != button->property("color").value<QColor>()) {
 		button->setProperty("color", choosenColor);
 		button->setStyleSheet(
-				"border: 1px solid " + QLatin1String((choosenColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
-				" background: " + choosenColor.name() + "; color: " +
-				QLatin1String((choosenColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+			"border: 1px solid " + QLatin1String((choosenColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+			" background: " + choosenColor.name() + "; color: " +
+			QLatin1String((choosenColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
 		m_colorsChanged = true;
 	}
 }
@@ -324,17 +329,17 @@ void AppearancePage::loadSettings()
 	settings.beginGroup("Settings");
 
 	m_fullyLoadThemes
-			->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
-								 .toBool());
+		->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
+		                     .toBool());
 	m_useRealToolBar
-			->setChecked(
-					settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
+		->setChecked(
+			settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
 	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
-																	  Application::instance()
-																			  ->hideBookmarksHistoryActions()).toBool());
+	                                                                  Application::instance()
+	                                                                  ->hideBookmarksHistoryActions()).toBool());
 	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
-														   Application::instance()->floatingButtonFoloweMouse())
-													.toBool());
+	                                                       Application::instance()->floatingButtonFoloweMouse())
+	                                                .toBool());
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
 
@@ -353,22 +358,22 @@ void AppearancePage::loadSettings()
 	QDir dir{Application::instance()->paths()[Application::P_Themes]};
 	QStringList list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-			foreach (const QString& name, list) {
-			Theme themeInfo = parseTheme(dir.absoluteFilePath(name) + QLatin1Char('/'), name);
+	foreach (const QString& name, list) {
+		Theme themeInfo = parseTheme(dir.absoluteFilePath(name) + QLatin1Char('/'), name);
 
-			if (!themeInfo.isValid)
-				continue;
+		if (!themeInfo.isValid)
+			continue;
 
-			QListWidgetItem* item{new QListWidgetItem(m_themeList)};
-			item->setText(themeInfo.name + "\n" + themeInfo.shortDesc);
-			item->setIcon(themeInfo.icon);
-			item->setData(Qt::UserRole, name);
+		QListWidgetItem* item{new QListWidgetItem(m_themeList)};
+		item->setText(themeInfo.name + "\n" + themeInfo.shortDesc);
+		item->setIcon(themeInfo.icon);
+		item->setData(Qt::UserRole, name);
 
-			if (m_activeTheme == name)
-				m_themeList->setCurrentItem(item);
+		if (m_activeTheme == name)
+			m_themeList->setCurrentItem(item);
 
-			m_themeList->addItem(item);
-		}
+		m_themeList->addItem(item);
+	}
 
 	QColor mainColor{settings.value(QLatin1String("mainColor"), QColor{60, 60, 60}).value<QColor>()};
 	QColor secondColor{settings.value(QLatin1String("secondColor"), QColor{30, 30, 30}).value<QColor>()};
@@ -377,31 +382,30 @@ void AppearancePage::loadSettings()
 
 	m_mainColorButton->setProperty("color", mainColor);
 	m_mainColorButton->setStyleSheet(
-			"border: 1px solid " + QLatin1String((mainColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
-			" background: " + mainColor.name() + "; color: " +
-			QLatin1String((mainColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+		"border: 1px solid " + QLatin1String((mainColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+		" background: " + mainColor.name() + "; color: " +
+		QLatin1String((mainColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
 	m_secondColorButton->setProperty("color", secondColor);
 	m_secondColorButton->setStyleSheet(
-			"border: 1px solid " + QLatin1String((secondColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
-			" background: " + secondColor.name() + "; color: " +
-			QLatin1String((secondColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+		"border: 1px solid " + QLatin1String((secondColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+		" background: " + secondColor.name() + "; color: " +
+		QLatin1String((secondColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
 	m_accentColorButton->setProperty("color", accentColor);
 	m_accentColorButton->setStyleSheet(
-			"border: 1px solid " + QLatin1String((accentColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
-			" background: " + accentColor.name() + "; color: " +
-			QLatin1String((accentColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+		"border: 1px solid " + QLatin1String((accentColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+		" background: " + accentColor.name() + "; color: " +
+		QLatin1String((accentColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
 	m_textColorButton->setProperty("color", textColor);
 	m_textColorButton->setStyleSheet(
-			"border: 1px solid " + QLatin1String((textColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
-			" background: " + textColor.name() + "; color: " +
-			QLatin1String((textColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
+		"border: 1px solid " + QLatin1String((textColor.lightness() > 150) ? "#000000;" : "#ffffff;") +
+		" background: " + textColor.name() + "; color: " +
+		QLatin1String((textColor.lightness() > 150) ? " #000000;" : "#ffffff;"));
 
 	settings.endGroup();
 }
 
 void AppearancePage::setupUI()
 {
-
 	m_areaWidget = new QWidget(this);
 	QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 	sizePolicy.setHorizontalStretch(0);
@@ -473,7 +477,7 @@ void AppearancePage::setupUI()
 	m_fullyLoadThemes = new QCheckBox(tr("Fully load theme (otherwise it will only load theme's icons)"));
 	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
 	m_hideBookmarksHistoryActionsByDefault =
-			new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
+		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
 
 	m_tabsSpacesPaddingLabel = new QLabel(tr("Tabs spaces padding (in px)"), this);
@@ -486,6 +490,7 @@ void AppearancePage::setupUI()
 	m_backgroundLabel = new QLabel(tr("Background: "), this);
 	m_backgroundLocationEdit = new QLineEdit(this);
 	m_backgroundLocationButton = new QPushButton(tr("..."), this);
+	m_spacer = new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
@@ -524,6 +529,7 @@ void AppearancePage::setupUI()
 	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
 	m_advancedPageLayout->addWidget(m_repeatBackground);
 	m_advancedPageLayout->addLayout(m_backgroundLayout);
+	m_advancedPageLayout->addItem(m_spacer);
 
 	m_tabs->addTab(m_themePage, tr("Themes"));
 	m_tabs->addTab(m_advancedPage, tr("Advanced"));
