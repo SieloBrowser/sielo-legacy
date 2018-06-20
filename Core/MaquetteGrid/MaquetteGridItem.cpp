@@ -149,7 +149,7 @@ void MaquetteGridItem::loadMaquetteGrid(bool loadDefault)
 		}
 
 		json = QJsonDocument::fromJson(
-			Application::readAllFileByteContents(QStringLiteral(":data/default-maquetteGrid.json")), &err);
+			Application::readAllFileByteContents(QStringLiteral(":data/default-maquettegrid.json")), &err);
 		const QVariant data = json.toVariant();
 
 		Q_ASSERT(err.error == QJsonParseError::NoError);
