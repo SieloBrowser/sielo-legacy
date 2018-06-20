@@ -114,6 +114,27 @@ void TitleBar::restoreToolBarsPositions()
 	settings.endGroup();
 }
 
+void TitleBar::hide()
+{
+	setView(false);
+}
+
+void TitleBar::show()
+{
+	setView(true);
+}
+
+bool TitleBar::isView()
+{
+	return m_show;
+}
+
+void TitleBar::setView(bool view)
+{
+	m_show = view;
+	build();
+}
+
 bool TitleBar::isWindowMaximized() const
 {
 	//return m_window->geometry() == Application::desktop()->availableGeometry(m_window);
@@ -261,10 +282,15 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 void TitleBar::build()
 {
 #ifdef Q_OS_WIN
-	if (m_showBookmarks)
+	if (m_showBookmarks && m_show)
 		m_bookmarksToolbar->show();
 	else
 		m_bookmarksToolbar->hide();
+
+	if (m_show)
+		m_controlsToolbar->show();
+	else
+		m_controlsToolbar->hide();
 
 	m_controlsToolbar->clear();
 
@@ -309,7 +335,7 @@ void TitleBar::build()
 	m_controlsToolbar->addWidget(m_toggleMaximize);
 	m_controlsToolbar->addWidget(m_closeButton);
 #else
-	if (m_showBookmarks)
+	if (m_showBookmarks && m_show)
 		m_bookmarksToolbar->show();
 	else
 		m_bookmarksToolbar->hide();
