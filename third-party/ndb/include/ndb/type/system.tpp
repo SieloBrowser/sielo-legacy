@@ -20,6 +20,13 @@ namespace ndb
 
     #undef ndb_internal_bijective_type_map
 
+    // spe type_make
+    template<>
+    inline auto type_make<std::vector<char>>(const char* data, int data_size)
+    {
+        return std::vector<char>{ data, data + data_size };
+    };
+
     // system custom_type
     template<class Database>
     struct custom_type<const char*, Database> : basic_type<const char*, string_, Database>

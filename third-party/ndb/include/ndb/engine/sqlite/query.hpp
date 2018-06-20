@@ -49,7 +49,7 @@ namespace ndb
             else if constexpr (std::is_same_v<double_, storage_type>) sqlite3_bind_double(statement_, bind_index_, value);
             else if constexpr (std::is_same_v<string_, storage_type>) sqlite3_bind_text16(statement_, bind_index_, value.utf16(), -1, SQLITE_TRANSIENT); //TODO: use SQLITE_STATIC
             else if constexpr (std::is_same_v<byte_array_, storage_type>) sqlite3_bind_blob(statement_, bind_index_, value.data(), value.size(), SQLITE_TRANSIENT);
-            else ncx_error("type unknown, add a custom type or use an engine type");
+            else ncx_error(T, "type unknown, add a custom type or use an engine type");
             bind_index_++;
         }
 
@@ -96,28 +96,26 @@ namespace ndb
                     switch(field_type_id)
                     {
                         case ndb::engine_type_id<sqlite, int64_>::value:
-                            line.add(field_id,
-                                     cpp_type_t<int64_, Database>{ sqlite3_value_int64(field_value) } ); break;
+                            line.add(field_id, ndb::type_make<cpp_type_t<int64_, Database>>(sqlite3_value_int64(field_value)));
+                            break;
 
                         case ndb::engine_type_id<sqlite, double_>::value:
-                            line.add(field_id,
-                                     cpp_type_t<double_, Database>{ sqlite3_value_double(field_value) } ); break;
+                            line.add(field_id, ndb::type_make<cpp_type_t<double_, Database>>(sqlite3_value_double(field_value)));
+                            break;
 
                         case ndb::engine_type_id<sqlite, string_>::value:
-                            line.add(field_id,
-                                     cpp_type_t<string_, Database>{ reinterpret_cast<const char*>(sqlite3_value_text(field_value)) } );
+                            line.add(field_id, ndb::type_make<cpp_type_t<string_, Database>>(reinterpret_cast<const char*>(sqlite3_value_text(field_value))));
                             break;
 
                         case ndb::engine_type_id<sqlite, byte_array_>::value:
                             data = reinterpret_cast<const char*>(sqlite3_value_blob(field_value));
                             data_size = sqlite3_value_bytes(field_value);
-                            line.add(field_id,
-                                     cpp_type_t<byte_array_, Database>{ data, data + data_size } );
+                            line.add(field_id, ndb::type_make<cpp_type_t<byte_array_, Database>>(data, data_size));
                             break;
 
                         case ndb::engine_type_id<sqlite, null_>::value:
-                            line.add(field_id,
-                                     ndb::null_type{} ); break;
+                            line.add(field_id, ndb::null_type{} );
+                            break;
 
                         default:
                             ndb_error("unknown engine type");
