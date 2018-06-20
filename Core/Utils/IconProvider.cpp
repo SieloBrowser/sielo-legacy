@@ -113,7 +113,7 @@ QImage IconProvider::imageForUrl(const QUrl& url, bool allowNull)
 			return ic.second;
 	}
 
-	auto result = ndb::query<dbs::image>() << (icons.icon << (ndb::glob(icons.url, QString::fromUtf8(encodedUrl).toStdString()) << ndb::limit(1)));
+	auto result = ndb::query<dbs::image>() << (icons.icon << (ndb::glob(icons.url, QString("%1*").arg(QString::fromUtf8(encodedUrl)).toStdString()) << ndb::limit(1)));
 	
 	if (result.has_result()) 
 		return QImage::fromData(result[0][icons.icon]);
@@ -130,13 +130,15 @@ QImage IconProvider::imageForDomain(const QUrl& url, bool allowNull)
 	if (url.path().isEmpty())
 		return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
 
+	std::string strUrlHost = url.host().toStdString();
+
 	// Check if we aleady have the image loaded in the buffer
 	foreach(const BufferedIcon &ic, instance()->m_iconBuffer) {
 		if (ic.first.host() == url.host())
 			return ic.second;
 	}
 
-	auto result = ndb::query<dbs::image>() << (icons.icon << (ndb::glob(icons.url, url.host().toStdString()) << ndb::limit(1)));
+	auto result = ndb::query<dbs::image>() << (icons.icon << (ndb::glob(icons.url, QString("*%1*").arg(url.host()).toStdString()) << ndb::limit(1)));
 
 	if (result.has_result())
 		return QImage::fromData(result[0][icons.icon]);

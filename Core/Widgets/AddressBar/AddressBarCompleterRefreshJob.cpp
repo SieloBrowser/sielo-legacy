@@ -36,6 +36,8 @@
 #include "Bookmarks/Bookmarks.hpp"
 #include "Bookmarks/BookmarkItem.hpp"
 
+#include "Utils/IconProvider.hpp"
+
 #include "Widgets/AddressBar/AddressBarCompleterModel.hpp"
 
 #include "Application.hpp"
@@ -80,8 +82,8 @@ void AddressBarCompleterRefreshJob::runJob()
 		if (m_jobCancelled)
 			return;
 
-		// TODO: icon
-		item->setData(Application::getAppIcon("webpage"), AddressBarCompleterModel::ImageRole);
+		const QUrl url = item->data(AddressBarCompleterModel::UrlRole).toUrl();
+		item->setData(IconProvider::imageForUrl(url), AddressBarCompleterModel::ImageRole);
 	}
 
 	if (m_jobCancelled)

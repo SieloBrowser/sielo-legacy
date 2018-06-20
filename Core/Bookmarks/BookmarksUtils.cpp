@@ -40,6 +40,8 @@
 #include "Bookmarks/BookmarkItem.hpp"
 #include "Bookmarks/BookmarksFoldersButton.hpp"
 
+#include "Utils/IconProvider.hpp"
+
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "BrowserWindow.hpp"
@@ -53,7 +55,7 @@ bool BookmarksUtils::addBookmarkDialog(QWidget* parent, const QUrl& url, const Q
 		return false;
 
 	QDialog* dialog{new QDialog(parent)};
-	// TODO: icon
+	dialog->setWindowIcon(IconProvider::iconForUrl(url));
 	dialog->setWindowTitle(Bookmarks::tr("Add New Bookmark"));
 	dialog->resize(360, 360);
 

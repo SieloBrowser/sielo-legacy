@@ -955,6 +955,7 @@ void Application::connectDatabase()
 	// Connecte databases
 	ndb::connect<dbs::password>(params);
 	ndb::connect<dbs::navigation>(params);
+	ndb::connect<dbs::image>(params);
 
 	// TODO: remove this at the end of ndb integration
 	/*const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");

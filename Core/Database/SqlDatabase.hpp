@@ -32,6 +32,7 @@
 #include <ndb/type.hpp>
 
 #include <QString>
+#include <QByteArray>
 
 using Opt_NotNull = ndb::field_option::not_null;
 
@@ -61,7 +62,7 @@ ndb_table(autofill_exceptions,
 
 ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)
 
-// History and Bookmarks (called "Navigation")
+// History (called "Navigation")
 ndb_table(history,
 	ndb_field_id,
 	ndb_field(title, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
@@ -72,18 +73,31 @@ ndb_table(history,
 
 ndb_model(navigation, history)
 
-ndb_project(sielo, ndb_database(password, password, ndb::sqlite), ndb_database(navigation, navigation, ndb::sqlite))
+// Icons (in 
+ndb_table(icons,
+	ndb_field_id,
+	ndb_field(icon, QByteArray),
+	ndb_field(url, QString, ndb::size<255>, ndb::option<Opt_NotNull>))
+
+ndb_model(images, icons)
+
+ndb_project(sielo, ndb_database(password, password, ndb::sqlite), ndb_database(navigation, navigation, ndb::sqlite), ndb_database(images, images, ndb::sqlite))
 
 namespace dbs
 {
 using password = ndb::databases::sielo::password_;
 using navigation = ndb::databases::sielo::navigation_;
+using image = ndb::databases::sielo::images_;
 }
 
 using sielo_scope = ndb::scope::group<ndb::databases::sielo>;
 
-namespace ndb {
-	ndb_bijective_type_map(string_, QString, sielo_scope)
-	ndb_bijective_type_map(ndb::types::int64_, qint64, sielo_scope)
+namespace ndb
+{
+ndb_bijective_type_map(string_, QString, sielo_scope)
+
+ndb_bijective_type_map(ndb::types::int64_, qint64, sielo_scope)
+
+ndb_bijective_type_map(byte_array_, QByteArray, sielo_scope)
 }
 #endif //SIELO_BROWSER_SQLDATABASE_HPP

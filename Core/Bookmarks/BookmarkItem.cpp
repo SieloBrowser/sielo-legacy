@@ -26,6 +26,8 @@
 
 #include <QStyle>
 
+#include "Utils/IconProvider.hpp"
+
 #include "Application.hpp"
 
 namespace Sn
@@ -70,9 +72,11 @@ QIcon BookmarkItem::icon()
 	switch (m_type) {
 	case Url:
 		if (m_iconTime.isNull() || m_iconTime.elapsed() > iconCacheTime) {
-			// TODO: icon
-			m_icon = Application::getAppIcon("webpage");
-			m_iconTime.restart();
+			if (m_iconTime.isNull() || m_iconTime.elapsed() > iconCacheTime) {
+				m_icon = IconProvider::iconForUrl(m_url);
+				m_iconTime.restart();
+			}
+			return m_icon;
 		}
 		return m_icon;
 	case Folder:

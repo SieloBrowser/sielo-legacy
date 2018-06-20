@@ -28,6 +28,8 @@
 #include "History/HistoryModel.hpp"
 #include "History/HistoryFilterModel.hpp"
 
+#include "Utils/IconProvider.hpp"
+
 #include "Application.hpp"
 
 namespace Sn
@@ -175,8 +177,7 @@ void HistoryTreeView::drawRow(QPainter* painter, const QStyleOptionViewItem& opt
 
 	if (index.isValid() && !itemTopLevel && !iconLoaded) {
 		const QPersistentModelIndex idx = index;
-		// TOOD: icon
-		model()->setData(idx, Application::getAppIcon("webpage"), HistoryModel::IconRole);
+		model()->setData(idx, IconProvider::iconForUrl(index.data(HistoryModel::UrlRole).toUrl()), HistoryModel::IconRole);
 	}
 
 	QTreeView::drawRow(painter, options, index);

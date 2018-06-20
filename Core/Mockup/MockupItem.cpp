@@ -30,6 +30,8 @@
 #include <QSaveFile>
 #include <QFileInfo>
 
+#include "Utils/IconProvider.hpp"
+
 #include "Application.hpp"
 
 namespace Sn
@@ -173,8 +175,7 @@ void MockupItem::loadMockupFromMap(const QVariantMap& map)
 			QVariantMap tabMap{tabData.toMap()};
 			MockupItem::Tab* tab{new MockupItem::Tab()};
 
-			// TODO: icon
-			tab->icon = Application::getAppIcon("webpage");
+			tab->icon = IconProvider::iconForDomain(tabMap.value("url").toUrl());;
 			tab->title = tabMap.value("title").toString();
 			tab->url = tabMap.value("url").toUrl();
 			tab->selected = tabMap.value("selected").toBool();
