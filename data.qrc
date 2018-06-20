@@ -17,6 +17,7 @@
 
         <!-- Sielo translations -->
         <file>data/locale/fr_FR.qm</file>
+        <file>data/locale/ar_AR.qm</file>
 
         <!-- Sielo default theme -->
         <file>data/themes/sielo-default/dark/edit/edit-clear.png</file>

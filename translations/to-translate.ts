@@ -806,57 +806,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="57"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="59"/>
         <source>Add New Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="62"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="64"/>
         <source>Choose name and location of this bookmark.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="101"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="103"/>
         <source>Bookmark All Tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="106"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="108"/>
         <source>Choose folder for bookmarks:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="140"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="142"/>
         <source>Edit Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="153"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="155"/>
         <source>Title:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="156"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="158"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="157"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="159"/>
         <source>Keyword:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="163"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="165"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="256"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="258"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="257"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="259"/>
         <source>Are you sure you want to open all bookmarks from &apos;%1&apos; folder in tabs?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1845,53 +1845,53 @@
 <context>
     <name>Sn::HistoryMenu</name>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="51"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="52"/>
         <source>Hi&amp;story</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="53"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="54"/>
         <source>&amp;Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="55"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="56"/>
         <source>&amp;Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="57"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="58"/>
         <source>&amp;Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="60"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="61"/>
         <source>Show &amp;All History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="66"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="67"/>
         <source>Most Visited</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="67"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="68"/>
         <source>Closed Tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="180"/>
-        <location filename="../Core/History/HistoryMenu.cpp" line="205"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="179"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="204"/>
         <source>Empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="209"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="208"/>
         <source>Restore All Closed Tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="210"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="209"/>
         <source>Clear list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2325,6 +2325,66 @@
     </message>
 </context>
 <context>
+    <name>Sn::MaquetteGridManager</name>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="454"/>
+        <source>Add MaquetteGrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="455"/>
+        <source>Add MaquetteGrid From Current Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="456"/>
+        <source>Delete MaquetteGrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="475"/>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="477"/>
+        <source>Url:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Sn::MaquetteGridMenu</name>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridMenu.cpp" line="40"/>
+        <source>&amp;MaquetteGrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridMenu.cpp" line="42"/>
+        <source>Open MaquetteGrid Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Sn::MaquetteGridTabsList</name>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="52"/>
+        <source>X</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="56"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="107"/>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="109"/>
+        <source>New Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Sn::MasterPasswordDialog</name>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="91"/>
@@ -2407,66 +2467,6 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="252"/>
         <source>&lt;b&gt;Note:&lt;/b&gt; The Master Password is not resettable. Do not forget it, please.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Sn::MockupsManager</name>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="454"/>
-        <source>Add Mockup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="455"/>
-        <source>Add Mockup From Current Session</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="456"/>
-        <source>Delete Mockup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="475"/>
-        <source>Title:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="477"/>
-        <source>Url:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Sn::MockupsMenu</name>
-    <message>
-        <location filename="../Core/Mockup/MockupsMenu.cpp" line="40"/>
-        <source>&amp;Mockups</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsMenu.cpp" line="42"/>
-        <source>Open Mockups Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Sn::MockupsTabsList</name>
-    <message>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="52"/>
-        <source>X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="56"/>
-        <source>+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="107"/>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="109"/>
-        <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3137,162 +3137,162 @@
 <context>
     <name>Sn::WebView</name>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="200"/>
+        <location filename="../Core/Web/WebView.cpp" line="203"/>
         <source>Empty page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="743"/>
+        <location filename="../Core/Web/WebView.cpp" line="751"/>
         <source>No suggestions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="779"/>
+        <location filename="../Core/Web/WebView.cpp" line="787"/>
         <source>&amp;Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="782"/>
+        <location filename="../Core/Web/WebView.cpp" line="790"/>
         <source>&amp;Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="790"/>
+        <location filename="../Core/Web/WebView.cpp" line="798"/>
         <source>Book&amp;mark page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="791"/>
+        <location filename="../Core/Web/WebView.cpp" line="799"/>
         <source>&amp;Save page as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="792"/>
+        <location filename="../Core/Web/WebView.cpp" line="800"/>
         <source>&amp;Copy page link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="796"/>
+        <location filename="../Core/Web/WebView.cpp" line="804"/>
         <source>Select &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="811"/>
+        <location filename="../Core/Web/WebView.cpp" line="819"/>
         <source>Open link in new &amp;window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="818"/>
+        <location filename="../Core/Web/WebView.cpp" line="826"/>
         <source>B&amp;ookmark link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="819"/>
+        <location filename="../Core/Web/WebView.cpp" line="827"/>
         <source>&amp;Save link as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="820"/>
+        <location filename="../Core/Web/WebView.cpp" line="828"/>
         <source>&amp;Copy link address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="831"/>
+        <location filename="../Core/Web/WebView.cpp" line="839"/>
         <source>Show i&amp;mage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="832"/>
+        <location filename="../Core/Web/WebView.cpp" line="840"/>
         <source>Copy image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="833"/>
+        <location filename="../Core/Web/WebView.cpp" line="841"/>
         <source>Copy image ad&amp;dress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="837"/>
+        <location filename="../Core/Web/WebView.cpp" line="845"/>
         <source>&amp;Save image as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="858"/>
+        <location filename="../Core/Web/WebView.cpp" line="866"/>
         <source>Dictionary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="871"/>
+        <location filename="../Core/Web/WebView.cpp" line="879"/>
         <source>Go to &amp;web address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="888"/>
+        <location filename="../Core/Web/WebView.cpp" line="896"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="888"/>
+        <location filename="../Core/Web/WebView.cpp" line="896"/>
         <source>&amp;Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="889"/>
+        <location filename="../Core/Web/WebView.cpp" line="897"/>
         <source>Un&amp;mute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="889"/>
+        <location filename="../Core/Web/WebView.cpp" line="897"/>
         <source>&amp;Mute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="893"/>
+        <location filename="../Core/Web/WebView.cpp" line="901"/>
         <source>&amp;Copy media address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="894"/>
+        <location filename="../Core/Web/WebView.cpp" line="902"/>
         <source>Save media to &amp;disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="900"/>
+        <location filename="../Core/Web/WebView.cpp" line="908"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="906"/>
+        <location filename="../Core/Web/WebView.cpp" line="914"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="912"/>
+        <location filename="../Core/Web/WebView.cpp" line="920"/>
         <source>&amp;Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="918"/>
+        <location filename="../Core/Web/WebView.cpp" line="926"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="924"/>
+        <location filename="../Core/Web/WebView.cpp" line="932"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="930"/>
+        <location filename="../Core/Web/WebView.cpp" line="938"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="936"/>
+        <location filename="../Core/Web/WebView.cpp" line="944"/>
         <source>&amp;Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="940"/>
+        <location filename="../Core/Web/WebView.cpp" line="948"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>
