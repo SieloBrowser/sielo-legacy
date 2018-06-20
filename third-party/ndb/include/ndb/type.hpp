@@ -75,6 +75,13 @@ namespace ndb
     {
         return T{ std::forward<Args>(args)... };
     };
+
+    // get data pointer from value
+    template<class T>
+    inline auto type_data(const T& v)
+    {
+        return v.data();
+    };
 } // ndb
 
 #include <ndb/type/system.tpp>

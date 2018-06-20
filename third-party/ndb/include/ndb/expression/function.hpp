@@ -66,7 +66,7 @@ namespace ndb
         return ndb::expression<decltype(expr_field), expr_type_code::op_like, decltype(expr), expr_clause_code::condition> { expr_field, expr };
     }
 
-    constexpr auto limit(int count, int offset = 0)
+    constexpr auto limit(const int& count, const int& offset = 0)
     {
         auto keyword = ndb::expr_make_keyword<expr_keyword_code::limit>();
         auto expr = ndb::expression<int, expr_type_code::value>{ count };
