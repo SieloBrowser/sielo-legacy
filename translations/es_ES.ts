@@ -2347,12 +2347,12 @@
     <name>Sn::MaquetteGridManager</name>
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="454"/>
-        <source>Add MaquetteGrid</source>
+        <source>Add Maquette Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="455"/>
-        <source>Add MaquetteGrid From Current Session</source>
+        <source>Add Maquette Grid From Current Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2387,18 +2387,8 @@
 <context>
     <name>Sn::MaquetteGridTabsList</name>
     <message>
-        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="52"/>
-        <source>X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="56"/>
-        <source>+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="107"/>
-        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="109"/>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="110"/>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="112"/>
         <source>New Tab</source>
         <translation type="unfinished"></translation>
     </message>

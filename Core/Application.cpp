@@ -487,10 +487,10 @@ void Application::loadTranslationSettings()
 	QSettings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 9) {
+	if (settings.value("version", 0).toInt() < 10) {
 		QDir(paths()[P_Translations]).removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
-		settings.setValue("version", 9);
+		settings.setValue("version", 10);
 	}
 }
 
