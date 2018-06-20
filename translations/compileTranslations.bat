@@ -1,1 +1,1 @@
-lrelease fr_FR.ts && lrelease es_ES.ts && lrelease de_DE.ts
+lrelease fr_FR.ts && lrelease es_ES.ts && lrelease de_DE.ts && lrelease ar_AR.ts

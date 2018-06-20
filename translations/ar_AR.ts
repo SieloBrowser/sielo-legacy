@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="ar_EG">
 <context>
     <name>QApplication</name>
     <message>
         <location filename="../Core/Application.cpp" line="918"/>
         <source>Start after crash</source>
-        <translation type="unfinished"></translation>
+        <translation>مسح كل سجل التاريخ</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="919"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>لتغيير اللغة ، يجب عليك إعادة تشغيل المتصفح.؟</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="921"/>
         <source>Start New Session</source>
-        <translation type="unfinished"></translation>
+        <translation>جلسه جديده</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="923"/>
         <source>Restore Session</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة الجلسة</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="930"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../Core/Application.cpp" line="930"/>
         <source>Please, if Sielo continues crashing, consider trying this 32bit version.</source>
-        <translation type="unfinished"></translation>
+        <translation>لتغيير اللغة ، يجب عليك إعادة تشغيل المتصفح.</translation>
     </message>
 </context>
 <context>
@@ -218,7 +218,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="132"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="132"/>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="210"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="211"/>
@@ -585,7 +585,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="192"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="193"/>
@@ -747,7 +747,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="113"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تحديث</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="114"/>
@@ -853,7 +853,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="256"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="257"/>
@@ -874,7 +874,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="108"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فتح في علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="109"/>
@@ -906,7 +906,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="118"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="246"/>
@@ -959,7 +959,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksMenu.cpp" line="230"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فارغ</translation>
     </message>
 </context>
 <context>
@@ -980,7 +980,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="73"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="74"/>
@@ -1000,7 +1000,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="80"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="84"/>
@@ -1018,7 +1018,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbarButton.cpp" line="358"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فارغ</translation>
     </message>
 </context>
 <context>
@@ -1046,7 +1046,7 @@
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="696"/>
         <source>Restore Closed Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة علامة التبويب المغلقة</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="885"/>
@@ -1099,7 +1099,7 @@
     <message>
         <location filename="../Core/Widgets/Tab/MainTabBar.cpp" line="78"/>
         <source>Close Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>غلق علامة التبويب</translation>
     </message>
 </context>
 <context>
@@ -1184,7 +1184,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="189"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="190"/>
@@ -1334,7 +1334,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/CurrentTabsSpacePage.cpp" line="65"/>
         <source>Enter url</source>
-        <translation type="unfinished"></translation>
+        <translation>أدخل العنوان</translation>
     </message>
 </context>
 <context>
@@ -1486,7 +1486,7 @@
     <message>
         <location filename="../Core/Widgets/EllipseLabel.cpp" line="73"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخ</translation>
     </message>
 </context>
 <context>
@@ -1504,91 +1504,91 @@
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="232"/>
         <source>Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>تم الحفظ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="232"/>
         <source>Your session will be restored at startup</source>
-        <translation type="unfinished"></translation>
+        <translation>سيتم استعادة جلسة العمل الخاصة بك عند بدء التشغيل</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="243"/>
         <source>Home page</source>
-        <translation type="unfinished"></translation>
+        <translation>الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="245"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="255"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="266"/>
         <source>Open blank page</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح صفحة فارغة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="246"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="257"/>
         <source>Open custom url</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح عنوان رابط مخصص</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="251"/>
         <source>Home page url</source>
-        <translation type="unfinished"></translation>
+        <translation>رابط الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="253"/>
         <source>New tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="256"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="267"/>
         <source>Open home page</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="262"/>
         <source>New tab url</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب عنوان رابط جديد</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="264"/>
         <source>New Session</source>
-        <translation type="unfinished"></translation>
+        <translation>جلسه جديده</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="268"/>
         <source>Restore session</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة الجلسة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="269"/>
         <source>Open saved session</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح الجلسة المحفوظة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="273"/>
         <source>Save current session</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ الجلسة الحالية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="275"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>لغة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="277"/>
         <source>Available translations:</source>
-        <translation type="unfinished"></translation>
+        <translation>الترجمات المتاحة:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="279"/>
         <source>In order to change language, you must restart your browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>لتغيير اللغة ، يجب عليك إعادة تشغيل المتصفح.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="282"/>
         <source>Don&apos;t load tabs until selected</source>
-        <translation type="unfinished"></translation>
+        <translation>لا تقم بتحميل علامات التبويب حتى يتم تحديدها</translation>
     </message>
 </context>
 <context>
@@ -1725,67 +1725,73 @@
     <message>
         <location filename="../Core/History/History.cpp" line="44"/>
         <source>January</source>
-        <translation type="unfinished"></translation>
+        <translation>يناير</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="46"/>
         <source>February</source>
-        <translation type="unfinished"></translation>
+        <translation>فبراير</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="48"/>
         <source>March</source>
-        <translation type="unfinished"></translation>
+        <translation>مارس</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="50"/>
         <source>April</source>
-        <translation type="unfinished"></translation>
+        <translation>أبريل</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="52"/>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation>مايو</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="54"/>
         <source>June</source>
-        <translation type="unfinished"></translation>
+        <translation>حزيران</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="56"/>
         <source>July</source>
-        <translation type="unfinished"></translation>
+        <translation>يوليو</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="58"/>
         <source>August</source>
-        <translation type="unfinished"></translation>
+        <translation>أغسطس</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="60"/>
         <source>September</source>
-        <translation type="unfinished"></translation>
+        <translation>سبتمبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="62"/>
         <source>October</source>
-        <translation type="unfinished"></translation>
+        <translation>اكتوبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="64"/>
         <source>November</source>
-        <translation type="unfinished"></translation>
+        <translation>نوفمبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="66"/>
         <source>December</source>
-        <translation type="unfinished"></translation>
+        <translation>ديسمبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="119"/>
         <source>Empty page</source>
-        <translation type="unfinished"></translation>
+        <translation>Search Results
+
+Empty page Edit
+
+ui translations
+
+صفحة فارغة</translation>
     </message>
 </context>
 <context>
@@ -1793,17 +1799,17 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="125"/>
         <source>Open In New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="126"/>
         <source>Open In New Window</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في نافذة جديدة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="127"/>
         <source>Open In New Private Window</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في نافذة خاصة جديدة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="131"/>
@@ -1819,27 +1825,27 @@
         <location filename="../Core/History/HistoryManager.cpp" line="136"/>
         <location filename="../Core/History/HistoryManager.cpp" line="200"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="168"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="168"/>
         <source>Are you sure you want to delete all history?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل أنت متأكد من أنك تريد حذف كل السجل؟</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="197"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>بحث...</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="201"/>
         <source>Clear All History</source>
-        <translation type="unfinished"></translation>
+        <translation>مسح كل سجل التاريخ</translation>
     </message>
 </context>
 <context>
@@ -1852,7 +1858,7 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="53"/>
         <source>&amp;Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">رجوع</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="55"/>
@@ -1872,28 +1878,28 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="66"/>
         <source>Most Visited</source>
-        <translation type="unfinished"></translation>
+        <translation>أكثر زيارة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="67"/>
         <source>Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>علامات التبويب المغلقة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="180"/>
         <location filename="../Core/History/HistoryMenu.cpp" line="205"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>فارغ</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="209"/>
         <source>Restore All Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة جميع علامات التبويب المغلقة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="210"/>
         <source>Clear list</source>
-        <translation type="unfinished"></translation>
+        <translation>تفريغ القائمة</translation>
     </message>
 </context>
 <context>
@@ -1922,17 +1928,17 @@
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="444"/>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation>اليوم</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="448"/>
         <source>This Week</source>
-        <translation type="unfinished"></translation>
+        <translation>هذا الاسبوع</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="452"/>
         <source>This Month</source>
-        <translation type="unfinished"></translation>
+        <translation>هذا الشهر</translation>
     </message>
 </context>
 <context>
@@ -1950,7 +1956,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="94"/>
         <source>Change window size</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير حجم النافذة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="97"/>
@@ -1988,7 +1994,7 @@
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="105"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="109"/>
@@ -2006,7 +2012,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
@@ -2065,7 +2071,7 @@
         <location filename="../Core/Widgets/MainMenu.cpp" line="63"/>
         <location filename="../Core/Widgets/MainMenu.cpp" line="194"/>
         <source>Show Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عرض شريط الإشارات</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="68"/>
@@ -2080,7 +2086,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="70"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="89"/>
@@ -2090,7 +2096,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="92"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="94"/>
@@ -2145,7 +2151,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="133"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>شركاء</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="135"/>
@@ -2155,7 +2161,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="137"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>خروج</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="194"/>
@@ -2170,22 +2176,22 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات الصور</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات نصية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>كل الملفات</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="223"/>
         <source>Open file</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح الملف</translation>
     </message>
 </context>
 <context>
@@ -2331,7 +2337,7 @@
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="96"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="191"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="91"/>
@@ -2467,7 +2473,7 @@
         <location filename="../Core/Mockup/MockupsTabsList.cpp" line="107"/>
         <location filename="../Core/Mockup/MockupsTabsList.cpp" line="109"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">علامة تبويب جديدة</translation>
     </message>
 </context>
 <context>
@@ -2485,7 +2491,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="77"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="86"/>
@@ -2548,7 +2554,7 @@
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="36"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>شركاء</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="96"/>
@@ -2581,7 +2587,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PasswordPage.cpp" line="75"/>
         <source>Allow saving passwords from sites</source>
-        <translation type="unfinished"></translation>
+        <translation>السماح بحفظ كلمات المرور من المواقع</translation>
     </message>
 </context>
 <context>
@@ -2769,21 +2775,22 @@
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="140"/>
         <source>No results found.</source>
-        <translation type="unfinished"></translation>
+        <translation>لا توجد نتائج.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="211"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>بحث:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="216"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>بحث...بحث...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="232"/>
         <source>&amp;Match Case</source>
+        <translatorcomment>There&apos;s no caps lock in Arabic because in Arabic we are always yelling so match case doesnt apply in arabic LOL! ill try to come up with something to put there???</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2808,7 +2815,7 @@
         <location filename="../Core/Widgets/SiteInfo.cpp" line="168"/>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="213"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="168"/>
@@ -2828,7 +2835,7 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="224"/>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جار التحميل...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="237"/>
@@ -2943,7 +2950,7 @@
         <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
         <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="121"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="98"/>
@@ -2965,17 +2972,22 @@
         <source>Currently you have %n opened tab(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="930"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فارغ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="933"/>
         <source>Restore All Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">استعادة جميع علامات التبويب المغلقة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="934"/>
@@ -3001,12 +3013,12 @@
     <message>
         <location filename="../Core/Widgets/TitleBar.cpp" line="227"/>
         <source>Show Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض شريط الإشارات</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/TitleBar.cpp" line="238"/>
         <source>Lock Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>ثبت شريط الادوات</translation>
     </message>
 </context>
 <context>
@@ -3014,7 +3026,7 @@
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="110"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>تحديث</translation>
     </message>
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="111"/>
@@ -3024,7 +3036,7 @@
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="127"/>
         <source>Update fail</source>
-        <translation type="unfinished"></translation>
+        <translation>فشل التحديث</translation>
     </message>
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="127"/>
@@ -3121,12 +3133,12 @@
     <message>
         <location filename="../Core/Web/Tab/WebTab.cpp" line="475"/>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>جار التحميل...</translation>
     </message>
     <message>
         <location filename="../Core/Web/Tab/WebTab.cpp" line="494"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Web/Tab/WebTab.cpp" line="498"/>
@@ -3139,7 +3151,13 @@
     <message>
         <location filename="../Core/Web/WebView.cpp" line="200"/>
         <source>Empty page</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Search Results
+
+Empty page Edit
+
+ui translations
+
+صفحة فارغة</translation>
     </message>
     <message>
         <location filename="../Core/Web/WebView.cpp" line="743"/>
@@ -3149,7 +3167,7 @@
     <message>
         <location filename="../Core/Web/WebView.cpp" line="779"/>
         <source>&amp;Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">رجوع</translation>
     </message>
     <message>
         <location filename="../Core/Web/WebView.cpp" line="782"/>
@@ -3219,12 +3237,12 @@
     <message>
         <location filename="../Core/Web/WebView.cpp" line="858"/>
         <source>Dictionary</source>
-        <translation type="unfinished"></translation>
+        <translation>قاموس</translation>
     </message>
     <message>
         <location filename="../Core/Web/WebView.cpp" line="871"/>
         <source>Go to &amp;web address</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">الذهاب إلى عنوان الويب</translation>
     </message>
     <message>
         <location filename="../Core/Web/WebView.cpp" line="888"/>

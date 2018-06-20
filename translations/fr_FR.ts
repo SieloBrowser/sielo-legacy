@@ -4,32 +4,32 @@
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../Core/Application.cpp" line="912"/>
+        <location filename="../Core/Application.cpp" line="918"/>
         <source>Start after crash</source>
         <translation>Démarrage après un crash</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="913"/>
+        <location filename="../Core/Application.cpp" line="919"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
         <translation>Vous démarrez Sielo après un crash. Que voulez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="915"/>
+        <location filename="../Core/Application.cpp" line="921"/>
         <source>Start New Session</source>
         <translation>Démarrer une nouvelle session</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="917"/>
+        <location filename="../Core/Application.cpp" line="923"/>
         <source>Restore Session</source>
         <translation>Restorer l&apos;ancienne session</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="924"/>
+        <location filename="../Core/Application.cpp" line="930"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="924"/>
+        <location filename="../Core/Application.cpp" line="930"/>
         <source>Please, if Sielo continues crashing, consider trying this 32bit version.</source>
         <translation>S&apos;il vous plaît, si Sielo continue de crasher, essayez la version 32bits.</translation>
     </message>
@@ -340,174 +340,174 @@
     <name>Sn::AppearancePage</name>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="107"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="118"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="120"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="107"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="108"/>
         <source>Be aware, if you only load theme&apos;s icons, floating button will disappear. You should disable floating button when you don&apos;t load full theme.</source>
         <translation>Attention, si vous ne chargez que les icônes du thème, le bouton flottant disparaîtra. Vous devriez désactiver le bouton flottant quand vous ne chargez pas le thème complet.</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="118"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="120"/>
         <source>Some changes need Sielo restart to have effects</source>
         <translation>Des changements requierent le redémarrage de Sielo pour être actifs</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="177"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="342"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="178"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="347"/>
         <source>Tabs spaces padding (%1px)</source>
         <translation>Espace entre les espaces d&apos;onglets (%1xp)</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="183"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="184"/>
         <source>Choose background</source>
         <translation>Choisir un arrière plan</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="195"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="197"/>
         <source>Unavailable</source>
         <translation>Indisponible</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="195"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="197"/>
         <source>The gallery is currently unavailable.</source>
         <translation>La galerie est actuellement indisponible.</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="208"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="210"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="209"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="211"/>
         <source>Can&apos;t decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser.</source>
         <translation>Impossible de décompiler le thème ... Vérifiez que le compilateur est dans le même dossier que l&apos;éxecutable de Sielo, sinon, déplacez le manuellement ou mettez à jour ou réinstallez le navigateur.</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="213"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="216"/>
         <source>Open a theme</source>
         <translation>Ouvrir un thème</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="224"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="229"/>
         <source>Theme exist</source>
         <translation>Le thème existe</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="225"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="230"/>
         <source>The theme already exist and is going to be update with the new version.</source>
         <translation>Le thème existe déjà et va être mise à jour avec la nouvelle version.</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="247"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="251"/>
         <source>Select a color</source>
         <translation>Choisir une couleur</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="412"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="531"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="416"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="534"/>
         <source>Themes</source>
         <translation>Thèmes</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="413"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="417"/>
         <source>Theme colors (might not work on every themes)</source>
         <translation>Couleurs du thème (Il se peut qu&apos;elles ne fonctionnent pas avec tous les thèmes)</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="436"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="440"/>
         <source>&lt;b&gt;Name: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Nom : &lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="442"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="446"/>
         <source>License</source>
         <translation>License</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="451"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="455"/>
         <source>&lt;b&gt;Author: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Auteur :&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="458"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="462"/>
         <source>&lt;b&gt;Description: &lt;/b&gt;</source>
         <translation>&lt;b&gt;Description :&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="465"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="469"/>
         <source>Add a Theme</source>
         <translation>Ajouter un Thème</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="466"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="470"/>
         <source>Open Gallery</source>
         <translation>Ouvrir la Galerie</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="468"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="472"/>
         <source>Main Color</source>
         <translation>Couleur Principale</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="469"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="473"/>
         <source>Second Color</source>
         <translation>Couleur Secondaire</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="470"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="474"/>
         <source>Accent Color</source>
         <translation>Couleur d&apos;accent</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="471"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="475"/>
         <source>Text Color</source>
         <translation>Couleur du Texte</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="473"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="477"/>
         <source>Fully load theme (otherwise it will only load theme&apos;s icons)</source>
         <translation>Chargement complet du thème (sinon, il ne chargement que les icônes du thème)</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="474"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="478"/>
         <source>Use real toolbar instead of floating button</source>
         <translation>Utiliser une vraie barre d&apos;outils au lieu du bouton flottant</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="476"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="480"/>
         <source>Hide bookmarks and history action in the navigation tool bar by default</source>
         <translation>Masquer les signets et l&apos;historique dans la barre d&apos;outils par défaut</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="477"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="481"/>
         <source>Floating button automatically move to focused tabs space</source>
         <translation>Le bouton flottant se déplace automatiquement dans l&apos;espace des onglets ciblés</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="479"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="483"/>
         <source>Tabs spaces padding (in px)</source>
         <translation>Espace entre les espaces d&apos;onglets</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="487"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
         <source>Repeate the background if the picture is too small</source>
         <translation>Activer la mosaïque si le fond d&apos;écran est trop petit</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="489"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="490"/>
         <source>Background: </source>
         <translation>Fond d&apos;écran : </translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="491"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="492"/>
         <source>...</source>
         <translation>…</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="532"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="535"/>
         <source>Advanced</source>
         <translation>Avancés</translation>
     </message>
@@ -1029,70 +1029,70 @@
         <translation>Sielo</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="283"/>
+        <location filename="../Core/BrowserWindow.cpp" line="284"/>
         <source>%1 - Sielo</source>
         <translation>%1 - Sielo</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="417"/>
+        <location filename="../Core/BrowserWindow.cpp" line="418"/>
         <source>Session</source>
         <translation>Session</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="488"/>
+        <location filename="../Core/BrowserWindow.cpp" line="489"/>
         <source> (Private Browsing)</source>
         <translation> (Navigation Privée)</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="695"/>
+        <location filename="../Core/BrowserWindow.cpp" line="696"/>
         <source>Restore Closed Tab</source>
         <translation>Restaurer l&apos;Onglet Fermé</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="884"/>
-        <location filename="../Core/BrowserWindow.cpp" line="913"/>
+        <location filename="../Core/BrowserWindow.cpp" line="885"/>
+        <location filename="../Core/BrowserWindow.cpp" line="914"/>
         <source>Go Forward</source>
         <translation>Avancer</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="886"/>
-        <location filename="../Core/BrowserWindow.cpp" line="914"/>
+        <location filename="../Core/BrowserWindow.cpp" line="887"/>
+        <location filename="../Core/BrowserWindow.cpp" line="915"/>
         <source>Go Back</source>
         <translation>Retour</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="888"/>
-        <location filename="../Core/BrowserWindow.cpp" line="915"/>
+        <location filename="../Core/BrowserWindow.cpp" line="889"/>
+        <location filename="../Core/BrowserWindow.cpp" line="916"/>
         <source>Go Home</source>
         <translation>Accueil</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="890"/>
-        <location filename="../Core/BrowserWindow.cpp" line="916"/>
+        <location filename="../Core/BrowserWindow.cpp" line="891"/>
+        <location filename="../Core/BrowserWindow.cpp" line="917"/>
         <source>Add Bookmark</source>
         <translation>Ajouter un favoris</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="892"/>
-        <location filename="../Core/BrowserWindow.cpp" line="917"/>
+        <location filename="../Core/BrowserWindow.cpp" line="893"/>
+        <location filename="../Core/BrowserWindow.cpp" line="918"/>
         <source>Show all Bookmarks</source>
         <translation>Afficher tout les favoris</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="894"/>
-        <location filename="../Core/BrowserWindow.cpp" line="918"/>
+        <location filename="../Core/BrowserWindow.cpp" line="895"/>
+        <location filename="../Core/BrowserWindow.cpp" line="919"/>
         <source>Show History</source>
         <translation>Afficher l&apos;historique</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="896"/>
-        <location filename="../Core/BrowserWindow.cpp" line="919"/>
+        <location filename="../Core/BrowserWindow.cpp" line="897"/>
+        <location filename="../Core/BrowserWindow.cpp" line="920"/>
         <source>Open New Window</source>
         <translation>Ouvrir une nouvelle fenètre</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="898"/>
-        <location filename="../Core/BrowserWindow.cpp" line="920"/>
+        <location filename="../Core/BrowserWindow.cpp" line="899"/>
+        <location filename="../Core/BrowserWindow.cpp" line="921"/>
         <source>Open New Tab</source>
         <translation>Ouvrir un nouvel onglet</translation>
     </message>
@@ -2940,8 +2940,8 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="121"/>
         <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
+        <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="121"/>
         <source>New Tab</source>
         <translation>Nouvel onglet</translation>
     </message>
@@ -2987,12 +2987,12 @@
 <context>
     <name>Sn::TabbedWebView</name>
     <message>
-        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="200"/>
+        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="248"/>
         <source>Show so&amp;urce code</source>
         <translation>Affiche le code so&amp;urce</translation>
     </message>
     <message>
-        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="201"/>
+        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="249"/>
         <source>Show Inspector</source>
         <translation>Afficher l&apos;inspecteur</translation>
     </message>
@@ -3143,157 +3143,157 @@
         <translation>Page vide</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="738"/>
+        <location filename="../Core/Web/WebView.cpp" line="743"/>
         <source>No suggestions</source>
         <translation>Pas de suggestions</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="774"/>
+        <location filename="../Core/Web/WebView.cpp" line="779"/>
         <source>&amp;Back</source>
         <translation>&amp;Retour</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="777"/>
+        <location filename="../Core/Web/WebView.cpp" line="782"/>
         <source>&amp;Forward</source>
         <translation>&amp;Flèche</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="785"/>
+        <location filename="../Core/Web/WebView.cpp" line="790"/>
         <source>Book&amp;mark page</source>
         <translation>&amp;Marquepage page</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="786"/>
+        <location filename="../Core/Web/WebView.cpp" line="791"/>
         <source>&amp;Save page as...</source>
         <translation>Enregi&amp;strer la page sous …</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="787"/>
+        <location filename="../Core/Web/WebView.cpp" line="792"/>
         <source>&amp;Copy page link</source>
         <translation>&amp;Copier le lien de la page</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="791"/>
+        <location filename="../Core/Web/WebView.cpp" line="796"/>
         <source>Select &amp;all</source>
         <translation>Tout &amp;sélectionner</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="806"/>
+        <location filename="../Core/Web/WebView.cpp" line="811"/>
         <source>Open link in new &amp;window</source>
         <translation>Ouvrir le lien dans une nouvelle &amp;fenêtre</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="813"/>
+        <location filename="../Core/Web/WebView.cpp" line="818"/>
         <source>B&amp;ookmark link</source>
         <translation>Aj&amp;outer un signet</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="814"/>
+        <location filename="../Core/Web/WebView.cpp" line="819"/>
         <source>&amp;Save link as...</source>
         <translation>Engeri&amp;strer le lien sous …</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="815"/>
+        <location filename="../Core/Web/WebView.cpp" line="820"/>
         <source>&amp;Copy link address</source>
         <translation>&amp;Copier l&apos;adresse du lien</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="826"/>
+        <location filename="../Core/Web/WebView.cpp" line="831"/>
         <source>Show i&amp;mage</source>
         <translation>Afficher l&apos;i&amp;mage</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="827"/>
+        <location filename="../Core/Web/WebView.cpp" line="832"/>
         <source>Copy image</source>
         <translation>Copier l&apos;image</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="828"/>
+        <location filename="../Core/Web/WebView.cpp" line="833"/>
         <source>Copy image ad&amp;dress</source>
         <translation>Copier l&apos;ad&amp;dresse de l&apos;image</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="832"/>
+        <location filename="../Core/Web/WebView.cpp" line="837"/>
         <source>&amp;Save image as...</source>
         <translation>Enregi&amp;strer l&apos;image sous …</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="853"/>
+        <location filename="../Core/Web/WebView.cpp" line="858"/>
         <source>Dictionary</source>
         <translation>Dictionnaire</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="866"/>
+        <location filename="../Core/Web/WebView.cpp" line="871"/>
         <source>Go to &amp;web address</source>
         <translation>Aller à l&apos;adresse &amp;web</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="883"/>
+        <location filename="../Core/Web/WebView.cpp" line="888"/>
         <source>&amp;Play</source>
         <translation>&amp;Jouer</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="883"/>
+        <location filename="../Core/Web/WebView.cpp" line="888"/>
         <source>&amp;Pause</source>
         <translation>&amp;Pause</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="884"/>
+        <location filename="../Core/Web/WebView.cpp" line="889"/>
         <source>Un&amp;mute</source>
         <translation>Ac&amp;tiver le son</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="884"/>
+        <location filename="../Core/Web/WebView.cpp" line="889"/>
         <source>&amp;Mute</source>
         <translation>Désac&amp;tiver le son</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="888"/>
+        <location filename="../Core/Web/WebView.cpp" line="893"/>
         <source>&amp;Copy media address</source>
         <translation>&amp;Copier l&apos;adresse du média</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="889"/>
+        <location filename="../Core/Web/WebView.cpp" line="894"/>
         <source>Save media to &amp;disk</source>
         <translation>Enregistrer le médié sur le &amp;disque</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="895"/>
+        <location filename="../Core/Web/WebView.cpp" line="900"/>
         <source>&amp;Undo</source>
         <translation>&amp;Retour</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="901"/>
+        <location filename="../Core/Web/WebView.cpp" line="906"/>
         <source>&amp;Redo</source>
         <translation>Ann&amp;uler retour</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="907"/>
+        <location filename="../Core/Web/WebView.cpp" line="912"/>
         <source>&amp;Cut</source>
         <translation>Co&amp;uper</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="913"/>
+        <location filename="../Core/Web/WebView.cpp" line="918"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copier</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="919"/>
+        <location filename="../Core/Web/WebView.cpp" line="924"/>
         <source>&amp;Paste</source>
         <translation>Col&amp;ler</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="925"/>
+        <location filename="../Core/Web/WebView.cpp" line="930"/>
         <source>Select All</source>
         <translation>Tout sélectionner</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="931"/>
+        <location filename="../Core/Web/WebView.cpp" line="936"/>
         <source>&amp;Reload</source>
         <translation>&amp;Recharger</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="935"/>
+        <location filename="../Core/Web/WebView.cpp" line="940"/>
         <source>S&amp;top</source>
         <translation>S&amp;topper</translation>
     </message>
