@@ -24,29 +24,31 @@
 
 #include "AboutDialog.hpp"
 
-#include <QIcon>
+#include <QGraphicsDropShadowEffect>
 
 #include "Application.hpp"
 
-namespace Sn {
-
-AboutDialog::AboutDialog(QWidget* parent) :
-		QDialog(parent)
+namespace Sn
 {
-	QIcon icon = windowIcon();
-	Qt::WindowFlags flags = windowFlags();
-	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
-
-	flags = flags & (~helpFlag);
-	setWindowFlags(flags);
-	setWindowIcon(icon);
+AboutDialog::AboutDialog(QWidget* parent) :
+	QDialog(parent)
+{
 	setAttribute(Qt::WA_DeleteOnClose);
-
+	setWindowTitle(tr("About Sielo"));
+	setWindowIcon(Application::getAppIcon("ic_sielo"));
+	resize(636, 432);
 	setupUI();
+	setupAbout();
+	setupPartners();
+	updateLabels();
 
-	connect(m_closeButtonBox, SIGNAL(clicked(QAbstractButton * )), this, SLOT(close()));
+	if (m_images.count() == 1) {
+		m_previous->setEnabled(false);
+		m_next->setEnabled(false);
+	}
 
-	showAbout();
+	connect(m_previous, &QPushButton::clicked, this, &AboutDialog::previous);
+	connect(m_next, &QPushButton::clicked, this, &AboutDialog::next);
 }
 
 AboutDialog::~AboutDialog()
@@ -54,51 +56,118 @@ AboutDialog::~AboutDialog()
 	// Empty
 }
 
+void AboutDialog::previous()
+{
+	if (m_currentIndex == 0)
+		return;
+
+	m_next->setText(tr("Next"));
+	m_previous->setText(tr("Previous"));
+
+	--m_currentIndex;
+	updateLabels();
+	m_next->setEnabled(true);
+
+	if (m_currentIndex == 0) {
+		m_previous->setEnabled(false);
+		m_next->setText(tr("Our partners"));
+	}
+}
+
+void AboutDialog::next()
+{
+	if (m_currentIndex == m_images.count() - 1)
+		return;
+
+	m_next->setText(tr("Next"));
+	m_previous->setText(tr("Previous"));
+
+	++m_currentIndex;
+	updateLabels();
+	m_previous->setEnabled(true);
+
+	if (m_currentIndex == m_images.count() - 1)
+		m_next->setEnabled(false);
+
+	if (m_currentIndex == 1)
+		m_previous->setText(tr("What's Sielo"));
+}
+
 void AboutDialog::setupUI()
 {
-	resize(468, 412);
-	setWindowTitle(tr("About Sielo"));
-
 	m_layout = new QVBoxLayout(this);
-	m_layout->setSpacing(0);
+	m_buttonsLayout = new QHBoxLayout();
 
-	m_icon = new QLabel(this);
-	m_icon->setPixmap(QIcon(":icons/other/aboutsielo.png").pixmap(382, 92));
-	m_icon->setAlignment(Qt::AlignCenter);
+	m_image = new QLabel(this);
+	m_image->setAlignment(Qt::AlignCenter);
+	m_image->setObjectName(QLatin1String("partners-image"));
 
-	m_content = new QTextBrowser(this);
-	m_content->setOpenLinks(true);
-	m_content->setOpenExternalLinks(true);
-	m_content->document()->setDefaultStyleSheet("a {color: rgb(0, 100, 255); }");
+	m_desc = new QLabel(this);
+	m_desc->setWordWrap(true);
+	m_desc->setObjectName(QLatin1String("partners-description"));
 
-	m_closeButtonBox = new QDialogButtonBox(QDialogButtonBox::Close, Qt::Horizontal, this);
+	m_spacer = new QSpacerItem(10, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
+	m_previous = new QPushButton(tr("Previous"), this);
+	m_next = new QPushButton(tr("Our partners"), this);
 
-	m_layout->addWidget(m_icon);
-	m_layout->addWidget(m_content);
-	m_layout->addWidget(m_closeButtonBox);
+	m_buttonsLayout->addItem(m_spacer);
+	m_buttonsLayout->addWidget(m_previous);
+	m_buttonsLayout->addWidget(m_next);
+
+	m_layout->addWidget(m_image);
+	m_layout->addWidget(m_desc);
+	m_layout->addLayout(m_buttonsLayout);
+
+	QGraphicsDropShadowEffect* effect{new QGraphicsDropShadowEffect(this)};
+	effect->setBlurRadius(6);
+	effect->setOffset(0, 2);
+	effect->setColor(QColor(0, 0, 0));
+	m_image->setGraphicsEffect(effect);
 }
 
-void AboutDialog::showAbout()
+void AboutDialog::setupAbout()
 {
-	if (m_html.isEmpty()) {
-		m_html += "<center><div style='margin: 20px;'>";
-		m_html += tr("<p><b>Sielo version %1</b><br />").arg(Application::currentVersion);
-		m_html += tr("<b>QtWebEngine version %1</b></p>").arg(qVersion());
-		m_html += QLatin1String("<p>Copyright &copy; 2017 Victor DENIS<br />");
-		m_html += QLatin1String("<a href=\"mailto:admin@feldrise.com\">admin@feldrise.com</a></p>");
-		m_html += tr("<p><b>Main developer:</b><br />%1 &lt;%2&gt;</p>")
-				.arg("Victor DENIS", "<a href=\"mailto:victordenis01@gmail.com\">victordenis01@gmail.com</a>");
-		m_html += tr("<p><b>Contributors:</b><br />%1</p>").arg(
-				QString::fromUtf8("hotaru70o<br />"
-										  "Kaktus<br />"
-										  "LavaPower (http://github.com/LavaPower)<br />"
-										  "ilearn32<br />"
-										  "gbdivers")
-		);
-		m_html += "</div></center>";
-	}
+	m_images << ":icons/other/aboutsielo.png";
 
-	m_content->setHtml(m_html);
+	QString aboutSielo = tr("<p><b>Sielo</b><br/><br/>"
+		"Sielo is a powerful web browser with a unique concept: tabs spaces."
+		"Sielo has many contribution and I would like to give special thanks<br/>"
+		"to Hotaru for always being here, Echostorm for his awesome contribution,<br/>"
+		"Kaktus for the design and all other contributors!</p>"
+		"<p>Copyright &copy; 2018 Victor DENIS<br />"
+		"<a href=\"mailto:admin@feldrise.com\">admin@feldrise.com</a></p>");
+
+	m_descs << aboutSielo;
 }
 
+void AboutDialog::setupPartners()
+{
+	m_images << ":data/partners/bs.jpg"
+		<< ":data/partners/lmdpc.jpg";
+
+	QString bsDesc = tr("<b>Bit-Studio.com</b><br/><br/>"
+		"Created in 2011, this concept aims to promote promising IT "
+		"projects in order to help them take off.<br/>"
+		"After a few years of operation, the project was put on hold. "
+		"It was too much work for one man. In 2018, a team was formed "
+		"and Bit-Studio was reborn from its ashes, stronger than ever.<br/>"
+		"From then on, discover regularly, in preview, the mastodons of "
+		"tomorrow on Bit-Studio.com.");
+
+	QString lmdpcDesc = tr("<b>Le Monde Du PC</b><br/><br/>"
+		"\"Le Monde Du PC\", put online in September 2017, is a site "
+		"that aims to share our knowledge so that, for example, some "
+		"subjects in computing are not only understood by those who "
+		"master them. Today, the team is complete and a 2.0 version will "
+		"normally be released in September.");
+
+	m_descs << bsDesc
+		<< lmdpcDesc;
+}
+
+void AboutDialog::updateLabels()
+{
+	m_image->setPixmap(QPixmap(m_images[m_currentIndex]));
+	m_desc->setText(m_descs[m_currentIndex]);
+}
 }
