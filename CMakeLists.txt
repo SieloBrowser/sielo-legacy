@@ -45,16 +45,7 @@ if (WIN32)
     get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
     get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)
     set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
-<<<<<<< HEAD
 
-    add_custom_command(TARGET sielo-browser POST_BUILD
-            COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
-			file(GLOB OPENSSL_CRYPTO_DLLS "${CMAKE_SOURCE_DIR}/third-party/openssl/windows/x64/bin/*.dll")
-			file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
-
-
-=======
->>>>>>> upstream/master
 elseif(APPLE)
     add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} icons.qrc data.qrc)
     set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
