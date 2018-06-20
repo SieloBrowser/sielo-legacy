@@ -73,7 +73,6 @@ find_package(Qt5Widgets 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
-
 # Qt5LinguistTools
 find_package(Qt5LinguistTools)
 FILE(GLOB TS_FILES "${CMAKE_SOURCE_DIR}/translations/*.ts")

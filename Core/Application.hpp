@@ -207,7 +207,6 @@ public:
 	bool useTopToolBar() const { return m_useTopToolBar; }
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
-	bool navigationToolBarFocusedMode() const { return m_navigationToolBarFocusedMode; }
 
 	void startAfterCrash();
 	void connectDatabase();
@@ -294,7 +293,6 @@ private:
 	bool m_useTopToolBar{false};
 	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};
-	bool m_navigationToolBarFocusedMode{false};
 	bool m_databaseConnected{false};
 
 	AfterLaunch m_afterCrashLaunch{AfterLaunch::OpenHomePage};

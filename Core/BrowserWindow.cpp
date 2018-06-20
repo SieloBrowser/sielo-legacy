@@ -47,7 +47,6 @@
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
-#include "Widgets/NavigationBar.hpp"
 
 namespace Sn {
 
@@ -476,25 +475,14 @@ void BrowserWindow::paintEvent(QPaintEvent* event)
 	}
 }
 
-// Move floating button to stay visible in place when ever browser window resizes 
 void BrowserWindow::resizeEvent(QResizeEvent* event)
 {
 	if (m_fButton) {
 		if (m_fButton->pattern() != RootFloatingButton::Pattern::Floating)
 			m_fButton->tabWidgetChanged(tabWidget());
 		else {
-			if (m_fButton->x() > event->size().width())
-			{
-				m_fButton->move((event->size().width() + m_fButton->width()), (m_fButton->y()));
-			}
-			if (m_fButton->y() > event->size().height())
-			{
-				m_fButton->move((m_fButton->x()), (event->size().height() - m_fButton->height()));
-			}
-			m_fButton->move(std::min(m_fButton->x(), event->size().width() + m_fButton->width()),
-							std::min(m_fButton->y(), event->size().height() + m_fButton->height()));
-//			m_fButton->move(m_fButton->x() - (event->oldSize().width() - event->size().width()),
-//							m_fButton->y() - (event->oldSize().height() - event->size().height()));
+			m_fButton->move(m_fButton->x() - (event->oldSize().width() - event->size().width()),
+							m_fButton->y() - (event->oldSize().height() - event->size().height()));
 		}
 	}
 
@@ -607,13 +595,7 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 	if (m_restoreAction && m_tabWidgets[m_currentTabWidget])
 		disconnect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
-	if (m_tabWidgets[m_currentTabWidget]->navigationToolBar() && Application::instance()->navigationToolBarFocusedMode())
-		m_tabWidgets[m_currentTabWidget]->navigationToolBar()->hide();
-
 	m_currentTabWidget = m_tabWidgets.indexOf(tbWidget);
-
-	if (m_tabWidgets[m_currentTabWidget]->navigationToolBar() && Application::instance()->navigationToolBarFocusedMode())
-		m_tabWidgets[m_currentTabWidget]->navigationToolBar()->show();
 
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabWidgets[m_currentTabWidget], SLOT(restoreClosedTab()));
 
@@ -877,11 +859,6 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 		tabWidget->addView(tab);
 
 		m_currentTabWidget = previousCurrentTabWidget;
-		if (m_tabWidgets.count() > 1 && Application::instance()->navigationToolBarFocusedMode())
-		{
-			if (tabWidget->navigationToolBar()) 
-				tabWidget->navigationToolBar()->hide();
-		}
 	}
 
 	tabWidget->tabBar()->show();
@@ -890,7 +867,8 @@ QWidget* BrowserWindow::createWidgetTabWidget(WebTab* tab, Application::TabsSpac
 	layout->addWidget(tabWidget);
 
 	connect(tabWidget, &TabWidget::focusIn, this, &BrowserWindow::tabWidgetIndexChanged);
-	connect(m_titleBar, &TitleBar::toggleBookmarksBar, tabWidget,  &TabWidget::updateShowBookmarksBarText);
+	connect(m_titleBar, &TitleBar::toggleBookmarksBar, tabWidget,
+			&TabWidget::updateShowBookmarksBarText);
 
 	return widget;
 }
@@ -914,11 +892,6 @@ QWidget* BrowserWindow::createWidgetTabWidget(TabWidget* tabWidget, WebTab* tab)
 		tabWidget->addView(tab);
 
 		m_currentTabWidget = previousCurrentTabWidget;
-		if (m_tabWidgets.count() > 1 && Application::instance()->navigationToolBarFocusedMode())
-		{
-			if (tabWidget->navigationToolBar())
-				tabWidget->navigationToolBar()->hide();
-		}
 	}
 
 	tabWidget->tabBar()->show();
