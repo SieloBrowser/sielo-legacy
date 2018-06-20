@@ -192,8 +192,8 @@ Application::Application(int& argc, char** argv) :
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
 
-	translateApplication();
 	loadSettings();
+	translateApplication();
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
