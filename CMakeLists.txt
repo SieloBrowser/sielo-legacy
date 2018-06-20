@@ -9,7 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2017_64\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.1\\msvc2017_64\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
 elseif(WIN32)
@@ -19,7 +19,7 @@ elseif(WIN32)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(ICON_NAME "icon.icns")
     set(ICON_PATH "${CMAKE_SOURCE_DIR}/${ICON_NAME}")
-    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.0/clang_64/")
+    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.1/clang_64/")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
 endif()
@@ -45,12 +45,19 @@ if (WIN32)
     get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
     get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)
     set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
+endif()
 
+if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     add_custom_command(TARGET sielo-browser POST_BUILD
             COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
 			file(GLOB OPENSSL_CRYPTO_DLLS "${CMAKE_SOURCE_DIR}/third-party/openssl/windows/x64/bin/*.dll")
 			file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
-
+elseif(WIN32)
+	add_custom_command(TARGET sielo-browser POST_BUILD
+            COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
+			file(GLOB OPENSSL_CRYPTO_DLLS "${CMAKE_SOURCE_DIR}/third-party/openssl/windows/x86/bin/*.dll")
+			file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
+endif()
 
 elseif(APPLE)
     add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} icons.qrc data.qrc)
