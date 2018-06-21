@@ -152,7 +152,7 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	auto& ids = ndb::query<dbs::password>()
+	auto ids = ndb::query<dbs::password>()
 			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server));
 
 	if (!ids.has_result())

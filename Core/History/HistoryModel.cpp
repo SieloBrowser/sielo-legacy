@@ -417,7 +417,7 @@ void HistoryModel::checkEmptyParentItem(HistoryItem* item)
 
 void HistoryModel::init()
 {
-	auto& minDateQuery = ndb::query<dbs::navigation>() << (ndb::min(history.date));
+	auto minDateQuery = ndb::query<dbs::navigation>() << (ndb::min(history.date));
 
 	if (!minDateQuery.has_result())
 		return;

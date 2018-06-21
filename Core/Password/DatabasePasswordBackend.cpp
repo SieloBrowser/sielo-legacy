@@ -71,7 +71,7 @@ QVector<PasswordEntry> DatabasePasswordBackend::getAllEntries()
 void DatabasePasswordBackend::addEntry(const PasswordEntry& entry)
 {
 	if (entry.data.isEmpty()) {
-		auto& data = ndb::query<dbs::password>() << ((autofill.username)
+		auto data = ndb::query<dbs::password>() << ((autofill.username)
 				<< (autofill.server == entry.host));
 
 		if (data.has_result())

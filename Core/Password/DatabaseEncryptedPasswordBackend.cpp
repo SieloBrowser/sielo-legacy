@@ -118,7 +118,7 @@ void DatabaseEncryptedPasswordBackend::setActive(bool active)
 void DatabaseEncryptedPasswordBackend::addEntry(const PasswordEntry& entry)
 {
 	if (entry.data.isEmpty()) {
-		auto& data = ndb::query<dbs::password>() << ((autofill_encrypted.username_encrypted) << (autofill_encrypted.server == entry.host));
+		auto data = ndb::query<dbs::password>() << ((autofill_encrypted.username_encrypted) << (autofill_encrypted.server == entry.host));
 
 		if (data.has_result())
 			return;
@@ -342,7 +342,7 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 
 void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& password)
 {
-	auto& data = ndb::query<dbs::password>()
+	auto data = ndb::query<dbs::password>()
 			<< ((autofill_encrypted.id) << (autofill_encrypted.server == INTERNAL_SERVER_ID));
 
 		if (!password.isEmpty()) {
