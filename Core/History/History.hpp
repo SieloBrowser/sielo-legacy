@@ -49,8 +49,8 @@ public:
 	~History();
 
 	struct HistoryEntry {
-		int id;
-		int count;
+		qint64 id;
+		qint64 count;
 		QDateTime date;
 		QUrl url;
 		QString urlString;

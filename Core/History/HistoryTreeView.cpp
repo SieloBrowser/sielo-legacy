@@ -73,8 +73,8 @@ void HistoryTreeView::removeSelectedItems()
 			continue;
 
 		if (index.data(HistoryModel::IsTopLevelRole).toBool()) {
-			qint64 start{index.data(HistoryModel::TimestampStartRole).toInt()};
-			qint64 end{index.data(HistoryModel::TimestampEndRole).toInt()};
+			qint64 start{index.data(HistoryModel::TimestampStartRole).toLongLong()};
+			qint64 end{index.data(HistoryModel::TimestampEndRole).toLongLong()};
 
 			list.append(m_history->indexesFromTimeRange(start, end));
 

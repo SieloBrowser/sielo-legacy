@@ -151,7 +151,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = QString::fromUtf8(encryptedEntry.data),
 											 autofill_encrypted.username_encrypted = encryptedEntry.username,
 											 autofill_encrypted.password_encrypted = encryptedEntry.password)
-					<< (autofill_encrypted.id == encryptedEntry.id.toInt()));
+					<< (autofill_encrypted.id == encryptedEntry.id.toLongLong()));
 		}
 
 		//return query.exec();
@@ -164,7 +164,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 void DatabaseEncryptedPasswordBackend::updateLastUsed(PasswordEntry& entry)
 {
 	ndb::query<dbs::password>() >> ((autofill_encrypted.last_used = ndb::now())
-			<< (autofill_encrypted.id == entry.id.toInt()));
+			<< (autofill_encrypted.id == entry.id.toLongLong()));
 }
 
 void DatabaseEncryptedPasswordBackend::removeEntry(const PasswordEntry& entry)
@@ -172,7 +172,7 @@ void DatabaseEncryptedPasswordBackend::removeEntry(const PasswordEntry& entry)
 	if (!hasPermission())
 		return;
 
-	ndb::query<dbs::password>() - (autofill_encrypted.id == entry.id.toInt());
+	ndb::query<dbs::password>() - (autofill_encrypted.id == entry.id.toLongLong());
 
 	m_stateOfMasterPassword = UnknownState;
 

@@ -96,7 +96,7 @@ bool DatabasePasswordBackend::updateEntry(const PasswordEntry& entry)
 		ndb::query<dbs::password>() >> ((autofill.data = QString::fromUtf8(entry.data),
 										 autofill.username = entry.username,
 										 autofill.password = entry.password)
-				<< (autofill.id == entry.id.toInt()));
+				<< (autofill.id == entry.id.toLongLong()));
 	}
 
 	return true;
@@ -105,12 +105,12 @@ bool DatabasePasswordBackend::updateEntry(const PasswordEntry& entry)
 void DatabasePasswordBackend::updateLastUsed(PasswordEntry& entry)
 {
 	ndb::query<dbs::password>() >> ((autofill.last_used = ndb::now())
-			<< (autofill.id == entry.id.toInt()));
+			<< (autofill.id == entry.id.toLongLong()));
 }
 
 void DatabasePasswordBackend::removeEntry(const PasswordEntry& entry)
 {
-	ndb::query<dbs::password>() - (autofill.id == entry.id.toInt());
+	ndb::query<dbs::password>() - (autofill.id == entry.id.toLongLong());
 }
 
 void DatabasePasswordBackend::removeAll()

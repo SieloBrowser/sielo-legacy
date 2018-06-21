@@ -68,7 +68,7 @@ ndb_table(history,
 	ndb_field(title, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(url, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(date, qint64, ndb::option<Opt_NotNull>),
-	ndb_field(count, int, ndb::option<Opt_NotNull>)
+	ndb_field(count, qint64, ndb::option<Opt_NotNull>)
 )
 
 ndb_model(navigation, history)

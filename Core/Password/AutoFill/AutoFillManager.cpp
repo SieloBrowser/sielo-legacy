@@ -301,7 +301,7 @@ void AutoFillManager::removeException()
 	if (!currentItem)
 		return;
 
-	int id{currentItem->data(0, Qt::UserRole + 10).toInt()};
+	qint64 id{currentItem->data(0, Qt::UserRole + 10).toLongLong()};
 
 	ndb::query<dbs::password>() - (autofill_exceptions.id == id);
 
