@@ -488,7 +488,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="477"/>
         <source>Fully load theme (otherwise it will only load theme&apos;s icons)</source>
-        <translation>Chargement complet du thème (sinon, il ne chargement que les icônes du thème)</translation>
+        <translation>Chargement complet du thème (sinon seul les icônes du thème seront chargés)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="478"/>
@@ -3164,7 +3164,7 @@
     <message>
         <location filename="../Core/Web/WebView.cpp" line="790"/>
         <source>&amp;Forward</source>
-        <translation>&amp;Flèche</translation>
+        <translation>&amp;Suivant</translation>
     </message>
     <message>
         <location filename="../Core/Web/WebView.cpp" line="798"/>
