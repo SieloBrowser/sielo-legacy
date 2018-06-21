@@ -461,7 +461,7 @@ void HistoryModel::init()
 			                                timestampDate.year());
 		}
 
-		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp));
+		auto query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp));
 
 		if (query.has_result()) {
 			HistoryItem* item{new HistoryItem(m_rootItem)};

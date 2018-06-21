@@ -118,7 +118,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	if (title.isEmpty())
 		title = tr("Empty page");
 
-	auto& oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString());
+	auto oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString());
 
 	if (!oquery.has_result()) {
 		ndb::query<dbs::navigation>() + (
@@ -224,7 +224,7 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 
 bool History::urlIsStored(const QString& url)
 {
-	auto& query = ndb::query<dbs::navigation>() << (history.url == url);
+	auto query = ndb::query<dbs::navigation>() << (history.url == url);
 
 	return query.has_result();
 }

@@ -389,7 +389,7 @@ QByteArray DatabaseEncryptedPasswordBackend::someDataFromDatabase()
 		return m_someDataStoredOnDatabase;
 
 	QByteArray someData{};
-	auto& query = ndb::query<dbs::password>() << (autofill_encrypted.password_encrypted,
+	auto query = ndb::query<dbs::password>() << (autofill_encrypted.password_encrypted,
 			autofill_encrypted.data_encrypted,
 			autofill_encrypted.username_encrypted);
 
