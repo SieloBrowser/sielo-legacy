@@ -54,7 +54,7 @@ using Opt_NotNull = ndb::field_option::not_null;
 
 // Password
 ndb_table(autofill,
-	ndb_field_id,
+	ndb_field(id, qint64, ::ndb::option<ndb::field_option::oid>),
 	ndb_field(data, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(password, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(username, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
@@ -63,7 +63,7 @@ ndb_table(autofill,
 )
 
 ndb_table(autofill_encrypted,
-	ndb_field_id,
+	ndb_field(id, qint64, ::ndb::option<ndb::field_option::oid>),
 	ndb_field(data_encrypted, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(password_encrypted, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(username_encrypted, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
@@ -72,7 +72,7 @@ ndb_table(autofill_encrypted,
 )
 
 ndb_table(autofill_exceptions,
-	ndb_field_id,
+	ndb_field(id, qint64, ::ndb::option<ndb::field_option::oid>),
 	ndb_field(server, QString, ndb::size<255>, ndb::option<Opt_NotNull>)
 )
 
@@ -80,7 +80,7 @@ ndb_model(password, autofill, autofill_encrypted, autofill_exceptions)
 
 // History (called "Navigation")
 ndb_table(history,
-	ndb_field_id,
+	ndb_field(id, qint64, ::ndb::option<ndb::field_option::oid>),
 	ndb_field(title, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(url, QString, ndb::size<255>, ndb::option<Opt_NotNull>),
 	ndb_field(date, qint64, ndb::option<Opt_NotNull>),
@@ -91,7 +91,7 @@ ndb_model(navigation, history)
 
 // Icons (in 
 ndb_table(icons,
-	ndb_field_id,
+	ndb_field(id, qint64, ::ndb::option<ndb::field_option::oid>),
 	ndb_field(icon, QByteArray),
 	ndb_field(url, QString, ndb::size<255>, ndb::option<Opt_NotNull>))
 
