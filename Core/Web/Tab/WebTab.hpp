@@ -87,6 +87,8 @@ public:
 	AddressBar* addressBar() const { return m_addressBar; }
 	MainTabBar* tabBar() const { return m_tabBar; }
 
+	void takeAddressBar();
+
 	QUrl url() const;
 	QString title() const;
 	QIcon icon(bool allowNull = false) const;

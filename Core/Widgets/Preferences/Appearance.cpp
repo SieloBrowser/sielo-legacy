@@ -116,10 +116,6 @@ void AppearancePage::save()
 		.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
 		          m_hideBookmarksHistoryActionsByDefault->isChecked());
 
-	if (m_useRealToolBar->isChecked() != Application::instance()->useTopToolBar()) {
-		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
-	}
-
 	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
 	settings.setValue(QLatin1String("repeatBackground"), m_repeatBackground->isChecked());
 	settings.setValue(QLatin1String("backgroundPath"), m_backgroundLocationEdit->text());

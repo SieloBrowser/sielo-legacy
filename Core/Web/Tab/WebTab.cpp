@@ -181,6 +181,13 @@ WebTab::WebTab(BrowserWindow* window) :
 
 }
 
+void WebTab::takeAddressBar()
+{
+	m_addressBar->setParent(this);
+	m_layout->insertWidget(0, m_addressBar);
+	m_addressBar->show();
+}
+
 QUrl WebTab::url() const
 {
 	if (isRestored())

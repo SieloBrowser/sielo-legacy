@@ -478,7 +478,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 34);
+		settings.setValue("Themes/defaultThemeVersion", 35);
 	}
 }
 

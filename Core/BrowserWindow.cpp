@@ -74,10 +74,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	statusBar()->hide(); // Since we have a custom status bar, we hide the default one.
 
 	setupUi();
-	// There is two possibility: the user use the floating button or not. 
-	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
-	if (!Application::instance()->useTopToolBar())
-		setupFloatingButton();
+	
 	loadSettings();
 
 	// Just wait some milli seconds before doing some post launch action
@@ -141,6 +138,15 @@ void BrowserWindow::loadSettings()
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
 
+	// There is two possibility: the user use the floating button or not. 
+	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
+	if (!Application::instance()->useTopToolBar() && !m_fButton)
+		setupFloatingButton();
+	else if (Application::instance()->useTopToolBar() && m_fButton) {
+		delete m_fButton;
+		m_fButton = nullptr;
+	}
+		
 	m_spaceBetweenTabsSpaces = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 
 	// We can apply a padding between tabs space, exactly like i3 gaps
@@ -578,15 +584,16 @@ void BrowserWindow::shotBackground()
 {
 	// Citorva will explain this
 	m_mainSplitter->hide();
-	if (m_fButton) 
+	if (m_fButton && !Application::instance()->useTopToolBar())
 		m_fButton->hide();
+
 	m_titleBar->hide();
 
 	m_bg = new QPixmap(size());
 	render(m_bg, QPoint(), QRect(0, 0, width(), height()));
 	m_mainSplitter->show();
 	m_titleBar->show();
-	if(m_fButton) m_fButton->show();
+	if(m_fButton && !Application::instance()->useTopToolBar()) m_fButton->show();
 }
 
 void BrowserWindow::paintEvent(QPaintEvent* event)
