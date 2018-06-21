@@ -196,7 +196,10 @@ public:
 	 */
 	void loadTheme(const QString& name, const QString& lightness = "dark");
 	QString parseSSS(QString& sss, const QString& relativePath, const QString& lightness);
+	QString parseSSSBackground(QString& sss, const QString& relativePath);
 	QString parseSSSColor(QString& sss, const QString& lightness);
+	QString getBlurredBackgroundPath(const QString& defaultBackground, int radius);
+	QImage blurImage(const QImage& image, const QRect& rect, int radius, bool alphaOnly = false);
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
 	bool isPortable() const { return m_isPortable; }

@@ -33,6 +33,8 @@ namespace Sn
 AboutDialog::AboutDialog(QWidget* parent) :
 	QDialog(parent)
 {
+	setObjectName(QLatin1String("about-dialog"));
+
 	setAttribute(Qt::WA_DeleteOnClose);
 	setWindowTitle(tr("About Sielo"));
 	setWindowIcon(Application::getAppIcon("ic_sielo"));
