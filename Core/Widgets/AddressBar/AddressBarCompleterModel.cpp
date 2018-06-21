@@ -26,8 +26,6 @@
 
 #include <QPixmap>
 
-#include <ndb/utility.hpp>
-
 #include "History/History.hpp"
 
 #include "Web/Tab/WebTab.hpp"
