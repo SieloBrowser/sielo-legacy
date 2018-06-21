@@ -60,9 +60,6 @@ public:
 
 	QList<QStandardItem*> suggestionItems() const;
 
-	static ndb::sqlite_query<dbs::navigation> createHistoryQuery(const QString& searchString, int limit, bool exactMatch = false);
-	static ndb::sqlite_query<dbs::navigation> createDomainQuery(const QString& text);
-
 private:
 	enum Type {
 		HistoryAndBookmarks = 0,
