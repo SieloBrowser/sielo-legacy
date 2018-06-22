@@ -155,7 +155,7 @@ namespace ndb
 
         ndb::engine_connection<sqlite>& connection() const
         {
-            return ndb::engine<ndb::sqlite>::get().connection<Database>();
+            return ndb::engine<ndb::sqlite>::get().template connection<Database>();
         }
 
     private:
