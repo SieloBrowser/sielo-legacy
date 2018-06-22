@@ -35,7 +35,7 @@
 
 #include "Database/SqlDatabase.hpp"
 
-constexpr auto& history = ndb::models::navigation.history;
+constexpr auto history = ndb::models::navigation.history;
 
 namespace Sn
 {
