@@ -174,7 +174,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.15.00"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -401,31 +401,33 @@ void Application::loadApplicationSettings()
 
 	// Check the current version number of Sielo, and make setting update if needed
 	//TODO: improve this with a switch
-	if (settings.value("versionNumber", 0).toInt() < 12) {
-		if (settings.value("versionNumber", 0).toInt() < 11) {
-			// Update with new bookmarks
-			QString directory{Application::instance()->paths()[Application::P_Data]};
-			QFile::remove(directory
-				+ QLatin1String("/bookmarks.xbel"));
-			QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
-			            + QLatin1String("/bookmarks.xbel"));
-			QFile::setPermissions(directory
-			                      + QLatin1String("/bookmarks.xbel"),
-			                      QFileDevice::ReadUser | QFileDevice::WriteUser);
-		}
+	if (settings.value("versionNumber", 0).toInt() < 13) {
+		settings.setValue("installed", false);
+		if (settings.value("versionNumber", 0).toInt() < 12) {
+			if (settings.value("versionNumber", 0).toInt() < 11) {
+				// Update with new bookmarks
+				QString directory{ Application::instance()->paths()[Application::P_Data] };
+				QFile::remove(directory
+					+ QLatin1String("/bookmarks.xbel"));
+				QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
+					+ QLatin1String("/bookmarks.xbel"));
+				QFile::setPermissions(directory
+					+ QLatin1String("/bookmarks.xbel"),
+					QFileDevice::ReadUser | QFileDevice::WriteUser);
+			}
 
-		// Update home page to use last version of doosearch
-		settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
-		settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
+			// Update home page to use last version of doosearch
+			settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
+			settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
 
-		foreach (BrowserWindow* window, m_windows) {
-			window->loadSettings();
-			for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-				window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+			foreach(BrowserWindow* window, m_windows) {
+				window->loadSettings();
+				for (int i{ 0 }; i < window->tabWidgetsCount(); ++i) {
+					window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+				}
 			}
 		}
-
-		settings.setValue("versionNumber", 12);
+		settings.setValue("versionNumber", 13);
 	}
 }
 
@@ -755,7 +757,7 @@ void Application::postLaunch()
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"),
+		           ->addView(QUrl("https://sielo.app/thanks.php"),
 		                     Application::NTT_CleanSelectedTabAtEnd);
 		settings.setValue("installed", true);
 	}
