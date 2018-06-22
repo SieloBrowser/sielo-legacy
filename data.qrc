@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>data/bookmarks.json</file>
-        <file>data/default-mockup.json</file>
+        <file>data/default-maquettegrid.json</file>
         <file>data/fonts/morpheus.ttf</file>
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>
@@ -17,6 +17,7 @@
 
         <!-- Sielo translations -->
         <file>data/locale/fr_FR.qm</file>
+        <file>data/locale/ar_AR.qm</file>
 
         <!-- Sielo default theme -->
         <file>data/themes/sielo-default/dark/edit/edit-clear.png</file>
@@ -27,7 +28,6 @@
         <file>data/themes/sielo-default/dark/edit/edit-redo.png</file>
         <file>data/themes/sielo-default/dark/edit/edit-select-all.png</file>
         <file>data/themes/sielo-default/dark/edit/edit-undo.png</file>
-        <file>data/themes/sielo-default/dark/other/aboutsielo.png</file>
         <file>data/themes/sielo-default/dark/other/add-bookmark.png</file>
         <file>data/themes/sielo-default/dark/other/arrow-down.png</file>
         <file>data/themes/sielo-default/dark/other/arrow-left.png</file>
@@ -45,7 +45,6 @@
         <file>data/themes/sielo-default/dark/other/heart.png</file>
         <file>data/themes/sielo-default/dark/other/history.png</file>
         <file>data/themes/sielo-default/dark/other/home.png</file>
-        <file>data/themes/sielo-default/dark/other/ic_sielo.png</file>
         <file>data/themes/sielo-default/dark/other/locked.png</file>
         <file>data/themes/sielo-default/dark/other/login.png</file>
         <file>data/themes/sielo-default/dark/other/mouselock.png</file>
@@ -101,7 +100,6 @@
         <file>data/themes/sielo-default/light/edit/edit-redo.png</file>
         <file>data/themes/sielo-default/light/edit/edit-select-all.png</file>
         <file>data/themes/sielo-default/light/edit/edit-undo.png</file>
-        <file>data/themes/sielo-default/light/other/aboutsielo.png</file>
         <file>data/themes/sielo-default/light/other/add-bookmark.png</file>
         <file>data/themes/sielo-default/light/other/arrow-down.png</file>
         <file>data/themes/sielo-default/light/other/arrow-left.png</file>
@@ -119,7 +117,6 @@
         <file>data/themes/sielo-default/light/other/heart.png</file>
         <file>data/themes/sielo-default/light/other/history.png</file>
         <file>data/themes/sielo-default/light/other/home.png</file>
-        <file>data/themes/sielo-default/light/other/ic_sielo.png</file>
         <file>data/themes/sielo-default/light/other/locked.png</file>
         <file>data/themes/sielo-default/light/other/login.png</file>
         <file>data/themes/sielo-default/light/other/mouselock.png</file>
@@ -181,7 +178,6 @@
         <file>data/themes/firefox-like-light/images/edit/edit-redo.png</file>
         <file>data/themes/firefox-like-light/images/edit/edit-select-all.png</file>
         <file>data/themes/firefox-like-light/images/edit/edit-undo.png</file>
-        <file>data/themes/firefox-like-light/images/other/aboutsielo.png</file>
         <file>data/themes/firefox-like-light/images/other/add-bookmark.png</file>
         <file>data/themes/firefox-like-light/images/other/arrow-down.png</file>
         <file>data/themes/firefox-like-light/images/other/arrow-left.png</file>
@@ -198,7 +194,6 @@
         <file>data/themes/firefox-like-light/images/other/google.png</file>
         <file>data/themes/firefox-like-light/images/other/history.png</file>
         <file>data/themes/firefox-like-light/images/other/home.png</file>
-        <file>data/themes/firefox-like-light/images/other/ic_sielo.png</file>
         <file>data/themes/firefox-like-light/images/other/locked.png</file>
         <file>data/themes/firefox-like-light/images/other/login.png</file>
         <file>data/themes/firefox-like-light/images/other/mouselock.png</file>
@@ -260,7 +255,6 @@
         <file>data/themes/firefox-like-dark/images/edit/edit-redo.png</file>
         <file>data/themes/firefox-like-dark/images/edit/edit-select-all.png</file>
         <file>data/themes/firefox-like-dark/images/edit/edit-undo.png</file>
-        <file>data/themes/firefox-like-dark/images/other/aboutsielo.png</file>
         <file>data/themes/firefox-like-dark/images/other/add-bookmark.png</file>
         <file>data/themes/firefox-like-dark/images/other/arrow-down.png</file>
         <file>data/themes/firefox-like-dark/images/other/arrow-left.png</file>
@@ -277,7 +271,6 @@
         <file>data/themes/firefox-like-dark/images/other/google.png</file>
         <file>data/themes/firefox-like-dark/images/other/history.png</file>
         <file>data/themes/firefox-like-dark/images/other/home.png</file>
-        <file>data/themes/firefox-like-dark/images/other/ic_sielo.png</file>
         <file>data/themes/firefox-like-dark/images/other/locked.png</file>
         <file>data/themes/firefox-like-dark/images/other/login.png</file>
         <file>data/themes/firefox-like-dark/images/other/mouselock.png</file>

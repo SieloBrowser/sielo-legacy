@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,40 +22,65 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "TreeView.hpp"
+#pragma once
+#ifndef SIELOBROWSER_MOCKUPITEM_HPP
+#define SIELOBROWSER_MOCKUPITEM_HPP
 
-#include <QAbstractItemView>
+#include <QIcon>
 
-#include "Application.hpp"
+#include <QUrl>
+#include <QString>
 
-#include "History/HistoryModel.hpp"
+#include <QVector>
 
-namespace Sn {
-TreeView::TreeView(QWidget* parent) :
-	QTreeView(parent) {}
-
-void TreeView::keyPressEvent(QKeyEvent* event)
+namespace Sn
 {
-	if ((event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace) && model())
-		removeOne();
-	else
-		QAbstractItemView::keyPressEvent(event);
+class MaquetteGridItem {
+public:
+	struct TabsSpace;
+
+	struct Tab {
+		QIcon icon{};
+		QString title{};
+		QUrl url{};
+
+		bool selected{false};
+
+		TabsSpace* parent{nullptr};
+	};
+
+	struct TabsSpace {
+		~TabsSpace() { qDeleteAll(tabs); }
+
+		QVector<MaquetteGridItem::Tab*> tabs{};
+		int verticalIndex{0};
+
+		MaquetteGridItem* parent{nullptr};
+	};
+
+	MaquetteGridItem(const QString& name, bool loadDefault = false);
+	~MaquetteGridItem();
+
+	const QString &name() const { return m_name; }
+	void setName(const QString& name, bool isDefaultName = false);
+
+	void clear();
+
+	void addTabsSpace(TabsSpace* tabsSpace);
+	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
+
+	void saveMaquetteGrid();
+private:
+	void loadMaquetteGrid(bool loadDefault);
+	void loadMaquetteGridFromMap(const QVariantMap& map);
+
+	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
+
+
+	QList<TabsSpace*> m_tabsSpaces{};
+
+	QString m_name{};
+};
 }
 
-void TreeView::removeOne()
-{
-	if (!model())
-		return;
-
-	QModelIndex ci{currentIndex()};
-	//Application::instance()->historyManager()->removeHistoryEntry(model()->data(ci, HistoryModel::UrlStringRole).toString());
-}
-
-void TreeView::removeAll()
-{
-	if (!model())
-		return;
-
-	//Application::instance()->historyManager()->clear();
-}
-}
+#endif //SIELOBROWSER_MOCKUPITEM_HPP

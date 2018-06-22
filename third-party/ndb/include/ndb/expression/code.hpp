@@ -23,7 +23,8 @@ namespace ndb
         op_list,
         op_function,
         op_match,
-        op_like
+        op_like,
+        op_glob
     };
 
     enum class expr_keyword_code

@@ -53,7 +53,7 @@ class RootFloatingButton;
 class StatusBarMessage;
 class TitleBar;
 
-class MockupItem;
+class MaquetteGridItem;
 
 //! Represent a window of the browser.
 /*!
@@ -79,12 +79,12 @@ public:
 	 */
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
 	/*!
-	 * This constrcutor allow to create a window an load a mockup.
+	 * This constrcutor allow to create a window an load a maquetteGrid.
 	 * 
 	 * It calls the first BrowserWindow constructor with "RestoredWindow". 
 	 * Therefore, as the other constrcutor this construct **should never be called manually**. Prefere using the `createWindow` methode from the Application class. 
 	 */
-	BrowserWindow(MockupItem* mockup);
+	BrowserWindow(MaquetteGridItem* maquetteGrid);
 	~BrowserWindow();
 
 	/*! 
@@ -149,10 +149,10 @@ public:
 	void loadUrlInNewTab(const QUrl& url);
 
 	/*!
-	 * This return the mockup corresponding to the current session.
-	 * @return The mockup corresponding to the current session.
+	 * This return the maquetteGrid corresponding to the current session.
+	 * @return The maquetteGrid corresponding to the current session.
 	 */
-	MockupItem* mockupItem() const;
+	MaquetteGridItem* maquetteGridItem() const;
 
 	QUrl homePageUrl() const { return m_homePage; }
 

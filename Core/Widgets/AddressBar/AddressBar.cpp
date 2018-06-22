@@ -58,12 +58,10 @@
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
 
-
 #include "Utils/ToolButton.hpp"
 
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
-#include <iso646.h>
 
 namespace Sn
 {

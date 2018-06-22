@@ -22,39 +22,74 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_MOCKUPSMENU_HPP
-#define SIELOBROWSER_MOCKUPSMENU_HPP
+#include "MaquetteGrid.hpp"
 
-#include <QMenu>
+#include <QDir>
+
+#include "MaquetteGrid/MaquetteGridItem.hpp"
+
+#include "Utils/AutoSaver.hpp"
+
+#include "Application.hpp"
 
 namespace Sn
 {
-	class BrowserWindow;
-
-class MockupItem;
-
-class MockupsMenu: public QMenu {
-Q_OBJECT
-
-public:
-	MockupsMenu(BrowserWindow* window);
-	~MockupsMenu();
-
-private slots:
-	void aboutToShow();
-	void mockupsChanged();
-
-	void openMockupManager();
-
-	void mockupActivated();
-	void openMockup(MockupItem* item);
-private:
-	void refresh();
-
-	BrowserWindow* m_window{ nullptr };
-	bool m_changed{true};
-};
+MaquetteGrid::MaquetteGrid(QObject* parent) :
+	QObject(parent),
+	m_saver(new AutoSaver(this))
+{
+	loadMaquetteGrid();
 }
 
-#endif //SIELOBROWSER_MOCKUPSMENU_HPP
+MaquetteGrid::~MaquetteGrid()
+{
+	m_saver->saveIfNeccessary();
+	qDeleteAll(m_maquetteGrid);
+}
+
+void MaquetteGrid::addMaquetteGrid(MaquetteGridItem* maquetteGrid)
+{
+	m_maquetteGrid.append(maquetteGrid);
+
+	emit maquetteGridAdded(maquetteGrid);
+
+	m_saver->changeOccurred();
+}
+
+void MaquetteGrid::removeMaquetteGrid(MaquetteGridItem* maquetteGrid)
+{
+	m_maquetteGrid.removeOne(maquetteGrid);
+	QFile::remove(Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + maquetteGrid->name() + QLatin1String(".json"));
+
+	emit maquetteGridRemoved(maquetteGrid);
+
+	m_saver->changeOccurred();
+}
+
+void MaquetteGrid::changeMaquetteGrid(MaquetteGridItem* maquetteGrid)
+{
+	emit maquetteGridChanged(maquetteGrid);
+
+	m_saver->changeOccurred();
+}
+
+void MaquetteGrid::loadMaquetteGrid()
+{
+	QDir directory{Application::paths()[Application::P_MaquetteGrid]};
+	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
+
+	foreach(const QFileInfo& info, files) {
+		MaquetteGridItem* maquetteGrid{new MaquetteGridItem(info.baseName())};
+		m_maquetteGrid.append(maquetteGrid);
+	}
+
+	if (m_maquetteGrid.isEmpty())
+		m_maquetteGrid.append(new MaquetteGridItem("maquetteGrid", true));
+}
+
+void MaquetteGrid::save()
+{
+	foreach(MaquetteGridItem* maquetteGrid, m_maquetteGrid)
+		maquetteGrid->saveMaquetteGrid();
+}
+}

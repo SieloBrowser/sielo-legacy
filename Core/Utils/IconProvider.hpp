@@ -23,64 +23,54 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_MOCKUPITEM_HPP
-#define SIELOBROWSER_MOCKUPITEM_HPP
+#ifndef SIELOBROWSER_ICONPROVIDER_HPP
+#define SIELOBROWSER_ICONPROVIDER_HPP
 
 #include <QIcon>
+#include <QImage>
+
+#include <QPair>
 
 #include <QUrl>
-#include <QString>
-
-#include <QVector>
 
 namespace Sn
 {
-class MockupItem {
+using BufferedIcon = QPair<QUrl, QImage>;
+class AutoSaver;
+
+class WebView;
+
+class IconProvider: public QObject {
+	Q_OBJECT
+
 public:
-	struct TabsSpace;
+	static QByteArray encodeUrl(const QUrl& url);
 
-	struct Tab {
-		QIcon icon{};
-		QString title{};
-		QUrl url{};
+	IconProvider();
+	~IconProvider();
 
-		bool selected{false};
+	void saveIcon(WebView* view);
 
-		TabsSpace* parent{nullptr};
-	};
+	// Icon for url (only available for urls in history)
+	static QIcon iconForUrl(const QUrl &url, bool allowNull = false);
+	static QImage imageForUrl(const QUrl &url, bool allowNull = false);
 
-	struct TabsSpace {
-		~TabsSpace() { qDeleteAll(tabs); }
+	// Icon for domain (only available for urls in history)
+	static QIcon iconForDomain(const QUrl &url, bool allowNull = false);
+	static QImage imageForDomain(const QUrl &url, bool allowNull = false);
 
-		QVector<MockupItem::Tab*> tabs{};
-		int verticalIndex{0};
+	static IconProvider* instance();
 
-		MockupItem* parent{nullptr};
-	};
+public slots:
+	void save();
 
-	MockupItem(const QString& name, bool loadDefault = false);
-	~MockupItem();
-
-	const QString &name() const { return m_name; }
-	void setName(const QString& name, bool isDefaultName = false);
-
-	void clear();
-
-	void addTabsSpace(TabsSpace* tabsSpace);
-	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
-
-	void saveMockup();
 private:
-	void loadMockup(bool loadDefault);
-	void loadMockupFromMap(const QVariantMap& map);
+	QIcon iconFromImage(const QImage &image);
 
-	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
+	QVector<BufferedIcon> m_iconBuffer;
 
-
-	QList<TabsSpace*> m_tabsSpaces{};
-
-	QString m_name{};
+	AutoSaver* m_autoSaver;
 };
 }
 
-#endif //SIELOBROWSER_MOCKUPITEM_HPP
+#endif //SIELOBROWSER_ICONPROVIDER_HPP

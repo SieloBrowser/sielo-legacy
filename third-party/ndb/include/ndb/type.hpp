@@ -68,6 +68,20 @@ namespace ndb
 
     template<class Cpp_type, class Database>
     using ndb_type_t = typename ndb_type<Cpp_type, Database>::type;
+
+    // construct a type from generic params
+    template<class T, class... Args>
+    inline auto type_make(Args... args)
+    {
+        return T{ std::forward<Args>(args)... };
+    };
+
+    // get data pointer from value
+    template<class T>
+    inline auto type_data(const T& v)
+    {
+        return v.data();
+    };
 } // ndb
 
 #include <ndb/type/system.tpp>

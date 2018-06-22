@@ -48,6 +48,8 @@
 
 #include "Plugins/PluginProxy.hpp"
 
+#include "Utils/IconProvider.hpp"
+
 namespace Sn {
 
 bool WebView::isUrlValide(const QUrl& url)
@@ -96,6 +98,7 @@ WebView::WebView(QWidget* parent) :
 	connect(this, &QWebEngineView::loadProgress, this, &WebView::sLoadProgress);
 	connect(this, &QWebEngineView::loadFinished, this, &WebView::sLoadFinished);
 	connect(this, &QWebEngineView::urlChanged, this, &WebView::sUrlChanged);
+	connect(this, &QWebEngineView::iconChanged, this, &WebView::sIconChanged);
 
 	QSettings settings{};
 	m_currentZoomLevel = settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt();
@@ -427,6 +430,11 @@ void WebView::sUrlChanged(const QUrl& url)
 	Q_UNUSED(url)
 
 	//TODO: Don't save blank page in history
+}
+
+void WebView::sIconChanged()
+{
+	IconProvider::instance()->saveIcon(this);
 }
 
 void WebView::openUrlInNewWindow()

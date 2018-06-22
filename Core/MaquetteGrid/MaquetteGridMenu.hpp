@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,27 +23,38 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_TREEVIEW_HPP
-#define SIELOBROWSER_TREEVIEW_HPP
+#ifndef SIELOBROWSER_MOCKUPSMENU_HPP
+#define SIELOBROWSER_MOCKUPSMENU_HPP
 
-#include <QWidget>
+#include <QMenu>
 
-#include <QTreeView>
+namespace Sn
+{
+	class BrowserWindow;
 
-#include <QKeyEvent>
+class MaquetteGridItem;
 
-namespace Sn {
-class TreeView: public QTreeView {
+class MaquetteGridMenu: public QMenu {
 Q_OBJECT
 
 public:
-	TreeView(QWidget* parent = nullptr);
+	MaquetteGridMenu(BrowserWindow* window);
+	~MaquetteGridMenu();
 
-	void keyPressEvent(QKeyEvent* event);
+private slots:
+	void aboutToShow();
+	void maquetteGridChanged();
 
-public slots:
-	void removeOne();
-	void removeAll();
+	void openMaquetteGridManager();
+
+	void maquetteGridActivated();
+	void openMaquetteGrid(MaquetteGridItem* item);
+private:
+	void refresh();
+
+	BrowserWindow* m_window{ nullptr };
+	bool m_changed{true};
 };
 }
-#endif //SIELOBROWSER_TREEVIEW_HPP
+
+#endif //SIELOBROWSER_MOCKUPSMENU_HPP

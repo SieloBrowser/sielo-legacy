@@ -168,7 +168,8 @@ QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alp
 			}
 		}
 
-		qt_blurImage(&big_painter, big.toImage(), radius, quality, alphaOnly, transposed);
+		QImage bgImage = big.toImage();
+		qt_blurImage(&big_painter, bgImage, radius, quality, alphaOnly, transposed);
 		painter.drawImage(QPoint(-radius, -radius), big.toImage());
 	}
 	return ret.toImage();

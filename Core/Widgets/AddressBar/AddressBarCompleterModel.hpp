@@ -30,8 +30,6 @@
 
 #include <QUrl>
 
-#include <ndb/engine/sqlite/query.hpp>
-
 #include "Database/SqlDatabase.hpp"
 
 namespace Sn
@@ -59,9 +57,6 @@ public:
 	void addCompletions(const QList<QStandardItem*>& items);
 
 	QList<QStandardItem*> suggestionItems() const;
-
-	static ndb::sqlite_query<dbs::navigation> createHistoryQuery(const QString& searchString, int limit, bool exactMatch = false);
-	static ndb::sqlite_query<dbs::navigation> createDomainQuery(const QString& text);
 
 private:
 	enum Type {

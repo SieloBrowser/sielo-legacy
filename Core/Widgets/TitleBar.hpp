@@ -25,20 +25,19 @@
 #ifndef SIELOBROWSER_TITLEBAR_HPP
 #define SIELOBROWSER_TITLEBAR_HPP
 
-#include "Bookmarks/BookmarksToolBar.hpp"
-
-#include "BrowserWindow.hpp"
-
 #include <QWidget>
 #include <QLabel>
 #include <QToolBar>
+#include <QToolButton>
 #include <QPushButton>
 
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 
 namespace Sn {
-class BookmarksModel;
+class BookmarksToolbar;
+
+class BrowserWindow;
 
 class TitleBar : public QWidget {
 Q_OBJECT
@@ -57,6 +56,12 @@ public:
 
 	void saveToolBarsPositions();
 	void restoreToolBarsPositions();
+
+	void hide();
+	void show();
+
+	bool isView();
+	void setView(bool view);
 
 signals:
 	void toggleBookmarksBar(bool shown);
@@ -82,6 +87,7 @@ private:
 	bool m_isMaximized{false};
 	bool m_isOnSide{false};
 	bool m_canMove{true};
+	bool m_show{true};
 
 	QLabel* m_title{nullptr};
 	QToolButton* m_closeButton{nullptr};

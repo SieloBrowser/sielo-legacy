@@ -42,7 +42,7 @@
 
 #include <QListWidgetItem>
 
-#include "Mockup/MockupItem.hpp"
+#include "MaquetteGrid/MaquetteGridItem.hpp"
 
 namespace Sn
 {
@@ -50,9 +50,9 @@ class AutoSaver;
 
 class BrowserWindow;
 
-class Mockups;
-class MockupsTabsList;
-class MockupsModel;
+class MaquetteGrid;
+class MaquetteGridTabsList;
+class MaquetteGridModel;
 
 class AddButton: public QPushButton {
 Q_OBJECT
@@ -62,7 +62,7 @@ public:
 		QPushButton("+", parent),
 		m_parentLayout(parentLayout)
 	{
-		setObjectName(QLatin1String("mockups-addtabsspace-buttons"));
+		setObjectName(QLatin1String("maquetteGrid-addtabsspace-buttons"));
 		setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 	}
 
@@ -72,7 +72,7 @@ private:
 	QVBoxLayout* m_parentLayout{nullptr};
 };
 
-class MockupsManager: public QDialog {
+class MaquetteGridManager: public QDialog {
 Q_OBJECT
 
 public:
@@ -81,40 +81,40 @@ public:
 		UrlRole = Qt::UserRole + 2
 	};
 
-	MockupsManager(BrowserWindow* window);
-	~MockupsManager();
+	MaquetteGridManager(BrowserWindow* window);
+	~MaquetteGridManager();
 
-	MockupsTabsList *createNewTabsList();
-	MockupsTabsList *createTabsList(MockupItem::TabsSpace* tabsSpace);
-	QVBoxLayout *createNewTabsSpaceLayout(MockupsTabsList* list);
+	MaquetteGridTabsList *createNewTabsList();
+	MaquetteGridTabsList *createTabsList(MaquetteGridItem::TabsSpace* tabsSpace);
+	QVBoxLayout *createNewTabsSpaceLayout(MaquetteGridTabsList* list);
 
 	AutoSaver *saver() const { return m_saver; }
 
 public slots:
 	void save();
 
-	void newMockup();
-	void newMockupFromCurrentSession();
-	void deleteMockup();
+	void newMaquetteGrid();
+	void newMaquetteGridFromCurrentSession();
+	void deleteMaquetteGrid();
 
 	void createVerticalTabsSpace();
 	void createHorizontalTabsSpace();
-	void removeTabsSpace(MockupsTabsList* tabsSpace);
+	void removeTabsSpace(MaquetteGridTabsList* tabsSpace);
 
 private slots:
 	void itemClicked(QListWidgetItem* item);
-	void mockupChanged(QListWidgetItem* item);
+	void maquetteGridChanged(QListWidgetItem* item);
 
-	void changeMockupName(const QString& newName);
+	void changeMaquetteGridName(const QString& newName);
 
 	void tabChanged();
 
 private:
 	void updateEditInputs();
 
-	void refresh(MockupItem* item);
+	void refresh(MaquetteGridItem* item);
 
-	void setupMockupsList();
+	void setupMaquetteGridList();
 	void setupFirstTabsSpace();
 	void setupTabsSpaces();
 	void setupUI();
@@ -123,16 +123,16 @@ private:
 	BrowserWindow* m_window{nullptr};
 
 	QList<QVBoxLayout*> m_verticalLayouts{};
-	QList<MockupsTabsList*> m_tabsLists{};
+	QList<MaquetteGridTabsList*> m_tabsLists{};
 
 	QGridLayout* m_layout{nullptr};
 	QVBoxLayout* m_editLayout{nullptr};
 
-	QListWidget* m_mockupsListWidget{nullptr};
-	QLineEdit* m_mockupName{nullptr};
-	QPushButton* m_newMockup{nullptr};
-	QPushButton* m_newMockupFromCurrentSession{nullptr};
-	QPushButton* m_deleteMockup{nullptr};
+	QListWidget* m_maquetteGridListWidget{nullptr};
+	QLineEdit* m_maquetteGridName{nullptr};
+	QPushButton* m_newMaquetteGrid{nullptr};
+	QPushButton* m_newMaquetteGridFromCurrentSession{nullptr};
+	QPushButton* m_deleteMaquetteGrid{nullptr};
 
 	QGroupBox* m_editBox{nullptr};
 
@@ -146,8 +146,8 @@ private:
 	QLineEdit* m_url{nullptr};
 
 	QListWidgetItem* m_activeItem{nullptr};
-	MockupItem* m_workingItem{nullptr};
-	Mockups* m_mockups{nullptr};
+	MaquetteGridItem* m_workingItem{nullptr};
+	MaquetteGrid* m_maquetteGrid{nullptr};
 };
 }
 

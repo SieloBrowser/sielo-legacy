@@ -22,74 +22,54 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Mockups.hpp"
+#pragma once
+#ifndef SIELOBROWSER_MOCKUPSTABSLIST_HPP
+#define SIELOBROWSER_MOCKUPSTABSLIST_HPP
 
-#include <QDir>
+#include <QListWidget>
 
-#include "Mockup/MockupItem.hpp"
+#include <QDropEvent>
 
-#include "Utils/AutoSaver.hpp"
+#include <QVBoxLayout>
 
-#include "Application.hpp"
+#include <QPushButton>
+
+#include "MaquetteGrid/MaquetteGridItem.hpp"
 
 namespace Sn
 {
-Mockups::Mockups(QObject* parent) :
-	QObject(parent),
-	m_saver(new AutoSaver(this))
-{
-	loadMockups();
+class MaquetteGridManager;
+
+class MaquetteGridTabsList: public QListWidget {
+Q_OBJECT
+
+public:
+	MaquetteGridTabsList(MaquetteGridManager* manager, QWidget* parent = nullptr);
+	~MaquetteGridTabsList();
+
+	QVBoxLayout *parentLayout() const { return m_parentLayout; }
+	void setParentLayout(QVBoxLayout* layout);
+
+	MaquetteGridItem::TabsSpace *tabsSpace();
+
+private slots:
+	void deleteItem();
+	void addTab();
+
+protected:
+	void dropEvent(QDropEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
+	void keyPressEvent(QKeyEvent* event);
+
+private:
+	MaquetteGridManager* m_maquetteGridManager{nullptr};
+	QVBoxLayout* m_parentLayout{nullptr};
+
+	QPushButton* m_deleteButton{nullptr};
+	QPushButton* m_addTabButton{nullptr};
+
+};
 }
 
-Mockups::~Mockups()
-{
-	m_saver->saveIfNeccessary();
-	qDeleteAll(m_mockups);
-}
-
-void Mockups::addMockup(MockupItem* mockup)
-{
-	m_mockups.append(mockup);
-
-	emit mockupAdded(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::removeMockup(MockupItem* mockup)
-{
-	m_mockups.removeOne(mockup);
-	QFile::remove(Application::paths()[Application::P_Mockups] + QLatin1Char('/') + mockup->name() + QLatin1String(".json"));
-
-	emit mockupRemoved(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::changeMockup(MockupItem* mockup)
-{
-	emit mockupChanged(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::loadMockups()
-{
-	QDir directory{Application::paths()[Application::P_Mockups]};
-	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
-
-	foreach(const QFileInfo& info, files) {
-		MockupItem* mockup{new MockupItem(info.baseName())};
-		m_mockups.append(mockup);
-	}
-
-	if (m_mockups.isEmpty())
-		m_mockups.append(new MockupItem("mockup", true));
-}
-
-void Mockups::save()
-{
-	foreach(MockupItem* mockup, m_mockups)
-		mockup->saveMockup();
-}
-}
+#endif //SIELOBROWSER_MOCKUPSTABSLIST_HPP

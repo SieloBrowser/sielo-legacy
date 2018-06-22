@@ -22,39 +22,39 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "MockupsMenu.hpp"
+#include "MaquetteGridMenu.hpp"
 
-#include "Mockup/MockupItem.hpp"
-#include "Mockup/Mockups.hpp"
-#include "Mockup/MockupsManager.hpp"
+#include "MaquetteGrid/MaquetteGridItem.hpp"
+#include "MaquetteGrid/MaquetteGrid.hpp"
+#include "MaquetteGrid/MaquetteGridManager.hpp"
 
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn
 {
-MockupsMenu::MockupsMenu(BrowserWindow* window) :
+MaquetteGridMenu::MaquetteGridMenu(BrowserWindow* window) :
 	QMenu(window),
 	m_window(window)
 {
-	setTitle(tr("&Mockups"));
+	setTitle(tr("&MaquetteGrid"));
 
-	addAction(tr("Open Mockups Manager"), this, &MockupsMenu::openMockupManager);
+	addAction(tr("Open MaquetteGrid Manager"), this, &MaquetteGridMenu::openMaquetteGridManager);
 	addSeparator();
 
-	connect(this, &QMenu::aboutToShow, this, &MockupsMenu::aboutToShow);
+	connect(this, &QMenu::aboutToShow, this, &MaquetteGridMenu::aboutToShow);
 
-	connect(Application::instance()->mockups(), SIGNAL(mockupAdded(MockupItem*)), this, SLOT(mockupsChanged()));
-	connect(Application::instance()->mockups(), SIGNAL(mockupRemoved(MockupItem*)), this, SLOT(mockupsChanged()));
-	connect(Application::instance()->mockups(), SIGNAL(mockupChanged(MockupItem*)), this, SLOT(mockupsChanged()));
+	connect(Application::instance()->maquetteGrid(), SIGNAL(maquetteGridAdded(MaquetteGridItem*)), this, SLOT(maquetteGridChanged()));
+	connect(Application::instance()->maquetteGrid(), SIGNAL(maquetteGridRemoved(MaquetteGridItem*)), this, SLOT(maquetteGridChanged()));
+	connect(Application::instance()->maquetteGrid(), SIGNAL(maquetteGridChanged(MaquetteGridItem*)), this, SLOT(maquetteGridChanged()));
 }
 
-MockupsMenu::~MockupsMenu()
+MaquetteGridMenu::~MaquetteGridMenu()
 {
 	// Empty
 }
 
-void MockupsMenu::aboutToShow()
+void MaquetteGridMenu::aboutToShow()
 {
 	if (m_changed) {
 		refresh();
@@ -62,32 +62,32 @@ void MockupsMenu::aboutToShow()
 	}
 }
 
-void MockupsMenu::mockupsChanged()
+void MaquetteGridMenu::maquetteGridChanged()
 {
 	m_changed = true;
 }
 
-void MockupsMenu::openMockupManager()
+void MaquetteGridMenu::openMaquetteGridManager()
 {
-	MockupsManager* manager{new MockupsManager(m_window)};
+	MaquetteGridManager* manager{new MaquetteGridManager(m_window)};
 	manager->show();
 }
 
-void MockupsMenu::mockupActivated()
+void MaquetteGridMenu::maquetteGridActivated()
 {
 	if (QAction* action = qobject_cast<QAction*>(sender())) {
-		MockupItem* item{static_cast<MockupItem*>(action->data().value<void*>())};
+		MaquetteGridItem* item{static_cast<MaquetteGridItem*>(action->data().value<void*>())};
 		Q_ASSERT(item);
-		openMockup(item);
+		openMaquetteGrid(item);
 	}
 }
 
-void MockupsMenu::openMockup(MockupItem* item)
+void MaquetteGridMenu::openMaquetteGrid(MaquetteGridItem* item)
 {
 	Application::instance()->createWindow(item);
 }
 
-void MockupsMenu::refresh()
+void MaquetteGridMenu::refresh()
 {
 	while (actions().count() != 1) {
 		QAction* action{actions()[1]};
@@ -95,13 +95,13 @@ void MockupsMenu::refresh()
 		delete action;
 	}
 
-	foreach (MockupItem* item, Application::instance()->mockups()->mockups()) {
+	foreach (MaquetteGridItem* item, Application::instance()->maquetteGrid()->maquetteGrid()) {
 		QAction* action{new QAction(Application::getAppIcon("new-window"), item->name())};
 		action->setData(QVariant::fromValue<void*>(static_cast<void*>(item)));
 
 		addAction(action);
 
-		connect(action, &QAction::triggered, this, &MockupsMenu::mockupActivated);
+		connect(action, &QAction::triggered, this, &MaquetteGridMenu::maquetteGridActivated);
 	}
 }
 }

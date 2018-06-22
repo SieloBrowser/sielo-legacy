@@ -37,7 +37,7 @@
 
 #include "Bookmarks/BookmarksUtils.hpp"
 
-#include "Mockup/MockupItem.hpp"
+#include "MaquetteGrid/MaquetteGridItem.hpp"
 
 #include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
@@ -74,26 +74,23 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	statusBar()->hide(); // Since we have a custom status bar, we hide the default one.
 
 	setupUi();
-	// There is two possibility: the user use the floating button or not. 
-	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
-	if (!Application::instance()->useTopToolBar())
-		setupFloatingButton();
+	
 	loadSettings();
 
 	// Just wait some milli seconds before doing some post launch action
 	QTimer::singleShot(10, this, &BrowserWindow::postLaunch);
 }
 
-BrowserWindow::BrowserWindow(MockupItem* mockup) :
+BrowserWindow::BrowserWindow(MaquetteGridItem* maquetteGrid) :
 	BrowserWindow(Application::WT_OtherRestoredWindow)
 {
-	Q_ASSERT(mockup->tabsSpaces().count() >= 1);
-	Q_ASSERT(mockup->tabsSpaces()[0]->tabs.count() >= 1);
+	Q_ASSERT(maquetteGrid->tabsSpaces().count() >= 1);
+	Q_ASSERT(maquetteGrid->tabsSpaces()[0]->tabs.count() >= 1);
 
 	// We start with the first tabs space since this one is already builded
 	int selectedTab{0};
-	for (int i{0}; i < mockup->tabsSpaces()[0]->tabs.count(); ++i) {
-		MockupItem::Tab* tab = mockup->tabsSpaces()[0]->tabs[i];
+	for (int i{0}; i < maquetteGrid->tabsSpaces()[0]->tabs.count(); ++i) {
+		MaquetteGridItem::Tab* tab = maquetteGrid->tabsSpaces()[0]->tabs[i];
 
 		tabWidget(0)->addView(tab->url);
 
@@ -105,18 +102,19 @@ BrowserWindow::BrowserWindow(MockupItem* mockup) :
 
 	// Create other tabs space
 	int workingVerticalIndex{0};
-	for (int i{1}; i < mockup->tabsSpaces().count(); ++i) {
-		MockupItem::TabsSpace* tabsSpace = mockup->tabsSpaces()[i];
+	for (int i{1}; i < maquetteGrid->tabsSpaces().count(); ++i) {
+		MaquetteGridItem::TabsSpace* tabsSpace = maquetteGrid->tabsSpaces()[i];
 
-		if (tabsSpace->verticalIndex == workingVerticalIndex)
-			createNewTabsSpace(BrowserWindow::TSP_Bottom, nullptr);
+		if (tabsSpace->verticalIndex == workingVerticalIndex) {
+			createNewTabsSpace(BrowserWindow::TSP_Bottom, nullptr, m_tabWidgets.last());
+		}
 		else {
 			createNewTabsSpace(BrowserWindow::TSP_Right, nullptr);
 			workingVerticalIndex = tabsSpace->verticalIndex;
 		}
 
 		for (int j{0}; j < tabsSpace->tabs.count(); ++j) {
-			MockupItem::Tab* tab = tabsSpace->tabs[j];
+			MaquetteGridItem::Tab* tab = tabsSpace->tabs[j];
 
 			tabWidget(i)->addView(tab->url);
 
@@ -140,6 +138,15 @@ void BrowserWindow::loadSettings()
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
 
+	// There is two possibility: the user use the floating button or not. 
+	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
+	if (!Application::instance()->useTopToolBar() && !m_fButton)
+		setupFloatingButton();
+	else if (Application::instance()->useTopToolBar() && m_fButton) {
+		delete m_fButton;
+		m_fButton = nullptr;
+	}
+		
 	m_spaceBetweenTabsSpaces = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 
 	// We can apply a padding between tabs space, exactly like i3 gaps
@@ -412,25 +419,25 @@ void BrowserWindow::loadUrlInNewTab(const QUrl& url)
 	tabWidget()->addView(url);
 }
 
-MockupItem *BrowserWindow::mockupItem() const
+MaquetteGridItem *BrowserWindow::maquetteGridItem() const
 {
-	MockupItem* item{new MockupItem(tr("Session"), true)};
-	item->clear(); // We don't want default mockup.
+	MaquetteGridItem* item{new MaquetteGridItem(tr("Session"), true)};
+	item->clear(); // We don't want default maquetteGrid.
 
 	// Loop throug each tabs space
 	foreach (TabWidget* tabWidget, m_tabWidgets) {
-		MockupItem::TabsSpace* tabsSpace{new MockupItem::TabsSpace()};
+		MaquetteGridItem::TabsSpace* tabsSpace{new MaquetteGridItem::TabsSpace()};
 
 		// Add all tabs of the tabs space
 		foreach (WebTab* tab, tabWidget->allTabs()) {
-			MockupItem::Tab* mockupTab{new MockupItem::Tab()};
-			mockupTab->icon = tab->icon();
-			mockupTab->title = tab->title();
-			mockupTab->url = tab->url();
-			mockupTab->selected = tabWidget->weTab() == tab;
-			mockupTab->parent = tabsSpace;
+			MaquetteGridItem::Tab* maquetteGridTab{new MaquetteGridItem::Tab()};
+			maquetteGridTab->icon = tab->icon();
+			maquetteGridTab->title = tab->title();
+			maquetteGridTab->url = tab->url();
+			maquetteGridTab->selected = tabWidget->weTab() == tab;
+			maquetteGridTab->parent = tabsSpace;
 
-			tabsSpace->tabs.append(mockupTab);
+			tabsSpace->tabs.append(maquetteGridTab);
 		}
 
 		// Get current vertical index
@@ -577,9 +584,16 @@ void BrowserWindow::shotBackground()
 {
 	// Citorva will explain this
 	m_mainSplitter->hide();
+	if (m_fButton && !Application::instance()->useTopToolBar())
+		m_fButton->hide();
+
+	m_titleBar->hide();
+
 	m_bg = new QPixmap(size());
 	render(m_bg, QPoint(), QRect(0, 0, width(), height()));
 	m_mainSplitter->show();
+	m_titleBar->show();
+	if(m_fButton && !Application::instance()->useTopToolBar()) m_fButton->show();
 }
 
 void BrowserWindow::paintEvent(QPaintEvent* event)

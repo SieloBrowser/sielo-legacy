@@ -168,6 +168,11 @@ RootFloatingButton::RootFloatingButton(BrowserWindow* window, QWidget* parent, P
 	connect(this, &QPushButton::customContextMenuRequested, this, &RootFloatingButton::showMenu);
 }
 
+RootFloatingButton::~RootFloatingButton()
+{
+	qDeleteAll(m_buttons);
+}
+
 void RootFloatingButton::addButton(const QString& name, const QString& toolTip)
 {
 	FloatingButton* newButton{new FloatingButton(this, name)};

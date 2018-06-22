@@ -132,6 +132,7 @@ protected slots:
 	void sLoadProgress(int progress);
 	void sLoadFinished(bool ok);
 	void sUrlChanged(const QUrl& url);
+	void sIconChanged();
 
 	void openUrlInNewWindow();
 	void copyLinkToClipboard();

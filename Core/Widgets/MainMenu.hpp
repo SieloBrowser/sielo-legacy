@@ -38,7 +38,7 @@ class TabWidget;
 class PreferencesDialog;
 
 class BookmarksMenu;
-class MockupsMenu;
+class MaquetteGridMenu;
 class HistoryMenu;
 
 class MainMenu: public QMenu {
@@ -88,7 +88,7 @@ private:
 	QAction* m_toggleBookmarksAction{nullptr};
 
 	BookmarksMenu* m_bookmarksMenu{nullptr};
-	MockupsMenu* m_mockupsMenu{nullptr};
+	MaquetteGridMenu* m_maquetteGridMenu{nullptr};
 	HistoryMenu* m_historyMenu{nullptr};
 	QMenu* m_toolsMenu{nullptr};
 

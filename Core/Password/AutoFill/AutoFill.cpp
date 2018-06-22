@@ -40,12 +40,8 @@
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
 
-#include "Database/SqlDatabase.hpp"
-
 #include "Application.hpp"
 #include "AutoFillNotification.hpp"
-
-constexpr auto& autofill_exceptions = ndb::models::password.autofill_exceptions;
 
 namespace Sn {
 
@@ -152,7 +148,7 @@ bool AutoFill::isStoringEnabled(const QUrl& url)
 	if (server.isEmpty())
 		server = url.toString();
 
-	auto& ids = ndb::query<dbs::password>()
+	auto ids = ndb::query<dbs::password>()
 			<< ((ndb::count(autofill_exceptions.id)) << (autofill_exceptions.server == server));
 
 	if (!ids.has_result())

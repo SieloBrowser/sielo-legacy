@@ -27,13 +27,11 @@
 #include <QSettings>
 
 #include <ndb/query.hpp>
+#include <ndb/function.hpp>
 
 #include "Web/WebView.hpp"
 
 #include "History/HistoryModel.hpp"
-#include <ndb/function.hpp>
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {
@@ -118,7 +116,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	if (title.isEmpty())
 		title = tr("Empty page");
 
-	auto& oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString());
+	auto oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString());
 
 	if (!oquery.has_result()) {
 		ndb::query<dbs::navigation>() + (
@@ -128,7 +126,7 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 			history.count = 1
 		);
 
-		int id = ndb::last_id<dbs::navigation>();
+		qint64 id = ndb::last_id<dbs::navigation>();
 
 		HistoryEntry entry{};
 		entry.id = id;
@@ -141,8 +139,8 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 		emit historyEntryAdded(entry);
 	}
 	else {
-		int id{oquery[0].id};
-		int count{oquery[0].count};
+		qint64 id{oquery[0].id};
+		qint64 count{oquery[0].count};
 		QDateTime date{QDateTime::fromMSecsSinceEpoch(oquery[0].date)};
 		QString oldTitle{oquery[0].title};
 
@@ -224,7 +222,7 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 
 bool History::urlIsStored(const QString& url)
 {
-	auto& query = ndb::query<dbs::navigation>() << (history.url == url);
+	auto query = ndb::query<dbs::navigation>() << (history.url == url);
 
 	return query.has_result();
 }
@@ -233,12 +231,11 @@ QVector<History::HistoryEntry> History::mostVisited(int count)
 {
 	QVector<HistoryEntry> list{};
 
-	// TODO: waiting for ndb::sort fix
-	//for (auto& data : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
-	//	HistoryEntry entry{data};
-	//	
-	//	list.append(entry);
-	//}
+	for (auto& data : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
+		HistoryEntry entry{data};
+
+		list.append(entry);
+	}
 
 	for (auto& data : ndb::query<dbs::navigation>() << ((history.id, history.url, history.title, history.count, history.date) << ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
 		HistoryEntry entry{};

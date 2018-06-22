@@ -80,7 +80,7 @@ namespace ndb
 
         ndb::engine_connection<postgre>& connection() const
         {
-            return ndb::engine<ndb::postgre>::get().connection<Database>();
+            return ndb::engine<ndb::postgre>::get().template connection<Database>();
         }
 
     private:

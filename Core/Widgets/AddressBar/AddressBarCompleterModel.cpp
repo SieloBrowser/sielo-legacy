@@ -26,8 +26,6 @@
 
 #include <QPixmap>
 
-#include <ndb/utility.hpp>
-
 #include "History/History.hpp"
 
 #include "Web/Tab/WebTab.hpp"
@@ -37,80 +35,8 @@
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
 
-constexpr auto& history = ndb::models::navigation.history;
-
 namespace Sn
 {
-ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createHistoryQuery(
-	const QString& searchString, int limit, bool exactMatch)
-{
-	QStringList searchList;
-	// TODO: Use ndb database name methode when it will be ok
-	QString queryString = QString(
-		"SELECT * FROM " + QString::fromStdString(ndb::name(history)) + " WHERE ");
-
-	if (exactMatch) {
-		queryString.append(QString::fromStdString(ndb::name(history.title)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ? ");
-	}
-	else {
-		searchList = searchString.split(QLatin1Char(' '), QString::SkipEmptyParts);
-		const int slSize = searchList.size();
-		for (int i = 0; i < slSize; ++i) {
-			queryString.append("(" + QString::fromStdString(ndb::name(history.title)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ?) ");
-			if (i < slSize - 1) {
-				queryString.append(QLatin1String("AND "));
-			}
-		}
-	}
-
-	queryString.append("ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT ?");
-
-	ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
-
-	if (exactMatch) {
-		query.bind(QString("%%1%").arg(searchString));
-		query.bind(QString("%%1%").arg(searchString));
-	}
-	else {
-		foreach(const QString &str, searchList) {
-			query.bind(QString("%%1%").arg(str));
-			query.bind(QString("%%1%").arg(str));
-		}
-	}
-
-	return query;
-}
-
-ndb::sqlite_query<dbs::navigation> AddressBarCompleterModel::createDomainQuery(const QString& text)
-{
-	bool withoutWww{text.startsWith(QLatin1Char('w')) && !text.startsWith(QLatin1String("www."))};
-	QString queryString = "SELECT " + QString::fromStdString(ndb::name(history.url)) + " FROM " + QString::fromStdString(ndb::name(history)) + " WHERE ";
-
-	if (withoutWww)
-		queryString.append(QString::fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND " + QString::fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND ");
-	else
-		queryString.append(QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR ");
-
-	queryString.append("(" + QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) + " LIKE ?) ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT 1");
-
-	ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
-
-	if (withoutWww) {
-		query.bind(QString("http://www.%"));
-		query.bind(QString("https://www.%"));
-		query.bind(QString("http://%1%").arg(text));
-		query.bind(QString("https://%1%").arg(text));
-	}
-	else {
-		query.bind(QString("http://%1%").arg(text));
-		query.bind(QString("https://%1%").arg(text));
-		query.bind(QString("http://www.%1%").arg(text));
-		query.bind(QString("https://www.%1%").arg(text));
-	}
-
-	return query;
-}
-
 AddressBarCompleterModel::AddressBarCompleterModel(QObject* parent) :
 	QStandardItemModel(parent)
 {

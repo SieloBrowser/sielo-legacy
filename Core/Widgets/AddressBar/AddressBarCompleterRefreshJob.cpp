@@ -31,16 +31,17 @@
 #include <algorithm>
 
 #include <ndb/query.hpp>
-#include <ndb/engine/sqlite/query.hpp>
 
 #include "Bookmarks/Bookmarks.hpp"
 #include "Bookmarks/BookmarkItem.hpp"
 
+#include "History/History.hpp"
+
+#include "Utils/IconProvider.hpp"
+
 #include "Widgets/AddressBar/AddressBarCompleterModel.hpp"
 
 #include "Application.hpp"
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {
@@ -80,8 +81,8 @@ void AddressBarCompleterRefreshJob::runJob()
 		if (m_jobCancelled)
 			return;
 
-		// TODO: icon
-		item->setData(Application::getAppIcon("webpage"), AddressBarCompleterModel::ImageRole);
+		const QUrl url = item->data(AddressBarCompleterModel::UrlRole).toUrl();
+		item->setData(IconProvider::imageForUrl(url), AddressBarCompleterModel::ImageRole);
 	}
 
 	if (m_jobCancelled)

@@ -48,14 +48,14 @@ class CookieJar;
 class PluginProxy;
 class History;
 class Bookmarks;
-class Mockups;
+class MaquetteGrid;
 class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
 
 class BrowserWindow;
 
-class MockupItem;
+class MaquetteGridItem;
 
 //! The This class manage Sielo instance, windows and settings.
 /*!
@@ -151,7 +151,7 @@ public:
 		/*!< Path of themes */
 		P_Translations = 3,
 		/*!< Path of translations */
-		P_Mockups = 4 /*!< Path of mockups */
+		P_MaquetteGrid = 4 /*!< Path of maquetteGrid */
 	};
 
 	//! After launch action
@@ -196,7 +196,10 @@ public:
 	 */
 	void loadTheme(const QString& name, const QString& lightness = "dark");
 	QString parseSSS(QString& sss, const QString& relativePath, const QString& lightness);
+	QString parseSSSBackground(QString& sss, const QString& relativePath);
 	QString parseSSSColor(QString& sss, const QString& lightness);
+	QString getBlurredBackgroundPath(const QString& defaultBackground, int radius);
+	QImage blurImage(const QImage& image, const QRect& rect, int radius, bool alphaOnly = false);
 
 	bool privateBrowsing() const { return m_privateBrowsing; }
 	bool isPortable() const { return m_isPortable; }
@@ -217,11 +220,11 @@ public:
 	 */
 	BrowserWindow *createWindow(Application::WindowType type, const QUrl& startUrl = QUrl());
 	/*!
-	 * Create a new window from a mockup in this instance.
-	 * @param item The mockup to load.
+	 * Create a new window from a maquetteGrid in this instance.
+	 * @param item The maquetteGrid to load.
 	 * @return The new window create.
 	 */
-	BrowserWindow* createWindow(MockupItem* item);
+	BrowserWindow* createWindow(MaquetteGridItem* item);
 	
 	AfterLaunch afterCrashLaunch() const { return m_afterCrashLaunch; }
 	AfterLaunch afterLaunch() const;
@@ -234,7 +237,7 @@ public:
 	CookieJar *cookieJar();
 	History *history();
 	Bookmarks *bookmarks();
-	Mockups* mockups();
+	MaquetteGrid* maquetteGrid();
 	DownloadManager *downloadManager();
 	HTML5PermissionsManager *permissionsManager();
 	NetworkManager *networkManager() const { return m_networkManager; }
@@ -340,7 +343,7 @@ private:
 	CookieJar* m_cookieJar{nullptr};
 	History* m_history{nullptr};
 	Bookmarks* m_bookmarks{nullptr};
-	Mockups* m_mockups{nullptr};
+	MaquetteGrid* m_maquetteGrid{nullptr};
 	DownloadManager* m_downloadManager{nullptr};
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 

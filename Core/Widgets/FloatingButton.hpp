@@ -90,6 +90,7 @@ public:
 	};
 
 	RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern = RightToolbar);
+	~RootFloatingButton();
 
 	void addButton(const QString& name, const QString& toolTip);
 	FloatingButton* button(const QString& name);

@@ -28,6 +28,8 @@
 #include "History/HistoryModel.hpp"
 #include "History/HistoryFilterModel.hpp"
 
+#include "Utils/IconProvider.hpp"
+
 #include "Application.hpp"
 
 namespace Sn
@@ -71,8 +73,8 @@ void HistoryTreeView::removeSelectedItems()
 			continue;
 
 		if (index.data(HistoryModel::IsTopLevelRole).toBool()) {
-			qint64 start{index.data(HistoryModel::TimestampStartRole).toInt()};
-			qint64 end{index.data(HistoryModel::TimestampEndRole).toInt()};
+			qint64 start{index.data(HistoryModel::TimestampStartRole).toLongLong()};
+			qint64 end{index.data(HistoryModel::TimestampEndRole).toLongLong()};
 
 			list.append(m_history->indexesFromTimeRange(start, end));
 
@@ -175,8 +177,7 @@ void HistoryTreeView::drawRow(QPainter* painter, const QStyleOptionViewItem& opt
 
 	if (index.isValid() && !itemTopLevel && !iconLoaded) {
 		const QPersistentModelIndex idx = index;
-		// TOOD: icon
-		model()->setData(idx, Application::getAppIcon("webpage"), HistoryModel::IconRole);
+		model()->setData(idx, IconProvider::iconForUrl(index.data(HistoryModel::UrlRole).toUrl()), HistoryModel::IconRole);
 	}
 
 	QTreeView::drawRow(painter, options, index);
