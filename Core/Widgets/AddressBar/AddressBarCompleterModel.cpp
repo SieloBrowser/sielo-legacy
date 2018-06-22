@@ -35,8 +35,6 @@
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
 
-constexpr auto& history = ndb::models::navigation.history;
-
 namespace Sn
 {
 AddressBarCompleterModel::AddressBarCompleterModel(QObject* parent) :

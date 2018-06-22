@@ -28,6 +28,8 @@
 
 #include <QStyledItemDelegate>
 
+#include <QTextLayout>
+
 namespace Sn
 {
 class AddressBarCompleterDelegate: public QStyledItemDelegate {

@@ -25,20 +25,19 @@
 #ifndef SIELOBROWSER_TITLEBAR_HPP
 #define SIELOBROWSER_TITLEBAR_HPP
 
-#include "Bookmarks/BookmarksToolBar.hpp"
-
-#include "BrowserWindow.hpp"
-
 #include <QWidget>
 #include <QLabel>
 #include <QToolBar>
+#include <QToolButton>
 #include <QPushButton>
 
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 
 namespace Sn {
-class BookmarksModel;
+class BookmarksToolbar;
+
+class BrowserWindow;
 
 class TitleBar : public QWidget {
 Q_OBJECT

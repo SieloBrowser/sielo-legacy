@@ -28,11 +28,10 @@
 
 #include "Database/SqlDatabase.hpp"
 
+#include "History/History.hpp"
 #include "History/HistoryItem.hpp"
 
 #include "Application.hpp"
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {

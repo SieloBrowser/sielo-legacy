@@ -29,12 +29,14 @@
 
 #include <QSettings>
 
-#include "Application.hpp"
-
 #include "Bookmarks/BookmarksUtils.hpp"
-#include "Bookmarks/BookmarksToolBar.hpp"
+#include "Bookmarks/BookmarksToolbar.hpp"
 
 #include "Widgets/Tab/TabWidget.hpp"
+
+
+#include "Application.hpp"
+#include "BrowserWindow.hpp"
 
 namespace Sn {
 TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :

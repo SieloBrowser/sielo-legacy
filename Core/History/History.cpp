@@ -27,13 +27,11 @@
 #include <QSettings>
 
 #include <ndb/query.hpp>
+#include <ndb/function.hpp>
 
 #include "Web/WebView.hpp"
 
 #include "History/HistoryModel.hpp"
-#include <ndb/function.hpp>
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {

@@ -43,7 +43,7 @@
 #include "Web/WebHitTestResult.hpp"
 
 QT_BEGIN_NAMESPACE
-extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, const QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
+extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
 QT_END_NAMESPACE
 
 namespace Sn {
@@ -168,7 +168,8 @@ QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alp
 			}
 		}
 
-		qt_blurImage(&big_painter, big.toImage(), radius, quality, alphaOnly, transposed);
+		QImage bgImage = big.toImage();
+		qt_blurImage(&big_painter, bgImage, radius, quality, alphaOnly, transposed);
 		painter.drawImage(QPoint(-radius, -radius), big.toImage());
 	}
 	return ret.toImage();

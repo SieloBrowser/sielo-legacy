@@ -30,8 +30,6 @@
 
 #include <QUrl>
 
-#include <ndb/engine/sqlite/query.hpp>
-
 #include "Database/SqlDatabase.hpp"
 
 namespace Sn

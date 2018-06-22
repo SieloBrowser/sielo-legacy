@@ -35,6 +35,8 @@
 
 #include "Database/SqlDatabase.hpp"
 
+constexpr auto& history = ndb::models::navigation.history;
+
 namespace Sn
 {
 class WebView;

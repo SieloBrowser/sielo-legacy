@@ -40,12 +40,8 @@
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
 
-#include "Database/SqlDatabase.hpp"
-
 #include "Application.hpp"
 #include "AutoFillNotification.hpp"
-
-constexpr auto& autofill_exceptions = ndb::models::password.autofill_exceptions;
 
 namespace Sn {
 

@@ -42,8 +42,6 @@
 
 #include "Application.hpp"
 
-constexpr auto& autofill_exceptions = ndb::models::password.autofill_exceptions;
-
 namespace Sn {
 
 AutoFillManager::AutoFillManager(QWidget* parent) :

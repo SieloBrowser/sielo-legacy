@@ -31,18 +31,17 @@
 #include <algorithm>
 
 #include <ndb/query.hpp>
-#include <ndb/engine/sqlite/query.hpp>
 
 #include "Bookmarks/Bookmarks.hpp"
 #include "Bookmarks/BookmarkItem.hpp"
+
+#include "History/History.hpp"
 
 #include "Utils/IconProvider.hpp"
 
 #include "Widgets/AddressBar/AddressBarCompleterModel.hpp"
 
 #include "Application.hpp"
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {
