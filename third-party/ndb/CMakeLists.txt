@@ -52,7 +52,7 @@ if (MINGW)
 endif()
 
 if (UNIX)
-    add_compile_options(-std=c++17)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
     set(NDB_LIB stdc++fs pthread dl)
 endif()
 
