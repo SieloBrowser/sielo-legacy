@@ -264,23 +264,9 @@ void WebPage::finished()
 
 	cleanBlockedObject();
 
-	runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res) {
-		const QVariantList& list = res.toList();
-
-		setBackgroundColor(Qt::white);
-
-		foreach(const QVariant& val, list) {
-			const QVariantMap& meta = val.toMap();
-			QString name = meta.value(QStringLiteral("name")).toString();
-			QString content = meta.value(QStringLiteral("content")).toString();
-
-			if (name == "sielo-transparent-background" && content.toLower() != "false") {
-				setBackgroundColor(Qt::transparent);
-			}
-		}
-	});
-
 	m_passwordEntries = Application::instance()->autoFill()->completePage(this, url());
+
+	emit pageRendering();
 }
 
 void WebPage::cleanBlockedObject()

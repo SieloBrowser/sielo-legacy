@@ -48,6 +48,17 @@
 
 #include "Plugins/PluginProxy.hpp"
 
+void Output(const char* szFormat, ...)
+{
+	char szBuff[1024];
+	va_list arg;
+	va_start(arg, szFormat);
+	_vsnprintf(szBuff, sizeof(szBuff), szFormat, arg);
+	va_end(arg);
+
+	OutputDebugString(szBuff);
+}
+
 namespace Sn {
 
 bool WebView::isUrlValide(const QUrl& url)
@@ -222,6 +233,7 @@ void WebView::setPage(WebPage* page)
 	QWebEngineView::setPage(page);
 
 	connect(m_page, &WebPage::privacyChanged, this, &WebView::privacyChanged);
+	connect(m_page, &WebPage::pageRendering, this, &WebView::pageRendering);
 
 	zoomReset();
 	initActions();
