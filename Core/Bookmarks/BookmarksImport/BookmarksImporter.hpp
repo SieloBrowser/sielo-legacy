@@ -23,52 +23,38 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
-#define SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
+#ifndef SIELOBROWSER_BOOKMARKSIMPORTER_HPP
+#define SIELOBROWSER_BOOKMARKSIMPORTER_HPP
 
-#include <QStandardItemModel>
+#include <QObject>
 
-#include <QUrl>
-
-#include "Database/SqlDatabase.hpp"
+#include <QString>
 
 namespace Sn
 {
-class AddressBarCompleterModel: public QStandardItemModel {
-public:
-	enum Role {
-		IdRole = Qt::UserRole + 1,
-		TitleRole,
-		UrlRole,
-		CountRole,
-		BookmarkRole,
-		BookmarkItemRole,
-		SearchStringRole,
-		TabPositionTabsSpaceRole,
-		TabPositionTabRole,
-		ImageRole,
-		VisitSearchItemRole,
-		SearchSuggestionRole
-	};
+class BookmarkItem;
 
-	AddressBarCompleterModel(QObject* parent = nullptr);
+class BookmarksImporter: public QObject {
+	BookmarksImporter(QObject* parent = nullptr);
+	virtual ~BookmarksImporter();
 
-	void setCompletions(const QList<QStandardItem*>& items);
-	void addCompletions(const QList<QStandardItem*>& items);
+	bool error() const;
+	QString errorString() const;
 
-	QList<QStandardItem*> suggestionItems() const;
+	virtual QString description() const = 0;
+	virtual QString standardPath() const = 0;
+
+	virtual QString getPath(QWidget* parent) = 0;
+	virtual bool prepareImport() = 0;
+	virtual BookmarkItem *importBookmarks() = 0;
+
+protected:
+	// Empty error = no error
+	void setError(const QString& error);
 
 private:
-	enum Type {
-		HistoryAndBookmarks = 0,
-		History = 1,
-		Bookmarks = 2,
-		Nothing = 4
-	};
-
-	void setTabPosition(QStandardItem* item) const;
-	void refreshTabPositions() const;
+	QString m_error{};
 };
 }
 
-#endif //SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
+#endif //SIELOBROWSER_BOOKMARKSIMPORTER_HPP

@@ -67,7 +67,7 @@ namespace ndb
     namespace internal
     {
         template<class Needle, class Haystack>
-        class has_type;
+        struct has_type;
 
         template<class Needle, template<class...> class Haystack, class T1, class... T>
         struct has_type<Needle, Haystack<T1, T...>> { static constexpr bool value = has_type<Needle, Haystack<T...>>::value; };
@@ -165,7 +165,7 @@ namespace ndb
             }
                 // not a keyword
             else return false;
-        };
+        }
     } // internal
 
     template<class Expr> constexpr bool expr_is_value = internal::expr_is_value<Expr>::value;

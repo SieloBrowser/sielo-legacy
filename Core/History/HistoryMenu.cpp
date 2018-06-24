@@ -33,6 +33,7 @@
 #include "Database/SqlDatabase.hpp"
 
 #include "Utils/ClosedTabsManager.hpp"
+#include "Utils/IconProvider.hpp"
 
 #include "Web/Tab/TabbedWebView.hpp"
 
@@ -40,8 +41,6 @@
 
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {
@@ -139,8 +138,7 @@ void HistoryMenu::aboutToShow()
 
 		QAction* action{ new QAction(title) };
 		action->setData(url);
-		// TODO: icon
-		action->setIcon(Application::getAppIcon("webpage"));
+		action->setIcon(IconProvider::iconForUrl(url));
 
 		connect(action, &QAction::triggered, this, &HistoryMenu::historyEntryActivated);
 
@@ -168,9 +166,8 @@ void HistoryMenu::aboutToShowMostVisited()
 
 		QAction* action{ new QAction(title) };
 		action->setData(entry.url);
-		// TODO: icon
-		action->setIcon(Application::getAppIcon("webpage"));
-
+		action->setIcon(IconProvider::iconForUrl(entry.url));
+		
 		connect(action, &QAction::triggered, this, &HistoryMenu::historyEntryActivated);
 
 		m_menuMostVisited->addAction(action);

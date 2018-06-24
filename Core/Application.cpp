@@ -28,6 +28,7 @@
 #include <QDir>
 
 #include <QStyle>
+#include <QGraphicsBlurEffect>
 
 #include <QTranslator>
 #include <QLibraryInfo>
@@ -58,8 +59,8 @@
 
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
-#include "Mockup/Mockups.hpp"
-#include "Mockup/MockupsManager.hpp"
+#include "MaquetteGrid/MaquetteGrid.hpp"
+#include "MaquetteGrid/MaquetteGridManager.hpp"
 #include "Download/DownloadManager.hpp"
 
 #include "Utils/RegExp.hpp"
@@ -81,7 +82,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.15.00 closed-beta");
+QString Application::currentVersion = QString("1.15.08b");
 
 // Static member
 QList<QString> Application::paths()
@@ -97,7 +98,7 @@ QList<QString> Application::paths()
 	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
 	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
-	paths.append(paths[Application::P_Data] + QLatin1String("/mockups"));
+	paths.append(paths[Application::P_Data] + QLatin1String("/maquette-grid"));
 
 	return paths;
 }
@@ -122,8 +123,6 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 		const QByteArray byteArray{file.readAll()};
 
 		file.close();
-
-		std::string str = byteArray;
 
 		return byteArray;
 	}
@@ -175,7 +174,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.15.00"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -192,8 +191,8 @@ Application::Application(int& argc, char** argv) :
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
 
-	translateApplication();
 	loadSettings();
+	translateApplication();
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
@@ -402,31 +401,33 @@ void Application::loadApplicationSettings()
 
 	// Check the current version number of Sielo, and make setting update if needed
 	//TODO: improve this with a switch
-	if (settings.value("versionNumber", 0).toInt() < 12) {
-		if (settings.value("versionNumber", 0).toInt() < 11) {
-			// Update with new bookmarks
-			QString directory{Application::instance()->paths()[Application::P_Data]};
-			QFile::remove(directory
-				+ QLatin1String("/bookmarks.xbel"));
-			QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
-			            + QLatin1String("/bookmarks.xbel"));
-			QFile::setPermissions(directory
-			                      + QLatin1String("/bookmarks.xbel"),
-			                      QFileDevice::ReadUser | QFileDevice::WriteUser);
-		}
+	if (settings.value("versionNumber", 0).toInt() < 13) {
+		settings.setValue("installed", false);
+		if (settings.value("versionNumber", 0).toInt() < 12) {
+			if (settings.value("versionNumber", 0).toInt() < 11) {
+				// Update with new bookmarks
+				QString directory{ Application::instance()->paths()[Application::P_Data] };
+				QFile::remove(directory
+					+ QLatin1String("/bookmarks.xbel"));
+				QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
+					+ QLatin1String("/bookmarks.xbel"));
+				QFile::setPermissions(directory
+					+ QLatin1String("/bookmarks.xbel"),
+					QFileDevice::ReadUser | QFileDevice::WriteUser);
+			}
 
-		// Update home page to use last version of doosearch
-		settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
-		settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
+			// Update home page to use last version of doosearch
+			settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
+			settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
 
-		foreach (BrowserWindow* window, m_windows) {
-			window->loadSettings();
-			for (int i{0}; i < window->tabWidgetsCount(); ++i) {
-				window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+			foreach(BrowserWindow* window, m_windows) {
+				window->loadSettings();
+				for (int i{ 0 }; i < window->tabWidgetsCount(); ++i) {
+					window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+				}
 			}
 		}
-
-		settings.setValue("versionNumber", 12);
+		settings.setValue("versionNumber", 13);
 	}
 }
 
@@ -444,7 +445,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 31) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 34) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -467,7 +468,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 31);
+			settings.setValue("Themes/defaultThemeVersion", 34);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -478,7 +479,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 29);
+		settings.setValue("Themes/defaultThemeVersion", 35);
 	}
 }
 
@@ -487,9 +488,10 @@ void Application::loadTranslationSettings()
 	QSettings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 2) {
+	if (settings.value("version", 0).toInt() < 11) {
+		QDir(paths()[P_Translations]).removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
-		settings.setValue("version", 2);
+		settings.setValue("version", 11);
 	}
 }
 
@@ -583,10 +585,15 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 	return window;
 }
 
-BrowserWindow *Application::createWindow(MockupItem* item)
+BrowserWindow *Application::createWindow(MaquetteGridItem* item)
 {
-	BrowserWindow* mockupWindow = new BrowserWindow(item);
-	return mockupWindow;
+	Q_ASSERT(windowCount() != 0);
+	BrowserWindow* maquetteGridWindow = new BrowserWindow(item);
+
+	QObject::connect(maquetteGridWindow, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
+
+	m_windows.prepend(maquetteGridWindow);
+	return maquetteGridWindow;
 }
 
 Application::AfterLaunch Application::afterLaunch() const
@@ -750,7 +757,7 @@ void Application::postLaunch()
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
 		getWindow()->tabWidget()
-		           ->addView(QUrl("http://www.feldrise.com/Sielo/thanks.php"),
+		           ->addView(QUrl("https://sielo.app/thanks.php"),
 		                     Application::NTT_CleanSelectedTabAtEnd);
 		settings.setValue("installed", true);
 	}
@@ -882,12 +889,12 @@ Bookmarks *Application::bookmarks()
 	return m_bookmarks;
 }
 
-Mockups *Application::mockups()
+MaquetteGrid *Application::maquetteGrid()
 {
-	if (!m_mockups)
-		m_mockups = new Mockups(this);
+	if (!m_maquetteGrid)
+		m_maquetteGrid = new MaquetteGrid(this);
 
-	return m_mockups;
+	return m_maquetteGrid;
 }
 
 DownloadManager *Application::downloadManager()
@@ -949,6 +956,7 @@ void Application::connectDatabase()
 	// Connecte databases
 	ndb::connect<dbs::password>(params);
 	ndb::connect<dbs::navigation>(params);
+	ndb::connect<dbs::image>(params);
 
 	// TODO: remove this at the end of ndb integration
 	/*const QString dbFile = paths()[Application::P_Data] + QLatin1String("/browsedata.db");
@@ -1163,8 +1171,25 @@ QString Application::parseSSS(QString& sss, const QString& relativePath, const Q
 	sss.replace("sproperty", "qproperty");
 	sss.replace("slineargradient", "qlineargradient");
 
+	// Replace sbackground with a blured background 
+	sss = parseSSSBackground(sss, relativePath);
+
 	// Replace theme colors to user colors
 	sss = parseSSSColor(sss, lightness);
+
+	return sss;
+}
+
+QString Application::parseSSSBackground(QString& sss, const QString& relativePath)
+{
+	QString bluredBackgroundPath = getBlurredBackgroundPath("images/background.png", 15);
+
+	if (bluredBackgroundPath.isEmpty())
+		sss.replace(RegExp(";\\s*\\background\\s*\\:\\s*\\sbackground\\s*\\;"), "");
+	else
+		sss.replace("sbackground()", "url(" + bluredBackgroundPath + ")");
+
+	std::string strSss = sss.toStdString();
 
 	return sss;
 }
@@ -1200,6 +1225,93 @@ QString Application::parseSSSColor(QString& sss, const QString& lightness)
 	sss.replace("$ulightness", lightness);
 
 	return sss;
+}
+
+QString Application::getBlurredBackgroundPath(const QString& defaultBackground, int radius)
+{
+	QSettings settings{};
+
+	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), defaultBackground).toString();
+
+	if (!QFile::exists(backgroundPath))
+		return QString();
+
+	QImage backgroundImage{ backgroundPath };
+	QPixmap output = QPixmap::fromImage(blurImage(backgroundImage, backgroundImage.rect(), 10));
+	
+	QFile file{ paths()[Application::P_Themes] + QLatin1String("/bluredBackground.png") };
+	file.open(QIODevice::WriteOnly);
+	output.save(&file, "PNG");
+
+	return file.fileName();
+}
+
+QImage Application::blurImage(const QImage& image, const QRect& rect, int radius, bool alphaOnly)
+{
+	int tab[] = { 14, 10, 8, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2 };
+	int alpha = (radius < 1) ? 16 : (radius > 17) ? 1 : tab[radius - 1];
+
+	QImage result = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+	int r1 = rect.top();
+	int r2 = rect.bottom();
+	int c1 = rect.left();
+	int c2 = rect.right();
+
+	int bpl = result.bytesPerLine();
+	int rgba[4];
+	unsigned char* p;
+
+	int i1 = 0;
+	int i2 = 3;
+
+	if (alphaOnly)
+		i1 = i2 = (QSysInfo::ByteOrder == QSysInfo::BigEndian ? 0 : 3);
+
+	for (int col = c1; col <= c2; col++) {
+		p = result.scanLine(r1) + col * 4;
+		for (int i = i1; i <= i2; i++)
+			rgba[i] = p[i] << 4;
+
+		p += bpl;
+		for (int j = r1; j < r2; j++, p += bpl)
+			for (int i = i1; i <= i2; i++)
+				p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+	}
+
+	for (int row = r1; row <= r2; row++) {
+		p = result.scanLine(row) + c1 * 4;
+		for (int i = i1; i <= i2; i++)
+			rgba[i] = p[i] << 4;
+
+		p += 4;
+		for (int j = c1; j < c2; j++, p += 4)
+			for (int i = i1; i <= i2; i++)
+				p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+	}
+
+	for (int col = c1; col <= c2; col++) {
+		p = result.scanLine(r2) + col * 4;
+		for (int i = i1; i <= i2; i++)
+			rgba[i] = p[i] << 4;
+
+		p -= bpl;
+		for (int j = r1; j < r2; j++, p -= bpl)
+			for (int i = i1; i <= i2; i++)
+				p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+	}
+
+	for (int row = r1; row <= r2; row++) {
+		p = result.scanLine(row) + c2 * 4;
+		for (int i = i1; i <= i2; i++)
+			rgba[i] = p[i] << 4;
+
+		p -= 4;
+		for (int j = c1; j < c2; j++, p -= 4)
+			for (int i = i1; i <= i2; i++)
+				p[i] = (rgba[i] += ((p[i] << 4) - rgba[i]) * alpha / 16) >> 4;
+	}
+
+	return result;
 }
 
 void Application::loadThemeFromResources(QString name, bool loadAtEnd)

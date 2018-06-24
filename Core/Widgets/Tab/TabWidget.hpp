@@ -172,6 +172,8 @@ private:
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
 
+	void setupNavigationBar();
+
 	AutoSaver* m_saveTimer{nullptr};
 
 	BrowserWindow* m_window{nullptr};

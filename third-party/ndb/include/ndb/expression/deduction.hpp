@@ -16,7 +16,7 @@ namespace ndb
         // get source from first field
         Expr::static_eval([&](auto&& e)
         {
-            if constexpr (e.type == expr_type_code::field)
+            if constexpr (std::decay_t<decltype(e)>::type == expr_type_code::field)
             {
                 using Table = typename std::decay_t<decltype(e)>::value_type::table;
                 table_id = ndb::table_id<Table>;

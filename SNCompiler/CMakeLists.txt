@@ -8,11 +8,11 @@ set(CMAKE_AUTORCC ON)
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2017_64\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.1\\msvc2017_64\\")
 elseif(WIN32)
     set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.0\\msvc2015\\")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.0/clang_64/")
+    set (CMAKE_PREFIX_PATH "/Users/feldrise/Qt/5.11.1/clang_64/")
 
 
 endif()

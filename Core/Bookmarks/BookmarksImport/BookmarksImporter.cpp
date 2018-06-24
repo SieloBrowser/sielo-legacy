@@ -22,74 +22,27 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Mockups.hpp"
-
-#include <QDir>
-
-#include "Mockup/MockupItem.hpp"
-
-#include "Utils/AutoSaver.hpp"
-
-#include "Application.hpp"
+#include "BookmarksImporter.hpp"
 
 namespace Sn
 {
-Mockups::Mockups(QObject* parent) :
-	QObject(parent),
-	m_saver(new AutoSaver(this))
+BookmarksImporter::BookmarksImporter(QObject* parent)
+	: QObject(parent) { }
+
+BookmarksImporter::~BookmarksImporter() { }
+
+bool BookmarksImporter::error() const
 {
-	loadMockups();
+	return !m_error.isEmpty();
 }
 
-Mockups::~Mockups()
+QString BookmarksImporter::errorString() const
 {
-	m_saver->saveIfNeccessary();
-	qDeleteAll(m_mockups);
+	return m_error;
 }
 
-void Mockups::addMockup(MockupItem* mockup)
+void BookmarksImporter::setError(const QString& error)
 {
-	m_mockups.append(mockup);
-
-	emit mockupAdded(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::removeMockup(MockupItem* mockup)
-{
-	m_mockups.removeOne(mockup);
-	QFile::remove(Application::paths()[Application::P_Mockups] + QLatin1Char('/') + mockup->name() + QLatin1String(".json"));
-
-	emit mockupRemoved(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::changeMockup(MockupItem* mockup)
-{
-	emit mockupChanged(mockup);
-
-	m_saver->changeOccurred();
-}
-
-void Mockups::loadMockups()
-{
-	QDir directory{Application::paths()[Application::P_Mockups]};
-	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
-
-	foreach(const QFileInfo& info, files) {
-		MockupItem* mockup{new MockupItem(info.baseName())};
-		m_mockups.append(mockup);
-	}
-
-	if (m_mockups.isEmpty())
-		m_mockups.append(new MockupItem("mockup", true));
-}
-
-void Mockups::save()
-{
-	foreach(MockupItem* mockup, m_mockups)
-		mockup->saveMockup();
+	m_error = error;
 }
 }

@@ -73,10 +73,7 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	setObjectName(QLatin1String("tabwidget"));
 
 	m_closedTabsManager = new ClosedTabsManager;
-
-	if (Application::instance()->useTopToolBar())
-		m_addressBars = new QStackedWidget(this);
-
+	
 	m_tabBar = new MainTabBar(m_window, this);
 	m_menuTabs = new MenuTabs(this);
 	m_menuClosedTabs = new QMenu(this);
@@ -125,14 +122,6 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	m_tabBar->addCornerWidget(m_buttonClosedTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonListTabs, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonMainMenu, Qt::TopRightCorner);
-
-	if (Application::instance()->useTopToolBar()) {
-		m_navigationToolBar = new NavigationToolBar(this);
-		if (Application::instance()->hideBookmarksHistoryActions())
-			m_navigationToolBar->setSplitterSize(532, -1);
-		else
-			m_navigationToolBar->setSplitterSize(532, 24);
-	}
 
 	connect(this, &TabWidget::changed, m_saveTimer, &AutoSaver::changeOccurred);
 	connect(this, &TabStackedWidget::pinStateChanged, this, &TabWidget::changed);
@@ -197,9 +186,6 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	///**** End of shortcuts ****///
 
 	setTabBar(m_tabBar);
-	if (Application::instance()->useTopToolBar())
-		setNavigationToolBar(m_navigationToolBar);
-
 	loadSettings();
 }
 
@@ -230,6 +216,22 @@ void TabWidget::loadSettings()
 			m_homeUrl = m_window->homePageUrl();
 
 		settings.endGroup();
+	}
+
+	if (Application::instance()->useTopToolBar()) {
+		setupNavigationBar();
+	}
+	else if (!Application::instance()->useTopToolBar() && m_navigationToolBar) {
+		for (int i{0}; i < count(); ++i) {
+			WebTab* tab{ weTab(i) };
+			m_addressBars->removeWidget(tab->addressBar());
+			tab->takeAddressBar();
+		}
+		delete m_addressBars;
+		delete m_navigationToolBar;
+
+		m_addressBars = nullptr;
+		m_navigationToolBar = nullptr;
 	}
 
 	updateClosedTabsButton();
@@ -1009,5 +1011,34 @@ void TabWidget::updateClosedTabsButton()
 		m_buttonClosedTabs->hide();
 
 	m_buttonClosedTabs->setEnabled(canRestoreTab());
+}
+
+void TabWidget::setupNavigationBar()
+{
+	if (m_navigationToolBar)
+		return;
+
+	m_addressBars = new QStackedWidget(this);
+	m_navigationToolBar = new NavigationToolBar(this);
+
+	if (Application::instance()->hideBookmarksHistoryActions())
+		m_navigationToolBar->setSplitterSize(532, -1);
+	else
+		m_navigationToolBar->setSplitterSize(532, 24);
+
+	setNavigationToolBar(m_navigationToolBar);
+
+	if (count() <= 0)
+		return;
+
+	for (int i{ 0 }; i < count(); ++i) {
+		WebTab* tab = weTab(i);
+		if (tab->addressBar())
+			m_addressBars->addWidget(tab->addressBar());	
+	}
+
+	AddressBar* addressBar = weTab()->addressBar();
+	if (addressBar && m_addressBars->indexOf(addressBar) != -1)
+		m_addressBars->setCurrentWidget(addressBar);
 }
 }

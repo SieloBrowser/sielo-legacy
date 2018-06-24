@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,40 +22,55 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "TreeView.hpp"
+#pragma once
+#ifndef SIELOBROWSER_ICONPROVIDER_HPP
+#define SIELOBROWSER_ICONPROVIDER_HPP
 
-#include <QAbstractItemView>
+#include <QIcon>
+#include <QImage>
 
-#include "Application.hpp"
+#include <QPair>
 
-#include "History/HistoryModel.hpp"
+#include <QUrl>
 
-namespace Sn {
-TreeView::TreeView(QWidget* parent) :
-	QTreeView(parent) {}
-
-void TreeView::keyPressEvent(QKeyEvent* event)
+namespace Sn
 {
-	if ((event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace) && model())
-		removeOne();
-	else
-		QAbstractItemView::keyPressEvent(event);
+using BufferedIcon = QPair<QUrl, QImage>;
+class AutoSaver;
+
+class WebView;
+
+class IconProvider: public QObject {
+	Q_OBJECT
+
+public:
+	static QByteArray encodeUrl(const QUrl& url);
+
+	IconProvider();
+	~IconProvider();
+
+	void saveIcon(WebView* view);
+
+	// Icon for url (only available for urls in history)
+	static QIcon iconForUrl(const QUrl &url, bool allowNull = false);
+	static QImage imageForUrl(const QUrl &url, bool allowNull = false);
+
+	// Icon for domain (only available for urls in history)
+	static QIcon iconForDomain(const QUrl &url, bool allowNull = false);
+	static QImage imageForDomain(const QUrl &url, bool allowNull = false);
+
+	static IconProvider* instance();
+
+public slots:
+	void save();
+
+private:
+	QIcon iconFromImage(const QImage &image);
+
+	QVector<BufferedIcon> m_iconBuffer;
+
+	AutoSaver* m_autoSaver;
+};
 }
 
-void TreeView::removeOne()
-{
-	if (!model())
-		return;
-
-	QModelIndex ci{currentIndex()};
-	//Application::instance()->historyManager()->removeHistoryEntry(model()->data(ci, HistoryModel::UrlStringRole).toString());
-}
-
-void TreeView::removeAll()
-{
-	if (!model())
-		return;
-
-	//Application::instance()->historyManager()->clear();
-}
-}
+#endif //SIELOBROWSER_ICONPROVIDER_HPP

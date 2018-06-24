@@ -10,7 +10,6 @@ Sielo is a web browser that I began to develop a year and a half ago. The browse
 ### Download
 Their is many links to find the last Sielo version
  - Windows (64bit) : The last open beta can be installed with [this setup](https://sielo.app/download.php?for=windows)
- - Windows (32bit) : The last open beta can be installed with [this setup](https://sielo.app/download.php?for=windows_x86)
  - Windows: There is a portable version [available here](https://sielo.app/download.php?for=windows_portable)
  - Linux: You can find [an AppImage](https://sielo.app/download.php?for=linux) 
  - ArchLinux: Sielo is available on the AUR.
@@ -26,15 +25,18 @@ Sielo has well grown. It has all the basic functionalities of a web browser (tab
 ### Tabs space
 This is the feature that makes Sielo so special. Tabs spaces allow you to divide your Sielo window into several spaces, as if you had several windows next to each other but interacting with each other. You can resize Tabs spaces, hide them,  mute them... This allow you, among other things, to have several sessions, for example a session called "social networks", an other called "music" and an other called "work". Therefore you can hide the "music" tabs space and retrieve it at any time.
 
-A small illustration :
-
-![Tabs Sapces GIF](https://sielo.app/images/tabs-space.gif)
+![Tabs Sapces](https://sielo.app/images/tabsspaces.png)
 
 ### The floating button
-This is another feature specific to Sielo.. This button can be moved everywhere in the browser to give you access to the main controls as easily as possible. It can also be transformed into a lateral toolbar. But a picture is much better than 1000 words:
-![Floating Button GIF](https://sielo.app/images/floating-button.gif)
+This is another feature specific to Sielo.. This button can be moved everywhere in the browser to give you access to the main controls as easily as possible. It can also be transformed into a lateral toolbar. 
+
+![Floating Button](https://sielo.app/images/fbutton.png)
+
 ### Themes, for an unlimited personalization power
 Sielo also supports themes to completely customize the interface. This goes from the floating button to the tabs, via icons. I'm currently writing a little tutorial to learn how to make themes for Sielo. This is not very complicated, just place the icons, list them in a file "theme.index" and do some CSS to customize some objects such as tabs. If the developer wants, the themes can behave differently depending on the operating system, and can be adapted with user colors
+
+![Themes](https://sielo.app/images/themes.png)
+
 ## Objectives
 Now that Sielo is built on a stable structure, the goal is to make the user experience even more intuitive! A plugins system is already written, so it just remains to be activate and plugins need to be created. I'm also thinking on compatibility with "web extension".
 

@@ -23,48 +23,38 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_MOCKUP_HPP
-#define SIELOBROWSER_MOCKUP_HPP
+#ifndef SIELOBROWSER_MOCKUPSMENU_HPP
+#define SIELOBROWSER_MOCKUPSMENU_HPP
 
-#include <QObject>
-
-#include <QIcon>
-
-#include <QUrl>
-#include <QString>
+#include <QMenu>
 
 namespace Sn
 {
-class AutoSaver;
+	class BrowserWindow;
 
-class MockupItem;
+class MaquetteGridItem;
 
-class Mockups: public QObject {
+class MaquetteGridMenu: public QMenu {
 Q_OBJECT
 
 public:
-	Mockups(QObject* parent = nullptr);
-	~Mockups();
+	MaquetteGridMenu(BrowserWindow* window);
+	~MaquetteGridMenu();
 
-	void addMockup(MockupItem* mockup);
-	void removeMockup(MockupItem* mockup);
-	void changeMockup(MockupItem* mockup);
+private slots:
+	void aboutToShow();
+	void maquetteGridChanged();
 
-	void loadMockups();
-	void save();
+	void openMaquetteGridManager();
 
-	QList<MockupItem*> mockups() { return m_mockups; }
-
-signals:
-	void mockupAdded(MockupItem* mockup);
-	void mockupRemoved(MockupItem* mockup);
-	void mockupChanged(MockupItem* mockup);
-
+	void maquetteGridActivated();
+	void openMaquetteGrid(MaquetteGridItem* item);
 private:
-	QList<MockupItem*> m_mockups{};
+	void refresh();
 
-	AutoSaver* m_saver{nullptr};
+	BrowserWindow* m_window{ nullptr };
+	bool m_changed{true};
 };
 }
 
-#endif //SIELOBROWSER_MOCKUP_HPP
+#endif //SIELOBROWSER_MOCKUPSMENU_HPP

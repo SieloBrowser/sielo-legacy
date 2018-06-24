@@ -9,7 +9,7 @@ namespace ndb
 {
     #define ndb_bijective_type_map(NDB_TYPE, CPP_TYPE, SCOPE) \
     template<> struct type_map<NDB_TYPE, SCOPE> { using type = CPP_TYPE; }; \
-    template<> struct type_map<CPP_TYPE, SCOPE> { using type = NDB_TYPE; };
+    template<> struct type_map<CPP_TYPE, SCOPE> { using type = NDB_TYPE; }
 
     // not found type
     namespace internal

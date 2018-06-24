@@ -42,17 +42,32 @@ public:
 	AboutDialog(QWidget* parent = nullptr);
 	~AboutDialog();
 
+private slots:
+	void previous();
+	void next();
+
 private:
 	void setupUI();
-	void showAbout();
+	void setupAbout();
+	void setupPartners();
 
-	QVBoxLayout* m_layout{nullptr};
+	void updateLabels();
 
-	QLabel* m_icon{nullptr};
-	QTextBrowser* m_content{nullptr};
-	QDialogButtonBox* m_closeButtonBox{nullptr};
+	int m_currentIndex{ 0 };
 
-	QString m_html{};
+	// UI
+	QVBoxLayout* m_layout{ nullptr };
+	QHBoxLayout* m_buttonsLayout{ nullptr };
+
+	QLabel* m_image{ nullptr };
+	QLabel* m_desc{ nullptr };
+
+	QSpacerItem* m_spacer{ nullptr };
+	QPushButton* m_previous{ nullptr };
+	QPushButton* m_next{ nullptr };
+
+	QStringList m_images{};
+	QStringList m_descs{};
 };
 
 }

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1" language="ar_EG">
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../Core/Application.cpp" line="912"/>
+        <location filename="../Core/Application.cpp" line="918"/>
         <source>Start after crash</source>
-        <translation type="unfinished"></translation>
+        <translation>مسح كل سجل التاريخ</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="913"/>
+        <location filename="../Core/Application.cpp" line="919"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>لتغيير اللغة ، يجب عليك إعادة تشغيل المتصفح.؟</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="915"/>
+        <location filename="../Core/Application.cpp" line="921"/>
         <source>Start New Session</source>
-        <translation type="unfinished"></translation>
+        <translation>جلسه جديده</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="917"/>
+        <location filename="../Core/Application.cpp" line="923"/>
         <source>Restore Session</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة الجلسة</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="924"/>
+        <location filename="../Core/Application.cpp" line="930"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="924"/>
+        <location filename="../Core/Application.cpp" line="930"/>
         <source>Please, if Sielo continues crashing, consider trying this 32bit version.</source>
-        <translation type="unfinished"></translation>
+        <translation>لتغيير اللغة ، يجب عليك إعادة تشغيل المتصفح.</translation>
     </message>
 </context>
 <context>
@@ -188,28 +188,47 @@
 <context>
     <name>Sn::AboutDialog</name>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="60"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="37"/>
         <source>About Sielo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="85"/>
-        <source>&lt;p&gt;&lt;b&gt;Sielo version %1&lt;/b&gt;&lt;br /&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="64"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="82"/>
+        <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="86"/>
-        <source>&lt;b&gt;QtWebEngine version %1&lt;/b&gt;&lt;/p&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="65"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="83"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="110"/>
+        <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="89"/>
-        <source>&lt;p&gt;&lt;b&gt;Main developer:&lt;/b&gt;&lt;br /&gt;%1 &amp;lt;%2&amp;gt;&lt;/p&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="73"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="111"/>
+        <source>Our partners</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="91"/>
-        <source>&lt;p&gt;&lt;b&gt;Contributors:&lt;/b&gt;&lt;br /&gt;%1&lt;/p&gt;</source>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="93"/>
+        <source>What&apos;s Sielo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="132"/>
+        <source>&lt;p&gt;&lt;b&gt;Sielo (version: %1, WebEngine: %2)&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Sielo is a powerful web browser with a unique concept: tabs spaces.Sielo has many contribution and I would like to give special thanks&lt;br/&gt;to Hotaru for always being here, Echostorm for his awesome contribution,&lt;br/&gt;Kaktus for the design and all other contributors!&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2018 Victor DENIS&lt;br /&gt;&lt;a href=&quot;mailto:admin@feldrise.com&quot;&gt;admin@feldrise.com&lt;/a&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="148"/>
+        <source>&lt;b&gt;Bit-Studio.com&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Created in 2011, this concept aims to promote promising IT projects in order to help them take off.&lt;br/&gt;After a few years of operation, the project was put on hold. It was too much work for one man. In 2018, a team was formed and Bit-Studio was reborn from its ashes, stronger than ever.&lt;br/&gt;From then on, discover regularly, in preview, the mastodons of tomorrow on Bit-Studio.com.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="157"/>
+        <source>&lt;b&gt;Le Monde Du PC&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;&quot;Le Monde Du PC&quot;, put online in September 2017, is a site that aims to share our knowledge so that, for example, some subjects in computing are not only understood by those who master them. Today, the team is complete and a 2.0 version will normally be released in September.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -218,7 +237,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="132"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="132"/>
@@ -340,174 +359,174 @@
     <name>Sn::AppearancePage</name>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="107"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="118"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="120"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="107"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="108"/>
         <source>Be aware, if you only load theme&apos;s icons, floating button will disappear. You should disable floating button when you don&apos;t load full theme.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="118"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="120"/>
         <source>Some changes need Sielo restart to have effects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="177"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="342"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="178"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="347"/>
         <source>Tabs spaces padding (%1px)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="183"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="184"/>
         <source>Choose background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="195"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="197"/>
         <source>Unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="195"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="197"/>
         <source>The gallery is currently unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="208"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="210"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="209"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="211"/>
         <source>Can&apos;t decompile theme... Be sure compiler is with Sielo main exe, else move it manually or update/reinstall the browser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="213"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="216"/>
         <source>Open a theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="224"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="229"/>
         <source>Theme exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="225"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="230"/>
         <source>The theme already exist and is going to be update with the new version.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="247"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="251"/>
         <source>Select a color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="412"/>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="528"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="416"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="534"/>
         <source>Themes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="413"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="417"/>
         <source>Theme colors (might not work on every themes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="436"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="440"/>
         <source>&lt;b&gt;Name: &lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="442"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="446"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="451"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="455"/>
         <source>&lt;b&gt;Author: &lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="458"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="462"/>
         <source>&lt;b&gt;Description: &lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="465"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="469"/>
         <source>Add a Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="466"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="470"/>
         <source>Open Gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="468"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="472"/>
         <source>Main Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="469"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="473"/>
         <source>Second Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="470"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="474"/>
         <source>Accent Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="471"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="475"/>
         <source>Text Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="473"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="477"/>
         <source>Fully load theme (otherwise it will only load theme&apos;s icons)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="474"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="478"/>
         <source>Use real toolbar instead of floating button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="476"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="480"/>
         <source>Hide bookmarks and history action in the navigation tool bar by default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="477"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="481"/>
         <source>Floating button automatically move to focused tabs space</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="479"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="483"/>
         <source>Tabs spaces padding (in px)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="484"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
         <source>Repeate the background if the picture is too small</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="490"/>
         <source>Background: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="492"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="529"/>
+        <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="535"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
@@ -585,7 +604,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="192"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="193"/>
@@ -747,7 +766,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="113"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">تحديث</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="114"/>
@@ -806,57 +825,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="57"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="59"/>
         <source>Add New Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="62"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="64"/>
         <source>Choose name and location of this bookmark.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="101"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="103"/>
         <source>Bookmark All Tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="106"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="108"/>
         <source>Choose folder for bookmarks:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="140"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="142"/>
         <source>Edit Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="153"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="155"/>
         <source>Title:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="156"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="158"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="157"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="159"/>
         <source>Keyword:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="163"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="165"/>
         <source>Description:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="256"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="258"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التأكيد</translation>
     </message>
     <message>
-        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="257"/>
+        <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="259"/>
         <source>Are you sure you want to open all bookmarks from &apos;%1&apos; folder in tabs?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -874,7 +893,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="108"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فتح في علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="109"/>
@@ -906,7 +925,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="118"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="246"/>
@@ -959,7 +978,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksMenu.cpp" line="230"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فارغ</translation>
     </message>
 </context>
 <context>
@@ -980,7 +999,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="73"/>
         <source>Open in new tab</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="74"/>
@@ -1000,7 +1019,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="80"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbar.cpp" line="84"/>
@@ -1018,7 +1037,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksToolbarButton.cpp" line="358"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فارغ</translation>
     </message>
 </context>
 <context>
@@ -1029,77 +1048,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="283"/>
+        <location filename="../Core/BrowserWindow.cpp" line="284"/>
         <source>%1 - Sielo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="417"/>
+        <location filename="../Core/BrowserWindow.cpp" line="418"/>
         <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="488"/>
+        <location filename="../Core/BrowserWindow.cpp" line="489"/>
         <source> (Private Browsing)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="695"/>
+        <location filename="../Core/BrowserWindow.cpp" line="696"/>
         <source>Restore Closed Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة علامة التبويب المغلقة</translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="884"/>
-        <location filename="../Core/BrowserWindow.cpp" line="913"/>
+        <location filename="../Core/BrowserWindow.cpp" line="885"/>
+        <location filename="../Core/BrowserWindow.cpp" line="914"/>
         <source>Go Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="886"/>
-        <location filename="../Core/BrowserWindow.cpp" line="914"/>
+        <location filename="../Core/BrowserWindow.cpp" line="887"/>
+        <location filename="../Core/BrowserWindow.cpp" line="915"/>
         <source>Go Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="888"/>
-        <location filename="../Core/BrowserWindow.cpp" line="915"/>
+        <location filename="../Core/BrowserWindow.cpp" line="889"/>
+        <location filename="../Core/BrowserWindow.cpp" line="916"/>
         <source>Go Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="890"/>
-        <location filename="../Core/BrowserWindow.cpp" line="916"/>
+        <location filename="../Core/BrowserWindow.cpp" line="891"/>
+        <location filename="../Core/BrowserWindow.cpp" line="917"/>
         <source>Add Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="892"/>
-        <location filename="../Core/BrowserWindow.cpp" line="917"/>
+        <location filename="../Core/BrowserWindow.cpp" line="893"/>
+        <location filename="../Core/BrowserWindow.cpp" line="918"/>
         <source>Show all Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="894"/>
-        <location filename="../Core/BrowserWindow.cpp" line="918"/>
+        <location filename="../Core/BrowserWindow.cpp" line="895"/>
+        <location filename="../Core/BrowserWindow.cpp" line="919"/>
         <source>Show History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="896"/>
-        <location filename="../Core/BrowserWindow.cpp" line="919"/>
+        <location filename="../Core/BrowserWindow.cpp" line="897"/>
+        <location filename="../Core/BrowserWindow.cpp" line="920"/>
         <source>Open New Window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/BrowserWindow.cpp" line="898"/>
-        <location filename="../Core/BrowserWindow.cpp" line="920"/>
+        <location filename="../Core/BrowserWindow.cpp" line="899"/>
+        <location filename="../Core/BrowserWindow.cpp" line="921"/>
         <source>Open New Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/MainTabBar.cpp" line="78"/>
         <source>Close Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>غلق علامة التبويب</translation>
     </message>
 </context>
 <context>
@@ -1184,7 +1203,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="189"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="190"/>
@@ -1334,7 +1353,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/CurrentTabsSpacePage.cpp" line="65"/>
         <source>Enter url</source>
-        <translation type="unfinished"></translation>
+        <translation>أدخل العنوان</translation>
     </message>
 </context>
 <context>
@@ -1486,7 +1505,7 @@
     <message>
         <location filename="../Core/Widgets/EllipseLabel.cpp" line="73"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>نسخ</translation>
     </message>
 </context>
 <context>
@@ -1504,91 +1523,91 @@
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="232"/>
         <source>Saved</source>
-        <translation type="unfinished"></translation>
+        <translation>تم الحفظ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="232"/>
         <source>Your session will be restored at startup</source>
-        <translation type="unfinished"></translation>
+        <translation>سيتم استعادة جلسة العمل الخاصة بك عند بدء التشغيل</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="243"/>
         <source>Home page</source>
-        <translation type="unfinished"></translation>
+        <translation>الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="245"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="255"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="266"/>
         <source>Open blank page</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح صفحة فارغة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="246"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="257"/>
         <source>Open custom url</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح عنوان رابط مخصص</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="251"/>
         <source>Home page url</source>
-        <translation type="unfinished"></translation>
+        <translation>رابط الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="253"/>
         <source>New tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="256"/>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="267"/>
         <source>Open home page</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="262"/>
         <source>New tab url</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب عنوان رابط جديد</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="264"/>
         <source>New Session</source>
-        <translation type="unfinished"></translation>
+        <translation>جلسه جديده</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="268"/>
         <source>Restore session</source>
-        <translation type="unfinished"></translation>
+        <translation>استعادة الجلسة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="269"/>
         <source>Open saved session</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح الجلسة المحفوظة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="273"/>
         <source>Save current session</source>
-        <translation type="unfinished"></translation>
+        <translation>حفظ الجلسة الحالية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="275"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>لغة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="277"/>
         <source>Available translations:</source>
-        <translation type="unfinished"></translation>
+        <translation>الترجمات المتاحة:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="279"/>
         <source>In order to change language, you must restart your browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>لتغيير اللغة ، يجب عليك إعادة تشغيل المتصفح.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="282"/>
         <source>Don&apos;t load tabs until selected</source>
-        <translation type="unfinished"></translation>
+        <translation>لا تقم بتحميل علامات التبويب حتى يتم تحديدها</translation>
     </message>
 </context>
 <context>
@@ -1725,67 +1744,73 @@
     <message>
         <location filename="../Core/History/History.cpp" line="44"/>
         <source>January</source>
-        <translation type="unfinished"></translation>
+        <translation>يناير</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="46"/>
         <source>February</source>
-        <translation type="unfinished"></translation>
+        <translation>فبراير</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="48"/>
         <source>March</source>
-        <translation type="unfinished"></translation>
+        <translation>مارس</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="50"/>
         <source>April</source>
-        <translation type="unfinished"></translation>
+        <translation>أبريل</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="52"/>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation>مايو</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="54"/>
         <source>June</source>
-        <translation type="unfinished"></translation>
+        <translation>حزيران</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="56"/>
         <source>July</source>
-        <translation type="unfinished"></translation>
+        <translation>يوليو</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="58"/>
         <source>August</source>
-        <translation type="unfinished"></translation>
+        <translation>أغسطس</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="60"/>
         <source>September</source>
-        <translation type="unfinished"></translation>
+        <translation>سبتمبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="62"/>
         <source>October</source>
-        <translation type="unfinished"></translation>
+        <translation>اكتوبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="64"/>
         <source>November</source>
-        <translation type="unfinished"></translation>
+        <translation>نوفمبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="66"/>
         <source>December</source>
-        <translation type="unfinished"></translation>
+        <translation>ديسمبر</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="119"/>
         <source>Empty page</source>
-        <translation type="unfinished"></translation>
+        <translation>Search Results
+
+Empty page Edit
+
+ui translations
+
+صفحة فارغة</translation>
     </message>
 </context>
 <context>
@@ -1793,17 +1818,17 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="125"/>
         <source>Open In New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="126"/>
         <source>Open In New Window</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في نافذة جديدة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="127"/>
         <source>Open In New Private Window</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح في نافذة خاصة جديدة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="131"/>
@@ -1819,81 +1844,81 @@
         <location filename="../Core/History/HistoryManager.cpp" line="136"/>
         <location filename="../Core/History/HistoryManager.cpp" line="200"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="168"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>التأكيد</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="168"/>
         <source>Are you sure you want to delete all history?</source>
-        <translation type="unfinished"></translation>
+        <translation>هل أنت متأكد من أنك تريد حذف كل السجل؟</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="197"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>بحث...</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="201"/>
         <source>Clear All History</source>
-        <translation type="unfinished"></translation>
+        <translation>مسح كل سجل التاريخ</translation>
     </message>
 </context>
 <context>
     <name>Sn::HistoryMenu</name>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="51"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="52"/>
         <source>Hi&amp;story</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="53"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="54"/>
         <source>&amp;Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">رجوع</translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="55"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="56"/>
         <source>&amp;Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="57"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="58"/>
         <source>&amp;Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="60"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="61"/>
         <source>Show &amp;All History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="66"/>
-        <source>Most Visited</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="67"/>
-        <source>Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <source>Most Visited</source>
+        <translation>أكثر زيارة</translation>
     </message>
     <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="180"/>
-        <location filename="../Core/History/HistoryMenu.cpp" line="205"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="68"/>
+        <source>Closed Tabs</source>
+        <translation>علامات التبويب المغلقة</translation>
+    </message>
+    <message>
+        <location filename="../Core/History/HistoryMenu.cpp" line="179"/>
+        <location filename="../Core/History/HistoryMenu.cpp" line="204"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>فارغ</translation>
+    </message>
+    <message>
+        <location filename="../Core/History/HistoryMenu.cpp" line="208"/>
+        <source>Restore All Closed Tabs</source>
+        <translation>استعادة جميع علامات التبويب المغلقة</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="209"/>
-        <source>Restore All Closed Tabs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/History/HistoryMenu.cpp" line="210"/>
         <source>Clear list</source>
-        <translation type="unfinished"></translation>
+        <translation>تفريغ القائمة</translation>
     </message>
 </context>
 <context>
@@ -1922,17 +1947,17 @@
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="444"/>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation>اليوم</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="448"/>
         <source>This Week</source>
-        <translation type="unfinished"></translation>
+        <translation>هذا الاسبوع</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="452"/>
         <source>This Month</source>
-        <translation type="unfinished"></translation>
+        <translation>هذا الشهر</translation>
     </message>
 </context>
 <context>
@@ -1950,7 +1975,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="94"/>
         <source>Change window size</source>
-        <translation type="unfinished"></translation>
+        <translation>تغيير حجم النافذة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="97"/>
@@ -1988,7 +2013,7 @@
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="105"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">حذف</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="109"/>
@@ -2006,7 +2031,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
@@ -2065,7 +2090,7 @@
         <location filename="../Core/Widgets/MainMenu.cpp" line="63"/>
         <location filename="../Core/Widgets/MainMenu.cpp" line="194"/>
         <source>Show Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عرض شريط الإشارات</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="68"/>
@@ -2080,7 +2105,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="70"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="89"/>
@@ -2090,7 +2115,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="92"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="94"/>
@@ -2145,7 +2170,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="133"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>شركاء</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="135"/>
@@ -2155,7 +2180,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="137"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>خروج</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="194"/>
@@ -2170,22 +2195,22 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات الصور</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>ملفات نصية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>كل الملفات</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="223"/>
         <source>Open file</source>
-        <translation type="unfinished"></translation>
+        <translation>فتح الملف</translation>
     </message>
 </context>
 <context>
@@ -2325,13 +2350,63 @@
     </message>
 </context>
 <context>
+    <name>Sn::MaquetteGridManager</name>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="454"/>
+        <source>Add Maquette Grid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="455"/>
+        <source>Add Maquette Grid From Current Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="456"/>
+        <source>Delete MaquetteGrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="475"/>
+        <source>Title:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="477"/>
+        <source>Url:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Sn::MaquetteGridMenu</name>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridMenu.cpp" line="40"/>
+        <source>&amp;MaquetteGrid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridMenu.cpp" line="42"/>
+        <source>Open MaquetteGrid Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Sn::MaquetteGridTabsList</name>
+    <message>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="110"/>
+        <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="112"/>
+        <source>New Tab</source>
+        <translation type="unfinished">علامة تبويب جديدة</translation>
+    </message>
+</context>
+<context>
     <name>Sn::MasterPasswordDialog</name>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="91"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="96"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="191"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="91"/>
@@ -2411,66 +2486,6 @@
     </message>
 </context>
 <context>
-    <name>Sn::MockupsManager</name>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="454"/>
-        <source>Add Mockup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="455"/>
-        <source>Add Mockup From Current Session</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="456"/>
-        <source>Delete Mockup</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="475"/>
-        <source>Title:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsManager.cpp" line="477"/>
-        <source>Url:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Sn::MockupsMenu</name>
-    <message>
-        <location filename="../Core/Mockup/MockupsMenu.cpp" line="40"/>
-        <source>&amp;Mockups</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsMenu.cpp" line="42"/>
-        <source>Open Mockups Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Sn::MockupsTabsList</name>
-    <message>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="52"/>
-        <source>X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="56"/>
-        <source>+</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="107"/>
-        <location filename="../Core/Mockup/MockupsTabsList.cpp" line="109"/>
-        <source>New Tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Sn::NavigationToolBar</name>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="57"/>
@@ -2485,7 +2500,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="77"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">الصفحة الرئيسية</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="86"/>
@@ -2548,7 +2563,7 @@
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="36"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>شركاء</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="96"/>
@@ -2581,7 +2596,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PasswordPage.cpp" line="75"/>
         <source>Allow saving passwords from sites</source>
-        <translation type="unfinished"></translation>
+        <translation>السماح بحفظ كلمات المرور من المواقع</translation>
     </message>
 </context>
 <context>
@@ -2769,21 +2784,22 @@
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="140"/>
         <source>No results found.</source>
-        <translation type="unfinished"></translation>
+        <translation>لا توجد نتائج.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="211"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>بحث:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="216"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>بحث...بحث...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="232"/>
         <source>&amp;Match Case</source>
+        <translatorcomment>There&apos;s no caps lock in Arabic because in Arabic we are always yelling so match case doesnt apply in arabic LOL! ill try to come up with something to put there???</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2808,7 +2824,7 @@
         <location filename="../Core/Widgets/SiteInfo.cpp" line="168"/>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="213"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطأ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="168"/>
@@ -2828,7 +2844,7 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="224"/>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">جار التحميل...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="237"/>
@@ -2940,10 +2956,10 @@
 <context>
     <name>Sn::TabWidget</name>
     <message>
-        <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="121"/>
         <location filename="../Core/Widgets/Tab/AddTabButton.cpp" line="43"/>
+        <location filename="../Core/Widgets/Tab/TabWidget.hpp" line="121"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="98"/>
@@ -2966,17 +2982,21 @@
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="930"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">فارغ</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="933"/>
         <source>Restore All Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">استعادة جميع علامات التبويب المغلقة</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabWidget.cpp" line="934"/>
@@ -2987,12 +3007,12 @@
 <context>
     <name>Sn::TabbedWebView</name>
     <message>
-        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="200"/>
+        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="248"/>
         <source>Show so&amp;urce code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="201"/>
+        <location filename="../Core/Web/Tab/TabbedWebView.cpp" line="249"/>
         <source>Show Inspector</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3002,12 +3022,12 @@
     <message>
         <location filename="../Core/Widgets/TitleBar.cpp" line="227"/>
         <source>Show Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>عرض شريط الإشارات</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/TitleBar.cpp" line="238"/>
         <source>Lock Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>ثبت شريط الادوات</translation>
     </message>
 </context>
 <context>
@@ -3015,7 +3035,7 @@
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="110"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>تحديث</translation>
     </message>
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="111"/>
@@ -3025,7 +3045,7 @@
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="127"/>
         <source>Update fail</source>
-        <translation type="unfinished"></translation>
+        <translation>فشل التحديث</translation>
     </message>
     <message>
         <location filename="../Core/Utils/Updater.cpp" line="127"/>
@@ -3122,12 +3142,12 @@
     <message>
         <location filename="../Core/Web/Tab/WebTab.cpp" line="475"/>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>جار التحميل...</translation>
     </message>
     <message>
         <location filename="../Core/Web/Tab/WebTab.cpp" line="494"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>علامة تبويب جديدة</translation>
     </message>
     <message>
         <location filename="../Core/Web/Tab/WebTab.cpp" line="498"/>
@@ -3138,162 +3158,168 @@
 <context>
     <name>Sn::WebView</name>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="200"/>
+        <location filename="../Core/Web/WebView.cpp" line="203"/>
         <source>Empty page</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Search Results
+
+Empty page Edit
+
+ui translations
+
+صفحة فارغة</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="738"/>
+        <location filename="../Core/Web/WebView.cpp" line="751"/>
         <source>No suggestions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="774"/>
+        <location filename="../Core/Web/WebView.cpp" line="787"/>
         <source>&amp;Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">رجوع</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="777"/>
+        <location filename="../Core/Web/WebView.cpp" line="790"/>
         <source>&amp;Forward</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="785"/>
+        <location filename="../Core/Web/WebView.cpp" line="798"/>
         <source>Book&amp;mark page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="786"/>
+        <location filename="../Core/Web/WebView.cpp" line="799"/>
         <source>&amp;Save page as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="787"/>
+        <location filename="../Core/Web/WebView.cpp" line="800"/>
         <source>&amp;Copy page link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="791"/>
+        <location filename="../Core/Web/WebView.cpp" line="804"/>
         <source>Select &amp;all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="806"/>
+        <location filename="../Core/Web/WebView.cpp" line="819"/>
         <source>Open link in new &amp;window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="813"/>
+        <location filename="../Core/Web/WebView.cpp" line="826"/>
         <source>B&amp;ookmark link</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="814"/>
+        <location filename="../Core/Web/WebView.cpp" line="827"/>
         <source>&amp;Save link as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="815"/>
+        <location filename="../Core/Web/WebView.cpp" line="828"/>
         <source>&amp;Copy link address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="826"/>
+        <location filename="../Core/Web/WebView.cpp" line="839"/>
         <source>Show i&amp;mage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="827"/>
+        <location filename="../Core/Web/WebView.cpp" line="840"/>
         <source>Copy image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="828"/>
+        <location filename="../Core/Web/WebView.cpp" line="841"/>
         <source>Copy image ad&amp;dress</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="832"/>
+        <location filename="../Core/Web/WebView.cpp" line="845"/>
         <source>&amp;Save image as...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="853"/>
-        <source>Dictionary</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../Core/Web/WebView.cpp" line="866"/>
-        <source>Go to &amp;web address</source>
-        <translation type="unfinished"></translation>
+        <source>Dictionary</source>
+        <translation>قاموس</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="883"/>
+        <location filename="../Core/Web/WebView.cpp" line="879"/>
+        <source>Go to &amp;web address</source>
+        <translation type="unfinished">الذهاب إلى عنوان الويب</translation>
+    </message>
+    <message>
+        <location filename="../Core/Web/WebView.cpp" line="896"/>
         <source>&amp;Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="883"/>
+        <location filename="../Core/Web/WebView.cpp" line="896"/>
         <source>&amp;Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="884"/>
+        <location filename="../Core/Web/WebView.cpp" line="897"/>
         <source>Un&amp;mute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="884"/>
+        <location filename="../Core/Web/WebView.cpp" line="897"/>
         <source>&amp;Mute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="888"/>
+        <location filename="../Core/Web/WebView.cpp" line="901"/>
         <source>&amp;Copy media address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="889"/>
+        <location filename="../Core/Web/WebView.cpp" line="902"/>
         <source>Save media to &amp;disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="895"/>
+        <location filename="../Core/Web/WebView.cpp" line="908"/>
         <source>&amp;Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="901"/>
+        <location filename="../Core/Web/WebView.cpp" line="914"/>
         <source>&amp;Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="907"/>
+        <location filename="../Core/Web/WebView.cpp" line="920"/>
         <source>&amp;Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="913"/>
+        <location filename="../Core/Web/WebView.cpp" line="926"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="919"/>
+        <location filename="../Core/Web/WebView.cpp" line="932"/>
         <source>&amp;Paste</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="925"/>
+        <location filename="../Core/Web/WebView.cpp" line="938"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="931"/>
+        <location filename="../Core/Web/WebView.cpp" line="944"/>
         <source>&amp;Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="935"/>
+        <location filename="../Core/Web/WebView.cpp" line="948"/>
         <source>S&amp;top</source>
         <translation type="unfinished"></translation>
     </message>

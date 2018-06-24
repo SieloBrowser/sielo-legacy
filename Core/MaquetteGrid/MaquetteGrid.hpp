@@ -23,64 +23,48 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_MOCKUPITEM_HPP
-#define SIELOBROWSER_MOCKUPITEM_HPP
+#ifndef SIELOBROWSER_MOCKUP_HPP
+#define SIELOBROWSER_MOCKUP_HPP
+
+#include <QObject>
 
 #include <QIcon>
 
 #include <QUrl>
 #include <QString>
 
-#include <QVector>
-
 namespace Sn
 {
-class MockupItem {
+class AutoSaver;
+
+class MaquetteGridItem;
+
+class MaquetteGrid: public QObject {
+Q_OBJECT
+
 public:
-	struct TabsSpace;
+	MaquetteGrid(QObject* parent = nullptr);
+	~MaquetteGrid();
 
-	struct Tab {
-		QIcon icon{};
-		QString title{};
-		QUrl url{};
+	void addMaquetteGrid(MaquetteGridItem* maquetteGrid);
+	void removeMaquetteGrid(MaquetteGridItem* maquetteGrid);
+	void changeMaquetteGrid(MaquetteGridItem* maquetteGrid);
 
-		bool selected{false};
+	void loadMaquetteGrid();
+	void save();
 
-		TabsSpace* parent{nullptr};
-	};
+	QList<MaquetteGridItem*> maquetteGrid() { return m_maquetteGrid; }
 
-	struct TabsSpace {
-		~TabsSpace() { qDeleteAll(tabs); }
+signals:
+	void maquetteGridAdded(MaquetteGridItem* maquetteGrid);
+	void maquetteGridRemoved(MaquetteGridItem* maquetteGrid);
+	void maquetteGridChanged(MaquetteGridItem* maquetteGrid);
 
-		QVector<MockupItem::Tab*> tabs{};
-		int verticalIndex{0};
-
-		MockupItem* parent{nullptr};
-	};
-
-	MockupItem(const QString& name, bool loadDefault = false);
-	~MockupItem();
-
-	const QString &name() const { return m_name; }
-	void setName(const QString& name, bool isDefaultName = false);
-
-	void clear();
-
-	void addTabsSpace(TabsSpace* tabsSpace);
-	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
-
-	void saveMockup();
 private:
-	void loadMockup(bool loadDefault);
-	void loadMockupFromMap(const QVariantMap& map);
+	QList<MaquetteGridItem*> m_maquetteGrid{};
 
-	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
-
-
-	QList<TabsSpace*> m_tabsSpaces{};
-
-	QString m_name{};
+	AutoSaver* m_saver{nullptr};
 };
 }
 
-#endif //SIELOBROWSER_MOCKUPITEM_HPP
+#endif //SIELOBROWSER_MOCKUP_HPP

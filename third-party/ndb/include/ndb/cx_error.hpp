@@ -2,9 +2,14 @@
 #define CX_ERROR_H_NDB
 
 // \brief compile time error
+namespace ndb::internal
+{
+    template<class T> struct false_ { static constexpr bool value = false; };
+    template<class T> static constexpr bool false_v = false_<T>::value;
+} // ndb::internal
 
-#define ncx_error(Message) static_assert(false, Message);
-#define ncx_error_not_implemented() static_assert(false, "no implementation");
+#define ncx_error(T, Message) static_assert(ndb::internal::false_v<T>, Message);
+#define ncx_error_not_implemented(T) static_assert(ndb::internal::false_v<T>, "no implementation");
 
 #define ncx_error_value(Source, Err, ...) ndb::cx_error_value<Source, Err< __VA_ARGS__ > >::value
 #define ncx_error_type(Source, Err, ...) typename ndb::cx_error_type<Source, Err< __VA_ARGS__ > >::type

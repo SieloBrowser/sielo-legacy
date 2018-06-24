@@ -118,7 +118,7 @@ void DatabaseEncryptedPasswordBackend::setActive(bool active)
 void DatabaseEncryptedPasswordBackend::addEntry(const PasswordEntry& entry)
 {
 	if (entry.data.isEmpty()) {
-		auto& data = ndb::query<dbs::password>() << ((autofill_encrypted.username_encrypted) << (autofill_encrypted.server == entry.host));
+		auto data = ndb::query<dbs::password>() << ((autofill_encrypted.username_encrypted) << (autofill_encrypted.server == entry.host));
 
 		if (data.has_result())
 			return;
@@ -151,7 +151,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 			ndb::query<dbs::password>() >> ((autofill_encrypted.data_encrypted = QString::fromUtf8(encryptedEntry.data),
 											 autofill_encrypted.username_encrypted = encryptedEntry.username,
 											 autofill_encrypted.password_encrypted = encryptedEntry.password)
-					<< (autofill_encrypted.id == encryptedEntry.id.toInt()));
+					<< (autofill_encrypted.id == encryptedEntry.id.toLongLong()));
 		}
 
 		//return query.exec();
@@ -164,7 +164,7 @@ bool DatabaseEncryptedPasswordBackend::updateEntry(const PasswordEntry& entry)
 void DatabaseEncryptedPasswordBackend::updateLastUsed(PasswordEntry& entry)
 {
 	ndb::query<dbs::password>() >> ((autofill_encrypted.last_used = ndb::now())
-			<< (autofill_encrypted.id == entry.id.toInt()));
+			<< (autofill_encrypted.id == entry.id.toLongLong()));
 }
 
 void DatabaseEncryptedPasswordBackend::removeEntry(const PasswordEntry& entry)
@@ -172,7 +172,7 @@ void DatabaseEncryptedPasswordBackend::removeEntry(const PasswordEntry& entry)
 	if (!hasPermission())
 		return;
 
-	ndb::query<dbs::password>() - (autofill_encrypted.id == entry.id.toInt());
+	ndb::query<dbs::password>() - (autofill_encrypted.id == entry.id.toLongLong());
 
 	m_stateOfMasterPassword = UnknownState;
 
@@ -316,7 +316,7 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 		if (qdata.server == INTERNAL_SERVER_ID)
 			continue;
 
-		int id{qdata.id};
+		int id{static_cast<int>(qdata.id)};
 		QByteArray data = qdata.data_encrypted.toUtf8();
 		QByteArray password = qdata.password_encrypted.toUtf8();
 		QByteArray username = qdata.username_encrypted.toUtf8();
@@ -342,7 +342,7 @@ void DatabaseEncryptedPasswordBackend::encryptDatabaseTableOnFly(const QByteArra
 
 void DatabaseEncryptedPasswordBackend::updateSampleData(const QByteArray& password)
 {
-	auto& data = ndb::query<dbs::password>()
+	auto data = ndb::query<dbs::password>()
 			<< ((autofill_encrypted.id) << (autofill_encrypted.server == INTERNAL_SERVER_ID));
 
 		if (!password.isEmpty()) {
@@ -389,7 +389,7 @@ QByteArray DatabaseEncryptedPasswordBackend::someDataFromDatabase()
 		return m_someDataStoredOnDatabase;
 
 	QByteArray someData{};
-	auto& query = ndb::query<dbs::password>() << (autofill_encrypted.password_encrypted,
+	auto query = ndb::query<dbs::password>() << (autofill_encrypted.password_encrypted,
 			autofill_encrypted.data_encrypted,
 			autofill_encrypted.username_encrypted);
 

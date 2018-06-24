@@ -176,6 +176,6 @@ static constexpr const ::ndb::models::MODEL_NAME##_ MODEL_NAME = {}; \
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////             ALIASES            ////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-#define ndb_field_id ndb_field(id, int, ::ndb::option<ndb::field_option::oid>)
+#define ndb_field_id ndb_field(id, ::ndb::type_get< ::ndb::int64_>, ::ndb::option<ndb::field_option::oid>)
 
 #endif // NDB_PREPROCESSOR_HPP

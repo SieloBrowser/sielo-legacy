@@ -28,11 +28,10 @@
 
 #include "Database/SqlDatabase.hpp"
 
+#include "History/History.hpp"
 #include "History/HistoryItem.hpp"
 
 #include "Application.hpp"
-
-constexpr auto& history = ndb::models::navigation.history;
 
 namespace Sn
 {
@@ -417,7 +416,7 @@ void HistoryModel::checkEmptyParentItem(HistoryItem* item)
 
 void HistoryModel::init()
 {
-	auto& minDateQuery = ndb::query<dbs::navigation>() << (ndb::min(history.date));
+	auto minDateQuery = ndb::query<dbs::navigation>() << (ndb::min(history.date));
 
 	if (!minDateQuery.has_result())
 		return;
@@ -461,7 +460,7 @@ void HistoryModel::init()
 			                                timestampDate.year());
 		}
 
-		auto& query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp));
+		auto query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp));
 
 		if (query.has_result()) {
 			HistoryItem* item{new HistoryItem(m_rootItem)};

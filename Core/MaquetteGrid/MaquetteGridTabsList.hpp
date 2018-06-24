@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,27 +23,53 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_TREEVIEW_HPP
-#define SIELOBROWSER_TREEVIEW_HPP
+#ifndef SIELOBROWSER_MOCKUPSTABSLIST_HPP
+#define SIELOBROWSER_MOCKUPSTABSLIST_HPP
 
-#include <QWidget>
+#include <QListWidget>
 
-#include <QTreeView>
+#include <QDropEvent>
 
-#include <QKeyEvent>
+#include <QVBoxLayout>
 
-namespace Sn {
-class TreeView: public QTreeView {
+#include <QPushButton>
+
+#include "MaquetteGrid/MaquetteGridItem.hpp"
+
+namespace Sn
+{
+class MaquetteGridManager;
+
+class MaquetteGridTabsList: public QListWidget {
 Q_OBJECT
 
 public:
-	TreeView(QWidget* parent = nullptr);
+	MaquetteGridTabsList(MaquetteGridManager* manager, QWidget* parent = nullptr);
+	~MaquetteGridTabsList();
 
+	QVBoxLayout *parentLayout() const { return m_parentLayout; }
+	void setParentLayout(QVBoxLayout* layout);
+
+	MaquetteGridItem::TabsSpace *tabsSpace();
+
+private slots:
+	void deleteItem();
+	void addTab();
+
+protected:
+	void dropEvent(QDropEvent* event);
+	void enterEvent(QEvent* event);
+	void leaveEvent(QEvent* event);
 	void keyPressEvent(QKeyEvent* event);
 
-public slots:
-	void removeOne();
-	void removeAll();
+private:
+	MaquetteGridManager* m_maquetteGridManager{nullptr};
+	QVBoxLayout* m_parentLayout{nullptr};
+
+	QPushButton* m_deleteButton{nullptr};
+	QPushButton* m_addTabButton{nullptr};
+
 };
 }
-#endif //SIELOBROWSER_TREEVIEW_HPP
+
+#endif //SIELOBROWSER_MOCKUPSTABSLIST_HPP

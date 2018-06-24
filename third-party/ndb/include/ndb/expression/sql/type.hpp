@@ -25,7 +25,7 @@ namespace ndb
             }
 
             // get << not source
-            if constexpr ( !((int)Clause & (int)expr_clause_code::set) ) // do not deduce for SET
+            if constexpr ( !(static_cast<bool>((int)Clause & (int)expr_clause_code::set) )) // do not deduce for SET
             {
                 if constexpr (!expr_has_clause<L, expr_clause_code::source> && !expr_has_clause<R, expr_clause_code::source>)
                 {
@@ -57,7 +57,7 @@ namespace ndb
         template<class L, class R, expr_clause_code Clause, int Pass, class Native_expression>
         static constexpr void static_make(Native_expression& ne)
         {
-            if constexpr ((int)Clause & (int)expr_clause_code::set)
+            if constexpr (static_cast<bool>((int)Clause & (int)expr_clause_code::set))
             {
                 L::template static_make<Clause, Pass>(ne);
                 ne.push_back(expr_code<expr_type_code::op_assign, expr_category_code::sql>::value);
