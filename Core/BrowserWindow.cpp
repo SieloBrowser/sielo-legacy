@@ -50,6 +50,10 @@
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
+QT_BEGIN_NAMESPACE
+extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
+QT_END_NAMESPACE
+
 namespace Sn
 {
 BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
@@ -61,6 +65,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
 	setAcceptDrops(true);
+	setMouseTracking(true);
 
 #ifdef Q_OS_WIN
 	setWindowFlags(Qt::CustomizeWindowHint);
@@ -481,9 +486,14 @@ int BrowserWindow::tabWidgetsCount() const
 	return m_tabWidgets.count();
 }
 
-const QPixmap *BrowserWindow::background()
+const QImage *BrowserWindow::background()
 {
 	return m_bg;
+}
+
+const QImage *BrowserWindow::processedBackground()
+{
+	return m_blur_bg;
 }
 
 void BrowserWindow::setWindowTitle(const QString& title)
@@ -584,16 +594,64 @@ void BrowserWindow::shotBackground()
 {
 	// Citorva will explain this
 	m_mainSplitter->hide();
-	if (m_fButton && !Application::instance()->useTopToolBar())
-		m_fButton->hide();
-
+	if (m_fButton) m_fButton->hide();
 	m_titleBar->hide();
 
-	m_bg = new QPixmap(size());
-	render(m_bg, QPoint(), QRect(0, 0, width(), height()));
+	QPixmap *bg = new QPixmap(size());
+	render(bg, QPoint(), QRect(0, 0, width(), height()));
+	m_bg = new QImage(bg->toImage());
 	m_mainSplitter->show();
 	m_titleBar->show();
-	if(m_fButton && !Application::instance()->useTopToolBar()) m_fButton->show();
+	if(m_fButton) m_fButton->show();
+	m_blur_bg = new QImage(applyBlur(m_bg, 100));
+}
+
+QImage BrowserWindow::applyBlur(const QImage *src, qreal radius, bool quality, bool alphaOnly, int transposed)
+{
+	QPixmap ret(src->size());
+	QPainter painter(&ret);
+	{
+		QPixmap big(QSize(src->width() + 2 * radius, src->height() + 2 * radius));
+		QPainter big_painter(&big);
+
+		big_painter.drawImage(QPoint(radius, radius), src->copy());
+
+		{
+			QPixmap	left(QSize(1, big.height())),
+				right(QSize(1, big.height()));
+
+			QPainter painter_left(&left),
+				painter_right(&right);
+
+			painter_left.drawImage(QPoint(0, radius), src->copy());
+			painter_right.drawImage(QPoint(1 - src->width(), radius), src->copy());
+
+			for (int i = 0; i < radius; i++) {
+				big_painter.drawImage(QPoint(i, 0), left.toImage());
+				big_painter.drawImage(QPoint(radius + src->width() + i, 0), right.toImage());
+			}
+		}
+
+		{
+			QPixmap top(QSize(big.width(), 1)),
+				bottom(QSize(big.width(), 1));
+
+			QPainter painter_top(&top),
+				painter_bottom(&bottom);
+
+			painter_top.drawImage(QPoint(0, -radius), big.toImage());
+			painter_bottom.drawImage(QPoint(0, 1 + radius - big.height()), big.toImage());
+
+			for (int i = 0; i < radius; i++) {
+				big_painter.drawImage(QPoint(0, i), top.toImage());
+				big_painter.drawImage(QPoint(0, radius + src->height() + i), bottom.toImage());
+			}
+		}
+
+		qt_blurImage(&big_painter, big.toImage(), radius, quality, alphaOnly, transposed);
+		painter.drawImage(QPoint(-radius, -radius), big.toImage());
+	}
+	return ret.toImage();
 }
 
 void BrowserWindow::paintEvent(QPaintEvent* event)
@@ -621,6 +679,16 @@ void BrowserWindow::resizeEvent(QResizeEvent* event)
 	QMainWindow::resizeEvent(event);
 
 	shotBackground();
+}
+
+void BrowserWindow::mouseMoveEvent(QMouseEvent *e)
+{
+	if ((e->pos().x() >= pos().x() && e->pos().x() <= (pos().x() + width())) ||
+		(e->pos().y() >= pos().y() && e->pos().y() <= (pos().y() + height())))
+		emit mouseOver(true);
+	else
+		emit mouseOver(false);
+	QMainWindow::mouseMoveEvent(e);
 }
 
 void BrowserWindow::addTab()

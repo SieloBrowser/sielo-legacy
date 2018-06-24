@@ -225,6 +225,7 @@ void WebView::setPage(WebPage* page)
 	QWebEngineView::setPage(page);
 
 	connect(m_page, &WebPage::privacyChanged, this, &WebView::privacyChanged);
+	connect(m_page, &WebPage::pageRendering, this, &WebView::pageRendering);
 
 	zoomReset();
 	initActions();

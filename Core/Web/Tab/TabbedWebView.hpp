@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABBEDWEBVIEW_HPP
 #define SIELOBROWSER_TABBEDWEBVIEW_HPP
 
+#define EXP_TRANSPARENT_BG
+
 #include <QLabel>
 #include <QMenu>
 
@@ -74,14 +76,18 @@ public slots:
 	void setAsCurrentTab();
 	void userLoadAction(const LoadRequest& request);
 
+#ifdef EXP_TRANSPARENT_BG
 protected:
-	QImage applyBlur(QImage src, qreal radius, bool quality = true, bool alphaOnly = false, int transposed = 0);
 	void paintEvent(QPaintEvent* event);
+#endif // EXP_TRANSPARENT_BG
 
 private slots:
 	void sLoadStarted();
 	void sLoadProgress(int progress);
 	void sLoadFinished();
+#ifdef EXP_TRANSPARENT_BG
+	void sPageRendering();
+#endif // EXP_TRANSPARENT_BG
 	void urlChanged(const QUrl& url);
 	void linkHovered(const QString& link);
 	void setIp(const QHostInfo& info);
