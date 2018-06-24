@@ -40,7 +40,7 @@ namespace ndb
         >;
 
         return exec<Database, Result_type>(query);
-    };
+    }
 
     template<class Database, class Result_type>
     auto sqlite::exec(const sqlite_query<Database>& query) const

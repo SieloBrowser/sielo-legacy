@@ -25,7 +25,7 @@ namespace ndb
     inline auto type_make<std::vector<char>>(const char* data, int data_size)
     {
         return std::vector<char>{ data, data + data_size };
-    };
+    }
 
     // system custom_type
     template<class Database>

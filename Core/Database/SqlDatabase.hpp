@@ -38,11 +38,11 @@ using sielo_scope = ndb::scope::engine<ndb::sqlite>;
 
 namespace ndb
 {
-ndb_bijective_type_map(string_, QString, sielo_scope)
+ndb_bijective_type_map(string_, QString, sielo_scope);
 
-ndb_bijective_type_map(ndb::types::int64_, qint64, sielo_scope)
+ndb_bijective_type_map(ndb::types::int64_, qint64, sielo_scope);
 
-ndb_bijective_type_map(byte_array_, QByteArray, sielo_scope)
+ndb_bijective_type_map(byte_array_, QByteArray, sielo_scope);
 
 //template <>
 //struct type_map<long int, scope::group<ndb::databases::sielo>> {
