@@ -65,6 +65,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
 	setAcceptDrops(true);
+	setMouseTracking(true);
 
 #ifdef Q_OS_WIN
 	setWindowFlags(Qt::CustomizeWindowHint);
@@ -586,8 +587,7 @@ void BrowserWindow::shotBackground()
 {
 	// Citorva will explain this
 	m_mainSplitter->hide();
-	if (m_fButton) 
-		m_fButton->hide();
+	if (m_fButton) m_fButton->hide();
 	m_titleBar->hide();
 
 	QPixmap *bg = new QPixmap(size());
@@ -672,6 +672,16 @@ void BrowserWindow::resizeEvent(QResizeEvent* event)
 	QMainWindow::resizeEvent(event);
 
 	shotBackground();
+}
+
+void BrowserWindow::mouseMoveEvent(QMouseEvent *e)
+{
+	if ((e->pos().x() >= pos().x() && e->pos().x() <= (pos().x() + width())) ||
+		(e->pos().y() >= pos().y() && e->pos().y() <= (pos().y() + height())))
+		emit mouseOver(true);
+	else
+		emit mouseOver(false);
+	QMainWindow::mouseMoveEvent(e);
 }
 
 void BrowserWindow::addTab()

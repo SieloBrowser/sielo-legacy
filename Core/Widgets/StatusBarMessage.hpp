@@ -26,17 +26,21 @@
 #define SIELOBROWSER_STATUSBARMESSAGE_HPP
 
 #include <QString>
+#include <QObject>
 
 namespace Sn {
 class BrowserWindow;
 class TipLabel;
 
-class StatusBarMessage {
+class StatusBarMessage : public QObject {
 public:
 	StatusBarMessage(BrowserWindow* window);
 
 	void showMessage(const QString& message);
 	void clearMessage();
+
+protected slots:
+	void sMouseOver(bool arg);
 
 private:
 	BrowserWindow* m_window{nullptr};
