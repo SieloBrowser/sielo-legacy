@@ -80,7 +80,7 @@ BookmarkItem *OldSieloImporter::importBookmarks()
 	m_reader = new QXmlStreamReader(&m_file);
 
 	BookmarkItem* root{ new BookmarkItem(BookmarkItem::Folder) };
-	root->setTitle("Chrome Import");
+	root->setTitle("Sielo Open Beta Import");
 
 	if (m_reader->readNextStartElement()) {
 		QString version{ m_reader->attributes().value(QLatin1String("version")).toString()};
