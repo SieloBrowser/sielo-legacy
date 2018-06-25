@@ -131,7 +131,7 @@ BookmarkItem *HtmlImporter::importBookmarks()
 			start += posOfEndFolder + 8;
 		}
 		else {
-			RegExp rx("<dt><a(.*)>(.*)</a>");
+			RegExp rx{ "<dt><a(.*)>(.*)</a>" };
 			rx.setMinimal(true);
 			rx.indexIn(string);
 
@@ -144,9 +144,9 @@ BookmarkItem *HtmlImporter::importBookmarks()
 
 			QUrl url{QUrl::fromEncoded(rx2.capture(1).trimmed().toUtf8())};
 
-			start += posOfLink + rx.cap(0).size();
+			start += posOfLink + rx.capture(0).size();
 
-			if (url.isEmpty() || url.scheme() == QL1S("place") || url.scheme() == QL1S("about"))
+			if (url.isEmpty() || url.scheme() == QLatin1String("place") || url.scheme() == QLatin1String("about"))
 				continue;
 
 			BookmarkItem* b{new BookmarkItem(BookmarkItem::Url, folders.isEmpty() ? root : folders.last())};
