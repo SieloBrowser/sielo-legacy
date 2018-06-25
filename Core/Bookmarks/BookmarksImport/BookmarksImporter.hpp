@@ -35,6 +35,9 @@ namespace Sn
 class BookmarkItem;
 
 class BookmarksImporter: public QObject {
+	Q_OBJECT
+
+public:
 	BookmarksImporter(QObject* parent = nullptr);
 	virtual ~BookmarksImporter();
 
