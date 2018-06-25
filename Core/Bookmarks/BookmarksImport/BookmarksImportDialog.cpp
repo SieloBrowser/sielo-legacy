@@ -46,6 +46,7 @@ BookmarksImportDialog::BookmarksImportDialog(QWidget* parent) :
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName(QLatin1String("bookmarks-dialog-import"));
 	setWindowTitle(tr("Import Bookmarks"));
+	setupUI();
 
 	connect(m_buttonNext, &QPushButton::clicked, this, &BookmarksImportDialog::nextPage);
 	connect(m_buttonBack, &QPushButton::clicked, this, &BookmarksImportDialog::previousPage);
