@@ -67,6 +67,9 @@ private slots:
 	void bookmarksSelected(const QList<BookmarkItem*>& items);
 	void createContextMenu(const QPoint& pos);
 
+	void importBookmarks();
+	void exportBookmarks();
+
 	void openBookmark(BookmarkItem* item = 0);
 	void openBookmarkInNewTab(BookmarkItem* item = 0);
 	void openBookmarkInNewWindow(BookmarkItem* item = 0);
@@ -107,6 +110,7 @@ private:
 
 	QGroupBox* m_editBox{nullptr};
 
+	QPushButton* m_importExport{ nullptr };
 	QLineEdit* m_search{nullptr};
 	BookmarksTreeView* m_view{nullptr};
 
