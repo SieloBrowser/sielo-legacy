@@ -171,10 +171,10 @@ void TabbedWebView::sPageRendering()
 
 			if (name == "sielo-transparent-background" && content.toLower() != "false") {
 				page()->setBackgroundColor(Qt::transparent);
-
-				repaint();
 			}
 		}
+
+		repaint();
 	});
 }
 #endif // EXP_TRANSPARENT_BG
