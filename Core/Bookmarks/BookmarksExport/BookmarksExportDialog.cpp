@@ -108,7 +108,7 @@ void BookmarksExportDialog::setupUI()
 	m_exportLayout->setWidget(0, QFormLayout::LabelRole, m_formatDesc);
 	m_exportLayout->setWidget(0, QFormLayout::FieldRole, m_format);
 	m_exportLayout->setWidget(1, QFormLayout::LabelRole, m_outputDesc);
-	m_exportLayout->setLayout(0, QFormLayout::FieldRole, m_pathLayout);
+	m_exportLayout->setLayout(1, QFormLayout::FieldRole, m_pathLayout);
 
 	m_layout->addWidget(m_desc);
 	m_layout->addWidget(m_box);

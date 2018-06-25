@@ -91,6 +91,8 @@ BookmarkItem *OldSieloImporter::importBookmarks()
 			return nullptr;
 		}
 	}
+
+	return root;
 }
 
 void OldSieloImporter::readXBEL(BookmarkItem* root)
@@ -140,6 +142,8 @@ void OldSieloImporter::readFolder(BookmarkItem* parent)
 			readDescription(folder);
 		else if (m_reader->name() == QLatin1String("folder"))
 			readFolder(folder);
+		else if (m_reader->name() == QLatin1String("bookmark"))
+			readBookmarkNode(folder);
 		else if (m_reader->name() == QLatin1String("separator"))
 			readSeparator(folder);
 		else

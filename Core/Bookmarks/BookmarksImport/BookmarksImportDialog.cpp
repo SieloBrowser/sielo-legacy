@@ -263,6 +263,7 @@ void BookmarksImportDialog::setupUI()
 	m_buttonsLayout->addWidget(m_buttonCancel);
 
 	m_layout->addWidget(m_desc);
+	m_layout->addWidget(m_pages);
 	m_layout->addLayout(m_buttonsLayout);
 }
 }
