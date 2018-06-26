@@ -23,41 +23,44 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_BOOKMARKSIMPORTER_HPP
-#define SIELOBROWSER_BOOKMARKSIMPORTER_HPP
+#ifndef SIELOBROWSER_OLDSIELOIMPORTER_HPP
+#define SIELOBROWSER_OLDSIELOIMPORTER_HPP
 
-#include <QObject>
+#include "BookmarksImporter.hpp"
 
-#include <QString>
+#include <QFile>
+#include <QXmlStreamReader>
 
 namespace Sn
 {
-class BookmarkItem;
-
-class BookmarksImporter: public QObject {
+class OldSieloImporter: public BookmarksImporter {
 	Q_OBJECT
 
 public:
-	BookmarksImporter(QObject* parent = nullptr);
-	virtual ~BookmarksImporter();
+	OldSieloImporter(QObject* parent = nullptr);
+	~OldSieloImporter();
 
-	bool error() const;
-	QString errorString() const;
+	QString description() const;
+	QString standardPath() const;
 
-	virtual QString description() const = 0;
-	virtual QString standardPath() const = 0;
+	QString getPath(QWidget* parent);
+	bool prepareImport();
 
-	virtual QString getPath(QWidget* parent) = 0;
-	virtual bool prepareImport() = 0;
-	virtual BookmarkItem *importBookmarks() = 0;
-
-protected:
-	// Empty error = no error
-	void setError(const QString& error);
+	BookmarkItem* importBookmarks();
 
 private:
-	QString m_error{};
-};
+	void readXBEL(BookmarkItem* root);
+	void readTitle(BookmarkItem *parent);
+	void readDescription(BookmarkItem *parent);
+	void readSeparator(BookmarkItem *parent);
+	void readFolder(BookmarkItem *parent);
+	void readBookmarkNode(BookmarkItem *parent);
+
+	QXmlStreamReader* m_reader{ nullptr };
+	QString m_path;
+	QFile m_file;
+}
+;
 }
 
-#endif //SIELOBROWSER_BOOKMARKSIMPORTER_HPP
+#endif //SIELOBROWSER_OLDSIELOIMPORTER_HPP

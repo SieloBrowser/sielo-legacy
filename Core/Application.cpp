@@ -175,6 +175,8 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
+
+	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -190,9 +192,6 @@ Application::Application(int& argc, char** argv) :
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
-
-	loadSettings();
-	translateApplication();
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
@@ -267,6 +266,9 @@ Application::Application(int& argc, char** argv) :
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
 
+	loadSettings();
+	translateApplication();
+
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
 
@@ -332,7 +334,7 @@ void Application::loadSettings()
 
 	// General Sielo settings
 	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
-	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
+	m_useTopToolBar = settings.value("Settings/useTopToolBar", true).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
@@ -354,13 +356,7 @@ void Application::loadWebSettings()
 	QSettings settings{};
 
 	// load web settings
-	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
-	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
-
-	QString defaultUserAgent = webProfile->httpUserAgent();
-	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
-	                         QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
-	webProfile->setHttpUserAgent(defaultUserAgent);
+	QWebEngineSettings* webSettings = m_webProfile->settings();
 
 	settings.beginGroup("Web-Settings");
 
@@ -380,6 +376,14 @@ void Application::loadWebSettings()
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
+	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
+
+	QString defaultUserAgent = webProfile->httpUserAgent();
+	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
+		QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
+	webProfile->setHttpUserAgent(defaultUserAgent);
+
+
 	const bool allowCache{settings.value("allowLocalCache", true).toBool()};
 	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
@@ -391,7 +395,7 @@ void Application::loadWebSettings()
 	// Force local storage to be disabled if it's a provate session
 	if (privateBrowsing()) {
 		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
-		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+		history()->setSaving(false);
 	}
 }
 
@@ -554,9 +558,6 @@ QString Application::currentLanguage() const
 
 QWebEngineProfile *Application::webProfile()
 {
-	if (!m_webProfile) {
-		m_webProfile = QWebEngineProfile::defaultProfile();
-	}
 	return m_webProfile;
 }
 

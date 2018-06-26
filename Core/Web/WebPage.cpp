@@ -102,6 +102,15 @@ WebPage::WebPage(QObject* parent) :
 		Application::instance()->networkManager()->authentication(url, authenticator, view());
 	});
 
+	// Workaround for broken load started/finished signals in QtWebEngine 5.10
+	if (qstrncmp(qVersion(), "5.10.", 5) == 0) {
+		connect(this, &QWebEnginePage::loadProgress, this, [this](int progress) {
+			if (progress == 100) {
+				emit loadFinished(true);
+			}
+		});
+	}
+
 	connect(this,
 			&QWebEnginePage::proxyAuthenticationRequired,
 			this,

@@ -9,6 +9,9 @@
         <file>icons/edit/edit-select-all.png</file>
         <file>icons/edit/edit-undo.png</file>
 
+        <file>icons/other/chrome.png</file>
+        <file>icons/other/old-sielo.png</file>
+        <file>icons/other/html.png</file>
         <file>icons/other/aboutsielo.png</file>
         <file>icons/other/arrow-left.png</file>
         <file>icons/other/arrow-right.png</file>

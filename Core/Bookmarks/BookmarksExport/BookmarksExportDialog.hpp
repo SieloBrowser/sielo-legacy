@@ -23,107 +23,59 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_BOOKMARKSMANAGER_HPP
-#define SIELOBROWSER_BOOKMARKSMANAGER_HPP
+#ifndef SIELOBROWSER_BOOKMARKSEXPORTERDIALOG_HPP
+#define SIELOBROWSER_BOOKMARKSEXPORTERDIALOG_HPP
 
 #include <QDialog>
 
-#include <QGridLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QFormLayout>
 
 #include <QGroupBox>
+#include <QComboBox>
 #include <QLabel>
+#include <QPushButton>
 #include <QLineEdit>
-#include <QPlainTextEdit>
 #include <QDialogButtonBox>
-#include <QSpacerItem>
-
-#include <QPointer>
 
 namespace Sn
 {
-class BrowserWindow;
+class BookmarksExporter;
 
-class Bookmarks;
-class BookmarkItem;
-class BookmarksTreeView;
-
-class BookmarksManager: public QDialog {
+class BookmarksExportDialog: public QDialog {
 Q_OBJECT
 
 public:
-	BookmarksManager(BrowserWindow* window, QWidget* parent = nullptr);
-	~BookmarksManager();
-
-	void setMainWindow(BrowserWindow* window);
-
-public slots:
-	void search(const QString& string);
+	BookmarksExportDialog(QWidget* parent = nullptr);
+	~BookmarksExportDialog();
 
 private slots:
-	void bookmarkActivated(BookmarkItem* item);
-	void bookmarkCtrlActivated(BookmarkItem* item);
-	void bookmarkShiftActivated(BookmarkItem* item);
-	void bookmarksSelected(const QList<BookmarkItem*>& items);
-	void createContextMenu(const QPoint& pos);
-
-	void importBookmarks();
+	void setPath();
 	void exportBookmarks();
-
-	void openBookmark(BookmarkItem* item = 0);
-	void openBookmarkInNewTab(BookmarkItem* item = 0);
-	void openBookmarkInNewWindow(BookmarkItem* item = 0);
-	void openBookmarkInNewPrivateWindow(BookmarkItem* item = 0);
-
-	void addBookmark();
-	void addFolder();
-	void addSeparator();
-	void deleteBookmarks();
-
-	void bookmarkEdited();
-	void descriptionEdited();
-	void enableUpdates();
 
 private:
 	void setupUI();
 
-	void updateEditBox(BookmarkItem* item);
-	bool bookmarkEditable(BookmarkItem* item) const;
-	void addBookmark(BookmarkItem* item);
+	QVBoxLayout* m_layout{nullptr};
+	QFormLayout* m_exportLayout{nullptr};
+	QHBoxLayout* m_pathLayout{nullptr};
 
-	BookmarkItem *parentForNewBookmark() const;
-	BrowserWindow *getWindow() const;
+	QLabel* m_desc{nullptr};
+	QGroupBox* m_box{nullptr};
 
-	void showEvent(QShowEvent* event);
-	void keyPressEvent(QKeyEvent* event);
+	QLabel* m_formatDesc{nullptr};
+	QComboBox* m_format{nullptr};
 
-	QPointer<BrowserWindow> m_window{};
+	QLabel* m_outputDesc{nullptr};
+	QLineEdit* m_output{nullptr};
+	QPushButton* m_chooseOutput{nullptr};
 
-	Bookmarks* m_bookmarks{nullptr};
-	BookmarkItem* m_selectedBookmark{nullptr};
+	QDialogButtonBox* m_buttonBox{nullptr};
 
-	bool m_blockDescriptionChangedSignal{false};
-	bool m_adjustHeaderSizesOnShow{true};
-
-	QGridLayout* m_layout{nullptr};
-	QFormLayout* m_editLayout{nullptr};
-
-	QGroupBox* m_editBox{nullptr};
-
-	QPushButton* m_importExport{ nullptr };
-	QLineEdit* m_search{nullptr};
-	BookmarksTreeView* m_view{nullptr};
-
-	QLabel* m_titleDesc{nullptr};
-	QLineEdit* m_title{nullptr};
-	QLabel* m_addressDesc{nullptr};
-	QLineEdit* m_address{nullptr};
-	QLabel* m_keywordDesc{nullptr};
-	QLineEdit* m_keyword{nullptr};
-	QLabel* m_descriptionDesc{nullptr};
-	QPlainTextEdit* m_description{nullptr};
-
+	QList<BookmarksExporter*> m_exporters{};
+	BookmarksExporter* m_currentExporter{nullptr};
 };
 }
 
-#endif //SIELOBROWSER_BOOKMARKSMANAGER_HPP
+#endif //SIELOBROWSER_BOOKMARKSEXPORTERDIALOG_HPP

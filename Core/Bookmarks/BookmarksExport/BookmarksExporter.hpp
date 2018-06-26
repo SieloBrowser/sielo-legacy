@@ -23,36 +23,30 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_BOOKMARKSIMPORTER_HPP
-#define SIELOBROWSER_BOOKMARKSIMPORTER_HPP
+#ifndef SIELOBROWSER_BOOKMARKSEXPORTER_HPP
+#define SIELOBROWSER_BOOKMARKSEXPORTER_HPP
 
 #include <QObject>
-
-#include <QString>
 
 namespace Sn
 {
 class BookmarkItem;
 
-class BookmarksImporter: public QObject {
-	Q_OBJECT
+class BookmarksExporter: public QObject {
+Q_OBJECT
 
 public:
-	BookmarksImporter(QObject* parent = nullptr);
-	virtual ~BookmarksImporter();
+	BookmarksExporter(QObject* parent = nullptr);
+	~BookmarksExporter();
 
 	bool error() const;
 	QString errorString() const;
 
-	virtual QString description() const = 0;
-	virtual QString standardPath() const = 0;
-
+	virtual QString name() const = 0;
 	virtual QString getPath(QWidget* parent) = 0;
-	virtual bool prepareImport() = 0;
-	virtual BookmarkItem *importBookmarks() = 0;
+	virtual bool exportBookmarks(BookmarkItem* root) = 0;
 
 protected:
-	// Empty error = no error
 	void setError(const QString& error);
 
 private:
@@ -60,4 +54,4 @@ private:
 };
 }
 
-#endif //SIELOBROWSER_BOOKMARKSIMPORTER_HPP
+#endif //SIELOBROWSER_BOOKMARKSEXPORTER_HPP
