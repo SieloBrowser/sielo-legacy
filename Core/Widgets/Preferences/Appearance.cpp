@@ -103,6 +103,8 @@ void AppearancePage::save()
 
 	settings.setValue(QLatin1String("fullyLoadThemes"), m_fullyLoadThemes->isChecked());
 
+	settings.setValue(QLatin1String("backdropBlur"), m_blurFilterRadius->value());
+
 	if (!m_fullyLoadThemes->isChecked() && Application::instance()->fullyLoadThemes()) {
 		QMessageBox::warning(this, tr("Warning"),
 		                     tr(
@@ -343,6 +345,7 @@ void AppearancePage::loadSettings()
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
 	m_repeatBackground->setChecked(settings.value(QLatin1String("repeatBackground"), false).toBool());
 	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
+	m_blurFilterRadius->setValue(settings.value(QLatin1String("backdropBlur"), 10).toInt());
 
 	settings.endGroup();
 	settings.beginGroup("Themes");
@@ -426,6 +429,7 @@ void AppearancePage::setupUI()
 	m_nameLayout = new QHBoxLayout();
 	m_themeActionLayout = new QHBoxLayout();
 	m_backgroundLayout = new QHBoxLayout();
+	m_blurFilterLayout = new QHBoxLayout();
 
 	m_areaLayout->setContentsMargins(4, 4, 4, 4);
 	m_areaLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -488,6 +492,11 @@ void AppearancePage::setupUI()
 	m_backgroundLocationButton = new QPushButton(tr("..."), this);
 	m_spacer = new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
+	m_blurFilterRadiusLabel = new QLabel(tr("Background blur filter radius: "), this);
+	m_blurFilterRadius = new QSpinBox(this);
+	m_blurFilterRadius->setMaximum(999);
+	m_blurFilterRadius->setMinimum(0);
+
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
 
@@ -515,6 +524,9 @@ void AppearancePage::setupUI()
 	m_backgroundLayout->addWidget(m_backgroundLocationEdit);
 	m_backgroundLayout->addWidget(m_backgroundLocationButton);
 
+	m_blurFilterLayout->addWidget(m_blurFilterRadiusLabel);
+	m_blurFilterLayout->addWidget(m_blurFilterRadius);
+
 	m_themePageLayout->addWidget(m_themeBox);
 	m_themePageLayout->addWidget(m_fullyLoadThemes);
 
@@ -525,6 +537,7 @@ void AppearancePage::setupUI()
 	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
 	m_advancedPageLayout->addWidget(m_repeatBackground);
 	m_advancedPageLayout->addLayout(m_backgroundLayout);
+	m_advancedPageLayout->addLayout(m_blurFilterLayout);
 	m_advancedPageLayout->addItem(m_spacer);
 
 	m_tabs->addTab(m_themePage, tr("Themes"));

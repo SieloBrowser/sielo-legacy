@@ -232,6 +232,8 @@ private:
 
 	int m_currentTabWidget{0};
 
+	qreal m_blur_radius{ 0 };
+
 	RootFloatingButton* m_fButton{nullptr};
 
 	QImage* m_bg{ nullptr };
