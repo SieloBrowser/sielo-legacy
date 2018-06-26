@@ -175,6 +175,8 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
+
+	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
