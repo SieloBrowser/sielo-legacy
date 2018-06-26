@@ -191,9 +191,6 @@ Application::Application(int& argc, char** argv) :
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
 
-	loadSettings();
-	translateApplication();
-
 	// Check command line options with given arguments
 	QUrl startUrl{};
 	QStringList messages;
@@ -266,6 +263,9 @@ Application::Application(int& argc, char** argv) :
 	// Setting up web and network objects
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
+
+	loadSettings();
+	translateApplication();
 
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
@@ -354,13 +354,7 @@ void Application::loadWebSettings()
 	QSettings settings{};
 
 	// load web settings
-	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
-	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
-
-	QString defaultUserAgent = webProfile->httpUserAgent();
-	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
-	                         QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
-	webProfile->setHttpUserAgent(defaultUserAgent);
+	QWebEngineSettings* webSettings = m_webProfile->settings();
 
 	settings.beginGroup("Web-Settings");
 
@@ -380,6 +374,14 @@ void Application::loadWebSettings()
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
+	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
+
+	QString defaultUserAgent = webProfile->httpUserAgent();
+	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
+		QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
+	webProfile->setHttpUserAgent(defaultUserAgent);
+
+
 	const bool allowCache{settings.value("allowLocalCache", true).toBool()};
 	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
@@ -391,7 +393,7 @@ void Application::loadWebSettings()
 	// Force local storage to be disabled if it's a provate session
 	if (privateBrowsing()) {
 		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
-		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+		history()->setSaving(false);
 	}
 }
 
@@ -554,9 +556,6 @@ QString Application::currentLanguage() const
 
 QWebEngineProfile *Application::webProfile()
 {
-	if (!m_webProfile) {
-		m_webProfile = QWebEngineProfile::defaultProfile();
-	}
 	return m_webProfile;
 }
 
