@@ -41,7 +41,8 @@ HelpUsDialog::HelpUsDialog(QWidget* parent) :
 	setWindowIcon(icon);
 
 	m_html = tr(
-			"<p>There are many ways to help us. You can <a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU7RV3SGKTFFS\" target=\"_blank\">make a donation</a>, help us improve the source code, or simply share and talk about Sielo to your entourage.</p>");
+			"<p>There are many ways to help us. You can <a href=\"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU7RV3SGKTFFS\" target=\"_blank\">make a donation</a>, help us improve the source code, or simply share and talk about Sielo to your entourage.</p>"
+	"You can also join our <a href=\"https://discord.gg/7MVvDaS\" target=\"_blank\">Discord server</a>");
 
 	setupUI();
 

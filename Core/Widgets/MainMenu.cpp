@@ -133,6 +133,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction* showPartnersAction = createAction("ShowPartners", this, QIcon(), tr("Partners"));
 	QAction* showHelpUsAction =
 		createAction("ShowHelpUs", this, Application::getAppIcon("heart"), tr("&Help Us"));
+	QAction* openDiscord = createAction("OpenDiscord", this, Application::getAppIcon("discord"), tr("&Discord Server"));
 	addSeparator();
 	QAction* quitAction = createAction("Quit", this, Application::getAppIcon("exit"), tr("Quit"), "Ctrl+Q");
 
@@ -157,6 +158,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(showAboutSieloAction, &QAction::triggered, this, &MainMenu::showAboutSielo);
 	connect(showPartnersAction, &QAction::triggered, this, &MainMenu::showPartners);
 	connect(showHelpUsAction, &QAction::triggered, this, &MainMenu::showHelpUs);
+	connect(openDiscord, &QAction::triggered, this, &MainMenu::openDiscord);
 
 	connect(quitAction, &QAction::triggered, this, &MainMenu::quit);
 
@@ -323,6 +325,11 @@ void MainMenu::showHelpUs()
 {
 	HelpUsDialog* dialog{new HelpUsDialog(m_tabWidget)};
 	dialog->show();
+}
+
+void MainMenu::openDiscord()
+{
+	m_tabWidget->addView(QUrl("https://discord.gg/7MVvDaS"));
 }
 
 void MainMenu::quit()
