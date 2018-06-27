@@ -57,6 +57,8 @@
 
 #include "Cookies/CookieJar.hpp"
 
+#include "3rdparty/Piwit/piwiktracker.h"
+
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
 #include "MaquetteGrid/MaquetteGrid.hpp"
@@ -172,6 +174,10 @@ Application::Application(int& argc, char** argv) :
 	m_networkManager(nullptr),
 	m_webProfile(nullptr)
 {
+	// the 3rd parameter is the site id
+	PiwikTracker *piwikTracker = new PiwikTracker(qApp, QUrl("https://sielo.app/analytics"), 1);
+	piwikTracker->sendVisit("SieloBrowser");
+
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
