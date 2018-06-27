@@ -76,6 +76,7 @@
 #include "Network/NetworkManager.hpp"
 
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/NavigationControlDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
@@ -405,7 +406,7 @@ void Application::loadApplicationSettings()
 
 	// Check the current version number of Sielo, and make setting update if needed
 	//TODO: improve this with a switch
-	if (settings.value("versionNumber", 0).toInt() < 13) {
+	if (settings.value("versionNumber", 0).toInt() < 14) {
 		settings.setValue("installed", false);
 		if (settings.value("versionNumber", 0).toInt() < 12) {
 			if (settings.value("versionNumber", 0).toInt() < 11) {
@@ -431,7 +432,7 @@ void Application::loadApplicationSettings()
 				}
 			}
 		}
-		settings.setValue("versionNumber", 13);
+		settings.setValue("versionNumber", 14);
 	}
 }
 
@@ -760,6 +761,10 @@ void Application::postLaunch()
 		getWindow()->tabWidget()
 		           ->addView(QUrl("https://sielo.app/thanks.php"),
 		                     Application::NTT_CleanSelectedTabAtEnd);
+
+		NavigationControlDialog* navigationControlDialog{ new NavigationControlDialog(getWindow()) };
+		navigationControlDialog->exec();
+
 		settings.setValue("installed", true);
 	}
 
