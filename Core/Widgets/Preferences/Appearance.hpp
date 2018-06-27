@@ -65,6 +65,7 @@ private slots:
 	void showLicense();
 
 	void tabsSpacesPaddingValueChanged(int value);
+	void blurFilterRadiusValueChanged(int value);
 	void backgroundLocationClicked();
 	void openGallery();
 	void addTheme();
@@ -105,7 +106,7 @@ private:
 	QFormLayout* m_areaLayout{nullptr};
 	QHBoxLayout* m_themeActionLayout{nullptr};
 	QHBoxLayout* m_backgroundLayout{nullptr};
-	QHBoxLayout* m_blurFilterLayout{nullptr};
+	QVBoxLayout* m_blurFilterLayout{nullptr};
 
 	QListWidget* m_themeList{nullptr};
 	QWidget* m_areaWidget{nullptr};
@@ -134,7 +135,7 @@ private:
 	QLabel* m_tabsSpacesPaddingLabel{nullptr};
 	QSlider* m_tabsSpacesPadding{nullptr};
 	QLabel* m_blurFilterRadiusLabel{nullptr};
-	QSpinBox* m_blurFilterRadius{nullptr};
+	QSlider* m_blurFilterRadius{nullptr};
 	QCheckBox* m_repeatBackground{nullptr};
 	QLabel* m_backgroundLabel{nullptr};
 	QLineEdit* m_backgroundLocationEdit{nullptr};
