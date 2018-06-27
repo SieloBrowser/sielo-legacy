@@ -5,6 +5,9 @@ Windows | Unavailable
 
 [![Official Sielo Image](https://sielo.app/images/official-sielo.png)](https://sielo.app/download.php?for=windows)
 Sielo is a web browser that I began to develop a year and a half ago. The browser has experienced 2 remakes and the last was released few months ago. This time Sielo has been thought with a more stable structure, easier to sustain so a rework is no longer needed.
+
+> You can join our [Discord server](https://discord.gg/7MVvDaS).
+
 ## Use Sielo
 #### You can view details in [Sielo's web page](https://sielo.app)
 ### Download

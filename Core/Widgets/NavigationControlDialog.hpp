@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,82 +23,44 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELO_BROWSER_MAINMENU_HPP
-#define SIELO_BROWSER_MAINMENU_HPP
+#ifndef SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
+#define SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
 
-#include <QMenu>
-#include <QAction>
+#include <QDialog>
 
-#include <QHash>
-#include <QPointer>
+#include <QGridLayout>
+
+#include <QLabel>
+#include <QPushButton>
+#include <QDialogButtonBox>
 
 namespace Sn
 {
-class TabWidget;
-class PreferencesDialog;
-
-class BookmarksMenu;
-class MaquetteGridMenu;
-class HistoryMenu;
-
-class MainMenu: public QMenu {
+class NavigationControlDialog: public QDialog {
 Q_OBJECT
 
 public:
-	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
+	NavigationControlDialog(QWidget* parent = nullptr);
+	~NavigationControlDialog();
 
-	QAction *action(const QString& name) const;
-	QAction *createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
-	                      const QString& shortcut = QString());
-public slots:
-	void setTabWidget(TabWidget* tabWidget);
-	void updateShowBookmarksBarText(bool visible);
+	void save();
 
 private slots:
-	void newTab();
-	void newWindow();
-	void newPrivateWindow();
-	void openFile();
-	void toggleBookmarksToolBar();
-
-	void selectAll();
-	void find();
-
-	void webBack();
-	void webForward();
-	void webHome();
-
-	void openUrl(const QUrl& url);
-
-	// Tools menu
-	void showDownloadManager();
-	void showCookiesManager();
-	void showSiteInfo();
-
-	void showSettings();
-	void showAboutSielo();
-	void showPartners();
-	void showHelpUs();
-	void openDiscord();
-
-	void quit();
+	void buttonCheckChanged(bool checked);
 
 private:
-	void addActionsToTabWidget();
+	void setupUI();
 
-	QAction* m_toggleBookmarksAction{nullptr};
+	QGridLayout* m_layout{nullptr};
 
-	BookmarksMenu* m_bookmarksMenu{nullptr};
-	MaquetteGridMenu* m_maquetteGridMenu{nullptr};
-	HistoryMenu* m_historyMenu{nullptr};
-	QMenu* m_toolsMenu{nullptr};
+	QDialogButtonBox* m_buttonBox{nullptr};
 
-	TabWidget* m_tabWidget{nullptr};
-
-	QPointer<PreferencesDialog> m_preferences{};
-
-	QHash<QString, QAction*> m_actions{};
+	QLabel* m_desc{nullptr};
+	QLabel* m_floatingButtonImage{nullptr};
+	QLabel* m_toolbarsImage{nullptr};
+	QPushButton* m_floatingButton{nullptr};
+	QPushButton* m_toolbars{nullptr};
 };
 }
 
-#endif //SIELO_BROWSER_MAINMENU_HPP
+#endif //SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP

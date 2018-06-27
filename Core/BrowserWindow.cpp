@@ -143,7 +143,7 @@ void BrowserWindow::loadSettings()
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
 
-	m_blur_radius = settings.value(QLatin1String("Settings/backdropBlur"), 10).toInt();
+	m_blur_radius = settings.value(QLatin1String("Settings/backdropBlur"), 100).toInt();
 
 	// There is two possibility: the user use the floating button or not. 
 	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
