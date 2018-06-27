@@ -143,6 +143,8 @@ void BrowserWindow::loadSettings()
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
 
+	m_blur_radius = settings.value(QLatin1String("Settings/backdropBlur"), 10).toInt();
+
 	// There is two possibility: the user use the floating button or not. 
 	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
 	if (!Application::instance()->useTopToolBar() && !m_fButton)
@@ -603,7 +605,7 @@ void BrowserWindow::shotBackground()
 	m_mainSplitter->show();
 	m_titleBar->show();
 	if(m_fButton) m_fButton->show();
-	m_blur_bg = new QImage(applyBlur(m_bg, 100));
+	m_blur_bg = new QImage(applyBlur(m_bg, m_blur_radius));
 }
 
 QImage BrowserWindow::applyBlur(const QImage *src, qreal radius, bool quality, bool alphaOnly, int transposed)
