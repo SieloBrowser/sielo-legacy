@@ -57,7 +57,7 @@
 
 #include "Cookies/CookieJar.hpp"
 
-#include "3rdparty/Piwit/piwiktracker.h"
+#include "3rdparty/Piwik/piwiktracker.h"
 
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
