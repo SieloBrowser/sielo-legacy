@@ -57,6 +57,8 @@
 
 #include "Cookies/CookieJar.hpp"
 
+#include "3rdparty/Piwik/piwiktracker.h"
+
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
 #include "MaquetteGrid/MaquetteGrid.hpp"
@@ -172,6 +174,10 @@ Application::Application(int& argc, char** argv) :
 	m_networkManager(nullptr),
 	m_webProfile(nullptr)
 {
+	// the 3rd parameter is the site id
+	PiwikTracker *piwikTracker = new PiwikTracker(qApp, QUrl("https://sielo.app/analytics"), 1);
+	piwikTracker->sendVisit("SieloBrowser");
+
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
@@ -450,7 +456,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 34) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 36) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -473,7 +479,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 34);
+			settings.setValue("Themes/defaultThemeVersion", 36);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -484,7 +490,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 35);
+		settings.setValue("Themes/defaultThemeVersion", 36);
 	}
 }
 

@@ -39,7 +39,7 @@
 #include <ndb/engine/sqlite/sqlite.hpp>
 
 #include "Utils/RestoreManager.hpp"
-#include "3rdparty/singleapplication.h"
+#include "3rdparty/SingleApplication/singleapplication.h"
 
 namespace Sn
 {
