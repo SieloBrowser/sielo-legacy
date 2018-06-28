@@ -422,8 +422,10 @@ void WebView::sLoadFinished(bool ok)
 {
 	m_progress = 100;
 
-	if (ok)
+	if (ok) {
 		Application::instance()->history()->addHistoryEntry(this);
+		Application::instance()->piwikTraker()->sendEvent("navigation", "navigation", "page-loaded", "page loaded");
+	}
 }
 
 void WebView::sUrlChanged(const QUrl& url)

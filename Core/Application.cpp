@@ -57,8 +57,6 @@
 
 #include "Cookies/CookieJar.hpp"
 
-#include "3rdparty/Piwik/piwiktracker.h"
-
 #include "History/History.hpp"
 #include "Bookmarks/Bookmarks.hpp"
 #include "MaquetteGrid/MaquetteGrid.hpp"
@@ -175,8 +173,8 @@ Application::Application(int& argc, char** argv) :
 	m_webProfile(nullptr)
 {
 	// the 3rd parameter is the site id
-	PiwikTracker *piwikTracker = new PiwikTracker(qApp, QUrl("https://sielo.app/analytics"), 1);
-	piwikTracker->sendVisit("SieloBrowser");
+	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
+	m_piwikTracker->sendVisit("launch");
 
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
@@ -766,6 +764,8 @@ void Application::postLaunch()
 
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
+		m_piwikTracker->sendEvent("installation", "installation", "installation", "new installation");
+
 		getWindow()->tabWidget()
 		           ->addView(QUrl("https://sielo.app/thanks.php"),
 		                     Application::NTT_CleanSelectedTabAtEnd);
