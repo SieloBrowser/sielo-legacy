@@ -172,10 +172,6 @@ Application::Application(int& argc, char** argv) :
 	m_networkManager(nullptr),
 	m_webProfile(nullptr)
 {
-	// the 3rd parameter is the site id
-	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
-	m_piwikTracker->sendVisit("launch");
-
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
@@ -197,6 +193,10 @@ Application::Application(int& argc, char** argv) :
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
+
+	// the 3rd parameter is the site id
+	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
+	m_piwikTracker->sendVisit("launch");
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
