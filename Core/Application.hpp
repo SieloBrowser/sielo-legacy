@@ -39,7 +39,9 @@
 #include <ndb/engine/sqlite/sqlite.hpp>
 
 #include "Utils/RestoreManager.hpp"
+
 #include "3rdparty/SingleApplication/singleapplication.h"
+#include "3rdparty/Piwik/piwiktracker.h"
 
 namespace Sn
 {
@@ -245,6 +247,8 @@ public:
 
 	QWebEngineProfile *webProfile();
 
+	PiwikTracker* piwikTraker() { return m_piwikTracker; }
+
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool useTopToolBar() const { return m_useTopToolBar; }
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
@@ -358,6 +362,8 @@ private:
 	QList<PostLaunchAction> m_postLaunchActions;
 
 	ndb::initializer<ndb::sqlite> m_ndb_init;
+
+	PiwikTracker *m_piwikTracker{ nullptr };
 
 	//QFont m_morpheusFont{};
 	//QFont m_normalFont{};

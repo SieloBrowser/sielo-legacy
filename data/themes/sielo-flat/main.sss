@@ -36,7 +36,7 @@ QTabBar::tab:!selected:hover
 
 #tabbarwidget * {
   height: 36px;
-  background-color: scolor(main);
+  background-color: scolor(main, normal, 70);
 }
 
 #tabbar::tab {
@@ -281,7 +281,7 @@ QTabBar::tab:!selected:hover
 #navigationbar QToolButton,
 #navigationbar ToolButton
 {
-  background: scolor(main, normal, 170);
+  background: scolor(accent);
   color: scolor(text);
   height: 20px;
   width: 20px;
@@ -293,7 +293,7 @@ QTabBar::tab:!selected:hover
 #navigationbar QToolButton:hover,
 #navigationbar ToolButton:hover
 {
-  background: scolor(main, normal, 170);
+  background: scolor(accent, dark);
 }
 
 #navigationbar QToolButton:pressed,
@@ -301,7 +301,7 @@ QTabBar::tab:!selected:hover
 #navigationbar QToolButton:checked,
 #navigationbar ToolButton:checked
 {
-  background: scolor(main, normal, 170);
+  background: scolor(accent, dark);
 }
 
 #navigationbar ToolButton::menu-indicator
@@ -329,7 +329,7 @@ QTabBar::tab:!selected:hover
   padding: 6px;
   margin: 0px;
   spacing: 0px;
-  background-color: scolor(main, normal, 170);
+  background-color: scolor(accent);
   border-radius: 0px;
 }
 
@@ -339,7 +339,7 @@ QTabBar::tab:!selected:hover
   padding: 6px;
   margin: 0px;
   spacing: 0px;
-  background-color: scolor(main, normal, 170);
+  background-color: scolor(accent, dark);
   border-radius: 0px;
 }
 
