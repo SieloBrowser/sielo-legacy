@@ -153,7 +153,7 @@ void DownloadWidget::open()
 	QDesktopServices::openUrl(url);
 }
 
-#include <windows.h>
+//#include <windows.h>
 void Output(const char* szFormat, ...)
 {
 	char szBuff[1024];
