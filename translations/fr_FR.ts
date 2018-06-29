@@ -4,32 +4,32 @@
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../Core/Application.cpp" line="925"/>
+        <location filename="../Core/Application.cpp" line="933"/>
         <source>Start after crash</source>
         <translation>Démarrage après un crash</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="926"/>
+        <location filename="../Core/Application.cpp" line="934"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
         <translation>Vous démarrez Sielo après un crash. Que voulez-vous faire ?</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="928"/>
+        <location filename="../Core/Application.cpp" line="936"/>
         <source>Start New Session</source>
         <translation>Démarrer une nouvelle session</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="930"/>
+        <location filename="../Core/Application.cpp" line="938"/>
         <source>Restore Session</source>
         <translation>Restorer l&apos;ancienne session</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="937"/>
+        <location filename="../Core/Application.cpp" line="945"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../Core/Application.cpp" line="937"/>
+        <location filename="../Core/Application.cpp" line="945"/>
         <source>Please, if Sielo continues crashing, consider trying this 32bit version.</source>
         <translation>S&apos;il vous plaît, si Sielo continue de crasher, essayez la version 32bits.</translation>
     </message>
@@ -194,40 +194,41 @@
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="66"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="84"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="86"/>
         <source>Next</source>
         <translation>Suivant</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="67"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="85"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="112"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="87"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="114"/>
         <source>Previous</source>
         <translation>Précédent</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="75"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="113"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="115"/>
         <source>Our partners</source>
         <translation>Nos partenaires</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="95"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="78"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="97"/>
         <source>What&apos;s Sielo</source>
         <translation>Qu&apos;est-ce Sielo</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="134"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="136"/>
         <source>&lt;p&gt;&lt;b&gt;Sielo (version: %1, WebEngine: %2)&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Sielo is a powerful web browser with a unique concept: tabs spaces.Sielo has many contribution and I would like to give special thanks&lt;br/&gt;to Hotaru for always being here, Echostorm for his awesome contribution,&lt;br/&gt;Kaktus for the design and all other contributors!&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2018 Victor DENIS&lt;br /&gt;&lt;a href=&quot;mailto:admin@feldrise.com&quot;&gt;admin@feldrise.com&lt;/a&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Sielo (version: %1; WebEngine %2)&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Sielo est un navigateur web puissant avec un concepte unique : Les espaces d&apos;ongltes. Sielo a de nombreuses contributions et je voudrais particulièrement remercier&lt;br/&gt;Hotaru pour toujours être présente, Echostorm pour ces superbes contributions,&lt;br/&gt;Kaktus pour le design et tous les autres contributeurs !&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2018 Victor DENIS&lt;br /&gt;&lt;a href=&quot;mailto:admin@feldrise.com&quot;&gt;admin@feldrise.com&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="150"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="152"/>
         <source>&lt;b&gt;Bit-Studio.com&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Created in 2011, this concept aims to promote promising IT projects in order to help them take off.&lt;br/&gt;After a few years of operation, the project was put on hold. It was too much work for one man. In 2018, a team was formed and Bit-Studio was reborn from its ashes, stronger than ever.&lt;br/&gt;From then on, discover regularly, in preview, the mastodons of tomorrow on Bit-Studio.com.</source>
         <translation>&lt;b&gt;Bit-Studio.com&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Créé en 2011, ce concept a pour objectif de promouvoir les projets informatiques prometteurs afin de les aider à décoller.&lt;br/&gt;Après quelques années d&apos;exploitation, le projet a été mis en pause. Cela représentait trop de travail pour un seul homme. En 2018, une équipe a été constituée et Bit-Studio est re-né de ses cendres, plus fort que jamais.&lt;br/&gt;Dès lors, découvrez régulièrement, en avant-première, les mastodontes de demain sur Bit-Studio.com.</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="159"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="161"/>
         <source>&lt;b&gt;Le Monde Du PC&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;&quot;Le Monde Du PC&quot;, put online in September 2017, is a site that aims to share our knowledge so that, for example, some subjects in computing are not only understood by those who master them. Today, the team is complete and a 2.0 version will normally be released in September.</source>
         <translation>&lt;b&gt;Le Monde Du PC&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;&quot;Le Monde Du PC&quot;, mis en ligne en septembre 2017, est un site qui a pour but de partager nos connaissances pour que, par exemple, certains sujet dans l&apos;informatique ne soit pas compris uniqement par ceux qui les maitrisent. Aujourd&apos;hui, l&apos;équipe est au complet et une version 2.0 va normalement sortir en septembre.</translation>
     </message>
@@ -1577,77 +1578,77 @@
         <translation>Téléchargement annulé : %1</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="219"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="205"/>
         <source>Download completed</source>
         <translation>Téléchargement terminé</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="235"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="221"/>
         <source>Form</source>
         <translation>Formulaire</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="244"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="230"/>
         <source>ico</source>
         <translation>ico</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="252"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="238"/>
         <source>Filename</source>
         <translation>Nom du fichier</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="277"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="263"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="279"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="265"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="302"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="288"/>
         <source>seconds</source>
         <translation>Secondes</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="306"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="292"/>
         <source>minutes</source>
         <translation>Minutes</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="320"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="306"/>
         <source>- %4 %5 remaining</source>
         <translation>- %4 %5 restant</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="321"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="307"/>
         <source>%1 of %2 (%3/sec) %4</source>
         <translation>%1 de %2 (%3 / sec) %4</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="322"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="308"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="327"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="313"/>
         <source>%1 of %2 - Stopped</source>
         <translation>%1 de %2 - Stoppé</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="341"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="327"/>
         <source>bytes</source>
         <translation>bytes</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="344"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="330"/>
         <source>kB</source>
         <translation>kB</translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="348"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="334"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
@@ -1882,11 +1883,11 @@
     <name>Sn::HelpUsDialog</name>
     <message>
         <location filename="../Core/Widgets/HelpUsDialog.cpp" line="43"/>
-        <source>&lt;p&gt;There are many ways to help us. You can &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;make a donation&lt;/a&gt;, help us improve the source code, or simply share and talk about Sielo to your entourage.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Il y a plusieurs manières de nous aider. Vous pouvez &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;faire un don&lt;/a&gt;, nous aider à améliorer le code source, ou simplement partager et parler de Sielo à votre entourage.&lt;/p&gt;</translation>
+        <source>&lt;p&gt;There are many ways to help us. You can &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;make a donation&lt;/a&gt;, help us improve the source code, or simply share and talk about Sielo to your entourage.&lt;/p&gt;&lt;p&gt;You can also join our &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;Discord server&lt;/a&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Il y a plusieurs manières de nous aider. Vous pouvez &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;faire un don&lt;/a&gt;, nous aider à améliorer le code source, ou simplement partager et parler de Sielo à votre entourage.&lt;/p&gt;&lt;p&gt;Vous pouvez aussi rejoindre note &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;serveur Discord&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/HelpUsDialog.cpp" line="65"/>
+        <location filename="../Core/Widgets/HelpUsDialog.cpp" line="66"/>
         <source>Help Us</source>
         <translation>Aidez-nous</translation>
     </message>
@@ -2270,7 +2271,7 @@
     <name>Sn::MainMenu</name>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="63"/>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="194"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="196"/>
         <source>Show Bookmarks Bar</source>
         <translation>Afficher la barre des favoris</translation>
     </message>
@@ -2360,37 +2361,42 @@
         <translation>Aide&amp;z-nous</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="137"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="136"/>
+        <source>&amp;Discord Server</source>
+        <translation>Serveur &amp;Discord</translation>
+    </message>
+    <message>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="138"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="194"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="196"/>
         <source>Hide Bookmarks Bar</source>
         <translation>Cacher la barre de favoris</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="222"/>
         <source>HTML files</source>
         <translation>Fichiers HTML</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="222"/>
         <source>Image files</source>
         <translation>Fichiers d&apos;Image</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="222"/>
         <source>Text files</source>
         <translation>Fichiers de Texte</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="222"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/MainMenu.cpp" line="223"/>
+        <location filename="../Core/Widgets/MainMenu.cpp" line="225"/>
         <source>Open file</source>
         <translation>Ouvrir le  fichier</translation>
     </message>
@@ -3392,157 +3398,157 @@
         <translation>Page vide</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="752"/>
+        <location filename="../Core/Web/WebView.cpp" line="754"/>
         <source>No suggestions</source>
         <translation>Pas de suggestions</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="788"/>
+        <location filename="../Core/Web/WebView.cpp" line="790"/>
         <source>&amp;Back</source>
         <translation>&amp;Retour</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="791"/>
+        <location filename="../Core/Web/WebView.cpp" line="793"/>
         <source>&amp;Forward</source>
         <translation>&amp;Suivant</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="799"/>
+        <location filename="../Core/Web/WebView.cpp" line="801"/>
         <source>Book&amp;mark page</source>
         <translation>&amp;Marquepage page</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="800"/>
+        <location filename="../Core/Web/WebView.cpp" line="802"/>
         <source>&amp;Save page as...</source>
         <translation>Enregi&amp;strer la page sous …</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="801"/>
+        <location filename="../Core/Web/WebView.cpp" line="803"/>
         <source>&amp;Copy page link</source>
         <translation>&amp;Copier le lien de la page</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="805"/>
+        <location filename="../Core/Web/WebView.cpp" line="807"/>
         <source>Select &amp;all</source>
         <translation>Tout &amp;sélectionner</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="820"/>
+        <location filename="../Core/Web/WebView.cpp" line="822"/>
         <source>Open link in new &amp;window</source>
         <translation>Ouvrir le lien dans une nouvelle &amp;fenêtre</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="827"/>
+        <location filename="../Core/Web/WebView.cpp" line="829"/>
         <source>B&amp;ookmark link</source>
         <translation>Aj&amp;outer un signet</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="828"/>
+        <location filename="../Core/Web/WebView.cpp" line="830"/>
         <source>&amp;Save link as...</source>
         <translation>Engeri&amp;strer le lien sous …</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="829"/>
+        <location filename="../Core/Web/WebView.cpp" line="831"/>
         <source>&amp;Copy link address</source>
         <translation>&amp;Copier l&apos;adresse du lien</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="840"/>
+        <location filename="../Core/Web/WebView.cpp" line="842"/>
         <source>Show i&amp;mage</source>
         <translation>Afficher l&apos;i&amp;mage</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="841"/>
+        <location filename="../Core/Web/WebView.cpp" line="843"/>
         <source>Copy image</source>
         <translation>Copier l&apos;image</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="842"/>
+        <location filename="../Core/Web/WebView.cpp" line="844"/>
         <source>Copy image ad&amp;dress</source>
         <translation>Copier l&apos;ad&amp;dresse de l&apos;image</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="846"/>
+        <location filename="../Core/Web/WebView.cpp" line="848"/>
         <source>&amp;Save image as...</source>
         <translation>Enregi&amp;strer l&apos;image sous …</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="867"/>
+        <location filename="../Core/Web/WebView.cpp" line="869"/>
         <source>Dictionary</source>
         <translation>Dictionnaire</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="880"/>
+        <location filename="../Core/Web/WebView.cpp" line="882"/>
         <source>Go to &amp;web address</source>
         <translation>Aller à l&apos;adresse &amp;web</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="897"/>
+        <location filename="../Core/Web/WebView.cpp" line="899"/>
         <source>&amp;Play</source>
         <translation>&amp;Jouer</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="897"/>
+        <location filename="../Core/Web/WebView.cpp" line="899"/>
         <source>&amp;Pause</source>
         <translation>&amp;Pause</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="898"/>
+        <location filename="../Core/Web/WebView.cpp" line="900"/>
         <source>Un&amp;mute</source>
         <translation>Ac&amp;tiver le son</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="898"/>
+        <location filename="../Core/Web/WebView.cpp" line="900"/>
         <source>&amp;Mute</source>
         <translation>Désac&amp;tiver le son</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="902"/>
+        <location filename="../Core/Web/WebView.cpp" line="904"/>
         <source>&amp;Copy media address</source>
         <translation>&amp;Copier l&apos;adresse du média</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="903"/>
+        <location filename="../Core/Web/WebView.cpp" line="905"/>
         <source>Save media to &amp;disk</source>
         <translation>Enregistrer le médié sur le &amp;disque</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="909"/>
+        <location filename="../Core/Web/WebView.cpp" line="911"/>
         <source>&amp;Undo</source>
         <translation>&amp;Retour</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="915"/>
+        <location filename="../Core/Web/WebView.cpp" line="917"/>
         <source>&amp;Redo</source>
         <translation>Ann&amp;uler retour</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="921"/>
+        <location filename="../Core/Web/WebView.cpp" line="923"/>
         <source>&amp;Cut</source>
         <translation>Co&amp;uper</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="927"/>
+        <location filename="../Core/Web/WebView.cpp" line="929"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copier</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="933"/>
+        <location filename="../Core/Web/WebView.cpp" line="935"/>
         <source>&amp;Paste</source>
         <translation>Col&amp;ler</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="939"/>
+        <location filename="../Core/Web/WebView.cpp" line="941"/>
         <source>Select All</source>
         <translation>Tout sélectionner</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="945"/>
+        <location filename="../Core/Web/WebView.cpp" line="947"/>
         <source>&amp;Reload</source>
         <translation>&amp;Recharger</translation>
     </message>
     <message>
-        <location filename="../Core/Web/WebView.cpp" line="949"/>
+        <location filename="../Core/Web/WebView.cpp" line="951"/>
         <source>S&amp;top</source>
         <translation>S&amp;topper</translation>
     </message>

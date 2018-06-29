@@ -83,7 +83,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.15.08b");
+QString Application::currentVersion = QString("1.16.00");
 
 // Static member
 QList<QString> Application::paths()
@@ -175,7 +175,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.16.00"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
@@ -499,10 +499,10 @@ void Application::loadTranslationSettings()
 	QSettings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 12) {
+	if (settings.value("version", 0).toInt() < 13) {
 		QDir(paths()[P_Translations]).removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
-		settings.setValue("version", 12);
+		settings.setValue("version", 13);
 	}
 }
 
