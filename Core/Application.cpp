@@ -454,7 +454,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 41) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 42) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -480,7 +480,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 41);
+			settings.setValue("Themes/defaultThemeVersion", 42);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -494,7 +494,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("round-theme", false);
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 41);
+		settings.setValue("Themes/defaultThemeVersion", 42);
 	}
 }
 
@@ -1335,7 +1335,7 @@ QImage Application::blurImage(const QImage& image, const QRect& rect, int radius
 void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 {
 	QString defaultThemePath{paths()[Application::P_Themes]};
-	QString defaultThemeDataPath{":data/themes/" + name};
+	QString defaultThemeDataPath{":/" + name + "/data/themes/" + name};
 
 	defaultThemePath += QLatin1Char('/') + name;
 

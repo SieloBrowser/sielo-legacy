@@ -33,13 +33,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+file(
+        GLOB_RECURSE
+        QRC_FILES
+		*.qrc
+)
+
 find_package(OpenSSL 1.1.0 REQUIRED)
 find_package(Qt5Widgets 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
 if (WIN32)
-    add_executable(sielo-browser WIN32 ${SOURCE_FILES} icons.qrc data.qrc ic_sielo.rc)
+    add_executable(sielo-browser WIN32 ${SOURCE_FILES} ${QRC_FILES} ic_sielo.rc)
 
     # deploy
     get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
@@ -47,11 +53,11 @@ if (WIN32)
     set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
 
 elseif(APPLE)
-    add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} icons.qrc data.qrc)
+    add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} ${QRC_FILES})
     set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     set_target_properties(sielo-browser PROPERTIES MACOSX_BUNDLE_ICON_FILE ${ICON_NAME})
 else()
-    add_executable(sielo-browser ${SOURCE_FILES} icons.qrc data.qrc)
+    add_executable(sielo-browser ${SOURCE_FILES} ${QRC_FILES})
 endif()
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
