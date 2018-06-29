@@ -7,7 +7,7 @@ namespace ndb
 {
     #define ndb_engine_type_id_map(ENGINE, NDB_TYPE, ENGINE_TYPE_ID) \
     template<> struct engine_type_ndb<ENGINE, ENGINE_TYPE_ID> { using type = NDB_TYPE; }; \
-    template<> struct engine_type_id<ENGINE, NDB_TYPE> { static constexpr auto value = ENGINE_TYPE_ID; };
+    template<> struct engine_type_id<ENGINE, NDB_TYPE> { static constexpr auto value = ENGINE_TYPE_ID; }
 
     // engine ndb_type / type_id
     template<class Engine, class T>

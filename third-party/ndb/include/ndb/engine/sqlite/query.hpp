@@ -68,7 +68,7 @@ namespace ndb
         {
             if constexpr (ndb::is_custom_type_v<T, Database>) bind_value(ndb::custom_type<T, Database>::internal_encode(value));
             else bind_value(value);
-        };
+        }
 
         template<class Result_type = ndb::line<Database>>
         auto exec() const

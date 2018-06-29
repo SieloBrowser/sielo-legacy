@@ -51,7 +51,7 @@ QUrl HistoryTreeView::selectedUrl() const
 {
 	const QList<QModelIndex> indexes = selectionModel()->selectedRows();
 
-	if (indexes.count() != -1)
+	if (indexes.count() != 1)
 		return QUrl();
 
 	return indexes[0].data(HistoryModel::UrlRole).toUrl();

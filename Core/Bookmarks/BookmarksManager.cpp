@@ -30,6 +30,8 @@
 #include "Bookmarks/BookmarkItem.hpp"
 #include "Bookmarks/BookmarksTreeView.hpp"
 #include "Bookmarks/BookmarksUtils.hpp"
+#include "Bookmarks/BookmarksImport/BookmarksImportDialog.hpp"
+#include "Bookmarks/BookmarksExport/BookmarksExportDialog.hpp"
 
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
@@ -57,6 +59,11 @@ BookmarksManager::BookmarksManager(BrowserWindow* window, QWidget* parent) :
 	connect(m_address, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
 	connect(m_keyword, &QLineEdit::textEdited, this, &BookmarksManager::bookmarkEdited);
 	connect(m_description, &QPlainTextEdit::textChanged, this, &BookmarksManager::descriptionEdited);
+
+	QMenu* m = new QMenu(this);
+	m->addAction(tr("Import Bookmarks..."), this, &BookmarksManager::importBookmarks);
+	m->addAction(tr("Export Bookmarks..."), this, &BookmarksManager::exportBookmarks);
+	m_importExport->setMenu(m);
 }
 
 BookmarksManager::~BookmarksManager()
@@ -142,6 +149,18 @@ void BookmarksManager::createContextMenu(const QPoint& pos)
 	}
 
 	menu.exec(pos);
+}
+
+void BookmarksManager::importBookmarks()
+{
+	BookmarksImportDialog* dialog{new BookmarksImportDialog(this)};
+	dialog->open();
+}
+
+void BookmarksManager::exportBookmarks()
+{
+	BookmarksExportDialog* dialog{new BookmarksExportDialog(this)};
+	dialog->open();
 }
 
 void BookmarksManager::openBookmark(BookmarkItem* item)
@@ -242,6 +261,7 @@ void BookmarksManager::setupUI()
 	m_layout = new QGridLayout(this);
 	m_editLayout = new QFormLayout(m_editBox);
 
+	m_importExport = new QPushButton(tr("Import and export"), this);
 	m_search = new QLineEdit(this);
 	m_search->setPlaceholderText(tr("Search..."));
 
@@ -265,6 +285,7 @@ void BookmarksManager::setupUI()
 	m_editLayout->setWidget(3, QFormLayout::LabelRole, m_descriptionDesc);
 	m_editLayout->setWidget(3, QFormLayout::FieldRole, m_description);
 
+	m_layout->addWidget(m_importExport, 0, 0, 1, 1);
 	m_layout->addWidget(m_search, 0, 1, 1, 1);
 	m_layout->addWidget(m_view, 1, 0, 1, 2);
 	m_layout->addWidget(m_editBox, 2, 0, 1, 2);

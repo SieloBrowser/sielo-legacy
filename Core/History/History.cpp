@@ -231,13 +231,15 @@ QVector<History::HistoryEntry> History::mostVisited(int count)
 {
 	QVector<HistoryEntry> list{};
 
-	for (auto& data : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
-		HistoryEntry entry{data};
+	//auto oquery = ndb::oquery<dbs::navigation>() << ((ndb::sort(ndb::desc(history.count)) << ndb::limit(count)));
 
-		list.append(entry);
-	}
+	//for (auto& data : oquery) {
+	//	HistoryEntry entry{data};
 
-	for (auto& data : ndb::query<dbs::navigation>() << ((history.id, history.url, history.title, history.count, history.date) << ndb::sort(ndb::desc(history.count)) << ndb::limit(count))) {
+	//	list.append(entry);
+	//}
+
+	for (auto& data : ndb::query<dbs::navigation>() << ((history.id, history.url, history.title, history.count, history.date) << (ndb::sort(ndb::desc(history.count)) << ndb::limit(count)))) {
 		HistoryEntry entry{};
 
 		entry.id = data[history.id];

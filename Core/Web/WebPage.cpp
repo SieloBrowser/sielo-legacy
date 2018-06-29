@@ -102,6 +102,15 @@ WebPage::WebPage(QObject* parent) :
 		Application::instance()->networkManager()->authentication(url, authenticator, view());
 	});
 
+	// Workaround for broken load started/finished signals in QtWebEngine 5.10
+	if (qstrncmp(qVersion(), "5.10.", 5) == 0) {
+		connect(this, &QWebEnginePage::loadProgress, this, [this](int progress) {
+			if (progress == 100) {
+				emit loadFinished(true);
+			}
+		});
+	}
+
 	connect(this,
 			&QWebEnginePage::proxyAuthenticationRequired,
 			this,
@@ -264,23 +273,9 @@ void WebPage::finished()
 
 	cleanBlockedObject();
 
-	runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res) {
-		const QVariantList& list = res.toList();
-
-		setBackgroundColor(Qt::white);
-
-		foreach(const QVariant& val, list) {
-			const QVariantMap& meta = val.toMap();
-			QString name = meta.value(QStringLiteral("name")).toString();
-			QString content = meta.value(QStringLiteral("content")).toString();
-
-			if (name == "sielo-transparent-background" && content.toLower() != "false") {
-				setBackgroundColor(Qt::transparent);
-			}
-		}
-	});
-
 	m_passwordEntries = Application::instance()->autoFill()->completePage(this, url());
+
+	emit pageRendering();
 }
 
 void WebPage::cleanBlockedObject()

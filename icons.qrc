@@ -9,6 +9,9 @@
         <file>icons/edit/edit-select-all.png</file>
         <file>icons/edit/edit-undo.png</file>
 
+        <file>icons/other/chrome.png</file>
+        <file>icons/other/old-sielo.png</file>
+        <file>icons/other/html.png</file>
         <file>icons/other/aboutsielo.png</file>
         <file>icons/other/arrow-left.png</file>
         <file>icons/other/arrow-right.png</file>
@@ -17,6 +20,7 @@
         <file>icons/other/audiocapture.png</file>
         <file>icons/other/calendar.png</file>
         <file>icons/other/close.png</file>
+        <file>icons/other/discord.png</file>
         <file>icons/other/geolocation.png</file>
         <file>icons/other/go.png</file>
         <file>icons/other/heart.png</file>
@@ -45,12 +49,14 @@
         <file>icons/preferences/appearance.png</file>
         <file>icons/preferences/current-tabsspace.png</file>
         <file>icons/preferences/download.png</file>
+        <file>icons/preferences/floating-button.png</file>
         <file>icons/preferences/local-storage.png</file>
         <file>icons/preferences/passwords.png</file>
         <file>icons/preferences/preferences.png</file>
         <file>icons/preferences/privacy.png</file>
         <file>icons/preferences/proxy.png</file>
         <file>icons/preferences/settings.png</file>
+        <file>icons/preferences/toolbars.png</file>
         <file>icons/preferences/web-configs.png</file>
 
         <file>icons/tabs/anonymous.png</file>

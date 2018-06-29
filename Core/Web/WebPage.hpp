@@ -75,6 +75,7 @@ public:
 	static QString setCSS(const QString& css);
 signals:
 	void privacyChanged(bool status);
+	void pageRendering();
 
 protected slots:
 	void progress(int progression);

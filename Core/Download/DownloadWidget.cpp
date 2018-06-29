@@ -153,9 +153,23 @@ void DownloadWidget::open()
 	QDesktopServices::openUrl(url);
 }
 
+#include <windows.h>
+void Output(const char* szFormat, ...)
+{
+	char szBuff[1024];
+	va_list arg;
+	va_start(arg, szFormat);
+	_vsnprintf(szBuff, sizeof(szBuff), szFormat, arg);
+	va_end(arg);
+
+	OutputDebugString(szBuff);
+}
+
 void DownloadWidget::downloadProgress(quint64 byteReceived, quint64 bytesTotal)
 {
 	m_bytesReceived = byteReceived;
+
+	Output("%d", bytesTotal);
 
 	if (bytesTotal == -1) {
 		m_progress->setValue(0);

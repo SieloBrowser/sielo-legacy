@@ -91,6 +91,7 @@ public:
 	bool isTransparent() const;
 
 signals:
+	void pageRendering();
 	void focusChanged(bool);
 	void viewportResized(QSize);
 	void privacyChanged(bool);
@@ -193,8 +194,9 @@ private:
 	QLabel* m_zoomLabel{nullptr};
 	QTimer* m_zoomTimer{nullptr};
 
-	WebPage* m_page{nullptr};
 	QPointer<QOpenGLWidget> m_child{};
+
+	WebPage* m_page{nullptr};
 };
 }
 

@@ -79,6 +79,7 @@ private slots:
 	void showAboutSielo();
 	void showPartners();
 	void showHelpUs();
+	void openDiscord();
 
 	void quit();
 

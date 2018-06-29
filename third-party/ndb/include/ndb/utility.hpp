@@ -165,7 +165,7 @@ namespace ndb
             }
                 // not a keyword
             else return false;
-        };
+        }
     } // internal
 
     template<class Expr> constexpr bool expr_is_value = internal::expr_is_value<Expr>::value;

@@ -40,7 +40,7 @@ StatusBarMessage::StatusBarMessage(Sn::BrowserWindow* window) :
 	m_window(window),
 	m_statusBarText(new TipLabel(window))
 {
-	// Empty
+	connect(m_window, SIGNAL(mouseOver), this, SLOT(sMouseOver));
 }
 
 void StatusBarMessage::showMessage(const QString& message)
@@ -72,6 +72,11 @@ void StatusBarMessage::clearMessage()
 		m_window->statusBar()->showMessage(QString());
 	else
 		m_statusBarText->hideDelayed();
+}
+
+void StatusBarMessage::sMouseOver(bool arg)
+{
+	if (!arg) clearMessage();
 }
 
 }

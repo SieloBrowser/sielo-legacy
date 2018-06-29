@@ -76,6 +76,7 @@
 #include "Network/NetworkManager.hpp"
 
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/NavigationControlDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
@@ -175,6 +176,8 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
+
+	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -191,8 +194,9 @@ Application::Application(int& argc, char** argv) :
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
 
-	loadSettings();
-	translateApplication();
+	// the 3rd parameter is the site id
+	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
+	m_piwikTracker->sendVisit("launch");
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
@@ -266,6 +270,9 @@ Application::Application(int& argc, char** argv) :
 	// Setting up web and network objects
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
+
+	loadSettings();
+	translateApplication();
 
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
@@ -354,13 +361,7 @@ void Application::loadWebSettings()
 	QSettings settings{};
 
 	// load web settings
-	QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
-	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
-
-	QString defaultUserAgent = webProfile->httpUserAgent();
-	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
-	                         QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
-	webProfile->setHttpUserAgent(defaultUserAgent);
+	QWebEngineSettings* webSettings = m_webProfile->settings();
 
 	settings.beginGroup("Web-Settings");
 
@@ -380,6 +381,14 @@ void Application::loadWebSettings()
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
+	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
+
+	QString defaultUserAgent = webProfile->httpUserAgent();
+	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
+		QStringLiteral("Sielo/%1").arg(QCoreApplication::applicationVersion()));
+	webProfile->setHttpUserAgent(defaultUserAgent);
+
+
 	const bool allowCache{settings.value("allowLocalCache", true).toBool()};
 	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
@@ -391,7 +400,7 @@ void Application::loadWebSettings()
 	// Force local storage to be disabled if it's a provate session
 	if (privateBrowsing()) {
 		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
-		webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
+		history()->setSaving(false);
 	}
 }
 
@@ -401,7 +410,7 @@ void Application::loadApplicationSettings()
 
 	// Check the current version number of Sielo, and make setting update if needed
 	//TODO: improve this with a switch
-	if (settings.value("versionNumber", 0).toInt() < 13) {
+	if (settings.value("versionNumber", 0).toInt() < 14) {
 		settings.setValue("installed", false);
 		if (settings.value("versionNumber", 0).toInt() < 12) {
 			if (settings.value("versionNumber", 0).toInt() < 11) {
@@ -427,7 +436,7 @@ void Application::loadApplicationSettings()
 				}
 			}
 		}
-		settings.setValue("versionNumber", 13);
+		settings.setValue("versionNumber", 14);
 	}
 }
 
@@ -445,7 +454,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 34) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 39) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -467,8 +476,9 @@ void Application::loadThemesSettings()
 
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
+			loadThemeFromResources("sielo-flat", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 34);
+			settings.setValue("Themes/defaultThemeVersion", 39);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -478,8 +488,9 @@ void Application::loadThemesSettings()
 	else {
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
+		loadThemeFromResources("sielo-flat", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 35);
+		settings.setValue("Themes/defaultThemeVersion", 39);
 	}
 }
 
@@ -488,10 +499,10 @@ void Application::loadTranslationSettings()
 	QSettings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 11) {
+	if (settings.value("version", 0).toInt() < 12) {
 		QDir(paths()[P_Translations]).removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
-		settings.setValue("version", 11);
+		settings.setValue("version", 12);
 	}
 }
 
@@ -554,9 +565,6 @@ QString Application::currentLanguage() const
 
 QWebEngineProfile *Application::webProfile()
 {
-	if (!m_webProfile) {
-		m_webProfile = QWebEngineProfile::defaultProfile();
-	}
 	return m_webProfile;
 }
 
@@ -756,9 +764,15 @@ void Application::postLaunch()
 
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
+		m_piwikTracker->sendEvent("installation", "installation", "installation", "new installation");
+
 		getWindow()->tabWidget()
 		           ->addView(QUrl("https://sielo.app/thanks.php"),
 		                     Application::NTT_CleanSelectedTabAtEnd);
+
+		NavigationControlDialog* navigationControlDialog{ new NavigationControlDialog(getWindow()) };
+		navigationControlDialog->exec();
+
 		settings.setValue("installed", true);
 	}
 

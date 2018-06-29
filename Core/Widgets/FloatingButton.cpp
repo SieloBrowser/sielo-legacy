@@ -209,14 +209,14 @@ void RootFloatingButton::expandAround(QPoint around)
 		int x = around.x() + radius * qCos(qDegreesToRadians(degrees));
 		int y = around.y() + radius * qSin(qDegreesToRadians(degrees));
 
-				foreach (FloatingButton* button, m_buttons) {
-				if (button->index() == i) {
-					button->move(around);
-					button->show();
-					button->moveButton(QPoint(x, y));
-					break;
-				}
+		foreach (FloatingButton* button, m_buttons) {
+			if (button->index() == i) {
+				button->move(around);
+				button->show();
+				button->moveButton(QPoint(x, y));
+				break;
 			}
+		}
 	}
 }
 

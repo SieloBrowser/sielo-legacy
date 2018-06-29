@@ -225,6 +225,7 @@ void WebView::setPage(WebPage* page)
 	QWebEngineView::setPage(page);
 
 	connect(m_page, &WebPage::privacyChanged, this, &WebView::privacyChanged);
+	connect(m_page, &WebPage::pageRendering, this, &WebView::pageRendering);
 
 	zoomReset();
 	initActions();
@@ -421,8 +422,10 @@ void WebView::sLoadFinished(bool ok)
 {
 	m_progress = 100;
 
-	if (ok)
+	if (ok) {
 		Application::instance()->history()->addHistoryEntry(this);
+		Application::instance()->piwikTraker()->sendEvent("navigation", "navigation", "page-loaded", "page loaded");
+	}
 }
 
 void WebView::sUrlChanged(const QUrl& url)

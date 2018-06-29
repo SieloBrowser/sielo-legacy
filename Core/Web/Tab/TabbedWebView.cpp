@@ -40,11 +40,8 @@
 #include "Widgets/Tab/TabBar.hpp"
 
 #include "Web/WebPage.hpp"
+#include "Web/Scripts.hpp"
 #include "Web/WebHitTestResult.hpp"
-
-QT_BEGIN_NAMESPACE
-extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
-QT_END_NAMESPACE
 
 namespace Sn {
 TabbedWebView::TabbedWebView(WebTab* tab) :
@@ -68,6 +65,9 @@ void TabbedWebView::setWebPage(WebPage* page)
 	setPage(page);
 
 	connect(page, &WebPage::linkHovered, this, &TabbedWebView::linkHovered);
+#ifdef EXP_TRANSPARENT_BG
+	connect(page, &WebPage::pageRendering, this, &TabbedWebView::sPageRendering);
+#endif // EXP_TRANSPARENT_BG
 }
 
 void TabbedWebView::setBrowserWindow(BrowserWindow* window)
@@ -126,54 +126,7 @@ void TabbedWebView::userLoadAction(const LoadRequest& request)
 	load(request);
 }
 
-QImage TabbedWebView::applyBlur(QImage src, qreal radius, bool quality, bool alphaOnly, int transposed)
-{
-	QPixmap ret(src.size());
-	QPainter painter(&ret);
-	{
-		QPixmap big(QSize(src.width() + 2 * radius, src.height() + 2 * radius));
-		QPainter big_painter(&big);
-
-		big_painter.drawImage(QPoint(radius, radius), src);
-
-		{
-			QPixmap	left(QSize(1, big.height())),
-				   right(QSize(1, big.height()));
-
-			QPainter painter_left(&left),
-				    painter_right(&right);
-
-			painter_left.drawImage(QPoint(0, radius), src);
-			painter_right.drawImage(QPoint(1 - src.width(), radius), src);
-
-			for (int i = 0; i < radius; i++) {
-				big_painter.drawImage(QPoint(i, 0), left.toImage());
-				big_painter.drawImage(QPoint(radius + src.width() + i, 0), right.toImage());
-			}
-		}
-
-		{
-			QPixmap top(QSize(big.width(), 1)),
-				 bottom(QSize(big.width(), 1));
-
-			QPainter painter_top(&top),
-				  painter_bottom(&bottom);
-
-			painter_top.drawImage(QPoint(0, -radius), big.toImage());
-			painter_bottom.drawImage(QPoint(0, 1 + radius - big.height()), big.toImage());
-
-			for (int i = 0; i < radius; i++) {
-				big_painter.drawImage(QPoint(0, i), top.toImage());
-				big_painter.drawImage(QPoint(0, radius + src.height() + i), bottom.toImage());
-			}
-		}
-
-		QImage bgImage = big.toImage();
-		qt_blurImage(&big_painter, bgImage, radius, quality, alphaOnly, transposed);
-		painter.drawImage(QPoint(-radius, -radius), big.toImage());
-	}
-	return ret.toImage();
-}
+#ifdef EXP_TRANSPARENT_BG
 
 void TabbedWebView::paintEvent(QPaintEvent* event)
 {
@@ -181,18 +134,12 @@ void TabbedWebView::paintEvent(QPaintEvent* event)
 	if (m_window->background() != nullptr && isTransparent()) {
 		QPoint global_position = mapTo(m_window, QPoint(0, 0));
 		QRect shot_rect(global_position.x(), global_position.y(), width(), height());
-		if (m_processed_bg == nullptr)
-		{
-			m_processed_bg = new QImage(applyBlur(m_window->background()->toImage(), 100));
-		}
-		else if (m_processed_bg->size() != m_window->size())
-		{
-			m_processed_bg = new QImage(applyBlur(m_window->background()->toImage(), 100));
-		}
-		painter.drawImage(QPoint(), *m_processed_bg, shot_rect);
+		painter.drawImage(QPoint(), *m_window->processedBackground(), shot_rect);
 	}
 	WebView::paintEvent(event);
 }
+
+#endif // EXP_TRANSPARENT_BG
 
 void TabbedWebView::sLoadStarted()
 {
@@ -209,11 +156,33 @@ void TabbedWebView::sLoadFinished()
 	QHostInfo::lookupHost(url().host(), this, SLOT(setIp(QHostInfo)));
 }
 
+#ifdef EXP_TRANSPARENT_BG
+void TabbedWebView::sPageRendering()
+{
+	page()->runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res) {
+		const QVariantList& list = res.toList();
+
+		page()->setBackgroundColor(Qt::white);
+
+		foreach(const QVariant& val, list) {
+			const QVariantMap& meta = val.toMap();
+			QString name = meta.value(QStringLiteral("name")).toString();
+			QString content = meta.value(QStringLiteral("content")).toString();
+
+			if (name == "sielo-transparent-background" && content.toLower() != "false") {
+				page()->setBackgroundColor(Qt::transparent);
+			}
+		}
+
+		repaint();
+	});
+}
+#endif // EXP_TRANSPARENT_BG
+
 void TabbedWebView::urlChanged(const QUrl& url)
 {
 	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabBar()->tabWidget()))
 		m_webTab->tabBar()->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
-
 }
 
 void TabbedWebView::linkHovered(const QString& link)

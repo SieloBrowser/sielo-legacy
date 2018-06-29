@@ -167,7 +167,11 @@ public:
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 	TitleBar* titleBar() const { return m_titleBar; }
 
-	const QPixmap* background();
+	const QImage* background();
+	const QImage* processedBackground();
+
+signals:
+	void mouseOver(bool state);
 
 public slots:
 	void setWindowTitle(const QString& title);
@@ -183,8 +187,10 @@ public slots:
 
 protected:
 	void shotBackground();
+	QImage applyBlur(const QImage *src, qreal radius, bool quality = true, bool alphaOnly = false, int transposed = 0);
 	void paintEvent(QPaintEvent* event);
 	void resizeEvent(QResizeEvent* event);
+	void mouseMoveEvent(QMouseEvent *e);
 
 private slots:
 	void addTab();
@@ -226,9 +232,12 @@ private:
 
 	int m_currentTabWidget{0};
 
+	qreal m_blur_radius{ 0 };
+
 	RootFloatingButton* m_fButton{nullptr};
 
-	QPixmap* m_bg{ nullptr };
+	QImage* m_bg{ nullptr };
+	QImage* m_blur_bg{ nullptr };
 	bool m_upd_ss{ false };
 };
 
