@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">     
+    <qresource prefix="/ColorZilla">     
 	 <!-- ColorZilla theme -->
         <file>data/themes/ColorZilla/dark/edit/edit-clear.png</file>
         <file>data/themes/ColorZilla/dark/edit/edit-copy.png</file>

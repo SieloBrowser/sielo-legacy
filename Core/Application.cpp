@@ -83,7 +83,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.16.00");
+QString Application::currentVersion = QString("1.16.01 closed-beta");
 
 // Static member
 QList<QString> Application::paths()
@@ -175,7 +175,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.16.00"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.16.01"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
@@ -454,7 +454,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 42) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 43) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -480,7 +480,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 42);
+			settings.setValue("Themes/defaultThemeVersion", 43);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -494,7 +494,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("round-theme", false);
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 42);
+		settings.setValue("Themes/defaultThemeVersion", 43);
 	}
 }
 
@@ -754,6 +754,8 @@ void Application::reloadUserStyleSheet()
 void Application::quitApplication()
 {
 	m_isClosing = true;
+
+	m_piwikTracker->sendEvent("exit", "exit", "exit", "exit application");
 
 	quit();
 }
