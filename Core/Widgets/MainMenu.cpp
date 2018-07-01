@@ -281,8 +281,8 @@ void MainMenu::openUrl(const QUrl& url)
 
 void MainMenu::showDownloadManager()
 {
-	DownloadManager* dialog{new DownloadManager(m_tabWidget)};
-	dialog->show();
+	Application::instance()->downloadManager()->show();
+	Application::instance()->downloadManager()->raise();
 }
 
 void MainMenu::showCookiesManager()
