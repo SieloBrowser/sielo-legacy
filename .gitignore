@@ -38,6 +38,7 @@ Doxyfile
 /.idea
 SettingsList.txt
 /vs2017
+/vs2017-qt5.9
 .vs/
 build64/
 /cmake-build-debug

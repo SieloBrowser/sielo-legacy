@@ -85,6 +85,7 @@ AppearancePage::AppearancePage(QWidget* parent, PreferencesDialog* preferencesDi
 	connect(m_textColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
 	connect(m_useRealToolBar, &QCheckBox::toggled, this, &AppearancePage::useRealToolBarChanged);
 	connect(m_tabsSpacesPadding, &QSlider::valueChanged, this, &AppearancePage::tabsSpacesPaddingValueChanged);
+	connect(m_blurFilterRadius, &QSlider::valueChanged, this, &AppearancePage::blurFilterRadiusValueChanged);
 	connect(m_backgroundLocationButton, &QPushButton::clicked, this, &AppearancePage::backgroundLocationClicked);
 
 	currentChanged();
@@ -175,6 +176,12 @@ void AppearancePage::tabsSpacesPaddingValueChanged(int value)
 {
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(value));
 }
+
+void AppearancePage::blurFilterRadiusValueChanged(int value)
+{
+	m_blurFilterRadiusLabel->setText(tr("Background blur filter radius (%1px)").arg(value));
+}
+
 
 void AppearancePage::backgroundLocationClicked()
 {
@@ -345,6 +352,7 @@ void AppearancePage::loadSettings()
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
 	m_repeatBackground->setChecked(settings.value(QLatin1String("repeatBackground"), false).toBool());
 	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
+	m_blurFilterRadiusLabel->setText(tr("Background blur filter radius (%1px)").arg(m_blurFilterRadius->value()));
 	m_blurFilterRadius->setValue(settings.value(QLatin1String("backdropBlur"), 100).toInt());
 
 	settings.endGroup();
@@ -429,7 +437,7 @@ void AppearancePage::setupUI()
 	m_nameLayout = new QHBoxLayout();
 	m_themeActionLayout = new QHBoxLayout();
 	m_backgroundLayout = new QHBoxLayout();
-	m_blurFilterLayout = new QHBoxLayout();
+	m_blurFilterLayout = new QVBoxLayout();
 
 	m_areaLayout->setContentsMargins(4, 4, 4, 4);
 	m_areaLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -492,10 +500,10 @@ void AppearancePage::setupUI()
 	m_backgroundLocationButton = new QPushButton(tr("..."), this);
 	m_spacer = new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-	m_blurFilterRadiusLabel = new QLabel(tr("Background blur filter radius: "), this);
-	m_blurFilterRadius = new QSpinBox(this);
-	m_blurFilterRadius->setMaximum(999);
+	m_blurFilterRadius = new QSlider(Qt::Horizontal, this);
 	m_blurFilterRadius->setMinimum(0);
+	m_blurFilterRadius->setMaximum(999);
+	m_blurFilterRadiusLabel = new QLabel(tr("Background blur filter radius (in px)"), this);
 
 	m_nameLayout->addWidget(m_name);
 	m_nameLayout->addWidget(m_licenseBtn);
