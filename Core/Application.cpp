@@ -503,10 +503,10 @@ void Application::loadTranslationSettings()
 	QSettings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 13) {
+	if (settings.value("version", 0).toInt() < 14) {
 		QDir(paths()[P_Translations]).removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
-		settings.setValue("version", 13);
+		settings.setValue("version", 14);
 	}
 }
 
@@ -703,6 +703,8 @@ void Application::saveSettings()
 		m_history->clearHistory();
 	if (deleteCookies)
 		m_cookieJar->deleteAllCookies();
+
+	m_piwikTracker->sendEvent("exit", "exit", "exit", "exit application");
 }
 
 void Application::saveSession(bool saveForHome)
@@ -754,8 +756,6 @@ void Application::reloadUserStyleSheet()
 void Application::quitApplication()
 {
 	m_isClosing = true;
-
-	m_piwikTracker->sendEvent("exit", "exit", "exit", "exit application");
 
 	quit();
 }

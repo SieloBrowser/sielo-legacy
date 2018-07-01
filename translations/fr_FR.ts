@@ -1884,7 +1884,7 @@
     <message>
         <location filename="../Core/Widgets/HelpUsDialog.cpp" line="43"/>
         <source>&lt;p&gt;There are many ways to help us. You can &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;make a donation&lt;/a&gt;, help us improve the source code, or simply share and talk about Sielo to your entourage.&lt;/p&gt;&lt;p&gt;You can also join our &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;Discord server&lt;/a&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Il y a plusieurs manières de nous aider. Vous pouvez &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;faire un don&lt;/a&gt;, nous aider à améliorer le code source, ou simplement partager et parler de Sielo à votre entourage.&lt;/p&gt;&lt;p&gt;Vous pouvez aussi rejoindre note &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;serveur Discord&lt;/a&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Il y a plein de moyen de nous aider. Vous pouvez &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;faire un don&lt;/a&gt;, nous aider à améliorer le code source, ou simplement partager et parler de Sielo à votre entourage.&lt;/p&gt;&lt;p&gt;Vous pouvez aussi rejoindre note &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;serveur Discord&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HelpUsDialog.cpp" line="66"/>
@@ -2049,7 +2049,7 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="66"/>
         <source>Closed Tabs</source>
-        <translation>Onglets recemment fermé</translation>
+        <translation>Onglets récemment fermé</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="177"/>
@@ -2333,7 +2333,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="120"/>
         <source>Download Manager</source>
-        <translation>Télécharger le Gestionnaire</translation>
+        <translation>Gestionnaire de téléchargements</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="124"/>
@@ -3415,7 +3415,7 @@
     <message>
         <location filename="../Core/Web/WebView.cpp" line="801"/>
         <source>Book&amp;mark page</source>
-        <translation>&amp;Marquepage page</translation>
+        <translation>Mettre cette &amp;page en favoris</translation>
     </message>
     <message>
         <location filename="../Core/Web/WebView.cpp" line="802"/>
