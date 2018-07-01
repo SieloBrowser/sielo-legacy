@@ -39,8 +39,10 @@ NavigationControlDialog::NavigationControlDialog(QWidget* parent) :
 	setupUI();
 
 	connect(m_floatingButton, &QPushButton::toggled, this, &NavigationControlDialog::buttonCheckChanged);
-	connect(m_toolbars, &QPushButton::toggled, this, &NavigationControlDialog::buttonCheckChanged);
-	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &NavigationControlDialog::save);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &NavigationControlDialog::close);
+
+	m_floatingButton->setChecked(true);
+	m_toolbars->setChecked(false);
 }
 
 NavigationControlDialog::~NavigationControlDialog()
@@ -55,18 +57,19 @@ void NavigationControlDialog::save()
 	settings.setValue("Settings/useTopToolBar", m_toolbars->isChecked());
 
 	Application::instance()->loadSettings();
+}
 
-	close();
+void NavigationControlDialog::closeEvent(QCloseEvent* event)
+{
+	save();
+
+	QDialog::closeEvent(event);
 }
 
 void NavigationControlDialog::buttonCheckChanged(bool checked)
 {
-	QPushButton* button{qobject_cast<QPushButton*>(sender())};
-
-	if (button == m_floatingButton)
-		m_toolbars->setChecked(!checked);
-	else
-		m_floatingButton->setChecked(!checked);
+	m_toolbars->setChecked(!checked);
+	m_floatingButton->setChecked(checked);
 }
 
 void NavigationControlDialog::setupUI()
@@ -88,9 +91,7 @@ void NavigationControlDialog::setupUI()
 	m_toolbars = new QPushButton(tr("Toolbars"), this);
 
 	m_floatingButton->setCheckable(true);
-	m_floatingButton->setChecked(true);
 	m_toolbars->setCheckable(true);
-	m_toolbars->setChecked(false);
 
 	m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok, Qt::Horizontal, this);
 

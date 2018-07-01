@@ -34,6 +34,8 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 
+#include <QCloseEvent> 
+
 namespace Sn
 {
 class NavigationControlDialog: public QDialog {
@@ -44,6 +46,9 @@ public:
 	~NavigationControlDialog();
 
 	void save();
+
+protected:
+	void closeEvent(QCloseEvent* event);
 
 private slots:
 	void buttonCheckChanged(bool checked);
