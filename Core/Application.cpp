@@ -962,6 +962,9 @@ void Application::startAfterCrash()
 
 void Application::connectDatabase()
 {
+	if (!QDir(paths()[Application::P_Data] + QLatin1String("/database")).exists())
+		QDir().mkpath(paths()[Application::P_Data] + QLatin1String("/database"));
+
 	// ndb params
 	ndb::connection_param params{};
 
