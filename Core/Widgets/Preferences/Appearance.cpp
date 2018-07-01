@@ -352,8 +352,8 @@ void AppearancePage::loadSettings()
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
 	m_repeatBackground->setChecked(settings.value(QLatin1String("repeatBackground"), false).toBool());
 	m_backgroundLocationEdit->setText(settings.value(QLatin1String("backgroundPath"), "").toString());
-	m_blurFilterRadiusLabel->setText(tr("Background blur filter radius (%1px)").arg(m_blurFilterRadius->value()));
 	m_blurFilterRadius->setValue(settings.value(QLatin1String("backdropBlur"), 100).toInt());
+	m_blurFilterRadiusLabel->setText(tr("Background blur filter radius (%1px)").arg(m_blurFilterRadius->value()));
 
 	settings.endGroup();
 	settings.beginGroup("Themes");
