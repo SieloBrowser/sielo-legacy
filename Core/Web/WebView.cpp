@@ -267,7 +267,7 @@ void WebView::load(const LoadRequest& request)
 
 	if (!requestUrl.isEmpty() && requestUrl.scheme().isEmpty() && !requestUrl.path().contains(QLatin1Char(' '))
 		&& !requestUrl.path().contains(QLatin1Char('.'))) {
-		QUrl url{QStringLiteral("http://") + requestUrl.path()};
+		QUrl url{QStringLiteral("https://") + requestUrl.path()};
 
 		if (url.isValid()) {
 			QHostInfo info{QHostInfo::fromName(url.path())};
