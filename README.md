@@ -16,6 +16,8 @@ Their is many links to find the last Sielo version
  - Windows: There is a portable version [available here](https://sielo.app/download.php?for=windows_portable)
  - Linux: You can find [an AppImage](https://sielo.app/download.php?for=linux) 
  - ArchLinux: Sielo is available on the AUR.
+ - Sources: You can directly download sources files from github. If you want have last functionnality (without waranty), you can run this command `git clone https://github.com/SieloBrowser/SieloBrowser.git`. If you want the last stable version, you can run this command `git clone https://github.com/SieloBrowser/SieloBrowser.git branch 1.16`.
+ 
 ### Compile the browser
 You can also easily compile Sielo, but you must check dependencies:
  - Qt 5.7 minimum, Qt 5.8 minimum to get all Sielo's features.
