@@ -89,15 +89,17 @@ private:
 	bool m_canMove{true};
 	bool m_show{true};
 
+#ifdef Q_OS_WIN
+	QToolBar* m_controlsToolbar{ nullptr };
 	QLabel* m_title{nullptr};
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};
 	QToolButton* m_minimize{nullptr};
+#endif // Q_OS_WIN
 
 	QFrame *m_sizePreview{nullptr};
 
 	BookmarksToolbar* m_bookmarksToolbar{nullptr};
-	QToolBar* m_controlsToolbar{nullptr};
 
 	QRect m_geometry{};
 	QPoint m_offset{};

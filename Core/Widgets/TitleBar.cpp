@@ -45,18 +45,21 @@ TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		m_showBookmarks(showBookmarks)
 {
 	m_bookmarksToolbar = new BookmarksToolbar(m_window, m_window);
-	m_controlsToolbar = new QToolBar(m_window);
-
 	m_bookmarksToolbar->setFloatable(false);
 	m_bookmarksToolbar->installEventFilter(this);
 	m_bookmarksToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	connect(m_bookmarksToolbar, &BookmarksToolbar::orientationChanged, this, &TitleBar::build);
+
+#ifdef Q_OS_WIN
+	m_controlsToolbar = new QToolBar(m_window);
 	m_controlsToolbar->setFloatable(false);
 	m_controlsToolbar->installEventFilter(this);
 	m_controlsToolbar->setObjectName(QLatin1String("title-bar"));
 	m_controlsToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(m_bookmarksToolbar, &BookmarksToolbar::orientationChanged, this, &TitleBar::build);
 	connect(m_controlsToolbar, &QToolBar::orientationChanged, this, &TitleBar::build);
+#endif // Q_OS_WIN
 
 	restoreToolBarsPositions();
 
@@ -74,6 +77,7 @@ TitleBar::~TitleBar()
 	// Empty
 }
 
+#ifdef Q_OS_WIN
 void TitleBar::setTitle(const QString& title)
 {
 	if (!m_title)
@@ -81,6 +85,12 @@ void TitleBar::setTitle(const QString& title)
 
 	m_title->setText(title);
 }
+#else
+void TitleBar::setTitle(const QString& title)
+{
+	(void)title;
+}
+#endif // Q_OS_WIN
 
 void TitleBar::setShowBookmark(bool show)
 {
@@ -96,8 +106,11 @@ void TitleBar::saveToolBarsPositions()
 
 	settings.setValue("bookmarks/area", static_cast<int>(m_window->toolBarArea(m_bookmarksToolbar)));
 	settings.setValue("bookmarks/locked", m_bookmarksToolbar->isMovable());
+
+#ifdef Q_OS_WIN
 	settings.setValue("controls/area", static_cast<int>(m_window->toolBarArea(m_controlsToolbar)));
 	settings.setValue("controls/locked", m_controlsToolbar->isMovable());
+#endif // Q_OS_WIN
 
 	settings.endGroup();
 }
@@ -110,8 +123,11 @@ void TitleBar::restoreToolBarsPositions()
 
 	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("bookmarks/area", Qt::TopToolBarArea).toInt()), m_bookmarksToolbar);
 	m_bookmarksToolbar->setMovable(settings.value("bookmarks/locked", true).toBool());
+
+#ifdef Q_OS_WIN
 	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("controls/area", Qt::TopToolBarArea).toInt()), m_controlsToolbar);
 	m_controlsToolbar->setMovable(settings.value("controls/locked", true).toBool());
+#endif // Q_OS_WIN
 
 	settings.endGroup();
 }
@@ -183,8 +199,10 @@ void TitleBar::mouseMoveEvent(QMouseEvent* event)
 	if (event->buttons() & Qt::LeftButton && m_canMove) {
 		if (isWindowMaximized() || m_isOnSide) {
 			m_window->resize(m_geometry.size());
+#ifdef Q_OS_WIN
 			m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
 			m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
+#endif // Q_OS_WIN
 
 			m_isMaximized = false;
 			m_isOnSide = false;
