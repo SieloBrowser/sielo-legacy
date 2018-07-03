@@ -194,40 +194,41 @@
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="66"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="84"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="86"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="67"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="85"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="112"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="87"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="114"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="75"/>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="113"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="115"/>
         <source>Our partners</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="95"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="78"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="97"/>
         <source>What&apos;s Sielo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="134"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="136"/>
         <source>&lt;p&gt;&lt;b&gt;Sielo (version: %1, WebEngine: %2)&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Sielo is a powerful web browser with a unique concept: tabs spaces.Sielo has many contribution and I would like to give special thanks&lt;br/&gt;to Hotaru for always being here, Echostorm for his awesome contribution,&lt;br/&gt;Kaktus for the design and all other contributors!&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2018 Victor DENIS&lt;br /&gt;&lt;a href=&quot;mailto:admin@feldrise.com&quot;&gt;admin@feldrise.com&lt;/a&gt;&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="150"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="152"/>
         <source>&lt;b&gt;Bit-Studio.com&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;Created in 2011, this concept aims to promote promising IT projects in order to help them take off.&lt;br/&gt;After a few years of operation, the project was put on hold. It was too much work for one man. In 2018, a team was formed and Bit-Studio was reborn from its ashes, stronger than ever.&lt;br/&gt;From then on, discover regularly, in preview, the mastodons of tomorrow on Bit-Studio.com.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Widgets/AboutDialog.cpp" line="159"/>
+        <location filename="../Core/Widgets/AboutDialog.cpp" line="161"/>
         <source>&lt;b&gt;Le Monde Du PC&lt;/b&gt;&lt;br/&gt;&lt;br/&gt;&quot;Le Monde Du PC&quot;, put online in September 2017, is a site that aims to share our knowledge so that, for example, some subjects in computing are not only understood by those who master them. Today, the team is complete and a 2.0 version will normally be released in September.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1577,77 +1578,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="219"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="205"/>
         <source>Download completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="235"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="221"/>
         <source>Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="244"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="230"/>
         <source>ico</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="252"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="238"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="277"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="263"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="279"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="265"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="302"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="288"/>
         <source>seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="306"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="292"/>
         <source>minutes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="320"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="306"/>
         <source>- %4 %5 remaining</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="321"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="307"/>
         <source>%1 of %2 (%3/sec) %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="322"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="308"/>
         <source>?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="327"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="313"/>
         <source>%1 of %2 - Stopped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="341"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="327"/>
         <source>bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="344"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="330"/>
         <source>kB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../Core/Download/DownloadWidget.cpp" line="348"/>
+        <location filename="../Core/Download/DownloadWidget.cpp" line="334"/>
         <source>MB</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1882,7 +1883,11 @@
     <name>Sn::HelpUsDialog</name>
     <message>
         <location filename="../Core/Widgets/HelpUsDialog.cpp" line="43"/>
+<<<<<<< HEAD
         <source>&lt;p&gt;There are many ways to help us. You can &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;make a donation&lt;/a&gt;, help us improve the source code, or simply share and talk about Sielo to your entourage.&lt;/p&gt;You can also join our &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;Discord server&lt;/a&gt;</source>
+=======
+        <source>&lt;p&gt;There are many ways to help us. You can &lt;a href=&quot;https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=MU7RV3SGKTFFS&quot; target=&quot;_blank&quot;&gt;make a donation&lt;/a&gt;, help us improve the source code, or simply share and talk about Sielo to your entourage.&lt;/p&gt;&lt;p&gt;You can also join our &lt;a href=&quot;https://discord.gg/7MVvDaS&quot; target=&quot;_blank&quot;&gt;Discord server&lt;/a&gt;&lt;/p&gt;</source>
+>>>>>>> upstream/master
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -83,7 +83,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.15.08b");
+QString Application::currentVersion = QString("1.16.00");
 
 // Static member
 QList<QString> Application::paths()
@@ -175,7 +175,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.15.08"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.16.00"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
@@ -454,7 +454,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 39) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 42) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{paths()[Application::P_Themes]};
 
@@ -477,8 +477,10 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("firefox-like-light", false);
 			loadThemeFromResources("firefox-like-dark", false);
 			loadThemeFromResources("sielo-flat", false);
+			loadThemeFromResources("round-theme", false);
+			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 39);
+			settings.setValue("Themes/defaultThemeVersion", 42);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -489,8 +491,10 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("firefox-like-light", false);
 		loadThemeFromResources("firefox-like-dark", false);
 		loadThemeFromResources("sielo-flat", false);
+		loadThemeFromResources("round-theme", false);
+		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 39);
+		settings.setValue("Themes/defaultThemeVersion", 42);
 	}
 }
 
@@ -499,10 +503,10 @@ void Application::loadTranslationSettings()
 	QSettings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 12) {
+	if (settings.value("version", 0).toInt() < 13) {
 		QDir(paths()[P_Translations]).removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
-		settings.setValue("version", 12);
+		settings.setValue("version", 13);
 	}
 }
 
@@ -1331,7 +1335,7 @@ QImage Application::blurImage(const QImage& image, const QRect& rect, int radius
 void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 {
 	QString defaultThemePath{paths()[Application::P_Themes]};
-	QString defaultThemeDataPath{":data/themes/" + name};
+	QString defaultThemeDataPath{":/" + name + "/data/themes/" + name};
 
 	defaultThemePath += QLatin1Char('/') + name;
 

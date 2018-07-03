@@ -144,11 +144,17 @@ void FloatingButton::moveButton(QPoint destination, int animationTime, bool hide
 
 }
 
+void FloatingButton::lockFloatingButton()
+{
+	//
+}
+
 RootFloatingButton::RootFloatingButton(BrowserWindow* window, QWidget* parent, Pattern pattern) :
 		QPushButton(parent),
 		m_pattern(pattern),
 		m_window(window),
-		m_blockClick(false)
+		m_blockClick(false),
+		m_floatButtonLocked(false)
 {
 	setFixedSize(QSize(48, 48));
 	setIconSize(QSize(48, 48));
@@ -166,6 +172,9 @@ RootFloatingButton::RootFloatingButton(BrowserWindow* window, QWidget* parent, P
 	setGraphicsEffect(effect);
 
 	connect(this, &QPushButton::customContextMenuRequested, this, &RootFloatingButton::showMenu);
+
+	//connect(this, &RootFloatingButton::lockStatusChanged, button(""), &FloatingButton::lockFloatingButton);
+	//connect(this, &RootFloatingButton::lockButtonRequested,
 }
 
 RootFloatingButton::~RootFloatingButton()
@@ -339,6 +348,22 @@ void RootFloatingButton::showMenu(const QPoint& pos)
 
 	menu.addMenu(&patternsMenu);
 
+	QAction *lockAction;
+	if(m_floatButtonLocked)
+	{
+		lockAction = new QAction("Unlock");
+	}
+	else
+	{
+		lockAction = new QAction("Lock");
+	}
+
+	//QAction *lockAction{new QAction("Lock")};
+	//lockAction->setCheckable(true);
+	menu.addAction(lockAction);
+
+	connect(lockAction, &QAction::triggered, this, &RootFloatingButton::changeLock);
+
 	menu.exec(mapToGlobal(QPoint(pos.x(), pos.y() + 1)));
 }
 
@@ -353,6 +378,37 @@ void RootFloatingButton::changePattern()
 
 	emit patternChanged(m_pattern);
 	emit statusChanged();
+}
+
+void RootFloatingButton::changeLock()
+{
+	QAction* action{qobject_cast<QAction*>(sender())};
+
+	if (!action)
+		return;
+
+	qDebug("*******");
+	qDebug(action->text().toLatin1());
+
+	if (action->text() == QString("Lock")) {
+		//on lock le bouton flottant
+		//qDebug("lock");
+
+		action->setText("Unlock");
+		m_floatButtonLocked = true;
+		//qDebug(action->text().toLatin1());
+
+		emit lockButtonRequested();
+	} else {
+		//on unlock le bouton flottant
+		//qDebug("unlock");
+
+		action->setText("Lock");
+		m_floatButtonLocked = false;
+		//qDebug(action->text().toLatin1());
+
+		emit unlockButtonRequested();
+	}
 }
 
 }

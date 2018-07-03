@@ -74,6 +74,8 @@ void AboutDialog::previous()
 		m_previous->setEnabled(false);
 		m_next->setText(tr("Our partners"));
 	}
+	if (m_currentIndex == 1)
+		m_previous->setText(tr("What's Sielo"));
 }
 
 void AboutDialog::next()

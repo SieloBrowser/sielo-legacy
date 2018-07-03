@@ -58,6 +58,8 @@ public:
 
 	void moveButton(QPoint destination, int animationTime = 0.2 * 1000, bool hideAtEnd = false);
 
+	void lockFloatingButton();
+
 signals:
 	void isClicked();
 	void statusChanged();
@@ -106,9 +108,13 @@ public:
 
 	void tabWidgetChanged(TabWidget* tabWidget);
 
+	void changeLock();
+
 signals:
 	void patternChanged(Pattern newPattern);
 	void statusChanged();
+	void lockButtonRequested();
+	void unlockButtonRequested();
 
 protected:
 	void mousePressEvent(QMouseEvent* event);
@@ -130,6 +136,7 @@ private:
 
 	bool m_blockClick{false};
 	bool m_childrenExpanded{false};
+	bool m_floatButtonLocked{false};
 };
 }
 #endif //SIELOBROWSER_FLOATINGBUTTON_HPP
