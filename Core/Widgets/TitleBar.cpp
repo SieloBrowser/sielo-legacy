@@ -378,8 +378,10 @@ void TitleBar::toggleMaximize(bool forceMaximize)
 		m_window->setGeometry(m_geometry);
 		m_isMaximized = false;
 
+#ifdef Q_OS_WIN
 		m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
 		m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
+#endif // Q_OS_WIN
 	}
 	else {
 		if (!m_isOnSide)
@@ -390,8 +392,10 @@ void TitleBar::toggleMaximize(bool forceMaximize)
 
 		m_window->showNormal();
 
+#ifdef Q_OS_WIN
 		m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-reverse-maximize"));
 		m_toggleMaximize->setIcon(Application::getAppIcon("tb-revert-maximize", "titlebar"));
+#endif // Q_OS_WIN
 	}
 }
 
