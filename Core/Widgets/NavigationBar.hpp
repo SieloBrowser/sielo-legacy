@@ -54,13 +54,15 @@ public:
 				   WRITE
 				   setLayoutSpacing)
 
-	void setSplitterSize(int addressBar, int bookmarksHistoryButtons);
-
 	int layoutMargin() const;
 	void setLayoutMargin(int margin);
 
 	int layoutSpacing() const;
 	void setLayoutSpacing(int layoutSpacing);
+
+	void hideBookmarksHistory();
+	void showBookmarksHistory();
+
 
 public slots:
 	void refreshBackForwardButtons();
@@ -84,7 +86,6 @@ private:
 	QHBoxLayout* m_layout{nullptr};
 	QHBoxLayout* m_bookmarksHistoryLayout{nullptr};
 	QWidget* m_bookmarksHistoryWidget{nullptr};
-	QSplitter* m_splitter{nullptr};
 
 	ToolButton* m_buttonBack{nullptr};
 	ToolButton* m_buttonForward{nullptr};

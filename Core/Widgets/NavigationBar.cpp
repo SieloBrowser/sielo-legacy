@@ -120,17 +120,11 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_bookmarksHistoryLayout->addWidget(m_buttonAddBookmark);
 	m_bookmarksHistoryLayout->addWidget(m_buttonViewHistory);
 
-	m_splitter = new QSplitter(this);
-	m_splitter->addWidget(tabWidget->addressBars());
-	m_splitter->addWidget(m_bookmarksHistoryWidget);
-	m_splitter->setMaximumWidth(iconSize.width() * 3);
-	m_splitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-	m_splitter->setCollapsible(0, false);
-
 	m_layout->addWidget(m_buttonBack);
 	m_layout->addWidget(m_buttonForward);
 	m_layout->addWidget(m_buttonHome);
-	m_layout->addWidget(m_splitter);
+	m_layout->addWidget(tabWidget->addressBars());
+	m_layout->addWidget(m_bookmarksHistoryWidget);
 
 	connect(m_buttonBack, &ToolButton::clicked, this, &NavigationToolBar::goBack);
 	connect(m_buttonBack, &ToolButton::middleMouseClicked, this, &NavigationToolBar::goBackInNewTab);
@@ -145,25 +139,6 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	connect(m_buttonViewBookmarks, &ToolButton::clicked, this, &NavigationToolBar::showBookmarksDialog);
 	connect(m_buttonAddBookmark, &ToolButton::clicked, this, &NavigationToolBar::showAddBookmarkDialog);
 	connect(m_buttonViewHistory, &ToolButton::clicked, this, &NavigationToolBar::showHistoryDialog);
-}
-
-void NavigationToolBar::setSplitterSize(int addressBar, int bookmarksHistoryButtons)
-{
-	QList<int> sizes{};
-
-	if (addressBar == 0) {
-		int splitterWidth{m_splitter->width()};
-		sizes << static_cast<int>(splitterWidth * 6 / 7)
-			<< static_cast<int>(static_cast<double>(splitterWidth) * 1 / 7);
-	}
-	else if (bookmarksHistoryButtons == -1) {
-		sizes << m_splitter->width() << 0;
-	}
-	else {
-		sizes << addressBar << bookmarksHistoryButtons;
-	}
-
-	m_splitter->setSizes(sizes);
 }
 
 int NavigationToolBar::layoutMargin() const
@@ -184,6 +159,16 @@ int NavigationToolBar::layoutSpacing() const
 void NavigationToolBar::setLayoutSpacing(int layoutSpacing)
 {
 	m_layout->setSpacing(layoutSpacing);
+}
+
+void NavigationToolBar::hideBookmarksHistory()
+{
+	m_bookmarksHistoryWidget->hide();
+}
+
+void NavigationToolBar::showBookmarksHistory()
+{
+	m_bookmarksHistoryWidget->show();
 }
 
 void NavigationToolBar::refreshBackForwardButtons()

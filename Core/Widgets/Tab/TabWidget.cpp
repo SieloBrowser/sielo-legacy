@@ -1013,16 +1013,22 @@ void TabWidget::updateClosedTabsButton()
 
 void TabWidget::setupNavigationBar()
 {
-	if (m_navigationToolBar)
+	if (m_navigationToolBar) {
+		if (Application::instance()->hideBookmarksHistoryActions())
+			m_navigationToolBar->hideBookmarksHistory();
+		else
+			m_navigationToolBar->showBookmarksHistory();
+
 		return;
+	}
 
 	m_addressBars = new QStackedWidget(this);
 	m_navigationToolBar = new NavigationToolBar(this);
 
 	if (Application::instance()->hideBookmarksHistoryActions())
-		m_navigationToolBar->setSplitterSize(532, -1);
+		m_navigationToolBar->hideBookmarksHistory();
 	else
-		m_navigationToolBar->setSplitterSize(532, 24);
+		m_navigationToolBar->showBookmarksHistory();
 
 	setNavigationToolBar(m_navigationToolBar);
 
