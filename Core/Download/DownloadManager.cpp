@@ -49,8 +49,6 @@ DownloadManager::DownloadManager(QWidget* parent) :
 	m_saver(new AutoSaver(this)),
 	m_removePolicy(Never)
 {
-	setAttribute(Qt::WA_DeleteOnClose);
-
 	QIcon icon = windowIcon();
 	Qt::WindowFlags flags = windowFlags();
 	Qt::WindowFlags helpFlag = Qt::WindowContextHelpButtonHint;
