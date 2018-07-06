@@ -343,6 +343,8 @@ void Application::loadSettings()
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
+	m_networkManager->loadSettings();
+
 	// Load specific settings for all windows
 	foreach (BrowserWindow* window, m_windows) window->loadSettings();
 
