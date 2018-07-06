@@ -226,8 +226,8 @@ public:
 	 * @param item The maquetteGrid to load.
 	 * @return The new window create.
 	 */
-	BrowserWindow* createWindow(MaquetteGridItem* item);
-	
+	BrowserWindow *createWindow(MaquetteGridItem* item);
+
 	AfterLaunch afterCrashLaunch() const { return m_afterCrashLaunch; }
 	AfterLaunch afterLaunch() const;
 
@@ -239,7 +239,7 @@ public:
 	CookieJar *cookieJar();
 	History *history();
 	Bookmarks *bookmarks();
-	MaquetteGrid* maquetteGrid();
+	MaquetteGrid *maquetteGrid();
 	DownloadManager *downloadManager();
 	HTML5PermissionsManager *permissionsManager();
 	NetworkManager *networkManager() const { return m_networkManager; }
@@ -247,7 +247,7 @@ public:
 
 	QWebEngineProfile *webProfile();
 
-	PiwikTracker* piwikTraker() { return m_piwikTracker; }
+	PiwikTracker *piwikTraker() { return m_piwikTracker; }
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool useTopToolBar() const { return m_useTopToolBar; }
@@ -363,7 +363,7 @@ private:
 
 	ndb::initializer<ndb::sqlite> m_ndb_init;
 
-	PiwikTracker *m_piwikTracker{ nullptr };
+	PiwikTracker* m_piwikTracker{nullptr};
 
 	//QFont m_morpheusFont{};
 	//QFont m_normalFont{};
