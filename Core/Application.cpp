@@ -83,7 +83,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.16.08 closed-beta");
+QString Application::currentVersion = QString("1.17.00 closed-beta");
 
 // Static member
 QList<QString> Application::paths()
@@ -175,7 +175,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.16.08"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.17.00"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
@@ -342,6 +342,8 @@ void Application::loadSettings()
 	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
+
+	m_networkManager->loadSettings();
 
 	// Load specific settings for all windows
 	foreach (BrowserWindow* window, m_windows) window->loadSettings();
