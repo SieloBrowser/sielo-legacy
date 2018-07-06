@@ -83,7 +83,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.00 closed-beta");
+QString Application::currentVersion = QString("1.16.10 closed-beta");
 
 // Static member
 QList<QString> Application::paths()
@@ -175,7 +175,7 @@ Application::Application(int& argc, char** argv) :
 	// Setting up settings environment
 	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.00"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.16.10"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
