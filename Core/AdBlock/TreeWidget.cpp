@@ -253,7 +253,7 @@ void TreeWidget::adjustItemFeature(QTreeWidgetItem* item, const Rule* rule)
 
 void TreeWidget::keyPressEvent(QKeyEvent* event)
 {
-	if ((event->key() == Qt::Key_C && event->modifiers()) & Qt::ControlModifier)
+	if (event->key() == Qt::Key_C && (event->modifiers() & Qt::ControlModifier))
 		copyFilter();
 
 	if (event->key() == Qt::Key_Delete)
