@@ -23,10 +23,6 @@ if(GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 endif()
 
-# ndb
-set(NDB_ENGINE_SQLITE ON)
-add_subdirectory(${CMAKE_SOURCE_DIR}/third-party/ndb ${CMAKE_SOURCE_DIR}/third-party/ndb/cmake-build)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
