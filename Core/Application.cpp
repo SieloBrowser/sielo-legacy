@@ -162,6 +162,27 @@ QString Application::ensureUniqueFilename(const QString& name, const QString& ap
 	return info.absoluteFilePath();
 }
 
+void Application::removeDirectory(const QString& directory)
+{
+	QDir dir{directory};
+
+	if (dir.exists()) {
+		const QFileInfoList list{dir.entryInfoList()};
+		QFileInfo info{};
+
+		for (int i{0}; i < list.size(); ++i) {
+			info = list[i];
+
+			if (info.isDir() && info.fileName() != QLatin1String(".") && info.fileName() != QLatin1String(".."))
+				Application::removeDirectory(info.absoluteFilePath());
+			else if (info.isFile())
+				QFile(info.absoluteFilePath()).remove();
+		}
+
+		dir.rmdir(directory);
+	}
+}
+
 // Constructor&  destructor
 Application::Application(int& argc, char** argv) :
 	SingleApplication(argc, argv, true),

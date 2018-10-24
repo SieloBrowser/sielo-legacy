@@ -282,6 +282,7 @@ public:
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
 	static QByteArray readAllFileByteContents(const QString& filename);
 	static QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
+	static void removeDirectory(const QString& directory);
 
 public slots:
 	/*!
