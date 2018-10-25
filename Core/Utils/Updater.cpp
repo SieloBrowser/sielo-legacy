@@ -32,6 +32,8 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
+#include <QRegExp>
+
 #include <QMessageBox>
 
 #include <QNetworkRequest>
@@ -45,7 +47,87 @@
 
 #include "Application.hpp"
 
-namespace Sn {
+namespace Sn
+{
+
+Updater::Version::Version(const QString& string)
+{
+	QString cleanVersion{QString(string).remove(QRegExp("[^a-zA-Z\\d\\s]"))};
+	isValid = false;
+
+	//TODO: check the RegExp do what I want
+	QMessageBox::warning(nullptr, "Cleaned Version", cleanVersion);
+
+	QStringList v = cleanVersion.split(QLatin1Char('.'));
+
+	if (v.count() != 3)
+		return;
+
+	bool ok{false};
+
+	majorVersion = v[0].toInt(&ok);
+	if (!ok)
+		return;
+
+	minorVersion = v[0].toInt(&ok);
+	if (!ok)
+		return;
+
+	revisionNumber = v[0].toInt(&ok);
+	if (!ok)
+		return;
+
+	isValid = majorVersion >= 0 && minorVersion >= 0 && revisionNumber >= 0;
+}
+
+bool Updater::Version::operator <(const Updater::Version &other) const
+{
+	if (this->majorVersion != other.majorVersion) 
+		return this->majorVersion < other.majorVersion;
+	if (this->minorVersion != other.minorVersion) 
+		return this->minorVersion < other.minorVersion;
+	if (this->revisionNumber != other.revisionNumber) 
+		return this->revisionNumber < other.revisionNumber;
+
+	return false;
+}
+
+bool Updater::Version::operator >(const Updater::Version &other) const
+{
+	if (*this == other) 
+		return false;
+	
+	return !operator<(other);
+}
+
+bool Updater::Version::operator ==(const Updater::Version &other) const
+{
+	return (this->majorVersion == other.majorVersion &&
+			this->minorVersion == other.minorVersion &&
+			this->revisionNumber == other.revisionNumber);
+}
+
+bool Updater::Version::operator >=(const Updater::Version &other) const
+{
+	if (*this == other) 
+		return true;
+	
+	return *this > other;
+}
+
+bool Updater::Version::operator <=(const Updater::Version &other) const
+{
+	if (*this == other) 
+		return true;
+	
+	return *this < other;
+}
+
+QString Updater::Version::versionString() const
+{
+	return QString("%1.%2.%3").arg(majorVersion, minorVersion, revisionNumber);
+}
+
 
 Updater::Updater(BrowserWindow* window, QObject* parent) :
 	QObject(parent),
@@ -105,11 +187,11 @@ void Updater::downloadUpdateInfoCompleted()
 		}
 		else {
 #endif
-            if (!Application::currentVersion.contains("closed-beta"))
-                QMessageBox::information(m_window,
-									 tr("Update"),
-									 tr("A new version of Sielo is available (%1)! We advise you to download it.")
-									 .arg(newVersion));
+			if (!Application::currentVersion.contains("closed-beta"))
+				QMessageBox::information(m_window,
+										 tr("Update"),
+										 tr("A new version of Sielo is available (%1)! We advise you to download it.")
+										 .arg(newVersion));
 #if defined(Q_OS_WIN)
 		}
 #endif
