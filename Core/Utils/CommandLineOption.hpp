@@ -43,12 +43,12 @@ public:
 	using ActionPairList = QVector<ActionPair>;
 
 	CommandLineOption();
-	ActionPairList getActions() const { return m_action; }
+	ActionPairList getActions() const { return m_actions; }
 
 private:
 	void parseActions();
 
-	ActionPairList m_action;
+	ActionPairList m_actions;
 
 };
 }

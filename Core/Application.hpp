@@ -79,6 +79,8 @@ public:
 		/*!< We want to open the url in the current tab */
 		CL_OpenUrlInNewWindow,
 		/*!< We want to open the url in a new window */
+		CL_StartWithProfile,
+		/*!< We want to start with a profile */
 		CL_NewTab,
 		/*!< We want to open a new tab */
 		CL_NewWindow,

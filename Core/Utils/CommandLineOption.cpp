@@ -58,6 +58,10 @@ void CommandLineOption::parseActions()
 	QCommandLineOption newWindowOption{QStringList() << QStringLiteral("w") << QStringLiteral("new-window")};
 	newWindowOption.setDescription(QStringLiteral("Opens new window"));
 
+	QCommandLineOption profileOption(QStringList({QStringLiteral("p"), QStringLiteral("profile")}));
+	profileOption.setValueName(QStringLiteral("profileName"));
+	profileOption.setDescription(QStringLiteral("Starts with specified profile."));
+
 	QCommandLineOption currentTabOption{QStringList() << QStringLiteral("c") << QStringLiteral("current-tab")};
 	currentTabOption.setValueName(QStringLiteral("URL"));
 	currentTabOption.setDescription(QStringLiteral("Opens URL in current tab"));
@@ -77,6 +81,7 @@ void CommandLineOption::parseActions()
 	parser.addOption(noRemoteOption);
 	parser.addOption(newTabOption);
 	parser.addOption(newWindowOption);
+	parser.addOption(profileOption);
 	parser.addOption(currentTabOption);
 	parser.addOption(openWindowOption);
 
@@ -92,7 +97,7 @@ void CommandLineOption::parseActions()
 
 		ActionPair pair;
 		pair.action = Application::CL_ExitAction;
-		m_action.append(pair);
+		m_actions.append(pair);
 		return;
 	}
 
@@ -100,28 +105,38 @@ void CommandLineOption::parseActions()
 		ActionPair pair;
 		pair.action = Application::CL_StartPrivateBrowsing;
 
-		m_action.append(pair);
+		m_actions.append(pair);
 	}
 
 	if (parser.isSet(noRemoteOption)) {
 		ActionPair pair;
 		pair.action = Application::CL_StartNewInstance;
 
-		m_action.append(pair);
+		m_actions.append(pair);
 	}
 
 	if (parser.isSet(newTabOption)) {
 		ActionPair pair;
 		pair.action = Application::CL_NewTab;
 
-		m_action.append(pair);
+		m_actions.append(pair);
 	}
 
 	if (parser.isSet(newWindowOption)) {
 		ActionPair pair;
 		pair.action = Application::CL_NewWindow;
 
-		m_action.append(pair);
+		m_actions.append(pair);
+	}
+
+	if (parser.isSet(profileOption)) {
+		const QString profileName{parser.value(profileOption)};
+		
+		ActionPair pair;
+		pair.action = Application::CL_StartWithProfile;
+		pair.text = profileName;
+		
+		m_actions.append(pair);
 	}
 
 	if (parser.isSet(currentTabOption)) {
@@ -129,7 +144,7 @@ void CommandLineOption::parseActions()
 		pair.action = Application::CL_OpenUrlInCurrentTab;
 		pair.text = parser.value(currentTabOption);
 
-		m_action.append(pair);
+		m_actions.append(pair);
 	}
 
 	if (parser.isSet(openWindowOption)) {
@@ -137,7 +152,7 @@ void CommandLineOption::parseActions()
 		pair.action = Application::CL_OpenUrlInNewWindow;
 		pair.text = parser.value(openWindowOption);
 
-		m_action.append(pair);
+		m_actions.append(pair);
 	}
 
 	if (parser.positionalArguments().isEmpty())
@@ -154,7 +169,7 @@ void CommandLineOption::parseActions()
 		pair.action = Application::CL_OpenUrl;
 		pair.text = url;
 
-		m_action.append(pair);
+		m_actions.append(pair);
 	}
 
 	// http://feldrise.com
