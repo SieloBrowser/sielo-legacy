@@ -257,7 +257,6 @@ public:
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
 	void startAfterCrash();
-	void connectDatabase();
 
 	//	QFont morpheusFont() const { return m_morpheusFont; }
 
@@ -363,9 +362,7 @@ private:
 	QPointer<BrowserWindow> m_lastActiveWindow;
 
 	QList<PostLaunchAction> m_postLaunchActions;
-
-	ndb::initializer<ndb::sqlite> m_ndb_init;
-
+	
 	PiwikTracker* m_piwikTracker{nullptr};
 
 	//QFont m_morpheusFont{};
