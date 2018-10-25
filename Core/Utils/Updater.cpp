@@ -165,8 +165,16 @@ void Updater::downloadUpdateInfoCompleted()
 				m_themeUpdate = true;
 		}
 	}
+	
+	m_versionReply->deleteLater();
 
-	if (newVersion != Application::currentVersion) {
+	Version current{Application::currentVersion};
+	Version newVers{newVersion};
+
+	if (!newVers.isValid)
+		return;
+
+	if (newVers > current) {
 #if defined(Q_OS_WIN)
 		if (!Application::instance()->isPortable()) {
 			QString updaterName{};
@@ -196,8 +204,6 @@ void Updater::downloadUpdateInfoCompleted()
 		}
 #endif
 	}
-
-	m_versionReply->deleteLater();
 }
 
 void Updater::downloadCompleted()
