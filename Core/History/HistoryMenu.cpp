@@ -26,7 +26,7 @@
 
 #include <QAction>
 
-#include <ndb/query.hpp>
+#include <QSqlQuery>
 
 #include "History/History.hpp"
 
@@ -57,7 +57,7 @@ HistoryMenu::HistoryMenu(QWidget* parent) :
 	action->setShortcut(QKeySequence(Qt::ALT + Qt::Key_Home));
 
 	action = addAction(Application::getAppIcon("history"), tr("Show &All History"), this,
-	                   &HistoryMenu::showHistoryManager);
+					   &HistoryMenu::showHistoryManager);
 	action->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_H));
 
 	addSeparator();
@@ -129,14 +129,18 @@ void HistoryMenu::aboutToShow()
 
 	addSeparator();
 
-	for (auto& entry : ndb::query<dbs::navigation>() << ((history.url, history.title) << ndb::sort(ndb::desc(history.date)) << ndb::limit(10))) {
-		const QUrl url{QString(entry[history.url])};
-		QString title = entry[history.title];
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("SELECT title, url FROM history ORDER BY date DESC LIMIT 10");
+
+
+	while (query.next()) {
+		const QUrl url{query.value(1).toUrl()};
+		QString title{query.value(0).toString()};
 
 		if (title.length() > 40)
 			title = title.left(40) + QLatin1String("..");
 
-		QAction* action{ new QAction(title) };
+		QAction* action{new QAction(title)};
 		action->setData(url);
 		action->setIcon(IconProvider::iconForUrl(url));
 
@@ -157,17 +161,17 @@ void HistoryMenu::aboutToShowMostVisited()
 
 	const QVector<History::HistoryEntry> mostVisited = Application::instance()->history()->mostVisited(10);
 
-	foreach (const History::HistoryEntry& entry, mostVisited)
+	foreach(const History::HistoryEntry& entry, mostVisited)
 	{
-		QString title{ entry.title };
+		QString title{entry.title};
 
 		if (title.length() > 40)
 			title = title.left(40) + QLatin1String("..");
 
-		QAction* action{ new QAction(title) };
+		QAction* action{new QAction(title)};
 		action->setData(entry.url);
 		action->setIcon(IconProvider::iconForUrl(entry.url));
-		
+
 		connect(action, &QAction::triggered, this, &HistoryMenu::historyEntryActivated);
 
 		m_menuMostVisited->addAction(action);
@@ -183,11 +187,11 @@ void HistoryMenu::aboutToShowClosedTabs()
 	if (!m_window)
 		return;
 
-	TabWidget* tabWidget{ m_window->tabWidget() };
-	int i{ 0 };
+	TabWidget* tabWidget{m_window->tabWidget()};
+	int i{0};
 	const QLinkedList<ClosedTabsManager::Tab> closedTabs = tabWidget->closedTabsManager()->allClosedTab();
 
-	foreach (const ClosedTabsManager::Tab& tab, closedTabs)
+	foreach(const ClosedTabsManager::Tab& tab, closedTabs)
 	{
 		QString title = tab.title;
 

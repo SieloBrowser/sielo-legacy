@@ -24,7 +24,7 @@
 
 #include "HistoryModel.hpp"
 
-#include <ndb/query.hpp>
+#include <QSqlQuery>
 
 #include "Database/SqlDatabase.hpp"
 
@@ -211,7 +211,7 @@ int HistoryModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
 
-	return 4;
+		return 4;
 }
 
 bool HistoryModel::canFetchMore(const QModelIndex& parent) const
@@ -230,35 +230,38 @@ void HistoryModel::fetchMore(const QModelIndex& parent)
 
 	parentItem->canFetchMore = false;
 
-	QList<int> idList{};
-	QVector<History::HistoryEntry> list{};
-
+	QList<int> idList;
 	for (int i{0}; i < parentItem->childCount(); ++i)
 		idList.append(parentItem->child(i)->historyEntry.id);
 
-	auto oquery = ndb::oquery<dbs::navigation>() <<
-	(
-		ndb::range(
-			history.date,
-			parentItem->endTimestamp(),
-			parentItem->startTimestamp()
-		)
-	);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT id, count, title, url, date FROM history WHERE date BETWEEN ? AND ? ORDER BY date DESC");
+	query.addBindValue(parentItem->endTimestamp());
+	query.addBindValue(parentItem->startTimestamp());
+	query.exec();
 
-	for (auto& data : oquery) {
-		History::HistoryEntry entry{data};
+	QVector<History::HistoryEntry> list;
+
+	while (query.next()) {
+		History::HistoryEntry entry{};
+		entry.id = query.value(0).toInt();
+		entry.count = query.value(1).toInt();
+		entry.title = query.value(2).toString();
+		entry.url = query.value(3).toUrl();
+		entry.date = QDateTime::fromMSecsSinceEpoch(query.value(4).toLongLong());
+		entry.urlString = entry.url.toEncoded();
 
 		if (!idList.contains(entry.id))
 			list.append(entry);
 	}
-
 
 	if (list.isEmpty())
 		return;
 
 	beginInsertRows(parent, 0, list.size() - 1);
 
-	foreach(const History::HistoryEntry& entry, list) {
+	foreach(const History::HistoryEntry& entry, list)
+	{
 		HistoryItem* newItem{new HistoryItem(parentItem)};
 		newItem->historyEntry = entry;
 	}
@@ -289,7 +292,8 @@ HistoryItem *HistoryModel::itemFromIndex(const QModelIndex& index) const
 
 void HistoryModel::removeTopLevelIndexes(const QList<QPersistentModelIndex>& indexes)
 {
-	foreach(const QPersistentModelIndex& index, indexes) {
+	foreach(const QPersistentModelIndex& index, indexes)
+	{
 		if (index.parent().isValid())
 			continue;
 
@@ -416,13 +420,13 @@ void HistoryModel::checkEmptyParentItem(HistoryItem* item)
 
 void HistoryModel::init()
 {
-	auto minDateQuery = ndb::query<dbs::navigation>() << (ndb::min(history.date));
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("SELECT MIN(date) FROM history");
 
-	if (!minDateQuery.has_result())
+	if (!query.next())
 		return;
 
-	const qint64 minTimestamp = minDateQuery[0][0].get<qint64>();
-
+	const qint64 minTimestamp{query.value(0).toLongLong()};
 	if (minTimestamp <= 0)
 		return;
 
@@ -456,13 +460,16 @@ void HistoryModel::init()
 
 			timestamp = QDateTime(startDate, QTime(23, 59, 59)).toMSecsSinceEpoch();
 			endTimestamp = QDateTime(endDate).toMSecsSinceEpoch();
-			itemName = QString("%1 %2").arg(History::titleCaseLocalizedMonth(timestampDate.month()),
-			                                timestampDate.year());
+			itemName = QString("%1 %2").arg(History::titleCaseLocalizedMonth(timestampDate.month()), QString::number(timestampDate.year()));
 		}
 
-		auto query = ndb::query<dbs::navigation>() << (ndb::range(history.date, endTimestamp, timestamp) << ndb::sort(ndb::desc(history.date)) );
+		QSqlQuery query{SqlDatabase::instance()->database()};
+		query.prepare("SELECT id FROM history WHERE date BETWEEN ? AND ? LIMIT 1");
+		query.addBindValue(endTimestamp);
+		query.addBindValue(timestamp);
+		query.exec();
 
-		if (query.has_result()) {
+		if (query.next()) {
 			HistoryItem* item{new HistoryItem(m_rootItem)};
 			item->setStartTimestamp(timestamp == currentTimestamp ? -1 : timestamp);
 			item->setEndTimestamp(endTimestamp);
