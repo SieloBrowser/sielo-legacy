@@ -26,8 +26,7 @@
 
 #include <QSettings>
 
-#include <ndb/query.hpp>
-#include <ndb/function.hpp>
+#include <QSqlQuery>
 
 #include "Web/WebView.hpp"
 
@@ -116,44 +115,41 @@ void History::addHistoryEntry(const QUrl& url, QString title)
 	if (title.isEmpty())
 		title = tr("Empty page");
 
-	auto oquery = ndb::oquery<dbs::navigation>() << (history.url == url.toString());
+	QSqlQuery query(SqlDatabase::instance()->database());
+	query.prepare("SELECT id, count, date, title FROM history WHERE url=?");
+	query.bindValue(0, url);
+	query.exec();
 
-	if (!oquery.has_result()) {
-		ndb::query<dbs::navigation>() + (
-			history.title = title,
-			history.url = url.toString(),
-			history.date = QDateTime::currentMSecsSinceEpoch(),
-			history.count = 1
-		);
+	if (!query.next()) {
+		query.prepare("INSERT INTO history (count, date, url, title) VALUES (1,?,?,?)");
+		query.bindValue(0, QDateTime::currentMSecsSinceEpoch());
+		query.bindValue(1, url);
+		query.bindValue(2, title);
+		query.exec();
 
-		qint64 id = ndb::last_id<dbs::navigation>();
-
-		HistoryEntry entry{};
+		int id = query.lastInsertId().toInt();
+		HistoryEntry entry;
 		entry.id = id;
 		entry.count = 1;
 		entry.date = QDateTime::currentDateTime();
 		entry.url = url;
 		entry.urlString = url.toEncoded();
 		entry.title = title;
-
 		emit historyEntryAdded(entry);
 	}
 	else {
-		qint64 id{oquery[0].id};
-		qint64 count{oquery[0].count};
-		QDateTime date{QDateTime::fromMSecsSinceEpoch(oquery[0].date)};
-		QString oldTitle{oquery[0].title};
+		int id = query.value(0).toInt();
+		int count = query.value(1).toInt();
+		QDateTime date = QDateTime::fromMSecsSinceEpoch(query.value(2).toLongLong());
+		QString oldTitle = query.value(3).toString();
 
-		ndb::query<dbs::navigation>() >> (
-			(
-				history.count = count + 1,
-				history.date = QDateTime::currentMSecsSinceEpoch(),
-				history.title = title
-			)
-			<< (history.url == url.toString())
-		);
+		query.prepare("UPDATE history SET count = count + 1, date=?, title=? WHERE url=?");
+		query.bindValue(0, QDateTime::currentMSecsSinceEpoch());
+		query.bindValue(1, title);
+		query.bindValue(2, url);
+		query.exec();
 
-		HistoryEntry before{};
+		HistoryEntry before;
 		before.id = id;
 		before.count = count;
 		before.date = date;
@@ -180,28 +176,56 @@ void History::deleteHistoryEntry(int index)
 
 void History::deleteHistoryEntry(const QList<int>& list)
 {
+	QSqlDatabase db = SqlDatabase::instance()->database();
+	db.transaction();
+
+	QList<QUrl> urls;
+
 	for (int index : list) {
-		auto query = ndb::oquery<dbs::navigation>() << (history.id == index);
+		QSqlQuery query{SqlDatabase::instance()->database()};
+		query.prepare("SELECT count, date, url, title FROM history WHERE id=?");
+		query.addBindValue(index);
+		query.exec();
 
-		if (!query.has_result())
-			return;
+		if (!query.isActive() || !query.next())
+			continue;
 
-		HistoryEntry entry{query[0]};
+		HistoryEntry entry{};
+		entry.id = index;
+		entry.count = query.value(0).toInt();
+		entry.date = QDateTime::fromMSecsSinceEpoch(query.value(1).toLongLong());
+		entry.url = query.value(2).toUrl();
+		entry.urlString = entry.url.toEncoded();
+		entry.title = query.value(3).toString();
 
-		ndb::query<dbs::navigation>() - (history.id == index);
-		ndb::query<dbs::navigation>() - (history.url == QString::fromUtf8(entry.url.toEncoded(QUrl::RemoveFragment)));
+		query.prepare("DELETE FROM history WHERE id=?");
+		query.addBindValue(index);
+		query.exec();
 
+		query.prepare("DELETE FROM icons WHERE url=?");
+		query.addBindValue(entry.url.toEncoded(QUrl::RemoveFragment));
+		query.exec();
+
+		urls.append(entry.url);
 		emit historyEntryDeleted(entry);
 	}
+
+	Application::instance()->webProfile()->clearVisitedLinks(urls);
+
+	db.commit();
 }
 
 void History::deleteHistoryEntry(const QString& url, const QString& title)
 {
-	auto query = ndb::query<dbs::navigation>() << ((history.id) << (history.url == url && history.title ==
-		title));
+	QSqlQuery query{SqlDatabase::instance()->database())};
+	query.prepare("SELECT id FROM history WHERE url=? AND title=?");
+	query.bindValue(0, url);
+	query.bindValue(1, title);
+	query.exec();
 
-	if (query.has_result()) {
-		int id = query[0][history.id];
+	if (query.next()) {
+		const int id{query.value(0).toInt()};
+
 		deleteHistoryEntry(id);
 	}
 }
@@ -213,41 +237,43 @@ QList<int> History::indexesFromTimeRange(qint64 start, qint64 end)
 	if (start < 0 || end < 0)
 		return list;
 
-	for (auto& data : ndb::query<dbs::navigation>() << ((history.id) << ndb::range(
-		     history.date, end, start)))
-		list.append(data[history.id]);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT id FROM history WHERE date BETWEEN ? AND ?");
+	query.addBindValue(end);
+	query.addBindValue(start);
+	query.exec();
+
+	while (query.next())
+		list.append(query.value(0).toInt());
 
 	return list;
 }
 
 bool History::urlIsStored(const QString& url)
 {
-	auto query = ndb::query<dbs::navigation>() << (history.url == url);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT id FROM history WHERE url=?");
+	query.bindValue(0, url);
+	query.exec();
 
-	return query.has_result();
+	return query.next();
 }
 
 QVector<History::HistoryEntry> History::mostVisited(int count)
 {
-	QVector<HistoryEntry> list{};
+	QVector<HistoryEntry> list;
 
-	//auto oquery = ndb::oquery<dbs::navigation>() << ((ndb::sort(ndb::desc(history.count)) << ndb::limit(count)));
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare(QString("SELECT count, date, id, title, url FROM history ORDER BY count DESC LIMIT %1").arg(count));
+	query.exec();
 
-	//for (auto& data : oquery) {
-	//	HistoryEntry entry{data};
-
-	//	list.append(entry);
-	//}
-
-	for (auto& data : ndb::query<dbs::navigation>() << ((history.id, history.url, history.title, history.count, history.date) << (ndb::sort(ndb::desc(history.count)) << ndb::limit(count)))) {
+	while (query.next()) {
 		HistoryEntry entry{};
-
-		entry.id = data[history.id];
-		entry.date = QDateTime::fromMSecsSinceEpoch(data[history.date]);
-		entry.url = QUrl(data[history.url]);
-		entry.urlString = QUrl(data[history.url]).toEncoded();
-		entry.title = data[history.title];
-		
+		entry.count = query.value(0).toInt();
+		entry.date = query.value(1).toDateTime();
+		entry.id = query.value(2).toInt();
+		entry.title = query.value(3).toString();
+		entry.url = query.value(4).toUrl();
 		list.append(entry);
 	}
 
@@ -256,7 +282,9 @@ QVector<History::HistoryEntry> History::mostVisited(int count)
 
 void History::clearHistory()
 {
-	ndb::clear<dbs::navigation>(history);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("DELETE FROM history");
+	query.exec("VACUUM");
 
 	Application::instance()->webProfile()->clearAllVisitedLinks();
 
