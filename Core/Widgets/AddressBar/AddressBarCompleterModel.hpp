@@ -30,6 +30,8 @@
 
 #include <QUrl>
 
+#include <QSqlQuery>
+
 #include "Database/SqlDatabase.hpp"
 
 namespace Sn
@@ -57,6 +59,9 @@ public:
 	void addCompletions(const QList<QStandardItem*>& items);
 
 	QList<QStandardItem*> suggestionItems() const;
+
+	static QSqlQuery createHistoryQuery(const QString &searchString, int limit, bool exactMatch = false);
+	static QSqlQuery createDomainQuery(const QString &text);
 
 private:
 	enum Type {

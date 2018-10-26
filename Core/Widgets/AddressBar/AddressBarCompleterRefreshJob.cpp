@@ -28,9 +28,9 @@
 
 #include <QDateTime>
 
-#include <algorithm>
+#include <QSqlQuery>
 
-#include <ndb/query.hpp>
+#include <algorithm>
 
 #include "Bookmarks/Bookmarks.hpp"
 #include "Bookmarks/BookmarkItem.hpp"
@@ -45,7 +45,7 @@
 
 namespace Sn
 {
-AddressBarCompleterRefreshJob::AddressBarCompleterRefreshJob(const QString& searchString):
+AddressBarCompleterRefreshJob::AddressBarCompleterRefreshJob(const QString& searchString) :
 	QObject(),
 	m_searchString(searchString),
 	m_timestamp(QDateTime::currentMSecsSinceEpoch())
@@ -77,7 +77,8 @@ void AddressBarCompleterRefreshJob::runJob()
 	else
 		completeFromHistory();
 
-	foreach(QStandardItem* item, m_items) {
+	foreach(QStandardItem* item, m_items)
+	{
 		if (m_jobCancelled)
 			return;
 
@@ -89,46 +90,11 @@ void AddressBarCompleterRefreshJob::runJob()
 		return;
 
 	if (!m_searchString.isEmpty()) {
-		if (!(m_searchString.isEmpty() || m_searchString == QLatin1String("www."))) {
-			// TODO: waiting for fix
-			//ndb::sqlite_query<dbs::navigation> query = AddressBarCompleterModel::createDomainQuery(m_searchString);
-
-			bool withoutWww{m_searchString.startsWith(QLatin1Char('w')) && !m_searchString.startsWith(QLatin1String("www."))};
-			QString queryString = "SELECT " + QString::fromStdString(ndb::name(history.url)) + " FROM " + QString::
-				fromStdString(ndb::name(history)) + " WHERE ";
-
-			if (withoutWww)
-				queryString.append(
-					QString::fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND " + QString::
-					fromStdString(ndb::name(history.url)) + " NOT LIKE ? AND ");
-			else
-				queryString.append(
-					QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::fromStdString(ndb::name(history.url)) +
-					" LIKE ? OR ");
-
-			queryString.append(
-				"(" + QString::fromStdString(ndb::name(history.url)) + " LIKE ? OR " + QString::
-				fromStdString(ndb::name(history.url)) + " LIKE ?) ORDER BY " + QString::fromStdString(ndb::name(history.date)) +
-				" DESC LIMIT 1");
-
-			ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
-
-			if (withoutWww) {
-				query.bind(QString("http://www.%"));
-				query.bind(QString("https://www.%"));
-				query.bind(QString("http://%1%").arg(m_searchString));
-				query.bind(QString("https://%1%").arg(m_searchString));
-			}
-			else {
-				query.bind(QString("http://%1%").arg(m_searchString));
-				query.bind(QString("https://%1%").arg(m_searchString));
-				query.bind(QString("http://www.%1%").arg(m_searchString));
-				query.bind(QString("https://www.%1%").arg(m_searchString));
-			}
-
-			auto result = query.exec();
-			if (result.has_result())
-				m_domainCompletion = createDomainCompletion(QUrl(result[0][history.url]).host());
+		QSqlQuery domainQuery = AddressBarCompleterModel::createDomainQuery(m_searchString);
+		if (!domainQuery.lastQuery().isEmpty()) {
+			domainQuery.exec();
+			if (domainQuery.next())
+				m_domainCompletion = createDomainCompletion(domainQuery.value(0).toUrl().host());
 		}
 	}
 
@@ -161,10 +127,11 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 		const int bookmarksLimit = 10;
 		QList<BookmarkItem*> bookmarks = Application::instance()->bookmarks()->searchBookmarks(m_searchString, bookmarksLimit);
 
-		foreach(BookmarkItem* bookmark, bookmarks) {
+		foreach(BookmarkItem* bookmark, bookmarks)
+		{
 			Q_ASSERT(bookmark->isUrl());
 
-			if (bookmark->keyword() == m_searchString) 
+			if (bookmark->keyword() == m_searchString)
 				continue;
 
 			QStandardItem* item = new QStandardItem();
@@ -182,7 +149,8 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 		}
 	}
 
-	std::sort(m_items.begin(), m_items.end(), [](const QStandardItem* item1, const QStandardItem* item2) {
+	std::sort(m_items.begin(), m_items.end(), [](const QStandardItem* item1, const QStandardItem* item2)
+	{
 		int i1Count{item1->data(AddressBarCompleterModel::CountRole).toInt()};
 		int i2Count{item2->data(AddressBarCompleterModel::CountRole).toInt()};
 
@@ -191,51 +159,22 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 
 	if (showType == HistoryAndBookmarks || showType == History) {
 		const int historyLimit{20};
+		QSqlQuery query = AddressBarCompleterModel::createHistoryQuery(m_searchString, historyLimit);
+		query.exec();
 
-		// TODO: waiting for fix
-		//ndb::sqlite_query<dbs::navigation>& query = AddressBarCompleterModel::createHistoryQuery(m_searchString, historyLimit);
-
-		QStringList searchList;
-		// TODO: Use ndb database name methode when it will be ok
-		QString queryString = QString(
-			"SELECT * FROM " + QString::fromStdString(ndb::name(history)) + " WHERE ");
-
-		searchList = m_searchString.split(QLatin1Char(' '), QString::SkipEmptyParts);
-		const int slSize = searchList.size();
-		for (int i = 0; i < slSize; ++i) {
-			queryString.append(
-				"(" + QString::fromStdString(ndb::name(history.title)) + " LIKE ? OR " + QString::fromStdString(
-					ndb::name(history.url)) + " LIKE ?) ");
-			if (i < slSize - 1) {
-				queryString.append(QLatin1String("AND "));
-			}
-		}
-
-		queryString.append("ORDER BY " + QString::fromStdString(ndb::name(history.date)) + " DESC LIMIT ?");
-
-		ndb::sqlite_query<dbs::navigation> query{queryString.toStdString()};
-
-		foreach(const QString &str, searchList) {
-			QString bind = QString("%%1%").arg(str);
-			query.bind(QString("%%1%").arg(str));
-			query.bind(QString("%%1%").arg(str));
-		}
-
-		query.bind(historyLimit);
-
-		for (auto& entry : query.exec<ndb::objects::history>()) {
-			const QUrl url{QUrl(entry.url)};
+		while (query.next()) {
+			const QUrl url{query.value(1).toUrl()};
 
 			if (urlList.contains(url))
 				continue;
 
 			QStandardItem* item{new QStandardItem()};
 			item->setText(url.toEncoded());
-			item->setData(entry.id, AddressBarCompleterModel::IdRole);
-			item->setData(entry.title, AddressBarCompleterModel::TitleRole);
+			item->setData(query.value(0), AddressBarCompleterModel::IdRole);
+			item->setData(query.value(2), AddressBarCompleterModel::TitleRole);
 			item->setData(url, AddressBarCompleterModel::UrlRole);
-			item->setData(entry.count, AddressBarCompleterModel::CountRole);
-			item->setData(QVariant(false), AddressBarCompleterModel::BookmarkRole);
+			item->setData(query.value(3), AddressBarCompleterModel::CountRole);
+			item->setData(false, AddressBarCompleterModel::BookmarkRole);
 			item->setData(m_searchString, AddressBarCompleterModel::SearchStringRole);
 
 			m_items.append(item);
@@ -245,15 +184,18 @@ void AddressBarCompleterRefreshJob::completeFromHistory()
 
 void AddressBarCompleterRefreshJob::completeMostVisited()
 {
-	for (auto& entry : ndb::oquery<dbs::navigation>() << (ndb::sort(ndb::desc(history.count)) << ndb::limit(15))) {
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("SELECT id, url, title FROM history ORDER BY count DESC LIMIT 15");
+
+	while (query.next()) {
 		QStandardItem* item{new QStandardItem()};
-		const QUrl url{QUrl(entry.url)};
+		const QUrl url{query.value(1).toUrl()};
 
 		item->setText(url.toEncoded());
-		item->setData(entry.id, AddressBarCompleterModel::IdRole);
-		item->setData(entry.title, AddressBarCompleterModel::TitleRole);
+		item->setData(query.value(0), AddressBarCompleterModel::IdRole);
+		item->setData(query.value(2), AddressBarCompleterModel::TitleRole);
 		item->setData(url, AddressBarCompleterModel::UrlRole);
-		item->setData(QVariant(false), AddressBarCompleterModel::BookmarkRole);
+		item->setData(false, AddressBarCompleterModel::BookmarkRole);
 
 		m_items.append(item);
 	}

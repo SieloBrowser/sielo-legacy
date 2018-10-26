@@ -37,6 +37,81 @@
 
 namespace Sn
 {
+
+QSqlQuery AddressBarCompleterModel::createHistoryQuery(const QString& searchString, int limit, bool exactMatch)
+{
+	QStringList searchList{};
+	QString query{QLatin1String("SELECT id, url, title, count FROM history WHERE ")};
+
+	if (exactMatch)
+		query.append(QLatin1String("title LIKE ? OR url LIKE ? "));
+	else {
+		searchList = searchString.split(QLatin1Char(' '), QString::SkipEmptyParts);
+		const int slSize{searchList.size()};
+
+		for (int i{0}; i < slSize; ++i) {
+			query.append(QLatin1String("(title LIKE ? OR url LIKE ?) "));
+			if (i < slSize - 1)
+				query.append(QLatin1String("AND "));
+		}
+	}
+
+	query.append(QLatin1String("ORDER BY date DESC LIMIT ?"));
+
+	QSqlQuery sqlQuery{SqlDatabase::instance()->database()};
+	sqlQuery.prepare(query);
+
+	if (exactMatch) {
+		sqlQuery.addBindValue(QString("%%1%").arg(searchString));
+		sqlQuery.addBindValue(QString("%%1%").arg(searchString));
+	}
+	else {
+		foreach(const QString &str, searchList)
+		{
+			sqlQuery.addBindValue(QString("%%1%").arg(str));
+			sqlQuery.addBindValue(QString("%%1%").arg(str));
+		}
+	}
+
+	sqlQuery.addBindValue(limit);
+
+	return sqlQuery;
+}
+
+QSqlQuery AddressBarCompleterModel::createDomainQuery(const QString& text)
+{
+	if (text.isEmpty() || text == QLatin1String("www."))
+		return QSqlQuery(SqlDatabase::instance()->database());
+
+	bool withoutWww{text.startsWith(QLatin1Char('w')) && !text.startsWith(QLatin1String("www."))};
+	QString query{"SELECT url FROM history WHERE "};
+
+	if (withoutWww)
+		query.append(QLatin1String("url NOT LIKE ? AND url NOT LIKE ? AND "));
+	else
+		query.append(QLatin1String("url LIKE ? OR url LIKE ? OR "));
+
+	query.append(QLatin1String("(url LIKE ? OR url LIKE ?) ORDER BY date DESC LIMIT 1"));
+
+	QSqlQuery sqlQuery{SqlDatabase::instance()->database()};
+	sqlQuery.prepare(query);
+
+	if (withoutWww) {
+		sqlQuery.addBindValue(QString("http://www.%"));
+		sqlQuery.addBindValue(QString("https://www.%"));
+		sqlQuery.addBindValue(QString("http://%1%").arg(text));
+		sqlQuery.addBindValue(QString("https://%1%").arg(text));
+	}
+	else {
+		sqlQuery.addBindValue(QString("http://%1%").arg(text));
+		sqlQuery.addBindValue(QString("https://%1%").arg(text));
+		sqlQuery.addBindValue(QString("http://www.%1%").arg(text));
+		sqlQuery.addBindValue(QString("https://www.%1%").arg(text));
+	}
+
+	return sqlQuery;
+}
+
 AddressBarCompleterModel::AddressBarCompleterModel(QObject* parent) :
 	QStandardItemModel(parent)
 {
@@ -51,7 +126,8 @@ void AddressBarCompleterModel::setCompletions(const QList<QStandardItem*>& items
 
 void AddressBarCompleterModel::addCompletions(const QList<QStandardItem*>& items)
 {
-	foreach (QStandardItem* item, items) {
+	foreach(QStandardItem* item, items)
+	{
 		item->setIcon(QPixmap::fromImage(item->data(ImageRole).value<QImage>()));
 		setTabPosition(item);
 
@@ -81,9 +157,11 @@ void AddressBarCompleterModel::setTabPosition(QStandardItem* item) const
 	const QUrl url{item->data(UrlRole).toUrl()};
 	const QList<BrowserWindow*> windows = Application::instance()->windows();
 
-	foreach (BrowserWindow* window, windows) {
+	foreach(BrowserWindow* window, windows)
+	{
 		QVector<TabWidget*> tabWidgets = window->tabWidgets();
-		foreach (TabWidget* tabWidget, tabWidgets) {
+		foreach(TabWidget* tabWidget, tabWidgets)
+		{
 			QList<WebTab*> tabs = tabWidget->allTabs();
 			for (int i{0}; i < tabs.count(); ++i) {
 				WebTab* tab{tabs[i]};
