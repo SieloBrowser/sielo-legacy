@@ -38,9 +38,6 @@
 #include <QHash>
 #include <QVector>
 
-#include <ndb/query.hpp>
-#include <ndb/preprocessor.hpp>
-
 #include "Database/SqlDatabase.hpp"
 
 namespace Sn {
@@ -60,26 +57,6 @@ struct PasswordEntry {
 
 	PasswordEntry() :
 			updated(-1) {}
-
-	PasswordEntry(ndb::objects::autofill entry) :
-			updated(-1)
-	{
-		id = entry.id;
-		host = entry.server;
-		username = entry.username;
-		password = entry.password;
-		data = entry.data.toUtf8();
-	}
-
-	PasswordEntry(ndb::objects::autofill_encrypted entry) :
-			updated(-1)
-	{
-		id = entry.id;
-		host = entry.server;
-		username = entry.username_encrypted;
-		password = entry.password_encrypted;
-		data = entry.data_encrypted.toUtf8();
-	}
 
 	bool isValid() const
 	{

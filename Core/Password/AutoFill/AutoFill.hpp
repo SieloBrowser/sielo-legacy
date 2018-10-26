@@ -32,8 +32,6 @@
 
 #include "Database/SqlDatabase.hpp"
 
-constexpr auto autofill_exceptions = ndb::models::password.autofill_exceptions;
-
 namespace Sn {
 class PasswordManager;
 

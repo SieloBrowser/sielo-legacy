@@ -34,7 +34,7 @@
 
 #include <QTimer>
 
-#include <ndb/function.hpp>
+#include <QSqlQuery>
 
 #include "Password/DatabasePasswordBackend.hpp"
 #include "Password/DatabaseEncryptedPasswordBackend.hpp"
@@ -42,12 +42,13 @@
 
 #include "Application.hpp"
 
-namespace Sn {
+namespace Sn
+{
 
 AutoFillManager::AutoFillManager(QWidget* parent) :
-		QWidget(parent),
-		m_passwordManager(Application::instance()->autoFill()->passwordManager()),
-		m_passwordsShown(false)
+	QWidget(parent),
+	m_passwordManager(Application::instance()->autoFill()->passwordManager()),
+	m_passwordsShown(false)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName("autofill_manager");
@@ -99,26 +100,29 @@ void AutoFillManager::loadPasswords()
 
 	m_passwordsTree->clear();
 
-			foreach (const PasswordEntry& entry, allEntries) {
-			QTreeWidgetItem* item{new QTreeWidgetItem(m_passwordsTree)};
-			item->setText(0, entry.host);
-			item->setText(1, entry.username);
-			item->setText(2, "********");
+	foreach(const PasswordEntry& entry, allEntries)
+	{
+		QTreeWidgetItem* item{new QTreeWidgetItem(m_passwordsTree)};
+		item->setText(0, entry.host);
+		item->setText(1, entry.username);
+		item->setText(2, "********");
 
-			QVariant variant{};
+		QVariant variant{};
 
-			variant.setValue<PasswordEntry>(entry);
-			item->setData(0, Qt::UserRole + 10, variant);
-			m_passwordsTree->addTopLevelItem(item);
-		}
+		variant.setValue<PasswordEntry>(entry);
+		item->setData(0, Qt::UserRole + 10, variant);
+		m_passwordsTree->addTopLevelItem(item);
+	}
 
 	m_exceptionsTree->clear();
 
-	for (auto& entry : ndb::oquery<dbs::password>() << autofill_exceptions) {
-		QTreeWidgetItem* item{new QTreeWidgetItem(m_exceptionsTree)};
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("SELECT server, id FROM autofill_exceptions");
 
-		item->setText(0, entry.server);
-		item->setData(0, Qt::UserRole + 10, QString::number(entry.id));
+	while (query.next()) {
+		QTreeWidgetItem* item{new QTreeWidgetItem(m_exceptionsTree)};
+		item->setText(0, query.value(0).toString());
+		item->setData(0, Qt::UserRole + 10, query.value(1).toString());
 
 		m_exceptionsTree->addTopLevelItem(item);
 	}
@@ -299,16 +303,20 @@ void AutoFillManager::removeException()
 	if (!currentItem)
 		return;
 
-	qint64 id{currentItem->data(0, Qt::UserRole + 10).toLongLong()};
-
-	ndb::query<dbs::password>() - (autofill_exceptions.id == id);
+	const QString id{currentItem->data(0, Qt::UserRole + 10).toString()};
+	
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("DELETE FROM autofill_exceptions WHERE id=?");
+	query.addBindValue(id);
+	query.exec();
 
 	delete currentItem;
 }
 
 void AutoFillManager::removeAllExceptions()
 {
-	ndb::clear<dbs::password>(autofill_exceptions);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("DELETE FROM autofill_exceptions");
 
 	m_exceptionsTree->clear();
 }

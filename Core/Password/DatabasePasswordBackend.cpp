@@ -24,11 +24,9 @@
 
 #include "DatabasePasswordBackend.hpp"
 
-#include <ndb/function.hpp>
+#include <QSqlQuery>
 
 #include "Password/AutoFill/AutoFill.hpp"
-
-constexpr auto& autofill = ndb::models::password.autofill;
 
 namespace Sn {
 
@@ -46,14 +44,24 @@ QString DatabasePasswordBackend::name() const
 QVector<PasswordEntry> DatabasePasswordBackend::getEntries(const QUrl& url)
 {
 	const QString host{PasswordManager::createHost(url)};
-
 	QVector<PasswordEntry> list;
 
-	// TODO: manage order
-	for (auto& data : ndb::oquery<dbs::password>() << (autofill.server == host))
-		list.append(PasswordEntry(data));
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT id, username, password, data FROM autofill "
+				  "WHERE server=? ORDER BY last_used DESC");
+	query.addBindValue(host);
+	query.exec();
 
-//	query.prepare("SELECT id, username, password, data FROM autofill WHERE server=? ORDER BY last_used DESC");
+	while (query.next()) {
+		PasswordEntry data{};
+		data.id = query.value(0);
+		data.host = host;
+		data.username = query.value(1).toString();
+		data.password = query.value(2).toString();
+		data.data = query.value(3).toByteArray();
+
+		list.append(data);
+	}
 
 	return list;
 }
@@ -62,59 +70,89 @@ QVector<PasswordEntry> DatabasePasswordBackend::getAllEntries()
 {
 	QVector<PasswordEntry> list;
 
-	for (auto& data : ndb::oquery<dbs::password>() << autofill)
-		list.append(PasswordEntry(data));
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT id, server, username, password, data FROM autofill");
+	query.exec();
+
+	while (query.next()) {
+		PasswordEntry data{};
+		data.id = query.value(0);
+		data.host = query.value(1).toString();
+		data.username = query.value(2).toString();
+		data.password = query.value(3).toString();
+		data.data = query.value(4).toByteArray();
+
+		list.append(data);
+	}
 
 	return list;
 }
 
 void DatabasePasswordBackend::addEntry(const PasswordEntry& entry)
 {
+	// Data is empty only for HTTP/FTP authorization
 	if (entry.data.isEmpty()) {
-		auto data = ndb::query<dbs::password>() << ((autofill.username)
-				<< (autofill.server == entry.host));
+		// Multiple-usernames for HTTP/FTP authorization not supported
+		QSqlQuery query{SqlDatabase::instance()->database()};
+		query.prepare("SELECT username FROM autofill WHERE server=?");
+		query.addBindValue(entry.host);
+		query.exec();
 
-		if (data.has_result())
+		if (query.next()) 
 			return;
 	}
 
-	ndb::query<dbs::password>() + (autofill.server = entry.host,
-								   autofill.data = QString::fromUtf8(entry.data),
-								   autofill.username = entry.username,
-								   autofill.password = entry.password,
-								   autofill.last_used = ndb::now());
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("INSERT INTO autofill (server, data, username, password, last_used) "
+				  "VALUES (?,?,?,?,strftime('%s', 'now'))");
+	query.bindValue(0, entry.host);
+	query.bindValue(1, entry.data);
+	query.bindValue(2, entry.username);
+	query.bindValue(3, entry.password);
+	query.exec();
 }
 
 bool DatabasePasswordBackend::updateEntry(const PasswordEntry& entry)
 {
+	QSqlQuery query{SqlDatabase::instance()->database()};
+
+	// Data is empty only for HTTP/FTP authorization
 	if (entry.data.isEmpty()) {
-		ndb::query<dbs::password>() >> ((autofill.username = entry.username,
-				autofill.password = entry.password)
-				<< (autofill.server == entry.host));
+		query.prepare("UPDATE autofill SET username=?, password=? WHERE server=?");
+		query.bindValue(0, entry.username);
+		query.bindValue(1, entry.password);
+		query.bindValue(2, entry.host);
 	}
 	else {
-		ndb::query<dbs::password>() >> ((autofill.data = QString::fromUtf8(entry.data),
-										 autofill.username = entry.username,
-										 autofill.password = entry.password)
-				<< (autofill.id == entry.id.toLongLong()));
+		query.prepare("UPDATE autofill SET data=?, username=?, password=? WHERE id=?");
+		query.addBindValue(entry.data);
+		query.addBindValue(entry.username);
+		query.addBindValue(entry.password);
+		query.addBindValue(entry.id);
 	}
 
-	return true;
+	return query.exec();
 }
 
 void DatabasePasswordBackend::updateLastUsed(PasswordEntry& entry)
 {
-	ndb::query<dbs::password>() >> ((autofill.last_used = ndb::now())
-			<< (autofill.id == entry.id.toLongLong()));
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("UPDATE autofill SET last_used=strftime('%s', 'now') WHERE id=?");
+	query.addBindValue(entry.id);
+	query.exec();
 }
 
 void DatabasePasswordBackend::removeEntry(const PasswordEntry& entry)
 {
-	ndb::query<dbs::password>() - (autofill.id == entry.id.toLongLong());
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("DELETE FROM autofill WHERE id=?");
+	query.addBindValue(entry.id);
+	query.exec();
 }
 
 void DatabasePasswordBackend::removeAll()
 {
-	ndb::clear<dbs::password>(autofill);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.exec("DELETE FROM autofill");
 }
 }
