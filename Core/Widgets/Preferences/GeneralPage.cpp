@@ -31,8 +31,9 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include "Application.hpp"
+#include "Utils/DataPaths.hpp"
 
+#include "Application.hpp"
 #include "BrowserWindow.hpp"
 
 namespace Sn {
@@ -128,7 +129,7 @@ void GeneralPage::loadSettings()
 
 	m_languages->addItem("English (en_US)");
 
-	const QString translationPath = Application::instance()->paths()[Application::P_Translations];
+	const QString translationPath = DataPaths::currentProfilePath() + "locale";
 	QDir lanDir{translationPath};
 	QStringList list = lanDir.entryList(QStringList("*.qm"));
 
@@ -219,7 +220,7 @@ void GeneralPage::startupActionChanged(bool isOpenSaved)
 {
 	m_btnSaveCurrentSession->setEnabled(isOpenSaved);
 
-	if (!QFileInfo(Application::instance()->paths()[Application::P_Data] + QLatin1String("/home-session.dat")).exists()
+	if (!QFileInfo(DataPaths::currentProfilePath() + QLatin1String("/home-session.dat")).exists()
 		&& isOpenSaved) {
 		saveCurrentSession();
 	}

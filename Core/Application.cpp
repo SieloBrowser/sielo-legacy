@@ -66,6 +66,7 @@
 
 #include "Utils/RegExp.hpp"
 #include "Utils/CommandLineOption.hpp"
+#include "Utils/DataPaths.hpp"
 #include "Utils/Updater.hpp"
 
 #include "Web/WebPage.hpp"
@@ -86,24 +87,6 @@ namespace Sn
 QString Application::currentVersion = QString("1.17.00 closed-beta");
 
 // Static member
-QList<QString> Application::paths()
-{
-	/*
-	 * On Windows : P_Data = C:\Users\%userame%\AppData\Roaming\Feldrise\Sielo
-	 * On Linux : P_Data = /home/%username%/.local/share/feldrise/Sielo
-	 * On macOS : P_Data = Unknown
-	 */
-	QList<QString> paths{};
-
-	paths.append(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-	paths.append(paths[Application::P_Data] + QLatin1String("/plugins"));
-	paths.append(paths[Application::P_Data] + QLatin1String("/themes"));
-	paths.append(paths[Application::P_Data] + QLatin1String("/locale"));
-	paths.append(paths[Application::P_Data] + QLatin1String("/maquette-grid"));
-
-	return paths;
-}
-
 Application *Application::instance()
 {
 	return dynamic_cast<Application*>(QCoreApplication::instance());
@@ -340,7 +323,7 @@ Application::Application(int& argc, char** argv) :
 			if (!m_restoreManager->isValid())
 				destroyRestoreManager();
 			else
-				QFile::remove(paths()[Application::P_Data] + QLatin1String("/pinnedtabs.dat"));
+				QFile::remove(DataPaths::currentProfilePath() + QLatin1String("/pinnedtabs.dat"));
 		}
 	}
 
@@ -446,7 +429,7 @@ void Application::loadApplicationSettings()
 		if (settings.value("versionNumber", 0).toInt() < 12) {
 			if (settings.value("versionNumber", 0).toInt() < 11) {
 				// Update with new bookmarks
-				QString directory{Application::instance()->paths()[Application::P_Data]};
+				QString directory{DataPaths::currentProfilePath()};
 				QFile::remove(directory
 							  + QLatin1String("/bookmarks.xbel"));
 				QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
@@ -478,7 +461,7 @@ void Application::loadThemesSettings()
 
 	// Load theme info
 	QFileInfo themeInfo{
-		paths()[Application::P_Themes] + QLatin1Char('/')
+		DataPaths::currentProfilePath() + "/themes" + QLatin1Char('/')
 		+ settings.value("Themes/currentTheme", "sielo-default").toString()
 		+ QLatin1String("/main.sss")
 	};
@@ -488,7 +471,7 @@ void Application::loadThemesSettings()
 		// Check default theme version and update it if needed
 		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 43) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
-				QString defaultThemePath{paths()[Application::P_Themes]};
+				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
 				QDir(defaultThemePath + "/bluegrey-flat").removeRecursively();
 				QDir(defaultThemePath + "/cyan-flat").removeRecursively();
@@ -536,8 +519,8 @@ void Application::loadTranslationSettings()
 	settings.beginGroup("Language");
 
 	if (settings.value("version", 0).toInt() < 14) {
-		QDir(paths()[P_Translations]).removeRecursively();
-		copyPath(QDir(":data/locale").absolutePath(), paths()[P_Translations]);
+		QDir(DataPaths::currentProfilePath() + "locale").removeRecursively();
+		copyPath(QDir(":data/locale").absolutePath(), DataPaths::currentProfilePath() + "locale");
 		settings.setValue("version", 14);
 	}
 }
@@ -557,7 +540,7 @@ void Application::translateApplication()
 	// Either we load default language (with empty file), or we attempt to load xx.qm (xx_yy.qm)
 	Q_ASSERT(file.isEmpty() || file.size() >= 5);
 
-	QString translationPath{paths()[P_Translations]};
+	QString translationPath{DataPaths::currentProfilePath() + "locale"};
 
 	if (!file.isEmpty()) {
 		if (!QFile(QString("%1/%2").arg(translationPath, file)).exists()) {
@@ -770,9 +753,9 @@ void Application::saveSession(bool saveForHome)
 	// Save data to a file
 	QFile file{};
 	if (saveForHome)
-		file.setFileName(paths()[Application::P_Data] + QLatin1String("/home-session.dat"));
+		file.setFileName(DataPaths::currentProfilePath() + QLatin1String("/home-session.dat"));
 	else
-		file.setFileName(paths()[Application::P_Data] + QLatin1String("/session.dat"));
+		file.setFileName(DataPaths::currentProfilePath() + QLatin1String("/session.dat"));
 
 	file.open(QIODevice::WriteOnly);
 	file.write(data);
@@ -1134,7 +1117,7 @@ void Application::startPrivateBrowsing(const QUrl& startUrl)
 
 void Application::loadTheme(const QString& name, const QString& lightness)
 {
-	QString activeThemePath{Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/') + name};
+	QString activeThemePath{DataPaths::currentProfilePath() + "/themes" + QLatin1Char('/') + name};
 	QString sss{readFile(activeThemePath + QLatin1String("/main.sss"))};
 
 	// If the theme use user color API
@@ -1143,7 +1126,7 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 		QIcon::setThemeName(lightness);
 	}
 	else {
-		QIcon::setThemeSearchPaths(QStringList() << Application::instance()->paths()[Application::P_Themes]);
+		QIcon::setThemeSearchPaths(QStringList() << DataPaths::currentProfilePath() + "/themes");
 		QIcon::setThemeName(name);
 	}
 
@@ -1247,7 +1230,7 @@ QString Application::getBlurredBackgroundPath(const QString& defaultBackground, 
 	QImage backgroundImage{backgroundPath};
 	QPixmap output = QPixmap::fromImage(blurImage(backgroundImage, backgroundImage.rect(), 10));
 
-	QFile file{paths()[Application::P_Themes] + QLatin1String("/bluredBackground.png")};
+	QFile file{DataPaths::currentProfilePath() + "/themes" + QLatin1String("/bluredBackground.png")};
 	file.open(QIODevice::WriteOnly);
 	output.save(&file, "PNG");
 
@@ -1324,7 +1307,7 @@ QImage Application::blurImage(const QImage& image, const QRect& rect, int radius
 
 void Application::loadThemeFromResources(QString name, bool loadAtEnd)
 {
-	QString defaultThemePath{paths()[Application::P_Themes]};
+	QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 	QString defaultThemeDataPath{":/" + name + "/data/themes/" + name};
 
 	defaultThemePath += QLatin1Char('/') + name;

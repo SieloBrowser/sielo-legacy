@@ -31,6 +31,8 @@
 #include <QSettings>
 #include <QDebug>
 
+#include "Utils/DataPaths.hpp"
+
 #include "Application.hpp"
 
 namespace Sn {
@@ -103,7 +105,7 @@ void Plugins::loadPlugins()
 	if (!m_pluginsEnabled)
 		return;
 
-	QDir settingsDir(Application::instance()->paths()[Application::P_Plugin]);
+	QDir settingsDir(DataPaths::currentProfilePath() + "/plugins/");
 
 	if (!settingsDir.exists())
 		settingsDir.mkdir(settingsDir.absolutePath());
@@ -144,7 +146,7 @@ void Plugins::loadAvailablePlugins()
 
 	m_pluginsLoaded = true;
 
-	QDir pluginsDir{QDir(Application::instance()->paths()[Application::P_Plugin])};
+	QDir pluginsDir{QDir(DataPaths::currentProfilePath() + "/plugins/")};
 
 		foreach (const QString& fileName,
 				 pluginsDir.entryList(QDir::Files)) {
@@ -178,7 +180,7 @@ PluginInterface* Plugins::initPlugin(PluginInterface::InitState state, PluginInt
 	if (!pluginInterface)
 		return nullptr;
 
-	pluginInterface->init(state, Application::instance()->paths()[Application::P_Plugin]);
+	pluginInterface->init(state, DataPaths::currentProfilePath() + "/plugins/");
 
 	if (!pluginInterface->testPlugin()) {
 		pluginInterface->unload();

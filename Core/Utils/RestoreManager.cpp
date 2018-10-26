@@ -26,6 +26,7 @@
 
 
 #include "Utils/RecoveryJsObject.hpp"
+#include "Utils/DataPaths.hpp"
 
 #include "Web/WebPage.hpp"
 
@@ -37,9 +38,9 @@ RestoreManager::RestoreManager() :
 	m_recoveryObject(new RecoveryJsObject(this))
 {
 	if ((Application::instance()->isStartingAfterCrash() && Application::instance()->afterCrashLaunch() == Application::AfterLaunch::RestoreSession) || (Application::instance()->afterLaunch() == Application::RestoreSession))
-		createFromFile(Application::instance()->paths()[Application::P_Data] + QLatin1String("/session.dat"));
+		createFromFile(DataPaths::currentProfilePath() + QLatin1String("/session.dat"));
 	else if (Application::instance()->afterLaunch() == Application::OpenSavedSession)
-		createFromFile(Application::instance()->paths()[Application::P_Data] + QLatin1String("/home-session.dat"));
+		createFromFile(DataPaths::currentProfilePath() + QLatin1String("/home-session.dat"));
 
 }
 

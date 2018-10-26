@@ -31,6 +31,7 @@
 #include <QFileInfo>
 
 #include "Utils/IconProvider.hpp"
+#include "Utils/DataPaths.hpp"
 
 #include "Application.hpp"
 
@@ -49,10 +50,9 @@ MaquetteGridItem::~MaquetteGridItem()
 
 void MaquetteGridItem::setName(const QString& name, bool isDefaultName)
 {
-	QString oldFile{Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + m_name + QLatin1String(".json")};
+	QString oldFile{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".json")};
 	QString newFile{
-		Application::ensureUniqueFilename(
-			Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + name + QLatin1String(".json"))
+		Application::ensureUniqueFilename(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + name + QLatin1String(".json"))
 	};
 
 	//std::string strOldFile = oldFile.toStdString();
@@ -115,8 +115,7 @@ void MaquetteGridItem::saveMaquetteGrid()
 		return;
 	}
 
-	QSaveFile file{
-		Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + m_name + QLatin1String(".json")
+	QSaveFile file{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".json")
 	};
 
 	if (!file.open(QFile::WriteOnly)) {
@@ -130,8 +129,7 @@ void MaquetteGridItem::saveMaquetteGrid()
 
 void MaquetteGridItem::loadMaquetteGrid(bool loadDefault)
 {
-	const QString maquetteGridFile{
-		Application::paths()[Application::P_MaquetteGrid] + QLatin1Char('/') + m_name + QLatin1String(".json")
+	const QString maquetteGridFile{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".json")
 	};
 	const QString backupFile{maquetteGridFile + QLatin1String(".old")};
 

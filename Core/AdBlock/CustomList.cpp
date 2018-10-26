@@ -29,13 +29,15 @@
 #include "AdBlock/Manager.hpp"
 #include "AdBlock/Rule.hpp"
 
+#include "Utils/DataPaths.hpp"
+
 namespace Sn {
 namespace ADB {
 
 CustomList::CustomList(QObject* parent) :
 		Subscription(tr("Custom Rules"), parent)
 {
-	setFilePath(Application::instance()->paths()[Application::P_Data] + QLatin1String("/adblock/customlist.txt"));
+	setFilePath(DataPaths::currentProfilePath() + QLatin1String("/adblock/customlist.txt"));
 }
 
 void CustomList::loadSubscription(const QStringList& disabledRules)

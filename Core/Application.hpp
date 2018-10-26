@@ -141,20 +141,6 @@ public:
 
 	Q_DECLARE_FLAGS(NewTabTypeFlags, NewTabType);
 
-	//! Paths
-	/*! Path of differents Sielo's needed folders */
-	enum Path {
-		P_Data = 0,
-		/*!< Path of data */
-		P_Plugin = 1,
-		/*!< Path of plugin (will be applications) */
-		P_Themes = 2,
-		/*!< Path of themes */
-		P_Translations = 3,
-		/*!< Path of translations */
-		P_MaquetteGrid = 4 /*!< Path of maquetteGrid */
-	};
-
 	//! After launch action
 	/*! Action that should be exectued after Sielo startup */
 	enum AfterLaunch {
@@ -275,7 +261,6 @@ public:
 	void processCommand(const QString& command, const QStringList args);
 
 	static QString currentVersion;
-	static QList<QString> paths();
 	static Application *instance();
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
 	static QByteArray readAllFileByteContents(const QString& filename);

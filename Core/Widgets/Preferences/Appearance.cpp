@@ -37,6 +37,7 @@
 #include <QVariant>
 
 #include "Utils/RegExp.hpp"
+#include "Utils/DataPaths.hpp"
 
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 
@@ -224,7 +225,7 @@ void AppearancePage::addTheme()
 		return;
 
 	QFileInfo themeInfo{
-		Application::paths()[Application::P_Themes] + QLatin1Char('/')
+		DataPaths::currentProfilePath() + "/themes/" + QLatin1Char('/')
 		+ QFileInfo(themeFile).baseName()
 		+ QLatin1String("/main.sss")
 	};
@@ -233,13 +234,13 @@ void AppearancePage::addTheme()
 		QMessageBox::warning(this,
 		                     tr("Theme exist"),
 		                     tr("The theme already exist and is going to be update with the new version."));
-		QDir(Application::paths()[Application::P_Themes] + QLatin1Char('/') + QFileInfo(themeFile).baseName())
+		QDir(DataPaths::currentProfilePath() + "/themes/" + QLatin1Char('/') + QFileInfo(themeFile).baseName())
 			.removeRecursively();
 	}
 
 	QStringList decompileArgs{};
 	decompileArgs << "decompile" << themeFile
-		<< Application::instance()->paths()[Application::P_Themes] + QLatin1Char('/')
+		<< DataPaths::currentProfilePath() + "/themes/" + QLatin1Char('/')
 		+ QFileInfo(themeFile).baseName() << "Theme successfully decompiled";
 
 	QProcess::execute(QDir(QCoreApplication::applicationDirPath()).absolutePath() + QLatin1Char('/') + compilerName,
@@ -362,7 +363,7 @@ void AppearancePage::loadSettings()
 
 	m_themeList->clear();
 
-	QDir dir{Application::instance()->paths()[Application::P_Themes]};
+	QDir dir{DataPaths::currentProfilePath() + "/themes"};
 	QStringList list = dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
 
 	foreach (const QString& name, list) {

@@ -39,6 +39,8 @@
 
 #include "MaquetteGrid/MaquetteGridItem.hpp"
 
+#include "Utils/DataPaths.hpp"
+
 #include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
 #include "Web/Tab/WebTab.hpp"
@@ -938,7 +940,7 @@ void BrowserWindow::setupFloatingButton()
 	m_fButton = new RootFloatingButton(this, this);
 
 	// Get floating button state
-	QFile fButtonDataFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
+	QFile fButtonDataFile{DataPaths::currentProfilePath() + QLatin1String("/fbutton.dat")};
 
 	if (fButtonDataFile.exists()) {
 		fButtonDataFile.open(QIODevice::ReadOnly);
@@ -1041,7 +1043,7 @@ void BrowserWindow::saveButtonState()
 
 	stream << m_fButton->pattern();
 
-	QFile fButtonFile{Application::instance()->paths()[Application::P_Data] + QLatin1String("/fbutton.dat")};
+	QFile fButtonFile{DataPaths::currentProfilePath() + QLatin1String("/fbutton.dat")};
 
 	fButtonFile.open(QIODevice::WriteOnly);
 	fButtonFile.write(data);
