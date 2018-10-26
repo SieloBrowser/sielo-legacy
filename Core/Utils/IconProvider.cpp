@@ -26,6 +26,8 @@
 
 #include <QBuffer>
 
+#include <QSqlQuery>
+
 #include "Database/SqlDatabase.hpp"
 
 #include "Utils/AutoSaver.hpp"
@@ -33,11 +35,8 @@
 #include "Web/WebView.hpp"
 
 #include "Application.hpp"
-#include <ndb/query.hpp>
 
 Q_GLOBAL_STATIC(Sn::IconProvider, sn_icon_provider)
-
-constexpr auto& icons = ndb::models::images.icons;
 
 namespace Sn
 {
@@ -113,10 +112,20 @@ QImage IconProvider::imageForUrl(const QUrl& url, bool allowNull)
 			return ic.second;
 	}
 
-	auto result = ndb::query<dbs::image>() << (icons.icon << (ndb::glob(icons.url, QString("%1*").arg(QString::fromUtf8(encodedUrl)).toStdString()) << ndb::limit(1)));
-	
-	if (result.has_result()) 
-		return QImage::fromData(result[0][icons.icon]);
+	QString urlString{QString::fromUtf8(encodedUrl)};
+	urlString.replace(QLatin1Char('['), QStringLiteral("[["));
+	urlString.replace(QLatin1Char(']'), QStringLiteral("[]]"));
+	urlString.replace(QStringLiteral("[["), QStringLiteral("[[]"));
+	urlString.replace(QLatin1Char('*'), QStringLiteral("[*]"));
+	urlString.replace(QLatin1Char('?'), QStringLiteral("[?]"));
+
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT icon FROM icons WHERE url GLOB ? LIMIT 1");
+	query.addBindValue(QString("%1*").arg(urlString));
+	query.exec();
+
+	if (query.next()) 
+		return QImage::fromData(query.value(0).toByteArray());
 
 	return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
 }
@@ -130,18 +139,26 @@ QImage IconProvider::imageForDomain(const QUrl& url, bool allowNull)
 	if (url.path().isEmpty())
 		return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
 
-	std::string strUrlHost = url.host().toStdString();
-
 	// Check if we aleady have the image loaded in the buffer
 	foreach(const BufferedIcon &ic, instance()->m_iconBuffer) {
 		if (ic.first.host() == url.host())
 			return ic.second;
 	}
 
-	auto result = ndb::query<dbs::image>() << (icons.icon << (ndb::glob(icons.url, QString("*%1*").arg(url.host()).toStdString()) << ndb::limit(1)));
+	QString urlString{url.host()};
+	urlString.replace(QLatin1Char('['), QStringLiteral("[["));
+	urlString.replace(QLatin1Char(']'), QStringLiteral("[]]"));
+	urlString.replace(QStringLiteral("[["), QStringLiteral("[[]"));
+	urlString.replace(QLatin1Char('*'), QStringLiteral("[*]"));
+	urlString.replace(QLatin1Char('?'), QStringLiteral("[?]"));
 
-	if (result.has_result())
-		return QImage::fromData(result[0][icons.icon]);
+	QSqlQuery query{SqlDatabase::instance()->database()};
+	query.prepare("SELECT icon FROM icons WHERE url GLOB ? LIMIT 1");
+	query.addBindValue(QString("*%1*").arg(urlString));
+	query.exec();
+
+	if (query.next()) 
+		return QImage::fromData(query.value(0).toByteArray());
 
 	return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
 }
@@ -154,17 +171,25 @@ void IconProvider::save()
 {
 	foreach(const BufferedIcon &ic, m_iconBuffer) {
 
-		QByteArray ba;
+		QSqlQuery query{SqlDatabase::instance()->database()};
+		query.prepare("SELECT id FROM icons WHERE url = ?");
+		query.bindValue(0, encodeUrl(ic.first));
+		query.exec();
+
+		if (query.next()) 
+			query.prepare("UPDATE icons SET icon = ? WHERE url = ?");
+		else 
+			query.prepare("INSERT INTO icons (icon, url) VALUES (?,?)");
+
+		QByteArray ba{};
 		QBuffer buffer(&ba);
+
 		buffer.open(QIODevice::WriteOnly);
 		ic.second.save(&buffer, "PNG");
 
-		auto iconQuery = ndb::query<dbs::image>() << (icons.url == QString::fromUtf8(encodeUrl(ic.first)));
-
-		if (iconQuery.has_result())
-			ndb::query<dbs::image>() >> (icons.icon = buffer.data() << (icons.url == QString::fromUtf8(encodeUrl(ic.first))));
-		else
-			ndb::query<dbs::image>() + (icons.icon = buffer.data(), icons.url = QString::fromUtf8(encodeUrl(ic.first)));
+		query.bindValue(0, buffer.data());
+		query.bindValue(1, QString::fromUtf8(encodeUrl(ic.first)));
+		query.exec();
 	}
 
 	m_iconBuffer.clear();
