@@ -35,9 +35,6 @@
 
 #include <QWebEngineProfile>
 
-#include <ndb/initializer.hpp>
-#include <ndb/engine/sqlite/sqlite.hpp>
-
 #include "Utils/RestoreManager.hpp"
 
 #include "3rdparty/SingleApplication/singleapplication.h"

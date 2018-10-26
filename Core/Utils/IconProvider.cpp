@@ -107,8 +107,9 @@ QImage IconProvider::imageForUrl(const QUrl& url, bool allowNull)
 	const QByteArray encodedUrl = encodeUrl(url);
 
 	// Check if we aleady have the image loaded in the buffer
-	foreach(const BufferedIcon &ic, instance()->m_iconBuffer) {
-		if (encodeUrl(ic.first) == encodedUrl) 
+	foreach(const BufferedIcon &ic, instance()->m_iconBuffer)
+	{
+		if (encodeUrl(ic.first) == encodedUrl)
 			return ic.second;
 	}
 
@@ -124,7 +125,7 @@ QImage IconProvider::imageForUrl(const QUrl& url, bool allowNull)
 	query.addBindValue(QString("%1*").arg(urlString));
 	query.exec();
 
-	if (query.next()) 
+	if (query.next())
 		return QImage::fromData(query.value(0).toByteArray());
 
 	return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
@@ -140,7 +141,8 @@ QImage IconProvider::imageForDomain(const QUrl& url, bool allowNull)
 		return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
 
 	// Check if we aleady have the image loaded in the buffer
-	foreach(const BufferedIcon &ic, instance()->m_iconBuffer) {
+	foreach(const BufferedIcon &ic, instance()->m_iconBuffer)
+	{
 		if (ic.first.host() == url.host())
 			return ic.second;
 	}
@@ -157,7 +159,7 @@ QImage IconProvider::imageForDomain(const QUrl& url, bool allowNull)
 	query.addBindValue(QString("*%1*").arg(urlString));
 	query.exec();
 
-	if (query.next()) 
+	if (query.next())
 		return QImage::fromData(query.value(0).toByteArray());
 
 	return allowNull ? QImage() : Application::getAppIcon("webpage").pixmap(16).toImage();
@@ -169,16 +171,17 @@ IconProvider *IconProvider::instance()
 }
 void IconProvider::save()
 {
-	foreach(const BufferedIcon &ic, m_iconBuffer) {
+	foreach(const BufferedIcon &ic, m_iconBuffer)
+	{
 
 		QSqlQuery query{SqlDatabase::instance()->database()};
 		query.prepare("SELECT id FROM icons WHERE url = ?");
 		query.bindValue(0, encodeUrl(ic.first));
 		query.exec();
 
-		if (query.next()) 
+		if (query.next())
 			query.prepare("UPDATE icons SET icon = ? WHERE url = ?");
-		else 
+		else
 			query.prepare("INSERT INTO icons (icon, url) VALUES (?,?)");
 
 		QByteArray ba{};

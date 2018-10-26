@@ -68,6 +68,7 @@ file(
 
 find_package(OpenSSL 1.1.0 REQUIRED)
 find_package(Qt5Widgets 5.8 REQUIRED)
+find_package(Qt5Sql 5.8 REQUIRED)
 find_package(Qt5WebEngine 5.8 REQUIRED)
 find_package(Qt5WebEngineWidgets 5.8 REQUIRED)
 
@@ -80,6 +81,5 @@ foreach(_source IN ITEMS ${SOURCE_FILES})
     source_group("${_group_path}" FILES "${_source}")
 endforeach()
 
-set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::WebEngineWidgets)
+set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
 target_link_libraries(Core LINK_PUBLIC ${SIELO_LIBS})
-target_link_libraries(Core PUBLIC lib_ndb)

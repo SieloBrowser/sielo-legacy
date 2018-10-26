@@ -217,7 +217,7 @@ void History::deleteHistoryEntry(const QList<int>& list)
 
 void History::deleteHistoryEntry(const QString& url, const QString& title)
 {
-	QSqlQuery query{SqlDatabase::instance()->database())};
+	QSqlQuery query{SqlDatabase::instance()->database()};
 	query.prepare("SELECT id FROM history WHERE url=? AND title=?");
 	query.bindValue(0, url);
 	query.bindValue(1, title);
