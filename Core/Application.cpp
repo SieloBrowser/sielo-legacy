@@ -300,11 +300,11 @@ Application::Application(int& argc, char** argv) :
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
 	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
 
-	loadSettings();
-	translateApplication();
-
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
+
+	loadSettings();
+	translateApplication();
 
 	// Setup web channel with custom script (mainly for autofill)
 	QString webChannelScriptSrc = Scripts::webChannelDefautlScript();
