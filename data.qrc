@@ -3,6 +3,7 @@
         <file>data/bookmarks.json</file>
         <file>data/default-maquettegrid.json</file>
 		<file>data/profiles.ini</file>
+		<file>data/browsedata.db</file>
         <file>data/fonts/morpheus.ttf</file>
         <file>data/toolbar/add-bookmark.png</file>
         <file>data/toolbar/view-bookmarks.png</file>
