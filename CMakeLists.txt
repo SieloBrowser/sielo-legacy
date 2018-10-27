@@ -9,7 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     # 64bit
-    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.1\\msvc2017_64\\")
+    set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.2\\msvc2017_64\\")
     set (ENV{OPENSSL_ROOT_DIR} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
     set (ENV{OPENSSL_CRYPTO_LIBRARY} "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
 elseif(WIN32)
@@ -74,4 +74,7 @@ elseif(WIN32)
 endif()
 
 set(SIELO_LIBS Core ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
+if(WIN32)
+	set(SIELO_LIBS ${SIELO_LIBS} dwmapi uxtheme)
+endif()
 target_link_libraries(sielo-browser LINK_PUBLIC ${SIELO_LIBS})

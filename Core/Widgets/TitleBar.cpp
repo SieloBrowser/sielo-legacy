@@ -161,105 +161,10 @@ bool TitleBar::isWindowMaximized() const
 
 bool TitleBar::eventFilter(QObject* obj, QEvent* event)
 {
-	if (event->type() == QEvent::MouseButtonPress) {
-		mousePressEvent(static_cast<QToolBar*>(obj), static_cast<QMouseEvent*>(event));
-	}
-	else if (event->type() == QEvent::MouseMove) {
-		mouseMoveEvent(static_cast<QMouseEvent*>(event));
-	}
-	else if (event->type() == QEvent::MouseButtonRelease) {
-		mouseReleaseEvent(static_cast<QMouseEvent*>(event));
-	}
-	else if (event->type() == QEvent::MouseButtonDblClick) {
-		mouseDoubleClickEvent(static_cast<QMouseEvent*>(event));
-	}
-	else if (event->type() == QEvent::ContextMenu) {
+	if (event->type() == QEvent::ContextMenu) {
 		contextMenuEvent(obj, static_cast<QContextMenuEvent*>(event));
 	}
 	return QObject::eventFilter(obj, event);
-}
-
-
-void TitleBar::mousePressEvent(QToolBar* toolBar, QMouseEvent* event)
-{
-	if (event->button() == Qt::LeftButton && ((event->x() >= 10 && toolBar->orientation() == Qt::Horizontal) ||
-											  (event->y() >= 10 && toolBar->orientation() == Qt::Vertical))) {
-		m_offset = event->globalPos() - m_window->frameGeometry().topLeft();
-		m_canMove = true;
-		event->accept();
-	}
-	else
-		m_canMove = false;
-
-	QWidget::mousePressEvent(event);
-}
-
-void TitleBar::mouseMoveEvent(QMouseEvent* event)
-{
-	if (event->buttons() & Qt::LeftButton && m_canMove) {
-		if (isWindowMaximized() || m_isOnSide) {
-			m_window->resize(m_geometry.size());
-#ifdef Q_OS_WIN
-			m_toggleMaximize->setObjectName(QLatin1String("titlebar-button-maximize"));
-			m_toggleMaximize->setIcon(Application::getAppIcon("tb-maximize", "titlebar"));
-#endif // Q_OS_WIN
-
-			m_isMaximized = false;
-			m_isOnSide = false;
-		}
-
-		m_window->move(event->globalPos() - m_offset);
-		event->accept();
-	}
-
-	if (QCursor::pos(Application::screenAt(QCursor::pos())).y() <= 0) {
-		m_sizePreview->move(0, 0);
-		m_sizePreview->resize(1920, 1080);
-		m_sizePreview->show();
-	}
-	else {
-		m_sizePreview->hide();
-	}
-
-	QWidget::mouseMoveEvent(event);
-}
-
-void TitleBar::mouseReleaseEvent(QMouseEvent* event)
-{
-	QScreen *screen = Application::screenAt(QCursor::pos());
-	QRect scrrect = screen->geometry();
-
-	if (QCursor::pos(screen).y() <= scrrect.y()) {
-		toggleMaximize(true);
-	}
-
-	// The move function don't move properly, i need to remove 6 and 8 pixels.
-	if (QCursor::pos(screen).x() <= scrrect.x()) {
-		m_geometry = m_window->geometry();
-		m_window->resize(screen->availableGeometry().width() / 2, screen->availableGeometry().height() - 7);
-		m_window->move(scrrect.x() - 6, scrrect.y());
-    
-		m_isOnSide = true;
-	}
-	// There is 1 px missing on Windows for mouse position
-	else if (QCursor::pos(screen).x() >= scrrect.x() + scrrect.width() - 1) {
-		m_geometry = m_window->geometry();
-		m_window->resize(screen->availableGeometry().width() / 2, screen->availableGeometry().height() - 7);
-		m_window->move(scrrect.x() + (screen->availableGeometry().width() / 2) - 8, scrrect.y());
-
-		m_isOnSide = true;
-	}
-
-	m_sizePreview->hide();
-
-	QWidget::mouseReleaseEvent(event);
-}
-
-void TitleBar::mouseDoubleClickEvent(QMouseEvent* event)
-{
-	if (event->buttons() & Qt::LeftButton) {
-		toggleMaximize();
-	}
 }
 
 void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
@@ -320,6 +225,8 @@ void TitleBar::build()
 	m_minimize = new QToolButton(m_controlsToolbar);
 
 	m_title->setObjectName(QLatin1String("titlebar-title"));
+	m_title->setAlignment(Qt::AlignCenter);
+	m_window->setCaption(m_title);
 
 	m_closeButton->setObjectName(QLatin1String("titlebar-button-close"));
 	m_closeButton->setIcon(Application::getAppIcon("tb-close", "titlebar"));
@@ -336,21 +243,14 @@ void TitleBar::build()
 	connect(m_toggleMaximize, &QToolButton::clicked, this, &TitleBar::toggleMaximize);
 	connect(m_minimize, &QToolButton::clicked, this, &TitleBar::minimize);
 
-	QWidget* firstSpacer{new QWidget(m_controlsToolbar)};
-	QWidget* secondSpacer{new QWidget(m_controlsToolbar)};
-
 	if (m_controlsToolbar->orientation() == Qt::Horizontal) {
-		firstSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-		secondSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+		m_title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	}
 	else if (m_controlsToolbar->orientation() == Qt::Vertical) {
-		firstSpacer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
-		secondSpacer->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+		m_title->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
 	}
 
-	m_controlsToolbar->addWidget(firstSpacer);
 	m_controlsToolbar->addWidget(m_title);
-	m_controlsToolbar->addWidget(secondSpacer);
 	m_controlsToolbar->addWidget(m_minimize);
 	m_controlsToolbar->addWidget(m_toggleMaximize);
 	m_controlsToolbar->addWidget(m_closeButton);
