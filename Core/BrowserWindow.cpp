@@ -53,12 +53,10 @@
 #include "Widgets/Tab/MainTabBar.hpp"
 
 #ifdef Q_OS_WIN
-	#include <windows.h>
 	#include <windowsx.h>
 	#include <dwmapi.h>
 	#include <uxtheme.h>
-#else
-	#include <QMouseEvent>
+	#include <windows.h>
 #endif
 
 QT_BEGIN_NAMESPACE
@@ -112,11 +110,10 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 
 #ifdef Q_OS_WIN
 	setWindowFlags(Qt::FramelessWindowHint);
-	// This remove the title bar, but let borders to give the possibility to resize the window.
-
-	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
-	const MARGINS margins = { 1,1,1,1 };
-	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()),&margins);
+	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_THICKFRAME | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+	//SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+	/*const MARGINS margins = { 1,1,1,1 };
+	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()),&margins);*/
 #endif
 
 	setObjectName(QLatin1String("mainwindow"));
@@ -1180,12 +1177,10 @@ bool BrowserWindow::nativeEvent(const QByteArray &eventType, void *message, long
 
 	if (wMessage == WM_NCCALCSIZE && wMsg->wParam == TRUE)
 	{
-		//if (wMsg->wParam == TRUE) {
-			auto& params = *reinterpret_cast<NCCALCSIZE_PARAMS*>(wMsg->lParam);
-			adjust_maximized_client_rect(wMsg->hwnd, params.rgrc[0]);
-		//}
-		hasHandled = true;
+		NCCALCSIZE_PARAMS& params = *reinterpret_cast<NCCALCSIZE_PARAMS*>(wMsg->lParam);
+		adjust_maximized_client_rect(wMsg->hwnd, params.rgrc[0]);
 		res = 0;
+		hasHandled = true;
 	}
 	else if (wMessage == WM_NCHITTEST && res == 0)
 	{
