@@ -52,9 +52,50 @@
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 
+#ifdef Q_OS_WIN
+	#include <windows.h>
+	#include <windowsx.h>
+	#include <dwmapi.h>
+	#include <uxtheme.h>
+#else
+	#include <QMouseEvent>
+#endif
+
 QT_BEGIN_NAMESPACE
 extern Q_WIDGETS_EXPORT void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
 QT_END_NAMESPACE
+
+#ifdef Q_OS_WIN
+bool DWMEnabled(void) {
+	if (QSysInfo::windowsVersion() < QSysInfo::WV_VISTA) return false;
+	BOOL useDWM;
+
+	if (DwmIsCompositionEnabled(&useDWM) < 0) return false;
+	return useDWM == TRUE;
+}
+
+void adjust_maximized_client_rect(HWND window, RECT& rect) {
+	WINDOWPLACEMENT placement;
+	if (!GetWindowPlacement(window, &placement) || placement.showCmd != SW_MAXIMIZE) {
+		return;
+	}
+
+	auto monitor = ::MonitorFromWindow(window, MONITOR_DEFAULTTONULL);
+	if (!monitor) {
+		return;
+	}
+
+	MONITORINFO monitor_info{};
+	monitor_info.cbSize = sizeof(monitor_info);
+	if (!::GetMonitorInfoW(monitor, &monitor_info)) {
+		return;
+	}
+
+	// when maximized, make the client area fill just the monitor (without task bar) rect,
+	// not the whole window rect which extends beyond the monitor.
+	rect = monitor_info.rcWork;
+}
+#endif
 
 namespace Sn
 {
@@ -70,8 +111,12 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setMouseTracking(true);
 
 #ifdef Q_OS_WIN
-	setWindowFlags(Qt::CustomizeWindowHint);
+	setWindowFlags(Qt::FramelessWindowHint);
 	// This remove the title bar, but let borders to give the possibility to resize the window.
+
+	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+	const MARGINS margins = { 1,1,1,1 };
+	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()),&margins);
 #endif
 
 	setObjectName(QLatin1String("mainwindow"));
@@ -1114,4 +1159,84 @@ QWidget *BrowserWindow::createWidgetTabWidget(TabWidget* tabWidget, WebTab* tab)
 
 	return widget;
 }
+
+void BrowserWindow::setCaption(const QWidget* widget)
+{
+	m_captionWidget = widget;
+}
+
+#ifdef Q_OS_WIN
+bool BrowserWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+{
+	Q_UNUSED(eventType);
+	const MSG* wMsg = reinterpret_cast<MSG*>(message);
+	const UINT wMessage = wMsg->message;
+	bool hasHandled = false;
+	long res = 0;
+
+	if (DWMEnabled())
+		hasHandled = DwmDefWindowProc(wMsg->hwnd, wMessage, wMsg->wParam,
+			wMsg->lParam, reinterpret_cast<LRESULT*>(&res));
+
+	if (wMessage == WM_NCCALCSIZE && wMsg->wParam == TRUE)
+	{
+		//if (wMsg->wParam == TRUE) {
+			auto& params = *reinterpret_cast<NCCALCSIZE_PARAMS*>(wMsg->lParam);
+			adjust_maximized_client_rect(wMsg->hwnd, params.rgrc[0]);
+		//}
+		hasHandled = true;
+		res = 0;
+	}
+	else if (wMessage == WM_NCHITTEST && res == 0)
+	{
+		res = ncHitTest(wMsg);
+
+		if (res != HTNOWHERE)
+			hasHandled = true;
+	}
+	//else if (wMessage == WM_NCPAINT)
+	//	hasHandled = true;
+
+	if (hasHandled)
+		*result = res;
+	return hasHandled;
+}
+
+long BrowserWindow::ncHitTest(const MSG* wMsg) const
+{
+	const long ncHitZone[3][4] = {
+		{HTTOPLEFT, HTLEFT, HTLEFT, HTBOTTOMLEFT},
+		{HTTOP, HTCAPTION, HTNOWHERE, HTBOTTOM},
+		{HTTOPRIGHT, HTRIGHT, HTRIGHT, HTBOTTOMRIGHT}
+	};
+
+	const QPoint cursor(GET_X_LPARAM(wMsg->lParam), GET_Y_LPARAM(wMsg->lParam));
+	const UINT8 borderSize = 2;
+	UINT8 xPos = 1;
+	UINT8 yPos = 2;
+
+	RECT rcWin;
+	GetWindowRect(wMsg->hwnd, &rcWin);
+
+	if (m_captionWidget == QApplication::widgetAt(cursor))
+		return HTCAPTION;
+
+	RECT rcFrame = { 0 };
+	AdjustWindowRectEx(&rcFrame, WS_OVERLAPPEDWINDOW & ~WS_CAPTION, FALSE, NULL);
+
+	if (cursor.y() >= rcWin.top && cursor.y() <= rcWin.top + borderSize)
+		yPos = 0;
+	else if (cursor.y() >= rcWin.top + borderSize && cursor.y() <= rcWin.top + borderSize)
+		yPos = 1;
+	else if (cursor.y() >= rcWin.bottom - borderSize && cursor.y() < rcWin.bottom)
+		yPos = 3;
+
+	if (cursor.x() >= rcWin.left && cursor.x() < rcWin.left + borderSize)
+		xPos = 0;
+	else if (cursor.x() >= rcWin.right - borderSize && cursor.x() < rcWin.right)
+		xPos = 2;
+
+	return ncHitZone[xPos][yPos];
+}
+#endif
 }

@@ -68,11 +68,6 @@ signals:
 
 protected:
 	bool eventFilter(QObject* obj, QEvent* event);
-
-	void mousePressEvent(QToolBar* toolbar, QMouseEvent* event);
-	void mouseMoveEvent(QMouseEvent* event);
-	void mouseReleaseEvent(QMouseEvent* event);
-	void mouseDoubleClickEvent(QMouseEvent* event);
 	void contextMenuEvent(QObject* obj, QContextMenuEvent* event);
 
 private slots:

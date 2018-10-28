@@ -182,6 +182,8 @@ public:
 	const QImage* background();
 	const QImage* processedBackground();
 
+	void setCaption(const QWidget* widget);
+
 signals:
 	void mouseOver(bool state);
 
@@ -204,6 +206,10 @@ protected:
 	void resizeEvent(QResizeEvent* event);
 	void mouseMoveEvent(QMouseEvent *e);
 
+#ifdef Q_OS_WIN
+	bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+#endif
+
 private slots:
 	void addTab();
 	void postLaunch();
@@ -225,6 +231,12 @@ private:
 
 	QWidget* createWidgetTabWidget(WebTab* tab = nullptr, Application::TabsSpaceType type = Application::TST_Web);
 	QWidget* createWidgetTabWidget(TabWidget* tabWidget, WebTab* tab = nullptr);
+
+#ifdef Q_OS_WIN
+	long ncHitTest(const MSG* wMsg) const;
+#endif
+
+	const QWidget *m_captionWidget{ nullptr };
 
 	QAction* m_restoreAction{nullptr};
 

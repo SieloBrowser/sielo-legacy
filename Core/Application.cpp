@@ -966,11 +966,12 @@ void Application::startAfterCrash()
 
 	requestAction.exec();
 
+	// 32bit version is not longer supported since Sielo Maynapeh
 	// Since some people seem to be able to run only the 32 bit version...
-	if (!is32bit()) {
+	/*if (!is32bit()) {
 		QMessageBox::information(nullptr, QApplication::tr("Info"), QApplication::tr(
 			"Please, if Sielo continues crashing, consider trying this 32bit version."));
-	}
+	}*/
 
 	if (requestAction.clickedButton() == restoreSession) {
 		m_afterCrashLaunch = AfterLaunch::RestoreSession;
