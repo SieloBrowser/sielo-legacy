@@ -34,6 +34,7 @@
 #include <QLibraryInfo>
 
 #include <QProcess>
+#include <QThreadPool> 
 
 #include <QDesktopServices>
 #include <QFontDatabase>
@@ -339,6 +340,8 @@ Application::~Application()
 {
 	if (m_windows.count() > 0)
 		saveSession();
+
+	QThreadPool::globalInstance()->waitForDone();
 
 	delete m_plugins;
 	delete m_cookieJar;
