@@ -52,11 +52,18 @@ namespace Sn
 
 Updater::Version::Version(const QString& string)
 {
-	QString cleanVersion{QString(string).remove(QRegExp("[^a-zA-Z\\d\\s]"))};
-	isValid = false;
+	// Heavier than Regex but it work :P
+	QString cleanVersion = "";
+	const QString requiredValues = "0123456789.";
+	for (const auto &e : string) {
+		for (const auto &f : requiredValues) {
+			if (e == f) cleanVersion += e;
+		}
+	}
 
-	//TODO: check the RegExp do what I want
-	QMessageBox::warning(nullptr, "Cleaned Version", cleanVersion);
+	//QString cleanVersion{QString(string).remove(QRegExp("[^a-zA-Z\\d\\s]"))};
+	
+	isValid = false;
 
 	QStringList v = cleanVersion.split(QLatin1Char('.'));
 

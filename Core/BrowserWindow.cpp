@@ -1178,12 +1178,12 @@ bool BrowserWindow::nativeEvent(const QByteArray &eventType, void *message, long
 		hasHandled = DwmDefWindowProc(wMsg->hwnd, wMessage, wMsg->wParam,
 			wMsg->lParam, reinterpret_cast<LRESULT*>(&res));
 
-	if (wMessage == WM_NCCALCSIZE)
+	if (wMessage == WM_NCCALCSIZE && wMsg->wParam == TRUE)
 	{
-		if (wMsg->wParam == TRUE) {
+		//if (wMsg->wParam == TRUE) {
 			auto& params = *reinterpret_cast<NCCALCSIZE_PARAMS*>(wMsg->lParam);
 			adjust_maximized_client_rect(wMsg->hwnd, params.rgrc[0]);
-		}
+		//}
 		hasHandled = true;
 		res = 0;
 	}
