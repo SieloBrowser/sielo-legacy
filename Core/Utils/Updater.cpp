@@ -33,6 +33,7 @@
 #include <QDesktopServices>
 
 #include <QRegExp>
+#include <QRegularExpression>
 
 #include <QMessageBox>
 
@@ -61,8 +62,8 @@ Updater::Version::Version(const QString& string)
 		}
 	}
 
-	//QString cleanVersion{QString(string).remove(QRegExp("[^a-zA-Z\\d\\s]"))};
-	
+	//QString cleanVersion{QString(string).remove(QRegExp("/[^\d.]/g"))};
+
 	isValid = false;
 
 	QStringList v = cleanVersion.split(QLatin1Char('.'));
@@ -76,11 +77,11 @@ Updater::Version::Version(const QString& string)
 	if (!ok)
 		return;
 
-	minorVersion = v[0].toInt(&ok);
+	minorVersion = v[1].toInt(&ok);
 	if (!ok)
 		return;
 
-	revisionNumber = v[0].toInt(&ok);
+	revisionNumber = v[2].toInt(&ok);
 	if (!ok)
 		return;
 

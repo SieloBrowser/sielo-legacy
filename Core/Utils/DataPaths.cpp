@@ -65,7 +65,7 @@ DataPaths::DataPaths()
 	// Temp
 #ifdef Q_OS_UNIX
 	const QByteArray& user{qgetenv("USER")};
-	const QString& tempPath{QString(QSL("%1/sielo-%2")).arg(QDir::tempPath(), user.constData())};
+	const QString& tempPath{QString("%1/sielo-%2").arg(QDir::tempPath(), user.constData())};
 	m_paths[Temp].append(tempPath);
 #else
 	m_paths[Temp].append(m_paths[Config].at(0) + QLatin1String("/tmp"));
