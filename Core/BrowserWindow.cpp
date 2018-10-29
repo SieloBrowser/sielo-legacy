@@ -1209,7 +1209,7 @@ long BrowserWindow::ncHitTest(const MSG* wMsg) const
 	RECT rcWin;
 	GetWindowRect(wMsg->hwnd, &rcWin);
 
-	if (m_captionWidget == QApplication::widgetAt(cursor))
+	if (m_captionWidget == QApplication::widgetAt(QCursor::pos()))
 		return HTCAPTION;
 
 	RECT rcFrame = { 0 };
