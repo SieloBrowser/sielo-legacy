@@ -97,6 +97,7 @@ signals:
 	void privacyChanged(bool);
 	void zoomLevelChanged(int);
 	void showNotification(QWidget*);
+	void backgroundActivityChanged(bool);
 
 public slots:
 	void zoomIn();
@@ -133,6 +134,7 @@ protected slots:
 	void sLoadProgress(int progress);
 	void sLoadFinished(bool ok);
 	void sUrlChanged(const QUrl& url);
+	void sTitleChanged(const QString& title);
 	void sIconChanged();
 
 	void openUrlInNewWindow();
@@ -151,6 +153,7 @@ protected slots:
 	void openUrlInBgTab();
 
 protected:
+	void showEvent(QShowEvent* event) override;
 	void resizeEvent(QResizeEvent* event);
 	void contextMenuEvent(QContextMenuEvent* event);
 
@@ -186,6 +189,7 @@ private:
 
 	int m_currentZoomLevel{};
 	int m_progress{100};
+	bool m_backgroundActivity{false};
 	bool m_firstLoad{false};
 
 	QUrl m_clickedUrl{};
