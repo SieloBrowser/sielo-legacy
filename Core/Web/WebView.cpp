@@ -98,6 +98,7 @@ WebView::WebView(QWidget* parent) :
 	connect(this, &QWebEngineView::loadProgress, this, &WebView::sLoadProgress);
 	connect(this, &QWebEngineView::loadFinished, this, &WebView::sLoadFinished);
 	connect(this, &QWebEngineView::urlChanged, this, &WebView::sUrlChanged);
+	connect(this, &QWebEngineView::titleChanged, this, &WebView::sTitleChanged);
 	connect(this, &QWebEngineView::iconChanged, this, &WebView::sIconChanged);
 
 	QSettings settings{};
@@ -442,9 +443,23 @@ void WebView::sLoadFinished(bool ok)
 
 void WebView::sUrlChanged(const QUrl& url)
 {
-	Q_UNUSED(url)
-
+	if (!url.isEmpty() && title().isEmpty()) {
+		const bool oldActivity{m_backgroundActivity};
+		m_backgroundActivity = true;
+		emit titleChanged(title());
+		m_backgroundActivity = oldActivity;
+	}
 	//TODO: Don't save blank page in history
+}
+
+void WebView::sTitleChanged(const QString& title)
+{
+	Q_UNUSED(title);
+
+	if (!isVisible() && !isLoading() && !m_backgroundActivity) {
+		m_backgroundActivity = true;
+		emit backgroundActivityChanged(m_backgroundActivity);
+	}
 }
 
 void WebView::sIconChanged()
@@ -525,6 +540,16 @@ void WebView::openUrlInBgTab()
 {
 	if (QAction* action = qobject_cast<QAction*>(sender()))
 		openUrlInNewTab(action->data().toUrl(), Application::NTT_CleanNotSelectedTab);
+}
+
+void WebView::showEvent(QShowEvent* event)
+{
+	QWebEngineView::showEvent(event);
+
+	if (m_backgroundActivity) {
+		m_backgroundActivity = false;
+		emit backgroundActivityChanged(m_backgroundActivity);
+	}
 }
 
 void WebView::resizeEvent(QResizeEvent* event)
