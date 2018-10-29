@@ -53,6 +53,7 @@ public:
 
 	WebView* view() const;
 
+	bool execPrintPage(QPrinter *printer, int timeout = 1000);
 	QVariant executeJavaScript(const QString& scriptSrc, quint32 worldId = QWebEngineScript::MainWorld,
 							   int timeout = 500);
 
@@ -62,10 +63,8 @@ public:
 	void scroll(int x, int y);
 	void setScrollPosition(const QPointF& pos);
 
-	void javaScriptAlert(const QUrl& securityOrigin, const QString& msg) Q_DECL_OVERRIDE;
-
-	void setJavaScriptEnable(bool enabled);
-
+	void javaScriptAlert(const QUrl& securityOrigin, const QString& msg) override;
+	
 	bool isRunningLoop();
 
 	bool isLoading() const;
@@ -76,6 +75,7 @@ public:
 signals:
 	void privacyChanged(bool status);
 	void pageRendering();
+	void navigationRequestAccepted(const QUrl& url, NavigationType type, bool isMainFrame);
 
 protected slots:
 	void progress(int progression);
