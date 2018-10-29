@@ -74,20 +74,17 @@ bool DWMEnabled(void) {
 
 void adjust_maximized_client_rect(HWND window, RECT& rect) {
 	WINDOWPLACEMENT placement;
-	if (!GetWindowPlacement(window, &placement) || placement.showCmd != SW_MAXIMIZE) {
+	if (!GetWindowPlacement(window, &placement) || placement.showCmd != SW_MAXIMIZE)
 		return;
-	}
 
 	auto monitor = ::MonitorFromWindow(window, MONITOR_DEFAULTTONULL);
-	if (!monitor) {
+	if (!monitor)
 		return;
-	}
 
 	MONITORINFO monitor_info{};
 	monitor_info.cbSize = sizeof(monitor_info);
-	if (!::GetMonitorInfoW(monitor, &monitor_info)) {
+	if (!::GetMonitorInfoW(monitor, &monitor_info))
 		return;
-	}
 
 	// when maximized, make the client area fill just the monitor (without task bar) rect,
 	// not the whole window rect which extends beyond the monitor.
@@ -110,10 +107,9 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 
 #ifdef Q_OS_WIN
 	setWindowFlags(Qt::FramelessWindowHint);
-	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_THICKFRAME | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
-	//SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
-	/*const MARGINS margins = { 1,1,1,1 };
-	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()),&margins);*/
+	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+	const MARGINS margins = { 1,1,1,1 };
+	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()), &margins);
 #endif
 
 	setObjectName(QLatin1String("mainwindow"));
