@@ -57,6 +57,11 @@
 	#include <dwmapi.h>
 	#include <uxtheme.h>
 	#include <windows.h>
+
+#if QT_VERSION == QT_VERSION_CHECK(5, 11, 0) or QT_VERSION == QT_VERSION_CHECK(5, 11, 1)
+	#error "The custom window don't work with Qt 5.11.0 or Qt 5.11.1"
+#endif
+
 #endif
 
 QT_BEGIN_NAMESPACE
