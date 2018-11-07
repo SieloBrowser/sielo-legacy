@@ -26,6 +26,8 @@
 
 #include <QGraphicsDropShadowEffect>
 
+#include <QIcon>
+
 #include "Application.hpp"
 
 namespace Sn

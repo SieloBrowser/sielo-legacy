@@ -105,6 +105,7 @@ private:
 	bool m_secureStatus{false};
 	bool m_adjustingSheduled{false};
 
+	friend class WebView;
 };
 
 }

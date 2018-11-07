@@ -247,31 +247,31 @@ void MainMenu::toggleBookmarksToolBar()
 void MainMenu::selectAll()
 {
 	if (m_tabWidget)
-		m_tabWidget->weTab()->webView()->editSelectAll();
+		m_tabWidget->webTab()->webView()->editSelectAll();
 }
 
 void MainMenu::find()
 {
 	if (m_tabWidget)
-		m_tabWidget->weTab()->showSearchToolBar();
+		m_tabWidget->webTab()->showSearchToolBar();
 }
 
 void MainMenu::webBack()
 {
 	if (m_tabWidget)
-		m_tabWidget->weTab()->webView()->back();
+		m_tabWidget->webTab()->webView()->back();
 }
 
 void MainMenu::webForward()
 {
 	if (m_tabWidget)
-		m_tabWidget->weTab()->webView()->forward();
+		m_tabWidget->webTab()->webView()->forward();
 }
 
 void MainMenu::webHome()
 {
 	if (m_tabWidget)
-		m_tabWidget->weTab()->sGoHome();
+		m_tabWidget->webTab()->sGoHome();
 }
 
 void MainMenu::openUrl(const QUrl& url)
@@ -293,8 +293,8 @@ void MainMenu::showCookiesManager()
 
 void MainMenu::showSiteInfo()
 {
-	if (m_tabWidget && SiteInfo::canShowSiteInfo(m_tabWidget->weTab()->url())) {
-		SiteInfo* info{new SiteInfo(m_tabWidget->weTab()->webView())};
+	if (m_tabWidget && SiteInfo::canShowSiteInfo(m_tabWidget->webTab()->url())) {
+		SiteInfo* info{new SiteInfo(m_tabWidget->webTab()->webView())};
 		info->show();
 	}
 }

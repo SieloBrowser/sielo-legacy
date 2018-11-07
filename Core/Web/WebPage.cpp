@@ -359,7 +359,7 @@ bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool
 QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
 {
 	TabbedWebView* tabbedWebView = qobject_cast<TabbedWebView*>(view());
-	BrowserWindow* window = tabbedWebView ? tabbedWebView->browserWindow() : Application::instance()->getWindow();
+	BrowserWindow* window = tabbedWebView ? tabbedWebView->webTab()->tabWidget()->window() : Application::instance()->getWindow();
 
 	auto createTab = [=](Application::NewTabTypeFlags tabType)
 	{

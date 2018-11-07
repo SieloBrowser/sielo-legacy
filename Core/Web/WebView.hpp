@@ -76,6 +76,8 @@ public:
 
 	int loadingProgress() const;
 
+	bool backgroundActivity() const { return m_backgroundActivity; }
+
 	int zoomLevel() const;
 	void setZoomLevel(int level);
 
@@ -91,6 +93,7 @@ public:
 	bool isTransparent() const;
 
 signals:
+	void pageChanged(WebPage* page);
 	void pageRendering();
 	void focusChanged(bool);
 	void viewportResized(QSize);

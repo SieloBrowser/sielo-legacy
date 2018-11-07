@@ -24,6 +24,8 @@
 
 #include "HelpUsDialog.hpp"
 
+#include <QIcon>
+
 #include "Application.hpp"
 
 namespace Sn {

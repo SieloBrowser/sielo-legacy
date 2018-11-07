@@ -29,6 +29,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include <QMenu>
+
 #include <QClipboard>
 #include <QtWidgets/qgraphicsitem.h>
 

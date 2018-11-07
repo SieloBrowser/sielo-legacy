@@ -27,6 +27,8 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
+#include <QIcon>
+
 #include <QMessageBox>
 
 #include "Network/NetworkManager.hpp"

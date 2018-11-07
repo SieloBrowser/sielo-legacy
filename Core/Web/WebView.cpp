@@ -221,20 +221,40 @@ void WebView::setPage(WebPage* page)
 	if (m_page == page)
 		return;
 
+	if (m_page) {
+		if (m_page->isLoading()) {
+			emit m_page->loadProgress(100);
+			emit m_page->loadFinished(true);
+		}
+
+		m_page->setView(nullptr);
+		m_page->deleteLater();
+	}
+
 	m_page = page;
 	m_page->setParent(this);
 	QWebEngineView::setPage(page);
+
+	if (m_page->isLoading()) {
+		emit loadStarted();
+		emit loadProgress(m_page->m_loadProgress);
+	}
 
 	connect(m_page, &WebPage::privacyChanged, this, &WebView::privacyChanged);
 	connect(m_page, &WebPage::pageRendering, this, &WebView::pageRendering);
 
 	zoomReset();
 	initActions();
+
+	emit pageChanged(m_page);
 	Application::instance()->plugins()->emitWebPageCreated(m_page);
 }
 
 void WebView::load(const QUrl& url)
 {
+	if (m_page && !m_page->acceptNavigationRequest(url, QWebEnginePage::NavigationTypeTyped, true))
+		return;
+
 	QWebEngineView::load(url);
 
 	if (!m_firstLoad) {

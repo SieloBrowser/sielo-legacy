@@ -24,6 +24,8 @@
 
 #include "LineEdit.hpp"
 
+#include <QMenu>
+
 #include <QClipboard>
 
 #include "Application.hpp"

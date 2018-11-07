@@ -173,28 +173,28 @@ void NavigationToolBar::showBookmarksHistory()
 
 void NavigationToolBar::refreshBackForwardButtons()
 {
-	if (Application::instance()->isClosing() || !m_tabWidget->weTab())
+	if (Application::instance()->isClosing() || !m_tabWidget->webTab())
 		return;
 
-	QWebEngineHistory* history{m_tabWidget->weTab()->webView()->page()->history()};
+	QWebEngineHistory* history{m_tabWidget->webTab()->webView()->page()->history()};
 	m_buttonBack->setEnabled(history->canGoBack());
 	m_buttonForward->setEnabled(history->canGoForward());
 }
 
 void NavigationToolBar::goBack()
 {
-	m_tabWidget->weTab()->webView()->back();
+	m_tabWidget->webTab()->webView()->back();
 }
 
 void NavigationToolBar::goBackInNewTab()
 {
 	// TODO: go back in new tab
-	m_tabWidget->addView(m_tabWidget->weTab()->webView()->history()->backItem().url());
+	m_tabWidget->addView(m_tabWidget->webTab()->webView()->history()->backItem().url());
 }
 
 void NavigationToolBar::goForward()
 {
-	m_tabWidget->weTab()->webView()->forward();
+	m_tabWidget->webTab()->webView()->forward();
 }
 
 void NavigationToolBar::goForwardInNewTab()
@@ -204,7 +204,7 @@ void NavigationToolBar::goForwardInNewTab()
 
 void NavigationToolBar::goHome()
 {
-	m_tabWidget->weTab()->sGoHome();
+	m_tabWidget->webTab()->sGoHome();
 }
 
 void NavigationToolBar::goHomeInNewTab()
