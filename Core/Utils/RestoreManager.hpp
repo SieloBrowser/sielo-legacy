@@ -32,39 +32,50 @@
 
 #include "Web/Tab/WebTab.hpp"
 
-namespace Sn {
+#include "BrowserWindow.hpp"
+
+namespace Sn
+{
 class WebPage;
 class RecoveryJsObject;
 
+struct RestoreData {
+	QVector<BrowserWindow::SavedWindow> windows;
+	QByteArray crashedSession{};
+
+	bool isValid() const;
+	void clear();
+
+	friend QDataStream &operator<<(QDataStream &stream, const RestoreData &data);
+	friend QDataStream &operator>>(QDataStream &stream, RestoreData &data);
+};
+
 class RestoreManager {
 public:
-	struct WindowData {
-		QVector<int> currentTabs{};
-		QByteArray windowState{};
-		QByteArray windowGeometry{};
-		QVector<QUrl> homeUrls{};
-		QVector<int> spaceTabsCount{};
-		QVector<QVector<WebTab::SavedTab>> tabsState;
+	enum SessionToRestor {
+		ClosedSession,
+		HomeSession
 	};
 
-	RestoreManager();
+	RestoreManager(bool openSavedSession = false);
 	virtual ~RestoreManager();
 
 	bool isValid() const;
-	QVector<RestoreManager::WindowData> restoreData() const;
+	RestoreData restoreData() const;
+	void clearRestoreData();
 
 	QObject* recoveryObject(WebPage* page);
+
+	static bool validateFile(const QString &file);
+	static void createFromFile(const QString &file, RestoreData &data);
 
 private:
 	void createFromFile(const QString& file);
 
 	RecoveryJsObject* m_recoveryObject{nullptr};
-	QVector<RestoreManager::WindowData> m_data;
+	RestoreData m_data;
 };
 
-using RestoreData = QVector<RestoreManager::WindowData>;
-
 }
-Q_DECLARE_TYPEINFO(Sn::RestoreManager::WindowData, Q_MOVABLE_TYPE);
 
 #endif //SIELOBROWSER_RESTOREMANAGER_HPP

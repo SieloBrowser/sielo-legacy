@@ -69,6 +69,7 @@
 #include "Utils/CommandLineOption.hpp"
 #include "Utils/DataPaths.hpp"
 #include "Utils/Updater.hpp"
+#include "Utils/RestoreManager.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/Scripts.hpp"
@@ -317,16 +318,21 @@ Application::Application(int& argc, char** argv) :
 	// Create or restore window
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
-	if ((isStartingAfterCrash() && afterCrashLaunch() == RestoreSession) ||
-		(afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession)) {
-		if (!(isStartingAfterCrash() && afterCrashLaunch() == Application::AfterLaunch::OpenHomePage)) {
-			m_restoreManager = new RestoreManager();
-			if (!m_restoreManager->isValid())
-				destroyRestoreManager();
-			else
-				QFile::remove(DataPaths::currentProfilePath() + QLatin1String("/pinnedtabs.dat"));
+	if (!privateBrowsing()) {
+		if (isStartingAfterCrash()) {
+			if (afterCrashLaunch() == RestoreSession)
+				m_restoreManager = new RestoreManager();
 		}
+		else if (afterLaunch() == RestoreSession || afterLaunch() == OpenSavedSession) {
+			m_restoreManager = new RestoreManager(afterLaunch() == OpenSavedSession);
+		}
+
+		if (m_restoreManager && !m_restoreManager->isValid()) 
+			destroyRestoreManager();
 	}
+
+	if (m_restoreManager)
+		restoreSession(window, m_restoreManager->restoreData());
 
 	// Check for update
 	Updater* updater{new Updater(window)};
@@ -449,7 +455,7 @@ void Application::loadApplicationSettings()
 			foreach(BrowserWindow* window, m_windows)
 			{
 				window->loadSettings();
-				for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+				for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
 					window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
 				}
 			}
@@ -633,53 +639,35 @@ Application::AfterLaunch Application::afterLaunch() const
 	return static_cast<AfterLaunch>(settings.value(QStringLiteral("Settings/afterLaunch"), OpenHomePage).toInt());
 }
 
-bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
+void Application::openSession(BrowserWindow* window, RestoreData& restoreData)
 {
-	if (m_privateBrowsing || restoreData.isEmpty())
-		return false;
-
-	// Make the user know that Sielo is working
-	m_isRestoring = true;
 	setOverrideCursor(Qt::BusyCursor);
 
-	window->setUpdatesEnabled(false);
-	window->tabWidget()->closeRecoveryTab();
+	if (!window)
+		window = createWindow(WT_OtherRestoredWindow);
 
-	if (window->tabWidget()->normalTabsCount() > 1) {
-		BrowserWindow* newWindow{createWindow(Application::WT_OtherRestoredWindow)};
-		newWindow->setUpdatesEnabled(false);
-		newWindow->restoreWindowState(restoreData[0]);
-		newWindow->setUpdatesEnabled(true);
+	window->restoreWindowState(restoreData.windows.takeAt(0));
 
-		restoreData.remove(0);
-	}
-	else {
-		int tabCount{window->tabWidget()->pinnedTabsCount()};
-		RestoreManager::WindowData data = restoreData[0];
-
-		data.currentTabs[0] += tabCount;
-		restoreData.remove(0);
-
-		window->restoreWindowState(data);
-	}
-
-	window->setUpdatesEnabled(true);
-
-	processEvents();
-
-	foreach(const RestoreManager::WindowData& data, restoreData)
+	foreach(const BrowserWindow::SavedWindow &data, restoreData.windows)
 	{
-		BrowserWindow* window{createWindow(Application::WT_OtherRestoredWindow)};
-
-		window->setUpdatesEnabled(false);
+		BrowserWindow* window = createWindow(WT_OtherRestoredWindow);
 		window->restoreWindowState(data);
-		window->setUpdatesEnabled(true);
-
-		processEvents();
 	}
 
-	destroyRestoreManager();
 	restoreOverrideCursor();
+}
+
+bool Application::restoreSession(BrowserWindow* window, RestoreData restoreData)
+{
+	if (m_privateBrowsing || !restoreData.isValid())
+		return false;
+
+	m_isRestoring = true;
+
+	openSession(window, restoreData);
+
+	m_restoreManager->clearRestoreData();
+	destroyRestoreManager();
 
 	m_isRestoring = false;
 
@@ -734,24 +722,19 @@ void Application::saveSession(bool saveForHome)
 	QByteArray data{};
 	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	// Write the current session in version 2
-	stream << 0x0003;
-	stream << m_windows.count();
+	RestoreData restoreData{};
+	restoreData.windows.reserve(m_windows.count());
 
-	// Save tabs of all windows
-	foreach(BrowserWindow* window, m_windows)
-	{
-		window->titleBar()->saveToolBarsPositions();
-		stream << window->saveTabs();
+	for (BrowserWindow* window : m_windows)
+		restoreData.windows.append(BrowserWindow::SavedWindow(window));
 
-		// Save state of window (is it's in full screen)
-		if (window->isFullScreen())
-			stream << QByteArray();
-		else
-			stream << window->saveState();
-
-		stream << window->saveGeometry();
+	if (m_restoreManager && m_restoreManager->isValid()) {
+		QDataStream creashStream(&restoreData.crashedSession, QIODevice::WriteOnly);
+		creashStream << m_restoreManager->restoreData();
 	}
+
+	stream << 1;
+	stream << restoreData;
 
 	// Save data to a file
 	QFile file{};
@@ -990,7 +973,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		LoadRequest siteRequest{};
 		siteRequest.setUrl(QUrl("http://www.feldrise.com/Sielo/"));
 
-		getWindow()->tabWidget()->weTab()->webView()
+		getWindow()->tabWidget()->webTab()->webView()
 			->loadInNewTab(siteRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
@@ -998,7 +981,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		LoadRequest githubRequest{};
 		githubRequest.setUrl(QUrl("https://github.com/Feldrise/SieloNavigateur"));
 
-		getWindow()->tabWidget()->weTab()->webView()
+		getWindow()->tabWidget()->webTab()->webView()
 			->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
@@ -1084,7 +1067,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 		LoadRequest eastereggRequest{};
 		eastereggRequest.setUrl(eastereggs[easteregg]);
 
-		getWindow()->tabWidget()->weTab()->webView()
+		getWindow()->tabWidget()->webTab()->webView()
 			->loadInNewTab(eastereggRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 }

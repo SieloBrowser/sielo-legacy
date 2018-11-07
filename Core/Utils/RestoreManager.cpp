@@ -33,14 +33,96 @@
 #include "Application.hpp"
 
 namespace Sn {
+// Static
+bool RestoreManager::validateFile(const QString& file)
+{
+	RestoreData data{};
+	createFromFile(file, data);
 
-RestoreManager::RestoreManager() :
+	return data.isValid();
+}
+
+void RestoreManager::createFromFile(const QString& file, RestoreData& data)
+{
+	if (!QFile::exists(file))
+		return;
+
+	QFile recoveryFile{file};
+
+	if (!recoveryFile.open(QIODevice::ReadOnly))
+		return;
+
+	QDataStream stream{&recoveryFile};
+
+	int version{0};
+	stream >> version;
+
+	if (version > 1)
+		return;
+
+	stream >> data;
+}
+
+bool RestoreData::isValid() const
+{
+	for (const BrowserWindow::SavedWindow& window : windows) {
+		if (!window.isValid())
+			return false;
+	}
+
+	return !windows.isEmpty();
+}
+
+void RestoreData::clear()
+{
+	windows.clear();
+	crashedSession.clear();
+}
+
+QDataStream &operator<<(QDataStream &stream, const RestoreData &data)
+{
+	stream << 1;
+	stream << data.windows.count();
+
+	for (const BrowserWindow::SavedWindow& window : data.windows)
+		stream << window;
+
+	stream << data.crashedSession;
+
+	return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, RestoreData &data)
+{
+	int version{0};
+	stream >> version;
+
+	if (version < 1)
+		return stream;
+
+	int windowCount{0};
+	stream >> windowCount;
+	data.windows.reserve(windowCount);
+
+	for (int i{0}; i < windowCount; ++i) {
+		BrowserWindow::SavedWindow window{};
+		stream >> window;
+
+		data.windows.append(window);
+	}
+
+	stream >> data.crashedSession;
+
+	return stream;
+}
+
+RestoreManager::RestoreManager(bool openSavedSession) :
 	m_recoveryObject(new RecoveryJsObject(this))
 {
-	if ((Application::instance()->isStartingAfterCrash() && Application::instance()->afterCrashLaunch() == Application::AfterLaunch::RestoreSession) || (Application::instance()->afterLaunch() == Application::RestoreSession))
+	if (openSavedSession)
+		createFromFile(DataPaths::currentProfilePath() + QLatin1String("/home-session.dat")); 
+	else 
 		createFromFile(DataPaths::currentProfilePath() + QLatin1String("/session.dat"));
-	else if (Application::instance()->afterLaunch() == Application::OpenSavedSession)
-		createFromFile(DataPaths::currentProfilePath() + QLatin1String("/home-session.dat"));
 
 }
 
@@ -51,12 +133,20 @@ RestoreManager::~RestoreManager()
 
 bool RestoreManager::isValid() const
 {
-	return !m_data.isEmpty();
+	return m_data.isValid();
 }
 
-QVector<RestoreManager::WindowData> RestoreManager::restoreData() const
+RestoreData RestoreManager::restoreData() const
 {
 	return m_data;
+}
+
+void RestoreManager::clearRestoreData()
+{
+	m_data.clear();
+
+	QDataStream stream(&m_data.crashedSession, QIODevice::ReadOnly);
+	stream >> m_data;
 }
 
 QObject* RestoreManager::recoveryObject(WebPage* page)
@@ -67,92 +157,6 @@ QObject* RestoreManager::recoveryObject(WebPage* page)
 
 void RestoreManager::createFromFile(const QString& file)
 {
-	if (!QFile::exists(file))
-		return;
-
-	QFile recoveryFile{file};
-
-	recoveryFile.open(QIODevice::ReadOnly);
-
-	QDataStream stream{&recoveryFile};
-
-	int version{0};
-	stream >> version;
-
-	if (version > 0x0003)
-		return;
-
-	int windowCount{};
-	stream >> windowCount;
-
-	for (int win{0}; win < windowCount; ++win) {
-		QByteArray tabWidgetState{};
-		QByteArray windowState{};
-		QByteArray windowGeometry{};
-
-		stream >> tabWidgetState;
-		stream >> windowState;
-
-		if (version >= 0x0003)
-			stream >> windowGeometry;
-
-		WindowData windowData{};
-
-		windowData.windowState = windowState;
-		windowData.windowGeometry = windowGeometry;
-
-		QDataStream tabWidgetStream{tabWidgetState};
-
-		if (tabWidgetStream.atEnd())
-			continue;
-
-		int mainSplitterCount{0};
-		tabWidgetStream >> mainSplitterCount;
-
-		windowData.spaceTabsCount.append(mainSplitterCount);
-
-		for (int j{0}; j < mainSplitterCount; ++j) {
-			int verticalSplitterCount{0};
-			tabWidgetStream >> verticalSplitterCount;
-
-			windowData.spaceTabsCount.append(verticalSplitterCount);
-			for (int k{0}; k < verticalSplitterCount; ++k) {
-				QVector<WebTab::SavedTab> tabs;
-				QByteArray tabState{};
-				QUrl homePageUrl{};
-				int tabListCount{0};
-
-				tabWidgetStream >> tabState;
-
-				QDataStream tabStream{tabState};
-
-
-				if (version != 0x0001)
-					tabStream >> homePageUrl;
-
-				windowData.homeUrls.append(homePageUrl);
-				tabStream >> tabListCount;
-
-				for (int l{0}; l < tabListCount; ++l) {
-					WebTab::SavedTab tab{};
-
-					tabStream >> tab;
-					tabs.append(tab);
-				}
-
-				windowData.tabsState.append(tabs);
-
-				int currentTab{};
-
-				tabStream >> currentTab;
-
-				windowData.currentTabs.append(currentTab);
-
-			}
-		}
-
-		m_data.append(windowData);
-	}
+	createFromFile(file, m_data);
 }
-
 }

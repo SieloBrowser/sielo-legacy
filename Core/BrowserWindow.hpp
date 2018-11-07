@@ -37,7 +37,7 @@
 
 #include <QResizeEvent>
 
-#include "Utils/RestoreManager.hpp"
+#include "Widgets/Tab/TabsSpaceSplitter.hpp"
 #include "Widgets/FloatingButton.hpp"
 
 #include "Application.hpp"
@@ -63,13 +63,19 @@ class BrowserWindow: public QMainWindow {
 Q_OBJECT
 
 public:
-	//! Tabs Space Position.
-	/* Position where a tabs space can be create. */
-	enum TabsSpacePosition {
-		TSP_Left, /*!< Create tabs space to the left. */
-		TSP_Right, /*!< Create tabs space to the right. */
-		TSP_Top, /*!< Create tabs space to the top. */
-		TSP_Bottom /*!< Create tabs space to the bottom. */
+	struct SavedWindow {
+		QByteArray windowState{};
+		QByteArray windowGeometry{};
+		QVector<TabsSpaceSplitter::SavedTabsSpace> tabsSpaces{};
+
+		SavedWindow();
+		SavedWindow(BrowserWindow* window);
+
+		bool isValid() const;
+		void clear();
+
+		friend QDataStream &operator<<(QDataStream &stream, const SavedWindow &window);
+		friend QDataStream &operator>>(QDataStream &stream, SavedWindow &window);
 	};
 
 	/*!
@@ -97,47 +103,12 @@ public:
 	 */
 	void loadSettings();
 
-	/*!
-	 * Return encoded data that can be stored as binary of current tabs spaces.
-	 */
-	QByteArray saveTabs();
-
 	void setStartTab(WebTab* tab);
 	void setStartPage(WebPage* page);
 
-	void restoreWindowState(const RestoreManager::WindowData& data);
+	void restoreWindowState(const SavedWindow& window);
 
-	void currentTabChanged(WebTab* oldTab);
-
-	/*!
-	 * Create a new tabs space.
-	 * 
-	 * This function create a new tabs space with the given tab to the given position.
-	 * @param position The position where the tabs space must be created.
-	 * @param tab The tab of the tabs space.
-	 * @param from The tab widget who requested a new tabs space, if one.
-	 */
-	void createNewTabsSpace(TabsSpacePosition position, WebTab* tab, TabWidget* from = nullptr);
-	void createNewTabsSpace(TabsSpacePosition position, Application::TabsSpaceType type, WebTab* tab = nullptr);
-	/*!
-	 * Insert a tabs space.
-	 * 
-	 * This function insert the tabs space into the window.
-	 * @param position The position where the tabs space must be created.
-	 * @param widgetTabWidget The tabs space itself (it generally have been builded with `createWidgetTabWidget`).
-	 * @param from The tab widget who requested a new tabs space.
-	 */
-	void insertTabsSpace(TabsSpacePosition position, QWidget* widgetTabWidget, TabWidget* from);
-	/*!
-	 * Close a tabs space.
-	 * 
-	 * @param tabWidget The tab widget of the tabs space. All parents will be deduced.
-	 */
-	void closeTabsSpace(TabWidget* tabWidget);
-	/*!
-	 * Resize all tabs space to be a maximum equals.
-	 */
-	void autoResizeTabsSpace();
+	void currentTabChanged();
 
 	/*!
 	 * Load an url in the current tab.
@@ -147,12 +118,6 @@ public:
 	 * Load an url in a new tab
 	 */
 	void loadUrlInNewTab(const QUrl& url);
-
-	/*!
-	 * This return the maquetteGrid corresponding to the current session.
-	 * @return The maquetteGrid corresponding to the current session.
-	 */
-	MaquetteGridItem* maquetteGridItem() const;
 
 	/*!
 	 * This return the URL for the home page (doosearch.sielo.app at default).
@@ -173,8 +138,7 @@ public:
 
 	TabWidget* tabWidget() const;
 	TabWidget* tabWidget(int index) const;
-	QVector<TabWidget*> tabWidgets() const { return m_tabWidgets; }
-	int tabWidgetsCount() const;
+	TabsSpaceSplitter* tabsSpaceSplitter() const { return m_tabsSpaceSplitter; }
 
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 	TitleBar* titleBar() const { return m_titleBar; }
@@ -192,12 +156,12 @@ public slots:
 
 	void enterHtmlFullScreen();
 	void toggleFullScreen();
-	void tabsSpaceInFullView(QWidget* widget);
-	void arrangeTabsSpaces();
 
 	void bookmarkPage();
 	void bookmarkAllTabs();
 	void addBookmark(const QUrl& url, const QString& title);
+
+	void tabWidgetIndexChanged(TabWidget* tbWidget);
 
 protected:
 	void shotBackground();
@@ -214,7 +178,6 @@ private slots:
 	void addTab();
 	void postLaunch();
 
-	void tabWidgetIndexChanged(TabWidget* tbWidget);
 	void floatingButtonPatternChange(RootFloatingButton::Pattern pattern);
 
 	void newWindow();
@@ -229,9 +192,6 @@ private:
 
 	void saveButtonState();
 
-	QWidget* createWidgetTabWidget(WebTab* tab = nullptr, Application::TabsSpaceType type = Application::TST_Web);
-	QWidget* createWidgetTabWidget(TabWidget* tabWidget, WebTab* tab = nullptr);
-
 #ifdef Q_OS_WIN
 	long ncHitTest(const MSG* wMsg) const;
 #endif
@@ -245,16 +205,10 @@ private:
 	Application::WindowType m_windowType{};
 	WebTab* m_startTab{nullptr};
 	WebPage* m_startPage{nullptr};
-	int m_spaceBetweenTabsSpaces{7};
 
-	QVBoxLayout* m_layout{nullptr};
-	QSplitter* m_mainSplitter{nullptr};
-
-	QVector<TabWidget*> m_tabWidgets;
+	TabsSpaceSplitter* m_tabsSpaceSplitter{nullptr};
 	StatusBarMessage* m_statusBarMessage{nullptr};
 	TitleBar* m_titleBar{nullptr};
-
-	int m_currentTabWidget{0};
 
 	qreal m_blur_radius{ 0 };
 

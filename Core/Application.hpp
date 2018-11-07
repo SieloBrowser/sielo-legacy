@@ -35,8 +35,6 @@
 
 #include <QWebEngineProfile>
 
-#include "Utils/RestoreManager.hpp"
-
 #include "3rdparty/SingleApplication/singleapplication.h"
 #include "3rdparty/Piwik/piwiktracker.h"
 
@@ -51,6 +49,9 @@ class MaquetteGrid;
 class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
+
+struct RestoreData;
+class RestoreManager;
 
 class BrowserWindow;
 
@@ -216,6 +217,7 @@ public:
 	AfterLaunch afterCrashLaunch() const { return m_afterCrashLaunch; }
 	AfterLaunch afterLaunch() const;
 
+	void openSession(BrowserWindow* window, RestoreData& restoreData);
 	bool restoreSession(BrowserWindow* window, RestoreData restoreData);
 	void destroyRestoreManager();
 

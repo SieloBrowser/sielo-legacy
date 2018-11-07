@@ -28,11 +28,12 @@
 
 #include <QBuffer>
 
-#include "Web/WebPage.hpp"
-
 #include "Utils/RestoreManager.hpp"
 
+#include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
+
+#include "Widgets/Tab/TabWidget.hpp"
 
 #include "BrowserWindow.hpp"
 
@@ -158,7 +159,7 @@ BrowserWindow* RecoveryJsObject::getBrowserWindow() const
 {
 	TabbedWebView* view = qobject_cast<TabbedWebView*>(m_page->view());
 
-	return view ? view->browserWindow() : nullptr;
+	return view ? view->webTab()->tabWidget()->window() : nullptr;
 }
 
 }
