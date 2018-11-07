@@ -68,9 +68,7 @@ public:
 	void loadSettings();
 
 	QByteArray saveState();
-	void saveButtonState();
 	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab, const QUrl& homeUrl);
-	void closeRecoveryTab();
 
 	void setCurrentIndex(int index);
 
@@ -80,12 +78,9 @@ public:
 
 	int normalTabsCount() const;
 	int pinnedTabsCount() const;
-	int lastTabIndex() const;
 	int extraReservedWidth() const;
 
-	WebTab* weTab();
-	WebTab* weTab(int index);
-	TabIcon* tabIcon(int index);
+	WebTab* webTab(int index = -1) const;
 
 	QAction* action(const QString& name) const;
 
@@ -99,8 +94,6 @@ public:
 	bool canRestoreTab() const;
 	bool isCurrentTabFresh() const { return m_currentTabFresh; }
 	void setCurrentTabFresh(bool currentTabFresh);
-	bool isMuted() const { return m_isMutted; }
-	void toggleMuted();
 
 	QUrl urlOnNewTab() const { return m_urlOnNewTab; }
 	QUrl homeUrl() const { return m_homeUrl; }
@@ -110,23 +103,35 @@ public:
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
 
+	void moveTab(int from, int to);
+	int pinUnPinTab(int index, const QString &title = QString());
+
+	void detachTab(WebTab* tab);
+
 signals:
 	void changed();
+	void tabInserted(int index);
+	void tabRemoved(int index);
+	void tabMoved(int from, int to);
 
 	void focusIn(TabWidget*);
+
 public slots:
+	void addTab();
+
 	int addView(const QUrl& url);
 	int addView(const LoadRequest& request, const Application::NewTabTypeFlags& openFlags, bool selectLine = false,
 				bool pinned = false);
 	int addView(const LoadRequest& request, const QString& title = tr("New Tab"),
 				const Application::NewTabTypeFlags& openFlags = Application::NTT_SelectedTab, bool selectLine = false,
 				int position = -1, bool pinned = false);
-	int addView(WebTab* tab);
+	int addView(WebTab* tab, const Application::NewTabTypeFlags& openFlags);
+	int insertView(int index, WebTab* tab, const Application::NewTabTypeFlags& openFlags);
 
 	void addTabFromClipboard();
 	int duplicateTab(int index);
 
-	void closeTab(int index = -1);
+	void closeTab(int index = -1); // Force
 	void requestCloseTab(int index = -1);
 
 	void reloadTab(int index);
@@ -138,7 +143,8 @@ public slots:
 	void closeToRight(int index);
 	void closeToLeft(int index);
 	void detachTab(int index);
-	void detachTabFromDrop(int index);
+	void loadTab(int index);
+	void unloadTab(int index);
 //	void detachTab(int index, QPoint position);
 	void restoreClosedTab(QObject* obj = nullptr);
 	void restoreAllClosedTabs();
@@ -166,9 +172,13 @@ private slots:
 	void aboutToShowClosedTabsMenu();
 
 	void actionChangeIndex();
-	void tabMoved(int before, int after);
+	void tabWasMoved(int before, int after);
 
 private:
+	WebTab* weTab() const;
+	WebTab* weTab(int index) const;
+	TabIcon* tabIcon(int index) const;
+
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
 
@@ -189,19 +199,18 @@ private:
 	AddTabButton* m_buttonAddTab2{nullptr};
 	ToolButton* m_buttonMainMenu{nullptr};
 
+	QPointer<WebTab> m_lastBackgroundTab{};
+
 	QMenu* m_menuClosedTabs{nullptr};
 	NavigationToolBar* m_navigationToolBar{nullptr};
 	QUrl m_urlOnNewTab{};
 	QUrl m_homeUrl{};
 
-	int m_lastTabIndex{-1};
-	int m_lastBackgroundTabIndex{-1};
 	bool m_dontCloseWithOneTab{false};
 	bool m_showClosedTabsButton{false};
 	bool m_newTabAfterActive{false};
 	bool m_newEmptyTabAfterActive{false};
 	bool m_currentTabFresh{false};
-	bool m_isMutted{false};
 
 	QWebEngineView* m_fullScreenView{nullptr};
 	QWidget* m_oldParent{nullptr};

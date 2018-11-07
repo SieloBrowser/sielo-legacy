@@ -65,6 +65,7 @@
 
 namespace Sn
 {
+
 QString AddressBar::urlToText(const QUrl& url)
 {
 	if (url.scheme().isEmpty())
@@ -153,6 +154,13 @@ void AddressBar::setWebView(TabbedWebView* view)
 	connect(m_webView, &TabbedWebView::iconChanged, this, &AddressBar::updateSiteIcon);
 
 	connect(m_webView, SIGNAL(urlChanged(QUrl)), this, SLOT(showUrl(QUrl)));
+}
+
+
+void AddressBar::setBrowserWindow(BrowserWindow* window)
+{
+	m_window = window;
+	m_completer->setTabWidget(window->tabWidget());
 }
 
 void AddressBar::setText(const QString& text)

@@ -65,6 +65,7 @@ public:
 	int pinUnPinTab(int index, const QString& title = QString());
 
 	void removeTab(int index);
+	void moveTab(int from, int to);
 
 	int currentIndex() const;
 	int indexOf(QWidget* widget) const;

@@ -30,6 +30,8 @@
 #include <QColor>
 #include <QPoint>
 
+#include <QPointer> 
+
 #include <QContextMenuEvent>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -39,18 +41,67 @@
 
 #include "Widgets/Tab/ComboTabBar.hpp"
 
-namespace Sn {
+namespace Sn
+{
 class BrowserWindow;
 
 class TabWidget;
 
 class WebTab;
 
-class MainTabBar: public ComboTabBar {
-Q_OBJECT
+class TabBarTabMetrics: public QWidget {
+	Q_OBJECT
+		Q_PROPERTY(int normalMaxWidth READ normalMaxWidth WRITE setNormalMaxWidth)
+		Q_PROPERTY(int normalMinWidth READ normalMinWidth WRITE setNormalMinWidth)
+		Q_PROPERTY(int activeMinWidth READ activeMinWidth WRITE setActiveMinWidth)
+		Q_PROPERTY(int overflowedWidth READ overflowedWidth WRITE setOverflowedWidth)
+		Q_PROPERTY(int pinnedWidth READ pinnedWidth WRITE setPinnedWidth)
 
 public:
-	MainTabBar(BrowserWindow* window, TabWidget* tabWidget);
+	void init()
+	{
+		if (!m_metrics.isEmpty()) {
+			return;
+		}
+		m_metrics[0] = 250;
+		m_metrics[1] = 100;
+		m_metrics[2] = 100;
+		m_metrics[3] = 100;
+		m_metrics[4] = -1; // Will be initialized from MainTabBar
+	}
+
+	int normalMaxWidth() const { return m_metrics.value(0); }
+	void setNormalMaxWidth(int value) { m_metrics[0] = value; }
+
+	int normalMinWidth() const { return m_metrics.value(1); }
+	void setNormalMinWidth(int value) { m_metrics[1] = value; }
+
+	int activeMinWidth() const { return m_metrics.value(2); }
+	void setActiveMinWidth(int value) { m_metrics[2] = value; }
+
+	int overflowedWidth() const { return m_metrics.value(3); }
+	void setOverflowedWidth(int value) { m_metrics[3] = value; }
+
+	int pinnedWidth() const { return m_metrics.value(4); }
+	void setPinnedWidth(int value) { m_metrics[4] = value; }
+
+private:
+	QHash<int, int> m_metrics;
+};
+
+
+class MainTabBar: public ComboTabBar {
+	Q_OBJECT
+
+public:
+	enum TabDropAction {
+		NoAction,
+		SelectTab,
+		PrependTab,
+		AppendTab
+	};
+
+	MainTabBar(TabWidget* tabWidget);
 
 	void loadSettings();
 
@@ -62,69 +113,47 @@ public:
 	void restoreTabTextColor(int index);
 
 	void setTabText(int index, const QString& text);
-	void updatePinnedTabCloseButton(int index);
 
 	void wheelEvent(QWheelEvent* event);
 
-signals:
-	void reloadTab(int index);
-	void stopTab(int index);
-	void closeAllButCurrent(int index);
-	void closeToRight(int index);
-	void closeToLeft(int index);
-	void duplicateTab(int index);
-	void detachTab(int index);
+	void dropEvent(QDropEvent* event) override;
 
+signals:
 	void moveAddTabButton(int posX);
 
 private slots:
 	void currentTabChanged(int index);
 	void overflowChanged(bool overflowed);
 
-	void reloadTab() { emit reloadTab(m_clickedTab); }
-	void stopTab() { emit stopTab(m_clickedTab); }
-	void closeTab() { emit tabCloseRequested(m_clickedTab); }
-	void duplicateTab() { emit duplicateTab(m_clickedTab); }
-	void detachTab() { emit detachTab(m_clickedTab); }
-
-	void pinTab();
-	void muteTab();
-
-	void closeCurrentTab();
-	void closeAllButCurrent();
-	void closeToRight();
-	void closeToLeft();
 	void closeTabFromButton();
 
-	void createNewLeftTabsSpace();
-	void createNewRightTabsSpace();
-	void createNewTopTabsSpace();
-	void createNewBottomTabsSpace();
-
 private:
-	inline bool validIndex(int index) const { return (index >= 0 && index < count()); }
+	inline bool validIndex(int index) const;
 
 	void tabInserted(int index);
 	void tabRemoved(int index);
 
 	void hideCloseButton(int index);
 	void showCloseButton(int index);
+	void updatePinnedTabCloseButton(int index);
 
-	void contextMenuEvent(QContextMenuEvent* event);
-	void mouseDoubleClickEvent(QMouseEvent* event);
-	void mousePressEvent(QMouseEvent* event);
-	void mouseMoveEvent(QMouseEvent* event);
-	void mouseReleaseEvent(QMouseEvent* event);
-	void enterEvent(QEvent* event);
+	void contextMenuEvent(QContextMenuEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
+	void mousePressEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent* event) override;
+	void mouseReleaseEvent(QMouseEvent* event) override;
+	void enterEvent(QEvent* event) override;
 
-	void dragEnterEvent(QDragEnterEvent* event);
-	void dropEvent(QDropEvent* event);
+	void dragEnterEvent(QDragEnterEvent* event) override;
+	void dragMoveEvent(QDragMoveEvent* event) override;
+	void dragLeaveEvent(QDragLeaveEvent* event) override;
+
+	TabDropAction tabDropAction(const QPoint& pos, const QRect& tabRect, bool allowSelect) const;
 
 	QSize tabSizeHint(int index, bool fast) const;
 	int comboTabBarPixelMetric(ComboTabBar::SizeType sizeType) const;
 	WebTab* webTab(int index = -1);
 
-	BrowserWindow* m_window{nullptr};
 	TabWidget* m_tabWidget{nullptr};
 
 	bool m_hideTabBarWithOneTab{false};
@@ -138,6 +167,8 @@ private:
 	QPoint m_dragStartPosition{};
 
 	bool m_forceHidden{false};
+
+	QPointer<WebTab> m_lastTab{};
 };
 
 }

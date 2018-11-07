@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,59 +23,67 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef CORE_LOADREQUEST_HPP
-#define CORE_LOADREQUEST_HPP
+#ifndef SIELOBROWSER_TABCONTEXTMENU_HPP
+#define SIELOBROWSER_TABCONTEXTMENU_HPP
 
-#include <QUrl>
-#include <QByteArray>
+#include <QMenu>
 
-namespace Sn {
+namespace Sn
+{
 
-class LoadRequest {
+class TabWidget;
+
+class TabContextMenu: public QMenu {
+	Q_OBJECT
+
 public:
-	enum Operation {
-		GetOp = 0,
-		PostOp = 1
+	enum Option {
+		InvalidOption = 0,
+		HorizontalTabs = 1 << 0,
+		VerticalTabs = 1 << 1,
+		ShowCloseOtherTabsActions = 1 << 2,
+		ShowDetachTabAction = 1 << 3,
+
+		DefaultOptions = HorizontalTabs | ShowCloseOtherTabsActions
 	};
+	Q_DECLARE_FLAGS(Options, Option)
 
-	LoadRequest() :
-		m_operation(GetOp) {}
-	LoadRequest(const LoadRequest& other) :
-		m_url(other.m_url),
-		m_operation(other.m_operation),
-		m_data(other.m_data) {}
-	LoadRequest(const QUrl& url, Operation operation = GetOp, const QByteArray& data = QByteArray()) :
-		m_url(url),
-		m_operation(operation),
-		m_data(data) {}
+	TabContextMenu(int index, TabWidget* tabWidget, Options options = DefaultOptions);
+	~TabContextMenu() = default;
 
-	LoadRequest& operator=(const LoadRequest& other)
-	{
-		m_url = other.m_url;
-		m_operation = other.m_operation;
-		m_data = other.m_data;
-		return *this;
-	}
+signals:
+	void reloadTab(int index);
+	void stopTab(int index);
+	void tabCloseRequested(int index);
+	void closeAllButCurrent(int index);
+	void closeToRight(int index);
+	void closeToLeft(int index);
+	void duplicateTab(int index);
+	void detachTab(int index);
+	void loadTab(int index);
+	void unloadTab(int index);
 
-	bool isValid() const { return m_url.isValid(); }
-	bool isEmpty() const { return m_url.isEmpty(); }
+private slots:
+	void reloadTab() { emit reloadTab(m_clickedTab); }
+	void stopTab() { emit stopTab(m_clickedTab); }
+	void closeTab() { emit tabCloseRequested(m_clickedTab); }
+	void duplicateTab() { emit duplicateTab(m_clickedTab); }
+	void detachTab() { emit detachTab(m_clickedTab); }
+	void loadTab() { emit loadTab(m_clickedTab); }
+	void unloadTab() { emit unloadTab(m_clickedTab); }
 
-	QUrl url() const { return m_url; }
-	void setUrl(const QUrl& url) { m_url = url; }
+	void pinTab();
+	void muteTab();
 
-	QString urlString() const { return QUrl::fromPercentEncoding(m_url.toEncoded()); }
-
-	Operation operation() const { return m_operation; }
-	void setOperation(Operation operation) { m_operation = operation; }
-
-	QByteArray data() const { return m_data; }
-	void setData(const QByteArray& data) { m_data = data; }
+	void closeAllButCurrent();
+	void closeToRight();
+	void closeToLeft();
 
 private:
-	QUrl m_url{};
-	Operation m_operation{};
-	QByteArray m_data{};
+	int m_clickedTab{0};
+	TabWidget* m_tabWidget{nullptr};
+	Options m_options{InvalidOption};
 };
+}
 
-} // namespace Sn
-#endif // CORE_LOADREQUEST_HPP
+#endif //SIELOBROWSER_TABCONTEXTMENU_HPP

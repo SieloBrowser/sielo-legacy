@@ -300,7 +300,7 @@ void AddressBarCompleter::switchToTab(TabWidget* tabWidget, int tab)
 		tabWidget->window()->raise();
 	}
 	else
-		tabWidget->weTab()->webView()->setFocus();
+		tabWidget->webTab()->webView()->setFocus();
 }
 
 void AddressBarCompleter::loadString(const QString& url)

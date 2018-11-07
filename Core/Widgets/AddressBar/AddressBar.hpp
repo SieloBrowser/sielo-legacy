@@ -72,6 +72,9 @@ public:
 	TabbedWebView* webView() const { return m_webView; }
 	void setWebView(TabbedWebView* view);
 
+	BrowserWindow* browserWindow() const { return m_window; }
+	void setBrowserWindow(BrowserWindow* window);
+
 	static QString urlToText(const QUrl &url);
 
 public slots:

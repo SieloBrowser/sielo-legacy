@@ -43,13 +43,14 @@
 #include "Web/Scripts.hpp"
 #include "Web/WebHitTestResult.hpp"
 
-namespace Sn {
+namespace Sn
+{
 TabbedWebView::TabbedWebView(WebTab* tab) :
-		WebView(tab),
-		m_window(nullptr),
-		m_webTab(tab),
-		m_menu(new QMenu(this)),
-		m_cursorIn(false)
+	WebView(tab),
+	m_tabWidget(nullptr),
+	m_webTab(tab),
+	m_menu(new QMenu(this)),
+	m_cursorIn(false)
 {
 	setAcceptDrops(true);
 
@@ -70,9 +71,9 @@ void TabbedWebView::setWebPage(WebPage* page)
 #endif // EXP_TRANSPARENT_BG
 }
 
-void TabbedWebView::setBrowserWindow(BrowserWindow* window)
+void TabbedWebView::setTabWidget(TabWidget* tabWidget)
 {
-	m_window = window;
+	m_tabWidget = tabWidget;
 }
 
 int TabbedWebView::tabIndex() const
@@ -92,33 +93,33 @@ void TabbedWebView::closeView()
 
 void TabbedWebView::loadInNewTab(const LoadRequest& request, Application::NewTabType tabType)
 {
-	if (m_window) {
-		int index{m_window->tabWidget()->addView(QUrl(), tabType)};
-		m_window->webView(index)->webTab()->addressBar()->showUrl(request.url());
-		m_window->webView(index)->load(request);
+	if (m_tabWidget) {
+		int index{m_tabWidget->addView(QUrl(), tabType)};
+		m_tabWidget->webTab(index)->addressBar()->showUrl(request.url());
+		m_tabWidget->webTab(index)->load(request);
 	}
 }
 
 bool TabbedWebView::isFullScreen()
 {
-	return (m_window && m_window->isFullScreen());
+	return (m_tabWidget->window() && m_tabWidget->window()->isFullScreen());
 }
 
 void TabbedWebView::requestFullScreen(bool enable)
 {
-	if (!m_window)
+	if (!m_tabWidget->window())
 		return;
 
 	if (enable)
-		m_window->enterHtmlFullScreen();
+		m_tabWidget->window()->enterHtmlFullScreen();
 	else
-		m_window->showNormal();
+		m_tabWidget->window()->showNormal();
 }
 
 void TabbedWebView::setAsCurrentTab()
 {
-	if (m_window)
-		m_window->tabWidget()->setCurrentWidget(m_webTab);
+	if (m_tabWidget)
+		m_tabWidget->setCurrentWidget(m_webTab);
 }
 
 void TabbedWebView::userLoadAction(const LoadRequest& request)
@@ -131,10 +132,10 @@ void TabbedWebView::userLoadAction(const LoadRequest& request)
 void TabbedWebView::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
-	if (m_window->background() != nullptr && isTransparent()) {
-		QPoint global_position = mapTo(m_window, QPoint(0, 0));
+	if (m_tabWidget->window()->background() != nullptr && isTransparent()) {
+		QPoint global_position = mapTo(m_tabWidget->window(), QPoint(0, 0));
 		QRect shot_rect(global_position.x(), global_position.y(), width(), height());
-		painter.drawImage(QPoint(), *m_window->processedBackground(), shot_rect);
+		painter.drawImage(QPoint(), *m_tabWidget->window()->processedBackground(), shot_rect);
 	}
 	WebView::paintEvent(event);
 }
@@ -159,12 +160,14 @@ void TabbedWebView::sLoadFinished()
 #ifdef EXP_TRANSPARENT_BG
 void TabbedWebView::sPageRendering()
 {
-	page()->runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res) {
+	page()->runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res)
+	{
 		const QVariantList& list = res.toList();
 
 		page()->setBackgroundColor(Qt::white);
 
-		foreach(const QVariant& val, list) {
+		foreach(const QVariant& val, list)
+		{
 			const QVariantMap& meta = val.toMap();
 			QString name = meta.value(QStringLiteral("name")).toString();
 			QString content = meta.value(QStringLiteral("content")).toString();
@@ -187,12 +190,12 @@ void TabbedWebView::urlChanged(const QUrl& url)
 
 void TabbedWebView::linkHovered(const QString& link)
 {
-	if (m_webTab->isCurrentTab() && m_window) {
+	if (m_webTab->isCurrentTab() && m_tabWidget->window()) {
 		if (link.isEmpty()) {
-			m_window->statusBarMessage()->clearMessage();
+			m_tabWidget->window()->statusBarMessage()->clearMessage();
 		}
 		else {
-			m_window->statusBarMessage()->showMessage(link);
+			m_tabWidget->window()->statusBarMessage()->showMessage(link);
 		}
 	}
 }
@@ -205,7 +208,7 @@ void TabbedWebView::setIp(const QHostInfo& info)
 	m_currentIp = QString("%1 (%2)").arg(info.hostName(), info.addresses()[0].toString());
 
 	if (m_webTab->isCurrentTab())
-			emit ipChanged(m_currentIp);
+		emit ipChanged(m_currentIp);
 }
 
 void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
@@ -216,7 +219,7 @@ void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 	createContextMenu(m_menu, hitTest);
 	m_menu->addSeparator();
 	m_menu->addAction(Application::getAppIcon("text-html"), tr("Show so&urce code"), this, &WebView::showSource);
-	m_menu->addAction(tr("Show Inspector"), m_webTab, &WebTab::showInspector);
+	m_menu->addAction(tr("Show Inspector"), m_webTab, &WebTab::toggleWebInspector);
 
 	if (!m_menu->isEmpty()) {
 		const QPoint pos{event->globalPos()};
@@ -247,13 +250,13 @@ void TabbedWebView::dragEnterEvent(QDragEnterEvent* event)
 {
 	const QMimeData* mime{event->mimeData()};
 
-	if (mime->hasFormat("sielo/tabdata")) {
+	if (mime->hasFormat("application/sielo.tabbar.tab")) {
 		event->acceptProposedAction();
 		if (!m_highlightedFrame) {
 			m_highlightedFrame = new QFrame(this);
 			m_highlightedFrame->setObjectName(QLatin1String("highlighted-new-tabsspace"));
 			m_highlightedFrame->setStyleSheet(
-					"#highlighted-new-tabsspace{background: rgba(66, 134, 244, 0.5);}" + styleSheet());
+				"#highlighted-new-tabsspace{background: rgba(66, 134, 244, 0.5);}" + styleSheet());
 			m_highlightedFrame->setAttribute(Qt::WA_TransparentForMouseEvents);
 			m_highlightedFrame->show();
 		}
@@ -265,7 +268,7 @@ void TabbedWebView::dragEnterEvent(QDragEnterEvent* event)
 
 void TabbedWebView::dragMoveEvent(QDragMoveEvent* event)
 {
-	if (event->mimeData()->hasFormat("sielo/tabdata")) {
+	if (event->mimeData()->hasFormat("application/sielo.tabbar.tab")) {
 		QRect topRect(x(), y(), width(), height() / 3);
 		QRect bottomRect(x(), (y() + height()) - height() / 3, width(), height() / 3);
 		QRect leftRect(x(), y(), width() / 2, height());
@@ -310,7 +313,36 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 {
 	const QMimeData* mime{event->mimeData()};
 
-	if (mime->hasFormat("sielo/tabdata")) {
+	if (mime->hasFormat("application/sielo.tabbar.tab")) {
+		TabWidget* newTabWidget{nullptr};
+
+		QRect topRect(x(), y(), width(), height() / 3);
+		QRect bottomRect(x(), (y() + height()) - height() / 3, width(), height() / 3);
+		QRect leftRect(x(), y(), width() / 2, height());
+		QRect rightRect((x() + width()) - width() / 2, y(), width() / 2, height());
+
+		if (topRect.contains(event->pos())) {
+			newTabWidget = m_tabWidget->window()->tabsSpaceSplitter()->createNewTabsSpace(TabsSpaceSplitter::TSP_Top, m_tabWidget);
+		}
+		else if (bottomRect.contains(event->pos())) {
+			newTabWidget = m_tabWidget->window()->tabsSpaceSplitter()->createNewTabsSpace(TabsSpaceSplitter::TSP_Bottom, m_tabWidget);
+		}
+		else if (leftRect.contains(event->pos())) {
+			newTabWidget = m_tabWidget->window()->tabsSpaceSplitter()->createNewTabsSpace(TabsSpaceSplitter::TSP_Left, m_tabWidget);
+		}
+		else if (rightRect.contains(event->pos())) {
+			newTabWidget = m_tabWidget->window()->tabsSpaceSplitter()->createNewTabsSpace(TabsSpaceSplitter::TSP_Right, m_tabWidget);
+		}
+
+		if (newTabWidget)
+			newTabWidget->tabBar()->dropEvent(event);
+
+		m_highlightedFrame->deleteLater();
+		m_highlightedFrame = nullptr;
+
+		return;
+	}
+	/*if (mime->hasFormat("application/sielo.tabbar.tab")) {
 		MainTabBar* mainTabBar{qobject_cast<MainTabBar*>(qobject_cast<TabBar*>(event->source())->comboTabBar())};
 		QByteArray tabData{event->mimeData()->data("sielo/tabdata")};
 		QDataStream dataStream{&tabData, QIODevice::ReadOnly};
@@ -319,7 +351,7 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		dataStream >> index;
 
 		TabWidget* sourceTabWidget{mainTabBar->tabWidget()};
-		WebTab* webTab{sourceTabWidget->weTab(index)};
+		WebTab* webTab{sourceTabWidget->webTab(index)};
 		int tabCount = sourceTabWidget->normalTabsCount();
 		QRect topRect(x(), y(), width(), height() / 3);
 		QRect bottomRect(x(), (y() + height()) - height() / 3, width(), height() / 3);
@@ -327,16 +359,16 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 		QRect rightRect((x() + width()) - width() / 2, y(), width() / 2, height());
 
 		if (topRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Top, webTab, m_webTab->tabBar()->tabWidget());
+			m_tabWidget->window()->createNewTabsSpace(BrowserWindow::TSP_Top, webTab, m_webTab->tabBar()->tabWidget());
 		}
 		else if (bottomRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Bottom, webTab, m_webTab->tabBar()->tabWidget());
+			m_tabWidget->window()->createNewTabsSpace(BrowserWindow::TSP_Bottom, webTab, m_webTab->tabBar()->tabWidget());
 		}
 		else if (leftRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Left, webTab, m_webTab->tabBar()->tabWidget());
+			m_tabWidget->window()->createNewTabsSpace(BrowserWindow::TSP_Left, webTab, m_webTab->tabBar()->tabWidget());
 		}
 		else if (rightRect.contains(event->pos())) {
-			m_window->createNewTabsSpace(BrowserWindow::TSP_Right, webTab, m_webTab->tabBar()->tabWidget());
+			m_tabWidget->window()->createNewTabsSpace(BrowserWindow::TSP_Right, webTab, m_webTab->tabBar()->tabWidget());
 		}
 
 		m_highlightedFrame->deleteLater();
@@ -360,7 +392,7 @@ void TabbedWebView::dropEvent(QDropEvent* event)
 
 		return;
 	}
-
+*/
 	WebView::dropEvent(event);
 }
 

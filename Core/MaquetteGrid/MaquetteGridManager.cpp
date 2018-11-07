@@ -172,7 +172,7 @@ void MaquetteGridManager::newMaquetteGrid()
 
 void MaquetteGridManager::newMaquetteGridFromCurrentSession()
 {
-	MaquetteGridItem* item{ m_window->maquetteGridItem() };
+	MaquetteGridItem* item{ m_window->tabsSpaceSplitter()->maquetteGridItem() };
 
 	m_maquetteGrid->addMaquetteGrid(item);
 

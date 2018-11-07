@@ -159,7 +159,7 @@ void AddressBarCompleterModel::setTabPosition(QStandardItem* item) const
 
 	foreach(BrowserWindow* window, windows)
 	{
-		QVector<TabWidget*> tabWidgets = window->tabWidgets();
+		QVector<TabWidget*> tabWidgets = window->tabsSpaceSplitter()->tabWidgets();
 		foreach(TabWidget* tabWidget, tabWidgets)
 		{
 			QList<WebTab*> tabs = tabWidget->allTabs();

@@ -126,7 +126,7 @@ int TabStackedWidget::insertTab(int index, QWidget* widget, const QString& label
 	if (m_currentIndex >= index)
 		++m_currentIndex;
 
-	QTimer::singleShot(0, this, &TabStackedWidget::setUpLayout);
+	QTimer::singleShot(10, this, &TabStackedWidget::setUpLayout);
 
 	return index;
 }
@@ -188,6 +188,11 @@ void TabStackedWidget::removeTab(int index)
 	}
 }
 
+void TabStackedWidget::moveTab(int from, int to)
+{
+	m_comboTabBar->moveTab(from, to);
+}
+
 int TabStackedWidget::currentIndex() const
 {
 	return m_comboTabBar->currentIndex();
@@ -225,6 +230,8 @@ void TabStackedWidget::setCurrentWidget(QWidget* widget)
 
 void TabStackedWidget::setUpLayout()
 {
+	int count = m_stack->count();
+
 	if (!m_comboTabBar->isVisible()) {
 		m_dirtyTabBar = true;
 		return;

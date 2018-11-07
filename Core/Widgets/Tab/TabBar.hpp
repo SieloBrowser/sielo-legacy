@@ -16,24 +16,41 @@
 #include <QMouseEvent>
 #include <QDragEnterEvent>
 
-namespace Sn {
-class ComboTabBar;
+#include "Widgets/Tab/ComboTabBar.hpp"
 
-class TabBar : public QTabBar {
-Q_OBJECT
+namespace Sn
+{
+
+class MovableTab: public QWidget {
+public:
+	QPixmap m_pixmap{};
+};
+
+class TabBar: public QTabBar {
+	Q_OBJECT
+		Q_PROPERTY(int tabPadding READ tabPadding WRITE setTabPadding)
+		Q_PROPERTY(QColor baseColor READ baseColor WRITE setBaseColor)
 
 public:
 	TabBar(bool isPinnedTabBar, ComboTabBar* comboTabBar);
 
+	int tabPadding() const { return m_tabPadding; }
+	void  setTabPadding(int padding);
+
+	QColor baseColor() const { return m_baseColor; }
+	void setBaseColor(const QColor& color);
+		 
 	void setTabButton(int index, QTabBar::ButtonPosition position, QWidget* widget);
 
 	QSize tabSizeHint(int index) const;
 	QSize baseClassTabSizeHint(int index) const;
 
+	QRect draggedTabRect() const;
+	QPixmap tabPixmap(int index) const;
+
 	ComboTabBar* comboTabBar() const { return m_comboTabBar; };
 
 	bool isActiveTabBar() { return m_activeTabBar; }
-
 	void setActiveTabBar(bool activate);
 
 	void removeTab(int index);
@@ -41,22 +58,16 @@ public:
 	void setScrollArea(QScrollArea* scrollArea);
 	void useFastTabSizeHint(bool enable);
 
+	void showDropIndicator(int index, ComboTabBar::DropIndicatorPosition position);
+	void clearDropIndicator();
+
 	bool isDisplayedOnViewport(int globalLeft, int globalRight);
-	bool isDragInProgress() const;
+	bool isDragInProgress() const { return m_dragInProgress; }
 
 	static void initStyleBaseOption(QStyleOptionTabBarBase* optionTabBase, QTabBar* tabBar, QSize size);
 
-signals:
-	void detachFromDrop(int index);
-
 public slots:
 	void setCurrentIndex(int index);
-	void resetDragState();
-
-private slots:
-	void tabWasMoved(int from, int to);
-
-	void tabTearOff();
 
 private:
 	bool event(QEvent* event);
@@ -65,18 +76,20 @@ private:
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
 
+	int dragOffset(QStyleOptionTab* option, int tabIndex) const;
 	void initStyleOption(QStyleOptionTab* option, int tabIndex) const;
-
-	void tabInserted(int index);
-	void tabRemoved(int index);
 
 	ComboTabBar* m_comboTabBar{nullptr};
 	QScrollArea* m_scrollArea{nullptr};
+	MovableTab* m_movingTab{nullptr};
 
+	QColor m_baseColor{};
+	QPoint m_dragStartPosition{};
+	ComboTabBar::DropIndicatorPosition m_dropIndicatorPosition{};
+
+	int m_tabPadding{-1};
 	int m_pressedIndex{-1};
-	int m_pressedGlobalX{-1};
-	int m_pressedGlobalY{-1};
-	int m_ripOffDistance{30};
+	int m_dropIndicatorIndex{-1};
 	bool m_dragInProgress{false};
 	bool m_activeTabBar{false};
 	bool m_isPinnedTabBar{false};

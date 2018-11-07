@@ -39,7 +39,7 @@
 
 namespace Sn {
 class WebPage;
-class BrowserWindow;
+class TabWidget;
 class LoadRequest;
 
 class WebTab;
@@ -52,8 +52,8 @@ public:
 
 	void setWebPage(WebPage* page);
 
-	BrowserWindow* browserWindow() const { return m_window; }
-	void setBrowserWindow(BrowserWindow* window);
+	TabWidget* tabWidget() const { return m_tabWidget; }
+	void setTabWidget(TabWidget* tabWidget);
 
 	WebTab* webTab() const { return m_webTab; }
 
@@ -106,7 +106,7 @@ private:
 
 	QFrame* m_highlightedFrame{};
 
-	BrowserWindow* m_window{nullptr};
+	TabWidget* m_tabWidget{nullptr};
 	WebTab* m_webTab{nullptr};
 	QMenu* m_menu{nullptr};
 

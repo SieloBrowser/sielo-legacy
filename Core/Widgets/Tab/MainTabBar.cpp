@@ -27,6 +27,7 @@
 
 #include <QSettings>
 
+#include <QDrag>
 #include <QMimeData>
 
 #include <QTimer>
@@ -49,17 +50,18 @@
 #include "Widgets/Tab/AddTabButton.hpp"
 #include "Widgets/Tab/TabCloseButton.hpp"
 #include "Widgets/Tab/TabBar.hpp"
+#include "Widgets/Tab/TabContextMenu.hpp"
 
 
 namespace Sn {
 
-MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
+Q_GLOBAL_STATIC(TabBarTabMetrics, tabMetrics)
+
+MainTabBar::MainTabBar(TabWidget* tabWidget) :
 	ComboTabBar(),
-	m_window(window),
 	m_tabWidget(tabWidget),
 	m_hideTabBarWithOneTab(false),
 	m_showCloseOnInactive(0),
-	m_clickedTab(0),
 	m_normalTabWidth(0),
 	m_activeTabWidth(0),
 	m_forceHidden(false)
@@ -78,12 +80,14 @@ MainTabBar::MainTabBar(BrowserWindow* window, TabWidget* tabWidget) :
 	setCloseButtonsToolTip(BrowserWindow::tr("Close Tab"));
 
 	setFocusPolicy(Qt::WheelFocus);
+	tabMetrics()->init();
 
 	connect(this, &ComboTabBar::currentChanged, this, &MainTabBar::currentTabChanged);
 	connect(this, &ComboTabBar::overFlowChanged, this, &MainTabBar::overflowChanged);
 
 	if (Application::instance()->privateBrowsing()) {
 		QLabel* privateBrowsing{new QLabel(this)};
+		privateBrowsing->setObjectName("maintabbar-icon-private-browsing");
 		privateBrowsing->setPixmap(Application::getAppIcon("anonymous", "tabs").pixmap(24));
 		privateBrowsing->setAlignment(Qt::AlignCenter);
 		privateBrowsing->setFixedWidth(30);
@@ -100,12 +104,12 @@ void MainTabBar::loadSettings()
 
 	bool activateLastTab = settings.value("activateLastTabWhenClosingActual", true).toBool();
 	m_hideTabBarWithOneTab = settings.value("hideTabsWithOneTab", false).toBool();
-	m_showCloseOnInactive = settings.value("showCloseOnInactiveTabs", 0).toInt(0);
+	m_showCloseOnInactive = settings.value("showCloseOnInactiveTabs", 0).toInt();
 
 	settings.endGroup();
 
 	setSelectionBehaviorOnRemove(activateLastTab ? QTabBar::SelectPreviousTab : QTabBar::SelectRightTab);
-	setVisible(!(count() == 1 && m_hideTabBarWithOneTab));
+	setVisible(!(count() <= 1 && m_hideTabBarWithOneTab));
 
 	setUpLayout();
 
@@ -119,7 +123,7 @@ void MainTabBar::setVisible(bool visible)
 	}
 
 	if (visible)
-		visible = !(count() == 1 && m_hideTabBarWithOneTab);
+		visible = !(count() <= 1 && m_hideTabBarWithOneTab);
 
 	ComboTabBar::setVisible(visible);
 }
@@ -150,35 +154,12 @@ void MainTabBar::setTabText(int index, const QString& text)
 	tabText.replace(QLatin1Char('&'), QLatin1String("&&"));
 
 	if (WebTab* tab = webTab(index)) {
-		if (tab->isPinned()) {
+		if (tab->isPinned()) 
 			tabText.clear();
-		}
 	}
 
 	setTabToolTip(index, text);
 	ComboTabBar::setTabText(index, tabText);
-}
-
-void MainTabBar::updatePinnedTabCloseButton(int index)
-{
-	if (!validIndex(index))
-		return;
-
-	WebTab* webTab = qobject_cast<WebTab*>(m_tabWidget->widget(index));
-	QAbstractButton* button = qobject_cast<QAbstractButton*>(tabButton(index, closeButtonPosition()));
-
-	bool pinned{webTab && webTab->isPinned()};
-
-	if (pinned) {
-		if (button)
-			button->hide();
-	}
-	else {
-		if (button)
-			button->show();
-		else
-			showCloseButton(index);
-	}
 }
 
 void MainTabBar::wheelEvent(QWheelEvent* event)
@@ -196,12 +177,15 @@ void MainTabBar::currentTabChanged(int index)
 
 	if (m_dragStartPosition.isNull()) {
 		showCloseButton(index);
-		hideCloseButton(m_tabWidget->lastTabIndex());
+		
+		if (m_lastTab)
+			hideCloseButton(m_lastTab->tabIndex());
 
 		QTimer::singleShot(100, this, [this]()
 		{ ensureVisible(); });
 	}
 
+	m_lastTab = webTab(index);
 	m_tabWidget->currentTabChanged(index);
 }
 
@@ -211,64 +195,6 @@ void MainTabBar::overflowChanged(bool overflowed)
 		setTabsClosable(false);
 		showCloseButton(currentIndex());
 	}
-}
-
-void MainTabBar::pinTab()
-{
-	WebTab* webTab = qobject_cast<WebTab*>(m_tabWidget->widget(m_clickedTab));
-
-	if (webTab)
-		webTab->togglePinned();
-}
-
-void MainTabBar::muteTab()
-{
-	WebTab* webTab = qobject_cast<WebTab*>(m_tabWidget->widget(m_clickedTab));
-
-	if (webTab)
-		webTab->toggleMuted();
-}
-
-void MainTabBar::closeCurrentTab()
-{
-	m_tabWidget->requestCloseTab(currentIndex());
-}
-
-void MainTabBar::closeAllButCurrent()
-{
-	QMessageBox::StandardButton button = QMessageBox::question(this,
-															   tr("Close Tabs"),
-															   tr("Do you rally want to close other tabs?"),
-															   QMessageBox::Yes | QMessageBox::No,
-															   QMessageBox::No);
-
-	if (button == QMessageBox::Yes)
-		emit closeAllButCurrent(m_clickedTab);
-}
-
-void MainTabBar::closeToRight()
-{
-	QMessageBox::StandardButton button = QMessageBox::question(this,
-															   tr("Close Tabs"),
-															   tr("Do you really want to close all tabs to right?"),
-															   QMessageBox::Yes | QMessageBox::No,
-															   QMessageBox::No);
-
-	if (button == QMessageBox::Yes)
-		emit closeToRight(m_clickedTab);
-}
-
-void MainTabBar::closeToLeft()
-{
-	QMessageBox::StandardButton button = QMessageBox::question(this,
-															   tr("Close Tabs"),
-															   tr("Do you really want to close all tabs to left?"),
-															   QMessageBox::Yes | QMessageBox::No,
-															   QMessageBox::No);
-
-	if (button == QMessageBox::Yes)
-		emit closeToLeft(m_clickedTab);
-
 }
 
 void MainTabBar::closeTabFromButton()
@@ -287,39 +213,34 @@ void MainTabBar::closeTabFromButton()
 		m_tabWidget->requestCloseTab(tabToClose);
 }
 
-void MainTabBar::createNewLeftTabsSpace()
+bool MainTabBar::validIndex(int index) const
 {
-	WebTab* tab{webTab(m_clickedTab)};
-
-	m_window->createNewTabsSpace(BrowserWindow::TSP_Left, tab);
-}
-
-void MainTabBar::createNewRightTabsSpace()
-{
-	WebTab* tab{webTab(m_clickedTab)};
-
-	m_window->createNewTabsSpace(BrowserWindow::TSP_Right, tab);
-}
-
-void MainTabBar::createNewTopTabsSpace()
-{
-	WebTab* tab{webTab(m_clickedTab)};
-
-	m_window->createNewTabsSpace(BrowserWindow::TSP_Top, tab);
-}
-
-void MainTabBar::createNewBottomTabsSpace()
-{
-	WebTab* tab{webTab(m_clickedTab)};
-
-	m_window->createNewTabsSpace(BrowserWindow::TSP_Bottom, tab);
+	return (index >= 0 && index < count() && m_tabWidget->window()->tabsSpaceSplitter()->count() > 0);
 }
 
 void MainTabBar::tabInserted(int index)
 {
 	Q_UNUSED(index);
 
-	setVisible(!(count() == 1 && m_hideTabBarWithOneTab));
+	if (tabMetrics()->pinnedWidth() == 1) {
+		QTimer::singleShot(0, this, [this]()
+		{
+			if (tabMetrics()->pinnedWidth() != -1) 
+				return;
+
+			QWidget* widget{tabButton(0, iconButtonPosition())};
+
+			if (widget && widget->parentWidget()) {
+				const QRect wg{widget->parentWidget()->geometry()};
+				const QRect wr{QStyle::visualRect(layoutDirection(), wg, widget->geometry())};
+				
+				tabMetrics()->setPinnedWidth(iconButtonSize().width() + wr.x() * 2);
+				setUpLayout();
+			}
+		});
+	}
+
+	setVisible(!(count() <= 1 && m_hideTabBarWithOneTab));
 }
 
 void MainTabBar::tabRemoved(int index)
@@ -327,7 +248,7 @@ void MainTabBar::tabRemoved(int index)
 	Q_UNUSED(index);
 
 	showCloseButton(currentIndex());
-	setVisible(!(count() == 1 && m_hideTabBarWithOneTab));
+	setVisible(!(count() <= 1 && m_hideTabBarWithOneTab));
 
 	if (normalTabsCount() == 0) {
 		int xForAddTabButton{cornerWidth(Qt::TopLeftCorner) + pinTabBarWidth()};
@@ -367,9 +288,31 @@ void MainTabBar::showCloseButton(int index)
 	insertCloseButton(index);
 }
 
+void MainTabBar::updatePinnedTabCloseButton(int index)
+{
+	if (!validIndex(index))
+		return;
+
+	WebTab* webTab = qobject_cast<WebTab*>(m_tabWidget->widget(index));
+	QAbstractButton* button = qobject_cast<QAbstractButton*>(tabButton(index, closeButtonPosition()));
+
+	bool pinned{webTab && webTab->isPinned()};
+
+	if (pinned) {
+		if (button)
+			button->hide();
+	}
+	else {
+		if (button)
+			button->show();
+		else
+			showCloseButton(index);
+	}
+}
+
 void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 {
-	int index{tabAt(event->pos())};
+	/*int index{tabAt(event->pos())};
 	QMenu menu{};
 	m_clickedTab = index;
 
@@ -423,7 +366,14 @@ void MainTabBar::contextMenuEvent(QContextMenuEvent* event)
 		menu.addAction(m_tabWidget->isMuted() ? tr("Un&mute Tabs Space") : tr("&Mute Tabs Space"),
 					   m_tabWidget,
 					   &TabWidget::toggleMuted);
-	}
+	}*/
+
+	if (isDragInProgress())
+		return;
+
+	const int index{tabAt(event->pos())};
+
+	TabContextMenu menu{index, m_tabWidget};
 
 	const QPoint position{event->globalPos()};
 	QPoint point{position.x(), position.y() + 1};
@@ -458,30 +408,55 @@ void MainTabBar::mousePressEvent(QMouseEvent* event)
 
 void MainTabBar::mouseMoveEvent(QMouseEvent* event)
 {
+	ComboTabBar::mouseMoveEvent(event);
+
 	if (Application::instance()->plugins()->processMouseMove(Application::ON_TabBar, this, event))
 		return;
 
-	if (!m_dragStartPosition.isNull() && m_tabWidget->buttonAddTab()->isVisible() && m_shouldHideAddTabButton) {
-		int manhattanLenght{(event->pos() - m_dragStartPosition).manhattanLength()};
+	if (count() == 1 && m_tabWidget->window()->tabsSpaceSplitter()->count() == 1 &&  Application::instance()->windowCount() == 1)
+		return;
 
-		if (manhattanLenght > QApplication::startDragDistance())
-			m_tabWidget->buttonAddTab()->hide();
+	if (!m_dragStartPosition.isNull()) {
+		int offset{0};
+		const int eventY{event->pos().y()};
+
+		if (eventY < 0)
+			offset = qAbs(eventY);
+		else if (eventY > height())
+			offset = eventY - height();
+
+		if (offset > QApplication::startDragDistance() * 3) {
+			const QPoint global{mapToGlobal(m_dragStartPosition)};
+			QWidget* widget{QApplication::widgetAt(global)};
+
+			if (widget) {
+				QMouseEvent mouse{QEvent::MouseButtonPress, widget->mapFromGlobal(global), Qt::LeftButton, Qt::LeftButton, event->modifiers()};
+				QApplication::sendEvent(widget, &mouse);
+			}
+
+			QDrag* drag{new QDrag(this)};
+			QMimeData* mimeData{new QMimeData()};
+
+			mimeData->setData("application/sielo.tabbar.tab", QByteArray());
+			drag->setMimeData(mimeData);
+			drag->setPixmap(tabPixmap(currentIndex()));
+
+			if (drag->exec() == Qt::IgnoreAction)
+				m_tabWidget->detachTab(currentIndex());
+
+			return;
+		}
 	}
-	else if (!m_tabWidget->buttonAddTab()->isVisible() && !m_shouldHideAddTabButton)
-		m_tabWidget->buttonAddTab()->show();
-
-	ComboTabBar::mouseMoveEvent(event);
 }
 
 void MainTabBar::mouseReleaseEvent(QMouseEvent* event)
 {
+	ComboTabBar::mouseReleaseEvent(event);
+
 	m_dragStartPosition = QPoint();
 
 	if (Application::instance()->plugins()->processMouseRelease(Application::ON_TabBar, this, event))
 		return;
-
-	if (m_tabWidget->buttonAddTab()->isHidden() && !isMainBarOverflowed())
-		QTimer::singleShot(500, m_tabWidget->buttonAddTab(), &AddTabButton::show);
 
 	if (!rect().contains(event->pos())) {
 		ComboTabBar::mouseReleaseEvent(event);
@@ -501,8 +476,6 @@ void MainTabBar::mouseReleaseEvent(QMouseEvent* event)
 			return;
 		}
 	}
-
-	ComboTabBar::mouseReleaseEvent(event);
 }
 
 void MainTabBar::enterEvent(QEvent* event)
@@ -516,11 +489,7 @@ void MainTabBar::dragEnterEvent(QDragEnterEvent* event)
 {
 	const QMimeData* mime{event->mimeData()};
 
-	if (mime->hasUrls()) {
-		event->acceptProposedAction();
-		return;
-	}
-	else if (mime->hasFormat("sielo/tabdata")) {
+	if (mime->hasText() || mime->hasUrls() || (mime->hasFormat("application/sielo.tabbar.tab") && event->source())) {
 		event->acceptProposedAction();
 		return;
 	}
@@ -528,11 +497,110 @@ void MainTabBar::dragEnterEvent(QDragEnterEvent* event)
 	ComboTabBar::dragEnterEvent(event);
 }
 
-void MainTabBar::dropEvent(QDropEvent* event)
+void MainTabBar::dragMoveEvent(QDragMoveEvent* event)
 {
+	const int index{tabAt(event->pos())};
 	const QMimeData* mime{event->mimeData()};
 
-	if (mime->hasFormat("sielo/tabdata")) {
+	if (index == -1) {
+		ComboTabBar::dragMoveEvent(event);
+		return;
+	}
+
+	switch (tabDropAction(event->pos(), tabRect(index), !mime->hasFormat("application/sielo.tabbar.tab"))) {
+	case PrependTab:
+		showDropIndicator(index, BeforeTab);
+		break;
+	case AppendTab:
+		showDropIndicator(index, AfterTab);
+		break;
+	default:
+		clearDropIndicator();
+		break;
+	}
+}
+
+void MainTabBar::dragLeaveEvent(QDragLeaveEvent* event)
+{
+	clearDropIndicator();
+
+	ComboTabBar::dragLeaveEvent(event);
+}
+
+void MainTabBar::dropEvent(QDropEvent* event)
+{
+	clearDropIndicator();
+
+	const QMimeData* mime{event->mimeData()};
+
+	if (!mime->hasText() && !mime->hasUrls() && !mime->hasFormat("application/sielo.tabbar.tab")) {
+		ComboTabBar::dropEvent(event);
+		return;
+	}
+
+	event->acceptProposedAction();
+
+	MainTabBar* sourceTabBar{qobject_cast<MainTabBar*>(event->source())};
+
+	int index{tabAt(event->pos())};
+
+	if (index == -1) {
+		if (mime->hasUrls()) {
+			foreach(const QUrl& url, mime->urls())
+			{
+				m_tabWidget->addView(url, Application::NTT_SelectedTabAtEnd);
+			}
+		}
+		else if (mime->hasText()) {
+			// TODO: search
+		}
+		else if (mime->hasFormat("application/sielo.tabbar.tab") && sourceTabBar) {
+			WebTab* tab{sourceTabBar->webTab()};
+
+			if (tab) {
+				sourceTabBar->m_tabWidget->detachTab(tab);
+				tab->setPinned(false);
+				m_tabWidget->addView(tab, Application::NTT_SelectedTab);
+			}
+		}
+	}
+	else {
+		LoadRequest request{};
+		WebTab* tab{m_tabWidget->webTab(index)};
+		TabDropAction action{tabDropAction(event->pos(), tabRect(index), !mime->hasFormat("application/sielo.tabbar.tab"))};
+		
+		if (mime->hasUrls()) 
+			request = mime->urls()[0];
+		else if (mime->hasText()) {
+			// TODO: search
+		}
+		if (action == SelectTab) {
+			if (request.isValid()) 
+				tab->load(request);
+		}
+		else if (action == PrependTab || action == AppendTab) {
+			const int newIndex{action == PrependTab ? index : index + 1};
+			
+			if (request.isValid()) 
+				m_tabWidget->addView(request, QString(), Application::NTT_SelectedNewEmptyTab, false, newIndex, index < pinnedTabsCount());
+			else if (mime->hasFormat("application/sielo.tabbar.tab") && sourceTabBar) {
+				WebTab* tb{sourceTabBar->webTab()};
+				
+				if (tb) {
+					if (sourceTabBar == this) 
+						tb->moveTab(newIndex > tb->tabIndex() ? newIndex - 1 : newIndex);
+					else {
+						sourceTabBar->m_tabWidget->detachTab(tb);
+						tb->setPinned(index < pinnedTabsCount());
+
+						m_tabWidget->insertView(newIndex, tb, Application::NTT_SelectedTab);
+					}
+				}
+			}
+		}
+	}
+
+	/*if (mime->hasFormat("sielo/tabdata")) {
 		if (event->source() == m_mainTabBar || event->source() == m_pinnedTabBar)
 			return;
 
@@ -593,12 +661,30 @@ void MainTabBar::dropEvent(QDropEvent* event)
 			if (tab->isRestored())
 				tab->webView()->load(mime->urls()[0]);
 		}
-	}
+	}*/
+}
+
+MainTabBar::TabDropAction MainTabBar::tabDropAction(const QPoint& pos, const QRect& tabRect, bool allowSelect) const {
+	if (!tabRect.contains(pos))
+		return NoAction;
+
+	const QPoint c{tabRect.center()};
+	const QSize centerSize = QSize(tabRect.width() * 0.7, tabRect.height() * 0.7);
+	const QRect center(c.x() - centerSize.width() / 2, c.y() - centerSize.height() / 2, centerSize.width(), centerSize.height());
+
+	if (allowSelect && center.contains(pos))
+		return SelectTab;
+	else if (pos.x() < c.x())
+		return PrependTab;
+	else
+		return AppendTab;
 }
 
 QSize MainTabBar::tabSizeHint(int index, bool fast) const
 {
-	if (!m_window->isVisible()) {
+	int cout = normalTabsCount();
+
+	if (!m_tabWidget->window()->isVisible()) {
 		return QSize(-1, -1);
 	}
 
@@ -692,18 +778,17 @@ QSize MainTabBar::tabSizeHint(int index, bool fast) const
 
 int MainTabBar::comboTabBarPixelMetric(ComboTabBar::SizeType sizeType) const
 {
-	if (!isVisible())
-		return -1;
-
 	switch (sizeType) {
 	case ComboTabBar::PinnedTabWidth:
-		return iconButtonSize().width() + style()->pixelMetric(QStyle::PM_TabBarTabHSpace, 0, this);
+		return tabMetrics()->pinnedWidth() > 0 ? tabMetrics()->pinnedWidth() : 32;
 	case ComboTabBar::ActiveTabMinimumWidth:
+		return tabMetrics()->activeMinWidth();
 	case ComboTabBar::NormalTabMinimumWidth:
+		return tabMetrics()->normalMinWidth();
 	case ComboTabBar::OverflowedTabWidth:
-		return 100;
+		return tabMetrics()->overflowedWidth();
 	case ComboTabBar::NormalTabMaximumWidth:
-		return 250;
+		return tabMetrics()->normalMaxWidth();
 	case ComboTabBar::ExtraReservedWidth:
 		return m_tabWidget->extraReservedWidth();
 	default:

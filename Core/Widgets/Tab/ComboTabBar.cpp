@@ -39,7 +39,8 @@
 #include "Widgets/Tab/TabCloseButton.hpp"
 #include "Widgets/Tab/TabBarScrollWidget.hpp"
 
-namespace Sn {
+namespace Sn
+{
 
 ComboTabBar::ComboTabBar(QWidget* parent) :
 	QWidget(parent),
@@ -94,14 +95,12 @@ ComboTabBar::ComboTabBar(QWidget* parent) :
 	connect(m_mainTabBar, &TabBar::currentChanged, this, &ComboTabBar::sCurrentChanged);
 	connect(m_mainTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_mainTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);
-	connect(m_mainTabBar, SIGNAL(detachFromDrop(int)), this, SIGNAL(detachFromDrop(int)));
 
 	connect(m_pinnedTabBarWidget->scrollBar(), &TabScrollBar::rangeChanged, this, &ComboTabBar::setMinimumWidths);
 	connect(m_pinnedTabBarWidget->scrollBar(), SIGNAL(valueChanged(int)), this, SIGNAL(scrollBarValueChanged(int)));
 	connect(m_pinnedTabBar, &TabBar::currentChanged, this, &ComboTabBar::sCurrentChanged);
 	connect(m_pinnedTabBar, &TabBar::tabCloseRequested, this, &ComboTabBar::sTabCloseRequested);
 	connect(m_pinnedTabBar, &TabBar::tabMoved, this, &ComboTabBar::sTabMoved);
-	connect(m_pinnedTabBar, SIGNAL(detachFromDrop(int)), this, SIGNAL(detachFromDrop(int)));
 
 	connect(this, SIGNAL(overFlowChanged(bool)), m_mainTabBarWidget, SLOT(overflowChanged(bool)));
 
@@ -202,47 +201,43 @@ void ComboTabBar::setTabTextColor(int index, const QColor& color)
 
 QRect ComboTabBar::tabRect(int index) const
 {
-	QRect rect{};
+	return mapFromLocalTabRet(localTabBar(index)->tabRect(toLocalIndex(index)), localTabBar(index));
+}
 
-	if (index != -1) {
-		bool mainTabBar{index >= pinnedTabsCount()};
-		rect = localTabBar(index)->tabRect(toLocalIndex(index));
+QRect ComboTabBar::draggedTabRect() const
+{
+	const QRect rect{m_pinnedTabBar->draggedTabRect()};
 
-		if (mainTabBar) {
-			rect.moveLeft(rect.x() + mapFromGlobal(m_mainTabBar->mapToGlobal(QPoint(0, 0))).x());
-			QRect widgetRect{m_mainTabBarWidget->scrollArea()->viewport()->rect()};
-			widgetRect.moveLeft(widgetRect.x()
-								+ mapFromGlobal(m_mainTabBarWidget->scrollArea()->viewport()->mapToGlobal(QPoint(0, 0)))
-									.x());
-			rect = rect.intersected(widgetRect);
-		}
-		else {
-			rect.moveLeft(rect.x() + mapFromGlobal(m_pinnedTabBar->mapToGlobal(QPoint(0, 0))).x());
-			QRect widgetRect{m_pinnedTabBarWidget->scrollArea()->viewport()->rect()};
-			widgetRect.moveLeft(widgetRect.x() + mapFromGlobal(m_pinnedTabBarWidget->scrollArea()->viewport()
-																   ->mapToGlobal(QPoint(0, 0))).x());
-		}
-	}
+	if (rect.isValid())
+		return mapFromLocalTabRet(rect, m_pinnedTabBar);
 
-	return rect;
+	return mapFromLocalTabRet(m_mainTabBar->draggedTabRect(), m_mainTabBar);
+}
+
+QPixmap ComboTabBar::tabPixmap(int index) const
+{
+	return localTabBar(index)->tabPixmap(toLocalIndex(index));
 }
 
 int ComboTabBar::tabAt(const QPoint& position) const
 {
 	QWidget* widget = QApplication::widgetAt(mapToGlobal(position));
 
-	if (!qobject_cast<TabBar*>(widget) && !qobject_cast<TabIcon*>(widget))
+	if (!qobject_cast<TabBar*>(widget) && !qobject_cast<TabIcon*>(widget) && !qobject_cast<TabCloseButton*>(widget))
 		return -1;
 
-	int index{m_pinnedTabBarWidget->tabAt(m_pinnedTabBarWidget->mapFromParent(position))};
-	if (index != -1)
+	if (m_pinnedTabBarWidget->geometry().contains(position))
+		return m_pinnedTabBarWidget->tabAt(m_pinnedTabBarWidget->mapFromParent(position));
+	else if (m_mainTabBarWidget->geometry().contains(position)) {
+		int index{m_mainTabBarWidget->tabAt(m_mainTabBarWidget->mapFromParent(position))};
+
+		if (index != -1)
+			index += pinnedTabsCount();
+
 		return index;
+	}
 
-	index = m_mainTabBarWidget->tabAt(m_mainTabBarWidget->mapFromParent(position));
-	if (index != -1)
-		index += pinnedTabsCount();
-
-	return index;
+	return -1;
 }
 
 bool ComboTabBar::emptyArea(const QPoint& position) const
@@ -414,9 +409,17 @@ bool ComboTabBar::isPinned(int index) const
 	return index >= 0 && index < pinnedTabsCount();
 }
 
+void ComboTabBar::setFocusPolicy(Qt::FocusPolicy policy)
+{
+	QWidget::setFocusPolicy(policy);
+
+	m_mainTabBar->setFocusPolicy(policy);
+	m_pinnedTabBar->setFocusPolicy(policy);
+}
+
 void ComboTabBar::setObjectName(const QString& name)
 {
-	m_mainTabBarWidget->setObjectName(name);
+	m_mainTabBar->setObjectName(name);
 	m_pinnedTabBar->setObjectName(name);
 }
 
@@ -471,7 +474,7 @@ QSize ComboTabBar::iconButtonSize() const
 
 QTabBar::ButtonPosition ComboTabBar::closeButtonPosition() const
 {
-	return static_cast<QTabBar::ButtonPosition>(style()->styleHint(QStyle::SH_TabBar_CloseButtonPosition, 0, this));
+	return static_cast<QTabBar::ButtonPosition>(style()->styleHint(QStyle::SH_TabBar_CloseButtonPosition, nullptr, this));
 }
 
 QSize ComboTabBar::closeButtonSize() const
@@ -505,6 +508,18 @@ bool ComboTabBar::usesScrollButtons() const
 void ComboTabBar::setUsesScrollButtons(bool useButtons)
 {
 	m_mainTabBarWidget->setUsesScrollButtons(useButtons);
+}
+
+void ComboTabBar::showDropIndicator(int index, DropIndicatorPosition position)
+{
+	clearDropIndicator();
+	localTabBar(index)->showDropIndicator(toLocalIndex(index), position);
+}
+
+void ComboTabBar::clearDropIndicator()
+{
+	m_mainTabBar->clearDropIndicator();
+	m_pinnedTabBar->clearDropIndicator();
 }
 
 bool ComboTabBar::isDragInProgress() const
@@ -551,12 +566,14 @@ void ComboTabBar::addCornerWidget(QWidget* widget, Qt::Corner corner)
 void ComboTabBar::setUpLayout()
 {
 	int height{qMax(m_mainTabBar->height(), m_pinnedTabBar->height())};
-	height -= 2;
+
+	if (height < 1)
+		height = qMax(m_mainTabBar->sizeHint().height(), m_pinnedTabBar->sizeHint().height());
 
 	height = qMax(5, height);
 
 	setFixedHeight(height);
-	m_pinnedTabBar->setFixedHeight(height);
+
 	m_leftContainer->setFixedHeight(height);
 	m_rightContainer->setFixedHeight(height);
 	m_mainTabBarWidget->setUpLayout();
@@ -564,16 +581,10 @@ void ComboTabBar::setUpLayout()
 
 	setMinimumWidths();
 
-	if (isVisible() && m_mainTabBar->count() > 0) {
-		m_pinnedTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
-		m_mainTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
+	if (isVisible() && height > 5) {
+		m_pinnedTabBar->setFixedHeight(height);
+		m_mainTabBar->setFixedHeight(height);
 	}
-}
-
-void ComboTabBar::resetDragState()
-{
-	m_pinnedTabBar->resetDragState();
-	m_mainTabBar->resetDragState();
 }
 
 void ComboTabBar::ensureVisible(int index, int xmargin)
@@ -614,14 +625,14 @@ int ComboTabBar::pinTabBarWidth() const
 bool ComboTabBar::eventFilter(QObject* obj, QEvent* event)
 {
 	if (obj == m_mainTabBar && event->type() == QEvent::Resize) {
-		QResizeEvent* evnt = static_cast<QResizeEvent*>(event);
+		QResizeEvent* evnt = dynamic_cast<QResizeEvent*>(event);
 
 		if (evnt->oldSize().height() != evnt->size().height())
 			setUpLayout();
 	}
 
 	if (event->type() == QEvent::Wheel) {
-		wheelEvent(static_cast<QWheelEvent*>(event));
+		wheelEvent(dynamic_cast<QWheelEvent*>(event));
 		return true;
 	}
 
@@ -798,7 +809,7 @@ void ComboTabBar::setMinimumWidths()
 
 void ComboTabBar::sCurrentChanged(int index)
 {
-	if (m_blockCurrentChangedSignal)
+	if (m_blockCurrentChangedSignal || count() < 1)
 		return;
 
 	if (sender() == m_pinnedTabBar) {
@@ -895,6 +906,29 @@ int ComboTabBar::toLocalIndex(int globalIndex) const
 		return globalIndex - pinnedTabsCount();
 	else
 		return globalIndex;
+}
+
+QRect ComboTabBar::mapFromLocalTabRet(const QRect& rect, QWidget* tabBar) const
+{
+	if (!rect.isValid())
+		return rect;
+
+	QRect r{rect};
+
+	if (tabBar == m_mainTabBar) {
+		r.moveLeft(r.x() + mapFromGlobal(m_mainTabBar->mapToGlobal(QPoint(0, 0))).x());
+		QRect widgetRect{m_mainTabBarWidget->scrollArea()->viewport()->rect()};
+		widgetRect.moveLeft(widgetRect.x() + mapFromGlobal(m_mainTabBarWidget->scrollArea()->viewport()->mapToGlobal(QPoint(0, 0))).x());
+		r = r.intersected(widgetRect);
+	}
+	else {
+		r.moveLeft(r.x() + mapFromGlobal(m_pinnedTabBar->mapToGlobal(QPoint(0, 0))).x());
+		QRect widgetRect{m_pinnedTabBarWidget->scrollArea()->viewport()->rect()};
+		widgetRect.moveLeft(widgetRect.x() + mapFromGlobal(m_pinnedTabBarWidget->scrollArea()->viewport()->mapToGlobal(QPoint(0, 0))).x());
+		r = r.intersected(widgetRect);
+	}
+
+	return r;
 }
 
 void ComboTabBar::updatePinnedTabBarVisibility()
