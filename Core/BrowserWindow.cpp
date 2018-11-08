@@ -47,7 +47,6 @@
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
-#include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/TitleBar.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
@@ -181,8 +180,7 @@ QDataStream &operator>>(QDataStream &stream, BrowserWindow::SavedWindow &window)
 BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	QMainWindow(nullptr),
 	m_startUrl(url),
-	m_windowType(type),
-	m_statusBarMessage(new StatusBarMessage(this))
+	m_windowType(type)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);

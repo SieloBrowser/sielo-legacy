@@ -49,6 +49,7 @@
 #include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
+#include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/MainMenu.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
@@ -66,7 +67,8 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	TabStackedWidget(parent),
 	m_saveTimer(new AutoSaver(this)),
 	m_window(window),
-	m_tabsSpaceType(type)
+	m_tabsSpaceType(type),
+	m_statusBarMessage(new StatusBarMessage(this))
 {
 	setObjectName(QLatin1String("tabwidget"));
 

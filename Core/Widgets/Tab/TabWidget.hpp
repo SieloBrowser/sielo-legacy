@@ -53,6 +53,8 @@ class ClosedTabsManager;
 class ToolButton;
 class AutoSaver;
 
+class StatusBarMessage;
+
 class FloatingButton;
 class NavigationToolBar;
 
@@ -99,6 +101,7 @@ public:
 	QUrl homeUrl() const { return m_homeUrl; }
 	void setHomeUrl(const QString& newUrl);
 
+	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 	QStackedWidget* addressBars() const { return m_addressBars; }
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
@@ -198,6 +201,8 @@ private:
 	AddTabButton* m_buttonAddTab{nullptr};
 	AddTabButton* m_buttonAddTab2{nullptr};
 	ToolButton* m_buttonMainMenu{nullptr};
+
+	StatusBarMessage* m_statusBarMessage{nullptr};
 
 	QPointer<WebTab> m_lastBackgroundTab{};
 

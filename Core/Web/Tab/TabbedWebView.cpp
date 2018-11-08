@@ -192,10 +192,10 @@ void TabbedWebView::linkHovered(const QString& link)
 {
 	if (m_webTab->isCurrentTab() && m_tabWidget->window()) {
 		if (link.isEmpty()) {
-			m_tabWidget->window()->statusBarMessage()->clearMessage();
+			m_tabWidget->statusBarMessage()->clearMessage();
 		}
 		else {
-			m_tabWidget->window()->statusBarMessage()->showMessage(link);
+			m_tabWidget->statusBarMessage()->showMessage(link);
 		}
 	}
 }

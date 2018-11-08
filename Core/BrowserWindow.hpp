@@ -50,7 +50,6 @@ class TabbedWebView;
 class TabWidget;
 
 class RootFloatingButton;
-class StatusBarMessage;
 class TitleBar;
 
 class MaquetteGridItem;
@@ -140,7 +139,6 @@ public:
 	TabWidget* tabWidget(int index) const;
 	TabsSpaceSplitter* tabsSpaceSplitter() const { return m_tabsSpaceSplitter; }
 
-	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
 	TitleBar* titleBar() const { return m_titleBar; }
 
 	const QImage* background();
@@ -207,7 +205,6 @@ private:
 	WebPage* m_startPage{nullptr};
 
 	TabsSpaceSplitter* m_tabsSpaceSplitter{nullptr};
-	StatusBarMessage* m_statusBarMessage{nullptr};
 	TitleBar* m_titleBar{nullptr};
 
 	qreal m_blur_radius{ 0 };
