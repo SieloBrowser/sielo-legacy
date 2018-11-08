@@ -81,7 +81,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_maquetteGridMenu = new MaquetteGridMenu(m_tabWidget->window());
 
 	m_historyMenu = new HistoryMenu(this);
-	m_historyMenu->setMainWindow(m_tabWidget->window());
+	m_historyMenu->setTabWidget(m_tabWidget);
 	//m_historyMenu->setTitle(tr("&History"));
 	//m_historyMenu->setInitialActions(QList<QAction*>() << backAction << nextAction << homeAction);
 

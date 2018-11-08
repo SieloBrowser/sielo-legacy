@@ -34,9 +34,9 @@
 #include "Application.hpp"
 
 namespace Sn {
-SiteIcon::SiteIcon(BrowserWindow* window, Sn::AddressBar* parent) :
+SiteIcon::SiteIcon(TabWidget* tabWidget, Sn::AddressBar* parent) :
 		ToolButton(parent),
-		m_window(window),
+		m_tabWidget(tabWidget),
 		m_addressBar(parent)
 {
 	setObjectName(QLatin1String("addressbar-siteicon"));
@@ -95,7 +95,7 @@ void SiteIcon::mouseReleaseEvent(QMouseEvent* event)
 
 bool SiteIcon::showPopup()
 {
-	if (!m_view || !m_window)
+	if (!m_view || !m_tabWidget)
 		return false;
 
 	QUrl url{m_view->url()};
@@ -105,7 +105,7 @@ bool SiteIcon::showPopup()
 
 	setDown(true);
 
-	SiteInfoWidget* info{new SiteInfoWidget(m_window)};
+	SiteInfoWidget* info{new SiteInfoWidget(m_tabWidget)};
 	info->showAt(parentWidget());
 
 	connect(info, &SiteInfoWidget::destroyed, this, &SiteIcon::popupClosed);

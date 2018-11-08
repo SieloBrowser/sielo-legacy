@@ -95,7 +95,7 @@ void HistoryManager::openUrl(const QUrl& url)
 {
 	const QUrl u{!url.isEmpty() ? url : m_view->selectedUrl()};
 
-	m_window->webView()->load(u);
+	m_window->tabWidget()->webTab()->load(u);
 }
 
 void HistoryManager::openUrlInNewTab(const QUrl& url)

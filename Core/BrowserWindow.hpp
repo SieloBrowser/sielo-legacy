@@ -107,7 +107,7 @@ public:
 
 	void restoreWindowState(const SavedWindow& window);
 
-	void currentTabChanged();
+	void currentTabChanged(WebTab* tab);
 
 	/*!
 	 * Load an url in the current tab.
@@ -123,17 +123,6 @@ public:
 	 * @return The URL for the home page.
 	 */
 	QUrl homePageUrl() const { return m_homePage; }
-
-	/*!
-	 * This return the focused web view.
-	 * @return The actually focused web view.
-	 */
-	TabbedWebView* webView() const;
-	/*!
-	 * This return the web view having the index given by index parameter
-	 * @return The web view element having the index given by index parameter
-	 */
-	TabbedWebView* webView(int index) const;
 
 	TabWidget* tabWidget() const;
 	TabWidget* tabWidget(int index) const;

@@ -37,19 +37,19 @@
 #include "Widgets/AddressBarPopup.hpp"
 
 namespace Sn {
-class BrowserWindow;
+class TabWidget;
 
 class SiteInfoWidget : public AddressBarPopup {
 Q_OBJECT
 
 public:
-	SiteInfoWidget(BrowserWindow* window, QWidget* parent = nullptr);
+	SiteInfoWidget(TabWidget* tabWidget, QWidget* parent = nullptr);
 	~SiteInfoWidget();
 
 private:
 	void setupUI();
 
-	BrowserWindow* m_window{nullptr};
+	TabWidget* m_tabWidget{nullptr};
 
 	// UI
 	QGridLayout* m_layout{nullptr};

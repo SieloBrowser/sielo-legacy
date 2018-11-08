@@ -88,14 +88,14 @@ QString AddressBar::urlToText(const QUrl& url)
 	return stringUrl;
 }
 
-AddressBar::AddressBar(BrowserWindow* window) :
-	LineEdit(window),
-	m_window(window)
+AddressBar::AddressBar(TabWidget* tabWidget) :
+	LineEdit(tabWidget),
+	m_tabWidget(tabWidget)
 {
 	setObjectName("addressbar");
 	setDragEnabled(true);
 
-	m_siteIcon = new SiteIcon(window, this);
+	m_siteIcon = new SiteIcon(m_tabWidget, this);
 
 	m_reloadStopButton = new ToolButton(this);
 	m_reloadStopButton->setAutoRaise(true);
@@ -118,7 +118,7 @@ AddressBar::AddressBar(BrowserWindow* window) :
 
 	// TODO: potential issue...
 	m_completer = new AddressBarCompleter(this);
-	m_completer->setTabWidget(window->tabWidget());
+	m_completer->setTabWidget(m_tabWidget);
 	m_completer->setAddressBar(this);
 	connect(m_completer, &AddressBarCompleter::showCompletion, this, &AddressBar::showCompletion);
 	connect(m_completer, &AddressBarCompleter::showDomainCompletion, this, &AddressBar::showDomainCompletion);
@@ -157,10 +157,10 @@ void AddressBar::setWebView(TabbedWebView* view)
 }
 
 
-void AddressBar::setBrowserWindow(BrowserWindow* window)
+void AddressBar::setTabWidget(TabWidget* tabWidget)
 {
-	m_window = window;
-	m_completer->setTabWidget(window->tabWidget());
+	m_tabWidget = tabWidget;
+	m_completer->setTabWidget(m_tabWidget);
 }
 
 void AddressBar::setText(const QString& text)
@@ -443,7 +443,7 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 
 		case Qt::AltModifier:
 			m_completer->closePopup();
-			m_window->tabWidget()->addView(createLoadRequest());
+			m_tabWidget->addView(createLoadRequest());
 			m_holdingAlt = false;
 			break;
 

@@ -324,7 +324,7 @@ void TabWidget::currentTabChanged(int index)
 	m_lastBackgroundTab = nullptr;
 	m_currentTabFresh = false;
 
-	m_window->currentTabChanged();
+	m_window->currentTabChanged(currentTab);
 
 	if (m_tabsSpaceType != Application::TST_Web && currentTab->addressBar()) {
 		/*currentTab->addressBar()->setEnabled(false);
@@ -512,8 +512,8 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	else if (request.url().isValid())
 		webTab->webView()->load(request);
 
-	if (selectLine && m_window->webView()->webTab()->addressBar()->text().isEmpty())
-		m_window->webView()->webTab()->addressBar()->setFocus();
+	if (selectLine && m_window->tabWidget()->webTab()->addressBar()->text().isEmpty())
+		m_window->tabWidget()->webTab()->addressBar()->setFocus();
 
 	if (!(openFlags & Application::NTT_SelectedTab))
 		m_tabBar->ensureVisible(index);

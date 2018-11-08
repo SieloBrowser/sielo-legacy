@@ -32,7 +32,7 @@
 
 namespace Sn
 {
-class BrowserWindow;
+class TabWidget;
 
 // TODO: manage ctrl and shift
 class HistoryMenu: public QMenu {
@@ -42,7 +42,7 @@ public:
 	HistoryMenu(QWidget* parent = nullptr);
 	~HistoryMenu();
 
-	void setMainWindow(BrowserWindow* window);
+	void setTabWidget(TabWidget* tabWidget);
 
 private slots:
 	void goBack();
@@ -61,7 +61,7 @@ private slots:
 	void openUrl(const QUrl& url);
 
 private:
-	QPointer<BrowserWindow> m_window{};
+	TabWidget* m_tabWidget{};
 	QMenu* m_menuMostVisited{nullptr};
 	QMenu* m_menuClosedTabs{nullptr};
 };

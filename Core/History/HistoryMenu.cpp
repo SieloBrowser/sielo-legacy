@@ -79,38 +79,38 @@ HistoryMenu::~HistoryMenu()
 	// Empty
 }
 
-void HistoryMenu::setMainWindow(BrowserWindow* window)
+void HistoryMenu::setTabWidget(TabWidget* tabWidget)
 {
-	m_window = window;
+	m_tabWidget = tabWidget;
 }
 
 void HistoryMenu::goBack()
 {
-	if (m_window)
-		m_window->webView()->back();
+	if (m_tabWidget)
+		m_tabWidget->webTab()->webView()->back();
 }
 
 void HistoryMenu::goForward()
 {
-	if (m_window)
-		m_window->webView()->forward();
+	if (m_tabWidget)
+		m_tabWidget->webTab()->webView()->forward();
 }
 
 void HistoryMenu::goHome()
 {
-	if (m_window)
-		m_window->loadUrl(m_window->homePageUrl());
+	if (m_tabWidget)
+		m_tabWidget->webTab()->load(m_tabWidget->homeUrl());
 }
 
 void HistoryMenu::showHistoryManager()
 {
-	if (m_window)
-		m_window->tabWidget()->openHistoryDialog();
+	if (m_tabWidget)
+		m_tabWidget->openHistoryDialog();
 }
 
 void HistoryMenu::aboutToShow()
 {
-	TabbedWebView* view{m_window ? m_window->webView() : 0};
+	TabbedWebView* view{m_tabWidget ? m_tabWidget->webTab()->webView() : nullptr};
 
 	if (view) {
 		actions()[0]->setEnabled(view->history()->canGoBack());
@@ -184,12 +184,11 @@ void HistoryMenu::aboutToShowClosedTabs()
 {
 	m_menuClosedTabs->clear();
 
-	if (!m_window)
+	if (!m_tabWidget)
 		return;
 
-	TabWidget* tabWidget{m_window->tabWidget()};
 	int i{0};
-	const QLinkedList<ClosedTabsManager::Tab> closedTabs = tabWidget->closedTabsManager()->allClosedTab();
+	const QLinkedList<ClosedTabsManager::Tab> closedTabs = m_tabWidget->closedTabsManager()->allClosedTab();
 
 	foreach(const ClosedTabsManager::Tab& tab, closedTabs)
 	{
@@ -198,7 +197,7 @@ void HistoryMenu::aboutToShowClosedTabs()
 		if (title.length() > 40)
 			title = title.left(40) + QLatin1String("..");
 
-		QAction* action = m_menuClosedTabs->addAction(tab.icon, title, tabWidget, SLOT(restoreClosedTab()));
+		QAction* action = m_menuClosedTabs->addAction(tab.icon, title, m_tabWidget, SLOT(restoreClosedTab()));
 		action->setData(i++);
 	}
 
@@ -207,8 +206,8 @@ void HistoryMenu::aboutToShowClosedTabs()
 	}
 	else {
 		m_menuClosedTabs->addSeparator();
-		m_menuClosedTabs->addAction(tr("Restore All Closed Tabs"), tabWidget, &TabWidget::restoreAllClosedTabs);
-		m_menuClosedTabs->addAction(tr("Clear list"), tabWidget, &TabWidget::clearClosedTabsList);
+		m_menuClosedTabs->addAction(tr("Restore All Closed Tabs"), m_tabWidget, &TabWidget::restoreAllClosedTabs);
+		m_menuClosedTabs->addAction(tr("Clear list"), m_tabWidget, &TabWidget::clearClosedTabsList);
 	}
 }
 void HistoryMenu::historyEntryActivated()
@@ -218,7 +217,7 @@ void HistoryMenu::historyEntryActivated()
 }
 void HistoryMenu::openUrl(const QUrl& url)
 {
-	if (m_window)
-		m_window->loadUrl(url);
+	if (m_tabWidget)
+		m_tabWidget->webTab()->load(url);
 }
 }

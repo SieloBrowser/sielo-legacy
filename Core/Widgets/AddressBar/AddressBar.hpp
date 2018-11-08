@@ -56,7 +56,7 @@ namespace Sn {
 class TabbedWebView;
 class LoadRequest;
 
-class BrowserWindow;
+class TabWidget;
 
 class AddressBarCompleter;
 
@@ -67,13 +67,13 @@ class AddressBar: public LineEdit {
 Q_OBJECT
 
 public:
-	AddressBar(BrowserWindow* window);
+	AddressBar(TabWidget* tabWidget);
 
 	TabbedWebView* webView() const { return m_webView; }
 	void setWebView(TabbedWebView* view);
 
-	BrowserWindow* browserWindow() const { return m_window; }
-	void setBrowserWindow(BrowserWindow* window);
+	TabWidget* tabWidget() const { return m_tabWidget; }
+	void setTabWidget(TabWidget* tabWidget);
 
 	static QString urlToText(const QUrl &url);
 
@@ -121,7 +121,7 @@ private:
 	ToolButton* m_reloadStopButton{nullptr};
 	ToolButton* m_goButton{nullptr};
 
-	BrowserWindow* m_window{nullptr};
+	TabWidget* m_tabWidget{nullptr};
 	TabbedWebView* m_webView{nullptr};
 
 	bool m_holdingAlt{false};

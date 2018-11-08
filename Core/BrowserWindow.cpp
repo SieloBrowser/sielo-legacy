@@ -338,48 +338,32 @@ void BrowserWindow::restoreWindowState(const SavedWindow& window)
 	loadSettings();
 }
 
-void BrowserWindow::currentTabChanged()
+void BrowserWindow::currentTabChanged(WebTab* tab)
 {
-	TabbedWebView* view{webView()};
-
-	if (!view)
+	if (!tab || !tab->webView())
 		return;
 
-	setWindowTitle(tr("%1 - Sielo").arg(view->webTab()->title()));
+	setWindowTitle(tr("%1 - Sielo").arg(tab->title()));
 
-	view->setFocus();
+	tab->webView()->setFocus();
 }
 
 void BrowserWindow::loadUrl(const QUrl& url)
 {
 	// We can't load url directly in pinned tabs
-	if (webView()->webTab()->isPinned()) {
+	if (tabWidget()->webTab()->isPinned()) {
 		int index{tabWidget()->addView(url, Application::NTT_CleanSelectedTab)};
-		webView(index)->setFocus();
+		tabWidget()->webTab(index)->webView()->setFocus();
 	}
 	else {
-		webView()->setFocus();
-		webView()->load(url);
+		tabWidget()->webTab()->webView()->setFocus();
+		tabWidget()->webTab()->webView()->load(url);
 	}
 }
 
 void BrowserWindow::loadUrlInNewTab(const QUrl& url)
 {
 	tabWidget()->addView(url);
-}
-
-TabbedWebView *BrowserWindow::webView() const
-{
-	return webView(tabWidget()->currentIndex());
-}
-
-TabbedWebView *BrowserWindow::webView(int index) const
-{
-	WebTab* webTab = qobject_cast<WebTab*>(tabWidget()->widget(index));
-	if (!webTab)
-		return 0;
-
-	return webTab->webView();
 }
 
 TabWidget *BrowserWindow::tabWidget() const
@@ -431,7 +415,7 @@ void BrowserWindow::toggleFullScreen()
 
 void BrowserWindow::bookmarkPage()
 {
-	TabbedWebView* view{webView()};
+	TabbedWebView* view{tabWidget()->webTab()->webView()};
 
 	BookmarksUtils::addBookmarkDialog(this, view->url(), view->title());
 }
@@ -643,7 +627,7 @@ void BrowserWindow::postLaunch()
 	if (m_startPage) {
 		addTab = false;
 		tabWidget()->addView(QUrl());
-		webView()->setPage(m_startPage);
+		tabWidget()->webTab()->webView()->setPage(m_startPage);
 	}
 
 	if (addTab) {
@@ -652,7 +636,7 @@ void BrowserWindow::postLaunch()
 		tabWidget()->addView(startUrl, Application::NTT_CleanSelectedTabAtEnd);
 
 		if (startUrl.isEmpty())
-			webView()->webTab()->addressBar()->setFocus();
+			tabWidget()->webTab()->addressBar()->setFocus();
 	}
 
 	if (tabWidget()->tabBar()->normalTabsCount() <= 0)

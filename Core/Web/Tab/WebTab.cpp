@@ -186,7 +186,7 @@ WebTab::WebTab(TabWidget* tabWidget) :
 
 //	m_fButton->setPattern(FloatingButton::Toolbar);
 
-	m_addressBar = new AddressBar(tabWidget->window());
+	m_addressBar = new AddressBar(tabWidget);
 	m_addressBar->setWebView(m_webView);
 
 	m_layout->addWidget(m_webView);
@@ -397,7 +397,7 @@ void WebTab::attach(TabWidget* tabWidget)
 	m_tabBar = tabWidget->tabBar();
 
 	m_webView->setTabWidget(tabWidget);
-	m_addressBar->setBrowserWindow(tabWidget->window());
+	m_addressBar->setTabWidget(tabWidget);
 	m_tabBar->setTabButton(tabIndex(), m_tabBar->iconButtonPosition(), m_tabIcon);
 	m_tabBar->setTabText(tabIndex(), title());
 	m_tabIcon->updateIcon();

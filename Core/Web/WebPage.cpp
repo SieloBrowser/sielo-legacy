@@ -364,7 +364,7 @@ QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
 	auto createTab = [=](Application::NewTabTypeFlags tabType)
 	{
 		int index{window->tabWidget()->addView(QUrl(), tabType)};
-		TabbedWebView* view{window->webView(index)};
+		TabbedWebView* view{window->tabWidget()->webTab(index)->webView()};
 		view->setPage(new WebPage);
 		return view->page();
 	};
