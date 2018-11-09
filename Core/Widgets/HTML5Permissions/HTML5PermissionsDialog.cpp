@@ -24,11 +24,11 @@
 
 #include "HTML5PermissionsDialog.hpp"
 
-#include <QSettings>
-
 #include <QHeaderView>
 
 #include "Application.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Web/HTML5Permissions/HTML5PermissionsManager.hpp"
 
@@ -115,7 +115,7 @@ void HTML5PermissionsDialog::featureIndexChanged()
 
 void HTML5PermissionsDialog::saveSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("HTML5-Permissions");
 
@@ -198,7 +198,7 @@ void HTML5PermissionsDialog::setupUI()
 
 void HTML5PermissionsDialog::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("HTML5-Permissions");
 

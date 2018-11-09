@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,51 +22,38 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Network/NetworkUrlInterceptor.hpp"
+#pragma once
+#ifndef SIELOBROWSER_SETTINGS_HPP
+#define SIELOBROWSER_SETTINGS_HPP
 
-#include <QList>
+#include <QSettings>
 
-#include "Utils/Settings.hpp"
-
-#include "Network/BaseUrlInterceptor.hpp"
-
-namespace Sn {
-
-NetworkUrlInterceptor::NetworkUrlInterceptor(QObject* parent) :
-	QWebEngineUrlRequestInterceptor(parent),
-	m_sendDNT(false)
+namespace Sn
 {
-	// Empty
+class Settings {
+public:
+	Settings();
+	~Settings();
+
+	static void createSettings(const QString& fileName);
+	static void syncSettings();
+
+	bool contains(const QString& key);
+	void remove(const QString& key);
+
+	void setValue(const QString& key, const QVariant& defaultValue = QVariant());
+	QVariant value(const QString& key, const QVariant& defaultValue = QVariant());
+
+	void beginGroup(const QString& prefix);
+	void endGroup();
+
+	void sync();
+
+private:
+	static QSettings* s_settings;
+
+	QString m_openedGroup{};
+};
 }
 
-void NetworkUrlInterceptor::interceptRequest(QWebEngineUrlRequestInfo& info)
-{
-	if (m_sendDNT)
-		info.setHttpHeader(QByteArrayLiteral("DNT"), QByteArrayLiteral("1"));
-
-		foreach (BaseUrlInterceptor* interceptor, m_interceptors) interceptor->interceptRequest(info);
-}
-
-void NetworkUrlInterceptor::installUrlInterceptor(BaseUrlInterceptor* interceptor)
-{
-	if (!m_interceptors.contains(interceptor))
-		m_interceptors.append(interceptor);
-}
-
-void NetworkUrlInterceptor::removeUrlInterceptor(BaseUrlInterceptor* interceptor)
-{
-	m_interceptors.removeOne(interceptor);
-}
-
-void NetworkUrlInterceptor::loadSettings()
-{
-	Settings settings{};
-
-	settings.beginGroup("Web-Settings");
-
-	m_sendDNT = settings.value("DoNotTrack", false).toBool();
-
-	settings.endGroup();
-}
-
-}
+#endif //SIELOBROWSER_SETTINGS_HPP

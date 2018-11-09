@@ -32,8 +32,9 @@
 
 #include "piwiktracker.h"
 #include <QUrlQuery>
-#include <QSettings>
 #include <QUuid>
+
+#include "Utils/Settings.hpp"
 
 #if defined(PIWIK_TRACKER_QTQUICK)
 #include <QGuiApplication>
@@ -70,7 +71,7 @@ PiwikTracker::PiwikTracker(QCoreApplication * parent,
 
     // if no client id was set let's search in the settings
     if (!_clientId.size()) {
-        QSettings settings;
+        Sn::Settings settings;
         // create a client id if none was in the settings
         if (!settings.contains("PiwikClientId")) {
             QByteArray ba;

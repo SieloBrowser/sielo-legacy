@@ -24,7 +24,7 @@
 
 #include "JSOptions.hpp"
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 namespace Sn {
 
@@ -43,7 +43,7 @@ JSOptions::JSOptions(QWidget* parent) :
 
 	setupUI();
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 
@@ -64,7 +64,7 @@ JSOptions::~JSOptions()
 
 void JSOptions::accept()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 

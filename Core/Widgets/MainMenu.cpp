@@ -27,8 +27,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include <QSettings>
-
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
 
@@ -41,6 +39,8 @@
 #include "Download/DownloadManager.hpp"
 
 #include "Cookies/CookieManager.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Widgets/AboutDialog.hpp"
 #include "Widgets/HelpUsDialog.hpp"
@@ -189,7 +189,7 @@ void MainMenu::setTabWidget(TabWidget* tabWidget)
 
 void MainMenu::updateShowBookmarksBarText(bool visible)
 {
-	QSettings settings;
+	Settings settings;
 	settings.setValue(QLatin1String("ShowBookmarksToolBar"), visible);
 
 	m_toggleBookmarksAction->setChecked(visible);

@@ -24,11 +24,11 @@
 
 #include "PasswordManager.hpp"
 
-#include <QSettings>
-
 #include <QCryptographicHash>
 
 #include <QUrl>
+
+#include "Utils/Settings.hpp"
 
 #include "Password/PasswordBackend.hpp"
 #include "Password/DatabasePasswordBackend.hpp"
@@ -127,7 +127,7 @@ PasswordManager::~PasswordManager()
 
 void PasswordManager::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 	QString backendId{settings.value("PasswordManager/backend", "database").toString()};
 
 	m_backend = m_backends[m_backends.contains(backendId) ? backendId : "database"];
@@ -199,7 +199,7 @@ void PasswordManager::switchBackend(const QString& backendID)
 	m_backend = backend;
 	m_backend->setActive(true);
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.setValue("PasswordManager/backend", backendID);
 

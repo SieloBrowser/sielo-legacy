@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,51 +22,73 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#include "Network/NetworkUrlInterceptor.hpp"
-
-#include <QList>
-
-#include "Utils/Settings.hpp"
-
-#include "Network/BaseUrlInterceptor.hpp"
+#include "Settings.hpp"
 
 namespace Sn {
+QSettings* Settings::s_settings = nullptr;
 
-NetworkUrlInterceptor::NetworkUrlInterceptor(QObject* parent) :
-	QWebEngineUrlRequestInterceptor(parent),
-	m_sendDNT(false)
+Settings::Settings()
 {
-	// Empty
+	if (!s_settings->group().isEmpty()) {
+		m_openedGroup = s_settings->group();
+		s_settings->endGroup();
+	}
 }
 
-void NetworkUrlInterceptor::interceptRequest(QWebEngineUrlRequestInfo& info)
+Settings::~Settings()
 {
-	if (m_sendDNT)
-		info.setHttpHeader(QByteArrayLiteral("DNT"), QByteArrayLiteral("1"));
+	if (!s_settings->group().isEmpty())
+		s_settings->endGroup();
 
-		foreach (BaseUrlInterceptor* interceptor, m_interceptors) interceptor->interceptRequest(info);
+	if (!m_openedGroup.isEmpty())
+		s_settings->beginGroup(m_openedGroup);
 }
 
-void NetworkUrlInterceptor::installUrlInterceptor(BaseUrlInterceptor* interceptor)
+void Settings::createSettings(const QString& fileName)
 {
-	if (!m_interceptors.contains(interceptor))
-		m_interceptors.append(interceptor);
+	s_settings = new QSettings(fileName, QSettings::IniFormat);
 }
 
-void NetworkUrlInterceptor::removeUrlInterceptor(BaseUrlInterceptor* interceptor)
+void Settings::syncSettings()
 {
-	m_interceptors.removeOne(interceptor);
+	if (!s_settings)
+		return;
+
+	s_settings->sync();
 }
 
-void NetworkUrlInterceptor::loadSettings()
+bool Settings::contains(const QString& key)
 {
-	Settings settings{};
-
-	settings.beginGroup("Web-Settings");
-
-	m_sendDNT = settings.value("DoNotTrack", false).toBool();
-
-	settings.endGroup();
+	return s_settings->contains(key);
 }
 
+void Settings::remove(const QString& key)
+{
+	s_settings->remove(key);
+}
+
+void Settings::setValue(const QString& key, const QVariant& defaultValue)
+{
+	s_settings->setValue(key, defaultValue);
+}
+
+QVariant Settings::value(const QString& key, const QVariant& defaultValue)
+{
+	return s_settings->value(key, defaultValue);
+}
+
+void Settings::beginGroup(const QString& prefix)
+{
+	s_settings->beginGroup(prefix);
+}
+
+void Settings::endGroup()
+{
+	s_settings->endGroup();
+}
+
+void Settings::sync()
+{
+	s_settings->sync();
+}
 }

@@ -24,7 +24,7 @@
 
 #include "PasswordPage.hpp"
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 namespace Sn {
 
@@ -46,7 +46,7 @@ PasswordPage::~PasswordPage()
 
 void PasswordPage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	m_allowCheck->setChecked(settings.value("Settings/savePasswordsOnSites", true).toBool());
 	allowChanged(m_allowCheck->isChecked());
@@ -54,7 +54,7 @@ void PasswordPage::loadSettings()
 
 void PasswordPage::save()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.setValue("Settings/savePasswordsOnSites", m_allowCheck->isChecked());
 }

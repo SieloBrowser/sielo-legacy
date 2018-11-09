@@ -24,9 +24,9 @@
 
 #include "History.hpp"
 
-#include <QSettings>
-
 #include <QSqlQuery>
+
+#include "Utils/Settings.hpp"
 
 #include "Web/WebView.hpp"
 
@@ -298,7 +298,7 @@ void History::setSaving(bool state)
 
 void History::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 

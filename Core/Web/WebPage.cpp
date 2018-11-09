@@ -34,8 +34,6 @@
 
 #include <QMessageBox>
 
-#include <QSettings>
-
 #include "Web/WebHitTestResult.hpp"
 #include "Web/WebView.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
@@ -55,6 +53,7 @@
 
 #include "Utils/DelayedFileWatcher.hpp"
 #include "Utils/ExternalJsObject.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Plugins/PluginProxy.hpp"
 
@@ -391,7 +390,7 @@ QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
 
 void WebPage::handleUnknowProtocol(const QUrl& url)
 {
-	QSettings settings{};
+	Settings settings{};
 
 	const QString protocol = url.scheme();
 	QStringList

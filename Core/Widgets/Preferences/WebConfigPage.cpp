@@ -24,7 +24,7 @@
 
 #include "WebConfigPage.hpp"
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 #include "Web/WebView.hpp"
 
@@ -48,7 +48,7 @@ WebConfigPage::~WebConfigPage()
 
 void WebConfigPage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 
@@ -70,7 +70,7 @@ void WebConfigPage::loadSettings()
 
 void WebConfigPage::save()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 

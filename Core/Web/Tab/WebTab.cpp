@@ -24,12 +24,12 @@
 
 #include "Web/Tab/WebTab.hpp"
 
-#include <QSettings>
-
 #include <QColor>
 #include <QLineEdit>
 
 #include "BrowserWindow.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/WebInspector.hpp"
@@ -61,7 +61,7 @@ void WebTab::setAddChildBehavior(AddChildBehavior behavior)
 WebTab::SavedTab::SavedTab() :
 	isPinned(false)
 {
-	QSettings settings{};
+	Settings settings{};
 	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
 
 	zoomLevel = defaultZoomLevel;
@@ -93,7 +93,7 @@ bool WebTab::SavedTab::isValide() const
 
 void WebTab::SavedTab::clear()
 {
-	QSettings settings{};
+	Settings settings{};
 	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
 
 	title.clear();
@@ -605,7 +605,7 @@ void WebTab::restoreTab(const SavedTab& tab)
 {
 	Q_ASSERT(m_tabBar);
 
-	QSettings settings{};
+	Settings settings{};
 
 	m_isPinned = tab.isPinned;
 	m_sessionData = tab.sessionData;

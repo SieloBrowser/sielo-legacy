@@ -28,7 +28,7 @@
 
 #include <QFileDialog>
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 namespace Sn {
 
@@ -55,7 +55,7 @@ void DownloadPage::loadSettings()
 {
 	QString defaultLocation{QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)};
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Download-Settings");
 
@@ -81,7 +81,7 @@ void DownloadPage::loadSettings()
 
 void DownloadPage::save()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Download-Settings");
 

@@ -27,8 +27,6 @@
 #include <QWindow>
 #include <QScreen>
 
-#include <QSettings>
-
 #include <QClipboard>
 #include <QShortcut>
 
@@ -43,6 +41,7 @@
 
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/AutoSaver.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
@@ -186,7 +185,7 @@ TabWidget::~TabWidget()
 
 void TabWidget::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Tabs-Settings");
 

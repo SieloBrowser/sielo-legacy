@@ -24,8 +24,6 @@
 
 #include "Widgets/Preferences/Appearance.hpp"
 
-#include <QSettings>
-
 #include <QProcess>
 #include <QTimer>
 
@@ -38,6 +36,7 @@
 
 #include "Utils/RegExp.hpp"
 #include "Utils/DataPaths.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 
@@ -48,7 +47,7 @@ namespace Sn
 QString AppearancePage::colorString(QString id)
 {
 	QColor returnColor{};
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Themes");
 
@@ -99,7 +98,7 @@ AppearancePage::~AppearancePage()
 
 void AppearancePage::save()
 {
-	QSettings settings;
+	Settings settings;
 
 	settings.beginGroup("Settings");
 
@@ -330,7 +329,7 @@ AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QStr
 
 void AppearancePage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Settings");
 

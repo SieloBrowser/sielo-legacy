@@ -26,13 +26,13 @@
 
 #include <math.h>
 
-#include <QSettings>
-
 #include <QFileDialog>
 
 #include <QDir>
 #include <QStandardPaths>
 #include <QDesktopServices>
+
+#include "Utils/Settings.hpp"
 
 #include "Widgets/EllipseLabel.hpp"
 
@@ -90,7 +90,7 @@ bool DownloadWidget::downloadedSuccessfully() const
 
 bool DownloadWidget::getFileName(bool promptForFileName)
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup(QLatin1String("Download-Settings"));
 

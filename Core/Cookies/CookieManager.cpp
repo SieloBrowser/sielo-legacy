@@ -24,7 +24,6 @@
 
 #include "CookieManager.hpp"
 
-#include <QSettings>
 #include <QShortcut>
 
 #include <QHeaderView>
@@ -32,6 +31,8 @@
 #include <QInputDialog>
 
 #include "Application.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Cookies/CookieJar.hpp"
 
@@ -70,7 +71,7 @@ CookieManager::CookieManager() :
 	connect(m_blackListRemove, &QPushButton::clicked, this, &CookieManager::removeBlackList);
 
 	// Cookie settings
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Cookie-Settings");
 
@@ -289,7 +290,7 @@ void CookieManager::closeEvent(QCloseEvent* event)
 	for (int i{0}; i < m_blackList->count(); ++i)
 		blackList.append(m_blackList->item(i)->text());
 
-	QSettings settings;
+	Settings settings;
 
 	settings.beginGroup("Cookie-Settings");
 

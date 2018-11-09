@@ -28,8 +28,6 @@
 #include <QNetworkReply>
 #include <QNetworkProxy>
 
-#include <QSettings>
-
 #include <QDialog>
 
 #include <QFormLayout>
@@ -40,6 +38,8 @@
 #include <QCheckBox>
 
 #include "Application.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Password/PasswordManager.hpp"
 #include "Password/AutoFill/AutoFill.hpp"
@@ -221,7 +221,7 @@ void NetworkManager::loadSettings()
 {
 	m_urlInterceptor->loadSettings();
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Proxy-Settings");
 

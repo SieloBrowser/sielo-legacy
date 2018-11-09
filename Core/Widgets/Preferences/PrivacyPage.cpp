@@ -24,9 +24,10 @@
 
 #include "PrivacyPage.hpp"
 
-#include <QSettings>
-
 #include "Cookies/CookieManager.hpp"
+
+#include "Utils/Settings.hpp"
+
 #include "Widgets/HTML5Permissions/HTML5PermissionsDialog.hpp"
 #include "Widgets/Preferences/JSOptions.hpp"
 
@@ -50,14 +51,14 @@ PrivacyPage::~PrivacyPage()
 
 void PrivacyPage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	m_doNotTrack->setChecked(settings.value("Web-Settings/DoNotTrack", false).toBool());
 }
 
 void PrivacyPage::save()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.setValue("Web-Settings/DoNotTrack", m_doNotTrack->isChecked());
 }

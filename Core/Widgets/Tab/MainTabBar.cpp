@@ -25,8 +25,6 @@
 #include <QtWidgets/QLabel>
 #include "Widgets/Tab/MainTabBar.hpp"
 
-#include <QSettings>
-
 #include <QDrag>
 #include <QMimeData>
 
@@ -41,6 +39,8 @@
 #include "Application.hpp"
 
 #include "Plugins/PluginProxy.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Web/Tab/WebTab.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
@@ -98,7 +98,7 @@ MainTabBar::MainTabBar(TabWidget* tabWidget) :
 
 void MainTabBar::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Tabs-Settings");
 

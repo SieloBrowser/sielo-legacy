@@ -24,13 +24,14 @@
 
 #include "AdBlockPage.hpp"
 
-#include <QSettings>
 #include <QTimer>
 
 #include <QMenu>
 #include <QMessageBox>
 
 #include "AdBlock/SubscriptionDialog.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 
@@ -57,7 +58,7 @@ AdBlockPage::~AdBlockPage()
 
 void AdBlockPage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("AdBlock-Settings");
 
@@ -134,7 +135,7 @@ void AdBlockPage::filterString(const QString& string)
 
 void AdBlockPage::enableAdBlock(bool state)
 {
-	QSettings settings{};
+	Settings settings{};
 	settings.setValue(QLatin1String("AdBlock-Settings/enabled"), state);
 
 	m_manager->setEnabled(state);

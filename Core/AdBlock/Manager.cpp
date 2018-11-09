@@ -24,7 +24,6 @@
 
 #include "AdBlock/Manager.hpp"
 
-#include <QSettings>
 #include <QTimer>
 
 #include <QMessageBox>
@@ -39,6 +38,7 @@
 #include "Network/NetworkManager.hpp"
 
 #include "Utils/DataPaths.hpp"
+#include "Utils/Settings.hpp"
 
 #include "AdBlock/Rule.hpp"
 #include "AdBlock/Matcher.hpp"
@@ -77,7 +77,7 @@ void Manager::load()
 	if (m_loaded)
 		return;
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("AdBlock-Settings");
 
@@ -165,7 +165,7 @@ void Manager::save()
 
 			foreach (Subscription* subscription, m_subscriptions) subscription->saveSubscription();
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("AdBlock-Settings");
 
@@ -386,7 +386,7 @@ void Manager::setEnabled(bool enabled)
 	m_enabled = enabled;
 	emit enabledChanged(enabled);
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("AdBlock-Settings");
 
@@ -411,7 +411,7 @@ void Manager::updateAllSubscriptions()
 {
 			foreach (Subscription* subscription, m_subscriptions) subscription->updateSubscription();
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("AdBlock-Settings");
 

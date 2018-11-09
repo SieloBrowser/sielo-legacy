@@ -24,7 +24,7 @@
 
 #include "NavigationControlDialog.hpp"
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 
@@ -52,7 +52,7 @@ NavigationControlDialog::~NavigationControlDialog()
 
 void NavigationControlDialog::save()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.setValue("Settings/useTopToolBar", m_toolbars->isChecked());
 

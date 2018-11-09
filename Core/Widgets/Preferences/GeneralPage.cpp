@@ -24,14 +24,13 @@
 
 #include "Widgets/Preferences/GeneralPage.hpp"
 
-#include <QSettings>
-
 #include <QMessageBox>
 
 #include <QFileInfo>
 #include <QDir>
 
 #include "Utils/DataPaths.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
@@ -63,7 +62,7 @@ GeneralPage::~GeneralPage()
 
 void GeneralPage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	// Set new tab and new window option
 	settings.beginGroup("Web-Settings");
@@ -151,7 +150,7 @@ void GeneralPage::loadSettings()
 void GeneralPage::save()
 {
 
-	QSettings settings{};
+	Settings settings{};
 
 	// Save what to do on new session
 	settings.beginGroup("Settings");

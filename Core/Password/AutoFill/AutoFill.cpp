@@ -27,13 +27,13 @@
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
 
-#include <QSettings>
-
 #include <QSqlQuery>
 
 #include <QMessageBox>
 
 #include "Password/PasswordManager.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Web/Scripts.hpp"
 #include "Web/WebPage.hpp"
@@ -124,7 +124,7 @@ AutoFill::AutoFill(QObject* parent) :
 
 void AutoFill::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	m_isStoring = settings.value("Settings/savePasswordsOnSites", true).toBool();
 }

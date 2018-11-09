@@ -24,7 +24,7 @@
 
 #include "TabsSpaceSplitter.hpp"
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 #include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
@@ -148,7 +148,7 @@ TabsSpaceSplitter::TabsSpaceSplitter(BrowserWindow* window) :
 
 void TabsSpaceSplitter::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	m_tabsSpacePadding = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 	const bool showBookmarksToolBar{settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool()};

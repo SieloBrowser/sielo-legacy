@@ -24,10 +24,10 @@
 
 #include "LocalStoragePage.hpp"
 
-#include <QSettings>
-
 #include <QFileDialog>
 #include <QMessageBox>
+
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 
@@ -58,7 +58,7 @@ LocalStoragePage::~LocalStoragePage()
 
 void LocalStoragePage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 
@@ -80,7 +80,7 @@ void LocalStoragePage::loadSettings()
 
 void LocalStoragePage::save()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Web-Settings");
 

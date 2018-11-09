@@ -32,7 +32,6 @@
 #include <QMimeData>
 #include <QAbstractItemView>
 
-#include <QSettings>
 #include <QApplication>
 #include <QClipboard>
 

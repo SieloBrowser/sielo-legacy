@@ -24,7 +24,7 @@
 
 #include "Cookies/CookieJar.hpp"
 
-#include <QSettings>
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 
@@ -43,7 +43,7 @@ CookieJar::CookieJar(QObject* parent) :
 
 void CookieJar::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Cookie-Settings");
 

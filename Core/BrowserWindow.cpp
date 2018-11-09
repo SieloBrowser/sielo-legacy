@@ -28,7 +28,6 @@
 #include <QStatusBar>
 
 #include <QList>
-#include <QSettings>
 
 #include <QAction>
 
@@ -41,6 +40,7 @@
 
 #include "Utils/DataPaths.hpp"
 #include "Utils/RestoreManager.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Web/LoadRequest.hpp"
 #include "Web/WebPage.hpp"
@@ -51,6 +51,7 @@
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/NavigationControlDialog.hpp"
 
 #ifdef Q_OS_WIN
 #include <windowsx.h>
@@ -269,7 +270,7 @@ BrowserWindow::~BrowserWindow()
 
 void BrowserWindow::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
 
@@ -660,6 +661,23 @@ void BrowserWindow::postLaunch()
 
 	if (m_fButton)
 		m_fButton->tabWidgetChanged(tabWidget());
+
+	Settings settings{};
+
+	// Show the "getting started" page if it's the first time Sielo is launch
+	if (!settings.value("installed", false).toBool()) {
+#ifdef QT_DEBUG
+		Application::instance()->piwikTraker()->sendEvent("installation", "installation", "installation", "new installation");
+#endif
+		tabWidget()
+			->addView(QUrl("https://sielo.app/thanks.php"),
+					  Application::NTT_CleanSelectedTabAtEnd);
+
+		NavigationControlDialog* navigationControlDialog{new NavigationControlDialog(this)};
+		navigationControlDialog->exec();
+
+		settings.setValue("installed", true);
+	}
 }
 
 void BrowserWindow::floatingButtonPatternChange(RootFloatingButton::Pattern pattern)

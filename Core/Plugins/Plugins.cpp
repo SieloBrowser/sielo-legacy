@@ -28,10 +28,10 @@
 #include <QPluginLoader>
 #include <QMessageBox>
 
-#include <QSettings>
 #include <QDebug>
 
 #include "Utils/DataPaths.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 
@@ -88,7 +88,7 @@ void Plugins::unloadPlugin(Plugin* plugin)
 
 void Plugins::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Plugin-Settings");
 	m_allowedPlugins = settings.value("AllowedPlugins", QStringList()).toStringList();

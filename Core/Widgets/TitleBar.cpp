@@ -27,13 +27,12 @@
 #include <QDesktopWidget>
 #include <QScreen>
 
-#include <QSettings>
-
 #include "Bookmarks/BookmarksUtils.hpp"
 #include "Bookmarks/BookmarksToolbar.hpp"
 
-#include "Widgets/Tab/TabWidget.hpp"
+#include "Utils/Settings.hpp"
 
+#include "Widgets/Tab/TabWidget.hpp"
 
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
@@ -100,7 +99,7 @@ void TitleBar::setShowBookmark(bool show)
 
 void TitleBar::saveToolBarsPositions()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("TitleBar");
 
@@ -117,7 +116,7 @@ void TitleBar::saveToolBarsPositions()
 
 void TitleBar::restoreToolBarsPositions()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("TitleBar");
 

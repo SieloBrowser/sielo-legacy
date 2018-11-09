@@ -26,9 +26,9 @@
 
 #include <QtDebug>
 
-#include <QSettings>
-
 #include "Widgets/HTML5Permissions/HTML5PermissionsNotification.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
@@ -84,7 +84,7 @@ void HTML5PermissionsManager::rememberPermissions(const QUrl& origin, const QWeb
 
 void HTML5PermissionsManager::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("HTML5-Permissions");
 
@@ -117,7 +117,7 @@ void HTML5PermissionsManager::loadSettings()
 
 void HTML5PermissionsManager::saveSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("HTML5-Permissions");
 

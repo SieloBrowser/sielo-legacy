@@ -41,8 +41,6 @@
 
 #include <QMessageBox>
 
-#include <QSettings>
-
 #include <QWebEngineSettings>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
@@ -70,6 +68,7 @@
 #include "Utils/DataPaths.hpp"
 #include "Utils/Updater.hpp"
 #include "Utils/RestoreManager.hpp"
+#include "Utils/Settings.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/Scripts.hpp"
@@ -179,7 +178,6 @@ Application::Application(int& argc, char** argv) :
 	m_webProfile(nullptr)
 {
 	// Setting up settings environment
-	QCoreApplication::setOrganizationName(QLatin1String("Feldrise"));
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
 	QCoreApplication::setApplicationVersion(QLatin1String("1.17.00"));
 
@@ -199,10 +197,6 @@ Application::Application(int& argc, char** argv) :
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
 	m_normalFont = font();*/
-
-	// the 3rd parameter is the site id
-	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
-	m_piwikTracker->sendVisit("launch");
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
@@ -279,6 +273,14 @@ Application::Application(int& argc, char** argv) :
 	ProfileManager profileManager{};
 	profileManager.initCurrentProfile(startProfile);
 
+	Settings::createSettings(DataPaths::currentProfilePath() + "/settings.ini");
+
+#ifdef QT_DEBUG
+	// the 3rd parameter is the site id
+	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
+	m_piwikTracker->sendVisit("launch");
+#endif 
+	
 	m_plugins = new PluginProxy;
 
 	// Setting up web and network objects
@@ -306,7 +308,7 @@ Application::Application(int& argc, char** argv) :
 
 	// Check if we start after a crash
 	if (!privateBrowsing()) {
-		QSettings settings{};
+		Settings settings{};
 
 		m_startingAfterCrash = settings.value(QLatin1String("isRunning"), false).toBool();
 		settings.setValue(QLatin1String("isRunning"), true);
@@ -356,7 +358,7 @@ Application::~Application()
 
 void Application::loadSettings()
 {
-	QSettings settings;
+	Settings settings;
 
 	// General Sielo settings
 	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
@@ -381,7 +383,7 @@ void Application::loadSettings()
 
 void Application::loadWebSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	// load web settings
 	QWebEngineSettings* webSettings = m_webProfile->settings();
@@ -429,7 +431,7 @@ void Application::loadWebSettings()
 
 void Application::loadApplicationSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	// Check the current version number of Sielo, and make setting update if needed
 	//TODO: improve this with a switch
@@ -466,7 +468,7 @@ void Application::loadApplicationSettings()
 
 void Application::loadThemesSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	// Load theme info
 	QFileInfo themeInfo{
@@ -524,7 +526,7 @@ void Application::loadThemesSettings()
 
 void Application::loadTranslationSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 	settings.beginGroup("Language");
 
 	if (settings.value("version", 0).toInt() < 14) {
@@ -536,7 +538,7 @@ void Application::loadTranslationSettings()
 
 void Application::translateApplication()
 {
-	QSettings settings{};
+	Settings settings{};
 	QString file{settings.value("Language/language", QLocale::system().name()).toString()};
 
 	// It can only be "C" locale, for which we will use default English language
@@ -634,7 +636,7 @@ BrowserWindow *Application::createWindow(MaquetteGridItem* item)
 
 Application::AfterLaunch Application::afterLaunch() const
 {
-	QSettings settings{};
+	Settings settings{};
 
 	return static_cast<AfterLaunch>(settings.value(QStringLiteral("Settings/afterLaunch"), OpenHomePage).toInt());
 }
@@ -689,7 +691,7 @@ void Application::saveSettings()
 	if (privateBrowsing())
 		return;
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.setValue("isRunning", false);
 
@@ -711,7 +713,9 @@ void Application::saveSettings()
 	if (deleteCookies)
 		m_cookieJar->deleteAllCookies();
 
+#ifdef QT_DEBUG
 	m_piwikTracker->sendEvent("exit", "exit", "exit", "exit application");
+#endif
 }
 
 void Application::saveSession(bool saveForHome)
@@ -750,7 +754,7 @@ void Application::saveSession(bool saveForHome)
 
 void Application::reloadUserStyleSheet()
 {
-	QSettings setting{};
+	Settings setting{};
 	QString userCSSFile{setting.value("Settings/userStyleSheet", QString()).toString()};
 
 	setUserStyleSheet(userCSSFile);
@@ -768,22 +772,6 @@ void Application::postLaunch()
 	// Check if we want to open a new tab
 	if (m_postLaunchActions.contains(OpenNewTab))
 		getWindow()->tabWidget()->addView(QUrl(), Application::NTT_SelectedNewEmptyTab);
-
-	QSettings settings{};
-
-	// Show the "getting started" page if it's the first time Sielo is launch
-	if (!settings.value("installed", false).toBool()) {
-		m_piwikTracker->sendEvent("installation", "installation", "installation", "new installation");
-
-		getWindow()->tabWidget()
-			->addView(QUrl("https://sielo.app/thanks.php"),
-					  Application::NTT_CleanSelectedTabAtEnd);
-
-		NavigationControlDialog* navigationControlDialog{new NavigationControlDialog(getWindow())};
-		navigationControlDialog->exec();
-
-		settings.setValue("installed", true);
-	}
 
 	connect(this, &Application::receivedMessage, this, &Application::messageReceived);
 	connect(this, &Application::aboutToQuit, this, &Application::saveSettings);
@@ -987,7 +975,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 
 	/*if (command == "witcher") {
 		if (args.count() == 1) {
-			QSettings settings{};
+			Settings settings{};
 			QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
 
 			if (args[0] == "enable") {
@@ -1207,7 +1195,7 @@ QString Application::parseSSSColor(QString& sss, const QString& lightness)
 
 QString Application::getBlurredBackgroundPath(const QString& defaultBackground, int radius)
 {
-	QSettings settings{};
+	Settings settings{};
 
 	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), defaultBackground).toString();
 

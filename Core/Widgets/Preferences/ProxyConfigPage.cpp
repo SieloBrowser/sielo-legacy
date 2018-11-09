@@ -24,9 +24,9 @@
 
 #include "ProxyConfigPage.hpp"
 
-#include <QSettings>
-
 #include <QNetworkProxy>
+
+#include "Utils/Settings.hpp"
 
 #include "Application.hpp"
 
@@ -50,7 +50,7 @@ ProxyConfigPage::~ProxyConfigPage()
 
 void ProxyConfigPage::loadSettings()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Proxy-Settings");
 
@@ -86,7 +86,7 @@ void ProxyConfigPage::save()
 	else
 		proxyType = QNetworkProxy::Socks5Proxy;
 
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup("Proxy-Settings");
 

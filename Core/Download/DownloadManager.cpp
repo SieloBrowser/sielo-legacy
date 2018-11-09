@@ -27,11 +27,10 @@
 #include <QHeaderView>
 #include <QStyle>
 
-#include <QSettings>
-
 #include <QMetaEnum>
 
 #include "Utils/AutoSaver.hpp"
+#include "Utils/Settings.hpp"
 
 #include "View/TableView.hpp"
 
@@ -129,7 +128,7 @@ void DownloadManager::cleanup()
 
 void DownloadManager::save() const
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup(QLatin1String("Download-Settings"));
 
@@ -261,7 +260,7 @@ void DownloadManager::setupUI()
 
 void DownloadManager::load()
 {
-	QSettings settings{};
+	Settings settings{};
 
 	settings.beginGroup(QLatin1String("Download-Settings"));
 

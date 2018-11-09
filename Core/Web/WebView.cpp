@@ -31,7 +31,6 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#include <QSettings>
 #include <QAction>
 
 #include <QMenu>
@@ -43,6 +42,8 @@
 #include "Web/WebHitTestResult.hpp"
 #include "Web/WebInspector.hpp"
 #include "Web/Scripts.hpp"
+
+#include "Utils/Settings.hpp"
 
 #include "History/History.hpp"
 
@@ -101,7 +102,7 @@ WebView::WebView(QWidget* parent) :
 	connect(this, &QWebEngineView::titleChanged, this, &WebView::sTitleChanged);
 	connect(this, &QWebEngineView::iconChanged, this, &WebView::sIconChanged);
 
-	QSettings settings{};
+	Settings settings{};
 	m_currentZoomLevel = settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt();
 
 	setAcceptDrops(true);
@@ -396,7 +397,7 @@ void WebView::zoomOut()
 
 void WebView::zoomReset()
 {
-	QSettings settings{};
+	Settings settings{};
 	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", zoomLevels().indexOf(100)).toInt()};
 
 	if (m_currentZoomLevel != defaultZoomLevel) {
@@ -457,7 +458,9 @@ void WebView::sLoadFinished(bool ok)
 
 	if (ok) {
 		Application::instance()->history()->addHistoryEntry(this);
+#ifdef QT_DEBUG
 		Application::instance()->piwikTraker()->sendEvent("navigation", "navigation", "page-loaded", "page loaded");
+#endif
 	}
 }
 
