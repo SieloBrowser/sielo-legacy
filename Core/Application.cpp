@@ -432,37 +432,43 @@ void Application::loadWebSettings()
 void Application::loadApplicationSettings()
 {
 	Settings settings{};
+	QSettings oldSettings{"Feldrise", "Sielo"};
 
 	// Check the current version number of Sielo, and make setting update if needed
 	//TODO: improve this with a switch
-	if (settings.value("versionNumber", 0).toInt() < 14) {
-		settings.setValue("installed", false);
-		if (settings.value("versionNumber", 0).toInt() < 12) {
-			if (settings.value("versionNumber", 0).toInt() < 11) {
-				// Update with new bookmarks
-				QString directory{DataPaths::currentProfilePath()};
-				QFile::remove(directory
-							  + QLatin1String("/bookmarks.xbel"));
-				QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
-							+ QLatin1String("/bookmarks.xbel"));
-				QFile::setPermissions(directory
-									  + QLatin1String("/bookmarks.xbel"),
-									  QFileDevice::ReadUser | QFileDevice::WriteUser);
-			}
+	int oldSettingsVersionNumber = oldSettings.value("versionNumber", 14).toInt();
+	if (oldSettingsVersionNumber < 15) {
+		if (oldSettingsVersionNumber < 14) {
+			oldSettings.setValue("installed", false);
+			if (oldSettingsVersionNumber < 12) {
+				if (oldSettingsVersionNumber < 11) {
+					// Update with new bookmarks
+					QString directory{DataPaths::currentProfilePath()};
+					QFile::remove(directory
+								  + QLatin1String("/bookmarks.xbel"));
+					QFile::copy(QLatin1String(":data/bookmarks.xbel"), directory
+								+ QLatin1String("/bookmarks.xbel"));
+					QFile::setPermissions(directory
+										  + QLatin1String("/bookmarks.xbel"),
+										  QFileDevice::ReadUser | QFileDevice::WriteUser);
+				}
 
-			// Update home page to use last version of doosearch
-			settings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
-			settings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
+				// Update home page to use last version of doosearch
+				oldSettings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
+				oldSettings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
 
-			foreach(BrowserWindow* window, m_windows)
-			{
-				window->loadSettings();
-				for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
-					window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+				foreach(BrowserWindow* window, m_windows)
+				{
+					window->loadSettings();
+					for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
+						window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+					}
 				}
 			}
 		}
-		settings.setValue("versionNumber", 14);
+
+		oldSettings.setValue("versionNumber", 15);
+		updateToProfiles();
 	}
 }
 
@@ -534,6 +540,29 @@ void Application::loadTranslationSettings()
 		copyPath(QDir(":data/locale").absolutePath(), DataPaths::currentProfilePath() + "locale");
 		settings.setValue("version", 14);
 	}
+}
+
+void Application::updateToProfiles()
+{
+	Settings settings{};
+	QSettings oldSettings{"Feldrise", "Sielo"};
+	QStringList keys = oldSettings.allKeys();
+
+	for (const QString& key : keys)
+		settings.setValue(key, oldSettings.value(key));
+
+	QString appData{QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)};
+	QString oldDataPath{appData.insert(appData.count() - 6, "/Feldrise")};
+
+	std::string stdOld = oldDataPath.toStdString();
+	
+	copyPath(oldDataPath +"/themes", DataPaths::currentProfilePath() + "/themes", true);
+	copyPath(oldDataPath + "/maquette-grid", DataPaths::currentProfilePath() + "/maquette-grid", true);
+	
+	QFile(DataPaths::currentProfilePath() + "/bookmarks.json").remove();
+	QFile(DataPaths::currentProfilePath() + "/fbutton.dat").remove();
+	QFile(oldDataPath + "/bookmarks.json").copy(DataPaths::currentProfilePath() + "/bookmarks.json");
+	QFile(oldDataPath + "/fbutton.dat").copy(DataPaths::currentProfilePath() + "/fbutton.dat");
 }
 
 void Application::translateApplication()
