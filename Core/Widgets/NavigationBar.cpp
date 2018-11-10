@@ -48,6 +48,8 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	setObjectName(QStringLiteral("navigationbar"));
 	QSize iconSize{28, 28};
 
+	setMaximumHeight(100);
+
 	m_layout = new QHBoxLayout(this);
 	m_layout->setMargin(0);
 	m_layout->setSpacing(0);

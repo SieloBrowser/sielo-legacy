@@ -565,7 +565,7 @@ void ComboTabBar::addCornerWidget(QWidget* widget, Qt::Corner corner)
 
 void ComboTabBar::setUpLayout()
 {
-	int height{qMax(m_mainTabBar->height(), m_pinnedTabBar->height())};
+	/*int height{qMax(m_mainTabBar->height(), m_pinnedTabBar->height())};
 
 	if (height < 1)
 		height = qMax(m_mainTabBar->sizeHint().height(), m_pinnedTabBar->sizeHint().height());
@@ -584,6 +584,25 @@ void ComboTabBar::setUpLayout()
 	if (isVisible() && height > 5) {
 		m_pinnedTabBar->setFixedHeight(height);
 		m_mainTabBar->setFixedHeight(height);
+	}*/
+
+	int height{qMax(m_mainTabBar->height(), m_pinnedTabBar->height())};
+	height -= 2;
+
+	height = qMax(5, height);
+
+	setFixedHeight(height);
+	m_pinnedTabBar->setFixedHeight(height);
+	m_leftContainer->setFixedHeight(height);
+	m_rightContainer->setFixedHeight(height);
+	m_mainTabBarWidget->setUpLayout();
+	m_pinnedTabBarWidget->setUpLayout();
+
+	setMinimumWidths();
+
+	if (isVisible() && m_mainTabBar->count() > 0) {
+		m_pinnedTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
+		m_mainTabBar->setFixedHeight(m_mainTabBar->sizeHint().height());
 	}
 }
 
