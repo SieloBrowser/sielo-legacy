@@ -46,3 +46,4 @@ build64/
 /third-party/ndb/cmake-build
 translations/commands.txt
 /cloc-1.72.exe
+user-config.cmake
