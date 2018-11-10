@@ -39,87 +39,49 @@ QTabBar::tab:!selected:hover
   background: #252526 repeat-x;
 }
 
-#maintabbar {
-  height: 35px;
-}
-
 #tabbarwidget * {
   height: 35px;
   background: #0c0c0d;
 }
 
-#tabbar {
+#maintabbar {
   border-bottom: 3px solid #080809;
 }
 
-#tabbar::tab {
-  height: 35px;
+#maintabbar::tab {
+  height: 37px;
   margin: 0px;
   padding: 0px 6px;
-  margin-bottom: 2px;
   color: #ffffff;
 }
 
 
-#tabbar::tab:!selected
+#maintabbar::tab:!selected
 {
   border-right: 1px solid #535355;
-  height: 25px;
-  margin: 5px 0px 8px 0px;
+  height: 27px;
+  margin: 5px 0px 6px 0px;
   background: transparent
 }
 
-#tabbar::tab:!selected:hover
+#maintabbar::tab:!selected:hover
 {
-  height: 35px;
+  height: 37px;
   margin: 0px;
   border-top: 3px solid #a3a4a6;
   border-right: 1px solid #535355;
   border-left: 1px solid #535355;
   background: #252526 repeat-x;
-}
-
-#pinnedtabbar {
-  border-bottom: 3px solid #080809;
-}
-
-#pinnedtabbar::tab {
-  height: 35px;
-  margin: 0px;
-  padding: 0px 6px;
-  margin-bottom: -2px;
-  color: #ffffff;
-}
-
-
-#pinnedtabbar::tab:!selected
-{
-  border-right: 1px solid #535355;
-  height: 25px;
-  margin: 5px 0px 8px 0px;
-  background: transparent
-}
-
-#pinnedtabbar::tab:!selected:hover
-{
-  height: 35px;
-  margin: 0px;
-  border-top: 3px solid #a3a4a6;
-  border-right: 1px solid #535355;
-  border-left: 1px solid #535355;
-  background: #252526 repeat-x;
-}
-
-#pinnedtabbar::tab {
-  height: 35px;
 }
 
 
 /**
- * Add & close tab button rules
+ * Add & close tab & list tab button rules
  */
 
-#tabwidget-button-addtab {
+#tabwidget-button-addtab,
+#tabwidget-button-listtabs,
+#tabwidget-button-mainmenu {
     border-radius: 5px;
     max-height: 30px;
     max-width: 30px;
@@ -128,19 +90,8 @@ QTabBar::tab:!selected:hover
     margin-left: 3px;
 }
 
-#tabwidget-button-addtab:hover {
-    border: #252526;
-    background: #252526;
-}
-
-#tabwidget-button-mainmenu {
-    border-radius: 5px;
-    max-width: 30px;
-    max-height: 30px;
-    width: 30px;
-    height: 30px;
-}
-
+#tabwidget-button-addtab:hover,
+#tabwidget-button-listtabs:hover,
 #tabwidget-button-mainmenu:hover {
     border: #252526;
     background: #252526;
@@ -254,11 +205,15 @@ QTabBar::tab:!selected:hover
 * Navigation bar rules
 */
 
+#navigationbar 
+{
+  max-height: 40px;
+}
+
 #navigationbar *
 {
   background: #323234;
   border: none;
-  border-bottom: 1px solid #000000;
   height: 41px;
   padding: 6px;
   margin: 0px;

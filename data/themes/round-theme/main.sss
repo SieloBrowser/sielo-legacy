@@ -43,61 +43,47 @@ QTabBar::tab:!selected:hover
 /* Tab bar */
 #tabbarwidget * {
     height: 40px;
-    background: scolor(accent, normal, 175);
+    background: transparent;
     border: 1px solid transparent;
     border-radius: 20px;
     width: 40px;
 }
 
-#tabbar {
+#maintabbar {
     height: 40px;
     padding: 0 0 0 0;
     border: 1px transparent;
     border-radius: 17.5px;
-    background: qlineargradient(y1:0, y2:1, stop:0 scolor(main, dark, 175), stop: 0.25 transparent);
+    background: qlineargradient(y1:0, y2:1, stop:0 scolor(main, dark, 175), stop: 0.25 scolor(accent, normal, 175));
 }
 
-#tabbar::tab {
+#maintabbar::tab {
     height: 40px;
     border: 1px transparent;
     border-radius: 17.5px;
     margin: 0px;
-    margin-bottom: 3px;
     color: scolor(text);
 }
 
-#tabbar::tab:selected
+#maintabbar::tab:selected
 {
     border: 1px transparent;
     border-radius: 15px;
     background: qlineargradient(y1:0, y2:1, stop:0 transparent, stop: 0.75 scolor(main, light, 175));
 }
 
-#tabbar::tab:!selected
+#maintabbar::tab:!selected
 {
     border: 1px transparent;
     border-radius: 17.5px;
     background: transparent;
 }
 
-#tabbar::tab:!selected:hover
+#maintabbar::tab:!selected:hover
 {
     border: 1px transparent;
     border-radius: 17.5px;
     background: qlineargradient(y1:0, y2:1, stop:0 transparent, stop: 1 scolor(accent, dark, 150));
-}
-
-#pinnedtabbar * {
-    border: 1px solid scolor(main, dark);
-    border-radius: 17.5px;
-}
-
-#pinnedtabbar::tab:!selected:hover
-{
-    height: 40px;
-    background: scolor(accent, light);
-    border: 1px solid scolor(accent, dark);
-    border-radius: 17.5px;
 }
 
 /**
@@ -112,44 +98,52 @@ QTabBar::tab:!selected:hover
     background-color: #C62828;
 }
 
-#tabwidget-button-addtab:hover {
-    border: scolor(accent);
-    background: scolor(accent);
-    border-radius: 15px;
-}
-
-#tabwidget-button-addtab {
-    border: 1px transparent;
-    border-radius: 15px;
-    max-height: 30px;
-    max-width: 30px;
-    width: 30px;
-    height: 30px;
-}
-
-#mainmenu {
-    background: scolor(main);
-    border: 1px solid scolor(main);
-    border-radius: 20px;
-}
-
-#tabwidget-button-mainmenu {
+ #tabwidget-button-addtab {
+    background: transparent;
+    border: 1px solid transparent;
     border-radius: 20px;
     max-width: 40px;
     max-height: 40px;
     width: 40px;
     height: 40px;
-}
-
-#tabwidget-button-mainmenu:hover {
-    background: scolor(accent);
-    border: scolor(accent);
-}
-
-#tabwidget-button-mainmenu:hover {
+  }
+  
+  #tabwidget-button-addtab:hover {
     border: scolor(accent);
     background: scolor(accent);
-}
+  }
+  
+  #tabwidget-button-listtabs {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  #tabwidget-button-listtabs:hover {
+    border: 1px solid transparent;
+    border: scolor(accent);
+    background: scolor(accent);
+  }
+  
+  #tabwidget-button-mainmenu {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  #tabwidget-button-mainmenu:hover {
+    border: scolor(accent);
+    background: scolor(accent);
+  }
+  
 
 /**
  * Floating button sss rules
@@ -344,7 +338,7 @@ QTabBar::tab:!selected:hover
 #navigationbar
 {
     border: none;
-    height: 25px;
+    max-height: 42px;
 }
 
 #navigationbar QToolButton,

@@ -30,74 +30,43 @@ QTabBar::tab:!selected:hover
   background: scolor(second, dark) repeat-x;
 }
 
-#maintabbar {
-  height: 36px;
-}
-
 #tabbarwidget * {
-  height: 36px;
   background-color: scolor(main);
 }
 
-#tabbar::tab {
-  height: 36px;
+#maintabbar::tab {
+  height: 38px;
   margin: 0px;
   padding: 0px 6px;
-  margin-bottom: 2px;
   background-color: scolor(accent);
   color: scolor(text);
 }
 
-#tabbar::tab:!selected
+#maintabbar::tab:!selected
 {
   border-right: 1px solid #535355;
-  height: 36px;
+  height: 38px;
   margin: 0px;
   padding: 0px 6px;
-  margin-bottom: 2px;
   background-color: scolor(main);
   color: scolor(text);
 }
 
-#tabbar::tab:!selected:hover
+#maintabbar::tab:!selected:hover
 {
-  height: 35px;
-  margin: 0px;
-  border-right: 1px solid #535355;
-  border-left: 1px solid #535355;
-  background: scolor(second, dark) repeat-x;
-}
-
-#pinnedtabbar::tab {
-  height: 36px;
-  margin: 0px;
-  padding: 0px 6px;
-  margin-bottom: -2px;
-  color: scolor(text);
-}
-
-#pinnedtabbar::tab:!selected
-{
-  border-right: 1px solid #535355;
-  height: 25px;
-  margin: 5px 0px 8px 0px;
-  background: transparent
-}
-
-#pinnedtabbar::tab:!selected:hover
-{
-  height: 35px;
-  margin: 0px;
+  height: 37px;
   border-right: 1px solid #535355;
   border-left: 1px solid #535355;
   background: scolor(second, dark) repeat-x;
 }
 
 /**
- * Add & close tab button rules
+ * Add & close tab & list tab button rules
  */
 
-#tabwidget-button-addtab {
+#tabwidget-button-addtab,
+#tabwidget-button-listtabs,
+#tabwidget-button-mainmenu {
   background: transparent;
     border-radius: 5px;
     max-height: 30px;
@@ -107,20 +76,8 @@ QTabBar::tab:!selected:hover
     margin-left: 3px;
 }
 
-#tabwidget-button-addtab:hover {
-    border: scolor(accent);
-    background: scolor(accent);
-}
-
-#tabwidget-button-mainmenu {
-  background: transparent;
-    border-radius: 5px;
-    max-width: 30px;
-    max-height: 30px;
-    width: 30px;
-    height: 30px;
-}
-
+#tabwidget-button-addtab:hover,
+#tabwidget-button-listtabs:hover,
 #tabwidget-button-mainmenu:hover {
     border: scolor(accent);
     background: scolor(accent);
@@ -268,11 +225,14 @@ QTabBar::tab:!selected:hover
 /**
 * Navigation bar rules
 */
+#navigationbar {
+  max-height: 36px;
+}
 
 #navigationbar QSplitter
 {
   border: none;
-  height: 20px;
+  max-height: 32px;
   padding: 6px;
   padding: 0px;
   spacing: 0px;
@@ -353,7 +313,7 @@ QTabBar::tab:!selected:hover
   padding: 0px;
   padding-right: 8px;
   padding-left: 15px;
-   margin: 0px;
+  margin: 0px;
   spacing: 0px;
   background: transparent;
   color: scolor(text);

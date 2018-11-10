@@ -49,16 +49,12 @@ QTabBar::close-button:hover
 	image: url($ulightness/tabs/close-tab.png);
 }
 
-#maintabbar {
-  height: 36px;
-}
-
 #tabbarwidget * {
   height: 36px;
-  background: transparent;
+  background: scolor(main,normal,127);
 }
 
-#tabbar::tab {
+#maintabbar::tab {
   height: 36px;
   margin: 0px;
   padding: 0px 6px;
@@ -66,7 +62,7 @@ QTabBar::close-button:hover
   color: scolor(text);
 }
 
-#tabbar::tab:!selected
+#maintabbar::tab:!selected
 {
   border-left: 1px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                      stop: 0 transparent, stop: 1.0 #fff);
@@ -75,35 +71,10 @@ QTabBar::close-button:hover
   border-radius: 0;
 }
 
-#tabbar::tab:!selected:hover
+#maintabbar::tab:!selected:hover
 {
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                      stop: 0 transparent, stop: 1.0 scolor(accent,dark));
-}
-
-#pinnedtabbar::tab {
-  height: 36px;
-  margin: 0px;
-  padding: 0px 6px;
-  margin-bottom: -2px;
-  color: scolor(text);
-}
-
-#pinnedtabbar::tab:!selected
-{
-  border-right: 1px solid #535355;
-  height: 25px;
-  margin: 5px 0px 8px 0px;
-  background: transparent
-}
-
-#pinnedtabbar::tab:!selected:hover
-{
-  height: 35px;
-  margin: 0px;
-  border-right: 1px solid #535355;
-  border-left: 1px solid #535355;
-  background: scolor(second, dark) repeat-x;
 }
 
 /**
@@ -111,7 +82,8 @@ QTabBar::close-button:hover
  */
 
  #tabwidget-button-addtab,
- #tabwidget-button-mainmenu {
+ #tabwidget-button-mainmenu,
+ #tabwidget-button-listtabs {
      background: scolor(main);
      border-radius: 15px;
      border: none;
@@ -120,22 +92,9 @@ QTabBar::close-button:hover
      margin-left: 2px;
  }
  
- #tabwidget-button-addtab:hover {
-     border: scolor(accent);
-     background: scolor(accent);
- }
- 
- #tabwidget-button-mainmenu {
-    /* border-radius: 5px;
-     max-width: 30px;
-     max-height: 30px;
-     width: 30px;
-     height: 30px;*/
-     margin: 3px 2px;
-     margin-left: 0px;
- }
- 
- #tabwidget-button-mainmenu:hover {
+ #tabwidget-button-addtab:hover,
+ #tabwidget-button-listtabs:hover,
+ #tabwidget-button-mainmenu:hover   {
      border: scolor(accent);
      background: scolor(accent);
  }
@@ -243,7 +202,7 @@ QTabBar::close-button:hover
 #navigationbar
 {
   border: none;
-  height: 20px;
+  max-height: 36px;
   padding: 6px;
   padding: 0px;
   spacing: 0px;
@@ -449,9 +408,7 @@ QTabBar::close-button:hover
 }
 
 #title-bar,
-#bookmarks-toolbar,
-#tabbarwidget {
-  background: rgba(0,0,0,.5);
+#bookmarks-toolbar {
   background: scolor(main,normal,127);
 }
 

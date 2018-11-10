@@ -64,9 +64,13 @@ ComboTabBar::ComboTabBar(QWidget* parent) :
 
 	m_leftContainer = new QWidget(this);
 	m_leftContainer->setLayout(m_leftLayout);
+	m_leftContainer->setObjectName(QLatin1String("tabbarwidget-left-container"));
+
 
 	m_rightContainer = new QWidget(this);
 	m_rightContainer->setLayout(m_rightLayout);
+	m_leftContainer->setObjectName(QLatin1String("tabbarwidget-right-container"));
+
 
 	m_mainTabBar = new TabBar(false, this);
 	m_pinnedTabBar = new TabBar(true, this);
@@ -711,46 +715,47 @@ void ComboTabBar::wheelEvent(QWheelEvent* event)
 
 void ComboTabBar::paintEvent(QPaintEvent* event)
 {
-	Q_UNUSED(event);
-
-	QStyleOption option{};
-	QPainter painter{this};
-	option.init(this);
-
-	style()->drawPrimitive(QStyle::PE_Widget, &option, &painter, this);
-
-#ifndef Q_OS_MAC
-
-	QStyleOptionTabBarBase optionTabBase{};
-	TabBar::initStyleBaseOption(&optionTabBase, m_mainTabBar, size());
-
-	optionTabBase.rect.setX(m_leftContainer->x());
-	optionTabBase.rect.setWidth(m_leftContainer->width());
-	style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
-
-	optionTabBase.rect.setX(m_rightContainer->x());
-	optionTabBase.rect.setWidth(m_rightContainer->width());
-	style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
-
-	if (m_mainBarOverFlowed) {
-		const int scrollButtonWidth{m_mainTabBarWidget->scrollButtonsWidth()};
-
-		optionTabBase.rect.setX(m_mainTabBarWidget->x());
-		optionTabBase.rect.setWidth(scrollButtonWidth);
-		style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
-
-		optionTabBase.rect.setX(m_mainTabBarWidget->x() + m_mainTabBarWidget->width() - scrollButtonWidth);
-		optionTabBase.rect.setWidth(scrollButtonWidth);
-		style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
-	}
-
-	if (normalTabsCount() == 0) {
-		optionTabBase.rect.setX(m_mainTabBarWidget->x());
-		optionTabBase.rect.setWidth(m_mainTabBarWidget->width());
-		style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
-	}
-
-#endif
+	QWidget::paintEvent(event);
+//	Q_UNUSED(event);
+//
+//	QStyleOption option{};
+//	QPainter painter{this};
+//	option.init(this);
+//
+//	style()->drawPrimitive(QStyle::PE_Widget, &option, &painter, this);
+//
+//#ifndef Q_OS_MAC
+//
+//	QStyleOptionTabBarBase optionTabBase{};
+//	TabBar::initStyleBaseOption(&optionTabBase, m_mainTabBar, size());
+//
+//	optionTabBase.rect.setX(m_leftContainer->x());
+//	optionTabBase.rect.setWidth(m_leftContainer->width());
+//	style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
+//
+//	optionTabBase.rect.setX(m_rightContainer->x());
+//	optionTabBase.rect.setWidth(m_rightContainer->width());
+//	style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
+//
+//	if (m_mainBarOverFlowed) {
+//		const int scrollButtonWidth{m_mainTabBarWidget->scrollButtonsWidth()};
+//
+//		optionTabBase.rect.setX(m_mainTabBarWidget->x());
+//		optionTabBase.rect.setWidth(scrollButtonWidth);
+//		style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
+//
+//		optionTabBase.rect.setX(m_mainTabBarWidget->x() + m_mainTabBarWidget->width() - scrollButtonWidth);
+//		optionTabBase.rect.setWidth(scrollButtonWidth);
+//		style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
+//	}
+//
+//	if (normalTabsCount() == 0) {
+//		optionTabBase.rect.setX(m_mainTabBarWidget->x());
+//		optionTabBase.rect.setWidth(m_mainTabBarWidget->width());
+//		style()->drawPrimitive(QStyle::PE_FrameTabBarBase, &optionTabBase, &painter);
+//	}
+//
+//#endif
 }
 
 int ComboTabBar::comboTabBarPixelMetric(SizeType sizeType) const
