@@ -69,7 +69,8 @@ if(WIN32)
 		add_custom_command(TARGET sielo-browser POST_BUILD
             COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
 			file(GLOB OPENSSL_CRYPTO_DLLS "${OPENSSL_DIR}/bin/*.dll")
-			file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
+            file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
+    endif()
 endif()
 
 set(SIELO_LIBS Core ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
