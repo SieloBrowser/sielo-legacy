@@ -610,8 +610,6 @@ void BrowserWindow::postLaunch()
 
 	}
 
-	show();
-
 	if (!m_startUrl.isEmpty()) {
 		startUrl = m_startUrl;
 		addTab = true;
@@ -676,6 +674,9 @@ void BrowserWindow::postLaunch()
 
 		settings.setValue("installed", true);
 	}
+
+	show();
+
 }
 
 void BrowserWindow::floatingButtonPatternChange(RootFloatingButton::Pattern pattern)
