@@ -275,7 +275,7 @@ Application::Application(int& argc, char** argv) :
 
 	Settings::createSettings(DataPaths::currentProfilePath() + "/settings.ini");
 
-#ifdef QT_DEBUG
+#ifndef QT_DEBUG
 	// the 3rd parameter is the site id
 	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
 	m_piwikTracker->sendVisit("launch");
@@ -720,7 +720,7 @@ void Application::saveSettings()
 	if (privateBrowsing())
 		return;
 
-	Settings settings{};
+	QSettings settings{DataPaths::currentProfilePath() + "/settings.ini", QSettings::IniFormat};
 
 	settings.setValue("isRunning", false);
 
@@ -742,7 +742,7 @@ void Application::saveSettings()
 	if (deleteCookies)
 		m_cookieJar->deleteAllCookies();
 
-#ifdef QT_DEBUG
+#ifndef QT_DEBUG
 	m_piwikTracker->sendEvent("exit", "exit", "exit", "exit application");
 #endif
 }

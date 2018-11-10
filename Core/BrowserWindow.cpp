@@ -666,7 +666,7 @@ void BrowserWindow::postLaunch()
 
 	// Show the "getting started" page if it's the first time Sielo is launch
 	if (!settings.value("installed", false).toBool()) {
-#ifdef QT_DEBUG
+#ifndef QT_DEBUG
 		Application::instance()->piwikTraker()->sendEvent("installation", "installation", "installation", "new installation");
 #endif
 		tabWidget()
