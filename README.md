@@ -19,11 +19,7 @@ Their is many links to find the last Sielo version
  - Sources: You can directly download sources files from github. If you want have last functionnality (without waranty), you can run this command `git clone https://github.com/SieloBrowser/SieloBrowser.git`. If you want the last stable version, you can run this command `git clone https://github.com/SieloBrowser/SieloBrowser.git branch 1.16`.
  
 ### Compile the browser
-You can also easily compile Sielo, but you must check dependencies:
- - Qt 5.7 minimum, Qt 5.8 minimum to get all Sielo's features.
- - OpenSSL 1.1.x or more. **Older version than the version 1.1 will result to a compilation error!**
- 
-Next, you just need to run this command from the root path: `mkdir build && cd build && cmake .. && make -j2` or use your favorite IDE.
+To build Sielo, [check the Wiki](https://github.com/SieloBrowser/SieloBrowser/wiki/%5BEN%5D-Build-Sielo)
 
 ## Generalities, advancement and originality
 Sielo has well grown. It has all the basic functionalities of a web browser (tabbed browsing, bookmark, history, private browsing, web browsing (yes it is possible), etc.) and even some advanced features such as an integrated AdBlock, proxy management, cache management, ability to save passwords (and encrypt them with a super password). Sielo uses the web engine WebEngine that comes with Qt. But that's not all, Sielo has also unique and original features:
