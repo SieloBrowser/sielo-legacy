@@ -401,7 +401,9 @@ void TabbedWebView::enterEvent(QEvent* event)
 	event->accept();
 
 	m_cursorIn = true;
-	emit m_webTab->tabBar()->tabWidget()->focusIn(m_webTab->tabBar()->tabWidget());
+
+	if (m_webTab->tabBar())
+		emit m_webTab->tabBar()->tabWidget()->focusIn(m_webTab->tabBar()->tabWidget());
 }
 
 void TabbedWebView::leaveEvent(QEvent* event)

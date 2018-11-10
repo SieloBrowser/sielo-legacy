@@ -684,7 +684,7 @@ QSize MainTabBar::tabSizeHint(int index, bool fast) const
 {
 	int cout = normalTabsCount();
 
-	if (!m_tabWidget->window()->isVisible()) {
+	if (!m_tabWidget->isVisible()) {
 		return QSize(-1, -1);
 	}
 
