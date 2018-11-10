@@ -592,15 +592,13 @@ void BrowserWindow::postLaunch()
 	switch (m_windowType) {
 	case Application::WT_FirstAppWindow:
 		// Check if we start after a crash or if we want to restore session
-		if ((Application::instance()->isStartingAfterCrash() &&
-			Application::instance()->afterCrashLaunch() == Application::AfterLaunch::RestoreSession) ||
-			(Application::instance()->afterLaunch() == Application::RestoreSession
-			|| Application::instance()->afterLaunch() == Application::OpenSavedSession)
-			&& Application::instance()->restoreManager()) {
-			if (!(Application::instance()->isStartingAfterCrash() && Application::instance()->afterCrashLaunch() ==
-				Application::AfterLaunch::OpenHomePage)) {
-				addTab = m_tabsSpaceSplitter->count() <=  0;
-			}
+		if (Application::instance()->isStartingAfterCrash()) {
+			if (Application::instance()->afterCrashLaunch() == Application::AfterLaunch::RestoreSession)
+				addTab = m_tabsSpaceSplitter->count() <= 0;
+		}
+		else if (Application::instance()->afterLaunch() == Application::AfterLaunch::RestoreSession ||
+				 Application::instance()->afterLaunch() == Application::AfterLaunch::OpenSavedSession) {
+			addTab = m_tabsSpaceSplitter->count() <= 0;
 		}
 		break;
 	case Application::WT_NewWindow:
