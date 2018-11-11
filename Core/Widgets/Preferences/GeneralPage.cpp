@@ -126,7 +126,7 @@ void GeneralPage::loadSettings()
 	if (!activeLanguage.isEmpty() && activeLanguage != QLatin1String("en_US"))
 		m_languages->addItem(createLanguageItem(activeLanguage), activeLanguage);
 
-	m_languages->addItem("English (en_US)");
+	m_languages->addItem("English (en_US)", "en_US");
 
 	const QString translationPath = DataPaths::currentProfilePath() + "locale";
 	QDir lanDir{translationPath};
@@ -191,7 +191,9 @@ void GeneralPage::save()
 	// Save language
 	settings.beginGroup("Language");
 
-	if (Application::instance()->currentLanguage() != m_languages->itemData(m_languages->currentIndex()).toString())
+	QString selectedLanguage{m_languages->itemData(m_languages->currentIndex()).toString()};
+
+	if (Application::instance()->currentLanguage() != selectedLanguage)
 		QMessageBox::warning(this, tr("Warning"), tr("Some changes need Sielo restart to have effects"));
 
 	settings.setValue("language", m_languages->itemData(m_languages->currentIndex()).toString());
