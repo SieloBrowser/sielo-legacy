@@ -488,7 +488,8 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 44) {
+		///WARNING : Next version is 45
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 43) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -514,7 +515,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 44);
+			settings.setValue("Themes/defaultThemeVersion", 43);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -528,7 +529,8 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("round-theme", false);
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
-		settings.setValue("Themes/defaultThemeVersion", 44);
+		///WARNING : Next version is 45
+		settings.setValue("Themes/defaultThemeVersion", 43);
 	}
 }
 
@@ -565,6 +567,14 @@ void Application::updateToProfiles()
 	QFile(DataPaths::currentProfilePath() + "/fbutton.dat").remove();
 	QFile(oldDataPath + "/bookmarks.json").copy(DataPaths::currentProfilePath() + "/bookmarks.json");
 	QFile(oldDataPath + "/fbutton.dat").copy(DataPaths::currentProfilePath() + "/fbutton.dat");
+
+	loadThemeFromResources("firefox-like-light", false);
+	loadThemeFromResources("firefox-like-dark", false);
+	loadThemeFromResources("sielo-flat", false);
+	loadThemeFromResources("round-theme", false);
+	loadThemeFromResources("ColorZilla", false);
+	loadThemeFromResources("sielo-default", false);
+	settings.setValue("Themes/defaultThemeVersion", 44);
 }
 
 void Application::translateApplication()
