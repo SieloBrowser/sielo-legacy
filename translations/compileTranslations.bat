@@ -1,2 +1,1 @@
-#Compile all .ts file into .qm file
-lrelease *.ts
+lrelease fr_FR.ts && lrelease ar_AR.ts
