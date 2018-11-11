@@ -296,14 +296,13 @@ void BrowserWindow::loadSettings()
 	if (!backgroundPath.isEmpty()) {
 		QString sss = styleSheet();
 		sss += "QMainWindow {";
-		sss += "background-image: url(" + backgroundPath + ");";
-		sss += "background-attachment: fixed;";
-		sss += "background-position: top;";
+		sss += "border-image: url(" + backgroundPath + ") 0 0 0 0 stretch stretch;";
+		sss += "border-width: 0px;";
 
-		if (settings.value(QLatin1String("Settings/repeatBackground"), false).toBool())
-			sss += "background-repeat: repeat;";
-		else
-			sss += "background-repeat: no-repeat;";
+		//if (settings.value(QLatin1String("Settings/repeatBackground"), false).toBool())
+		//	sss += "background-repeat: repeat;";
+		//else
+		//	sss += "background-repeat: no-repeat;";
 
 		sss += "}";
 
