@@ -271,8 +271,8 @@ void TabBar::paintEvent(QPaintEvent* event)
 	if (m_activeTabBar)
 		optionTabBase.selectedTabRect = tabRect(selected);
 
-	if (drawBase())
-		painter.drawPrimitive(QStyle::PE_FrameTabBarBase, optionTabBase);
+//	if (drawBase())
+//		painter.drawPrimitive(QStyle::PE_FrameTabBarBase, optionTabBase);
 
 	const QPoint cursorPos{QCursor::pos()};
 	int indexUnderMouse{isDisplayedOnViewport(cursorPos.x(), cursorPos.x()) ? tabAt(mapFromGlobal(cursorPos)) : -1};

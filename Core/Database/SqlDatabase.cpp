@@ -50,7 +50,7 @@ QSqlDatabase SqlDatabase::database() const {
 
 	if (!s_databases.hasLocalData()) {
 		const QString threadStr{QString::number(reinterpret_cast<quintptr>(QThread::currentThread()))};
-		QSqlDatabase database{QSqlDatabase::addDatabase("SQLITE", threadStr)};
+		QSqlDatabase database{QSqlDatabase::addDatabase("QSQLITE", threadStr)};
 
 		database.setDatabaseName(m_databaseName);
 		database.setConnectOptions(m_connectOptions);
