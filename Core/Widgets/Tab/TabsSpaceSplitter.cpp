@@ -141,6 +141,8 @@ TabsSpaceSplitter::TabsSpaceSplitter(BrowserWindow* window) :
 	m_horizontalSplitter->setContentsMargins(0, 0, 0, 0);
 
 	m_layout = new QVBoxLayout(this);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+	m_layout->setSpacing(0);
 	m_layout->addWidget(m_horizontalSplitter);
 
 	loadSettings();
