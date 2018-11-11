@@ -75,6 +75,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
 	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
+	m_viewMenu = new QMenu("View", this);
+
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
 
@@ -108,6 +110,18 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	                                        "Ctrl+A");
 	QAction* findAction = createAction("Find", this, Application::getAppIcon("search"), tr("&Find"), "Ctrl+F");
 	addSeparator();
+
+	QAction* stopAction = createAction("Stop", m_viewMenu, QIcon(), tr("&Stop"), "Esc");
+	QAction* reloadAction = createAction("Reload", m_viewMenu, QIcon(), tr("&Reload"), "F5");
+	m_viewMenu->addSeparator();
+	QAction* zoomInAction = createAction("ZoomIn", m_viewMenu, QIcon(), tr("Zoom &In"), "Ctrl++");
+	QAction* zoomOutAction = createAction("ZoomOut", m_viewMenu, QIcon(), tr("Zoom &Out"), "Ctrl+-");
+	QAction* zoomResetAction = createAction("ZoomReset", m_viewMenu, QIcon(), tr("Reset"), "Ctrl+0");
+	m_viewMenu->addSeparator();
+	QAction* showPageSourceAction = createAction("PageSource", m_viewMenu, QIcon(), tr("&Page Source"), "Ctrl+U");
+	QAction* showFullScreenAction = createAction("FullScreen", m_viewMenu, QIcon(), tr("&FullScreen"), "F11");
+
+	addMenu(m_viewMenu);
 	addMenu(m_bookmarksMenu);
 	addMenu(m_maquetteGridMenu);
 	addMenu(m_historyMenu);
@@ -149,6 +163,15 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(backAction, &QAction::triggered, this, &MainMenu::webBack);
 	connect(nextAction, &QAction::triggered, this, &MainMenu::webForward);
 	connect(homeAction, &QAction::triggered, this, &MainMenu::webHome);
+
+	connect(stopAction, &QAction::triggered, this, &MainMenu::stop);
+	connect(reloadAction, &QAction::triggered, this, &MainMenu::reload);
+	connect(zoomInAction, &QAction::triggered, this, &MainMenu::zoomIn);
+	connect(zoomOutAction, &QAction::triggered, this, &MainMenu::zoomOut);
+	connect(zoomResetAction, &QAction::triggered, this, &MainMenu::zoomReset);
+	connect(showPageSourceAction, &QAction::triggered, this, &MainMenu::showPageSource);
+	connect(showFullScreenAction, &QAction::triggered, this, &MainMenu::showFullScreen);
+
 	//connect(m_historyMenu, &HistoryMenu::openUrl, this, &MainMenu::openUrl);
 	connect(showSiteInfoAction, &QAction::triggered, this, &MainMenu::showSiteInfo);
 	connect(showDownloadManagerAction, &QAction::triggered, this, &MainMenu::showDownloadManager);
@@ -163,6 +186,45 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(quitAction, &QAction::triggered, this, &MainMenu::quit);
 
 	addActionsToTabWidget();
+}
+
+void MainMenu::initMenuBar(QMenuBar *menuBar)
+{
+	QMenu* menuFile{new QMenu(tr("&File"))};
+	menuFile->addAction(m_actions["NewTab"]);
+	menuFile->addAction(m_actions["NewWindow"]);
+	menuFile->addAction(m_actions["NewPrivateWindow"]);
+	menuFile->addAction(m_actions["OpenFile"]);
+	menuFile->addSeparator();
+	menuFile->addAction(m_actions["ShowSettings"]);
+
+	QMenu* menuEdit{new QMenu(tr("&Edit"))};
+	QAction* undoAction = createAction("Undo", menuEdit, QIcon(), tr("&Undo"), "Ctrl+Z");
+	QAction* redoAction = createAction("Redo", menuEdit, QIcon(), tr("&Redo"), "Ctrl+Shift+Z");
+	QAction* cutAction = createAction("Cut", menuEdit, QIcon(), tr("&Cut"), "Ctrl+X");
+	QAction* copyAction = createAction("Copy", menuEdit, QIcon(), tr("C&opy"), "Ctrl+C");
+	QAction* pastAction = createAction("Past", menuEdit, QIcon(), tr("&Past"), "Ctrl+P");
+	menuEdit->addAction(m_actions["SelectAll"]);
+	menuEdit->addAction(m_actions["Find"]);
+
+	QMenu* menuHelp{new QMenu("&Help")};
+	menuHelp->addAction(m_actions["ShowAboutSielo"]);
+	menuHelp->addAction(m_actions["ShowHelpUs"]);
+	menuHelp->addAction(m_actions["OpenDiscord"]),
+
+	connect(undoAction, &QAction::triggered, this, &MainMenu::undo);
+	connect(redoAction, &QAction::triggered, this, &MainMenu::redo);
+	connect(cutAction, &QAction::triggered, this, &MainMenu::cut);
+	connect(copyAction, &QAction::triggered, this, &MainMenu::copy);
+	connect(pastAction, &QAction::triggered, this, &MainMenu::paste);
+
+	menuBar->addMenu(menuFile);
+	menuBar->addMenu(menuEdit);
+	menuBar->addMenu(m_viewMenu);
+	menuBar->addMenu(m_historyMenu);
+	menuBar->addMenu(m_bookmarksMenu);
+	menuBar->addMenu(m_toolsMenu);
+	menuBar->addMenu(menuHelp);
 }
 
 QAction *MainMenu::action(const QString& name) const
@@ -244,6 +306,41 @@ void MainMenu::toggleBookmarksToolBar()
 	Application::instance()->saveSession();
 }
 
+void MainMenu::undo()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->editUndo();
+	}
+}
+
+void MainMenu::redo()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->editRedo();
+	}
+}
+
+void MainMenu::cut()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->editCut();
+	}
+}
+
+void MainMenu::copy()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->editCopy();
+	}
+}
+
+void MainMenu::paste()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->editPast();
+	}
+}
+
 void MainMenu::selectAll()
 {
 	if (m_tabWidget)
@@ -254,6 +351,54 @@ void MainMenu::find()
 {
 	if (m_tabWidget)
 		m_tabWidget->webTab()->showSearchToolBar();
+}
+
+void MainMenu::stop()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->stop();
+	}
+}
+
+void MainMenu::reload()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->reload();
+	}
+}
+
+void MainMenu::zoomIn()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->zoomIn();
+	}
+}
+
+void MainMenu::zoomOut()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->zoomOut();
+	}
+}
+
+void MainMenu::zoomReset()
+{
+	if (m_tabWidget) {
+		m_tabWidget->webTab()->webView()->zoomReset();
+	}
+}
+
+void MainMenu::showPageSource()
+{
+	if (m_tabWidget)
+		m_tabWidget->webTab()->webView()->showSource();
+}
+
+void MainMenu::showFullScreen()
+{
+	if (m_tabWidget) {
+		m_tabWidget->window()->toggleFullScreen();
+	}
 }
 
 void MainMenu::webBack()

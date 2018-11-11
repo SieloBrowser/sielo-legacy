@@ -27,6 +27,8 @@
 #include <QWindow>
 #include <QScreen>
 
+#include <QMenuBar>
+
 #include <QClipboard>
 #include <QShortcut>
 
@@ -115,6 +117,28 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 	m_buttonMainMenu->setFocusPolicy(Qt::NoFocus);
 	m_buttonMainMenu->setIcon(Application::getAppIcon("preferences", "preferences"));
 	m_buttonMainMenu->setShowMenuInside(true);
+
+#ifdef Q_OS_MACOS
+	static MainMenu* macMainMenu = 0;
+
+	if (!macMainMenu) {
+		macMainMenu = new MainMenu(this, nullptr);
+		macMainMenu->initMenuBar(new QMenuBar(nullptr));
+
+		auto windowChanged = [this](BrowserWindow* window) {
+			macMainMenu->disconnect(macMainMenu->tabWidget());
+			connect(window, &BrowserWindow::tabWidgetChanged, macMainMenu, &MainMenu::setTabWidget);
+
+			macMainMenu->setTabWidget(window->tabWidget());
+		};
+
+		connect(m_window, &BrowserWindow::tabWidgetChanged, macMainMenu, &MainMenu::setTabWidget);
+		connect(Application::instance(), &Application::activeWindowChanged, this, windowChanged);
+	}
+	else {
+		macMainMenu->setTabWidget(this);
+	}
+#endif
 
 	m_tabBar->addCornerWidget(m_buttonAddTab2, Qt::TopRightCorner);
 	m_tabBar->addCornerWidget(m_buttonClosedTabs, Qt::TopRightCorner);

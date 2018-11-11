@@ -320,6 +320,8 @@ Application::Application(int& argc, char** argv) :
 	// Create or restore window
 	BrowserWindow* window{createWindow(Application::WT_FirstAppWindow, startUrl)};
 
+	connect(this, SIGNAL(focusChanged(QWidget*,QWidget*)), this, SLOT(onFocusChanged()));
+
 	if (!privateBrowsing()) {
 		if (isStartingAfterCrash()) {
 			if (afterCrashLaunch() == RestoreSession)
@@ -812,6 +814,17 @@ void Application::windowDestroyed(QObject* window)
 	Q_ASSERT(m_windows.contains(static_cast<BrowserWindow*>(window)));
 
 	m_windows.removeOne(static_cast<BrowserWindow*>(window));
+}
+
+void Application::onFocusChanged()
+{
+	BrowserWindow* activeBrowserWindow = qobject_cast<BrowserWindow*>(activeWindow());
+
+	if (activeBrowserWindow) {
+		m_lastActiveWindow = activeBrowserWindow;
+
+		emit activeWindowChanged(m_lastActiveWindow);
+	}
 }
 
 void Application::downloadRequested(QWebEngineDownloadItem* download)

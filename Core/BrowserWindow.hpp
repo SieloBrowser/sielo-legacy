@@ -137,6 +137,7 @@ public:
 
 signals:
 	void mouseOver(bool state);
+	void tabWidgetChanged(TabWidget* tabWidget);
 
 public slots:
 	void setWindowTitle(const QString& title);

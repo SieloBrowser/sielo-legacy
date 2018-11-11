@@ -443,6 +443,8 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 	// Update the current tab widget
 	m_tabsSpaceSplitter->currentTabWidgetChanged(tbWidget);
 
+	emit tabWidgetChanged(tbWidget);
+
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabsSpaceSplitter->tabWidget(), SLOT(restoreClosedTab()));
 
 	// Move the floating button to the new focused tabs space if the user wants

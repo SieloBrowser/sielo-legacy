@@ -26,6 +26,7 @@
 #ifndef SIELO_BROWSER_MAINMENU_HPP
 #define SIELO_BROWSER_MAINMENU_HPP
 
+#include <QMenuBar>
 #include <QMenu>
 #include <QAction>
 
@@ -47,6 +48,10 @@ Q_OBJECT
 public:
 	MainMenu(TabWidget* tabWidget, QWidget* parent = nullptr);
 
+	void initMenuBar(QMenuBar* menuBar);
+
+	TabWidget* tabWidget() const { return m_tabWidget; }
+
 	QAction *action(const QString& name) const;
 	QAction *createAction(const QString& name, QMenu* menu, const QIcon& icon, const QString& trName,
 	                      const QString& shortcut = QString());
@@ -61,8 +66,23 @@ private slots:
 	void openFile();
 	void toggleBookmarksToolBar();
 
+	// Edit menu
+	void undo();
+	void redo();
+	void cut();
+	void copy();
+	void paste();
 	void selectAll();
 	void find();
+
+	// View menu
+	void stop();
+	void reload();
+	void zoomIn();
+	void zoomOut();
+	void zoomReset();
+	void showPageSource();
+	void showFullScreen();
 
 	void webBack();
 	void webForward();
@@ -88,6 +108,7 @@ private:
 
 	QAction* m_toggleBookmarksAction{nullptr};
 
+	QMenu* m_viewMenu{nullptr};
 	BookmarksMenu* m_bookmarksMenu{nullptr};
 	MaquetteGridMenu* m_maquetteGridMenu{nullptr};
 	HistoryMenu* m_historyMenu{nullptr};

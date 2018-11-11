@@ -65,6 +65,8 @@ class MaquetteGridItem;
  *
  */
 class Q_DECL_EXPORT Application: public SingleApplication {
+	Q_OBJECT
+
 public:
 	//! Command line actions
 	/*! All command line option that can be requested to Sielo. This can be request from OS. */
@@ -270,6 +272,9 @@ public:
 	static QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 	static void removeDirectory(const QString& directory);
 
+signals:
+	void activeWindowChanged(BrowserWindow* window);
+
 public slots:
 	/*!
 	 * Add a new tab to the current tabs space.
@@ -301,6 +306,7 @@ private slots:
 
 	void messageReceived(quint32 instanceId, QByteArray messageBytes);
 	void windowDestroyed(QObject* window);
+	void onFocusChanged();
 
 	void downloadRequested(QWebEngineDownloadItem* download);
 
