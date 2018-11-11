@@ -222,8 +222,8 @@ WebTab::WebTab(TabWidget* tabWidget) :
 
 	connect(m_tabIcon, &TabIcon::resized, this, [this]()
 	{
-		if (m_tabBar)
-			m_tabBar->setTabButton(tabIndex(), m_tabBar->iconButtonPosition(), m_tabIcon);
+		if (m_tabWidget->tabBar())
+			m_tabWidget->tabBar()->setTabButton(tabIndex(), m_tabWidget->tabBar()->iconButtonPosition(), m_tabIcon);
 	});
 
 	m_notificationWidget = new QWidget(this);
@@ -367,11 +367,11 @@ void WebTab::setZoomLevel(int level)
 void WebTab::detach()
 {
 	Q_ASSERT(m_tabWidget);
-	Q_ASSERT(m_tabBar);
+	Q_ASSERT(m_tabWidget->tabBar());
 
 	removeFromTabTree();
 	
-	m_tabBar->setTabButton(tabIndex(), m_tabBar->iconButtonPosition(), nullptr);
+	m_tabWidget->tabBar()->setTabButton(tabIndex(), m_tabWidget->tabBar()->iconButtonPosition(), nullptr);
 	m_tabIcon->setParent(nullptr);
 
 	m_tabWidget->removeTab(tabIndex());
@@ -385,21 +385,19 @@ void WebTab::detach()
 		emit currentTabChanged(m_isCurrentTab);
 	}
 
-	m_tabBar->disconnect(this);
+	m_tabWidget->tabBar()->disconnect(this);
 
 	m_tabWidget = nullptr;
-	m_tabBar = nullptr;
 }
 
 void WebTab::attach(TabWidget* tabWidget)
 {
 	m_tabWidget = tabWidget;
-	m_tabBar = tabWidget->tabBar();
 
 	m_webView->setTabWidget(tabWidget);
 	m_addressBar->setTabWidget(tabWidget);
-	m_tabBar->setTabButton(tabIndex(), m_tabBar->iconButtonPosition(), m_tabIcon);
-	m_tabBar->setTabText(tabIndex(), title());
+	m_tabWidget->tabBar()->setTabButton(tabIndex(), m_tabWidget->tabBar()->iconButtonPosition(), m_tabIcon);
+	m_tabWidget->tabBar()->setTabText(tabIndex(), title());
 	m_tabIcon->updateIcon();
 
 	auto currentChanged = [this](int index) {
@@ -410,8 +408,8 @@ void WebTab::attach(TabWidget* tabWidget)
 			emit currentTabChanged(m_isCurrentTab);
 	};
 
-	currentChanged(m_tabBar->currentIndex());
-	connect(m_tabBar, &MainTabBar::currentChanged, this, currentChanged);
+	currentChanged(m_tabWidget->tabBar()->currentIndex());
+	connect(m_tabWidget->tabBar(), &MainTabBar::currentChanged, this, currentChanged);
 }
 
 void WebTab::addToolBar(QToolBar* toolBar)
@@ -498,7 +496,7 @@ void WebTab::setPinned(bool state)
 void WebTab::togglePinned()
 {
 	Q_ASSERT(m_tabWidget);
-	Q_ASSERT(m_tabBar);
+	Q_ASSERT(m_tabWidget->tabBar());
 
 	m_isPinned = !m_isPinned;
 
@@ -528,25 +526,25 @@ bool WebTab::backgroundActivity() const
 
 int WebTab::tabIndex() const
 {
-	return m_tabBar ? m_tabBar->tabWidget()->indexOf(const_cast<WebTab*>(this)) : -1;
+	return m_tabWidget ? m_tabWidget->indexOf(const_cast<WebTab*>(this)) : -1;
 }
 
 void WebTab::makeCurrentTab() const
 {
-	if (m_tabBar)
-		m_tabBar->tabWidget()->setCurrentIndex(tabIndex());
+	if (m_tabWidget)
+		m_tabWidget->setCurrentIndex(tabIndex());
 }
 
 void WebTab::closeTab() const
 {
-	if (m_tabBar)
-		m_tabBar->tabWidget()->closeTab(tabIndex());
+	if (m_tabWidget)
+		m_tabWidget->closeTab(tabIndex());
 }
 
 void WebTab::moveTab(int to) const
 {
-	if (m_tabBar)
-		m_tabBar->tabWidget()->moveTab(tabIndex(), to);
+	if (m_tabWidget)
+		m_tabWidget->moveTab(tabIndex(), to);
 }
 
 bool WebTab::haveInspector() const
@@ -603,7 +601,7 @@ bool WebTab::isRestored() const
 
 void WebTab::restoreTab(const SavedTab& tab)
 {
-	Q_ASSERT(m_tabBar);
+	Q_ASSERT(m_tabWidget->tabBar());
 
 	Settings settings{};
 
@@ -617,18 +615,18 @@ void WebTab::restoreTab(const SavedTab& tab)
 
 		int index = tabIndex();
 
-		m_tabBar->setTabText(index, tab.title);
+		m_tabWidget->tabBar()->setTabText(index, tab.title);
 		m_addressBar->showUrl(tab.url);
 		m_tabIcon->updateIcon();
 
 		if (!tab.url.isEmpty()) {
-			QColor color{m_tabBar->palette().text().color()};
+			QColor color{m_tabWidget->tabBar()->palette().text().color()};
 			QColor newColor{color.lighter(250)};
 
 			if (color == Qt::black || color == Qt::white)
 				newColor = Qt::gray;
 
-			m_tabBar->overrideTabTextColor(index, newColor);
+			m_tabWidget->tabBar()->overrideTabTextColor(index, newColor);
 
 		}
 	}
@@ -682,13 +680,13 @@ void WebTab::sNewWindow()
 void WebTab::sNewTab()
 {
 	LoadRequest request{};
-	request.setUrl(m_tabBar->tabWidget()->urlOnNewTab());
+	request.setUrl(m_tabWidget->urlOnNewTab());
 	m_webView->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
 }
 
 void WebTab::sGoHome()
 {
-	m_webView->load(m_tabBar->tabWidget()->homeUrl());
+	m_webView->load(m_tabWidget->homeUrl());
 }
 
 void WebTab::showNotification(QWidget* notif)
@@ -704,8 +702,8 @@ void WebTab::showNotification(QWidget* notif)
 
 void WebTab::loadStarted()
 {
-	if (m_tabBar && m_webView->isTitleEmpty())
-		m_tabBar->setTabText(tabIndex(), tr("Loading..."));
+	if (m_tabWidget->tabBar() && m_webView->isTitleEmpty())
+		m_tabWidget->tabBar()->setTabText(tabIndex(), tr("Loading..."));
 }
 
 void WebTab::loadFinished()
@@ -715,13 +713,13 @@ void WebTab::loadFinished()
 
 void WebTab::titleWasChanged(const QString& title)
 {
-	if (!m_tabBar || !m_tabWidget || title.isEmpty())
+	if (!m_tabWidget->tabBar() || !m_tabWidget || title.isEmpty())
 		return;
 
 	if (m_isCurrentTab)
 		m_tabWidget->window()->setWindowTitle(tr("%1 - Sielo").arg(title));
 
-	m_tabBar->setTabText(tabIndex(), title);
+	m_tabWidget->tabBar()->setTabText(tabIndex(), title);
 }
 
 void WebTab::resizeEvent(QResizeEvent* event)

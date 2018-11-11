@@ -297,11 +297,13 @@ void TabsSpaceSplitter::removeTabsSpace(TabWidget* tabWidget)
 	QSplitter* column = m_verticalSplitter[info.column];
 
 	m_tabWidgets.removeOne(tabWidget);
-	delete tabWidget->parentWidget();
 
-	if (column->count() <= 0) {
+	if (column->count() <= 1) {
 		m_verticalSplitter.remove(info.column);
 		info.column->deleteLater();
+	}
+	else {
+		tabWidget->parentWidget()->deleteLater();
 	}
 }
 

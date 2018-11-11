@@ -96,7 +96,6 @@ public:
 	TabbedWebView* webView() const { return m_webView; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
 	AddressBar* addressBar() const { return m_addressBar; }
-	MainTabBar* tabBar() const { return m_tabBar; }
 
 	void takeAddressBar();
 
@@ -203,7 +202,6 @@ private:
 	TabbedWebView* m_webView{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	QWidget* m_notificationWidget{nullptr};
-	MainTabBar* m_tabBar{nullptr};
 
 	AddressBar* m_addressBar{nullptr};
 

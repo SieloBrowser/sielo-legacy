@@ -184,8 +184,8 @@ void TabbedWebView::sPageRendering()
 
 void TabbedWebView::urlChanged(const QUrl& url)
 {
-	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabBar()->tabWidget()))
-		m_webTab->tabBar()->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
+	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabWidget()))
+		m_webTab->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
 }
 
 void TabbedWebView::linkHovered(const QString& link)
@@ -402,8 +402,8 @@ void TabbedWebView::enterEvent(QEvent* event)
 
 	m_cursorIn = true;
 
-	if (m_webTab->tabBar())
-		emit m_webTab->tabBar()->tabWidget()->focusIn(m_webTab->tabBar()->tabWidget());
+	if (m_webTab->tabWidget())
+		emit m_webTab->tabWidget()->focusIn(m_webTab->tabWidget());
 }
 
 void TabbedWebView::leaveEvent(QEvent* event)

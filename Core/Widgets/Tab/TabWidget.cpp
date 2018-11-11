@@ -535,8 +535,8 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	else if (request.url().isValid())
 		webTab->webView()->load(request);
 
-	if (selectLine && m_window->tabWidget()->webTab()->addressBar()->text().isEmpty())
-		m_window->tabWidget()->webTab()->addressBar()->setFocus();
+	if (selectLine && weTab()->addressBar()->text().isEmpty())
+		weTab()->addressBar()->setFocus();
 
 	if (!(openFlags & Application::NTT_SelectedTab))
 		m_tabBar->ensureVisible(index);

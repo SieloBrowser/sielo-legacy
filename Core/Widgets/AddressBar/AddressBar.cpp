@@ -602,21 +602,21 @@ bool AddressBar::processMainCommand(const QString& command, const QStringList& a
 		if (args.count() == 1)
 			request.setUrl(args[0]);
 		else
-			request.setUrl(webView()->webTab()->tabBar()->tabWidget()->urlOnNewTab());
+			request.setUrl(webView()->webTab()->tabWidget()->urlOnNewTab());
 
 		webView()->loadInNewTab(request, Application::NTT_CleanSelectedTabAtEnd);
 
 		succes = true;
 	}
 	else if (command == "closetab") {
-		webView()->webTab()->tabBar()->tabWidget()
-		         ->requestCloseTab(webView()->webTab()->tabBar()->tabWidget()->currentIndex());
+		webView()->webTab()->tabWidget()
+		         ->requestCloseTab(webView()->webTab()->tabWidget()->currentIndex());
 
 		succes = true;
 	}
 	else if (command == "reload") {
 		if (args.count() == 1)
-			webView()->webTab()->tabBar()->tabWidget()->reloadAllTabs();
+			webView()->webTab()->tabWidget()->reloadAllTabs();
 		else
 			webView()->reload();
 	}
