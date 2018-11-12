@@ -289,7 +289,18 @@ void BrowserWindow::loadSettings()
 
 	m_tabsSpaceSplitter->loadSettings();
 
-	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), "").toString();
+	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), QString()).toString();
+
+#ifdef Q_OS_WIN 
+	QSettings wallpaperSettings{"HKEY_CURRENT_USER\\Control Panel\\Desktop", QSettings::NativeFormat};
+	QString wallpaper{wallpaperSettings.value("WallPaper", QString()).toString()};
+	wallpaper.replace("\\", "/");
+
+	std::string stdWall = wallpaper.toStdString();
+
+	if (backgroundPath.isEmpty())
+		backgroundPath = wallpaper;
+#endif
 
 	// Themes can have default backgound. If the user don't have custom background, we apply it.
 	// However, if the user have a custom background we override the default one
