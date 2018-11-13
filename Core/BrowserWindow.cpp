@@ -181,7 +181,8 @@ QDataStream &operator>>(QDataStream &stream, BrowserWindow::SavedWindow &window)
 BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	QMainWindow(nullptr),
 	m_startUrl(url),
-	m_windowType(type)
+	m_windowType(type),
+	m_backgroundTimer(new QTimer())
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setAttribute(Qt::WA_DontCreateNativeAncestors);
@@ -204,6 +205,9 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setupUi();
 
 	loadSettings();
+
+	connect(m_backgroundTimer, &QTimer::timeout, this, &BrowserWindow::loadWallpaperSettings);
+	m_backgroundTimer->start(1000);
 
 	// Just wait some milli seconds before doing some post launch action
 	QTimer::singleShot(10, this, &BrowserWindow::postLaunch);
@@ -289,6 +293,19 @@ void BrowserWindow::loadSettings()
 
 	m_tabsSpaceSplitter->loadSettings();
 
+	loadWallpaperSettings();
+
+	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
+	m_titleBar->setShowBookmark(showBookmarksToolBar);
+}
+
+void BrowserWindow::loadWallpaperSettings()
+{
+	if (!m_backgroundTimer->isActive()) 
+		m_backgroundTimer->start(100);
+
+	Settings settings{};
+
 	QString backgroundPath = settings.value(QLatin1String("Settings/backgroundPath"), QString()).toString();
 
 #ifdef Q_OS_WIN 
@@ -296,15 +313,16 @@ void BrowserWindow::loadSettings()
 	QString wallpaper{wallpaperSettings.value("WallPaper", QString()).toString()};
 	wallpaper.replace("\\", "/");
 
-	std::string stdWall = wallpaper.toStdString();
-
-	if (backgroundPath.isEmpty())
-		backgroundPath = wallpaper;
+		if (backgroundPath.isEmpty())
+			backgroundPath = wallpaper;
 #endif
 
+
+	QImage newBackground{backgroundPath};
+	
 	// Themes can have default backgound. If the user don't have custom background, we apply it.
 	// However, if the user have a custom background we override the default one
-	if (!backgroundPath.isEmpty()) {
+	if (!backgroundPath.isEmpty() && newBackground != m_currentBackground) {
 		QString sss = styleSheet();
 		sss += "QMainWindow {";
 		sss += "border-image: url(" + backgroundPath + ") 0 0 0 0 stretch stretch;";
@@ -318,11 +336,10 @@ void BrowserWindow::loadSettings()
 		sss += "}";
 
 		setStyleSheet(sss);
+
+		m_currentBackground = newBackground;
 	}
 	m_upd_ss = true; // Citorva will explain this.
-
-	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
-	m_titleBar->setShowBookmark(showBookmarksToolBar);
 }
 
 void BrowserWindow::setStartTab(WebTab* tab)

@@ -101,6 +101,7 @@ public:
 	 *  - Show bookmarks toolbar.
 	 */
 	void loadSettings();
+	void loadWallpaperSettings();
 
 	void setStartTab(WebTab* tab);
 	void setStartPage(WebPage* page);
@@ -201,6 +202,8 @@ private:
 
 	RootFloatingButton* m_fButton{nullptr};
 
+	QTimer* m_backgroundTimer{nullptr};
+	QImage m_currentBackground{};
 	QImage* m_bg{ nullptr };
 	QImage* m_blur_bg{ nullptr };
 	bool m_upd_ss{ false };
