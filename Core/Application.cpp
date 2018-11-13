@@ -489,7 +489,7 @@ void Application::loadThemesSettings()
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
 		///WARNING : Next version is 45
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 43) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 44) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -530,7 +530,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
 		///WARNING : Next version is 45
-		settings.setValue("Themes/defaultThemeVersion", 43);
+		settings.setValue("Themes/defaultThemeVersion", 44);
 	}
 }
 
