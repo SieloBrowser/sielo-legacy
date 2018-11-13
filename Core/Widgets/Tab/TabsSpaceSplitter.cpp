@@ -298,6 +298,16 @@ void TabsSpaceSplitter::removeTabsSpace(TabWidget* tabWidget)
 
 	m_tabWidgets.removeOne(tabWidget);
 
+	// We have to wait drag operation to be done on unix system
+#ifdef Q_OS_UNIX
+	if (column->count() <= 1) {
+		m_verticalSplitter.remove(info.column);
+		QTimer::singleShot(200, info.column, &QWidget::deleteLater);
+	}
+	else {
+		QTimer::singleShot(200, tabWidget->parentWidget(), &QWidget::deleteLater);
+	}
+#else
 	if (column->count() <= 1) {
 		m_verticalSplitter.remove(info.column);
 		info.column->deleteLater();
@@ -305,6 +315,7 @@ void TabsSpaceSplitter::removeTabsSpace(TabWidget* tabWidget)
 	else {
 		tabWidget->parentWidget()->deleteLater();
 	}
+#endif
 }
 
 void TabsSpaceSplitter::autoResize()
