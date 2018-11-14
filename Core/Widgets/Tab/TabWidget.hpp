@@ -187,6 +187,9 @@ private:
 
 	void setupNavigationBar();
 
+	void keyPressEvent(QKeyEvent* event) override;
+	void keyReleaseEvent(QKeyEvent* event) override;
+
 	AutoSaver* m_saveTimer{nullptr};
 
 	BrowserWindow* m_window{nullptr};

@@ -40,6 +40,8 @@
 
 #include "Cookies/CookieManager.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Utils/Settings.hpp"
 
 #include "Widgets/AboutDialog.hpp"
@@ -90,6 +92,9 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_toolsMenu = new QMenu(this);
 	m_toolsMenu->setTitle(tr("&Tools"));
 
+	m_pluginsMenu = new QMenu(tr("&Extensions"), this);
+	m_pluginsMenu->menuAction()->setVisible(false);
+
 	QAction* newTabAction =
 		createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
 	QAction* newWindowAction =
@@ -136,6 +141,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction
 		* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(),
 		                                          tr("&Cookies Manager"));
+	m_toolsMenu->addMenu(m_pluginsMenu);
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
 	                                           this,
@@ -480,6 +486,17 @@ void MainMenu::openDiscord()
 void MainMenu::quit()
 {
 	Application::instance()->quitApplication();
+}
+
+void MainMenu::aboutToShowToolsMenu()
+{
+	if (!m_tabWidget)
+		return;
+
+	m_pluginsMenu->clear();
+	Application::instance()->plugins()->populateExtensionsMenu(m_pluginsMenu);
+
+	m_pluginsMenu->menuAction()->setVisible(!m_pluginsMenu->actions().isEmpty());
 }
 
 void MainMenu::addActionsToTabWidget()

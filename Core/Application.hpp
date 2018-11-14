@@ -95,10 +95,9 @@ public:
 	//! Object name
 	/*! Name of object accessible for applications. It can be used when one of this object emit a signal for all applications running. */
 	enum ObjectName {
-		ON_WebView,
-		/*!< Web view object */
-		ON_TabBar,
-		/*!< Tab bar object */
+		ON_WebView, /*!< Web view object */
+		ON_TabBar, /*!< Tab bar object */
+		ON_TabWidget, /*!< Tab space object */
 		ON_BrowserWindow /*!< Browser window object */
 	};
 

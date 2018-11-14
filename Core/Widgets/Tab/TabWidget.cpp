@@ -41,6 +41,8 @@
 
 #include "Download/DownloadManager.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/AutoSaver.hpp"
 #include "Utils/Settings.hpp"
@@ -1078,5 +1080,21 @@ void TabWidget::setupNavigationBar()
 	AddressBar* addressBar = weTab()->addressBar();
 	if (addressBar && m_addressBars->indexOf(addressBar) != -1)
 		m_addressBars->setCurrentWidget(addressBar);
+}
+
+void TabWidget::keyPressEvent(QKeyEvent* event)
+{
+	if (Application::instance()->plugins()->processKeyPress(Application::ON_TabWidget, this, event))
+		return;
+
+	TabStackedWidget::keyPressEvent(event);
+}
+
+void TabWidget::keyReleaseEvent(QKeyEvent* event)
+{
+	if (Application::instance()->plugins()->processKeyRelease(Application::ON_TabWidget, this, event))
+		return;
+
+	TabStackedWidget::keyReleaseEvent(event);
 }
 }
