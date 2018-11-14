@@ -29,14 +29,23 @@
 #include <QWidget>
 #include <QStackedWidget>
 #include <QVBoxLayout>
+#include <QSplitter>
+
+#include <QMenu>
 
 #include <QEvent>
 #include <QKeyEvent>
+
+#include <QPointer>
+
+#include "Widgets/SideBar/SideBar.hpp"
 
 namespace Sn {
 class ComboTabBar;
 
 class NavigationToolBar;
+
+class SideBarManager;
 
 class TabStackedWidget: public QWidget {
 Q_OBJECT
@@ -44,6 +53,13 @@ Q_OBJECT
 public:
 	TabStackedWidget(QWidget* parent = nullptr);
 	~TabStackedWidget();
+
+	SideBarManager* sideBarManager() const { return m_sideBarManager; }
+	SideBar* sideBar() const { return m_sideBar; }
+
+	SideBar* addSideBar();
+	void createSideBarsMenu(QMenu* menu);
+	void saveSideBarSettings();
 
 	ComboTabBar* tabBar() { return m_comboTabBar; }
 	void setTabBar(ComboTabBar* tab);
@@ -98,6 +114,10 @@ private:
 
 	QStackedWidget* m_stack{nullptr};
 	QVBoxLayout* m_layout{nullptr};
+	QSplitter* m_splitter{nullptr};
+
+	QPointer<SideBar> m_sideBar;
+	SideBarManager* m_sideBarManager{nullptr};
 
 	ComboTabBar* m_comboTabBar{nullptr};
 

@@ -77,7 +77,10 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
 	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	m_viewMenu = new QMenu("View", this);
+	m_sideBarsMenu = new QMenu(tr("Side Bar"), this);
+	m_tabWidget->createSideBarsMenu(m_sideBarsMenu);
+
+	m_viewMenu = new QMenu(tr("View"), this);
 
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
@@ -190,6 +193,9 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(openDiscord, &QAction::triggered, this, &MainMenu::openDiscord);
 
 	connect(quitAction, &QAction::triggered, this, &MainMenu::quit);
+
+	connect(m_sideBarsMenu, &QMenu::aboutToShow, this, &MainMenu::aboutToShowSideBarMenu);
+	connect(m_toolsMenu, &QMenu::aboutToShow, this, &MainMenu::aboutToShowToolsMenu);
 
 	addActionsToTabWidget();
 }
@@ -486,6 +492,16 @@ void MainMenu::openDiscord()
 void MainMenu::quit()
 {
 	Application::instance()->quitApplication();
+}
+
+void MainMenu::aboutToShowSideBarMenu()
+{
+	QMenu* menu = qobject_cast<QMenu*>(sender());
+	Q_ASSERT(menu);
+
+	if (m_tabWidget) {
+		m_tabWidget->createSideBarsMenu(menu);
+	}
 }
 
 void MainMenu::aboutToShowToolsMenu()

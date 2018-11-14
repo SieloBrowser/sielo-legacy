@@ -103,6 +103,7 @@ private slots:
 
 	void quit();
 
+	void aboutToShowSideBarMenu();
 	void aboutToShowToolsMenu();
 
 private:
@@ -110,6 +111,7 @@ private:
 
 	QAction* m_toggleBookmarksAction{nullptr};
 
+	QMenu* m_sideBarsMenu{nullptr};
 	QMenu* m_viewMenu{nullptr};
 	BookmarksMenu* m_bookmarksMenu{nullptr};
 	MaquetteGridMenu* m_maquetteGridMenu{nullptr};
