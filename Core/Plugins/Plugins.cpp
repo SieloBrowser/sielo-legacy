@@ -35,7 +35,8 @@
 
 #include "Application.hpp"
 
-namespace Sn {
+namespace Sn
+{
 
 Plugins::Plugins(QObject* parent) :
 	QObject(parent)
@@ -97,42 +98,40 @@ void Plugins::loadSettings()
 
 void Plugins::shutdown()
 {
-		foreach (PluginInterface* iPlugin, m_loadedPlugins) iPlugin->unload();
+	foreach(PluginInterface* iPlugin, m_loadedPlugins) iPlugin->unload();
 }
 
 void Plugins::loadPlugins()
 {
-	if (!m_pluginsEnabled)
-		return;
-
 	QDir settingsDir(DataPaths::currentProfilePath() + "/plugins/");
 
 	if (!settingsDir.exists())
 		settingsDir.mkdir(settingsDir.absolutePath());
 
-		foreach (const QString& fullPath, m_allowedPlugins) {
-			QPluginLoader* loader{new QPluginLoader(fullPath)};
-			PluginInterface* iPlugin{qobject_cast<PluginInterface*>(loader->instance())};
+	foreach(const QString& fullPath, m_allowedPlugins)
+	{
+		QPluginLoader* loader{new QPluginLoader(fullPath)};
+		PluginInterface* iPlugin{qobject_cast<PluginInterface*>(loader->instance())};
 
-			if (!iPlugin) {
-				qWarning() << "Loading " << fullPath << " plugin failed: " << loader->errorString();
-				continue;
-			}
-
-			Plugin plugin{};
-			plugin.fileName = QFileInfo(fullPath).fileName();
-			plugin.fullPath = fullPath;
-			plugin.pluginLoader = loader;
-			plugin.instance = initPlugin(PluginInterface::StartupInitState, iPlugin, loader);
-
-			if (plugin.isLoaded()) {
-				plugin.pluginProp = iPlugin->pluginProp();
-
-				m_loadedPlugins.append(plugin.instance);
-				m_availablePlugins.append(plugin);
-			}
-
+		if (!iPlugin) {
+			qWarning() << "Loading " << fullPath << " plugin failed: " << loader->errorString();
+			continue;
 		}
+
+		Plugin plugin{};
+		plugin.fileName = QFileInfo(fullPath).fileName();
+		plugin.fullPath = fullPath;
+		plugin.pluginLoader = loader;
+		plugin.instance = initPlugin(PluginInterface::StartupInitState, iPlugin, loader);
+
+		if (plugin.isLoaded()) {
+			plugin.pluginProp = iPlugin->pluginProp();
+
+			m_loadedPlugins.append(plugin.instance);
+			m_availablePlugins.append(plugin);
+		}
+
+	}
 
 	refreshLoadedPlugins();
 
@@ -148,30 +147,31 @@ void Plugins::loadAvailablePlugins()
 
 	QDir pluginsDir{QDir(DataPaths::currentProfilePath() + "/plugins/")};
 
-		foreach (const QString& fileName,
-				 pluginsDir.entryList(QDir::Files)) {
-			const QString absolutPath{pluginsDir.absoluteFilePath(fileName)};
+	foreach(const QString& fileName,
+			pluginsDir.entryList(QDir::Files))
+	{
+		const QString absolutPath{pluginsDir.absoluteFilePath(fileName)};
 
-			QPluginLoader* loader{new QPluginLoader(absolutPath)};
-			PluginInterface* iPlugin{qobject_cast<PluginInterface*>(loader->instance())};
+		QPluginLoader* loader{new QPluginLoader(absolutPath)};
+		PluginInterface* iPlugin{qobject_cast<PluginInterface*>(loader->instance())};
 
-			if (!iPlugin) {
-				qWarning() << "Available plugin loading error: " << loader->errorString();
-				continue;
-			}
-
-			Plugin plugin{};
-			plugin.fileName = fileName;
-			plugin.fullPath = absolutPath;
-			plugin.pluginProp = iPlugin->pluginProp();
-			plugin.pluginLoader = loader;
-			plugin.instance = nullptr;
-
-			loader->unload();
-
-			if (!alreadyPropInAvailable(plugin.pluginProp))
-				m_availablePlugins.append(plugin);
+		if (!iPlugin) {
+			qWarning() << "Available plugin loading error: " << loader->errorString();
+			continue;
 		}
+
+		Plugin plugin{};
+		plugin.fileName = fileName;
+		plugin.fullPath = absolutPath;
+		plugin.pluginProp = iPlugin->pluginProp();
+		plugin.pluginLoader = loader;
+		plugin.instance = nullptr;
+
+		loader->unload();
+
+		if (!alreadyPropInAvailable(plugin.pluginProp))
+			m_availablePlugins.append(plugin);
+	}
 }
 
 PluginInterface* Plugins::initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
@@ -184,12 +184,15 @@ PluginInterface* Plugins::initPlugin(PluginInterface::InitState state, PluginInt
 
 	if (!pluginInterface->testPlugin()) {
 		pluginInterface->unload();
-		loader->unload();
+		if (loader)
+			loader->unload();
 
 		emit pluginUnloaded(pluginInterface);
 
 		return nullptr;
 	}
+
+	QApplication::installTranslator(pluginInterface->getTranslator(Application::instance()->currentLanguageFile()));
 
 	return pluginInterface;
 }
@@ -198,18 +201,20 @@ void Plugins::refreshLoadedPlugins()
 {
 	m_loadedPlugins.clear();
 
-		foreach (const Plugin& plugin, m_availablePlugins) {
-			if (plugin.isLoaded())
-				m_loadedPlugins.append(plugin.instance);
-		}
+	foreach(const Plugin& plugin, m_availablePlugins)
+	{
+		if (plugin.isLoaded())
+			m_loadedPlugins.append(plugin.instance);
+	}
 }
 
 bool Plugins::alreadyPropInAvailable(const PluginProp& prop)
 {
-		foreach (const Plugin& plugin, m_availablePlugins) {
-			if (plugin.pluginProp == prop)
-				return true;
-		}
+	foreach(const Plugin& plugin, m_availablePlugins)
+	{
+		if (plugin.pluginProp == prop)
+			return true;
+	}
 
 	return false;
 }

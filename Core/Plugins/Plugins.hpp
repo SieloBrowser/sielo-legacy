@@ -86,9 +86,9 @@ private:
 	void loadAvailablePlugins();
 
 	QList<Plugin> m_availablePlugins{};
+	QList<PluginInterface*> m_internalPlugins;
 	QStringList m_allowedPlugins{};
 
-	bool m_pluginsEnabled{true};
 	bool m_pluginsLoaded{false};
 };
 
