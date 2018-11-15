@@ -131,6 +131,7 @@ void ProxyConfigPage::setupUI()
 	m_proxyUsername = new QLineEdit(this);
 	m_descProxyPassword = new QLabel(tr("Password:"), this);
 	m_proxyPassword = new QLineEdit(this);
+	m_proxyPassword->setEchoMode(QLineEdit::Password);
 
 	m_leftSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred);
 	m_rightSpacer = new QSpacerItem(20, 20, QSizePolicy::Expanding, QSizePolicy::Preferred);
