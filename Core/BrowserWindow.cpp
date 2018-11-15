@@ -38,6 +38,8 @@
 
 #include "MaquetteGrid/MaquetteGridItem.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Utils/DataPaths.hpp"
 #include "Utils/RestoreManager.hpp"
 #include "Utils/Settings.hpp"
@@ -269,7 +271,7 @@ BrowserWindow::BrowserWindow(MaquetteGridItem* maquetteGrid) :
 
 BrowserWindow::~BrowserWindow()
 {
-	//TODO: emit window deleted to plugins
+	Application::instance()->plugins()->emitMainWindowDeleted(this);
 }
 
 void BrowserWindow::loadSettings()
@@ -577,6 +579,22 @@ void BrowserWindow::resizeEvent(QResizeEvent* event)
 	shotBackground();
 }
 
+void BrowserWindow::keyPressEvent(QKeyEvent* event)
+{
+	if (Application::instance()->plugins()->processKeyPress(Application::ON_BrowserWindow, this, event))
+		return;
+
+	QMainWindow::keyPressEvent(event);
+}
+
+void BrowserWindow::keyReleaseEvent(QKeyEvent* event)
+{
+	if (Application::instance()->plugins()->processKeyRelease(Application::ON_BrowserWindow, this, event))
+		return;
+
+	QMainWindow::keyReleaseEvent(event);
+}
+
 void BrowserWindow::mouseMoveEvent(QMouseEvent *e)
 {
 	if ((e->pos().x() >= pos().x() && e->pos().x() <= (pos().x() + width())) ||
@@ -688,6 +706,8 @@ void BrowserWindow::postLaunch()
 
 	if (m_fButton)
 		m_fButton->tabWidgetChanged(tabWidget());
+
+	Application::instance()->plugins()->emitMainWindowCreated(this);
 
 	Settings settings{};
 

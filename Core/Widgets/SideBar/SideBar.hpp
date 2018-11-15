@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,75 +23,42 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef CORE_PLUGINS_HPP
-#define CORE_PLUGINS_HPP
+#ifndef SIELOBROWSER_SIDEBAR_HPP
+#define SIELOBROWSER_SIDEBAR_HPP
 
-#include <QObject>
-#include <QList>
+#include <QWidget>
 
-#include "Plugins/PluginInterface.hpp"
+#include <QVBoxLayout>
 
-class QPluginLoader;
+namespace Sn
+{
+class SideBarManager;
+class SideBarInterface;
+class SideBarTitle;
 
-namespace Sn {
+class TabWidget;
 
-class Plugins: public QObject {
-Q_OBJECT
+class SideBar: public QWidget {
+	Q_OBJECT
 
 public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{nullptr};
-		PluginInterface* instance{nullptr};
+	SideBar(SideBarManager* manager, TabWidget* tabWidget);
+	~SideBar() = default;
 
-		Plugin() {}
-
-		bool isLoaded() const { return instance; }
-		bool operator==(const Plugin& other) const
-		{
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
-
-	explicit Plugins(QObject* parent = nullptr);
-
-	QList<Plugin> getAvailablePlugins();
-
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
-
-	void shutdown();
+	void setTitle(const QString& title);
+	void setWidget(QWidget* widget);
 
 public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface* plugin);
+	void close();
 
 private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
-								QPluginLoader* loader);
+	QVBoxLayout* m_layout{nullptr};
 
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
+	TabWidget* m_tabWidget{nullptr};
+	SideBarTitle* m_titleBar{nullptr};
 
-	QList<Plugin> m_availablePlugins{};
-	QList<PluginInterface*> m_internalPlugins;
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsLoaded{false};
+	SideBarManager* m_manager{nullptr};
 };
-
 }
 
-#endif // CORE_PLUGINS_HPP
+#endif //SIELOBROWSER_SIDEBAR_HPP

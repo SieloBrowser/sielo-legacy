@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,75 +23,54 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef CORE_PLUGINS_HPP
-#define CORE_PLUGINS_HPP
+#ifndef SIELOBROWSER_SIDEBARMANAGER_HPP
+#define SIELOBROWSER_SIDEBARMANAGER_HPP
 
 #include <QObject>
-#include <QList>
+#include <QMenu>
 
-#include "Plugins/PluginInterface.hpp"
+#include <QString>
+#include <QHash>
 
-class QPluginLoader;
+#include <QPointer>
 
-namespace Sn {
+namespace Sn
+{
+class TabStackedWidget;
 
-class Plugins: public QObject {
-Q_OBJECT
+class SideBar;
+class SideBarInterface;
+
+class SideBarManager: public QObject {
+	Q_OBJECT
 
 public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{nullptr};
-		PluginInterface* instance{nullptr};
+	SideBarManager(TabStackedWidget* tabWidget);
+	~SideBarManager() = default;
 
-		Plugin() {}
+	QString activeSideBar() const { return m_activeBar; }
 
-		bool isLoaded() const { return instance; }
-		bool operator==(const Plugin& other) const
-		{
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
+	void createMenu(QMenu* menu);
 
-	explicit Plugins(QObject* parent = nullptr);
+	void showSideBar(const QString& id, bool toggle = true);
+	void sideBarRemoved(const QString& id);
+	void closeSideBar();
 
-	QList<Plugin> getAvailablePlugins();
+	static void addSidebar(const QString& id, SideBarInterface* interface);
+	static void removeSidebar(SideBarInterface* interface);
 
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
+	static QHash<QString, QPointer<SideBarInterface> > s_sidebars;
 
-	void shutdown();
-
-public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface* plugin);
+private slots:
+	void sShowSideBar();
 
 private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
-								QPluginLoader* loader);
+	TabStackedWidget* m_tabWidget{nullptr};
+	QPointer<SideBar> m_sideBar{};
+	QMenu* m_menu{nullptr};
 
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
-
-	QList<Plugin> m_availablePlugins{};
-	QList<PluginInterface*> m_internalPlugins;
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsLoaded{false};
+	QString m_activeBar{};
 };
-
 }
 
-#endif // CORE_PLUGINS_HPP
+#endif //SIELOBROWSER_SIDEBARMANAGER_HPP

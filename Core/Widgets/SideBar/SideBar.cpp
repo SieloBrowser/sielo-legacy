@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,76 +22,55 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef CORE_PLUGINS_HPP
-#define CORE_PLUGINS_HPP
+#include "SideBar.hpp"
 
-#include <QObject>
-#include <QList>
+#include "Utils/SideBarManager.hpp"
 
-#include "Plugins/PluginInterface.hpp"
-
-class QPluginLoader;
+#include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/SideBar/SideBarInterface.hpp"
+#include "Widgets/SideBar/SideBarTitle.hpp"
 
 namespace Sn {
+SideBar::SideBar(SideBarManager* manager, TabWidget* tabWidget) :
+	QWidget(tabWidget),
+	m_tabWidget(tabWidget),
+	m_manager(manager)
+{
+	setObjectName("sidebar");
+	setAttribute(Qt::WA_DeleteOnClose);
 
-class Plugins: public QObject {
-Q_OBJECT
+	m_layout = new QVBoxLayout(this);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+	m_layout->setSpacing(0);
 
-public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{nullptr};
-		PluginInterface* instance{nullptr};
+	m_titleBar = new SideBarTitle(QString(), this);
 
-		Plugin() {}
-
-		bool isLoaded() const { return instance; }
-		bool operator==(const Plugin& other) const
-		{
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
-
-	explicit Plugins(QObject* parent = nullptr);
-
-	QList<Plugin> getAvailablePlugins();
-
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
-
-	void shutdown();
-
-public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface* plugin);
-
-private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
-								QPluginLoader* loader);
-
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
-
-	QList<Plugin> m_availablePlugins{};
-	QList<PluginInterface*> m_internalPlugins;
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsLoaded{false};
-};
-
+	m_layout->addWidget(m_titleBar);
 }
 
-#endif // CORE_PLUGINS_HPP
+void SideBar::setTitle(const QString& title)
+{
+	m_titleBar->setTitle(title);
+}
+
+void SideBar::setWidget(QWidget* widget)
+{
+	if (m_layout->count() == 2)
+		delete m_layout->itemAt(1)->widget();
+
+	if (widget)
+		m_layout->addWidget(widget);
+}
+
+void SideBar::close()
+{
+	m_manager->closeSideBar();
+
+	QWidget* parent = parentWidget();
+
+	if (parent)
+		parent->setFocus();
+
+	QWidget::close();
+}
+}

@@ -103,15 +103,20 @@ private slots:
 
 	void quit();
 
+	void aboutToShowSideBarMenu();
+	void aboutToShowToolsMenu();
+
 private:
 	void addActionsToTabWidget();
 
 	QAction* m_toggleBookmarksAction{nullptr};
 
+	QMenu* m_sideBarsMenu{nullptr};
 	QMenu* m_viewMenu{nullptr};
 	BookmarksMenu* m_bookmarksMenu{nullptr};
 	MaquetteGridMenu* m_maquetteGridMenu{nullptr};
 	HistoryMenu* m_historyMenu{nullptr};
+	QMenu* m_pluginsMenu{nullptr};
 	QMenu* m_toolsMenu{nullptr};
 
 	TabWidget* m_tabWidget{nullptr};

@@ -157,6 +157,8 @@ protected:
 	QImage applyBlur(const QImage *src, qreal radius, bool quality = true, bool alphaOnly = false, int transposed = 0);
 	void paintEvent(QPaintEvent* event);
 	void resizeEvent(QResizeEvent* event);
+	void keyPressEvent(QKeyEvent* event) override;
+	void keyReleaseEvent(QKeyEvent* event) override;
 	void mouseMoveEvent(QMouseEvent *e);
 
 #ifdef Q_OS_WIN

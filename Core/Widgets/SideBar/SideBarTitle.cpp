@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,76 +22,39 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef CORE_PLUGINS_HPP
-#define CORE_PLUGINS_HPP
+#include "SideBarTitle.hpp"
 
-#include <QObject>
-#include <QList>
+#include "Application.hpp"
 
-#include "Plugins/PluginInterface.hpp"
+namespace Sn
+{
+SideBarTitle::SideBarTitle(const QString& title, QWidget* parent) :
+	QWidget(parent)
+{
+	setupUI();
 
-class QPluginLoader;
+	m_title->setText(title);
 
-namespace Sn {
-
-class Plugins: public QObject {
-Q_OBJECT
-
-public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{nullptr};
-		PluginInterface* instance{nullptr};
-
-		Plugin() {}
-
-		bool isLoaded() const { return instance; }
-		bool operator==(const Plugin& other) const
-		{
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
-
-	explicit Plugins(QObject* parent = nullptr);
-
-	QList<Plugin> getAvailablePlugins();
-
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
-
-	void shutdown();
-
-public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface* plugin);
-
-private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
-								QPluginLoader* loader);
-
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
-
-	QList<Plugin> m_availablePlugins{};
-	QList<PluginInterface*> m_internalPlugins;
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsLoaded{false};
-};
-
+	connect(m_closeButton, &QPushButton::clicked, parent, &QWidget::close);
 }
 
-#endif // CORE_PLUGINS_HPP
+void SideBarTitle::setTitle(const QString& title)
+{
+	m_title->setText(title);
+}
+
+void SideBarTitle::setupUI()
+{
+	m_layout = new QHBoxLayout(this);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+	m_layout->setSpacing(0);
+
+	m_title = new QLabel(this);
+	m_closeButton = new QPushButton(Application::getAppIcon("close"), QString(), this);
+
+	m_title->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+
+	m_layout->addWidget(m_title);
+	m_layout->addWidget(m_closeButton);
+}
+}

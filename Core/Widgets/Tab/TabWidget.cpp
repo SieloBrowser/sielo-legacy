@@ -41,9 +41,12 @@
 
 #include "Download/DownloadManager.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Utils/ClosedTabsManager.hpp"
 #include "Utils/AutoSaver.hpp"
 #include "Utils/Settings.hpp"
+#include "Utils/SideBarManager.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/WebView.hpp"
@@ -55,6 +58,7 @@
 #include "Widgets/MainMenu.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
+#include "Widgets/SideBar/SideBar.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
@@ -219,6 +223,15 @@ void TabWidget::loadSettings()
 	m_newEmptyTabAfterActive = settings.value("newEmptyTabsAfterActive", false).toBool();
 
 	settings.endGroup();
+
+	settings.beginGroup("SideBars");
+
+	QString activeSideBar{settings.value("Active", QString()).toString()};
+
+	if (activeSideBar.isEmpty() && sideBar())
+		sideBar()->close();
+	else
+		sideBarManager()->showSideBar(activeSideBar, false);
 
 	if (m_tabsSpaceType == Application::TST_Web) {
 		settings.beginGroup("Web-Settings");
@@ -1078,5 +1091,21 @@ void TabWidget::setupNavigationBar()
 	AddressBar* addressBar = weTab()->addressBar();
 	if (addressBar && m_addressBars->indexOf(addressBar) != -1)
 		m_addressBars->setCurrentWidget(addressBar);
+}
+
+void TabWidget::keyPressEvent(QKeyEvent* event)
+{
+	if (Application::instance()->plugins()->processKeyPress(Application::ON_TabWidget, this, event))
+		return;
+
+	TabStackedWidget::keyPressEvent(event);
+}
+
+void TabWidget::keyReleaseEvent(QKeyEvent* event)
+{
+	if (Application::instance()->plugins()->processKeyRelease(Application::ON_TabWidget, this, event))
+		return;
+
+	TabStackedWidget::keyReleaseEvent(event);
 }
 }

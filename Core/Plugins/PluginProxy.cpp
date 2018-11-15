@@ -26,7 +26,14 @@
 
 #include <QDebug>
 
-namespace Sn {
+#include "Web/WebPage.hpp"
+#include "Web/WebView.hpp"
+#include "Web/WebHitTestResult.hpp"
+
+#include "BrowserWindow.hpp"
+
+namespace Sn
+{
 PluginProxy::PluginProxy() :
 	Plugins()
 {
@@ -77,32 +84,38 @@ void PluginProxy::registerAppEventHandler(const EventHandlerType& type, PluginIn
 		break;
 
 	default:
-		qWarning("Registering unknown event handler type");
+		qWarning("Plugins: Registering unknown event handler type");
 		break;
 	}
 }
 
-void PluginProxy::pluginUnloaded(PluginInterface* plugin)
+void PluginProxy::populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result)
 {
-	m_mouseDoubleClickHandlers.removeOne(plugin);
-	m_mousePressHandlers.removeOne(plugin);
-	m_mouseReleaseHandlers.removeOne(plugin);
-	m_mouseMoveHandlers.removeOne(plugin);
+	if (!menu || !view)
+		return;
 
-	m_wheelEventHandlers.removeOne(plugin);
+	foreach(PluginInterface* iPlugin, m_loadedPlugins)
+		iPlugin->populateWebViewMenu(menu, view, result);
+}
 
-	m_keyPressHandlers.removeOne(plugin);
-	m_keyReleaseHandlers.removeOne(plugin);
+void PluginProxy::populateExtensionsMenu(QMenu* menu)
+{
+	if (!menu)
+		return;
+
+	foreach(PluginInterface* iPlugin, m_loadedPlugins)
+		iPlugin->populateExtensionsMenu(menu);
 }
 
 bool PluginProxy::processMouseDoubleClick(const Application::ObjectName& type, QObject* obj, QMouseEvent* event)
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_mouseDoubleClickHandlers) {
-			if (iPlugin->mouseDoubleClick(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_mouseDoubleClickHandlers)
+	{
+		if (iPlugin->mouseDoubleClick(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -110,10 +123,11 @@ bool PluginProxy::processMousePress(const Application::ObjectName& type, QObject
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_mousePressHandlers) {
-			if (iPlugin->mousePress(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_mousePressHandlers)
+	{
+		if (iPlugin->mousePress(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -121,10 +135,11 @@ bool PluginProxy::processMouseRelease(const Application::ObjectName& type, QObje
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_mouseReleaseHandlers) {
-			if (iPlugin->mouseRelease(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_mouseReleaseHandlers)
+	{
+		if (iPlugin->mouseRelease(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -132,10 +147,11 @@ bool PluginProxy::processMouseMove(const Application::ObjectName& type, QObject*
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_mouseMoveHandlers) {
-			if (iPlugin->mouseDoubleClick(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_mouseMoveHandlers)
+	{
+		if (iPlugin->mouseDoubleClick(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -144,10 +160,11 @@ bool PluginProxy::processKeyPress(const Application::ObjectName& type, QObject* 
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_keyPressHandlers) {
-			if (iPlugin->keyPress(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_keyPressHandlers)
+	{
+		if (iPlugin->keyPress(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -155,10 +172,11 @@ bool PluginProxy::processKeyRelease(const Application::ObjectName& type, QObject
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_keyReleaseHandlers) {
-			if (iPlugin->keyRelease(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_keyReleaseHandlers)
+	{
+		if (iPlugin->keyRelease(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -167,10 +185,11 @@ bool PluginProxy::processWheelEvent(const Application::ObjectName& type, QObject
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_wheelEventHandlers) {
-			if (iPlugin->wheelEvent(type, obj, event))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_wheelEventHandlers)
+	{
+		if (iPlugin->wheelEvent(type, obj, event))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -179,10 +198,11 @@ bool PluginProxy::processCommand(const QString& command, const QStringList& args
 {
 	bool accepted{false};
 
-		foreach (PluginInterface* iPlugin, m_commandHandlers) {
-			if (iPlugin->processCommand(command, args))
-				accepted = true;
-		}
+	foreach(PluginInterface* iPlugin, m_commandHandlers)
+	{
+		if (iPlugin->processCommand(command, args))
+			accepted = true;
+	}
 
 	return accepted;
 }
@@ -192,10 +212,11 @@ bool PluginProxy::acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEn
 {
 	bool accepted{true};
 
-		foreach (PluginInterface* iPlugin, m_loadedPlugins) {
-			if (!iPlugin->acceptNavigationRequest(page, url, type, isMainFrame))
-				accepted = false;
-		}
+	foreach(PluginInterface* iPlugin, m_loadedPlugins)
+	{
+		if (!iPlugin->acceptNavigationRequest(page, url, type, isMainFrame))
+			accepted = false;
+	}
 
 	return accepted;
 }
@@ -209,12 +230,27 @@ void PluginProxy::emitWebPageDeleted(WebPage* page)
 	emit webPageDeleted(page);
 }
 
-void PluginProxy::emitMainWindowCreated(MainWindow* window)
+void PluginProxy::emitMainWindowCreated(BrowserWindow* window)
 {
 	emit mainWindowCreated(window);
 }
-void PluginProxy::emitMainWindowDeleted(MainWindow* window)
+void PluginProxy::emitMainWindowDeleted(BrowserWindow* window)
 {
 	emit mainWindowDeleted(window);
+}
+
+void PluginProxy::pluginUnloaded(PluginInterface* plugin)
+{
+	m_mouseDoubleClickHandlers.removeOne(plugin);
+	m_mousePressHandlers.removeOne(plugin);
+	m_mouseReleaseHandlers.removeOne(plugin);
+	m_mouseMoveHandlers.removeOne(plugin);
+
+	m_wheelEventHandlers.removeOne(plugin);
+
+	m_keyPressHandlers.removeOne(plugin);
+	m_keyReleaseHandlers.removeOne(plugin);
+
+	m_commandHandlers.removeOne(plugin);
 }
 }

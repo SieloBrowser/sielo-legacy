@@ -33,13 +33,17 @@
 #include "Plugins/Plugins.hpp"
 #include "Application.hpp"
 
-namespace Sn {
+namespace Sn
+{
 
+class WebView;
 class WebPage;
-class MainWindow;
+class WebHitTestResult;
+
+class BrowserWindow;
 
 class PluginProxy: public Plugins {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	enum EventHandlerType {
@@ -56,6 +60,9 @@ public:
 	explicit PluginProxy();
 
 	void registerAppEventHandler(const EventHandlerType& type, PluginInterface* obj);
+
+	void populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result);
+	void populateExtensionsMenu(QMenu* menu);
 
 	bool processMouseDoubleClick(const Application::ObjectName& type, QObject* obj, QMouseEvent* event);
 	bool processMousePress(const Application::ObjectName& type, QObject* obj, QMouseEvent* event);
@@ -75,15 +82,16 @@ public:
 	void emitWebPageCreated(WebPage* page);
 	void emitWebPageDeleted(WebPage* page);
 
-	void emitMainWindowCreated(MainWindow* window);
-	void emitMainWindowDeleted(MainWindow* window);
+	void emitMainWindowCreated(BrowserWindow* window);
+	void emitMainWindowDeleted(BrowserWindow* window);
 
 signals:
 	void webPageCreated(WebPage* page);
 	void webPageDeleted(WebPage* page);
 
-	void mainWindowCreated(MainWindow* window);
-	void mainWindowDeleted(MainWindow* window);
+	void mainWindowCreated(BrowserWindow* window);
+	void mainWindowDeleted(BrowserWindow* window);
+
 private slots:
 	void pluginUnloaded(PluginInterface* plugin);
 

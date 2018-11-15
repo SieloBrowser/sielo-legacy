@@ -40,6 +40,8 @@
 
 #include "Cookies/CookieManager.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Utils/Settings.hpp"
 
 #include "Widgets/AboutDialog.hpp"
@@ -75,7 +77,10 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	homeAction->setShortcut(QKeySequence("Ctrl+Shift+H"));
 	homeAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 
-	m_viewMenu = new QMenu("View", this);
+	m_sideBarsMenu = new QMenu(tr("Side Bar"), this);
+	m_tabWidget->createSideBarsMenu(m_sideBarsMenu);
+
+	m_viewMenu = new QMenu(tr("View"), this);
 
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
@@ -89,6 +94,9 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 
 	m_toolsMenu = new QMenu(this);
 	m_toolsMenu->setTitle(tr("&Tools"));
+
+	m_pluginsMenu = new QMenu(tr("&Extensions"), this);
+	m_pluginsMenu->menuAction()->setVisible(false);
 
 	QAction* newTabAction =
 		createAction("NewTab", this, Application::getAppIcon("tabbar-addtab", "tabs"), tr("New Tab"), "Ctrl+T");
@@ -136,6 +144,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	QAction
 		* showCookiesManagerAction = createAction("ShowCookiesManager", m_toolsMenu, QIcon(),
 		                                          tr("&Cookies Manager"));
+	m_toolsMenu->addMenu(m_pluginsMenu);
 	addSeparator();
 	QAction* showSettingsAction = createAction("ShowSettings",
 	                                           this,
@@ -184,6 +193,9 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	connect(openDiscord, &QAction::triggered, this, &MainMenu::openDiscord);
 
 	connect(quitAction, &QAction::triggered, this, &MainMenu::quit);
+
+	connect(m_sideBarsMenu, &QMenu::aboutToShow, this, &MainMenu::aboutToShowSideBarMenu);
+	connect(m_toolsMenu, &QMenu::aboutToShow, this, &MainMenu::aboutToShowToolsMenu);
 
 	addActionsToTabWidget();
 }
@@ -480,6 +492,27 @@ void MainMenu::openDiscord()
 void MainMenu::quit()
 {
 	Application::instance()->quitApplication();
+}
+
+void MainMenu::aboutToShowSideBarMenu()
+{
+	QMenu* menu = qobject_cast<QMenu*>(sender());
+	Q_ASSERT(menu);
+
+	if (m_tabWidget) {
+		m_tabWidget->createSideBarsMenu(menu);
+	}
+}
+
+void MainMenu::aboutToShowToolsMenu()
+{
+	if (!m_tabWidget)
+		return;
+
+	m_pluginsMenu->clear();
+	Application::instance()->plugins()->populateExtensionsMenu(m_pluginsMenu);
+
+	m_pluginsMenu->menuAction()->setVisible(!m_pluginsMenu->actions().isEmpty());
 }
 
 void MainMenu::addActionsToTabWidget()

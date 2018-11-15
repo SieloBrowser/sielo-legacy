@@ -121,6 +121,8 @@ WebView::WebView(QWidget* parent) :
 
 WebView::~WebView()
 {
+	Application::instance()->plugins()->emitWebPageDeleted(m_page);
+
 	WebInspector::unregisterView(this);
 	// Empty
 }
@@ -228,6 +230,7 @@ void WebView::setPage(WebPage* page)
 			emit m_page->loadFinished(true);
 		}
 
+		Application::instance()->plugins()->emitWebPageDeleted(m_page);
 		m_page->setView(nullptr);
 		m_page->deleteLater();
 	}
@@ -841,7 +844,7 @@ void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 		createPageContextMenu(menu);
 
 	menu->addSeparator();
-
+	Application::instance()->plugins()->populateWebViewMenu(menu, this, hitTest);
 
 }
 
