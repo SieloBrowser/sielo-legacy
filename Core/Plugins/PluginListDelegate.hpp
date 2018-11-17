@@ -23,77 +23,27 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef CORE_PLUGINS_HPP
-#define CORE_PLUGINS_HPP
+#ifndef CORE_PLUGINLISTDELEGATE_HPP
+#define CORE_PLUGINLISTDELEGATE_HPP
 
-#include <QObject>
-#include <QList>
+#include <QStyledItemDelegate>
 
-#include "Plugins/PluginInterface.hpp"
+#include <QPainter>
+#include <QListWidget>
 
-class QPluginLoader;
-
-namespace Sn {
-
-class Plugins: public QObject {
-Q_OBJECT
-
+namespace Sn
+{
+class PluginListDelegate: public QStyledItemDelegate {
 public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{nullptr};
-		PluginInterface* instance{nullptr};
+	PluginListDelegate(QListWidget* parent);
+	~PluginListDelegate() = default;
 
-		Plugin() {}
-
-		bool isLoaded() const { return instance; }
-		bool operator==(const Plugin& other) const
-		{
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
-
-	explicit Plugins(QObject* parent = nullptr);
-
-	QList<Plugin> getAvailablePlugins();
-
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
-
-	void shutdown();
-
-public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface* plugin);
+	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
+	QSize sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 
 private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
-								QPluginLoader* loader);
-
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
-
-	QList<Plugin> m_availablePlugins{};
-	QList<PluginInterface*> m_internalPlugins;
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsLoaded{false};
+	mutable int m_rowHeight{0};
+	mutable int m_padding{0};
 };
-
-Q_DECLARE_METATYPE(Plugins::Plugin)
-
 }
-
-#endif // CORE_PLUGINS_HPP
+#endif // CORE_PLUGINLISTDELEGATE_HPP

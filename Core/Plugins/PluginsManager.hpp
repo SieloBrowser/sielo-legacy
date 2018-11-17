@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,77 +23,49 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef CORE_PLUGINS_HPP
-#define CORE_PLUGINS_HPP
+#ifndef SIELOBROWSER_PLUGINSMANAGER_HPP
+#define SIELOBROWSER_PLUGINSMANAGER_HPP
 
-#include <QObject>
-#include <QList>
+#include <QWidget>
 
-#include "Plugins/PluginInterface.hpp"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
-class QPluginLoader;
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QPushButton>
+#include <QSpacerItem>
 
-namespace Sn {
-
-class Plugins: public QObject {
-Q_OBJECT
+namespace Sn
+{
+class PluginsManager: public QWidget {
+	Q_OBJECT
 
 public:
-	struct Plugin {
-		QString fileName{};
-		QString fullPath{};
-		PluginProp pluginProp{};
-		QPluginLoader* pluginLoader{nullptr};
-		PluginInterface* instance{nullptr};
+	PluginsManager(QWidget* parent = nullptr);
+	~PluginsManager() = default;
 
-		Plugin() {}
+	void load();
+	void save();
 
-		bool isLoaded() const { return instance; }
-		bool operator==(const Plugin& other) const
-		{
-			return (fileName == other.fileName &&
-					fullPath == other.fullPath &&
-					pluginProp == other.pluginProp &&
-					instance == other.instance);
-		}
-	};
+private slots:
+	void settingsClicked();
+	void currentChanged(QListWidgetItem* item);
+	void itemChanged(QListWidgetItem* item);
 
-	explicit Plugins(QObject* parent = nullptr);
-
-	QList<Plugin> getAvailablePlugins();
-
-	bool loadPlugin(Plugin* plugin);
-	void unloadPlugin(Plugin* plugin);
-
-	void shutdown();
-
-public slots:
-	void loadSettings();
-	void loadPlugins();
-
-protected:
-	QList<PluginInterface*> m_loadedPlugins{};
-
-signals:
-	void pluginUnloaded(PluginInterface* plugin);
+	void refresh();
 
 private:
-	bool alreadyPropInAvailable(const PluginProp& prop);
-	PluginInterface* initPlugin(PluginInterface::InitState state, PluginInterface* pluginInterface,
-								QPluginLoader* loader);
+	void setupUI();
+	void sortItem();
 
-	void refreshLoadedPlugins();
-	void loadAvailablePlugins();
+	QGridLayout* m_layout{nullptr};
+	QListWidget* m_list{nullptr};
+	QPushButton* m_settingsButton{nullptr};
+	QSpacerItem* m_spacer{nullptr};
 
-	QList<Plugin> m_availablePlugins{};
-	QList<PluginInterface*> m_internalPlugins;
-	QStringList m_allowedPlugins{};
-
-	bool m_pluginsLoaded{false};
+	bool m_loaded{false};
 };
-
-Q_DECLARE_METATYPE(Plugins::Plugin)
-
 }
 
-#endif // CORE_PLUGINS_HPP
+#endif //SIELOBROWSER_PLUGINSMANAGER_HPP
