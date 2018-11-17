@@ -46,6 +46,7 @@ class LocalStoragePage;
 class ProxyConfigPage;
 class PasswordPage;
 class PrivacyPage;
+class PluginsManager;
 class DownloadPage;
 class AdBlockPage;
 class CurrentTabsSpacePage;
@@ -88,6 +89,7 @@ private:
 	ProxyConfigPage* m_proxyConfigPage{nullptr};
 	PasswordPage* m_passwordPage{nullptr};
 	PrivacyPage* m_privacyPage{nullptr};
+	PluginsManager* m_pluginsPage{nullptr};
 	DownloadPage* m_downloadPage{nullptr};
 	AdBlockPage* m_pageAdBlock{nullptr};
 	CurrentTabsSpacePage* m_currentTabsSpacePage{nullptr};

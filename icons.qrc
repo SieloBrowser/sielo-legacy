@@ -55,7 +55,8 @@
         <file>icons/preferences/preferences.png</file>
         <file>icons/preferences/privacy.png</file>
         <file>icons/preferences/proxy.png</file>
-        <file>icons/preferences/settings.png</file>
+	    <file>icons/preferences/plugins.png</file>
+		<file>icons/preferences/settings.png</file>
         <file>icons/preferences/toolbars.png</file>
         <file>icons/preferences/web-configs.png</file>
 
