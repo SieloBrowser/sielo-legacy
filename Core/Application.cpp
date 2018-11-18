@@ -69,6 +69,7 @@
 #include "Utils/Updater.hpp"
 #include "Utils/RestoreManager.hpp"
 #include "Utils/Settings.hpp"
+#include "Utils/SideBarManager.hpp"
 
 #include "Web/WebPage.hpp"
 #include "Web/Scripts.hpp"
@@ -82,6 +83,7 @@
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
+#include "Widgets/SideBar/SideBarInterface.hpp"
 
 namespace Sn
 {
@@ -282,6 +284,8 @@ Application::Application(int& argc, char** argv) :
 #endif 
 	
 	m_plugins = new PluginProxy;
+
+	m_plugins->loadPlugins();
 
 	// Setting up web and network objects
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
@@ -723,6 +727,27 @@ void Application::destroyRestoreManager()
 	m_restoreManager = nullptr;
 }
 
+void Application::addSidebar(const QString& id, SideBarInterface* sideBarInterface)
+{
+	m_sidebars[id] = sideBarInterface;
+}
+
+void Application::removeSidebar(SideBarInterface* sideBarInterface) {
+	const QString id{m_sidebars.key(sideBarInterface)};
+
+	if (id.isEmpty())
+		return;
+
+	m_sidebars.remove(id);
+
+	foreach(BrowserWindow* window, Application::instance()->windows())
+	{
+		foreach(TabWidget* tabWidget, window->tabsSpaceSplitter()->tabWidgets())
+			tabWidget->sideBarManager()->sideBarRemoved(id);
+	}
+}
+
+
 void Application::saveSettings()
 {
 	// Save settings of AdBlock
@@ -804,6 +829,8 @@ void Application::reloadUserStyleSheet()
 void Application::quitApplication()
 {
 	m_isClosing = true;
+
+	m_plugins->shutdown();
 
 	quit();
 }

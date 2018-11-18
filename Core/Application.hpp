@@ -50,6 +50,8 @@ class DownloadManager;
 class HTML5PermissionsManager;
 class NetworkManager;
 
+class SideBarInterface;
+
 struct RestoreData;
 class RestoreManager;
 
@@ -223,6 +225,10 @@ public:
 	bool restoreSession(BrowserWindow* window, RestoreData restoreData);
 	void destroyRestoreManager();
 
+	void addSidebar(const QString& id, SideBarInterface* sideBarInterface);
+	void removeSidebar(SideBarInterface* sideBarInterface);
+	QHash<QString, SideBarInterface*> sidebars() const { return m_sidebars; }
+
 	PluginProxy *plugins() const { return m_plugins; }
 	AutoFill *autoFill() const { return m_autoFill; }
 	CookieJar *cookieJar();
@@ -352,6 +358,7 @@ private:
 	QPointer<BrowserWindow> m_lastActiveWindow;
 
 	QList<PostLaunchAction> m_postLaunchActions;
+	QHash<QString, SideBarInterface*> m_sidebars;
 	
 	PiwikTracker* m_piwikTracker{nullptr};
 

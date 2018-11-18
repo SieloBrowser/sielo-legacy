@@ -41,7 +41,7 @@ class TabStackedWidget;
 class SideBar;
 class SideBarInterface;
 
-class SideBarManager: public QObject {
+class Q_DECL_EXPORT SideBarManager: public QObject {
 	Q_OBJECT
 
 public:
@@ -55,11 +55,6 @@ public:
 	void showSideBar(const QString& id, bool toggle = true);
 	void sideBarRemoved(const QString& id);
 	void closeSideBar();
-
-	static void addSidebar(const QString& id, SideBarInterface* interface);
-	static void removeSidebar(SideBarInterface* interface);
-
-	static QHash<QString, QPointer<SideBarInterface> > s_sidebars;
 
 private slots:
 	void sShowSideBar();

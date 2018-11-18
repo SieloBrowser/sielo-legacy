@@ -32,28 +32,6 @@
 
 namespace Sn
 {
-QHash<QString, QPointer<SideBarInterface>> SideBarManager::s_sidebars;
-
-void SideBarManager::addSidebar(const QString& id, SideBarInterface* interface)
-{
-	s_sidebars[id] = interface;
-}
-
-void SideBarManager::removeSidebar(SideBarInterface* interface)
-{
-	const QString id{s_sidebars.key(interface)};
-	if (id.isEmpty())
-		return;
-
-	s_sidebars.remove(id);
-
-	foreach (BrowserWindow* window, Application::instance()->windows())
-	{
-		foreach(TabWidget* tabWidget, window->tabsSpaceSplitter()->tabWidgets())
-			tabWidget->sideBarManager()->sideBarRemoved(id);
-	}
-}
-
 void SideBarManager::sShowSideBar()
 {
 	if (QAction* action = qobject_cast<QAction*>(sender())) 
@@ -74,12 +52,14 @@ void SideBarManager::createMenu(QMenu* menu)
 
 	menu->clear();
 
-	foreach(const QPointer<SideBarInterface>& sidebar, s_sidebars)
+	int count = Application::instance()->sidebars().count();
+
+	foreach(SideBarInterface* sidebar, Application::instance()->sidebars())
 	{
 		if (sidebar) {
-			QAction* action{sidebar.data()->createMenuAction()};
-			action->setData(s_sidebars.key(sidebar));
-			action->setChecked(m_activeBar == s_sidebars.key(sidebar));
+			QAction* action{sidebar->createMenuAction()};
+			action->setData(Application::instance()->sidebars().key(sidebar));
+			action->setChecked(m_activeBar == Application::instance()->sidebars().key(sidebar));
 
 			connect(action, &QAction::triggered, this, &SideBarManager::sShowSideBar);
 
@@ -109,7 +89,7 @@ void SideBarManager::showSideBar(const QString& id, bool toggle)
 		return;
 	}
 
-	SideBarInterface* sideBar{s_sidebars[id].data()};
+	SideBarInterface* sideBar{Application::instance()->sidebars()[id]};
 
 	if (!sideBar) {
 		m_sideBar.data()->close();
