@@ -31,6 +31,8 @@ namespace Sn
 SideBarTitle::SideBarTitle(const QString& title, QWidget* parent) :
 	QWidget(parent)
 {
+	setObjectName("sidebar-title");
+
 	setupUI();
 
 	m_title->setText(title);
@@ -45,6 +47,8 @@ void SideBarTitle::setTitle(const QString& title)
 
 void SideBarTitle::setupUI()
 {
+	setMaximumHeight(24);
+
 	m_layout = new QHBoxLayout(this);
 	m_layout->setContentsMargins(0, 0, 0, 0);
 	m_layout->setSpacing(0);

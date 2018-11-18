@@ -73,6 +73,7 @@ SideBar* TabStackedWidget::addSideBar()
 
 	m_splitter->insertWidget(0, m_sideBar.data());
 	m_splitter->setCollapsible(0, false);
+	m_splitter->setSizes({124, 2000});
 
 	return m_sideBar.data();
 }

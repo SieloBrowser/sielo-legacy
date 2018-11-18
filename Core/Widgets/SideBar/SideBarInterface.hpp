@@ -28,8 +28,12 @@
 
 #include <QObject>
 
+#include <QAction>
+
 namespace Sn
 {
+class TabWidget;
+
 class SideBarInterface: public QObject {
 public:
 	SideBarInterface(QObject* parent = nullptr) : QObject(parent) {}

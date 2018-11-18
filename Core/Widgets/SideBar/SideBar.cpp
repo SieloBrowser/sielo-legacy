@@ -58,8 +58,11 @@ void SideBar::setWidget(QWidget* widget)
 	if (m_layout->count() == 2)
 		delete m_layout->itemAt(1)->widget();
 
-	if (widget)
+	if (widget) {
+		widget->setObjectName("sidebar-content");
+		widget->setParent(this);
 		m_layout->addWidget(widget);
+	}
 }
 
 void SideBar::close()

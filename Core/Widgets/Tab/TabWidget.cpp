@@ -59,6 +59,7 @@
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/SideBar/SideBar.hpp"
+#include "Widgets/SideBar/SideBar.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"

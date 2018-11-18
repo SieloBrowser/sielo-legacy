@@ -81,6 +81,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_tabWidget->createSideBarsMenu(m_sideBarsMenu);
 
 	m_viewMenu = new QMenu(tr("View"), this);
+	m_viewMenu->addMenu(m_sideBarsMenu);
+	m_viewMenu->addSeparator();
 
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
