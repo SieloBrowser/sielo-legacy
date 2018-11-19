@@ -31,47 +31,23 @@ include_directories(${CMAKE_SOURCE_DIR}/Core)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 add_subdirectory(Core)
-add_subdirectory(Plugins)
 
 set(SOURCE_FILES Main.cpp)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
-
-file(
-        GLOB_RECURSE
-        QRC_FILES
-        *.qrc
-)
+set(CMAKE_AUTORCC ON)
 
 if (WIN32)
-    add_executable(sielo-browser WIN32 ${SOURCE_FILES} ${QRC_FILES} ic_sielo.rc)
-
-    # deploy
-    get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
-    get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)
-    set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
-
+    add_executable(sielo-browser WIN32 ${SOURCE_FILES} ic_sielo.rc)
 elseif(APPLE)
-    add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH} ${QRC_FILES})
+    add_executable(sielo-browser MACOSX_BUNDLE ${SOURCE_FILES} ${ICON_PATH})
     set_source_files_properties(${ICON_PATH} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     set_target_properties(sielo-browser PROPERTIES MACOSX_BUNDLE_ICON_FILE ${ICON_NAME})
 else()
-    add_executable(sielo-browser ${SOURCE_FILES} ${QRC_FILES})
+    add_executable(sielo-browser ${SOURCE_FILES})
 endif()
 
-if(WIN32)
-    if (CMAKE_BUILD_TYPE MATCHES DEBUG)
-		add_custom_command(TARGET sielo-browser POST_BUILD
-            COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
-			file(GLOB OPENSSL_CRYPTO_DLLS "${OPENSSL_DIR}/bin/*.dll")
-			file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Debug)
-	else()
-		add_custom_command(TARGET sielo-browser POST_BUILD
-            COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:sielo-browser>)
-			file(GLOB OPENSSL_CRYPTO_DLLS "${OPENSSL_DIR}/bin/*.dll")
-            file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION Release)
-    endif()
-endif()
+set (SIELO_LIBS ${SIELO_LIBS} Core)
 
-target_link_libraries(sielo-browser Core)
+target_link_libraries(sielo-browser ${SIELO_LIBS})
 
