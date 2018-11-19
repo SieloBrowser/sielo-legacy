@@ -28,8 +28,9 @@
 #include <QNetworkReply>
 #include <QUrl>
 
+#include "SharedDefines.hpp"
 
-class PiwikTracker : public QObject {
+class SIELO_SHAREDLIB PiwikTracker : public QObject {
     Q_OBJECT
 
 public:

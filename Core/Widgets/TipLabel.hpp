@@ -25,6 +25,8 @@
 #ifndef SIELOBROWSER_TIPLABEL_HPP
 #define SIELOBROWSER_TIPLABEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QLabel>
 
@@ -35,7 +37,7 @@
 #include <QTimer>
 
 namespace Sn {
-class TipLabel : public QLabel {
+class SIELO_SHAREDLIB TipLabel : public QLabel {
 Q_OBJECT
 
 public:

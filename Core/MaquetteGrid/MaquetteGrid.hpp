@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_MOCKUP_HPP
 #define SIELOBROWSER_MOCKUP_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QIcon>
@@ -39,7 +41,7 @@ class AutoSaver;
 
 class MaquetteGridItem;
 
-class MaquetteGrid: public QObject {
+class SIELO_SHAREDLIB MaquetteGrid: public QObject {
 Q_OBJECT
 
 public:

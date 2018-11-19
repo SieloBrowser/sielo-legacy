@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBRULE_HPP
 #define SIELOBROWSER_ADBRULE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QStringList>
@@ -47,7 +49,7 @@ class Matcher;
 
 class SearchTree;
 
-class Rule {
+class SIELO_SHAREDLIB Rule {
 	Q_DISABLE_COPY(Rule);
 
 public:

@@ -26,12 +26,14 @@
 #ifndef SIELOBROWSER_ADDRESSBARCOMPLETERREFRESHJOB_HPP
 #define SIELOBROWSER_ADDRESSBARCOMPLETERREFRESHJOB_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QFutureWatcher>
 #include <QStandardItem>
 
 namespace Sn
 {
-class AddressBarCompleterRefreshJob: public QObject {
+class SIELO_SHAREDLIB AddressBarCompleterRefreshJob: public QObject {
 	Q_OBJECT
 
 public:

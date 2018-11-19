@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_FLOATINGBUTTON_HPP
 #define SIELOBROWSER_FLOATINGBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 
@@ -47,7 +49,7 @@ class RootFloatingButton;
 
 class BrowserWindow;
 
-class FloatingButton : public QPushButton {
+class SIELO_SHAREDLIB FloatingButton : public QPushButton {
 Q_OBJECT
 public:
 	FloatingButton(RootFloatingButton* parent, const QString& name, const QString& toolTip = "Floating Button");
@@ -78,7 +80,7 @@ private:
 	QWidget* m_parent{nullptr};
 };
 
-class RootFloatingButton : public QPushButton {
+class SIELO_SHAREDLIB RootFloatingButton : public QPushButton {
 Q_OBJECT
 public:
 	enum Pattern {

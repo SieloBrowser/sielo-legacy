@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_COMBOTABBAR_HPP
 #define SIELOBROWSER_COMBOTABBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QTabBar>
@@ -48,7 +50,7 @@ class TabBar;
 class TabBarScrollWidget;
 class TabStackedWidget;
 
-class ComboTabBar: public QWidget {
+class SIELO_SHAREDLIB ComboTabBar: public QWidget {
 Q_OBJECT
 
 	Q_PROPERTY(int currentIndex

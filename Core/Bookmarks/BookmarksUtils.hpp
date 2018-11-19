@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSTOOLS_HPP
 #define SIELOBROWSER_BOOKMARKSTOOLS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QMenu>
@@ -37,7 +39,7 @@ class TabWidget;
 
 class BookmarkItem;
 
-class BookmarksUtils {
+class SIELO_SHAREDLIB BookmarksUtils {
 public:
 	// Add Bookmark Dialogs
 	static bool addBookmarkDialog(QWidget* parent, const QUrl& url, const QString& title, BookmarkItem* folder = 0);

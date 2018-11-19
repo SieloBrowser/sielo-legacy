@@ -26,13 +26,15 @@
 #ifndef SIELO_BROWSER_EXTERNALJSOBJECT_HPP
 #define SIELO_BROWSER_EXTERNALJSOBJECT_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 namespace Sn {
 class WebPage;
 class AutoFillJsObject;
 
-class ExternalJsObject: public QObject {
+class SIELO_SHAREDLIB ExternalJsObject: public QObject {
 Q_OBJECT
 	Q_PROPERTY(QObject* autoFill
 				   READ

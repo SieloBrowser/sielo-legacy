@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
 #define SIELOBROWSER_ADDRESSBARCOMPLETERMODEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QStandardItemModel>
 
 #include <QUrl>
@@ -36,7 +38,7 @@
 
 namespace Sn
 {
-class AddressBarCompleterModel: public QStandardItemModel {
+class SIELO_SHAREDLIB AddressBarCompleterModel: public QStandardItemModel {
 public:
 	enum Role {
 		IdRole = Qt::UserRole + 1,

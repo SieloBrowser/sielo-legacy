@@ -28,6 +28,8 @@
 
 #define EXP_TRANSPARENT_BG
 
+#include "SharedDefines.hpp"
+
 #include <QLabel>
 #include <QMenu>
 
@@ -44,7 +46,7 @@ class LoadRequest;
 
 class WebTab;
 
-class TabbedWebView: public WebView {
+class SIELO_SHAREDLIB TabbedWebView: public WebView {
 Q_OBJECT
 
 public:

@@ -26,11 +26,13 @@
 #ifndef SIELOBROWSER_SETTINGS_HPP
 #define SIELOBROWSER_SETTINGS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QSettings>
 
 namespace Sn
 {
-class Settings {
+class SIELO_SHAREDLIB Settings {
 public:
 	Settings();
 	~Settings();

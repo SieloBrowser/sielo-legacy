@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_NETWORKMANAGER_HPP
 #define SIELOBROWSER_NETWORKMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QNetworkAccessManager>
 
 #include <QAuthenticator>
@@ -36,7 +38,7 @@ namespace Sn {
 class BaseUrlInterceptor;
 class NetworkUrlInterceptor;
 
-class NetworkManager: public QNetworkAccessManager {
+class SIELO_SHAREDLIB NetworkManager: public QNetworkAccessManager {
 Q_OBJECT
 
 public:

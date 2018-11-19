@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBSEARCHTREE_HPP
 #define SIELOBROWSER_ADBSEARCHTREE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QChar>
 #include <QHash>
 
@@ -35,7 +37,7 @@ namespace Sn {
 namespace ADB {
 class Rule;
 
-class SearchTree {
+class SIELO_SHAREDLIB SearchTree {
 public:
 	SearchTree();
 	~SearchTree();

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SIDEBARMANAGER_HPP
 #define SIELOBROWSER_SIDEBARMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 #include <QMenu>
 
@@ -41,7 +43,7 @@ class TabStackedWidget;
 class SideBar;
 class SideBarInterface;
 
-class Q_DECL_EXPORT SideBarManager: public QObject {
+class SIELO_SHAREDLIB SideBarManager: public QObject {
 	Q_OBJECT
 
 public:

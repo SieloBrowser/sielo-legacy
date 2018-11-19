@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBMANAGER_HPP
 #define SIELOBROWSER_ADBMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 #include <QPointer>
 
@@ -48,7 +50,7 @@ class Subscription;
 
 class UrlInterceptor;
 
-class Manager : public QObject {
+class SIELO_SHAREDLIB Manager : public QObject {
 Q_OBJECT
 
 public:

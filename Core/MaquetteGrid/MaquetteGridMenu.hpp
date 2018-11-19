@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_MOCKUPSMENU_HPP
 #define SIELOBROWSER_MOCKUPSMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 
 namespace Sn
@@ -34,7 +36,7 @@ namespace Sn
 
 class MaquetteGridItem;
 
-class MaquetteGridMenu: public QMenu {
+class SIELO_SHAREDLIB MaquetteGridMenu: public QMenu {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TOOLBUTTON_HPP
 #define SIELOBROWSER_TOOLBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QToolButton>
 #include <QTimer>
 
@@ -38,7 +40,7 @@
 #include <QMenu>
 
 namespace Sn {
-class ToolButton: public QToolButton {
+class SIELO_SHAREDLIB ToolButton: public QToolButton {
 Q_OBJECT
 
 	Q_PROPERTY(QSize fixedsize

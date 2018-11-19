@@ -26,6 +26,8 @@
 #ifndef CORE_HORIZONTALLISTWIDGET_HPP
 #define CORE_HORIZONTALLISTWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QListWidget>
 
 #include <QMouseEvent>
@@ -33,7 +35,7 @@
 
 namespace Sn {
 
-class HorizontalListWidget: public QListWidget {
+class SIELO_SHAREDLIB HorizontalListWidget: public QListWidget {
 public:
 	explicit HorizontalListWidget(QWidget* parent = nullptr);
 

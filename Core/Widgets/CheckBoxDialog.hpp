@@ -26,6 +26,8 @@
 #ifndef CORE_CHECKBOXDIALOG_HPP
 #define CORE_CHECKBOXDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMessageBox>
 
 #include <QWidget>
@@ -33,7 +35,7 @@
 
 namespace Sn {
 
-class CheckBoxDialog: public QMessageBox {
+class SIELO_SHAREDLIB CheckBoxDialog: public QMessageBox {
 Q_OBJECT
 public:
 	CheckBoxDialog(const QMessageBox::StandardButtons& buttons, QWidget* parent = nullptr);

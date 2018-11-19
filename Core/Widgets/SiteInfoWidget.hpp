@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SITEINFOWIDGET_HPP
 #define SIELOBROWSER_SITEINFOWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QGridLayout>
@@ -39,7 +41,7 @@
 namespace Sn {
 class TabWidget;
 
-class SiteInfoWidget : public AddressBarPopup {
+class SIELO_SHAREDLIB SiteInfoWidget : public AddressBarPopup {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_CLOSETABSMANAGER_HPP
 #define SIELOBROWSER_CLOSETABSMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QUrl>
 #include <QIcon>
 #include <QLinkedList>
@@ -33,7 +35,7 @@
 namespace Sn {
 class WebTab;
 
-class ClosedTabsManager {
+class SIELO_SHAREDLIB ClosedTabsManager {
 public:
 	struct Tab {
 		QUrl url{};

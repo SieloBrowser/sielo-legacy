@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_RECOVERYJSOBJECT_HPP
 #define SIELOBROWSER_RECOVERYJSOBJECT_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QJsonArray>
@@ -35,7 +37,7 @@ class WebPage;
 class BrowserWindow;
 class RestoreManager;
 
-class RecoveryJsObject: public QObject {
+class SIELO_SHAREDLIB RecoveryJsObject: public QObject {
 Q_OBJECT
 	Q_PROPERTY(QJsonArray restoreData
 				   READ

@@ -26,12 +26,14 @@
 #ifndef CORE_LOADREQUEST_HPP
 #define CORE_LOADREQUEST_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QUrl>
 #include <QByteArray>
 
 namespace Sn {
 
-class LoadRequest {
+class SIELO_SHAREDLIB LoadRequest {
 public:
 	enum Operation {
 		GetOp = 0,

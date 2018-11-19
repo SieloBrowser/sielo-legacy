@@ -26,10 +26,12 @@
 #ifndef SIELO_BROWSER_WEBINSPECTOR_HPP
 #define SIELO_BROWSER_WEBINSPECTOR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWebEngineView>
 
 namespace Sn {
-class WebInspector: public QWebEngineView {
+class SIELO_SHAREDLIB WebInspector: public QWebEngineView {
 Q_OBJECT
 
 public:

@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_ADDRESSBARCOMPLETERVIEW_HPP
 #define SIELOBROWSER_ADDRESSBARCOMPLETERVIEW_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QListView>
 
 namespace Sn
 {
 class AddressBarCompleterDelegate;
 
-class AddressBarCompleterView: public QListView {
+class SIELO_SHAREDLIB AddressBarCompleterView: public QListView {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_DOWNLOADPAGE_HPP
 #define SIELOBROWSER_DOWNLOADPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -38,7 +40,7 @@
 
 namespace Sn {
 
-class DownloadPage: public QWidget {
+class SIELO_SHAREDLIB DownloadPage: public QWidget {
 Q_OBJECT
 
 public:

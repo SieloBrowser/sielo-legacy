@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HTMLEXPORTER_HPP
 #define SIELOBROWSER_HTMLEXPORTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include "BookmarksExporter.hpp"
 
 #include <QTextStream>
@@ -34,7 +36,7 @@ namespace Sn
 {
 class BookmarkItem;
 
-class HtmlExporter: public BookmarksExporter {
+class SIELO_SHAREDLIB HtmlExporter: public BookmarksExporter {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_OLDSIELOIMPORTER_HPP
 #define SIELOBROWSER_OLDSIELOIMPORTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include "BookmarksImporter.hpp"
 
 #include <QFile>
@@ -33,7 +35,7 @@
 
 namespace Sn
 {
-class OldSieloImporter: public BookmarksImporter {
+class SIELO_SHAREDLIB OldSieloImporter: public BookmarksImporter {
 	Q_OBJECT
 
 public:

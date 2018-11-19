@@ -26,12 +26,14 @@
 #ifndef SIELOBROWSER_BASEURLINTERCEPTOR_HPP
 #define SIELOBROWSER_BASEURLINTERCEPTOR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 #include <QWebEngineUrlRequestInfo>
 
 namespace Sn {
 
-class BaseUrlInterceptor: public QObject {
+class SIELO_SHAREDLIB BaseUrlInterceptor: public QObject {
 public:
 	BaseUrlInterceptor(QObject* parent = nullptr) :
 		QObject(parent) {}

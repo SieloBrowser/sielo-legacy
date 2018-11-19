@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_COMMANDLINEOPTION_HPP
 #define SIELOBROWSER_COMMANDLINEOPTION_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QString>
 
 #include <QVector>
@@ -33,7 +35,7 @@
 #include "Application.hpp"
 
 namespace Sn {
-class CommandLineOption {
+class SIELO_SHAREDLIB CommandLineOption {
 public:
 	struct ActionPair {
 		Application::CommandLineAction action;

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HistoryModel_HPP
 #define SIELOBROWSER_HistoryModel_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QAbstractItemModel>
 #include <QModelIndex>
 
@@ -37,7 +39,7 @@ namespace Sn
 {
 class HistoryItem;
 
-class HistoryModel: public QAbstractItemModel {
+class SIELO_SHAREDLIB HistoryModel: public QAbstractItemModel {
 Q_OBJECT
 
 public:

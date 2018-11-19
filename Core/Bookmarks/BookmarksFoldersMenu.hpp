@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_BOOKMARKSFOLDERSMENU_HPP
 #define SIELOBROWSER_BOOKMARKSFOLDERSMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 
 namespace Sn
 {
 class BookmarkItem;
 
-class BookmarksFoldersMenu: public QMenu {
+class SIELO_SHAREDLIB BookmarksFoldersMenu: public QMenu {
 Q_OBJECT
 
 public:

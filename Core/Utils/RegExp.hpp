@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_REGEXP_HPP
 #define SIELOBROWSER_REGEXP_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QStringList>
 
 #include <QRegularExpression>
 
 namespace Sn {
 
-class RegExp: public QRegularExpression {
+class SIELO_SHAREDLIB RegExp: public QRegularExpression {
 public:
 	RegExp();
 	RegExp(const QString& pattern, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);

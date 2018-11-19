@@ -26,13 +26,15 @@
 #ifndef CORE_DELAYEDFILEWATCHER_HPP
 #define CORE_DELAYEDFILEWATCHER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QFileSystemWatcher>
 #include <QPointer>
 #include <QQueue>
 
 namespace Sn {
 
-class DelayedFileWatcher: public QFileSystemWatcher {
+class SIELO_SHAREDLIB DelayedFileWatcher: public QFileSystemWatcher {
 Q_OBJECT
 
 public:

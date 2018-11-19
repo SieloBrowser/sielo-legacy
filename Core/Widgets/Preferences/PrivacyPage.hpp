@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_PRIVACYPAGE_HPP
 #define SIELO_BROWSER_PRIVACYPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QGridLayout>
@@ -36,7 +38,7 @@
 #include <QSpacerItem>
 
 namespace Sn {
-class PrivacyPage: public QWidget {
+class SIELO_SHAREDLIB PrivacyPage: public QWidget {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_MAINTABBAR_HPP
 #define SIELOBROWSER_MAINTABBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QRect>
 #include <QColor>
 #include <QPoint>
@@ -49,7 +51,7 @@ class TabWidget;
 
 class WebTab;
 
-class TabBarTabMetrics: public QWidget {
+class SIELO_SHAREDLIB TabBarTabMetrics: public QWidget {
 	Q_OBJECT
 		Q_PROPERTY(int normalMaxWidth READ normalMaxWidth WRITE setNormalMaxWidth)
 		Q_PROPERTY(int normalMinWidth READ normalMinWidth WRITE setNormalMinWidth)
@@ -90,7 +92,7 @@ private:
 };
 
 
-class MainTabBar: public ComboTabBar {
+class SIELO_SHAREDLIB MainTabBar: public ComboTabBar {
 	Q_OBJECT
 
 public:

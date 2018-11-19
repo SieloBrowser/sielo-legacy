@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_DOWNLOADMODEL_HPP
 #define SIELOBROWSER_DOWNLOADMODEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QAbstractListModel>
 #include <QModelIndex>
 
@@ -34,7 +36,7 @@
 namespace Sn {
 class DownloadManager;
 
-class DownloadModel: public QAbstractListModel {
+class SIELO_SHAREDLIB DownloadModel: public QAbstractListModel {
 	friend class DownloadManager;
 Q_OBJECT
 

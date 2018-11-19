@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_AUTOFILLMANAGER_HPP
 #define SIELO_BROWSER_AUTOFILLMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -43,7 +45,7 @@
 
 namespace Sn {
 
-class AutoFillManager: public QWidget {
+class SIELO_SHAREDLIB AutoFillManager: public QWidget {
 Q_OBJECT
 
 public:

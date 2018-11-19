@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSMANAGER_HPP
 #define SIELOBROWSER_BOOKMARKSMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QGridLayout>
@@ -48,7 +50,7 @@ class Bookmarks;
 class BookmarkItem;
 class BookmarksTreeView;
 
-class BookmarksManager: public QDialog {
+class SIELO_SHAREDLIB BookmarksManager: public QDialog {
 Q_OBJECT
 
 public:

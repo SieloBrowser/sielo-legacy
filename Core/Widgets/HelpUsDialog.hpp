@@ -25,6 +25,10 @@
 #ifndef SIELO_BROWSER_HELPUSDIALOG_HPP
 #define SIELO_BROWSER_HELPUSDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QVBoxLayout>
@@ -33,7 +37,7 @@
 #include <QDialogButtonBox>
 
 namespace Sn {
-class HelpUsDialog : public QDialog {
+class SIELO_SHAREDLIB HelpUsDialog : public QDialog {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBSUBSCRIPTION_HPP
 #define SIELOBROWSER_ADBSUBSCRIPTION_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QVector>
 
 #include <QUrl>
@@ -35,7 +37,7 @@ namespace Sn {
 namespace ADB {
 class Rule;
 
-class Subscription : public QObject {
+class SIELO_SHAREDLIB Subscription : public QObject {
 Q_OBJECT
 
 public:

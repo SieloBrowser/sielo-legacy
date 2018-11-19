@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_PASSWORDMANAGER_HPP
 #define SIELO_BROWSER_PASSWORDMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 #include <QVariant>
 #include <QString>
@@ -78,7 +80,7 @@ struct PasswordEntry {
 
 };
 
-class PasswordManager : public QObject {
+class SIELO_SHAREDLIB PasswordManager : public QObject {
 Q_OBJECT
 
 public:

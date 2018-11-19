@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_DOWNLOADWIDGET_HPP
 #define SIELOBROWSER_DOWNLOADWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QFileInfo>
 
 #include <QHBoxLayout>
@@ -46,7 +48,7 @@ class DownloadManager;
 
 class EllipseLabel;
 
-class DownloadWidget: public QWidget {
+class SIELO_SHAREDLIB DownloadWidget: public QWidget {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKS_HPP
 #define SIELOBROWSER_BOOKMARKS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QVariant>
@@ -37,7 +39,7 @@ class AutoSaver;
 class BookmarkItem;
 class BookmarksModel;
 
-class Bookmarks: public QObject {
+class SIELO_SHAREDLIB Bookmarks: public QObject {
 Q_OBJECT
 
 public:

@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_BOOKMARKSFILTERMODEL_HPP
 #define SIELOBROWSER_BOOKMARKSFILTERMODEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QSortFilterProxyModel>
 
 #include <QTimer>
 
 namespace Sn
 {
-class BookmarksFilterModel: public QSortFilterProxyModel {
+class SIELO_SHAREDLIB BookmarksFilterModel: public QSortFilterProxyModel {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef CORE_PLUGINPROXY_HPP
 #define CORE_PLUGINPROXY_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QList>
 
 #include <QWebEnginePage>
@@ -42,7 +44,7 @@ class WebHitTestResult;
 
 class BrowserWindow;
 
-class PluginProxy: public Plugins {
+class SIELO_SHAREDLIB PluginProxy: public Plugins {
 	Q_OBJECT
 
 public:

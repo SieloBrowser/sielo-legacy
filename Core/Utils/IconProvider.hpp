@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ICONPROVIDER_HPP
 #define SIELOBROWSER_ICONPROVIDER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QIcon>
 #include <QImage>
 
@@ -40,7 +42,7 @@ class AutoSaver;
 
 class WebView;
 
-class IconProvider: public QObject {
+class SIELO_SHAREDLIB IconProvider: public QObject {
 	Q_OBJECT
 
 public:

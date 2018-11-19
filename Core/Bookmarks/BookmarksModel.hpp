@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSMODEL_HPP
 #define SIELOBROWSER_BOOKMARKSMODEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QAbstractItemModel>
 
 #include <QModelIndex>
@@ -35,7 +37,7 @@ namespace Sn
 class Bookmarks;
 class BookmarkItem;
 
-class BookmarksModel: public QAbstractItemModel {
+class SIELO_SHAREDLIB BookmarksModel: public QAbstractItemModel {
 Q_OBJECT
 
 public:

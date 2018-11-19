@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_BOOKMARKSITEMDELEGATE_HPP
 #define SIELOBROWSER_BOOKMARKSITEMDELEGATE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QStyledItemDelegate>
 
 #include <QTreeView>
 
 namespace Sn
 {
-class BookmarksItemDelegate: public QStyledItemDelegate {
+class SIELO_SHAREDLIB BookmarksItemDelegate: public QStyledItemDelegate {
 Q_OBJECT
 
 public:

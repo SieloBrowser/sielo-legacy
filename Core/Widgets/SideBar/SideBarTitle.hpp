@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SIDEBARTITLE_HPP
 #define SIELOBROWSER_SIDEBARTITLE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -34,7 +36,7 @@
 
 namespace Sn
 {
-class SideBarTitle: public QWidget {
+class SIELO_SHAREDLIB SideBarTitle: public QWidget {
 public:
 	SideBarTitle(const QString& title, QWidget* parent = nullptr);
 	~SideBarTitle() = default;

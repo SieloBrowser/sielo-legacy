@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_AUTOFILLNOTIFICATION_HPP
 #define SIELO_BROWSER_AUTOFILLNOTIFICATION_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QHBoxLayout>
@@ -40,7 +42,7 @@
 
 namespace Sn {
 
-class AutoFillNotification: public QWidget {
+class SIELO_SHAREDLIB AutoFillNotification: public QWidget {
 Q_OBJECT
 
 public:

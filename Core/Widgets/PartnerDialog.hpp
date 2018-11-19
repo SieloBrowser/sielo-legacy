@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_PARTNERDIALOG_HPP
 #define SIELOBROWSER_PARTNERDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QDialog>
 
@@ -39,7 +41,7 @@
 #include <QStringList>
 
 namespace Sn {
-class PartnerDialog: public QDialog {
+class SIELO_SHAREDLIB PartnerDialog: public QDialog {
 	Q_OBJECT
 
 public:

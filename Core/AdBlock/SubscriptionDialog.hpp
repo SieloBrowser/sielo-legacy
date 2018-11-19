@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_ADBSUBSCRIPTIONDIALOG_HPP
 #define SIELO_BROWSER_ADBSUBSCRIPTIONDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QDialog>
 
@@ -40,7 +42,7 @@
 namespace Sn {
 namespace ADB {
 
-class SubscriptionDialog: public QDialog {
+class SIELO_SHAREDLIB SubscriptionDialog: public QDialog {
 Q_OBJECT
 
 public:

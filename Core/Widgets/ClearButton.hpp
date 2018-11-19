@@ -25,12 +25,14 @@
 #ifndef SIELOBROWSER_CLEARBUTTON_HPP
 #define SIELOBROWSER_CLEARBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QPushButton>
 
 namespace Sn {
-class ClearButton: public QPushButton {
+class SIELO_SHAREDLIB ClearButton: public QPushButton {
 	Q_OBJECT
 
 public:

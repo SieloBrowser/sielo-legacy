@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_MOCKUPITEM_HPP
 #define SIELOBROWSER_MOCKUPITEM_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QIcon>
 
 #include <QUrl>
@@ -35,7 +37,7 @@
 
 namespace Sn
 {
-class MaquetteGridItem {
+class SIELO_SHAREDLIB MaquetteGridItem {
 public:
 	struct TabsSpace;
 

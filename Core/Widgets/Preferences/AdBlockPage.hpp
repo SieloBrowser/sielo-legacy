@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBLOCKPAGE_HPP
 #define SIELOBROWSER_ADBLOCKPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QDialog>
 
@@ -49,7 +51,7 @@
 
 namespace Sn {
 
-class AdBlockPage: public QWidget {
+class SIELO_SHAREDLIB AdBlockPage: public QWidget {
 Q_OBJECT
 
 public:

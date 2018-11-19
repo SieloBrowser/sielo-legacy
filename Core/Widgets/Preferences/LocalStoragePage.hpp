@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_LOCALSTORAGEPAGE_HPP
 #define SIELO_BROWSER_LOCALSTORAGEPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QGridLayout>
@@ -41,7 +43,7 @@
 
 namespace Sn {
 
-class LocalStoragePage: public QWidget {
+class SIELO_SHAREDLIB LocalStoragePage: public QWidget {
 Q_OBJECT
 
 public:

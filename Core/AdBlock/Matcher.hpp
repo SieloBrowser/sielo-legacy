@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBMATCHER_HPP
 #define SIELOBROWSER_ADBMATCHER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QVector>
@@ -42,7 +44,7 @@ class Manager;
 
 class Rule;
 
-class Matcher : public QObject {
+class SIELO_SHAREDLIB Matcher : public QObject {
 Q_OBJECT
 
 public:

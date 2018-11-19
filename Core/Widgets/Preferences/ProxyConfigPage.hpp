@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_PROXYCONFIGPAGE_HPP
 #define SIELO_BROWSER_PROXYCONFIGPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QGridLayout>
@@ -39,7 +41,7 @@
 
 namespace Sn {
 
-class ProxyConfigPage: public QWidget {
+class SIELO_SHAREDLIB ProxyConfigPage: public QWidget {
 Q_OBJECT
 
 public:

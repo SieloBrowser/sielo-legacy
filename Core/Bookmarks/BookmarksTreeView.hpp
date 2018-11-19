@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSTREEVIEW_HPP
 #define SIELOBROWSER_BOOKMARKSTREEVIEW_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QTreeView>
 
 namespace Sn
@@ -35,7 +37,7 @@ class BookmarkItem;
 class BookmarksModel;
 class BookmarksFilterModel;
 
-class BookmarksTreeView: public QTreeView {
+class SIELO_SHAREDLIB BookmarksTreeView: public QTreeView {
 Q_OBJECT
 
 public:

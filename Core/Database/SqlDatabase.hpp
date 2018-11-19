@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_SQLDATABASE_HPP
 #define SIELO_BROWSER_SQLDATABASE_HPP
 
+#include "SharedDefines.hpp"
+
 //
 //#include <ndb/initializer.hpp>
 //#include <ndb/engine/sqlite/sqlite.hpp>
@@ -114,7 +116,7 @@
 
 namespace Sn {
 
-class SqlDatabase: public QObject {
+class SIELO_SHAREDLIB SqlDatabase: public QObject {
 	Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_DATABASEPASSWORDBACKEND_HPP
 #define SIELO_BROWSER_DATABASEPASSWORDBACKEND_HPP
 
+#include "SharedDefines.hpp"
+
 #include "Password/PasswordManager.hpp"
 #include "Password/PasswordBackend.hpp"
 
@@ -33,7 +35,7 @@
 
 namespace Sn {
 
-class DatabasePasswordBackend: public PasswordBackend {
+class SIELO_SHAREDLIB DatabasePasswordBackend: public PasswordBackend {
 public:
 	DatabasePasswordBackend();
 

@@ -25,6 +25,8 @@
 #ifndef SIELOBROWSER_SEARCHBUTTON_HPP
 #define SIELOBROWSER_SEARCHBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QPushButton>
 #include <QMenu>
@@ -32,7 +34,7 @@
 #include <QMouseEvent>
 
 namespace Sn {
-class SearchButton: public QPushButton {
+class SIELO_SHAREDLIB SearchButton: public QPushButton {
 	Q_OBJECT
 
 public:

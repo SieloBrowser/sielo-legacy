@@ -26,6 +26,8 @@
 #ifndef CORE_PLUGININTERFACE_HPP
 #define CORE_PLUGININTERFACE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QtPlugin>
 #include <QPixmap>
 #include <QObject>
@@ -40,7 +42,7 @@ class WebView;
 class WebPage;
 class WebHitTestResult;
 
-struct PluginProp {
+struct SIELO_SHAREDLIB PluginProp {
 	QString name{};
 	QString info{};
 	QString desc{};
@@ -61,7 +63,7 @@ struct PluginProp {
 	}
 };
 
-class PluginInterface {
+class SIELO_SHAREDLIB PluginInterface {
 public:
 	enum InitState { StartupInitState, LateInitState };
 

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_WEBTAB_HPP
 #define SIELOBROWSER_WEBTAB_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QVBoxLayout>
 #include <QGridLayout>
 
@@ -58,7 +60,7 @@ class MainTabBar;
 class FloatingButton;
 class AddressBar;
 
-class WebTab: public QWidget {
+class SIELO_SHAREDLIB WebTab: public QWidget {
 	Q_OBJECT
 
 public:

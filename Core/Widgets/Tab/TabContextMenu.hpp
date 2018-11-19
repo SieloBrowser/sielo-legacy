@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABCONTEXTMENU_HPP
 #define SIELOBROWSER_TABCONTEXTMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 
 namespace Sn
@@ -33,7 +35,7 @@ namespace Sn
 
 class TabWidget;
 
-class TabContextMenu: public QMenu {
+class SIELO_SHAREDLIB TabContextMenu: public QMenu {
 	Q_OBJECT
 
 public:

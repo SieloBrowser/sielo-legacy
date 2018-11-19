@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_WEBCONFIGPAGE_HPP
 #define SIELO_BROWSER_WEBCONFIGPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -41,7 +43,7 @@
 
 namespace Sn {
 
-class WebConfigPage: public QWidget {
+class SIELO_SHAREDLIB WebConfigPage: public QWidget {
 Q_OBJECT
 
 public:

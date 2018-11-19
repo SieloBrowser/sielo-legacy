@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_CURRENTTABSSPACEPAGE_HPP
 #define SIELO_BROWSER_CURRENTTABSSPACEPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -38,7 +40,7 @@
 namespace Sn {
 class TabWidget;
 
-class CurrentTabsSpacePage: public QWidget {
+class SIELO_SHAREDLIB CurrentTabsSpacePage: public QWidget {
 Q_OBJECT
 
 public:

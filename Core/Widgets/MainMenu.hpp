@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_MAINMENU_HPP
 #define SIELO_BROWSER_MAINMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
@@ -42,7 +44,7 @@ class BookmarksMenu;
 class MaquetteGridMenu;
 class HistoryMenu;
 
-class MainMenu: public QMenu {
+class SIELO_SHAREDLIB MainMenu: public QMenu {
 Q_OBJECT
 
 public:

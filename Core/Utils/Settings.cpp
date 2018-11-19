@@ -29,7 +29,7 @@ QSettings* Settings::s_settings = nullptr;
 
 Settings::Settings()
 {
-	if (!s_settings->group().isEmpty()) {
+	if (s_settings && !s_settings->group().isEmpty()) {
 		m_openedGroup = s_settings->group();
 		s_settings->endGroup();
 	}

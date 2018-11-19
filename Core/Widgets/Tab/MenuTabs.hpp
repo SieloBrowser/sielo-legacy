@@ -26,12 +26,14 @@
 #ifndef SIELOBROWSER_MENUTABS_HPP
 #define SIELOBROWSER_MENUTABS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 
 #include <QMouseEvent>
 
 namespace Sn {
-class MenuTabs: public QMenu {
+class SIELO_SHAREDLIB MenuTabs: public QMenu {
 Q_OBJECT
 
 public:

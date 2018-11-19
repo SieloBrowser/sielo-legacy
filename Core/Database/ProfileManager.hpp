@@ -26,11 +26,13 @@
 #ifndef SIELOBROWSER_PROFILEMANAGER_HPP
 #define SIELOBROWSER_PROFILEMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QString>
 
 namespace Sn
 {
-class ProfileManager {
+class SIELO_SHAREDLIB ProfileManager {
 public:
 	ProfileManager();
 	~ProfileManager() = default;

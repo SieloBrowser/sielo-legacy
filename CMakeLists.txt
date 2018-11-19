@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 3.6)
 project(sielo-browser)
 
-add_subdirectory(Core)
-add_subdirectory(SNCompiler)
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/Core)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     set (OPENSSL_DIR "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
@@ -21,27 +19,29 @@ include("${CMAKE_SOURCE_DIR}\\user-config.cmake")
 set (ENV{OPENSSL_ROOT_DIR} ${OPENSSL_DIR})
 set (ENV{OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_DIR})
 
+find_package(OpenSSL 1.1.0 REQUIRED)
+find_package(Qt5 5.11.2 REQUIRED COMPONENTS Core Widgets WebEngine WebEngineWidgets Sql Network)
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(ICON_NAME "icon.icns")
     set(ICON_PATH "${CMAKE_SOURCE_DIR}/${ICON_NAME}")
 endif()
 
+include_directories(${CMAKE_SOURCE_DIR}/Core)
+include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
+
+add_subdirectory(Core)
+add_subdirectory(Plugins)
+
 set(SOURCE_FILES Main.cpp)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 
 file(
         GLOB_RECURSE
         QRC_FILES
-		*.qrc
+        *.qrc
 )
-
-find_package(OpenSSL 1.1.0 REQUIRED)
-find_package(Qt5Widgets 5.11.2 REQUIRED)
-find_package(Qt5WebEngine 5.11.2 REQUIRED)
-find_package(Qt5Sql 5.11.2 REQUIRED)
-find_package(Qt5WebEngineWidgets 5.11.2 REQUIRED)
 
 if (WIN32)
     add_executable(sielo-browser WIN32 ${SOURCE_FILES} ${QRC_FILES} ic_sielo.rc)
@@ -73,8 +73,5 @@ if(WIN32)
     endif()
 endif()
 
-set(SIELO_LIBS Core ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
-if(WIN32)
-	set(SIELO_LIBS ${SIELO_LIBS} dwmapi uxtheme)
-endif()
-target_link_libraries(sielo-browser LINK_PUBLIC ${SIELO_LIBS})
+target_link_libraries(sielo-browser Core)
+

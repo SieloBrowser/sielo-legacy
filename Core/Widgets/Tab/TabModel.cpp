@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,54 +22,63 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELOBROWSER_EXLINEEDIT_HPP
-#define SIELOBROWSER_EXLINEEDIT_HPP
+#include "TabModel.hpp"
 
-#include "SharedDefines.hpp"
+#include "Web/Tab/WebTab.hpp"
 
-#include <QWidget>
-#include <QLineEdit>
-
-#include <QFocusEvent>
-#include <QKeyEvent>
-#include <QResizeEvent>
-#include <QInputMethodEvent>
+#include "Widgets/Tab/TabWidget.hpp"
 
 namespace Sn {
-class ClearButton;
-
-class SIELO_SHAREDLIB ExLineEdit : public QWidget
-{
-    Q_OBJECT
-
-public:
-    ExLineEdit(QWidget *parent = 0);
-
-    inline QLineEdit *lineEdit() const { return m_lineEdit; }
-
-    void setLeftWidget(QWidget *widget);
-    QWidget *leftWidget() const;
-
-    QSize sizeHint() const;
-
-    QVariant inputMethodQuery(Qt::InputMethodQuery property) const;
-protected:
-    void focusInEvent(QFocusEvent *event);
-    void focusOutEvent(QFocusEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void inputMethodEvent(QInputMethodEvent *e);
-    bool event(QEvent *event);
-
-protected:
-    void updateGeometries();
-    void initStyleOption(QStyleOptionFrame *option) const;
-
-    QWidget *m_leftWidget;
-    QLineEdit *m_lineEdit;
-    ClearButton *m_clearButton;
-};
+//TabModelMimeData::TabModelMimeData(): 
+//	QMimeData()
+//{
+//	// Empty
+//}
+//
+//void TabModelMimeData::setTab(WebTab* tab)
+//{
+//	m_tab = tab;
+//}
+//
+//bool TabModelMimeData::hasFormat(const QString& format) const
+//{
+//	return mimeType() == format;
+//}
+//QStringList TabModelMimeData::formats() const
+//{
+//	return {mimeType()};
+//}
+//QString TabModelMimeData::mimeType()
+//{
+//	return "applications/sielo.tabmodel.tab";
+//}
+//
+//TabModel::TabModel(TabWidget* tabWidget, QObject* parent) :
+//	QAbstractListModel(parent),
+//	m_tabWidget(tabWidget)
+//{
+//	for (int i{0}; i < m_tabWidget->count(); ++i)
+//		tabInserted(i);
+///*
+//	connect(m_tabWidget, &TabWidget::tabIns)*/
+//}
+//
+//QModelIndex TabModel::tabIndex(WebTab* tab) const {}
+//WebTab* TabModel::tab(const QModelIndex& index) const {}
+//int TabModel::rowCount(const QModelIndex& parent) const {}
+//Qt::ItemFlags TabModel::flags(const QModelIndex& index) const {}
+//QVariant TabModel::data(const QModelIndex& index, int role) const {}
+//Qt::DropActions TabModel::supportedDropActions() const {}
+//QStringList TabModel::mimeTypes() const {}
+//QMimeData* TabModel::mimeData(const QModelIndexList& indexes) const {}
+//
+//bool TabModel::canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+//	const QModelIndex& parent) const {}
+//
+//bool TabModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
+//	const QModelIndex& parent) {}
+//
+//void TabModel::tabInserted(int index) {}
+//void TabModel::tabRemoved(int index) {}
+//void TabModel::tabMoved(int from, int to) {}
 }
-
-
-#endif //SIELOBROWSER_EXLINEEDIT_HPP

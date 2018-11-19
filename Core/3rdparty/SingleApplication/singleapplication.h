@@ -23,6 +23,8 @@
 #ifndef SINGLE_APPLICATION_H
 #define SINGLE_APPLICATION_H
 
+#include "SharedDefines.hpp"
+
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QLocalSocket>
 
@@ -39,7 +41,7 @@ class SingleApplicationPrivate;
  * Application
  * @see QCoreApplication
  */
-class SingleApplication : public QAPPLICATION_CLASS {
+class SIELO_SHAREDLIB SingleApplication : public QAPPLICATION_CLASS {
 Q_OBJECT
 
 	typedef QAPPLICATION_CLASS app_t;

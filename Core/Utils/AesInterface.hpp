@@ -25,6 +25,9 @@
 #pragma once
 #ifndef SIELO_BROWSER_AESINTERFACE_HPP
 #define SIELO_BROWSER_AESINTERFACE_HPP
+
+#include "SharedDefines.hpp"
+
 #include <openssl/evp.h>
 
 #include <QObject>
@@ -36,7 +39,7 @@
 
 namespace Sn {
 
-class AesInterface: public QObject {
+class SIELO_SHAREDLIB AesInterface: public QObject {
 Q_OBJECT
 
 public:

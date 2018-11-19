@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SIDEBARINTERFACE_HPP
 #define SIELOBROWSER_SIDEBARINTERFACE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QAction>
@@ -34,7 +36,7 @@ namespace Sn
 {
 class TabWidget;
 
-class SideBarInterface: public QObject {
+class SIELO_SHAREDLIB SideBarInterface: public QObject {
 public:
 	SideBarInterface(QObject* parent = nullptr) : QObject(parent) {}
 

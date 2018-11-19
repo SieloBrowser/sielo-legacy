@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HTML5PERMISSIONSMANAGER_HPP
 #define SIELOBROWSER_HTML5PERMISSIONSMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QHash>
@@ -38,7 +40,7 @@
 namespace Sn {
 class WebPage;
 
-class HTML5PermissionsManager: public QObject {
+class SIELO_SHAREDLIB HTML5PermissionsManager: public QObject {
 public:
 	HTML5PermissionsManager(QObject* parent);
 

@@ -25,6 +25,8 @@
 #ifndef SIELOBROWSER_TITLEBAR_HPP
 #define SIELOBROWSER_TITLEBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QLabel>
 #include <QToolBar>
@@ -39,7 +41,7 @@ class BookmarksToolbar;
 
 class BrowserWindow;
 
-class TitleBar : public QWidget {
+class SIELO_SHAREDLIB TitleBar : public QWidget {
 Q_OBJECT
 
 public:

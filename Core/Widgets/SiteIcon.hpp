@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SITEICON_HPP
 #define SIELOBROWSER_SITEICON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QContextMenuEvent>
 #include <QMouseEvent>
 
@@ -43,7 +45,7 @@ class WebView;
 
 class AddressBar;
 
-class SiteIcon : public ToolButton {
+class SIELO_SHAREDLIB SiteIcon : public ToolButton {
 Q_OBJECT
 
 public:

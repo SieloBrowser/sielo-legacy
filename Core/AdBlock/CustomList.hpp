@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBCUSTOMLIST_HPP
 #define SIELOBROWSER_ADBCUSTOMLIST_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QStringList>
@@ -36,7 +38,7 @@ namespace Sn {
 namespace ADB {
 class Rule;
 
-class CustomList : public Subscription {
+class SIELO_SHAREDLIB CustomList : public Subscription {
 Q_OBJECT
 
 public:

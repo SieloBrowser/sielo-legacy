@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_AUTOFILLICON_HPP
 #define SIELO_BROWSER_AUTOFILLICON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QLabel>
@@ -40,7 +42,7 @@
 namespace Sn {
 class WebView;
 
-class AutoFillIcon: public QLabel {
+class SIELO_SHAREDLIB AutoFillIcon: public QLabel {
 Q_OBJECT
 
 public:

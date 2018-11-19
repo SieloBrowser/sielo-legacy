@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSTOOLBARBUTTON_HPP
 #define SIELOBROWSER_BOOKMARKSTOOLBARBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QPushButton>
 
 #include <QMenu>
@@ -36,7 +38,7 @@ class BookmarkItem;
 
 class BrowserWindow;
 
-class BookmarksToolbarButton: public QPushButton {
+class SIELO_SHAREDLIB BookmarksToolbarButton: public QPushButton {
 Q_OBJECT
 
 public:

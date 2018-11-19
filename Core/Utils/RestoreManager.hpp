@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_RESTOREMANAGER_HPP
 #define SIELOBROWSER_RESTOREMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QByteArray>
 
 #include <QVector>
@@ -39,7 +41,7 @@ namespace Sn
 class WebPage;
 class RecoveryJsObject;
 
-struct RestoreData {
+struct SIELO_SHAREDLIB RestoreData {
 	QVector<BrowserWindow::SavedWindow> windows;
 	QByteArray crashedSession{};
 
@@ -50,7 +52,7 @@ struct RestoreData {
 	friend QDataStream &operator>>(QDataStream &stream, RestoreData &data);
 };
 
-class RestoreManager {
+class SIELO_SHAREDLIB RestoreManager {
 public:
 	enum SessionToRestor {
 		ClosedSession,

@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_MASTERPASSWORD_HPP
 #define SIELO_BROWSER_MASTERPASSWORD_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 #include <QWidget>
 
@@ -43,7 +45,7 @@
 namespace Sn {
 class DatabaseEncryptedPasswordBackend;
 
-class MasterPasswordDialog: public QDialog {
+class SIELO_SHAREDLIB MasterPasswordDialog: public QDialog {
 Q_OBJECT
 
 public:
@@ -92,7 +94,7 @@ private:
 	DatabaseEncryptedPasswordBackend* m_backend{nullptr};
 };
 
-class AskMasterPasswordDialog: public QDialog {
+class SIELO_SHAREDLIB AskMasterPasswordDialog: public QDialog {
 Q_OBJECT
 
 public:

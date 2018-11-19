@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_PLUGINSMANAGER_HPP
 #define SIELOBROWSER_PLUGINSMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -38,7 +40,7 @@
 
 namespace Sn
 {
-class PluginsManager: public QWidget {
+class SIELO_SHAREDLIB PluginsManager: public QWidget {
 	Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABICON_HPP
 #define SIELOBROWSER_TABICON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QImage>
 #include <QIcon>
@@ -38,7 +40,7 @@
 namespace Sn {
 class WebTab;
 
-class TabIcon: public QWidget {
+class SIELO_SHAREDLIB TabIcon: public QWidget {
 Q_OBJECT
 
 public:

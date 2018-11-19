@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_GENERALPAGE_HPP
 #define SIELOBROWSER_GENERALPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -40,7 +42,7 @@
 
 namespace Sn {
 
-class GeneralPage: public QWidget {
+class SIELO_SHAREDLIB GeneralPage: public QWidget {
 Q_OBJECT
 
 public:

@@ -26,11 +26,13 @@
 #ifndef SIELOBROWSER_LOCATIONBARPOPUP_HPP
 #define SIELOBROWSER_LOCATIONBARPOPUP_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QFrame>
 
 namespace Sn {
-class AddressBarPopup: public QFrame {
+class SIELO_SHAREDLIB AddressBarPopup: public QFrame {
 public:
 	AddressBarPopup(QWidget* parent);
 	~AddressBarPopup();

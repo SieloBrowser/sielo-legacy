@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_COOKIEMANAGER_HPP
 #define SIELO_BROWSER_COOKIEMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QDialog>
 
@@ -52,7 +54,7 @@
 namespace Sn {
 class EllipseLabel;
 
-class CookieManager: public QDialog {
+class SIELO_SHAREDLIB CookieManager: public QDialog {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_NAVIGATIONBAR_HPP
 #define SIELO_BROWSER_NAVIGATIONBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QHBoxLayout>
@@ -37,7 +39,7 @@ class ToolButton;
 
 class TabWidget;
 
-class NavigationToolBar: public QWidget {
+class SIELO_SHAREDLIB NavigationToolBar   : public QWidget {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HistoryTreeView_HPP
 #define SIELOBROWSER_HistoryTreeView_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QTreeView>
 
@@ -37,7 +39,7 @@ class History;
 class HistoryFilterModel;
 
 
-class HistoryTreeView: public QTreeView {
+class SIELO_SHAREDLIB HistoryTreeView: public QTreeView {
 Q_OBJECT
 
 public:

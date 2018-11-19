@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADDTABBUTTON_HPP
 #define SIELOBROWSER_ADDTABBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWheelEvent>
 #include <QMouseEvent>
 #include <QDragEnterEvent>
@@ -37,7 +39,7 @@ namespace Sn {
 class MainTabBar;
 class TabWidget;
 
-class AddTabButton: public ToolButton {
+class SIELO_SHAREDLIB AddTabButton: public ToolButton {
 public:
 	AddTabButton(TabWidget* tabWidget, MainTabBar* tabBar);
 

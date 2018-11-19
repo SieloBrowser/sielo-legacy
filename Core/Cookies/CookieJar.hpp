@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_COOKIEJAR_HPP
 #define SIELO_BROWSER_COOKIEJAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QVector>
 #include <QStringList>
 
@@ -33,7 +35,7 @@
 
 namespace Sn {
 
-class CookieJar: public QObject {
+class SIELO_SHAREDLIB CookieJar: public QObject {
 Q_OBJECT
 
 public:

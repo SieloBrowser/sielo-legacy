@@ -26,6 +26,8 @@
 #ifndef CORE_ELLIPSELABEL_HPP
 #define CORE_ELLIPSELABEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QLabel>
 
 #include <QContextMenuEvent>
@@ -34,7 +36,7 @@
 #include <QMouseEvent>
 
 namespace Sn {
-class Q_DECL_EXPORT EllipseLabel: public QLabel {
+class SIELO_SHAREDLIB EllipseLabel: public QLabel {
 Q_OBJECT
 public:
 	EllipseLabel(QWidget* parent);

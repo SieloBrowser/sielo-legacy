@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADDRESSBARCOMPLETER_HPP
 #define SIELOBROWSER_ADDRESSBARCOMPLETER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 namespace Sn
@@ -37,7 +39,7 @@ class AddressBarCompleterView;
 
 class TabWidget;
 
-class AddressBarCompleter: public QObject {
+class SIELO_SHAREDLIB AddressBarCompleter: public QObject {
 Q_OBJECT
 
 public:

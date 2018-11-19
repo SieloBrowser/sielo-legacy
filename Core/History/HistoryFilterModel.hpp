@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HistoryFilterModel_HPP
 #define SIELOBROWSER_HistoryFilterModel_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QSortFilterProxyModel>
 #include <QAbstractItemModel>
 
@@ -33,7 +35,7 @@
 
 namespace Sn
 {
-class HistoryFilterModel: public QSortFilterProxyModel {
+class SIELO_SHAREDLIB HistoryFilterModel: public QSortFilterProxyModel {
 Q_OBJECT
 
 public:

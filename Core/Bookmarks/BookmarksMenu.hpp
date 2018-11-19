@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSMENU_HPP
 #define SIELOBROWSER_BOOKMARKSMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 
 #include <QPointer>
@@ -36,7 +38,7 @@ class BrowserWindow;
 
 class BookmarkItem;
 
-class BookmarksMenu: public QMenu {
+class SIELO_SHAREDLIB BookmarksMenu: public QMenu {
 Q_OBJECT
 
 public:

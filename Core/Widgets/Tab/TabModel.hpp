@@ -23,48 +23,83 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_DATAPATHS_HPP
-#define SIELOBROWSER_DATAPATHS_HPP
+#ifndef SIELOBROWSER_TABMODEL_HPP
+#define SIELOBROWSER_TABMODEL_HPP
 
 #include "SharedDefines.hpp"
 
-#include <QStringList>
-#include <array>
+#include <QAbstractListModel>
+
+#include <QMimeData>
+
+#include <QPointer>
+
 
 namespace Sn
 {
-class SIELO_SHAREDLIB DataPaths {
+class WebTab;
+
+class TabWidget;
+
+class SIELO_SHAREDLIB TabModelMimeData: public QMimeData {
+	Q_OBJECT
+
 public:
-	enum Path {
-		AppData = 0,             // /usr/share/sielo or . or ../Resources
-		Translations = 1,        // $AppData/locale
-		Themes = 2,              // $AppData/themes
-		Plugins = 3,             // $AppData/plugins
-		Config = 4,              // $XDG_CONFIG_HOME/sielo or %LOCALAPPDATA%/sielo or $AppData/data (portable)
-		Profiles = 5,            // $Config/profiles
-		CurrentProfile = 6,      // $Profiles/current_profile
-		Temp = 7,                // $Config/tmp
-		Cache = 8,               // $XDG_CACHE_HOME/sielo or $CurrentProfile/cache
-		Sessions = 9,            // $CurrentProfile/sessions
-		LastPath = 10
-	};
+	TabModelMimeData();
+	~TabModelMimeData() = default;
 
-	DataPaths();
+	WebTab* tab() const { return m_tab; }
+	void setTab(WebTab* tab);
 
-	static void setCurrentProfilePath(const QString& profilePath);
-	static void setPortableVersion();
+	bool hasFormat(const QString& format) const override;
+	QStringList formats() const override;
 
-	static QString path(Path type);
-	static QStringList allPaths(Path type);
-	static QString currentProfilePath();
-
-	static void clearTempData();
+	static QString mimeType();
 
 private:
-	void initCurrentProfile(const QString& profilePath);
+	QPointer<WebTab> m_tab{};
+};
 
-	QStringList m_paths[LastPath];
+class SIELO_SHAREDLIB TabModel: public QAbstractListModel {
+//	Q_OBJECT
+//
+//public:
+//	enum Roles {
+//		WebTabRole = Qt::UserRole + 1,
+//		TitleRole = Qt::UserRole + 2,
+//		IconRole = Qt::UserRole + 3,
+//		PinnedRole = Qt::UserRole + 4,
+//		RestoredRole = Qt::UserRole + 5,
+//		CurrentTabRole = Qt::UserRole + 6,
+//		LoadingRole = Qt::UserRole + 7,
+//		AudioPlayingRole = Qt::UserRole + 8,
+//		AudioMutedRole = Qt::UserRole + 9,
+//		BackgroundActivityRole = Qt::UserRole + 10
+//	};
+//
+//	TabModel(TabWidget* tabWidget, QObject* parent = nullptr);
+//
+//	QModelIndex tabIndex(WebTab* tab) const;
+//	WebTab* tab(const QModelIndex& index) const;
+//
+//	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+//	Qt::ItemFlags flags(const QModelIndex& index) const override;
+//	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+//
+//	Qt::DropActions supportedDropActions() const override;
+//	QStringList mimeTypes() const override;
+//	QMimeData* mimeData(const QModelIndexList& indexes) const override;
+//	bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent) const override;
+//	bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent) override;
+//
+//private:
+//	void tabInserted(int index);
+//	void tabRemoved(int index);
+//	void tabMoved(int from, int to);
+//
+//	TabWidget* m_tabWidget;
+//	QVector<WebTab*> m_tabs;
 };
 }
 
-#endif //SIELOBROWSER_DATAPATHS_HPP
+#endif //SIELOBROWSER_TABMODEL_HPP

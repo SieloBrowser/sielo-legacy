@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SIDEBAR_HPP
 #define SIELOBROWSER_SIDEBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -38,7 +40,7 @@ class SideBarTitle;
 
 class TabWidget;
 
-class SideBar: public QWidget {
+class SIELO_SHAREDLIB SideBar: public QWidget {
 	Q_OBJECT
 
 public:

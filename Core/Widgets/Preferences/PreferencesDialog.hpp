@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_PREFERENCESDIALOG_HPP
 #define SIELOBROWSER_PREFERENCESDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QHBoxLayout>
@@ -53,7 +55,7 @@ class CurrentTabsSpacePage;
 
 class TabWidget;
 
-class PreferencesDialog: public QDialog {
+class SIELO_SHAREDLIB PreferencesDialog: public QDialog {
 Q_OBJECT
 
 public:

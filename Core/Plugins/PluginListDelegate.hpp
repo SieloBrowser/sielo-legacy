@@ -26,6 +26,8 @@
 #ifndef CORE_PLUGINLISTDELEGATE_HPP
 #define CORE_PLUGINLISTDELEGATE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QStyledItemDelegate>
 
 #include <QPainter>
@@ -33,7 +35,7 @@
 
 namespace Sn
 {
-class PluginListDelegate: public QStyledItemDelegate {
+class SIELO_SHAREDLIB PluginListDelegate: public QStyledItemDelegate {
 public:
 	PluginListDelegate(QListWidget* parent);
 	~PluginListDelegate() = default;

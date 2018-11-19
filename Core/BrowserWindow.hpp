@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BROWSERWINDOW_HPP
 #define SIELOBROWSER_BROWSERWINDOW_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMainWindow>
 
 #include <QVBoxLayout>
@@ -58,7 +60,7 @@ class MaquetteGridItem;
 /*!
  * This class provide various access to make operation in a window of Sielo.
  */
-class BrowserWindow: public QMainWindow {
+class SIELO_SHAREDLIB BrowserWindow: public QMainWindow {
 Q_OBJECT
 
 public:

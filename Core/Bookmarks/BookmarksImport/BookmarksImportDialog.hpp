@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSIMPORTDIALOG_HPP
 #define SIELOBROWSER_BOOKMARKSIMPORTDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QHBoxLayout>
@@ -46,7 +48,7 @@ class BookmarkItem;
 class BookmarksModel;
 class BookmarksImporter;
 
-class BookmarksImportDialog: public QDialog {
+class SIELO_SHAREDLIB BookmarksImportDialog: public QDialog {
 Q_OBJECT
 
 public:

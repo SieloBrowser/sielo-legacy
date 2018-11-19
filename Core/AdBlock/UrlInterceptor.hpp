@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADBURLINTERCEPTOR_HPP
 #define SIELOBROWSER_ADBURLINTERCEPTOR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QWebEngineUrlRequestInfo>
@@ -36,7 +38,7 @@ namespace Sn {
 namespace ADB {
 class Manager;
 
-class UrlInterceptor: public BaseUrlInterceptor {
+class SIELO_SHAREDLIB UrlInterceptor: public BaseUrlInterceptor {
 public:
 	UrlInterceptor(Manager* manager);
 

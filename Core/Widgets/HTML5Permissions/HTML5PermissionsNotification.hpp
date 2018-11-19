@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HTML5PERMISSIONSNOTIFICATION_HPP
 #define SIELOBROWSER_HTML5PERMISSIONSNOTIFICATION_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QHBoxLayout>
 
 #include <QWidget>
@@ -40,7 +42,7 @@
 namespace Sn {
 class WebPage;
 
-class HTML5PermissionsNotification: public QWidget {
+class SIELO_SHAREDLIB HTML5PermissionsNotification: public QWidget {
 Q_OBJECT
 
 public:

@@ -26,13 +26,15 @@
 #ifndef SIELO_BROWSER_MODELMENU_HPP
 #define SIELO_BROWSER_MODELMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 #include <QAction>
 
 #include <QAbstractItemModel>
 
 namespace Sn {
-class ModelMenu: public QMenu {
+class SIELO_SHAREDLIB ModelMenu: public QMenu {
 Q_OBJECT
 
 public:

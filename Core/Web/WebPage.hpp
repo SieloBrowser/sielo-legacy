@@ -26,6 +26,8 @@
 #ifndef CORE_WEBPAGE_HPP
 #define CORE_WEBPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWebEnginePage>
 #include <QWebEngineScript>
 #include <QWebEngineFullScreenRequest>
@@ -44,7 +46,7 @@ class WebHitTestResult;
 
 class DelayedFileWatcher;
 
-class WebPage: public QWebEnginePage {
+class SIELO_SHAREDLIB WebPage: public QWebEnginePage {
 Q_OBJECT
 
 public:

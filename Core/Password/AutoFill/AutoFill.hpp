@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_AUTOFILL_HPP
 #define SIELO_BROWSER_AUTOFILL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QUrl>
@@ -47,7 +49,7 @@ struct PageFormData {
 	bool isValid() const { return !password.isEmpty(); }
 };
 
-class AutoFill: public QObject {
+class SIELO_SHAREDLIB AutoFill: public QObject {
 Q_OBJECT
 
 public:

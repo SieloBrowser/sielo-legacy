@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
 #define SIELOBROWSER_ADDRESSBARCOMPLETERDELEGATE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QStyledItemDelegate>
 
 #include <QTextLayout>
 
 namespace Sn
 {
-class AddressBarCompleterDelegate: public QStyledItemDelegate {
+class SIELO_SHAREDLIB AddressBarCompleterDelegate: public QStyledItemDelegate {
 	Q_OBJECT
 public:
 	AddressBarCompleterDelegate(QObject* parent = nullptr);

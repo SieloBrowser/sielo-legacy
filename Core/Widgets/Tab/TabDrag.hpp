@@ -26,11 +26,13 @@
 #ifndef SIELO_BROWSER_TABDRAG_HPP
 #define SIELO_BROWSER_TABDRAG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDrag>
 
 namespace Sn {
 
-class TabDrag : public QDrag {
+class SIELO_SHAREDLIB TabDrag : public QDrag {
 Q_OBJECT
 
 public:

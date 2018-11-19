@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_DOWNLOADMANAGER_HPP
 #define SIELOBROWSER_DOWNLOADMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QFileIconProvider>
 
 #include <QGridLayout>
@@ -45,7 +47,7 @@ class AutoSaver;
 
 class TableView;
 
-class DownloadManager: public QDialog {
+class SIELO_SHAREDLIB DownloadManager: public QDialog {
 Q_OBJECT
 	Q_PROPERTY(RemovePolicy
 				   removePolicy

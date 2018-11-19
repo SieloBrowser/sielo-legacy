@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_ADBTREEWIDGET_HPP
 #define SIELO_BROWSER_ADBTREEWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QTreeWidget>
 
 #include <QPoint>
@@ -36,7 +38,7 @@ namespace ADB {
 class Rule;
 class Subscription;
 
-class TreeWidget: public QTreeWidget {
+class SIELO_SHAREDLIB TreeWidget: public QTreeWidget {
 Q_OBJECT
 
 public:

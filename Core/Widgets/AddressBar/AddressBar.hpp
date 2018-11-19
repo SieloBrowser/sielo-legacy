@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_ADDRESSBAR_HPP
 #define SIELOBROWSER_ADDRESSBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QLineEdit>
 #include <QTextLayout>
 #include <QAction>
@@ -63,7 +65,7 @@ class AddressBarCompleter;
 class ToolButton;
 class SiteIcon;
 
-class AddressBar: public LineEdit {
+class SIELO_SHAREDLIB AddressBar: public LineEdit {
 Q_OBJECT
 
 public:

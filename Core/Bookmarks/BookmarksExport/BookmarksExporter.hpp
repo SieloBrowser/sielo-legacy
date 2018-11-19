@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_BOOKMARKSEXPORTER_HPP
 #define SIELOBROWSER_BOOKMARKSEXPORTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 namespace Sn
 {
 class BookmarkItem;
 
-class BookmarksExporter: public QObject {
+class SIELO_SHAREDLIB BookmarksExporter: public QObject {
 Q_OBJECT
 
 public:

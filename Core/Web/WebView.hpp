@@ -26,6 +26,8 @@
 #ifndef CORE_WEBVIEW_HPP
 #define CORE_WEBVIEW_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QApplication>
 #include <QPointer>
 
@@ -47,7 +49,7 @@ namespace Sn {
 class WebPage;
 class WebHitTestResult;
 
-class WebView: public QWebEngineView {
+class SIELO_SHAREDLIB WebView: public QWebEngineView {
 Q_OBJECT
 
 public:

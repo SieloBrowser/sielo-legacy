@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_HTML5PERMISSIONSDIALOG_HPP
 #define SIELO_BROWSER_HTML5PERMISSIONSDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 #include <QWidget>
 
@@ -46,7 +48,7 @@
 #include <QWebEnginePage>
 
 namespace Sn {
-class HTML5PermissionsDialog: public QDialog {
+class SIELO_SHAREDLIB HTML5PermissionsDialog: public QDialog {
 Q_OBJECT
 
 public:

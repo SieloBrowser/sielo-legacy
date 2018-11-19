@@ -26,13 +26,15 @@
 #ifndef CORE_AUTOSAVER_HPP
 #define CORE_AUTOSAVER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 #include <QBasicTimer>
 #include <QTime>
 
 namespace Sn {
 
-class AutoSaver: public QObject {
+class SIELO_SHAREDLIB AutoSaver: public QObject {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSTOOLBAR_HPP
 #define SIELOBROWSER_BOOKMARKSTOOLBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QToolBar>
 
 #include <QHBoxLayout>
@@ -40,7 +42,7 @@ class Bookmarks;
 class BookmarkItem;
 class BookmarksToolbarButton;
 
-class BookmarksToolbar: public QToolBar {
+class SIELO_SHAREDLIB BookmarksToolbar: public QToolBar {
 Q_OBJECT
 
 public:

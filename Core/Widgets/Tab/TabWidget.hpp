@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABWIDGET_HPP
 #define SIELOBROWSER_TABWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QByteArray>
 #include <QVector>
 
@@ -60,7 +62,7 @@ class NavigationToolBar;
 
 class TabbedWebView;
 
-class TabWidget: public TabStackedWidget {
+class SIELO_SHAREDLIB TabWidget: public TabStackedWidget {
 Q_OBJECT
 
 public:

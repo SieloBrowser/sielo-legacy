@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HTMLIMPORTER_HPP
 #define SIELOBROWSER_HTMLIMPORTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include "BookmarksImporter.hpp"
 
 #include <QString>
@@ -33,7 +35,7 @@
 
 namespace Sn
 {
-class HtmlImporter: public BookmarksImporter {
+class SIELO_SHAREDLIB HtmlImporter: public BookmarksImporter {
 Q_OBJECT
 
 public:

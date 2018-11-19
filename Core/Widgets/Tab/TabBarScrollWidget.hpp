@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABBARSCROLLWIDGET_HPP
 #define SIELOBROWSER_TABBARSCROLLWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QTabBar>
 #include <QScrollArea>
 
@@ -42,7 +44,7 @@ class ToolButton;
 
 class TabScrollBar;
 
-class TabBarScrollWidget: public QWidget {
+class SIELO_SHAREDLIB TabBarScrollWidget: public QWidget {
 Q_OBJECT
 
 public:

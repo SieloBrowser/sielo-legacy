@@ -25,6 +25,8 @@
 #ifndef SIELOBROWSER_UPDATERDIALOG_HPP
 #define SIELOBROWSER_UPDATERDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 #include <QWidget>
 
@@ -38,7 +40,7 @@
 
 namespace Sn {
 
-class UpdaterDialog : public QDialog {
+class SIELO_SHAREDLIB UpdaterDialog : public QDialog {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABSTACKEDWIDGET_HPP
 #define SIELOBROWSER_TABSTACKEDWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QStackedWidget>
 #include <QVBoxLayout>
@@ -47,7 +49,7 @@ class NavigationToolBar;
 
 class SideBarManager;
 
-class TabStackedWidget: public QWidget {
+class SIELO_SHAREDLIB TabStackedWidget: public QWidget {
 Q_OBJECT
 
 public:

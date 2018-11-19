@@ -26,6 +26,8 @@
 #ifndef CORE_SCRIPTS_HPP
 #define CORE_SCRIPTS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QString>
 
 #include <QWebEngineView>
@@ -33,7 +35,7 @@
 
 namespace Sn
 {
-class Scripts {
+class SIELO_SHAREDLIB Scripts {
 public:
 	static QString autoFill()
 	{

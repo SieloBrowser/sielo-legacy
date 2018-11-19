@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_CHROMEIMPORTER_HPP
 #define SIELOBROWSER_CHROMEIMPORTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include "BookmarksImporter.hpp"
 
 #include <QFile>
 
 namespace Sn
 {
-class ChromeImporter: public BookmarksImporter {
+class SIELO_SHAREDLIB ChromeImporter: public BookmarksImporter {
 Q_OBJECT
 
 public:

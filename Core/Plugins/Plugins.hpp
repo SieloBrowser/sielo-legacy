@@ -26,6 +26,8 @@
 #ifndef CORE_PLUGINS_HPP
 #define CORE_PLUGINS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 #include <QList>
 
@@ -35,7 +37,7 @@ class QPluginLoader;
 
 namespace Sn {
 
-class Plugins: public QObject {
+class SIELO_SHAREDLIB Plugins: public QObject {
 Q_OBJECT
 
 public:

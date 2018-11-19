@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HISTORYITEM_HPP
 #define SIELOBROWSER_HISTORYITEM_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QList>
 
 #include <QIcon>
@@ -34,7 +36,7 @@
 
 namespace Sn
 {
-class HistoryItem {
+class SIELO_SHAREDLIB HistoryItem {
 public:
 	HistoryItem(HistoryItem* parent = nullptr);
 	~HistoryItem();

@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_PASSWORDBACKEND_HPP
 #define SIELO_BROWSER_PASSWORDBACKEND_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVector>
@@ -33,7 +35,7 @@
 #include "Password/PasswordManager.hpp"
 
 namespace Sn {
-class PasswordBackend {
+class SIELO_SHAREDLIB PasswordBackend {
 public:
 	PasswordBackend();
 	virtual ~PasswordBackend();

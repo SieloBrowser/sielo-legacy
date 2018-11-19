@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_History_HPP
 #define SIELOBROWSER_History_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QUrl>
@@ -41,7 +43,7 @@ class WebView;
 
 class HistoryModel;
 
-class History: public QObject {
+class SIELO_SHAREDLIB History: public QObject {
 Q_OBJECT
 
 public:

@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_SEARCHTOOLBAR_HPP
 #define SIELO_BROWSER_SEARCHTOOLBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QFocusEvent>
@@ -41,7 +43,7 @@
 namespace Sn {
 class WebView;
 
-class FocusSelectLineEdit: public QLineEdit {
+class SIELO_SHAREDLIB FocusSelectLineEdit: public QLineEdit {
 Q_OBJECT
 public:
 	FocusSelectLineEdit(QWidget* parent = 0);
@@ -57,7 +59,7 @@ protected:
 
 };
 
-class SearchToolBar: public QWidget {
+class SIELO_SHAREDLIB SearchToolBar: public QWidget {
 Q_OBJECT
 
 public:

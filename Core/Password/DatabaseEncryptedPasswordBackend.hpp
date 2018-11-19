@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_DATABASEENCRYPTEDPASSWORDBACKEND_HPP
 #define SIELO_BROWSER_DATABASEENCRYPTEDPASSWORDBACKEND_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QVector>
 
 #include "Password/PasswordBackend.hpp"
@@ -33,7 +35,7 @@
 namespace Sn {
 class AesInterface;
 
-class DatabaseEncryptedPasswordBackend: public PasswordBackend {
+class SIELO_SHAREDLIB DatabaseEncryptedPasswordBackend: public PasswordBackend {
 public:
 	enum MasterPasswordState {
 		PasswordIsSetted,

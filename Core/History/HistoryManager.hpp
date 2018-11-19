@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HISTORYMANAGER_HPP
 #define SIELOBROWSER_HISTORYMANAGER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QKeyEvent>
@@ -44,7 +46,7 @@ class HistoryTreeView;
 
 class BrowserWindow;
 
-class HistoryManager: public QDialog {
+class SIELO_SHAREDLIB HistoryManager: public QDialog {
 Q_OBJECT
 
 public:

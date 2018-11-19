@@ -26,6 +26,8 @@
 #ifndef CORE_APPLICATION_HPP
 #define CORE_APPLICATION_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QApplication>
 #include <QList>
 
@@ -66,7 +68,7 @@ class MaquetteGridItem;
  * This class will also hande OS signals like new tab request, links open request, etc.
  *
  */
-class Q_DECL_EXPORT Application: public SingleApplication {
+class SIELO_SHAREDLIB Application: public SingleApplication {
 	Q_OBJECT
 
 public:

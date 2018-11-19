@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKITEM_HPP
 #define SIELOBROWSER_BOOKMARKITEM_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QString>
 #include <QUrl>
 
@@ -36,7 +38,7 @@
 
 namespace Sn
 {
-class BookmarkItem {
+class SIELO_SHAREDLIB BookmarkItem {
 public:
 	enum Type {
 		Root,

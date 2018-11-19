@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,54 +22,10 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELOBROWSER_EXLINEEDIT_HPP
-#define SIELOBROWSER_EXLINEEDIT_HPP
+#pragma once
 
-#include "SharedDefines.hpp"
-
-#include <QWidget>
-#include <QLineEdit>
-
-#include <QFocusEvent>
-#include <QKeyEvent>
-#include <QResizeEvent>
-#include <QInputMethodEvent>
-
-namespace Sn {
-class ClearButton;
-
-class SIELO_SHAREDLIB ExLineEdit : public QWidget
-{
-    Q_OBJECT
-
-public:
-    ExLineEdit(QWidget *parent = 0);
-
-    inline QLineEdit *lineEdit() const { return m_lineEdit; }
-
-    void setLeftWidget(QWidget *widget);
-    QWidget *leftWidget() const;
-
-    QSize sizeHint() const;
-
-    QVariant inputMethodQuery(Qt::InputMethodQuery property) const;
-protected:
-    void focusInEvent(QFocusEvent *event);
-    void focusOutEvent(QFocusEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    void resizeEvent(QResizeEvent *event);
-    void inputMethodEvent(QInputMethodEvent *e);
-    bool event(QEvent *event);
-
-protected:
-    void updateGeometries();
-    void initStyleOption(QStyleOptionFrame *option) const;
-
-    QWidget *m_leftWidget;
-    QLineEdit *m_lineEdit;
-    ClearButton *m_clearButton;
-};
-}
-
-
-#endif //SIELOBROWSER_EXLINEEDIT_HPP
+#ifdef SIELO_SHAREDLIBRARY
+#define SIELO_SHAREDLIB Q_DECL_EXPORT
+#else
+#define SIELO_SHAREDLIB Q_DECL_IMPORT
+#endif

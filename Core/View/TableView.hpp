@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_TABLEVIEW_HPP
 #define SIELOBROWSER_TABLEVIEW_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QTableView>
 
 #include <QKeyEvent>
 
 namespace Sn {
 
-class TableView: public QTableView {
+class SIELO_SHAREDLIB TableView: public QTableView {
 Q_OBJECT
 
 public:

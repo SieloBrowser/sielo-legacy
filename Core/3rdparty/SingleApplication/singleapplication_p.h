@@ -32,6 +32,8 @@
 #ifndef SINGLEAPPLICATION_P_H
 #define SINGLEAPPLICATION_P_H
 
+#include "SharedDefines.hpp"
+
 #include <QtCore/QSharedMemory>
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
@@ -42,7 +44,7 @@ struct InstancesInfo {
 	quint32 secondary;
 };
 
-class SingleApplicationPrivate : public QObject {
+class SIELO_SHAREDLIB SingleApplicationPrivate : public QObject {
 Q_OBJECT
 public:
 	Q_DECLARE_PUBLIC(SingleApplication)

@@ -26,13 +26,15 @@
 #ifndef SIELOBROWSER_TABSCROLLBAR_HPP
 #define SIELOBROWSER_TABSCROLLBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QScrollBar>
 
 #include <QEasingCurve>
 #include <QPropertyAnimation>
 
 namespace Sn {
-class TabScrollBar: public QScrollBar {
+class SIELO_SHAREDLIB TabScrollBar: public QScrollBar {
 Q_OBJECT
 
 public:

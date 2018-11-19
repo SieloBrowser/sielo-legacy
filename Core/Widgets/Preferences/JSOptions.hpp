@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_JSOPTIONS_HPP
 #define SIELO_BROWSER_JSOPTIONS_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 #include <QWidget>
 
@@ -37,7 +39,7 @@
 #include <QSpacerItem>
 
 namespace Sn {
-class JSOptions: public QDialog {
+class SIELO_SHAREDLIB JSOptions: public QDialog {
 Q_OBJECT
 
 public:

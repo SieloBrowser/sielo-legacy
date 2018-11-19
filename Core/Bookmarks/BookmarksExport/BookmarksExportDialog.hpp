@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSEXPORTERDIALOG_HPP
 #define SIELOBROWSER_BOOKMARKSEXPORTERDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QVBoxLayout>
@@ -43,7 +45,7 @@ namespace Sn
 {
 class BookmarksExporter;
 
-class BookmarksExportDialog: public QDialog {
+class SIELO_SHAREDLIB BookmarksExportDialog: public QDialog {
 Q_OBJECT
 
 public:

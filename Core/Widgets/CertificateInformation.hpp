@@ -26,6 +26,8 @@
 #ifndef CORE_CERTIFICATEINFORMATION_HPP
 #define CORE_CERTIFICATEINFORMATION_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QSslCertificate>
 
 #include <QWidget>
@@ -39,7 +41,7 @@
 
 namespace Sn {
 
-class Q_DECL_EXPORT CertificateInformation: public QWidget {
+class SIELO_SHAREDLIB CertificateInformation: public QWidget {
 public:
 	explicit CertificateInformation(const QSslCertificate& certificate, QWidget* parent = nullptr);
 	~CertificateInformation();

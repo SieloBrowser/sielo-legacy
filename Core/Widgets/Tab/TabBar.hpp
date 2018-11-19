@@ -2,6 +2,8 @@
 #ifndef SIELOBROWSER_TABBAR_HPP
 #define SIELOBROWSER_TABBAR_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QTabBar>
 #include <QScrollArea>
 
@@ -21,12 +23,12 @@
 namespace Sn
 {
 
-class MovableTab: public QWidget {
+class SIELO_SHAREDLIB MovableTab: public QWidget {
 public:
 	QPixmap m_pixmap{};
 };
 
-class TabBar: public QTabBar {
+class SIELO_SHAREDLIB TabBar: public QTabBar {
 	Q_OBJECT
 		Q_PROPERTY(int tabPadding READ tabPadding WRITE setTabPadding)
 		Q_PROPERTY(QColor baseColor READ baseColor WRITE setBaseColor)

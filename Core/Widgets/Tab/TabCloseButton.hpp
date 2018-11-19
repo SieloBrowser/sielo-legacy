@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABCLOSEBUTTON_HPP
 #define SIELOBROWSER_TABCLOSEBUTTON_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QAbstractButton>
 #include <QPushButton>
@@ -36,7 +38,7 @@
 // Taken from qtabbar.cpp (so credits to Qt)
 namespace Sn {
 
-class TabCloseButton : public QPushButton {
+class SIELO_SHAREDLIB TabCloseButton : public QPushButton {
 Q_OBJECT
 
 public:

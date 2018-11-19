@@ -1,26 +1,11 @@
+add_definitions(-DSIELO_SHAREDLIBRARY)
 cmake_minimum_required(VERSION 3.6)
-project(Core)
-
-include_directories(${CMAKE_SOURCE_DIR}/Core)
-include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
-
-if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set (OPENSSL_DIR "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")
-elseif(WIN32)
-    set (OPENSSL_DIR "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x86\\")
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set (OPENSSL_DIR "${CMAKE_SOURCE_DIR}/third-party/openssl/macos/")
-endif()
-
-# user config config file
-include("${CMAKE_SOURCE_DIR}\\user-config.cmake")
-
-set (ENV{OPENSSL_ROOT_DIR} ${OPENSSL_DIR})
-set (ENV{OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
+
+include_directories(${CMAKE_SOURCE_DIR}/Core)
+include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 file(
         GLOB_RECURSE
@@ -59,22 +44,22 @@ file(
         Application.hpp
         BrowserWindow.hpp
         BrowserWindow.cpp
+	SharedDefines.hpp
 )
 
-find_package(OpenSSL 1.1.0 REQUIRED)
-find_package(Qt5Widgets 5.11.2 REQUIRED)
-find_package(Qt5Sql 5.11.2 REQUIRED)
-find_package(Qt5WebEngine 5.11.2 REQUIRED)
-find_package(Qt5WebEngineWidgets 5.11.2 REQUIRED)
-
-add_library(Core ${SOURCE_FILES} ../icons.qrc/ ${QM_FILES})
-
-foreach(_source IN ITEMS ${SOURCE_FILES})
-    get_filename_component(_source_path "${_source}" PATH)
-    file(RELATIVE_PATH _source_path_rel "${CMAKE_SOURCE_DIR}/Core" "${_source_path}")
-    string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
-    source_group("${_group_path}" FILES "${_source}")
-endforeach()
+add_library(Core SHARED ${SOURCE_FILES} ../icons.qrc/ ${QM_FILES})
 
 set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
-target_link_libraries(Core LINK_PUBLIC ${SIELO_LIBS})
+if(WIN32)
+    set(SIELO_LIBS ${SIELO_LIBS} dwmapi uxtheme)
+endif()
+
+target_link_libraries(Core ${SIELO_LIBS})
+
+foreach(_source IN ITEMS ${SOURCE_FILES})
+	get_filename_component(_source_path "${_source}" PATH)
+	file(RELATIVE_PATH _source_path_rel "${CMAKE_SOURCE_DIR}/Core" "${_source_path}")
+	string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
+	source_group("${_group_path}" FILES "${_source}")
+endforeach()
+

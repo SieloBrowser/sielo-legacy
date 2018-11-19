@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_HISTORYMENU_HPP
 #define SIELOBROWSER_HISTORYMENU_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QMenu>
 
 #include <QPointer>
@@ -35,7 +37,7 @@ namespace Sn
 class TabWidget;
 
 // TODO: manage ctrl and shift
-class HistoryMenu: public QMenu {
+class SIELO_SHAREDLIB HistoryMenu: public QMenu {
 Q_OBJECT
 
 public:

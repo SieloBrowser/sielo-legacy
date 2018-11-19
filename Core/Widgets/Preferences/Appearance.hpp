@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_APPEARANCE_HPP
 #define SIELO_BROWSER_APPEARANCE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QVBoxLayout>
@@ -48,7 +50,7 @@ namespace Sn
 {
 class PreferencesDialog;
 
-class AppearancePage: public QWidget {
+class SIELO_SHAREDLIB AppearancePage: public QWidget {
 Q_OBJECT
 
 public:

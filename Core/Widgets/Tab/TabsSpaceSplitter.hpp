@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_TABSSPACESPLITTER_HPP
 #define SIELOBROWSER_TABSSPACESPLITTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QSplitter>
@@ -43,7 +45,7 @@ class MaquetteGridItem;
 class BrowserWindow;
 class TabWidget;
 
-class TabsSpaceSplitter: public QWidget {
+class SIELO_SHAREDLIB TabsSpaceSplitter: public QWidget {
 	Q_OBJECT
 
 public:

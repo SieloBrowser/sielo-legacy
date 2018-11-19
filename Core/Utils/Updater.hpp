@@ -25,6 +25,8 @@
 #ifndef SIELOBROWSER_UPDATER_HPP
 #define SIELOBROWSER_UPDATER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QNetworkReply>
@@ -34,7 +36,7 @@
 namespace Sn {
 class BrowserWindow;
 
-class Updater: public QObject {
+class SIELO_SHAREDLIB Updater: public QObject {
 Q_OBJECT
 
 public:

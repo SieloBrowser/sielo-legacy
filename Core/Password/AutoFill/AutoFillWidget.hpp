@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_AUTOFILLWIDGET_HPP
 #define SIELO_BROWSER_AUTOFILLWIDGET_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QFrame>
 
 #include <QVector>
@@ -38,7 +40,7 @@
 namespace Sn {
 class WebView;
 
-class AutoFillWidget: public QFrame {
+class SIELO_SHAREDLIB AutoFillWidget: public QFrame {
 Q_OBJECT
 
 public:

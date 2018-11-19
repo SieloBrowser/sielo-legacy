@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_BOOKMARKSIMPORTER_HPP
 #define SIELOBROWSER_BOOKMARKSIMPORTER_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QObject>
 
 #include <QString>
@@ -34,7 +36,7 @@ namespace Sn
 {
 class BookmarkItem;
 
-class BookmarksImporter: public QObject {
+class SIELO_SHAREDLIB BookmarksImporter: public QObject {
 	Q_OBJECT
 
 public:

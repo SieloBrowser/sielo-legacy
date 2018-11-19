@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
 #define SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QDialog>
 
 #include <QGridLayout>
@@ -38,7 +40,7 @@
 
 namespace Sn
 {
-class NavigationControlDialog: public QDialog {
+class SIELO_SHAREDLIB NavigationControlDialog: public QDialog {
 Q_OBJECT
 
 public:

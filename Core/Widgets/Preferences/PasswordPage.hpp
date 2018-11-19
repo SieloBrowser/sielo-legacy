@@ -26,6 +26,8 @@
 #ifndef SIELO_BROWSER_PASSWORDPAGE_HPP
 #define SIELO_BROWSER_PASSWORDPAGE_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QGridLayout>
@@ -39,7 +41,7 @@
 
 namespace Sn {
 
-class PasswordPage: public QWidget {
+class SIELO_SHAREDLIB PasswordPage: public QWidget {
 Q_OBJECT
 
 public:

@@ -26,10 +26,12 @@
 #ifndef SIELOBROWSER_TREEPROXYMODEL_HPP
 #define SIELOBROWSER_TREEPROXYMODEL_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QSortFilterProxyModel>
 
 namespace Sn {
-class TreeProxyModel: public QSortFilterProxyModel {
+class SIELO_SHAREDLIB TreeProxyModel: public QSortFilterProxyModel {
 	Q_OBJECT
 
 public:

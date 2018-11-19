@@ -26,6 +26,8 @@
 #ifndef CORE_WEBHITTESTRESULT_HPP
 #define CORE_WEBHITTESTRESULT_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QUrl>
 #include <QRect>
 #include <QString>
@@ -38,7 +40,7 @@ namespace Sn {
 
 class WebPage;
 
-class WebHitTestResult {
+class SIELO_SHAREDLIB WebHitTestResult {
 public:
 	WebHitTestResult(const WebPage* page, const QPoint& pos);
 

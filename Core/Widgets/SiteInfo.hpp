@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_SITEINFO_HPP
 #define SIELOBROWSER_SITEINFO_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QDialog>
 
@@ -50,7 +52,7 @@ class WebView;
 
 class CertificateInformation;
 
-class SiteInfo : public QDialog {
+class SIELO_SHAREDLIB SiteInfo : public QDialog {
 Q_OBJECT
 
 public:

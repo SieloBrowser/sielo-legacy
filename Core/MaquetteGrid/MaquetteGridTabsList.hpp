@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_MOCKUPSTABSLIST_HPP
 #define SIELOBROWSER_MOCKUPSTABSLIST_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QListWidget>
 
 #include <QDropEvent>
@@ -40,7 +42,7 @@ namespace Sn
 {
 class MaquetteGridManager;
 
-class MaquetteGridTabsList: public QListWidget {
+class SIELO_SHAREDLIB MaquetteGridTabsList: public QListWidget {
 Q_OBJECT
 
 public:

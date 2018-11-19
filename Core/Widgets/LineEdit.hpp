@@ -26,6 +26,8 @@
 #ifndef SIELOBROWSER_LineEdit_HPP
 #define SIELOBROWSER_LineEdit_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 #include <QLineEdit>
 
@@ -41,7 +43,7 @@
 
 namespace Sn
 {
-class SideWidget: public QWidget {
+class SIELO_SHAREDLIB SideWidget: public QWidget {
 Q_OBJECT
 public:
 	SideWidget(QWidget* parent = nullptr);
@@ -54,7 +56,7 @@ protected:
 	bool event(QEvent* event);
 };
 
-class LineEdit: public QLineEdit {
+class SIELO_SHAREDLIB LineEdit: public QLineEdit {
 Q_OBJECT
 
 public:

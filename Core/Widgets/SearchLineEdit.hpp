@@ -25,6 +25,8 @@
 #ifndef SIELO_BROWSER_SEARCHLINEEDIT_HPP
 #define SIELO_BROWSER_SEARCHLINEEDIT_HPP
 
+#include "SharedDefines.hpp"
+
 #include <QWidget>
 
 #include <QPaintEvent>
@@ -35,7 +37,7 @@
 namespace Sn {
 class SearchButton;
 
-class SearchLineEdit : public ExLineEdit {
+class SIELO_SHAREDLIB SearchLineEdit : public ExLineEdit {
 Q_OBJECT
 	Q_PROPERTY(QString inactiveText
 					   READ
