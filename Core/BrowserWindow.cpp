@@ -193,6 +193,13 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	setAcceptDrops(true);
 	setMouseTracking(true);
 
+#ifdef Q_OS_WIN
+	setWindowFlags(Qt::FramelessWindowHint);
+	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
+	const MARGINS margins = {1,1,1,1};
+	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()), &margins);
+#endif
+
 	setObjectName(QLatin1String("mainwindow"));
 	setWindowTitle(tr("Sielo"));
 	setProperty("private", Application::instance()->privateBrowsing());
@@ -608,13 +615,6 @@ void BrowserWindow::addTab()
 
 void BrowserWindow::postLaunch()
 {
-#ifdef Q_OS_WIN
-	setWindowFlags(Qt::FramelessWindowHint);
-	SetWindowLongPtrW(reinterpret_cast<HWND>(winId()), GWL_STYLE, WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX);
-	const MARGINS margins = {1,1,1,1};
-	DwmExtendFrameIntoClientArea(reinterpret_cast<HWND>(winId()), &margins);
-#endif
-
 	bool addTab{true};
 	QUrl startUrl{};
 
