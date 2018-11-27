@@ -45,6 +45,8 @@ HistoryManager::HistoryManager(BrowserWindow* window, QWidget* parent) :
 	m_window(window)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setWindowIcon(Application::getAppIcon("history"));
+	setWindowTitle(tr("History"));
 
 	setupUI();
 

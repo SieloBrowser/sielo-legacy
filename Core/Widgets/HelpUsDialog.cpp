@@ -33,6 +33,8 @@ HelpUsDialog::HelpUsDialog(QWidget* parent) :
 		QDialog(parent)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setWindowTitle(tr("Help Us"));
+	setWindowIcon(Application::getAppIcon("ic_sielo"));
 
 	QIcon icon = windowIcon();
 	Qt::WindowFlags flags = windowFlags();

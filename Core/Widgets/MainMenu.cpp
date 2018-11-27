@@ -460,31 +460,33 @@ void MainMenu::showSiteInfo()
 
 void MainMenu::showSettings()
 {
-	if (!m_preferences && m_tabWidget)
+	if (!m_preferences && m_tabWidget) {
 		m_preferences = new PreferencesDialog(m_tabWidget, m_tabWidget);
+		m_tabWidget->addApplication(m_preferences);
+	}
 
+	m_tabWidget->goToApplication(m_preferences);
 	//m_preferences->show();
 	//m_preferences->raise();
 	//m_preferences->activateWindow();
-	m_tabWidget->addApplication(m_preferences);
 }
 
 void MainMenu::showAboutSielo()
 {
 	AboutDialog* dialog{new AboutDialog(m_tabWidget)};
-	dialog->show();
+	m_tabWidget->addApplication(dialog);
 }
 
 void MainMenu::showPartners()
 {
 	PartnerDialog* dialog{new PartnerDialog(m_tabWidget)};
-	dialog->show();
+	m_tabWidget->addApplication(dialog);
 }
 
 void MainMenu::showHelpUs()
 {
 	HelpUsDialog* dialog{new HelpUsDialog(m_tabWidget)};
-	dialog->show();
+	m_tabWidget->addApplication(dialog);
 }
 
 void MainMenu::openDiscord()

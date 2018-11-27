@@ -342,9 +342,8 @@ QUrl WebTab::url() const
 
 QString WebTab::title() const
 {
-	if (m_application) {
-		return tr("Application");
-	}
+	if (m_application)
+		return m_application->windowTitle();
 
 	if (isRestored())
 		return m_webView->title();
@@ -493,6 +492,7 @@ void WebTab::loadApplication(QWidget* application)
 	m_layout->addWidget(m_application);
 
 	connect(m_application, &QWidget::destroyed, this, &WebTab::closeTab);
+	connect(m_application, &QWidget::windowTitleChanged, this, &WebTab::titleWasChanged);
 }
 
 void WebTab::unload()
@@ -737,7 +737,7 @@ void WebTab::showNotification(QWidget* notif)
 void WebTab::loadStarted()
 {
 	if (m_application) {
-		disconnect(m_application, &QWidget::destroyed, this, &WebTab::closeTab);
+		m_application->disconnect();
 
 		m_layout->removeWidget(m_application);
 		m_layout->addWidget(m_webView);

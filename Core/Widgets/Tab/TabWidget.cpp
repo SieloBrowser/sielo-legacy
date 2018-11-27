@@ -327,6 +327,21 @@ void TabWidget::setCurrentIndex(int index)
 	TabStackedWidget::setCurrentIndex(index);
 }
 
+void TabWidget::goToApplication(QWidget* w)
+{
+	int index{-1};
+
+	for (int i{0}; i < count(); ++i) {
+		if (w == qobject_cast<WebTab*>(widget(i))->application()) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index != -1)
+		TabStackedWidget::setCurrentIndex(index);
+}
+
 void TabWidget::nextTab()
 {
 	setCurrentIndex((currentIndex() + 1) % count());
@@ -1043,8 +1058,7 @@ QAction *TabWidget::action(const QString& name) const
 void TabWidget::openBookmarksDialog()
 {
 	BookmarksManager* dialog{new BookmarksManager(m_window, m_window)};
-
-	dialog->show();
+	addApplication(dialog);
 }
 
 void TabWidget::openHistoryDialog()
@@ -1058,7 +1072,7 @@ void TabWidget::openHistoryDialog()
 
 	dialog->show();*/
 	HistoryManager* dialog{new HistoryManager(m_window, m_window)};
-	dialog->show();
+	addApplication(dialog);
 }
 
 bool TabWidget::validIndex(int index) const

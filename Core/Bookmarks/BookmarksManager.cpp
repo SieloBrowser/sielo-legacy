@@ -44,6 +44,9 @@ BookmarksManager::BookmarksManager(BrowserWindow* window, QWidget* parent) :
 	m_bookmarks(Application::instance()->bookmarks())
 {
 	setAttribute(Qt::WA_DeleteOnClose);
+	setWindowIcon(Application::getAppIcon("bookmarks"));
+	setWindowTitle(tr("Bookmarks"));
+
 	setupUI();
 
 	connect(m_view, &BookmarksTreeView::bookmarkActivated, this, &BookmarksManager::bookmarkActivated);

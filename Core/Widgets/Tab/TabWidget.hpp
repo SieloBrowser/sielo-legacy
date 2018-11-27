@@ -75,7 +75,8 @@ public:
 	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab, const QUrl& homeUrl);
 
 	void setCurrentIndex(int index);
-
+	void goToApplication(QWidget* w);
+		
 	void nextTab();
 	void previousTab();
 	void currentTabChanged(int index);
