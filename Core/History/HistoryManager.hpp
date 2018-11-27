@@ -51,7 +51,7 @@ Q_OBJECT
 
 public:
 	HistoryManager(BrowserWindow* window, QWidget* parent = nullptr);
-	~HistoryManager();
+	~HistoryManager() = default;
 
 	void setMainWindow(BrowserWindow* window);
 

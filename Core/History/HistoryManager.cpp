@@ -60,11 +60,6 @@ HistoryManager::HistoryManager(BrowserWindow* window, QWidget* parent) :
 	m_view->setFocus();
 }
 
-HistoryManager::~HistoryManager()
-{
-	// Empty
-}
-
 void HistoryManager::setMainWindow(BrowserWindow* window)
 {
 	if (window)

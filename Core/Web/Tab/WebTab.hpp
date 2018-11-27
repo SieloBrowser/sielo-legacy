@@ -45,6 +45,8 @@
 
 #include <QShowEvent>
 
+#include <QPointer>
+
 #include "Web/LoadRequest.hpp"
 
 namespace Sn
@@ -92,6 +94,7 @@ public:
 
 
 	WebTab(TabWidget* tabWidget);
+	~WebTab();
 
 	TabWidget* tabWidget() const { return m_tabWidget; }
 	WebInspector* inspector() const { return m_inspector; }
@@ -204,7 +207,7 @@ private:
 	TabWidget* m_tabWidget{nullptr};
 	WebInspector* m_inspector{nullptr};
 	TabbedWebView* m_webView{nullptr};
-	QWidget* m_application{nullptr};
+	QPointer<QWidget> m_application{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	QWidget* m_notificationWidget{nullptr};
 

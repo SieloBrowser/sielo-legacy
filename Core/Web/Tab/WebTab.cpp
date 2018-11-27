@@ -248,6 +248,16 @@ WebTab::WebTab(TabWidget* tabWidget) :
 	setFocusProxy(m_webView);
 }
 
+
+
+WebTab::~WebTab()
+{
+	if (m_application) {
+		m_application->disconnect();
+		delete m_application;
+	}
+}
+
 void WebTab::takeAddressBar()
 {
 	m_addressBar->setParent(this);
@@ -477,7 +487,7 @@ void WebTab::loadApplication(QWidget* application)
 	m_webView->setPage(new WebPage());
 
 	m_application = application;
-	m_application->setParent(this);
+	m_application->setParent(nullptr);
 
 	m_layout->removeWidget(m_webView);
 	m_layout->addWidget(m_application);
