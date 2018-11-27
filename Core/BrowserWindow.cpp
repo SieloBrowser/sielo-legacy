@@ -342,8 +342,8 @@ void BrowserWindow::loadWallpaperSettings()
 		setStyleSheet(sss);
 
 		m_currentBackground = newBackground;
+		m_upd_ss = true; // Citorva will explain this.
 	}
-	m_upd_ss = true; // Citorva will explain this.
 }
 
 void BrowserWindow::setStartTab(WebTab* tab)
