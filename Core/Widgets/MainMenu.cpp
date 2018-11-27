@@ -463,9 +463,10 @@ void MainMenu::showSettings()
 	if (!m_preferences && m_tabWidget)
 		m_preferences = new PreferencesDialog(m_tabWidget, m_tabWidget);
 
-	m_preferences->show();
-	m_preferences->raise();
-	m_preferences->activateWindow();
+	//m_preferences->show();
+	//m_preferences->raise();
+	//m_preferences->activateWindow();
+	m_tabWidget->addApplication(m_preferences);
 }
 
 void MainMenu::showAboutSielo()

@@ -96,6 +96,7 @@ public:
 	TabWidget* tabWidget() const { return m_tabWidget; }
 	WebInspector* inspector() const { return m_inspector; }
 	TabbedWebView* webView() const { return m_webView; }
+	QWidget* application() const { return m_application; }
 	TabIcon* tabIcon() const { return m_tabIcon; }
 	AddressBar* addressBar() const { return m_addressBar; }
 
@@ -128,6 +129,7 @@ public:
 	void stop();
 	void reload();
 	void load(const LoadRequest& request);
+	void loadApplication(QWidget* application);
 	void unload();
 	bool isLoading() const;
 
@@ -202,6 +204,7 @@ private:
 	TabWidget* m_tabWidget{nullptr};
 	WebInspector* m_inspector{nullptr};
 	TabbedWebView* m_webView{nullptr};
+	QWidget* m_application{nullptr};
 	TabIcon* m_tabIcon{nullptr};
 	QWidget* m_notificationWidget{nullptr};
 

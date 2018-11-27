@@ -133,6 +133,9 @@ public slots:
 	int addView(WebTab* tab, const Application::NewTabTypeFlags& openFlags);
 	int insertView(int index, WebTab* tab, const Application::NewTabTypeFlags& openFlags);
 
+	int addApplication(QWidget* application);
+	int insertApplication(int index, QWidget* application);
+
 	void addTabFromClipboard();
 	int duplicateTab(int index);
 

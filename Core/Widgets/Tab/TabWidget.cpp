@@ -592,6 +592,21 @@ int TabWidget::insertView(int index, WebTab* tab, const Application::NewTabTypeF
 	return newIndex;
 }
 
+int TabWidget::addApplication(QWidget* application)
+{
+	WebTab* tab{new WebTab(this)};
+	tab->loadApplication(application);
+
+	int index{addView(tab, Application::NTT_SelectedTabAtEnd)};
+
+	return index;
+
+}
+int TabWidget::insertApplication(int index, QWidget* application)
+{
+	return -1;
+}
+
 void TabWidget::addTabFromClipboard()
 {
 	QString selectionClipboard{QApplication::clipboard()->text(QClipboard::Selection)};
