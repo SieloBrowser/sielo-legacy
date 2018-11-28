@@ -515,7 +515,7 @@ void MainMenu::aboutToShowToolsMenu()
 		return;
 
 	m_pluginsMenu->clear();
-	Application::instance()->plugins()->populateExtensionsMenu(m_pluginsMenu);
+	Application::instance()->plugins()->populateExtensionsMenu(m_pluginsMenu, m_tabWidget);
 
 	m_pluginsMenu->menuAction()->setVisible(!m_pluginsMenu->actions().isEmpty());
 }

@@ -32,6 +32,8 @@
 
 //#include "History/HistoryDialog.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
@@ -113,6 +115,12 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_buttonViewHistory->setAutoRaise(true);
 	m_buttonViewHistory->setFocusPolicy(Qt::NoFocus);
 
+	m_extensionWidget = new QWidget(this);
+
+	m_extensionLayout = new QHBoxLayout(m_extensionWidget);
+	m_extensionLayout->setContentsMargins(0, 0, 0, 0);
+	m_extensionLayout->setSpacing(0);
+
 	m_bookmarksHistoryWidget = new QWidget(this);
 
 	m_bookmarksHistoryLayout = new QHBoxLayout(m_bookmarksHistoryWidget);
@@ -126,6 +134,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_layout->addWidget(m_buttonForward);
 	m_layout->addWidget(m_buttonHome);
 	m_layout->addWidget(tabWidget->addressBars());
+	m_layout->addWidget(m_extensionWidget);
 	m_layout->addWidget(m_bookmarksHistoryWidget);
 
 	connect(m_buttonBack, &ToolButton::clicked, this, &NavigationToolBar::goBack);
@@ -141,6 +150,11 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	connect(m_buttonViewBookmarks, &ToolButton::clicked, this, &NavigationToolBar::showBookmarksDialog);
 	connect(m_buttonAddBookmark, &ToolButton::clicked, this, &NavigationToolBar::showAddBookmarkDialog);
 	connect(m_buttonViewHistory, &ToolButton::clicked, this, &NavigationToolBar::showHistoryDialog);
+
+	foreach(QWidget* widget, Application::instance()->plugins()->navigationBarButton(m_tabWidget))
+	{
+		addExtensionAction(widget);
+	}
 }
 
 int NavigationToolBar::layoutMargin() const
@@ -171,6 +185,14 @@ void NavigationToolBar::hideBookmarksHistory()
 void NavigationToolBar::showBookmarksHistory()
 {
 	m_bookmarksHistoryWidget->show();
+}
+
+void NavigationToolBar::addExtensionAction(QWidget* widget)
+{
+	if (!widget)
+		return;
+
+	m_extensionLayout->addWidget(widget);
 }
 
 void NavigationToolBar::refreshBackForwardButtons()
