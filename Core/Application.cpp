@@ -117,6 +117,47 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 	return QByteArray();
 }
 
+QString Application::getFileNameFromUrl(const QUrl &url)
+{
+	QString fileName{url.toString(QUrl::RemoveFragment | QUrl::RemoveQuery | QUrl::RemoveScheme | QUrl::RemovePort)};
+
+	if (fileName.endsWith(QLatin1Char('/'))) 
+		fileName = fileName.mid(0, fileName.length() - 1);
+
+	if (fileName.indexOf(QLatin1Char('/')) != -1) {
+		int pos{fileName.lastIndexOf(QLatin1Char('/'))};
+
+		fileName = fileName.mid(pos);
+		fileName.remove(QLatin1Char('/'));
+	}
+
+	fileName.replace(QLatin1Char('/'), QLatin1Char('-'));
+	fileName.remove(QLatin1Char('\\'));
+	fileName.remove(QLatin1Char(':'));
+	fileName.remove(QLatin1Char('*'));
+	fileName.remove(QLatin1Char('?'));
+	fileName.remove(QLatin1Char('"'));
+	fileName.remove(QLatin1Char('<'));
+	fileName.remove(QLatin1Char('>'));
+	fileName.remove(QLatin1Char('|'));
+
+	if (fileName.isEmpty()) {
+		fileName = url.host();
+
+		fileName.replace(QLatin1Char('/'), QLatin1Char('-'));
+		fileName.remove(QLatin1Char('\\'));
+		fileName.remove(QLatin1Char(':'));
+		fileName.remove(QLatin1Char('*'));
+		fileName.remove(QLatin1Char('?'));
+		fileName.remove(QLatin1Char('"'));
+		fileName.remove(QLatin1Char('<'));
+		fileName.remove(QLatin1Char('>'));
+		fileName.remove(QLatin1Char('|'));
+	}
+
+	return fileName;
+}
+
 QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
 {
 	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
@@ -282,10 +323,6 @@ Application::Application(int& argc, char** argv) :
 	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
 	m_piwikTracker->sendVisit("launch");
 #endif 
-	
-	m_plugins = new PluginProxy;
-
-	m_plugins->loadPlugins();
 
 	// Setting up web and network objects
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
@@ -309,6 +346,9 @@ Application::Application(int& argc, char** argv) :
 	script.setSourceCode(webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))));
 
 	m_webProfile->scripts()->insert(script);
+
+	m_plugins = new PluginProxy;
+	m_plugins->loadPlugins();
 
 	// Check if we start after a crash
 	if (!privateBrowsing()) {

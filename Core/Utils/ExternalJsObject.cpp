@@ -30,6 +30,25 @@
 #include "Utils/AutoFillJsObject.hpp"
 
 namespace Sn {
+static QHash<QString, QObject*> s_extraObjects;
+
+void ExternalJsObject::setupWebChannel(QWebChannel* webChannel, WebPage* page)
+{
+	webChannel->registerObject("sn_object", new ExternalJsObject(page));
+
+	for (auto it = s_extraObjects.constBegin(); it != s_extraObjects.constEnd(); ++it) 
+		webChannel->registerObject("sn_" + it.key(), it.value());
+}
+
+void ExternalJsObject::registerExtraObject(const QString& id, QObject* object)
+{
+	s_extraObjects[id] = object;
+}
+
+void ExternalJsObject::unregisterExtraObject(const QString& id)
+{
+	s_extraObjects.remove(id);
+}
 
 ExternalJsObject::ExternalJsObject(WebPage* page) :
 	QObject(page),
