@@ -31,6 +31,8 @@
 
 #include <QAction>
 
+#include <QClipboard>
+
 #include <QTimer>
 #include <QMessageBox>
 
@@ -325,7 +327,7 @@ void BrowserWindow::loadWallpaperSettings()
 	// Themes can have default backgound. If the user don't have custom background, we apply it.
 	// However, if the user have a custom background we override the default one
 	if (!backgroundPath.isEmpty() && newBackground != m_currentBackground) {
-		QString sss = styleSheet();
+		QString sss{};
 		sss += "QMainWindow {";
 		sss += "border-image: url(" + backgroundPath + ") 0 0 0 0 stretch stretch;";
 		sss += "border-width: 0px;";
@@ -340,8 +342,8 @@ void BrowserWindow::loadWallpaperSettings()
 		setStyleSheet(sss);
 
 		m_currentBackground = newBackground;
+		m_upd_ss = true; // Citorva will explain this.
 	}
-	m_upd_ss = true; // Citorva will explain this.
 }
 
 void BrowserWindow::setStartTab(WebTab* tab)

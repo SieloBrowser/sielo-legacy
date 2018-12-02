@@ -93,9 +93,7 @@ private:
 
 	bool m_pluginsLoaded{false};
 };
-
-Q_DECLARE_METATYPE(Plugins::Plugin)
-
 }
-
+Q_DECLARE_METATYPE(Sn::Plugins::Plugin)
+	
 #endif // CORE_PLUGINS_HPP

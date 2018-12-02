@@ -33,6 +33,10 @@
 #include "Utils/DataPaths.hpp"
 #include "Utils/Settings.hpp"
 
+#include "Widgets/NavigationBar.hpp"
+#include "Widgets/Tab/TabWidget.hpp"
+
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn
@@ -67,6 +71,19 @@ bool Plugins::loadPlugin(Plugin* plugin)
 	m_availablePlugins.prepend(*plugin);
 
 	refreshLoadedPlugins();
+
+	if (plugin->isLoaded()) {
+		if (Application::instance()->useTopToolBar()) {
+			foreach(BrowserWindow* window, Application::instance()->windows())
+			{
+				foreach(TabWidget* tabWidget, window->tabsSpaceSplitter()->tabWidgets())
+				{
+					if (tabWidget->navigationToolBar())
+						tabWidget->navigationToolBar()->addExtensionAction(plugin->instance->navigationBarButton(tabWidget));
+				}
+			}
+		}
+	}
 
 	return plugin->isLoaded();
 }

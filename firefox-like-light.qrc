@@ -43,7 +43,8 @@
       <file>data/themes/firefox-like-light/images/preferences/current-tabsspace.png</file>
       <file>data/themes/firefox-like-light/images/preferences/download.png</file>
       <file>data/themes/firefox-like-light/images/preferences/local-storage.png</file>
-      <file>data/themes/firefox-like-light/images/preferences/passwords.png</file>
+      <file>data/themes/firefox-like-dark/images/preferences/download.png</file>
+	  <file>data/themes/firefox-like-dark/images/preferences/plugins.png</file>
       <file>data/themes/firefox-like-light/images/preferences/preferences.png</file>
       <file>data/themes/firefox-like-light/images/preferences/privacy.png</file>
       <file>data/themes/firefox-like-light/images/preferences/proxy.png</file>

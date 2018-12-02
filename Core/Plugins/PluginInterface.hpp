@@ -42,6 +42,10 @@ class WebView;
 class WebPage;
 class WebHitTestResult;
 
+class NavigationToolBar;
+
+class TabWidget;
+
 struct SIELO_SHAREDLIB PluginProp {
 	QString name{};
 	QString info{};
@@ -76,13 +80,15 @@ public:
 	virtual QTranslator* getTranslator(const QString& locale) { Q_UNUSED(locale) return nullptr; }
 	virtual void showSettings(QWidget* parent = nullptr) { Q_UNUSED(parent) }
 
+	virtual QWidget* navigationBarButton(TabWidget* tabWidget) { return nullptr; }
+
 	virtual void populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result)
 	{
 		Q_UNUSED(menu)
 			Q_UNUSED(view)
 			Q_UNUSED(menu)
 	}
-	virtual void populateExtensionsMenu(QMenu *menu) { Q_UNUSED(menu) }
+	virtual void populateExtensionsMenu(QMenu *menu, TabWidget* tabWidget) { Q_UNUSED(menu) Q_UNUSED(tabWidget) }
 
 	virtual bool mouseDoubleClick(const Application::ObjectName& objName, QObject* obj, QMouseEvent* event)
 	{

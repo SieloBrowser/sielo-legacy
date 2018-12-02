@@ -176,6 +176,7 @@ public:
 	void loadWebSettings();
 	void loadApplicationSettings();
 	void loadThemesSettings();
+	void loadPluginsSettings();
 	void loadTranslationSettings();
 	void updateToProfiles();
 
@@ -275,6 +276,7 @@ public:
 	static QString currentVersion;
 	static Application *instance();
 	static QIcon getAppIcon(const QString& name, const QString& defaultDire = "other", const QString& format = ".png");
+	static QString getFileNameFromUrl(const QUrl &url);
 	static QByteArray readAllFileByteContents(const QString& filename);
 	static QString ensureUniqueFilename(const QString& name, const QString& appendFormat = QString("(%1)"));
 	static void removeDirectory(const QString& directory);

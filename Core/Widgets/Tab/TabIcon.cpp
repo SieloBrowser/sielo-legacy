@@ -188,7 +188,7 @@ void TabIcon::paintEvent(QPaintEvent* event)
 	r.setWidth(size);
 	r.setHeight(size);
 
-	if (m_animationRunning)
+	if (m_animationRunning && !m_tab->application())
 		painter
 			.drawPixmap(r, s_data->animationPixmap, QRect(m_currentFrame * pixmapSize, 0, pixmapSize, pixmapSize));
 	else if (m_audioIconDisplayed)

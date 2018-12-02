@@ -248,6 +248,16 @@ WebTab::WebTab(TabWidget* tabWidget) :
 	setFocusProxy(m_webView);
 }
 
+
+
+WebTab::~WebTab()
+{
+	if (m_application) {
+		m_application->disconnect();
+		delete m_application;
+	}
+}
+
 void WebTab::takeAddressBar()
 {
 	m_addressBar->setParent(this);
@@ -332,6 +342,9 @@ QUrl WebTab::url() const
 
 QString WebTab::title() const
 {
+	if (m_application)
+		return m_application->windowTitle();
+
 	if (isRestored())
 		return m_webView->title();
 	else
@@ -340,6 +353,9 @@ QString WebTab::title() const
 
 QIcon WebTab::icon(bool allowNull) const
 {
+	if (m_application)
+		return m_application->windowIcon();
+
 	if (isRestored())
 		return m_webView->icon(allowNull);
 
@@ -459,6 +475,24 @@ void WebTab::load(const LoadRequest& request)
 	}
 	else
 		m_webView->load(request);
+}
+
+void WebTab::loadApplication(QWidget* application)
+{
+	m_savedTab = SavedTab(this);
+
+	emit restoredChanged(isRestored());
+
+	m_webView->setPage(new WebPage());
+
+	m_application = application;
+	m_application->setParent(nullptr);
+
+	m_layout->removeWidget(m_webView);
+	m_layout->addWidget(m_application);
+
+	connect(m_application, &QWidget::destroyed, this, &WebTab::closeTab);
+	connect(m_application, &QWidget::windowTitleChanged, this, &WebTab::titleWasChanged);
 }
 
 void WebTab::unload()
@@ -658,7 +692,7 @@ void WebTab::p_restoreTab(const QUrl& url, const QByteArray& history, int zoomLe
 
 void WebTab::tabActivated()
 {
-	if (isRestored())
+	if (isRestored() || m_application)
 		return;
 
 	QTimer::singleShot(0, this, [this]() {
@@ -702,8 +736,24 @@ void WebTab::showNotification(QWidget* notif)
 
 void WebTab::loadStarted()
 {
-	if (m_tabWidget->tabBar() && m_webView->isTitleEmpty())
-		m_tabWidget->tabBar()->setTabText(tabIndex(), tr("Loading..."));
+	if (m_application) {
+		m_application->disconnect();
+
+		m_layout->removeWidget(m_application);
+		m_layout->addWidget(m_webView);
+
+		m_webView->restoreHistory(m_savedTab.history);
+		m_webView->setZoomLevel(m_savedTab.zoomLevel);
+		m_webView->setFocus();
+
+		delete m_application;
+		m_application = nullptr;
+		m_savedTab.clear();
+	}
+	else {
+		if (m_tabWidget->tabBar() && m_webView->isTitleEmpty())
+			m_tabWidget->tabBar()->setTabText(tabIndex(), tr("Loading..."));
+	}
 }
 
 void WebTab::loadFinished()

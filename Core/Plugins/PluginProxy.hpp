@@ -42,6 +42,9 @@ class WebView;
 class WebPage;
 class WebHitTestResult;
 
+class NavigationToolBar;
+
+class TabWidget;
 class BrowserWindow;
 
 class SIELO_SHAREDLIB PluginProxy: public Plugins {
@@ -63,8 +66,10 @@ public:
 
 	void registerAppEventHandler(const EventHandlerType& type, PluginInterface* obj);
 
+	QList<QWidget*> navigationBarButton(TabWidget* widget);
+
 	void populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result);
-	void populateExtensionsMenu(QMenu* menu);
+	void populateExtensionsMenu(QMenu* menu, TabWidget* tabWidget);
 
 	bool processMouseDoubleClick(const Application::ObjectName& type, QObject* obj, QMouseEvent* event);
 	bool processMousePress(const Application::ObjectName& type, QObject* obj, QMouseEvent* event);

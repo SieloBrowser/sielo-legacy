@@ -75,7 +75,8 @@ public:
 	bool restoreState(const QVector<WebTab::SavedTab>& tabs, int currentTab, const QUrl& homeUrl);
 
 	void setCurrentIndex(int index);
-
+	void goToApplication(QWidget* w);
+		
 	void nextTab();
 	void previousTab();
 	void currentTabChanged(int index);
@@ -132,6 +133,9 @@ public slots:
 				int position = -1, bool pinned = false);
 	int addView(WebTab* tab, const Application::NewTabTypeFlags& openFlags);
 	int insertView(int index, WebTab* tab, const Application::NewTabTypeFlags& openFlags);
+
+	int addApplication(QWidget* application);
+	int insertApplication(int index, QWidget* application);
 
 	void addTabFromClipboard();
 	int duplicateTab(int index);

@@ -327,6 +327,21 @@ void TabWidget::setCurrentIndex(int index)
 	TabStackedWidget::setCurrentIndex(index);
 }
 
+void TabWidget::goToApplication(QWidget* w)
+{
+	int index{-1};
+
+	for (int i{0}; i < count(); ++i) {
+		if (w == qobject_cast<WebTab*>(widget(i))->application()) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index != -1)
+		TabStackedWidget::setCurrentIndex(index);
+}
+
 void TabWidget::nextTab()
 {
 	setCurrentIndex((currentIndex() + 1) % count());
@@ -590,6 +605,21 @@ int TabWidget::insertView(int index, WebTab* tab, const Application::NewTabTypeF
 	emit tabInserted(newIndex);
 
 	return newIndex;
+}
+
+int TabWidget::addApplication(QWidget* application)
+{
+	WebTab* tab{new WebTab(this)};
+	tab->loadApplication(application);
+
+	int index{addView(tab, Application::NTT_SelectedTabAtEnd)};
+
+	return index;
+
+}
+int TabWidget::insertApplication(int index, QWidget* application)
+{
+	return -1;
 }
 
 void TabWidget::addTabFromClipboard()
@@ -1028,8 +1058,7 @@ QAction *TabWidget::action(const QString& name) const
 void TabWidget::openBookmarksDialog()
 {
 	BookmarksManager* dialog{new BookmarksManager(m_window, m_window)};
-
-	dialog->show();
+	addApplication(dialog);
 }
 
 void TabWidget::openHistoryDialog()
@@ -1043,7 +1072,7 @@ void TabWidget::openHistoryDialog()
 
 	dialog->show();*/
 	HistoryManager* dialog{new HistoryManager(m_window, m_window)};
-	dialog->show();
+	addApplication(dialog);
 }
 
 bool TabWidget::validIndex(int index) const

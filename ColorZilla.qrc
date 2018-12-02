@@ -45,7 +45,8 @@
         <file>data/themes/ColorZilla/dark/preferences/download.png</file>
         <file>data/themes/ColorZilla/dark/preferences/local-storage.png</file>
         <file>data/themes/ColorZilla/dark/preferences/passwords.png</file>
-        <file>data/themes/ColorZilla/dark/preferences/preferences.png</file>
+	    <file>data/themes/ColorZilla/dark/preferences/plugins.png</file>
+		<file>data/themes/ColorZilla/dark/preferences/preferences.png</file>
         <file>data/themes/ColorZilla/dark/preferences/privacy.png</file>
         <file>data/themes/ColorZilla/dark/preferences/proxy.png</file>
         <file>data/themes/ColorZilla/dark/preferences/settings.png</file>
@@ -117,6 +118,7 @@
         <file>data/themes/ColorZilla/light/preferences/download.png</file>
         <file>data/themes/ColorZilla/light/preferences/local-storage.png</file>
         <file>data/themes/ColorZilla/light/preferences/passwords.png</file>
+	    <file>data/themes/ColorZilla/light/preferences/plugins.png</file>
         <file>data/themes/ColorZilla/light/preferences/preferences.png</file>
         <file>data/themes/ColorZilla/light/preferences/privacy.png</file>
         <file>data/themes/ColorZilla/light/preferences/proxy.png</file>

@@ -45,6 +45,7 @@
       <file>data/themes/round-theme/dark/preferences/download.png</file>
       <file>data/themes/round-theme/dark/preferences/local-storage.png</file>
       <file>data/themes/round-theme/dark/preferences/passwords.png</file>
+	  <file>data/themes/round-theme/dark/preferences/plugins.png</file>
       <file>data/themes/round-theme/dark/preferences/preferences.png</file>
       <file>data/themes/round-theme/dark/preferences/privacy.png</file>
       <file>data/themes/round-theme/dark/preferences/proxy.png</file>
@@ -117,6 +118,7 @@
       <file>data/themes/round-theme/light/preferences/download.png</file>
       <file>data/themes/round-theme/light/preferences/local-storage.png</file>
       <file>data/themes/round-theme/light/preferences/passwords.png</file>
+	  <file>data/themes/round-theme/light/preferences/plugins.png</file>
       <file>data/themes/round-theme/light/preferences/preferences.png</file>
       <file>data/themes/round-theme/light/preferences/privacy.png</file>
       <file>data/themes/round-theme/light/preferences/proxy.png</file>

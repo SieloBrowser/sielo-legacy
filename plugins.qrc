@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/plugins"> 
+    <!-- Windows -->    
+        <file>data/plugins/windows/GreaseMonkey.dll</file>
+        <file>data/plugins/windows/StrateonPlugin.dll</file>
+
+    <!-- macOS -->    
+        <file>data/plugins/macos/libGreaseMonkey.so</file>
+        <file>data/plugins/macos/libStrateonPlugin.so</file>
+    </qresource>
+</RCC>

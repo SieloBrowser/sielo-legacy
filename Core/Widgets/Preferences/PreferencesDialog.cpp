@@ -47,6 +47,8 @@ PreferencesDialog::PreferencesDialog(TabWidget* tabWidget, QWidget* parent) :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName("preferences-dialog");
+	setWindowTitle(tr("Preferences"));
+	setWindowIcon(Application::getAppIcon("settings", "preferences"));
 
 	QIcon icon = windowIcon();
 	Qt::WindowFlags flags = windowFlags();
@@ -129,6 +131,8 @@ void PreferencesDialog::showStackedPage(QListWidgetItem* item)
 
 	m_caption->setText("<b>" + item->text() + "</b>");
 	m_pages->setCurrentIndex(index);
+
+	setWindowTitle(tr("Preferences - %1").arg(item->text()));
 
 	if (index == 7)
 		m_pluginsPage->load();

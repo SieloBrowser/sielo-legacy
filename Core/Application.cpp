@@ -117,6 +117,47 @@ QByteArray Application::readAllFileByteContents(const QString& filename)
 	return QByteArray();
 }
 
+QString Application::getFileNameFromUrl(const QUrl &url)
+{
+	QString fileName{url.toString(QUrl::RemoveFragment | QUrl::RemoveQuery | QUrl::RemoveScheme | QUrl::RemovePort)};
+
+	if (fileName.endsWith(QLatin1Char('/'))) 
+		fileName = fileName.mid(0, fileName.length() - 1);
+
+	if (fileName.indexOf(QLatin1Char('/')) != -1) {
+		int pos{fileName.lastIndexOf(QLatin1Char('/'))};
+
+		fileName = fileName.mid(pos);
+		fileName.remove(QLatin1Char('/'));
+	}
+
+	fileName.replace(QLatin1Char('/'), QLatin1Char('-'));
+	fileName.remove(QLatin1Char('\\'));
+	fileName.remove(QLatin1Char(':'));
+	fileName.remove(QLatin1Char('*'));
+	fileName.remove(QLatin1Char('?'));
+	fileName.remove(QLatin1Char('"'));
+	fileName.remove(QLatin1Char('<'));
+	fileName.remove(QLatin1Char('>'));
+	fileName.remove(QLatin1Char('|'));
+
+	if (fileName.isEmpty()) {
+		fileName = url.host();
+
+		fileName.replace(QLatin1Char('/'), QLatin1Char('-'));
+		fileName.remove(QLatin1Char('\\'));
+		fileName.remove(QLatin1Char(':'));
+		fileName.remove(QLatin1Char('*'));
+		fileName.remove(QLatin1Char('?'));
+		fileName.remove(QLatin1Char('"'));
+		fileName.remove(QLatin1Char('<'));
+		fileName.remove(QLatin1Char('>'));
+		fileName.remove(QLatin1Char('|'));
+	}
+
+	return fileName;
+}
+
 QString Application::ensureUniqueFilename(const QString& name, const QString& appendFormat)
 {
 	Q_ASSERT(appendFormat.contains(QLatin1String("%1")));
@@ -282,10 +323,6 @@ Application::Application(int& argc, char** argv) :
 	m_piwikTracker = new PiwikTracker(this, QUrl("https://sielo.app/analytics"), 1);
 	m_piwikTracker->sendVisit("launch");
 #endif 
-	
-	m_plugins = new PluginProxy;
-
-	m_plugins->loadPlugins();
 
 	// Setting up web and network objects
 	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
@@ -309,6 +346,9 @@ Application::Application(int& argc, char** argv) :
 	script.setSourceCode(webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))));
 
 	m_webProfile->scripts()->insert(script);
+
+	m_plugins = new PluginProxy;
+	m_plugins->loadPlugins();
 
 	// Check if we start after a crash
 	if (!privateBrowsing()) {
@@ -384,6 +424,7 @@ void Application::loadSettings()
 	loadWebSettings();
 	loadApplicationSettings();
 	loadThemesSettings();
+	loadPluginsSettings();
 	loadTranslationSettings();
 }
 
@@ -492,8 +533,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		///WARNING : Next version is 45
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 44) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 47) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -519,7 +559,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 43);
+			settings.setValue("Themes/defaultThemeVersion", 47);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -533,8 +573,27 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("round-theme", false);
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
-		///WARNING : Next version is 45
-		settings.setValue("Themes/defaultThemeVersion", 44);
+
+		settings.setValue("Themes/defaultThemeVersion", 47);
+	}
+}
+
+void Application::loadPluginsSettings()
+{
+	Settings settings{};
+
+	int pluginsVersion{settings.value("Plugin-Settings/pluginsVersion", 0).toInt()};
+	QString pluginsPath{DataPaths::currentProfilePath() + "/plugins"};
+	QString dataPluginsPath{":/plugins/data/plugins/"};
+
+	if (pluginsVersion < 1) {
+#if defined(Q_OS_WIN)
+		copyPath(QDir(dataPluginsPath + "/windows").absolutePath(), pluginsPath);
+#elif defined(Q_OS_MACOS) 
+		copyPath(QDir(dataPluginsPath + "/macos").absolutePath(), pluginsPath);
+#endif
+
+		settings.setValue("Plugin-Settings/pluginsVersion", 1);
 	}
 }
 

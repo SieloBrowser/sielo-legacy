@@ -89,6 +89,18 @@ void PluginProxy::registerAppEventHandler(const EventHandlerType& type, PluginIn
 	}
 }
 
+QList<QWidget*> PluginProxy::navigationBarButton(TabWidget* tabWidget)
+{
+	QList<QWidget*> buttons{};
+
+	foreach (PluginInterface* iPlugin, m_loadedPlugins)
+	{
+		buttons.append(iPlugin->navigationBarButton(tabWidget));
+	}
+
+	return buttons;
+}
+
 void PluginProxy::populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result)
 {
 	if (!menu || !view)
@@ -98,13 +110,13 @@ void PluginProxy::populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTe
 		iPlugin->populateWebViewMenu(menu, view, result);
 }
 
-void PluginProxy::populateExtensionsMenu(QMenu* menu)
+void PluginProxy::populateExtensionsMenu(QMenu* menu, TabWidget* tabWidget)
 {
-	if (!menu)
+	if (!menu || !tabWidget)
 		return;
 
 	foreach(PluginInterface* iPlugin, m_loadedPlugins)
-		iPlugin->populateExtensionsMenu(menu);
+		iPlugin->populateExtensionsMenu(menu, tabWidget);
 }
 
 bool PluginProxy::processMouseDoubleClick(const Application::ObjectName& type, QObject* obj, QMouseEvent* event)

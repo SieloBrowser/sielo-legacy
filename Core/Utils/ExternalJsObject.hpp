@@ -30,6 +30,8 @@
 
 #include <QObject>
 
+#include <QWebChannel>
+
 namespace Sn {
 class WebPage;
 class AutoFillJsObject;
@@ -45,6 +47,11 @@ public:
 	explicit ExternalJsObject(WebPage* page);
 
 	WebPage* page() const;
+
+	static void setupWebChannel(QWebChannel* webChannel, WebPage* page);
+
+	static void registerExtraObject(const QString& id, QObject* object);
+	static void unregisterExtraObject(const QString& id);
 
 private:
 	QObject* autoFill() const;

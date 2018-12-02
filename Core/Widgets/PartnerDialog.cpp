@@ -27,6 +27,8 @@
 #include <QPixmap>
 #include <QGraphicsDropShadowEffect>
 
+#include "Application.hpp"
+
 namespace Sn {
 
 PartnerDialog::PartnerDialog(QWidget* parent) :
@@ -34,6 +36,8 @@ PartnerDialog::PartnerDialog(QWidget* parent) :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setWindowTitle(tr("Partners"));
+	setWindowIcon(Application::getAppIcon("ic_sielo"));
+
 	resize(636, 432);
 	setupUI();
 	setupPartners();
