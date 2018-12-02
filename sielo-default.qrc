@@ -45,6 +45,7 @@
         <file>data/themes/sielo-default/dark/preferences/download.png</file>
         <file>data/themes/sielo-default/dark/preferences/local-storage.png</file>
         <file>data/themes/sielo-default/dark/preferences/passwords.png</file>
+		<file>data/themes/sielo-default/dark/preferences/plugins.png</file>
         <file>data/themes/sielo-default/dark/preferences/preferences.png</file>
         <file>data/themes/sielo-default/dark/preferences/privacy.png</file>
         <file>data/themes/sielo-default/dark/preferences/proxy.png</file>
@@ -117,6 +118,7 @@
         <file>data/themes/sielo-default/light/preferences/download.png</file>
         <file>data/themes/sielo-default/light/preferences/local-storage.png</file>
         <file>data/themes/sielo-default/light/preferences/passwords.png</file>
+		<file>data/themes/sielo-default/light/preferences/plugins.png</file>
         <file>data/themes/sielo-default/light/preferences/preferences.png</file>
         <file>data/themes/sielo-default/light/preferences/privacy.png</file>
         <file>data/themes/sielo-default/light/preferences/proxy.png</file>
