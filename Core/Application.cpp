@@ -87,7 +87,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.01 closed-beta");
+QString Application::currentVersion = QString("1.17.04 closed-beta");
 
 // Static member
 Application *Application::instance()
@@ -222,7 +222,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.01"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.17.04"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	/*
