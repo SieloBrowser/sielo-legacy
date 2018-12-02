@@ -176,6 +176,7 @@ public:
 	void loadWebSettings();
 	void loadApplicationSettings();
 	void loadThemesSettings();
+	void loadPluginsSettings();
 	void loadTranslationSettings();
 	void updateToProfiles();
 
