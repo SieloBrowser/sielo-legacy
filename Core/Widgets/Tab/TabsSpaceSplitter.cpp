@@ -283,15 +283,18 @@ void TabsSpaceSplitter::insertTabsSpace(int x, int y, TabWidget* tabWidget)
 	}
 	else {
 		m_verticalSplitter[m_horizontalSplitter->widget(x)]->insertWidget(y, container);
-
-		connect(tabWidget, &TabWidget::focusIn, m_window, &BrowserWindow::tabWidgetIndexChanged);
-		connect(m_window->titleBar(), &TitleBar::toggleBookmarksBar, tabWidget,
-				&TabWidget::updateShowBookmarksBarText);
 	}
 }
 
 void TabsSpaceSplitter::removeTabsSpace(TabWidget* tabWidget)
 {
+	int index = m_tabWidgets.indexOf(tabWidget);
+
+	if (index > 0)
+		m_currentTabWidget = m_tabWidgets[0];
+	else if (m_tabWidgets.count() > 1)
+		m_currentTabWidget = m_tabWidgets[1];
+
 	TabsSpaceInfo info = tabsSpaceInfo(tabWidget);
 
 	QSplitter* column = m_verticalSplitter[info.column];
@@ -491,6 +494,10 @@ QWidget* TabsSpaceSplitter::tabWidgetContainer(TabWidget* tabWidget)
 
 	layout->addWidget(tabWidget->tabBar());
 	layout->addWidget(tabWidget);
+
+	connect(tabWidget, &TabWidget::focusIn, m_window, &BrowserWindow::tabWidgetIndexChanged);
+	connect(m_window->titleBar(), &TitleBar::toggleBookmarksBar, tabWidget,
+			&TabWidget::updateShowBookmarksBarText);
 
 	return widget;
 }

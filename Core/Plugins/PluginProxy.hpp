@@ -40,6 +40,8 @@ namespace Sn
 
 class WebView;
 class WebPage;
+class WebTab;
+class TabWidget;
 class WebHitTestResult;
 
 class NavigationToolBar;
@@ -89,6 +91,12 @@ public:
 	void emitWebPageCreated(WebPage* page);
 	void emitWebPageDeleted(WebPage* page);
 
+	void emitWebTabCreated(WebTab* tab);
+	void emitWebTabDeleted(WebTab* tab);
+
+	void emitTabsSpaceCreated(TabWidget* tabSpace);
+	void emitTabsSpaceDeleted(TabWidget* tabSpace);
+
 	void emitMainWindowCreated(BrowserWindow* window);
 	void emitMainWindowDeleted(BrowserWindow* window);
 
@@ -96,6 +104,12 @@ signals:
 	void webPageCreated(WebPage* page);
 	void webPageDeleted(WebPage* page);
 
+	void webTabCreated(WebTab* tab);
+	void webTabDeleted(WebTab* tab);
+
+	void tabsSpaceCreated(TabWidget* tabsSpace);
+	void tabsSpaceDeleted(TabWidget* tabsSpace);
+	
 	void mainWindowCreated(BrowserWindow* window);
 	void mainWindowDeleted(BrowserWindow* window);
 
