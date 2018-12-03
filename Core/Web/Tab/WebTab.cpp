@@ -31,6 +31,8 @@
 
 #include "Utils/Settings.hpp"
 
+#include "Plugins/PluginProxy.hpp"
+
 #include "Web/WebPage.hpp"
 #include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
@@ -246,12 +248,16 @@ WebTab::WebTab(TabWidget* tabWidget) :
 	setLayout(layout);
 
 	setFocusProxy(m_webView);
+	
+	Application::instance()->plugins()->emitWebTabCreated(this);
 }
 
 
 
 WebTab::~WebTab()
 {
+	Application::instance()->plugins()->emitWebTabDeleted(this);
+
 	if (m_application) {
 		m_application->disconnect();
 		delete m_application;

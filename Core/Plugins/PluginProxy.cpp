@@ -242,6 +242,26 @@ void PluginProxy::emitWebPageDeleted(WebPage* page)
 	emit webPageDeleted(page);
 }
 
+void PluginProxy::emitWebTabCreated(WebTab* tab)
+{
+	emit webTabCreated(tab);
+}
+
+void PluginProxy::emitWebTabDeleted(WebTab* tab)
+{
+	emit webTabDeleted(tab);
+}
+
+void PluginProxy::emitTabsSpaceCreated(TabWidget* tabsSpace)
+{
+	emit tabsSpaceCreated(tabsSpace);
+}
+
+void PluginProxy::emitTabsSpaceDeleted(TabWidget* tabsSpace)
+{
+	emit tabsSpaceDeleted(tabsSpace);
+}
+
 void PluginProxy::emitMainWindowCreated(BrowserWindow* window)
 {
 	emit mainWindowCreated(window);

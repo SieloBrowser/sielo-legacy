@@ -205,10 +205,13 @@ TabWidget::TabWidget(BrowserWindow* window, Application::TabsSpaceType type, QWi
 
 	setTabBar(m_tabBar);
 	loadSettings();
+
+	Application::instance()->plugins()->emitTabsSpaceCreated(this);
 }
 
 TabWidget::~TabWidget()
 {
+	Application::instance()->plugins()->emitTabsSpaceDeleted(this);
 	delete m_closedTabsManager;
 }
 
