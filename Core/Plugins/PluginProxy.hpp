@@ -100,6 +100,8 @@ public:
 	void emitMainWindowCreated(BrowserWindow* window);
 	void emitMainWindowDeleted(BrowserWindow* window);
 
+	void emitThemeChanged(bool isDark);
+
 signals:
 	void webPageCreated(WebPage* page);
 	void webPageDeleted(WebPage* page);
@@ -112,6 +114,8 @@ signals:
 	
 	void mainWindowCreated(BrowserWindow* window);
 	void mainWindowDeleted(BrowserWindow* window);
+
+	void themeChanged(bool isDark);
 
 private slots:
 	void pluginUnloaded(PluginInterface* plugin);

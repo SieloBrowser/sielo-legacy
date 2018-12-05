@@ -271,6 +271,11 @@ void PluginProxy::emitMainWindowDeleted(BrowserWindow* window)
 	emit mainWindowDeleted(window);
 }
 
+void PluginProxy::emitThemeChanged(bool isDark)
+{
+	emit themeChanged(isDark);
+}
+
 void PluginProxy::pluginUnloaded(PluginInterface* plugin)
 {
 	m_mouseDoubleClickHandlers.removeOne(plugin);
