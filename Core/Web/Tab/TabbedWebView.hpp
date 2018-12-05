@@ -39,7 +39,8 @@
 
 #include "Web/WebView.hpp"
 
-namespace Sn {
+namespace Sn
+{
 class WebPage;
 class TabWidget;
 class LoadRequest;
@@ -47,7 +48,7 @@ class LoadRequest;
 class WebTab;
 
 class SIELO_SHAREDLIB TabbedWebView: public WebView {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	TabbedWebView(WebTab* tab);
@@ -94,6 +95,8 @@ private slots:
 	void linkHovered(const QString& link);
 	void setIp(const QHostInfo& info);
 
+	void inspectElement();
+
 private:
 	void newContextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 	void newMousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
@@ -112,7 +115,7 @@ private:
 	WebTab* m_webTab{nullptr};
 	QMenu* m_menu{nullptr};
 
-	QImage* m_processed_bg{ nullptr };
+	QImage* m_processed_bg{nullptr};
 
 	QString m_currentIp{};
 

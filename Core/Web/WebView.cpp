@@ -111,8 +111,6 @@ WebView::WebView(QWidget* parent) :
 	if (parentWidget())
 		parentWidget()->installEventFilter(this);
 
-	WebInspector::registerView(this);
-
 	m_zoomLabel = new QLabel(this);
 	m_zoomLabel->setWindowFlags(m_zoomLabel->windowFlags() | Qt::WindowStaysOnTopHint);
 	m_zoomLabel->hide();
@@ -122,8 +120,6 @@ WebView::WebView(QWidget* parent) :
 WebView::~WebView()
 {
 	Application::instance()->plugins()->emitWebPageDeleted(m_page);
-
-	WebInspector::unregisterView(this);
 	// Empty
 }
 
@@ -262,7 +258,6 @@ void WebView::load(const QUrl& url)
 	QWebEngineView::load(url);
 
 	if (!m_firstLoad) {
-		WebInspector::pushView(this);
 		m_firstLoad = true;
 	}
 }

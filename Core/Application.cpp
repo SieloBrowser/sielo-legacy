@@ -1263,6 +1263,9 @@ void Application::loadTheme(const QString& name, const QString& lightness)
 	else {
 		setStyleSheet("");
 	}
+
+	if (m_plugins)
+		m_plugins->emitThemeChanged(lightness == "dark");
 }
 
 QString Application::parseSSS(QString& sss, const QString& relativePath, const QString& lightness)

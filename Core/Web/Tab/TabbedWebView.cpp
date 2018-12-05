@@ -211,6 +211,14 @@ void TabbedWebView::setIp(const QHostInfo& info)
 		emit ipChanged(m_currentIp);
 }
 
+void TabbedWebView::inspectElement()
+{
+	if (m_webTab->haveInspector())
+		triggerPageAction(QWebEnginePage::InspectElement);
+	else
+		m_webTab->showWebInspector(true);
+}
+
 void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 {
 	m_menu->clear();
@@ -219,7 +227,7 @@ void TabbedWebView::newContextMenuEvent(QContextMenuEvent* event)
 	createContextMenu(m_menu, hitTest);
 	m_menu->addSeparator();
 	m_menu->addAction(Application::getAppIcon("text-html"), tr("Show so&urce code"), this, &WebView::showSource);
-	m_menu->addAction(tr("Show Inspector"), m_webTab, &WebTab::toggleWebInspector);
+	m_menu->addAction(tr("Inspect Element"), this, &TabbedWebView::inspectElement);
 
 	if (!m_menu->isEmpty()) {
 		const QPoint pos{event->globalPos()};

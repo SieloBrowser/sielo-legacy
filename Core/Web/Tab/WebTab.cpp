@@ -34,7 +34,6 @@
 #include "Plugins/PluginProxy.hpp"
 
 #include "Web/WebPage.hpp"
-#include "Web/WebInspector.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/FloatingButton.hpp"
@@ -589,29 +588,28 @@ void WebTab::moveTab(int to) const
 
 bool WebTab::haveInspector() const
 {
-	return m_splitter->count() > 1 && m_splitter->widget(1)->inherits("WebInspector");
+	return m_inspector;
 }
 
 void WebTab::showWebInspector(bool inspectElement)
 {
-	if (!WebInspector::isEnabled() || haveInspector())
+	if (m_inspector)
 		return;
 
-	WebInspector* inspector{new WebInspector(this)};
-	inspector->setView(m_webView);
+	m_inspector = new WebInspector(this);
+	m_inspector->setView(m_webView, inspectElement);
 
-	if (inspectElement)
-		inspector->inspectElement();
+	m_splitter->addWidget(m_inspector);
 
-	m_splitter->addWidget(inspector);
+	m_splitter->setSizes({2 * (m_splitter->height() / 3), m_splitter->height() / 3});
 }
 
 void WebTab::toggleWebInspector()
 {
-	if (!haveInspector())
+	if (!m_inspector)
 		showWebInspector();
 	else
-		delete m_splitter->widget(1);
+		m_inspector->close();
 }
 
 void WebTab::showSearchToolBar()
