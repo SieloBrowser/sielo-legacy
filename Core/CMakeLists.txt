@@ -54,14 +54,14 @@ file(
         ${CMAKE_SOURCE_DIR}/*.qrc
 )
 
-add_library(Core SHARED ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
+add_library(SieloCore SHARED ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
 
 set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
 if(WIN32)
     set(SIELO_LIBS ${SIELO_LIBS} dwmapi uxtheme)
 endif()
 
-target_link_libraries(Core ${SIELO_LIBS})
+target_link_libraries(SieloCore ${SIELO_LIBS})
 
 if (WIN32)
     # deploy
@@ -69,8 +69,8 @@ if (WIN32)
     get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)
     set(QT5_WINDEPLOYQT_EXECUTABLE "${QT5_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
 
-    add_custom_command(TARGET Core POST_BUILD
-        COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:Core>/Core.dll)
+    add_custom_command(TARGET SieloCore POST_BUILD
+        COMMAND ${QT5_WINDEPLOYQT_EXECUTABLE} --qmldir ${CMAKE_SOURCE_DIR} $<TARGET_FILE_DIR:SieloCore>/SieloCore.dll)
 		file(GLOB OPENSSL_CRYPTO_DLLS "${OPENSSL_DIR}/bin/*.dll")
         file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Debug)
         file(COPY ${OPENSSL_CRYPTO_DLLS} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Release)

@@ -49,7 +49,7 @@ else()
     add_executable(sielo-browser ${SOURCE_FILES})
 endif()
 
-set (SIELO_LIBS ${SIELO_LIBS} Core)
+set (SIELO_LIBS ${SIELO_LIBS} SieloCore)
 
 target_link_libraries(sielo-browser ${SIELO_LIBS})
 
