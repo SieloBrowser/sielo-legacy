@@ -718,10 +718,6 @@ void BrowserWindow::postLaunch()
 #ifndef QT_DEBUG
 		Application::instance()->piwikTraker()->sendEvent("installation", "installation", "installation", "new installation");
 #endif
-		tabWidget()
-			->addView(QUrl("https://sielo.app/thanks.php"),
-					  Application::NTT_CleanSelectedTabAtEnd);
-
 		NavigationControlDialog* navigationControlDialog{new NavigationControlDialog(this)};
 		navigationControlDialog->exec();
 
