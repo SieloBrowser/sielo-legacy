@@ -36,91 +36,40 @@
 #include "Application.hpp"
 
 namespace Sn {
-QList<QWebEngineView*> WebInspector::s_views;
-
 WebInspector::WebInspector(QWidget* parent) :
-	QWebEngineView(parent)
+	QWidget(parent)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName("web-inspector");
 	setMinimumHeight(80);
 
-	registerView(this);
+	setupUI();
 
-	connect(page(), &QWebEnginePage::windowCloseRequested, this, &WebInspector::deleteLater);
-	connect(page(), &QWebEnginePage::loadFinished, this, &WebInspector::loadFinished);
+	connect(m_closeButton, &QPushButton::clicked, this, &WebInspector::close);
 }
 
-WebInspector::~WebInspector()
+void WebInspector::setView(QWebEngineView* view, bool inspectElement)
 {
-	unregisterView(this);
-	// Empty
+	m_inspectedView = view;
+	m_view->page()->setInspectedPage(view->page());
+
+	if (inspectElement)
+		view->triggerPageAction(QWebEnginePage::InspectElement);
 }
 
-void WebInspector::setView(QWebEngineView* view)
+
+void WebInspector::setupUI()
 {
-	m_view = view;
-	Q_ASSERT(isEnabled());
+	m_layout = new QVBoxLayout(this);
 
-	int port = qEnvironmentVariableIntValue("QTWEBENGINE_REMOTE_DEBUGGING");
-	QUrl inspectorUrl = QUrl(QStringLiteral("http://localhost:%1").arg(port));
-	int index = s_views.indexOf(m_view);
+	m_closeButton = new QPushButton("X", this);
+	m_closeButton->setObjectName("web-inspector-btn-close");
 
-	QNetworkReply *reply = Application::instance()->networkManager()->get(QNetworkRequest(inspectorUrl.resolved(QUrl("json/list"))));
-	connect(reply, &QNetworkReply::finished, this, [=]() {
-		QJsonArray clients = QJsonDocument::fromJson(reply->readAll()).array();
-		QUrl pageUrl;
-		if (clients.size() > index) {
-			QJsonObject object = clients.at(index).toObject();
-			pageUrl = inspectorUrl.resolved(QUrl(object.value(QStringLiteral("devtoolsFrontendUrl")).toString()));
-		}
-		load(pageUrl);
-		pushView(this);
-		show();
-	});
-}
+	m_view = new QWebEngineView(this);
 
-void WebInspector::inspectElement()
-{
-	m_inspectElement = true;
-}
+	m_layout->addWidget(m_closeButton);
+	m_layout->addWidget(m_view);
 
-bool WebInspector::isEnabled()
-{
-	return qEnvironmentVariableIsSet("QTWEBENGINE_REMOTE_DEBUGGING");
-}
-
-void WebInspector::pushView(QWebEngineView *view)
-{
-	s_views.removeOne(view);
-	s_views.prepend(view);
-}
-
-void WebInspector::registerView(QWebEngineView *view)
-{
-	s_views.prepend(view);
-}
-
-void WebInspector::unregisterView(QWebEngineView *view)
-{
-	s_views.removeOne(view);
-}
-
-void WebInspector::loadFinished()
-{
-	if (m_inspectElement) {
-		//	m_view->triggerPageAction(QWebEnginePage::InspectElement);
-		m_inspectElement = false;
-	}
-}
-
-void WebInspector::keyPressEvent(QKeyEvent* event)
-{
-	Q_UNUSED(event)
-}
-
-void WebInspector::keyReleaseEvent(QKeyEvent* event)
-{
-	Q_UNUSED(event)
+	m_layout->setAlignment(m_closeButton, Qt::AlignRight);
 }
 }

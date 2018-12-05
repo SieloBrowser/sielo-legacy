@@ -364,9 +364,6 @@ void TabWidget::currentTabChanged(int index)
 	currentTab->tabActivated();
 	WebTab* oldTab{weTab()};
 
-	if (currentTab->webView()->wasLoaded()) 
-		WebInspector::pushView(currentTab->webView());
-
 	disconnect(oldTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 

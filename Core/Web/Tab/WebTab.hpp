@@ -48,12 +48,12 @@
 #include <QPointer>
 
 #include "Web/LoadRequest.hpp"
+#include "Web/WebInspector.hpp"
 
 namespace Sn
 {
 class TabWidget;
 
-class WebInspector;
 class TabbedWebView;
 
 class TabIcon;
@@ -205,9 +205,9 @@ private:
 	QMenu* m_menuForward{nullptr};
 
 	TabWidget* m_tabWidget{nullptr};
-	WebInspector* m_inspector{nullptr};
+	QPointer<WebInspector> m_inspector{};
 	TabbedWebView* m_webView{nullptr};
-	QPointer<QWidget> m_application{nullptr};
+	QPointer<QWidget> m_application{};
 	TabIcon* m_tabIcon{nullptr};
 	QWidget* m_notificationWidget{nullptr};
 

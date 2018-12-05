@@ -30,33 +30,27 @@
 
 #include <QWebEngineView>
 
+#include <QVBoxLayout>
+#include <QPushButton>
+
 namespace Sn {
-class SIELO_SHAREDLIB WebInspector: public QWebEngineView {
+class SIELO_SHAREDLIB WebInspector: public QWidget {
 Q_OBJECT
 
 public:
 	WebInspector(QWidget* parent = nullptr);
-	~WebInspector();
+	~WebInspector() = default;
 
-	void setView(QWebEngineView* view);
-	void inspectElement();
-
-	static bool isEnabled();
-	static void pushView(QWebEngineView *view);
-	static void registerView(QWebEngineView *view);
-	static void unregisterView(QWebEngineView *view);
-
-private slots:
-	void loadFinished();
+	void setView(QWebEngineView* view, bool inspectElement = false);
 
 private:
-	void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
-	void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+	void setupUI();
 
-	static QList<QWebEngineView*> s_views;
-
-	bool m_inspectElement{false};
+	QVBoxLayout* m_layout{nullptr};
+	QPushButton* m_closeButton{nullptr};
 	QWebEngineView* m_view{nullptr};
+
+	QWebEngineView* m_inspectedView{nullptr};
 };
 }
 
