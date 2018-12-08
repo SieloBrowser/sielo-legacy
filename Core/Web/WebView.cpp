@@ -157,6 +157,7 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 		switch (event->type()) {
 		case QEvent::Wheel:
 			newWheelEvent(static_cast<QWheelEvent*>(event));
+			break;
 		case QEvent::MouseButtonPress:
 			newMousePressEvent(static_cast<QMouseEvent*>(event));
 			break;
@@ -189,7 +190,42 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 		}
 	}
 
-	return QWebEngineView::eventFilter(watched, event);
+	if (watched == this) {
+		switch (event->type()) {
+		case QEvent::KeyPress:
+		case QEvent::KeyRelease:
+		case QEvent::MouseButtonPress:
+		case QEvent::MouseButtonRelease:
+		case QEvent::MouseMove:
+		case QEvent::Wheel:
+			return true;
+
+		case QEvent::Hide:
+			if (isFullScreen()) {
+				triggerPageAction(QWebEnginePage::ExitFullScreen);
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	const bool res = QWebEngineView::eventFilter(watched, event);
+
+	if (watched == m_child) {
+		switch (event->type()) {
+		case QEvent::FocusIn:
+		case QEvent::FocusOut:
+			emit focusChanged(hasFocus());
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	return res;
 }
 
 QString WebView::title() const
