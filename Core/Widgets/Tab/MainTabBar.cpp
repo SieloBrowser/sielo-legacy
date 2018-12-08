@@ -403,6 +403,8 @@ void MainTabBar::mousePressEvent(QMouseEvent* event)
 	else
 		m_dragStartPosition = QPoint();
 
+	emit m_tabWidget->focusIn(m_tabWidget);
+
 	ComboTabBar::mousePressEvent(event);
 }
 
@@ -481,8 +483,6 @@ void MainTabBar::mouseReleaseEvent(QMouseEvent* event)
 void MainTabBar::enterEvent(QEvent* event)
 {
 	event->accept();
-
-	emit m_tabWidget->focusIn(m_tabWidget);
 }
 
 void MainTabBar::dragEnterEvent(QDragEnterEvent* event)

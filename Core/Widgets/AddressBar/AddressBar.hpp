@@ -110,6 +110,7 @@ private:
 	void focusOutEvent(QFocusEvent* event);
 	void dropEvent(QDropEvent* event);
 	void keyPressEvent(QKeyEvent* event);
+	void mousePressEvent(QMouseEvent* event);
 
 	LoadRequest createLoadRequest() const;
 	void refreshTextFormat();

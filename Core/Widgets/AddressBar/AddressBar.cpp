@@ -516,6 +516,13 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 	LineEdit::keyPressEvent(event);
 }
 
+void AddressBar::mousePressEvent(QMouseEvent* event)
+{
+	emit m_tabWidget->focusIn(m_tabWidget);
+
+	LineEdit::mousePressEvent(event);
+}
+
 LoadRequest AddressBar::createLoadRequest() const
 {
 	LoadRequest request{};
