@@ -166,6 +166,8 @@ RootFloatingButton::RootFloatingButton(BrowserWindow* window, QWidget* parent, P
 	setGraphicsEffect(effect);
 
 	connect(this, &QPushButton::customContextMenuRequested, this, &RootFloatingButton::showMenu);
+
+	show();
 }
 
 RootFloatingButton::~RootFloatingButton()

@@ -480,11 +480,11 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 
 	// Move the floating button to the new focused tabs space if the user wants
 	if (m_fButton) {
-		QRect tabWidgetRect = tabWidget()->geometry();
+		QRect tabWidgetRect = tbWidget->geometry();
 
-		if (!tabWidgetRect.contains(tabWidget()->mapFromGlobal(mapToGlobal(m_fButton->pos())))
+		if (!tabWidgetRect.contains(tbWidget->mapFromGlobal(mapToGlobal(m_fButton->pos())))
 			&& Application::instance()->floatingButtonFoloweMouse()) {
-			m_fButton->tabWidgetChanged(tabWidget());
+			m_fButton->tabWidgetChanged(tbWidget);
 		}
 	}
 }
