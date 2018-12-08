@@ -118,6 +118,7 @@ void AppearancePage::save()
 	settings
 		.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
 		          m_hideBookmarksHistoryActionsByDefault->isChecked());
+	settings.setValue("showActiveTabsSpace", m_showActiveTabsSpace->isChecked());
 
 	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
 	settings.setValue(QLatin1String("repeatBackground"), m_repeatBackground->isChecked());
@@ -347,6 +348,7 @@ void AppearancePage::loadSettings()
 	                                                .toBool());
 	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
 	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
+	m_showActiveTabsSpace->setChecked(settings.value("showActiveTabsSpace", true).toBool());
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
@@ -487,6 +489,7 @@ void AppearancePage::setupUI()
 	m_hideBookmarksHistoryActionsByDefault =
 		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
+	m_showActiveTabsSpace = new QCheckBox(tr("Visually show active tabs space with borders"));
 
 	m_tabsSpacesPaddingLabel = new QLabel(tr("Tabs spaces padding (in px)"), this);
 	m_tabsSpacesPadding = new QSlider(Qt::Horizontal, this);
@@ -541,6 +544,7 @@ void AppearancePage::setupUI()
 	m_advancedPageLayout->addWidget(m_useRealToolBar);
 	m_advancedPageLayout->addWidget(m_hideBookmarksHistoryActionsByDefault);
 	m_advancedPageLayout->addWidget(m_floatingButtonFoloweMouse);
+	m_advancedPageLayout->addWidget(m_showActiveTabsSpace);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPaddingLabel);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
 	m_advancedPageLayout->addWidget(m_repeatBackground);

@@ -29,6 +29,7 @@
 #include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/Preferences/Appearance.hpp"
 
 #include "MaquetteGrid/MaquetteGridItem.hpp"
 
@@ -154,6 +155,7 @@ void TabsSpaceSplitter::loadSettings()
 
 	m_tabsSpacePadding = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 	const bool showBookmarksToolBar{settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool()};
+	const bool showActiveTabsSpace = settings.value("Settings/showActiveTabsSpace", true).toBool();
 
 	// We can apply a padding between tabs space, exactly like i3 gaps
 	foreach(TabWidget* tabWidget, m_tabWidgets)
@@ -161,9 +163,14 @@ void TabsSpaceSplitter::loadSettings()
 		tabWidget->loadSettings();
 		tabWidget->updateShowBookmarksBarText(showBookmarksToolBar);
 
+		tabWidget->parentWidget()->setStyleSheet("");
+
 		if (tabWidget->parentWidget())
 			tabWidget->parentWidget()->setContentsMargins(m_tabsSpacePadding, m_tabsSpacePadding,
 														  m_tabsSpacePadding, m_tabsSpacePadding);
+
+		if (tabWidget == m_currentTabWidget && showActiveTabsSpace)
+			tabWidget->parentWidget()->setStyleSheet("#tabsspace-container { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 }
 
@@ -384,6 +391,13 @@ int TabsSpaceSplitter::horizontalCount() const
 
 void TabsSpaceSplitter::currentTabWidgetChanged(TabWidget* current)
 {
+	if (Settings().value("Settings/showActiveTabsSpace", true).toBool()) {
+		if (m_currentTabWidget)
+			m_currentTabWidget->parentWidget()->setStyleSheet("");
+
+		current->parentWidget()->setStyleSheet("#tabsspace-container { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+	}
+
 	m_currentTabWidget = current;
 }
 
@@ -481,6 +495,7 @@ QWidget* TabsSpaceSplitter::tabWidgetContainer(TabWidget* tabWidget)
 	QWidget* widget{new QWidget(this)};
 	QVBoxLayout* layout{new QVBoxLayout(widget)};
 
+	widget->setObjectName("tabsspace-container");
 	widget->setContentsMargins(m_tabsSpacePadding, m_tabsSpacePadding, m_tabsSpacePadding, m_tabsSpacePadding);
 
 	layout->setSpacing(0);
