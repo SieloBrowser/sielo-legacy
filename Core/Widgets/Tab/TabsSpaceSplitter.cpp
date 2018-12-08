@@ -170,7 +170,7 @@ void TabsSpaceSplitter::loadSettings()
 														  m_tabsSpacePadding, m_tabsSpacePadding);
 
 		if (tabWidget == m_currentTabWidget && showActiveTabsSpace)
-			tabWidget->parentWidget()->setStyleSheet("#tabsspace-container { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+			tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 }
 
@@ -395,7 +395,7 @@ void TabsSpaceSplitter::currentTabWidgetChanged(TabWidget* current)
 		if (m_currentTabWidget)
 			m_currentTabWidget->parentWidget()->setStyleSheet("");
 
-		current->parentWidget()->setStyleSheet("#tabsspace-container { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+		current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 
 	m_currentTabWidget = current;

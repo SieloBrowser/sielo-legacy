@@ -47,6 +47,7 @@ TabStackedWidget::TabStackedWidget(QWidget* parent) :
 	m_layout->setContentsMargins(0, 0, 0, 0);
 
 	m_stack = new QStackedWidget(this);
+	m_stack->setObjectName("tabwidget-stack");
 
 	m_splitter = new QSplitter(this);
 	m_splitter->setObjectName("sidebar-splitter");
