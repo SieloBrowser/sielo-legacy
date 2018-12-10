@@ -12,7 +12,7 @@ configuration:
 
 install:
     - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-    - set CMAKE_PREFIX_PATH=C:\Qt\5.11.2\msvc2017_64 OPENSSL_ROOT_DIR=C:\OpenSSL-v111-Win64\bin OPENSSL_CRYPTO_LIBRARY=C:\OpenSSL-v111-Win64\bin
+    - set CMAKE_PREFIX_PATH=C:\Qt\5.11.2\msvc2017_64
 
 before_build:
     - set Path=%Path%
@@ -20,7 +20,7 @@ before_build:
     - cd build
 
 build_script:
-    - cmake -G "NMake Makefiles" ../
+    - cmake -G "NMake Makefiles" -DOPENSSL_ROOT_DIR=C:\OpenSSL-v111-Win64\bin -DOPENSSL_CRYPTO_LIBRARY=C:\OpenSSL-v111-Win64\bin ../
     - cmake --build build
 
 artifacts:
