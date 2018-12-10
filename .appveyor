@@ -1,12 +1,20 @@
 clone_depth: 10
 shallow_clone: true
 
+image:
+	- Visual Studio 2017
+
 environment:
     matrix:
     - PLATFORM: amd64
 
+configuration:
+	- Release
+
 install:
-    - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+	- set QTDIR=C:\Qt\5.11.2\msvc2017_64
+	- set OPENSSL_ROOT_DIR=C:\OpenSSL-v111-Win64\bin
+	- set OPENSSL_CRYPTO_LIBRARY=C:\OpenSSL-v111-Win64\bin
 
 before_build:
     - set Path=%Path%
