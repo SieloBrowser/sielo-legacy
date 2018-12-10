@@ -2,7 +2,7 @@ clone_depth: 10
 shallow_clone: true
 
 image:
-	- Visual Studio 2017
+- Visual Studio 2017
 
 environment:
     matrix:
