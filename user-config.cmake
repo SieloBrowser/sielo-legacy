@@ -11,8 +11,8 @@
 #                      WINDOWS                          #
 #-------------------------------------------------------#
 ### 64bit (x64) ###
- set (CMAKE_PREFIX_PATH C:\Qt\5.11.2\msvc2017_64) # <Set Path to Qt>
-set (OPENSSL_DIR C:\OpenSSL-v111-Win64\bin) # <OTIONAL : Set the past to custom OpenSSL version>
+ set (CMAKE_PREFIX_PATH "C:\\Qt\\5.11.2\\msvc2017_64") # <Set Path to Qt>
+set (OPENSSL_DIR "C:\\OpenSSL-v111-Win64\\bin") # <OTIONAL : Set the past to custom OpenSSL version>
 
 ### 32bit (x86) ###
 # set (CMAKE_PREFIX_PATH "C:\\Qt\\5.10.2\\msvc2015\\") # <Set Path to Qt>
