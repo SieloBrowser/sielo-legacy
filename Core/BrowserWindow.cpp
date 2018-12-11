@@ -464,7 +464,7 @@ void BrowserWindow::addBookmark(const QUrl& url, const QString& title)
 
 void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 {
-	if (tabWidget()->count() < 1)
+	if (tabWidget()->count() < 1 || tabWidget() == tbWidget)
 		return;
 
 	// Change the tabs space for the restore action
