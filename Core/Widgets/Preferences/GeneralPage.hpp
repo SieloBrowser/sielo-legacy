@@ -59,6 +59,10 @@ private slots:
 
 	void saveCurrentSession();
 
+	void createProfile();
+	void deleteProfile();
+	void startProfileIndexChanged(int index);
+
 private:
 	void setupUI();
 	void setupUIObjects();
@@ -98,8 +102,8 @@ private:
 	QGroupBox* m_groupProfile{nullptr};
 	QLabel* m_descActiveProfile{nullptr};
 	QLabel* m_activeProfile{nullptr};
-	QLabel* m_descStartupPofile{nullptr};
-	QComboBox* m_startupProfile{nullptr};
+	QLabel* m_descStartPofile{nullptr};
+	QComboBox* m_startProfile{nullptr};
 
 	QFrame* m_profileControlFrame{nullptr};
 	QHBoxLayout* m_layoutProfileControl{nullptr};

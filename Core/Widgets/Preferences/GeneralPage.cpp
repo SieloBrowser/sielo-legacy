@@ -25,9 +25,12 @@
 #include "Widgets/Preferences/GeneralPage.hpp"
 
 #include <QMessageBox>
+#include <QInputDialog>
 
 #include <QFileInfo>
 #include <QDir>
+
+#include "Database/ProfileManager.hpp"
 
 #include "Utils/DataPaths.hpp"
 #include "Utils/Settings.hpp"
@@ -54,6 +57,9 @@ GeneralPage::GeneralPage(QWidget* parent) :
 	connect(m_radioNSOpenSaved, &QRadioButton::toggled, this, &GeneralPage::startupActionChanged);
 	connect(m_btnSaveCurrentSession, &QPushButton::clicked, this, &GeneralPage::saveCurrentSession);
 
+	connect(m_btnCreateNewProfile, &QPushButton::clicked, this, &GeneralPage::createProfile);
+	connect(m_btnDeleteProfile, &QPushButton::clicked, this, &GeneralPage::deleteProfile);
+	connect(m_startProfile, SIGNAL(currentIndexChanged(int)), this, SLOT(startProfileIndexChanged(int)));
 };
 
 GeneralPage::~GeneralPage()
@@ -118,6 +124,20 @@ void GeneralPage::loadSettings()
 	m_btnSaveCurrentSession->setEnabled(afterLaunch == Application::OpenSavedSession);
 
 	settings.endGroup();
+
+	// Fill profiles info
+	QString startingProfile{ProfileManager::startingProfile()};
+
+	m_activeProfile->setText("<b>" + ProfileManager::currentProfile() + "</b>");
+	m_startProfile->addItem(startingProfile);
+
+	foreach(const QString& name, ProfileManager::availableProfiles())
+	{
+		if (startingProfile != name)
+			m_startProfile->addItem(name);
+	}
+
+	startProfileIndexChanged(m_startProfile->currentIndex());
 
 	// Set language
 	settings.beginGroup("Language");
@@ -190,6 +210,9 @@ void GeneralPage::save()
 
 	settings.endGroup();
 
+	// Save selected profile
+	ProfileManager::setStartingProfile(m_startProfile->currentText());
+
 	// Save language
 	settings.beginGroup("Language");
 
@@ -234,6 +257,62 @@ void GeneralPage::saveCurrentSession()
 	Application::instance()->saveSession(true);
 
 	QMessageBox::information(this, tr("Saved"), tr("Your session will be restored at startup"));
+}
+
+void GeneralPage::createProfile()
+{
+	QString name{QInputDialog::getText(this, tr("New Profile"), tr("Enter the new profile's name:"))};
+
+	name.replace(QLatin1Char('/'), QLatin1Char('-'));
+	name.remove(QLatin1Char('\\'));
+	name.remove(QLatin1Char(':'));
+	name.remove(QLatin1Char('*'));
+	name.remove(QLatin1Char('?'));
+	name.remove(QLatin1Char('"'));
+	name.remove(QLatin1Char('<'));
+	name.remove(QLatin1Char('>'));
+	name.remove(QLatin1Char('|'));
+
+	if (name.isEmpty())
+		return;
+
+	int result{ProfileManager::createProfile(name)};
+
+	if (result == -1) {
+		QMessageBox::critical(this, tr("Error"), tr("This profile already exists!"));
+		return;
+	}
+
+	if (result != 0) {
+		QMessageBox::critical(this, tr("Error"), tr("Cannot create profile directory!"));
+		return;
+	}
+
+	m_startProfile->addItem(name);
+	m_startProfile->setCurrentIndex(m_startProfile->count() - 1);
+}
+
+void GeneralPage::deleteProfile()
+{
+	QString name{m_startProfile->currentText()};
+	QMessageBox::StandardButton button = QMessageBox::warning(this,
+															  tr("Confirmation"),
+															  tr("Are you sure you want to permanently delete \"%1\" profile? This action cannot be undone!").arg(name), QMessageBox::Yes | QMessageBox::No);
+
+	if (button != QMessageBox::Yes)
+		return;
+
+	ProfileManager::removeProfile(name);
+
+	m_startProfile->removeItem(m_startProfile->currentIndex());
+}
+
+void GeneralPage::startProfileIndexChanged(int index)
+{
+	const bool current{m_startProfile->itemText(index) == ProfileManager::currentProfile()};
+
+	m_btnDeleteProfile->setEnabled(!current);
+	m_descCantDeleteActiveProfile->setText(current ? tr("Note: You cannot delete active profile.") : QString());
 }
 
 void GeneralPage::setupUI()
@@ -291,8 +370,8 @@ void GeneralPage::setupUIObjects()
 
 	m_descActiveProfile = new QLabel(tr("Active profile:"), this);
 	m_activeProfile = new QLabel(this);
-	m_descStartupPofile = new QLabel(tr("Startup profile:"), this);
-	m_startupProfile = new QComboBox(this);
+	m_descStartPofile = new QLabel(tr("Startup profile:"), this);
+	m_startProfile = new QComboBox(this);
 
 	m_profileControlFrame = new QFrame(this);
 	m_layoutProfileControl = new QHBoxLayout(m_profileControlFrame);
@@ -360,8 +439,8 @@ void GeneralPage::setupLayouts()
 
 	m_layoutGroupProfile->addWidget(m_descActiveProfile, 0, 0, 1, 1);
 	m_layoutGroupProfile->addWidget(m_activeProfile, 0, 1, 1, 1);
-	m_layoutGroupProfile->addWidget(m_descStartupPofile, 1, 0, 1, 1);
-	m_layoutGroupProfile->addWidget(m_startupProfile, 1, 1, 1, 1);
+	m_layoutGroupProfile->addWidget(m_descStartPofile, 1, 0, 1, 1);
+	m_layoutGroupProfile->addWidget(m_startProfile, 1, 1, 1, 1);
 	m_layoutGroupProfile->addWidget(m_profileControlFrame, 2, 0, 1, 2);
 
 	// Group Language
