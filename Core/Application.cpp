@@ -656,7 +656,7 @@ void Application::translateApplication()
 	// Either we load default language (with empty file), or we attempt to load xx.qm (xx_yy.qm)
 	Q_ASSERT(file.isEmpty() || file.size() >= 5);
 
-	QString translationPath{DataPaths::currentProfilePath() + "locale"};
+	QString translationPath{DataPaths::currentProfilePath() + "/locale"};
 
 	if (!file.isEmpty()) {
 		if (!QFile(QString("%1/%2").arg(translationPath, file)).exists()) {
