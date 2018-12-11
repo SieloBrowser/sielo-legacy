@@ -61,6 +61,8 @@ private slots:
 
 private:
 	void setupUI();
+	void setupUIObjects();
+	void setupLayouts();
 
 	QString createLanguageItem(const QString& lang);
 
@@ -68,6 +70,7 @@ private:
 	QVBoxLayout* m_layoutGroupHomePage{nullptr};
 	QVBoxLayout* m_layoutGroupNewTab{nullptr};
 	QVBoxLayout* m_layoutGroupNewSession{nullptr};
+	QGridLayout* m_layoutGroupProfile{nullptr};
 	QVBoxLayout* m_layoutGroupLanguage{nullptr};
 
 	// Group Box Home Page
@@ -90,6 +93,19 @@ private:
 	QRadioButton* m_radioNSRestoreSession{nullptr};
 	QRadioButton* m_radioNSOpenSaved{nullptr};
 	QPushButton* m_btnSaveCurrentSession{nullptr};
+
+	// Group Box Profil management
+	QGroupBox* m_groupProfile{nullptr};
+	QLabel* m_descActiveProfile{nullptr};
+	QLabel* m_activeProfile{nullptr};
+	QLabel* m_descStartupPofile{nullptr};
+	QComboBox* m_startupProfile{nullptr};
+
+	QFrame* m_profileControlFrame{nullptr};
+	QHBoxLayout* m_layoutProfileControl{nullptr};
+	QLabel* m_descCantDeleteActiveProfile{nullptr};
+	QPushButton* m_btnCreateNewProfile{nullptr};
+	QPushButton* m_btnDeleteProfile{nullptr};
 
 	// Group Box Language
 	QGroupBox* m_groupLanguage{nullptr};

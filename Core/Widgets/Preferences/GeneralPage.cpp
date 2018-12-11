@@ -35,10 +35,11 @@
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
 
-namespace Sn {
+namespace Sn
+{
 
 GeneralPage::GeneralPage(QWidget* parent) :
-		QWidget(parent)
+	QWidget(parent)
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 
@@ -104,7 +105,7 @@ void GeneralPage::loadSettings()
 	settings.beginGroup("Settings");
 
 	Application::AfterLaunch afterLaunch = static_cast<Application::AfterLaunch>(settings.value(
-			QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
+		QLatin1String("afterLaunch"), Application::OpenHomePage).toInt());
 	if (afterLaunch == Application::OpenBlankPage)
 		m_radioNSOpenBlankPage->setChecked(true);
 	else if (afterLaunch == Application::OpenHomePage)
@@ -132,18 +133,19 @@ void GeneralPage::loadSettings()
 	QDir lanDir{translationPath};
 	QStringList list = lanDir.entryList(QStringList("*.qm"));
 
-			foreach (const QString& name, list) {
-			if (name.startsWith(QLatin1String("qt_")))
-				continue;
+	foreach(const QString& name, list)
+	{
+		if (name.startsWith(QLatin1String("qt_")))
+			continue;
 
-			QString loc{name};
-			loc.remove(QLatin1String(".qm"));
+		QString loc{name};
+		loc.remove(QLatin1String(".qm"));
 
-			if (loc == activeLanguage)
-				continue;
+		if (loc == activeLanguage)
+			continue;
 
-			m_languages->addItem(createLanguageItem(loc), loc);
-		}
+		m_languages->addItem(createLanguageItem(loc), loc);
+	}
 
 }
 
@@ -240,8 +242,16 @@ void GeneralPage::setupUI()
 	m_layoutGroupHomePage = new QVBoxLayout();
 	m_layoutGroupNewTab = new QVBoxLayout();
 	m_layoutGroupNewSession = new QVBoxLayout();
+	m_layoutGroupProfile = new QGridLayout();
 	m_layoutGroupLanguage = new QVBoxLayout();
 
+	setupUIObjects();
+	setupLayouts();
+}
+
+void GeneralPage::setupUIObjects()
+{
+	// Group Home Page
 	m_groupHomePage = new QGroupBox(tr("Home page"), this);
 
 	m_radioHPBlank = new QRadioButton(tr("Open blank page"), m_groupHomePage);
@@ -252,6 +262,7 @@ void GeneralPage::setupUI()
 	m_homePageUrl = new QLineEdit(m_groupHomePage);
 	m_homePageUrl->setPlaceholderText(tr("Home page url"));
 
+	// Group New Tab
 	m_groupNewTab = new QGroupBox(tr("New tab"), this);
 
 	m_radioNTOpenBlankPage = new QRadioButton(tr("Open blank page"), m_groupNewTab);
@@ -263,6 +274,7 @@ void GeneralPage::setupUI()
 	m_newTabUrl = new QLineEdit(m_groupNewTab);
 	m_newTabUrl->setPlaceholderText(tr("New tab url"));
 
+	// Group New Session
 	m_groupNewSession = new QGroupBox(tr("New Session"), this);
 
 	m_radioNSOpenBlankPage = new QRadioButton(tr("Open blank page"), m_groupNewSession);
@@ -274,6 +286,38 @@ void GeneralPage::setupUI()
 
 	m_btnSaveCurrentSession = new QPushButton(tr("Save current session"), m_groupNewSession);
 
+	// Group Profile
+	m_groupProfile = new QGroupBox(tr("Profiles"), this);
+
+	m_descActiveProfile = new QLabel(tr("Active profile:"), this);
+	m_activeProfile = new QLabel(this);
+	m_descStartupPofile = new QLabel(tr("Startup profile:"), this);
+	m_startupProfile = new QComboBox(this);
+
+	m_profileControlFrame = new QFrame(this);
+	m_layoutProfileControl = new QHBoxLayout(m_profileControlFrame);
+
+	m_descCantDeleteActiveProfile = new QLabel(tr("Note: You cannot delete active profile."), m_profileControlFrame);
+	m_descCantDeleteActiveProfile->setAlignment(Qt::AlignRight | Qt::AlignTrailing | Qt::AlignVCenter);
+
+	m_btnCreateNewProfile = new QPushButton(tr("Create New"), m_profileControlFrame);
+	m_btnDeleteProfile = new QPushButton(tr("Delete"), m_profileControlFrame);
+
+	QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	sizePolicy.setHorizontalStretch(0);
+	sizePolicy.setVerticalStretch(0);
+	sizePolicy.setHeightForWidth(m_btnCreateNewProfile->sizePolicy().hasHeightForWidth());
+
+	m_btnCreateNewProfile->setSizePolicy(sizePolicy);
+	sizePolicy.setHeightForWidth(m_btnDeleteProfile->sizePolicy().hasHeightForWidth());
+	m_btnDeleteProfile->setSizePolicy(sizePolicy);
+	m_btnDeleteProfile->setEnabled(false);
+
+	m_layoutProfileControl->addWidget(m_descCantDeleteActiveProfile);
+	m_layoutProfileControl->addWidget(m_btnCreateNewProfile);
+	m_layoutProfileControl->addWidget(m_btnDeleteProfile);
+
+	// Group Language
 	m_groupLanguage = new QGroupBox(tr("Language"), this);
 
 	m_descLanguage = new QLabel(tr("Available translations:"), m_groupLanguage);
@@ -282,13 +326,19 @@ void GeneralPage::setupUI()
 										   m_groupLanguage);
 
 	m_dontLoadTabsUntilSelect = new QCheckBox(tr("Don't load tabs until selected"), this);
+}
 
+void GeneralPage::setupLayouts()
+{
+
+	// Group Home Page
 	m_groupHomePage->setLayout(m_layoutGroupHomePage);
 
 	m_layoutGroupHomePage->addWidget(m_radioHPBlank);
 	m_layoutGroupHomePage->addWidget(m_radioHPCustomUrl);
 	m_layoutGroupHomePage->addWidget(m_homePageUrl);
 
+	// Group New Tab
 	m_groupNewTab->setLayout(m_layoutGroupNewTab);
 
 	m_layoutGroupNewTab->addWidget(m_radioNTOpenBlankPage);
@@ -296,6 +346,7 @@ void GeneralPage::setupUI()
 	m_layoutGroupNewTab->addWidget(m_radioNTOpenCutomUrl);
 	m_layoutGroupNewTab->addWidget(m_newTabUrl);
 
+	// Group New Session
 	m_groupNewSession->setLayout(m_layoutGroupNewSession);
 
 	m_layoutGroupNewSession->addWidget(m_radioNSOpenBlankPage);
@@ -304,6 +355,16 @@ void GeneralPage::setupUI()
 	m_layoutGroupNewSession->addWidget(m_radioNSOpenSaved);
 	m_layoutGroupNewSession->addWidget(m_btnSaveCurrentSession);
 
+	// Group Profile
+	m_groupProfile->setLayout(m_layoutGroupProfile);
+
+	m_layoutGroupProfile->addWidget(m_descActiveProfile, 0, 0, 1, 1);
+	m_layoutGroupProfile->addWidget(m_activeProfile, 0, 1, 1, 1);
+	m_layoutGroupProfile->addWidget(m_descStartupPofile, 1, 0, 1, 1);
+	m_layoutGroupProfile->addWidget(m_startupProfile, 1, 1, 1, 1);
+	m_layoutGroupProfile->addWidget(m_profileControlFrame, 2, 0, 1, 2);
+
+	// Group Language
 	m_groupLanguage->setLayout(m_layoutGroupLanguage);
 
 	m_layoutGroupLanguage->addWidget(m_descLanguage);
@@ -313,6 +374,7 @@ void GeneralPage::setupUI()
 	m_layout->addWidget(m_groupHomePage);
 	m_layout->addWidget(m_groupNewTab);
 	m_layout->addWidget(m_groupNewSession);
+	m_layout->addWidget(m_groupProfile);
 	m_layout->addWidget(m_groupLanguage);
 	m_layout->addWidget(m_dontLoadTabsUntilSelect);
 }
