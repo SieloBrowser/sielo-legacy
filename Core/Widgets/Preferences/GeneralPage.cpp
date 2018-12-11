@@ -149,7 +149,7 @@ void GeneralPage::loadSettings()
 
 	m_languages->addItem("English (en_US)", "en_US");
 
-	const QString translationPath = DataPaths::currentProfilePath() + "locale";
+	const QString translationPath = DataPaths::currentProfilePath() + "/locale";
 	QDir lanDir{translationPath};
 	QStringList list = lanDir.entryList(QStringList("*.qm"));
 
