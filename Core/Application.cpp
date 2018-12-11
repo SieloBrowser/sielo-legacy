@@ -466,6 +466,7 @@ void Application::loadWebSettings()
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
 
 	webProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
+	webProfile->setPersistentStoragePath(DataPaths::currentProfilePath());
 
 	settings.endGroup();
 
