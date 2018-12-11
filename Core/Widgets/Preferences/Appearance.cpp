@@ -54,7 +54,7 @@ QString AppearancePage::colorString(QString id)
 	if (id.contains("main"))
 		returnColor = settings.value(QLatin1String("mainColor"), QColor(30, 30, 30)).value<QColor>();
 	else if (id.contains("second"))
-		returnColor = settings.value(QLatin1String("secondColor"), QColor(30, 30, 30)).value<QColor>();
+		returnColor = settings.value(QLatin1String("secondColor"), QColor(45, 45, 45)).value<QColor>();
 	else if (id.contains("accent"))
 		returnColor = settings.value(QLatin1String("accentColor"), QColor(29, 94, 173)).value<QColor>();
 	else if (id.contains("text"))
