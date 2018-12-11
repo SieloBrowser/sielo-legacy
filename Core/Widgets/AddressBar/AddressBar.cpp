@@ -164,6 +164,11 @@ void AddressBar::setTabWidget(TabWidget* tabWidget)
 
 void AddressBar::setText(const QString& text)
 {
+	if (text.contains("doosearch.sielo.app")) {
+		clear();
+		return;
+	}
+
 	m_oldTextLength = text.length();
 	m_currentTextLength = m_oldTextLength;
 
