@@ -231,15 +231,6 @@ QTabBar::tab:!selected:hover
   max-height: 36px;
 }
 
-#navigationbar QSplitter
-{
-  border: none;
-  max-height: 32px;
-  padding: 6px;
-  padding: 0px;
-  spacing: 0px;
-}
-
 #navigationbar QToolButton,
 #navigationbar ToolButton
 {
@@ -643,8 +634,11 @@ QDialog QPushButton:focus,
 QDialog QGroupBox
 {
   color: scolor(text);
+  background: scolor(second);
   margin-top: 22px;
   border: none;
+  /* border-bottom: 5px solid scolor(second, dark);
+  border-right: 3px solid scolor(second, dark); */
 }
 
 QGroupBox::title {
