@@ -128,7 +128,7 @@ void PluginsManager::itemChanged(QListWidgetItem* item)
 
 	if (item->checkState() == Qt::Checked && !plugin.isLoaded()) {
 		item->setCheckState(Qt::Unchecked);
-		QMessageBox::critical(this, tr("Erro!"), tr("Cannot load plugin!"));
+		QMessageBox::critical(this, tr("Error"), tr("Cannot load plugin!"));
 	}
 
 	item->setData(Qt::UserRole + 10, QVariant::fromValue(plugin));
