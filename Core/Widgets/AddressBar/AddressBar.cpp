@@ -452,7 +452,6 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 			break;
 
 		default:
-			QMessageBox::information(nullptr, "DEBUG", text());
 			if (text().left(1) == "!") {
 				QString fullCommand = text();
 				fullCommand = fullCommand.right(fullCommand.count() - 1);
@@ -463,7 +462,6 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 				args.removeAt(0);
 				foreach(const QString& str, args)
 				{
-					QMessageBox::information(nullptr, "DEBUG", str);
 					if (str == " ")
 						args.removeOne(str);
 					else if (str.isEmpty())
