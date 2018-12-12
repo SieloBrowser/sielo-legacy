@@ -416,6 +416,19 @@ void Application::loadSettings()
 
 	m_networkManager->loadSettings();
 
+	// Check if the user have enable the witcher font
+	if (settings.value("Settings/useMorpheusFont", false).toBool()) {
+		QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
+
+		setFont(m_morpheusFont);
+		webSettings->setFontFamily(QWebEngineSettings::StandardFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::CursiveFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::FantasyFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::FixedFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::SansSerifFont, "Z003");
+		webSettings->setFontFamily(QWebEngineSettings::SerifFont, "Z003");
+	}
+
 	// Load specific settings for all windows
 	foreach(BrowserWindow* window, m_windows) window->loadSettings();
 

@@ -254,9 +254,8 @@ public:
 
 	void startAfterCrash();
 
-	//	QFont morpheusFont() const { return m_morpheusFont; }
-
-	//	QFont normalFont() const { return m_normalFont; }
+	QFont morpheusFont() const { return m_morpheusFont; }
+	QFont normalFont() const { return m_normalFont; }
 
 	bool copyPath(const QString& fromDir, const QString& toDir, bool coverFileIfExist = true);
 	QString readFile(const QString& filename);
@@ -363,7 +362,7 @@ private:
 
 	QList<PostLaunchAction> m_postLaunchActions;
 	QHash<QString, SideBarInterface*> m_sidebars;
-	
+
 	PiwikTracker* m_piwikTracker{nullptr};
 
 	QFont m_morpheusFont{};
