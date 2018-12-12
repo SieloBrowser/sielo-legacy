@@ -171,6 +171,8 @@ public:
 	int cornerWidth(Qt::Corner corner) const;
 	void addCornerWidget(QWidget* widget, Qt::Corner corner);
 
+	TabBar* qtabBar() const { return m_mainTabBar; }
+
 signals:
 	void overFlowChanged(bool overFlow);
 	void currentChanged(int index);

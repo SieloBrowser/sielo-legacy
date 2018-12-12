@@ -452,37 +452,43 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 			break;
 
 		default:
+			QMessageBox::information(nullptr, "DEBUG", text());
+			if (text().left(1) == "!") {
+				QString fullCommand = text();
+				fullCommand = fullCommand.right(fullCommand.count() - 1);
+
+				QStringList args = fullCommand.split(" ");
+				QString command = args[0];
+
+				args.removeAt(0);
+				foreach(const QString& str, args)
+				{
+					QMessageBox::information(nullptr, "DEBUG", str);
+					if (str == " ")
+						args.removeOne(str);
+					else if (str.isEmpty())
+						args.removeOne(str);
+				}
+
+				if (!processMainCommand(command, args))
+					Application::instance()->processCommand(command, args);
+
+				showUrl(m_webView->url());
+				return;
+			}
+
 			requestLoadUrl();
 			m_holdingAlt = false;
+			break;
 		}
+
 		/*
-				if (text().left(1) == "!") {
-					QString fullCommand = text();
-					fullCommand = fullCommand.right(fullCommand.count() - 1);
-		
-					QStringList args = fullCommand.split(" ");
-					QString command = args[0];
-		
-					args.removeAt(0);
-							foreach (const QString& str, args) {
-							QMessageBox::information(nullptr, "DEBUG", str);
-							if (str == " ")
-								args.removeOne(str);
-							else if (str.isEmpty())
-								args.removeOne(str);
-						}
-		
-					if (!processMainCommand(command, args))
-						Application::instance()->processCommand(command, args);
-		
-					showUrl(m_webView->url());
-				}
 				else if (!isPopupVisible()) {
 					switch (event->modifiers()) {
 					case Qt::ControlModifier:
 						if (!text().endsWith(QLatin1String(".com")))
 							setText(text().append(QLatin1String(".com")));
-		
+
 						requestLoadUrl();
 						m_holdingAlt = false;
 						break;
@@ -494,8 +500,8 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 						requestLoadUrl();
 						m_holdingAlt = false;
 					}
-				}
-		*/
+				}*/
+
 		break;
 	case Qt::Key_0:
 	case Qt::Key_1:
@@ -622,7 +628,7 @@ bool AddressBar::processMainCommand(const QString& command, const QStringList& a
 	}
 	else if (command == "closetab") {
 		webView()->webTab()->tabWidget()
-		         ->requestCloseTab(webView()->webTab()->tabWidget()->currentIndex());
+			->requestCloseTab(webView()->webTab()->tabWidget()->currentIndex());
 
 		succes = true;
 	}

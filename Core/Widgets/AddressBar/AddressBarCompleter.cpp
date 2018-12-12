@@ -79,6 +79,9 @@ void AddressBarCompleter::complete(const QString& string)
 {
 	QString trimmedStr{string.trimmed()};
 
+	if (trimmedStr.startsWith("!")) 
+		return;
+
 	m_popupClosed = false;
 
 	emit cancelRefreshJob();

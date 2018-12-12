@@ -81,6 +81,8 @@
 #include "Widgets/TitleBar.hpp"
 #include "Widgets/NavigationControlDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
+#include "Widgets/Tab/MainTabBar.hpp"
+#include "Widgets/Tab/TabBar.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
 #include "Widgets/SideBar/SideBarInterface.hpp"
@@ -236,10 +238,10 @@ Application::Application(int& argc, char** argv) :
 		}
 	*/
 	// Loading fonts information
-	/*int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
+	int id = QFontDatabase::addApplicationFont(":data/fonts/morpheus.ttf");
 	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 	m_morpheusFont = QFont(family);
-	m_normalFont = font();*/
+	m_normalFont = font();
 
 	// Check command line options with given arguments
 	QUrl startUrl{};
@@ -1112,7 +1114,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 			->loadInNewTab(githubRequest, Application::NTT_CleanSelectedTabAtEnd);
 	}
 
-	/*if (command == "witcher") {
+	if (command == "witcher") {
 		if (args.count() == 1) {
 			Settings settings{};
 			QWebEngineSettings* webSettings = QWebEngineSettings::defaultSettings();
@@ -1128,9 +1130,9 @@ void Application::processCommand(const QString& command, const QStringList args)
 
 				// Reload font
 						foreach (BrowserWindow* window, m_windows) {
-						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+						for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
-								window->tabWidget(i)->weTab(j)->addressBar()
+								window->tabWidget(i)->webTab(j)->addressBar()
 										->setFont(m_morpheusFont);
 							}
 							window->tabWidget(i)->tabBar()->qtabBar()->setFont(m_morpheusFont);
@@ -1149,9 +1151,9 @@ void Application::processCommand(const QString& command, const QStringList args)
 
 				// Reload font
 						foreach (BrowserWindow* window, m_windows) {
-						for (int i{0}; i < window->tabWidgetsCount(); ++i) {
+						for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
 							for (int j{0}; j < window->tabWidget(i)->count(); ++j) {
-								window->tabWidget(i)->weTab(j)->addressBar()
+								window->tabWidget(i)->webTab(j)->addressBar()
 										->setFont(m_normalFont);
 							}
 							window->tabWidget(i)->tabBar()->qtabBar()->setFont(m_normalFont);
@@ -1168,7 +1170,7 @@ void Application::processCommand(const QString& command, const QStringList args)
 			QMessageBox::critical(getWindow(),
 								  QApplication::tr("Failed"),
 								  QApplication::tr("This command need one argument!"));
-	}*/
+	}
 	if (command == "easteregg") {
 		QStringList eastereggs{};
 		eastereggs << "http://feldrise.com"

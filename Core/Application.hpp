@@ -366,8 +366,8 @@ private:
 	
 	PiwikTracker* m_piwikTracker{nullptr};
 
-	//QFont m_morpheusFont{};
-	//QFont m_normalFont{};
+	QFont m_morpheusFont{};
+	QFont m_normalFont{};
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
