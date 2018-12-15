@@ -24,6 +24,10 @@
 
 #include "MaquetteGridManager.hpp"
 
+#include <QFileInfo>
+
+#include "Utils/DataPaths.hpp"
+
 #include "MaquetteGrid/MaquetteGrid.hpp"
 #include "MaquetteGrid/MaquetteGridItem.hpp"
 #include "MaquetteGrid/MaquetteGridTabsList.hpp"
@@ -43,6 +47,7 @@ MaquetteGridManager::MaquetteGridManager(BrowserWindow* window) :
 {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setObjectName(QLatin1String("maquettegrid-manager"));
+	setWindowTitle("Maquette Grid Manager");
 	setupUI();
 
 	setupMaquetteGridList();
@@ -159,7 +164,10 @@ void MaquetteGridManager::save()
 
 void MaquetteGridManager::newMaquetteGrid()
 {
-	MaquetteGridItem* item{new MaquetteGridItem("maquette-grid", true)};
+	QString name{Application::ensureUniqueFilename(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/maquette-grid.dat"))};
+	name = QFileInfo(name).baseName();
+
+	MaquetteGridItem* item{new MaquetteGridItem(name, true)};
 
 	m_maquetteGrid->addMaquetteGrid(item);
 

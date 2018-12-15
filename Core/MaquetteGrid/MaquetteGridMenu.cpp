@@ -28,14 +28,16 @@
 #include "MaquetteGrid/MaquetteGrid.hpp"
 #include "MaquetteGrid/MaquetteGridManager.hpp"
 
+#include "Widgets/Tab/TabWidget.hpp"
+
 #include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 namespace Sn
 {
-MaquetteGridMenu::MaquetteGridMenu(BrowserWindow* window) :
-	QMenu(window),
-	m_window(window)
+MaquetteGridMenu::MaquetteGridMenu(TabWidget* tabWidget) :
+	QMenu(tabWidget),
+	m_tabWidget(tabWidget)
 {
 	setTitle(tr("&MaquetteGrid"));
 
@@ -69,8 +71,12 @@ void MaquetteGridMenu::maquetteGridChanged()
 
 void MaquetteGridMenu::openMaquetteGridManager()
 {
-	MaquetteGridManager* manager{new MaquetteGridManager(m_window)};
-	manager->show();
+	if (!m_manager && m_tabWidget) {
+		m_manager = new MaquetteGridManager(m_tabWidget->window());
+		m_tabWidget->addApplication(m_manager);
+	}
+
+	m_tabWidget->goToApplication(m_manager);
 }
 
 void MaquetteGridMenu::maquetteGridActivated()

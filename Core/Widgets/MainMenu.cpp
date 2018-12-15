@@ -87,7 +87,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_bookmarksMenu = new BookmarksMenu(this);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
 
-	m_maquetteGridMenu = new MaquetteGridMenu(m_tabWidget->window());
+	m_maquetteGridMenu = new MaquetteGridMenu(m_tabWidget);
 
 	m_historyMenu = new HistoryMenu(this);
 	m_historyMenu->setTabWidget(m_tabWidget);

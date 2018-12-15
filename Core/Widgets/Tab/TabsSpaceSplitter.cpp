@@ -24,7 +24,10 @@
 
 #include "TabsSpaceSplitter.hpp"
 
+#include <QFileInfo>
+
 #include "Utils/Settings.hpp"
+#include "Utils/DataPaths.hpp"
 
 #include "Web/WebView.hpp"
 
@@ -67,6 +70,11 @@ TabsSpaceSplitter::SavedTabsSpace::SavedTabsSpace(TabsSpaceSplitter* splitter, T
 			continue;
 
 		WebTab::SavedTab tab{webTab};
+
+		if (webTab->application()) {
+			tab.title = "Home Page";
+			tab.url = tabWidget->window()->homePageUrl();
+		}
 
 		if (!tab.isValide())
 			continue;
@@ -453,7 +461,10 @@ TabWidget* TabsSpaceSplitter::tabWidget(QPoint position) const
 
 MaquetteGridItem* TabsSpaceSplitter::maquetteGridItem()
 {
-	MaquetteGridItem* item{new MaquetteGridItem(tr("Session"), true)};
+	QString name{Application::ensureUniqueFilename(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + tr("Session") + QLatin1String(".dat"))};
+	name = QFileInfo(name).baseName();
+
+	MaquetteGridItem* item{new MaquetteGridItem(name, true)};
 	item->clear(); // We don't want default maquetteGrid.
 
 	// Loop throug each tabs space

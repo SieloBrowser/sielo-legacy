@@ -30,17 +30,20 @@
 
 #include <QMenu>
 
+#include <QPointer> 
+
 namespace Sn
 {
-	class BrowserWindow;
+class TabWidget;
 
+class MaquetteGridManager;
 class MaquetteGridItem;
 
 class SIELO_SHAREDLIB MaquetteGridMenu: public QMenu {
-Q_OBJECT
+	Q_OBJECT
 
 public:
-	MaquetteGridMenu(BrowserWindow* window);
+	MaquetteGridMenu(TabWidget* tabWidget);
 	~MaquetteGridMenu();
 
 private slots:
@@ -54,7 +57,9 @@ private slots:
 private:
 	void refresh();
 
-	BrowserWindow* m_window{ nullptr };
+	TabWidget* m_tabWidget{nullptr};
+	QPointer<MaquetteGridManager> m_manager{nullptr};
+
 	bool m_changed{true};
 };
 }
