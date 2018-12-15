@@ -71,22 +71,9 @@ void MaquetteGridTabsList::setParentLayout(QVBoxLayout* layout)
 	m_parentLayout = layout;
 }
 
-MaquetteGridItem::TabsSpace *MaquetteGridTabsList::tabsSpace()
+TabsSpaceSplitter::SavedTabsSpace MaquetteGridTabsList::tabsSpace()
 {
-	MaquetteGridItem::TabsSpace* tabsSpace{new MaquetteGridItem::TabsSpace()};
-
-	for (int i{0}; i < count(); ++i) {
-		MaquetteGridItem::Tab* tab{new MaquetteGridItem::Tab()};
-		QListWidgetItem* itm{item(i)};
-
-		tab->icon = itm->icon();
-		tab->title = itm->data(MaquetteGridManager::TitleRole).toString();
-		tab->url = itm->data(MaquetteGridManager::UrlRole).toUrl();
-		tab->selected = i == 0;
-		tab->parent = tabsSpace;
-
-		tabsSpace->tabs.append(tab);
-	}
+	TabsSpaceSplitter::SavedTabsSpace tabsSpace{this};
 
 	return tabsSpace;
 }

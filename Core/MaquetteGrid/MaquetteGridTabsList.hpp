@@ -52,7 +52,7 @@ public:
 	QVBoxLayout *parentLayout() const { return m_parentLayout; }
 	void setParentLayout(QVBoxLayout* layout);
 
-	MaquetteGridItem::TabsSpace *tabsSpace();
+	TabsSpaceSplitter::SavedTabsSpace tabsSpace();
 
 private slots:
 	void deleteItem();

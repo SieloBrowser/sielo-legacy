@@ -35,31 +35,13 @@
 
 #include <QVector>
 
+#include "Widgets/Tab/TabsSpaceSplitter.hpp"
+#include "Utils/RestoreManager.hpp"
+
 namespace Sn
 {
 class SIELO_SHAREDLIB MaquetteGridItem {
 public:
-	struct TabsSpace;
-
-	struct Tab {
-		QIcon icon{};
-		QString title{};
-		QUrl url{};
-
-		bool selected{false};
-
-		TabsSpace* parent{nullptr};
-	};
-
-	struct TabsSpace {
-		~TabsSpace() { qDeleteAll(tabs); }
-
-		QVector<MaquetteGridItem::Tab*> tabs{};
-		int verticalIndex{0};
-
-		MaquetteGridItem* parent{nullptr};
-	};
-
 	MaquetteGridItem(const QString& name, bool loadDefault = false);
 	~MaquetteGridItem();
 
@@ -68,20 +50,19 @@ public:
 
 	void clear();
 
-	void addTabsSpace(TabsSpace* tabsSpace);
-	QList<TabsSpace*> tabsSpaces() const { return m_tabsSpaces; }
+	void addTabsSpace(TabsSpaceSplitter::SavedTabsSpace tabsSpace);
+	QList<TabsSpaceSplitter::SavedTabsSpace> tabsSpaces() const { return m_tabsSpaces; }
 
 	void saveMaquetteGrid();
+
 private:
-	void loadMaquetteGrid(bool loadDefault);
-	void loadMaquetteGridFromMap(const QVariantMap& map);
+	bool sortTabsIndex(TabsSpaceSplitter::SavedTabsSpace* first, TabsSpaceSplitter::SavedTabsSpace* second);
 
-	bool sortTabsIndex(TabsSpace* first, TabsSpace* second);
-
-
-	QList<TabsSpace*> m_tabsSpaces{};
+	QList<TabsSpaceSplitter::SavedTabsSpace> m_tabsSpaces{};
+	RestoreData m_data{};
 
 	QString m_name{};
+	bool m_valid{false};
 };
 }
 

@@ -26,12 +26,16 @@
 
 #include "Utils/Settings.hpp"
 
+#include "Web/WebView.hpp"
+
 #include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Preferences/Appearance.hpp"
 
 #include "MaquetteGrid/MaquetteGridItem.hpp"
+#include "MaquetteGrid/MaquetteGridManager.hpp"
+#include "MaquetteGrid/MaquetteGridTabsList.hpp"
 
 #include "Application.hpp"
 #include "BrowserWindow.hpp"
@@ -69,6 +73,32 @@ TabsSpaceSplitter::SavedTabsSpace::SavedTabsSpace(TabsSpaceSplitter* splitter, T
 
 		if (webTab->isCurrentTab())
 			currentTab = i;
+
+		tabs.append(tab);
+	}
+}
+
+TabsSpaceSplitter::SavedTabsSpace::SavedTabsSpace(MaquetteGridTabsList* maquetteGridTabsList)
+{
+	Settings settings{};
+	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
+
+	// TODO: replace by user home url
+	homeUrl = "https://google.com";
+	currentTab = 0;
+
+	tabs.reserve(maquetteGridTabsList->count());
+
+	for (int i{0}; i < maquetteGridTabsList->count(); ++i) {
+		WebTab::SavedTab tab{};
+		QListWidgetItem* itm{maquetteGridTabsList->item(i)};
+
+		tab.icon = itm->icon();
+		tab.title = itm->data(MaquetteGridManager::TitleRole).toString();
+		tab.url = itm->data(MaquetteGridManager::UrlRole).toUrl();
+		tab.history = QByteArray();
+		tab.isPinned = false;
+		tab.zoomLevel = defaultZoomLevel;
 
 		tabs.append(tab);
 	}
@@ -421,7 +451,7 @@ TabWidget* TabsSpaceSplitter::tabWidget(QPoint position) const
 	return m_currentTabWidget;
 }
 
-MaquetteGridItem* TabsSpaceSplitter::maquetteGridItem() const
+MaquetteGridItem* TabsSpaceSplitter::maquetteGridItem()
 {
 	MaquetteGridItem* item{new MaquetteGridItem(tr("Session"), true)};
 	item->clear(); // We don't want default maquetteGrid.
@@ -429,25 +459,7 @@ MaquetteGridItem* TabsSpaceSplitter::maquetteGridItem() const
 	// Loop throug each tabs space
 	foreach(TabWidget* tabWidget, m_tabWidgets)
 	{
-		MaquetteGridItem::TabsSpace* tabsSpace{new MaquetteGridItem::TabsSpace()};
-
-		// Add all tabs of the tabs space
-		foreach(WebTab* tab, tabWidget->allTabs())
-		{
-			MaquetteGridItem::Tab* maquetteGridTab{new MaquetteGridItem::Tab()};
-			maquetteGridTab->icon = tab->icon();
-			maquetteGridTab->title = tab->title();
-			maquetteGridTab->url = tab->url();
-			maquetteGridTab->selected = tabWidget->webTab() == tab;
-			maquetteGridTab->parent = tabsSpace;
-
-			tabsSpace->tabs.append(maquetteGridTab);
-		}
-
-		TabsSpaceInfo info = tabsSpaceInfo(tabWidget);
-		
-		tabsSpace->verticalIndex = info.y;
-		tabsSpace->parent = item;
+		SavedTabsSpace tabsSpace(this, tabWidget);
 
 		item->addTabsSpace(tabsSpace);
 	}

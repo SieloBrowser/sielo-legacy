@@ -40,7 +40,27 @@ namespace Sn
 MaquetteGridItem::MaquetteGridItem(const QString& name, bool loadDefault) :
 	m_name(name)
 {
-	loadMaquetteGrid(loadDefault);
+	QString maquetteGridFile{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".dat")};
+	const QString backupFile{maquetteGridFile + QLatin1String(".old")};
+	
+	m_valid = RestoreManager::validateFile(maquetteGridFile);
+
+	if (loadDefault || !m_valid) {
+		if (!m_valid) {
+			qWarning() << "MaquetteGridItem::loadMaquetteGrid() Error parsing maquetteGrid! Using default maquetteGrid!";
+			qWarning() << "MaquetteGridItem::loadMaquetteGrid() Your maquetteGrid have been backed up in" << backupFile;
+
+			QFile::remove(backupFile);
+			QFile::copy(maquetteGridFile, backupFile);
+		}
+
+		maquetteGridFile = DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/default.dat");
+	}
+
+	RestoreManager::createFromFile(maquetteGridFile, m_data);
+
+	foreach (TabsSpaceSplitter::SavedTabsSpace tabsSpace, m_data.windows[0].tabsSpaces)
+		addTabsSpace(tabsSpace);
 }
 
 MaquetteGridItem::~MaquetteGridItem()
@@ -50,9 +70,12 @@ MaquetteGridItem::~MaquetteGridItem()
 
 void MaquetteGridItem::setName(const QString& name, bool isDefaultName)
 {
-	QString oldFile{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".json")};
+	if (m_name == "default")
+		return;
+
+	QString oldFile{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".dat")};
 	QString newFile{
-		Application::ensureUniqueFilename(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + name + QLatin1String(".json"))
+		Application::ensureUniqueFilename(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + name + QLatin1String(".dat"))
 	};
 
 	//std::string strOldFile = oldFile.toStdString();
@@ -71,121 +94,30 @@ void MaquetteGridItem::clear()
 	m_tabsSpaces.clear();
 }
 
-void MaquetteGridItem::addTabsSpace(TabsSpace* tabsSpace)
+void MaquetteGridItem::addTabsSpace(TabsSpaceSplitter::SavedTabsSpace tabsSpace)
 {
 	m_tabsSpaces.append(tabsSpace);
 }
 
 void MaquetteGridItem::saveMaquetteGrid()
 {
-	std::sort(m_tabsSpaces.begin(), m_tabsSpaces.end(), [](MaquetteGridItem::TabsSpace* first, MaquetteGridItem::TabsSpace* second) {
-		return first->verticalIndex < second->verticalIndex;
-	});
+	QByteArray data{};
+	QDataStream stream{&data, QIODevice::WriteOnly};
 
-	QVariantMap map{};
-	QVariantList tabsSpacesList{};
+	RestoreData restoreData{};
+	restoreData.windows.reserve(1);
 
-	foreach(MaquetteGridItem::TabsSpace* tabsSpace, m_tabsSpaces) {
-		QVariantMap tabsSpaceMap{};
-		QVariantList tabsList{};
+	restoreData.windows.append(BrowserWindow::SavedWindow(this));
 
-		foreach(MaquetteGridItem::Tab* tab, tabsSpace->tabs) {
-			QVariantMap tabMap{};
-			tabMap.insert("title", tab->title);
-			tabMap.insert("url", tab->url);
-			tabMap.insert("seleted", tab->selected);
+	stream << 1;
+	stream << restoreData;
 
-			tabsList.append(tabMap);
-		}
+	// Save data to a file
+	QFile file{};
+	file.setFileName(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".dat"));
 
-		tabsSpaceMap.insert("tabs", tabsList);
-		tabsSpaceMap.insert("vertical_index", tabsSpace->verticalIndex);
-
-		tabsSpacesList.append(tabsSpaceMap);
-	}
-
-	map.insert("version", 1);
-	map.insert("tabs_spaces", tabsSpacesList);
-
-	const QJsonDocument json{QJsonDocument::fromVariant(map)};
-	const QByteArray data{json.toJson()};
-
-	if (data.isEmpty()) {
-		qWarning() << "MaquetteGridItem::saveMaquetteGrid() Error serializing maquetteGrid!";
-		return;
-	}
-
-	QSaveFile file{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".json")
-	};
-
-	if (!file.open(QFile::WriteOnly)) {
-		qWarning() << "MaquetteGridItem::saveMaquetteGrid() Error opening maquetteGrid file for writing!";
-		return;
-	}
-
+	file.open(QIODevice::WriteOnly);
 	file.write(data);
-	file.commit();
-}
-
-void MaquetteGridItem::loadMaquetteGrid(bool loadDefault)
-{
-	const QString maquetteGridFile{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + m_name + QLatin1String(".json")
-	};
-	const QString backupFile{maquetteGridFile + QLatin1String(".old")};
-
-	QJsonParseError err;
-	QJsonDocument json = QJsonDocument::fromJson(Application::readAllFileByteContents(maquetteGridFile), &err);
-	const QVariant res = json.toVariant();
-
-	if (loadDefault || err.error != QJsonParseError::NoError || res.type() != QVariant::Map) {
-		if (QFile(maquetteGridFile).exists() && !loadDefault) {
-			qWarning() << "MaquetteGridItem::loadMaquetteGrid() Error parsing maquetteGrid! Using default maquetteGrid!";
-			qWarning() << "MaquetteGridItem::loadMaquetteGrid() Your maquetteGrid have been backed up in" << backupFile;
-
-			QFile::remove(backupFile);
-			QFile::copy(maquetteGridFile, backupFile);
-		}
-
-		json = QJsonDocument::fromJson(
-			Application::readAllFileByteContents(QStringLiteral(":data/default-maquettegrid.json")), &err);
-		const QVariant data = json.toVariant();
-
-		Q_ASSERT(err.error == QJsonParseError::NoError);
-		Q_ASSERT(data.type() == QVariant::Map);
-
-		loadMaquetteGridFromMap(data.toMap());
-
-		setName(m_name, true);
-		saveMaquetteGrid();
-	}
-	else {
-		loadMaquetteGridFromMap(res.toMap());
-	}
-}
-
-void MaquetteGridItem::loadMaquetteGridFromMap(const QVariantMap& map)
-{
-	foreach (QVariant tabsSpaceData, map.value("tabs_spaces").toList()) {
-		QVariantMap tabsSpaceMap{tabsSpaceData.toMap()};
-		MaquetteGridItem::TabsSpace* tabsSpace{new MaquetteGridItem::TabsSpace()};
-
-		foreach (QVariant tabData, tabsSpaceMap.value("tabs").toList()) {
-			QVariantMap tabMap{tabData.toMap()};
-			MaquetteGridItem::Tab* tab{new MaquetteGridItem::Tab()};
-
-			tab->icon = IconProvider::iconForDomain(tabMap.value("url").toUrl());;
-			tab->title = tabMap.value("title").toString();
-			tab->url = tabMap.value("url").toUrl();
-			tab->selected = tabMap.value("selected").toBool();
-			tab->parent = tabsSpace;
-
-			tabsSpace->tabs.append(tab);
-		}
-
-		tabsSpace->verticalIndex = tabsSpaceMap.value("vertical_index").toInt();
-		tabsSpace->parent = this;
-
-		m_tabsSpaces.append(tabsSpace);
-	}
+	file.close();
 }
 }

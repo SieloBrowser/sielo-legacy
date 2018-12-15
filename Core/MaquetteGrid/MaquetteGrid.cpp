@@ -60,7 +60,7 @@ void MaquetteGrid::addMaquetteGrid(MaquetteGridItem* maquetteGrid)
 void MaquetteGrid::removeMaquetteGrid(MaquetteGridItem* maquetteGrid)
 {
 	m_maquetteGrid.removeOne(maquetteGrid);
-	QFile::remove(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + maquetteGrid->name() + QLatin1String(".json"));
+	QFile::remove(DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/") + maquetteGrid->name() + QLatin1String(".dat"));
 
 	emit maquetteGridRemoved(maquetteGrid);
 
@@ -77,7 +77,7 @@ void MaquetteGrid::changeMaquetteGrid(MaquetteGridItem* maquetteGrid)
 void MaquetteGrid::loadMaquetteGrid()
 {
 	QDir directory{DataPaths::currentProfilePath() + QLatin1String("/maquette-grid/")};
-	QFileInfoList files = directory.entryInfoList(QStringList("*.json"));
+	QFileInfoList files = directory.entryInfoList(QStringList("*.dat"));
 
 	foreach(const QFileInfo& info, files) {
 		MaquetteGridItem* maquetteGrid{new MaquetteGridItem(info.baseName())};
@@ -85,7 +85,7 @@ void MaquetteGrid::loadMaquetteGrid()
 	}
 
 	if (m_maquetteGrid.isEmpty())
-		m_maquetteGrid.append(new MaquetteGridItem("maquetteGrid", true));
+		m_maquetteGrid.append(new MaquetteGridItem("default", true));
 }
 
 void MaquetteGrid::save()

@@ -41,6 +41,7 @@ namespace Sn
 class WebTab;
 
 class MaquetteGridItem;
+class MaquetteGridTabsList;
 
 class BrowserWindow;
 class TabWidget;
@@ -58,6 +59,7 @@ public:
 
 		SavedTabsSpace();
 		SavedTabsSpace(TabsSpaceSplitter* splitter, TabWidget* tabWidget);
+		SavedTabsSpace(MaquetteGridTabsList* maquetteGridTabsList);
 
 		bool isValid() const;
 		void clear();
@@ -109,7 +111,7 @@ public:
 	TabWidget* tabWidget(QPoint position) const;
 	QVector<TabWidget*> tabWidgets() const { return m_tabWidgets; }
 
-	MaquetteGridItem* maquetteGridItem() const;
+	MaquetteGridItem* maquetteGridItem();
 
 	TabsSpaceInfo tabsSpaceInfo(TabWidget* from) const;
 

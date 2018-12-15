@@ -87,7 +87,7 @@ public:
 	~MaquetteGridManager();
 
 	MaquetteGridTabsList *createNewTabsList();
-	MaquetteGridTabsList *createTabsList(MaquetteGridItem::TabsSpace* tabsSpace);
+	MaquetteGridTabsList *createTabsList(TabsSpaceSplitter::SavedTabsSpace tabsSpace);
 	QVBoxLayout *createNewTabsSpaceLayout(MaquetteGridTabsList* list);
 
 	AutoSaver *saver() const { return m_saver; }

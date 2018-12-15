@@ -71,6 +71,7 @@ public:
 
 		SavedWindow();
 		SavedWindow(BrowserWindow* window);
+		SavedWindow(MaquetteGridItem* maquetteGridItem);
 
 		bool isValid() const;
 		void clear();

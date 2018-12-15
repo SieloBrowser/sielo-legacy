@@ -533,6 +533,18 @@ void Application::loadApplicationSettings()
 		oldSettings.setValue("versionNumber", 15);
 		updateToProfiles();
 	}
+
+	if (settings.value("versionNumber", 0).toInt() < 16) {
+		QString directory{DataPaths::currentProfilePath()};
+
+		if (!QDir(directory + "/maquette-grid").exists())
+			QDir(directory).mkdir("maquette-grid");
+
+		QFile::copy(QLatin1String(":data/default-maquettegrid.dat"), directory + QLatin1String("/maquette-grid/default.dat"));
+		QFile::setPermissions(directory + QLatin1String("/bookmarks.xbel"), QFileDevice::ReadUser | QFileDevice::WriteUser);
+
+		settings.setValue("versionNumber", 16);
+	}
 }
 
 void Application::loadThemesSettings()

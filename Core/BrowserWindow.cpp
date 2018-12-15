@@ -128,6 +128,23 @@ BrowserWindow::SavedWindow::SavedWindow(BrowserWindow* window)
 	}
 }
 
+BrowserWindow::SavedWindow::SavedWindow(MaquetteGridItem* maquetteGridItem)
+{
+	windowState = QByteArray();
+	windowGeometry = QByteArray();
+
+	const int tabsSpaceCount{maquetteGridItem->tabsSpaces().count()};
+	tabsSpaces.reserve(tabsSpaceCount);
+
+	for (int i{0}; i < tabsSpaceCount; ++i) {
+		TabsSpaceSplitter::SavedTabsSpace tabsSpace = maquetteGridItem->tabsSpaces()[i];
+		if (!tabsSpace.isValid())
+			continue;
+
+		tabsSpaces.append(tabsSpace);
+	}
+}
+
 bool BrowserWindow::SavedWindow::isValid() const
 {
 	for (const TabsSpaceSplitter::SavedTabsSpace& tabsSpace : tabsSpaces) {
@@ -220,54 +237,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 BrowserWindow::BrowserWindow(MaquetteGridItem* maquetteGrid) :
 	BrowserWindow(Application::WT_OtherRestoredWindow)
 {
-	Q_ASSERT(maquetteGrid->tabsSpaces().count() >= 1);
-	Q_ASSERT(maquetteGrid->tabsSpaces()[0]->tabs.count() >= 1);
 
-	// We start with the first tabs space since this one is already builded
-	int selectedTab{0};
-	for (int i{0}; i < maquetteGrid->tabsSpaces()[0]->tabs.count(); ++i) {
-		MaquetteGridItem::Tab* tab = maquetteGrid->tabsSpaces()[0]->tabs[i];
-
-		tabWidget(0)->addView(tab->url);
-
-		if (tab->selected)
-			selectedTab = i;
-	}
-
-	tabWidget(0)->setCurrentIndex(selectedTab);
-
-	// Create other tabs space
-	int workingVerticalIndex{0};
-	int y{0};
-
-	m_tabsSpaceSplitter->createNewTabsSpace();
-
-	for (int i{0}; i < maquetteGrid->tabsSpaces().count(); ++i) {
-		MaquetteGridItem::TabsSpace* tabsSpace = maquetteGrid->tabsSpaces()[i];
-
-		if (i != 0) {
-			if (tabsSpace->verticalIndex == workingVerticalIndex) {
-				m_tabsSpaceSplitter->createNewTabsSpace(m_tabsSpaceSplitter->horizontalCount() - 1, y);
-				++y;
-			}
-			else {
-				m_tabsSpaceSplitter->createNewTabsSpace(m_tabsSpaceSplitter->horizontalCount(), 0);
-				workingVerticalIndex = tabsSpace->verticalIndex;
-				y = 0;
-			}
-		}
-
-		for (int j{0}; j < tabsSpace->tabs.count(); ++j) {
-			MaquetteGridItem::Tab* tab = tabsSpace->tabs[j];
-
-			tabWidget(i)->addView(tab->url);
-
-			if (tab->selected)
-				selectedTab = j;
-		}
-
-		tabWidget(i)->setCurrentIndex(selectedTab);
-	}
 }
 
 
