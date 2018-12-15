@@ -54,6 +54,8 @@ public:
 
 	TabsSpaceSplitter::SavedTabsSpace tabsSpace();
 
+	MaquetteGridManager* manager() const { return m_maquetteGridManager; }
+
 private slots:
 	void deleteItem();
 	void addTab();

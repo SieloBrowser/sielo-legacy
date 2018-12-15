@@ -90,6 +90,7 @@ public:
 	MaquetteGridTabsList *createTabsList(TabsSpaceSplitter::SavedTabsSpace tabsSpace);
 	QVBoxLayout *createNewTabsSpaceLayout(MaquetteGridTabsList* list);
 
+	BrowserWindow* window() const { return m_window; }
 	AutoSaver *saver() const { return m_saver; }
 
 public slots:

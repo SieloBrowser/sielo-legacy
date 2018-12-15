@@ -91,8 +91,7 @@ TabsSpaceSplitter::SavedTabsSpace::SavedTabsSpace(MaquetteGridTabsList* maquette
 	Settings settings{};
 	int defaultZoomLevel{settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt()};
 
-	// TODO: replace by user home url
-	homeUrl = "https://google.com";
+	homeUrl = maquetteGridTabsList->manager()->window()->homePageUrl().toString();
 	currentTab = 0;
 
 	tabs.reserve(maquetteGridTabsList->count());
