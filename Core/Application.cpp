@@ -758,7 +758,9 @@ BrowserWindow *Application::createWindow(Application::WindowType type, const QUr
 BrowserWindow *Application::createWindow(MaquetteGridItem* item)
 {
 	Q_ASSERT(windowCount() != 0);
-	BrowserWindow* maquetteGridWindow = new BrowserWindow(item);
+
+	BrowserWindow* maquetteGridWindow = new BrowserWindow(Application::WT_OtherRestoredWindow);
+	openSession(maquetteGridWindow, item->data());
 
 	QObject::connect(maquetteGridWindow, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
 

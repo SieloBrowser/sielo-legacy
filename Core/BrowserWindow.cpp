@@ -234,13 +234,6 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 	QTimer::singleShot(10, this, &BrowserWindow::postLaunch);
 }
 
-BrowserWindow::BrowserWindow(MaquetteGridItem* maquetteGrid) :
-	BrowserWindow(Application::WT_OtherRestoredWindow)
-{
-
-}
-
-
 BrowserWindow::~BrowserWindow()
 {
 	Application::instance()->plugins()->emitMainWindowDeleted(this);

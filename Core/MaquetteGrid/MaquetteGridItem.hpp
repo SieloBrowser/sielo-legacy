@@ -53,6 +53,8 @@ public:
 	void addTabsSpace(TabsSpaceSplitter::SavedTabsSpace tabsSpace);
 	QList<TabsSpaceSplitter::SavedTabsSpace> tabsSpaces() const { return m_tabsSpaces; }
 
+	RestoreData data() const { return m_data; }
+
 	void saveMaquetteGrid();
 
 private:

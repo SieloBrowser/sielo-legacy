@@ -86,13 +86,6 @@ public:
 	 * This construct **should never be called manually**. Prefere using the `createWindow` methode from the Application class. 
 	 */
 	BrowserWindow(Application::WindowType type, const QUrl& url = QUrl());
-	/*!
-	 * This constrcutor allow to create a window an load a maquetteGrid.
-	 * 
-	 * It calls the first BrowserWindow constructor with "RestoredWindow". 
-	 * Therefore, as the other constrcutor this construct **should never be called manually**. Prefere using the `createWindow` methode from the Application class. 
-	 */
-	BrowserWindow(MaquetteGridItem* maquetteGrid);
 	~BrowserWindow();
 
 	/*! 
