@@ -614,14 +614,14 @@ void Application::loadPluginsSettings()
 	QString pluginsPath{DataPaths::currentProfilePath() + "/plugins"};
 	QString dataPluginsPath{":/plugins/data/plugins/"};
 
-	if (pluginsVersion < 2) {
+	if (pluginsVersion < 4) {
 #if defined(Q_OS_WIN)
 		copyPath(QDir(dataPluginsPath + "/windows").absolutePath(), pluginsPath);
 #elif defined(Q_OS_MACOS) 
 		copyPath(QDir(dataPluginsPath + "/macos").absolutePath(), pluginsPath);
 #endif
 
-		settings.setValue("Plugin-Settings/pluginsVersion", 2);
+		settings.setValue("Plugin-Settings/pluginsVersion", 4);
 	}
 }
 

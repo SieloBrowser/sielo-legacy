@@ -4,7 +4,8 @@
         <file>data/plugins/windows/GreaseMonkey.dll</file>
         <file>data/plugins/windows/StrateonPlugin.dll</file>
 
-    <!-- macOS -->    
+    <!-- macOS -->
+        <file>data/plugins/macos/libarcscreen-plugin.so</file>
         <file>data/plugins/macos/libGreaseMonkey.so</file>
         <file>data/plugins/macos/libStrateonPlugin.so</file>
     </qresource>

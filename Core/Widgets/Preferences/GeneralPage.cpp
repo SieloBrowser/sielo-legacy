@@ -377,7 +377,7 @@ void GeneralPage::setupUIObjects()
 	m_layoutProfileControl = new QHBoxLayout(m_profileControlFrame);
 
 	m_descCantDeleteActiveProfile = new QLabel(tr("Note: You cannot delete active profile."), m_profileControlFrame);
-	m_descCantDeleteActiveProfile->setAlignment(static_cast<Qt::AlignmentFlag>(Qt::AlignRight | Qt::AlignTrailing | Qt::AlignVCenter));
+	m_descCantDeleteActiveProfile->setAlignment(Qt::AlignRight | Qt::AlignTrailing | Qt::AlignVCenter);
 
 	m_btnCreateNewProfile = new QPushButton(tr("Create New"), m_profileControlFrame);
 	m_btnDeleteProfile = new QPushButton(tr("Delete"), m_profileControlFrame);
