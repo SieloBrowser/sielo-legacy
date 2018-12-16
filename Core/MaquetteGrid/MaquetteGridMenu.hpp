@@ -58,7 +58,7 @@ private:
 	void refresh();
 
 	TabWidget* m_tabWidget{nullptr};
-	QPointer<MaquetteGridManager> m_manager{nullptr};
+	QPointer<MaquetteGridManager> m_manager{};
 
 	bool m_changed{true};
 };
