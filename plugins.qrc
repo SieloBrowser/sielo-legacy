@@ -1,9 +1,14 @@
 <RCC>
     <qresource prefix="/plugins"> 
     <!-- Windows -->
-	    <file>data/plugins/windows/arcscreen-plugin.dll</file>
+	<file>data/plugins/windows/arcscreen-plugin.dll</file>
         <file>data/plugins/windows/GreaseMonkey.dll</file>
         <file>data/plugins/windows/StrateonPlugin.dll</file>
+
+    <!-- Linux -->
+        <file>data/plugins/linux/libarcscreen-plugin.so</file>
+        <file>data/plugins/linux/libGreaseMonkey.so</file>
+        <file>data/plugins/linux/libStrateonPlugin.so</file>
 
     <!-- macOS -->
         <file>data/plugins/macos/libarcscreen-plugin.so</file>
