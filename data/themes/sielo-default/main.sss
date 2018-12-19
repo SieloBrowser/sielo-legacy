@@ -455,6 +455,7 @@ QTabBar::tab:!selected:hover
 #preferences-list {
   background: transparent;
   color: scolor(text);
+  icon-size: 24px;
   border: none;
 }
 
@@ -741,13 +742,14 @@ QCheckBox,
 QRadioButton
 {
   spacing: 7px;
+  padding: 4px 0px;
   color: scolor(text);
   font-size: 12px;
 }
 
 QCheckBox:hover,
 QRadioButton:hover
-  {
+{
   color: scolor(text, dark);
 }
 
@@ -757,13 +759,22 @@ QRadioButton:disabled
   color: scolor(main, dark);
 }
 
-QCheckBox::indicator,
-QRadioButton::indicator
+QCheckBox::indicator
 {
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
+  padding: 4px;
   border: none;
   border-radius: 2px;
+  background: rgba(255,255,255,.1);
+}
+
+QRadioButton::indicator
+{
+  width: 12px;
+  height: 12px;
+  padding: 4px;
+  border-radius: 9px;
   background: rgba(255,255,255,.1);
 }
 
@@ -771,14 +782,6 @@ QCheckBox::indicator:disabled,
 QRadioButton::indicator:disabled
 {
   border-color: scolor(main, dark);
-}
-
-QRadioButton::indicator
-{
-  border-radius: 9px;
-  padding: 3px;
-  width: 13px;
-  height: 13px;
 }
 
 QCheckBox::indicator:hover,
@@ -790,9 +793,6 @@ QRadioButton::indicator:hover
 QCheckBox::indicator:checked
 {
   image: url($ulightness/other/check.png);
-  padding: 4px;
-  width: 12px;
-  height: 12px;
 }
 
 QRadioButton::indicator:checked
@@ -890,7 +890,7 @@ QSlider::groove
 	margin: 16px 0px;*/
 	border: none;
 	background: scolor(text);
-    height: 2px;
+  height: 2px;
 }
 
 QSlider::handle
@@ -900,7 +900,7 @@ QSlider::handle
 	background: scolor(accent);
 	border: 2px solid scolor(main);
 	border-radius: 10px;
-	width: 50px;
+	width: 22px;
 	height: 20px;
 }
 
@@ -910,11 +910,11 @@ QSlider::handle:hover
 }
 
 QSpinBox {
-  padding-right: 15px; /* make room for the arrows */
   border: 1px solid scolor(text);
   background: transparent;
   color: scolor(text);
   padding: 5px 10px;
+  padding-right: 15px; /* make room for the arrows */
   border-radius: 4px;
 }
 
@@ -927,18 +927,17 @@ QSpinBox::down-button {
   subcontrol-origin: border;
 
   width: 26px;
-  height: 100%;
   border: none;
   border-radius: 4px;
 }
 
-QSpinBox::up-button {
+/* QSpinBox::up-button {
   subcontrol-position: right;
 }
 
 QSpinBox::down-button {
   subcontrol-position: left;
-}
+} */
 
 QSpinBox::up-button:hover,
 QSpinBox::down-button:hover {

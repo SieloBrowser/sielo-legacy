@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.6)
 project(sielo-browser)
 
-add_subdirectory(SNCompiler)
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+add_subdirectory(SNCompiler)
 
 if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     set (OPENSSL_DIR "${CMAKE_SOURCE_DIR}\\third-party\\openssl\\windows\\x64\\")

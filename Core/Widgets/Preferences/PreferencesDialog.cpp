@@ -74,17 +74,19 @@ PreferencesDialog::~PreferencesDialog()
 
 void PreferencesDialog::reloadTheme()
 {
-	m_list->item(0)->setIcon(QIcon(Application::getAppIcon("settings", "preferences").pixmap(32)));
-	m_list->item(1)->setIcon(QIcon(Application::getAppIcon("appearance", "preferences").pixmap(32)));
-	m_list->item(2)->setIcon(QIcon(Application::getAppIcon("web-configs", "preferences").pixmap(32)));
-	m_list->item(3)->setIcon(QIcon(Application::getAppIcon("local-storage", "preferences").pixmap(32)));
-	m_list->item(4)->setIcon(QIcon(Application::getAppIcon("proxy", "preferences").pixmap(32)));
-	m_list->item(5)->setIcon(QIcon(Application::getAppIcon("passwords", "preferences").pixmap(32)));
-	m_list->item(6)->setIcon(QIcon(Application::getAppIcon("privacy", "preferences").pixmap(32)));
-	m_list->item(7)->setIcon(QIcon(Application::getAppIcon("plugins", "preferences").pixmap(32)));
-	m_list->item(8)->setIcon(QIcon(Application::getAppIcon("download", "preferences").pixmap(32)));
-	m_list->item(9)->setIcon(QIcon(Application::getAppIcon("adblock", "preferences").pixmap(32)));
-	m_list->item(10)->setIcon(Application::getAppIcon("current-tabsspace", "preferences").pixmap(32));
+	const int iconSize{64};
+
+	m_list->item(0)->setIcon(QIcon(Application::getAppIcon("settings", "preferences").pixmap(iconSize)));
+	m_list->item(1)->setIcon(QIcon(Application::getAppIcon("appearance", "preferences").pixmap(iconSize)));
+	m_list->item(2)->setIcon(QIcon(Application::getAppIcon("web-configs", "preferences").pixmap(iconSize)));
+	m_list->item(3)->setIcon(QIcon(Application::getAppIcon("local-storage", "preferences").pixmap(iconSize)));
+	m_list->item(4)->setIcon(QIcon(Application::getAppIcon("proxy", "preferences").pixmap(iconSize)));
+	m_list->item(5)->setIcon(QIcon(Application::getAppIcon("passwords", "preferences").pixmap(iconSize)));
+	m_list->item(6)->setIcon(QIcon(Application::getAppIcon("privacy", "preferences").pixmap(iconSize)));
+	m_list->item(7)->setIcon(QIcon(Application::getAppIcon("plugins", "preferences").pixmap(iconSize)));
+	m_list->item(8)->setIcon(QIcon(Application::getAppIcon("download", "preferences").pixmap(iconSize)));
+	m_list->item(9)->setIcon(QIcon(Application::getAppIcon("adblock", "preferences").pixmap(iconSize)));
+	m_list->item(10)->setIcon(Application::getAppIcon("current-tabsspace", "preferences").pixmap(iconSize));
 
 }
 
@@ -152,7 +154,7 @@ void PreferencesDialog::setupUI()
 
 	m_list = new QListWidget(this);
 	m_list->setObjectName(QLatin1String("preferences-list"));
-	m_list->setIconSize(QSize(32, 32));
+	//m_list->setIconSize(QSize(32, 32));
 	m_list->setMaximumWidth(220);
 
 	m_caption = new QLabel(this);

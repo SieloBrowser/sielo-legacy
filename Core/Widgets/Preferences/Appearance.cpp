@@ -441,6 +441,7 @@ void AppearancePage::setupUI()
 	m_backgroundLayout = new QHBoxLayout();
 	m_blurFilterLayout = new QVBoxLayout();
 
+	m_themeColorsLayout->setContentsMargins(4, 4, 4, 4);
 	m_areaLayout->setContentsMargins(4, 4, 4, 4);
 	m_areaLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
 
@@ -448,7 +449,7 @@ void AppearancePage::setupUI()
 	m_themeList->setIconSize(QSize(48, 48));
 
 	m_nameLabel = new QLabel(tr("<b>Name: </b>"), m_areaWidget);
-	//m_nameLabel->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+	m_nameLabel->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
 
 	m_name = new QLabel(m_areaWidget);
 	//m_name->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
@@ -463,14 +464,14 @@ void AppearancePage::setupUI()
 	m_licenseBtn->hide();
 
 	m_authorLabel = new QLabel(tr("<b>Author: </b>"), m_areaWidget);
-	//m_authorLabel->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+	m_authorLabel->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
 
 	m_author = new QLabel(m_areaWidget);
 	m_author->setWordWrap(true);
 	//m_author->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::TextSelectableByMouse);
 
 	m_descLabel = new QLabel(tr("<b>Description: </b>"), m_areaWidget);
-	//m_descLabel->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
+	m_descLabel->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignTop);
 
 	m_desc = new QLabel(m_areaWidget);
 	m_desc->setWordWrap(true);
