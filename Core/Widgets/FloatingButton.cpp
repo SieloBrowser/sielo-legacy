@@ -271,7 +271,14 @@ void RootFloatingButton::tabWidgetChanged(TabWidget* tabWidget)
 {
 	closeButton();
 
-	move(tabWidget->mapTo(m_window, tabWidget->pos()).x(), tabWidget->mapTo(m_window, tabWidget->pos()).y());
+	QPoint position{tabWidget->mapTo(m_window, tabWidget->pos()).x(), tabWidget->mapTo(m_window, tabWidget->pos()).y()};
+	int newX{};
+	int newY{};
+
+	newX = (position.x() >= 0) ? qMin(m_window->width() - width(), position.x()) : qMax(0, position.x());
+	newY = (position.y() >= 0) ? qMin(m_window->height() - height(), position.y()) : qMax(0, position.y());
+
+	move(QPoint(newX, newY));
 
 	if (m_pattern != Pattern::Floating) {
 		if (m_pattern == BottomToolbar)
