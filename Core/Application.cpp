@@ -619,6 +619,8 @@ void Application::loadPluginsSettings()
 		copyPath(QDir(dataPluginsPath + "/windows").absolutePath(), pluginsPath);
 #elif defined(Q_OS_MACOS) 
 		copyPath(QDir(dataPluginsPath + "/macos").absolutePath(), pluginsPath);
+#else 
+		copyPath(QDir(dataPluginsPath + "/linux").absolutePath(), pluginsPath);
 #endif
 
 		settings.setValue("Plugin-Settings/pluginsVersion", 4);
