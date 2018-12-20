@@ -227,6 +227,7 @@ Application::Application(int& argc, char** argv) :
 	QCoreApplication::setApplicationVersion(QLatin1String("1.17.09"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+	setAttribute(Qt::AA_EnableHighDpiScaling);
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
