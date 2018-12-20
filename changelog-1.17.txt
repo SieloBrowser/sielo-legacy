@@ -1,0 +1,42 @@
+[Changelog for Sielo 1.17]
+
+Sielo is now available on Windows, macOS, ArchLinux (AUR) and other Linux as an AppImage !
+Note: you may lost some data from the 1.16.
+
+<Tab managment>
+ - Allow to drag&drop to a certain index.
+ - Put dialogs into tabs.
+ - Drastically improve stability.
+ - Add possibility to visually show active tabs space.
+ - Add possibility to unload tabs.
+
+<Data>
+ - Add profiles system.
+ - Move settings to a .ini file.
+ - Move web engine files to profile directory.
+
+<Plugins>
+ - Create a native plugin system.
+ - Create Grease Monkey plugin (user script).
+ - Create Strateon plugin (text editor).
+ - Create ArcScreen plugin (screenshots).
+
+<Maquette Grids>
+ - Maquette grids are now session files.
+ - Don't load all tabs when loading a maquette grid.
+
+<Design>
+ - Use user background as Sielo background on Windows.
+ - Improve general design.
+ - Improve theme API.
+
+ <General>
+ - Use native Windows events for title bar.
+ - Improve developer tools managment.
+ - Update to Qt 5.12.
+
+ <Important fix>
+ - Fix floating button disapearing.
+ - Restore command system.
+ - Fix scroll issue on some devices with trakpad.
+ - Scale background to fit Sielo size.
