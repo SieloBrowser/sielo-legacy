@@ -423,6 +423,7 @@ QTabBar::close-button:hover {
 #preferences-list {
 	background: transparent;
 	color: scolor(text);
+	icon-size: 24px;
 	border: none;
 }
 
@@ -736,25 +737,27 @@ QRadioButton:disabled {
 	color: scolor(text, dark);
 }
 
-QCheckBox::indicator,
-QRadioButton::indicator {
-	width: 18px;
-	height: 18px;
+QCheckBox::indicator {
+	width: 12px;
+	height: 12px;
+	padding: 4px;
 	border: 1px solid scolor(text);
 	border-radius: 2px;
+	background-color: transparent;
+}
+
+QRadioButton::indicator {
+	width: 12px;
+	height: 12px;
+	padding: 4px;
+	border: 1px solid scolor(text);
+	border-radius: 9px;
 	background-color: transparent;
 }
 
 QCheckBox::indicator:disabled,
 QRadioButton::indicator:disabled {
 	border-color: scolor(second, dark);
-}
-
-QRadioButton::indicator {
-	border-radius: 10px;
-	padding: 3px;
-	width: 13px;
-	height: 13px;
 }
 
 QCheckBox::indicator:hover,

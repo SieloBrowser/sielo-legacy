@@ -89,7 +89,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.08 closed-beta");
+QString Application::currentVersion = QString("1.17.10");
 
 // Static member
 Application *Application::instance()
@@ -224,9 +224,10 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.08"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.17.10"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+	setAttribute(Qt::AA_EnableHighDpiScaling);
 	/*
 		// QSQLITE database plugin is required
 		if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
@@ -561,7 +562,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 48) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 51) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -587,7 +588,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 48);
+			settings.setValue("Themes/defaultThemeVersion", 51);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -602,7 +603,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
 
-		settings.setValue("Themes/defaultThemeVersion", 48);
+		settings.setValue("Themes/defaultThemeVersion", 51);
 	}
 }
 
@@ -614,14 +615,16 @@ void Application::loadPluginsSettings()
 	QString pluginsPath{DataPaths::currentProfilePath() + "/plugins"};
 	QString dataPluginsPath{":/plugins/data/plugins/"};
 
-	if (pluginsVersion < 2) {
+	if (pluginsVersion < 4) {
 #if defined(Q_OS_WIN)
 		copyPath(QDir(dataPluginsPath + "/windows").absolutePath(), pluginsPath);
 #elif defined(Q_OS_MACOS) 
 		copyPath(QDir(dataPluginsPath + "/macos").absolutePath(), pluginsPath);
+#else 
+		copyPath(QDir(dataPluginsPath + "/linux").absolutePath(), pluginsPath);
 #endif
 
-		settings.setValue("Plugin-Settings/pluginsVersion", 2);
+		settings.setValue("Plugin-Settings/pluginsVersion", 4);
 	}
 }
 
@@ -760,7 +763,8 @@ BrowserWindow *Application::createWindow(MaquetteGridItem* item)
 	Q_ASSERT(windowCount() != 0);
 
 	BrowserWindow* maquetteGridWindow = new BrowserWindow(Application::WT_OtherRestoredWindow);
-	openSession(maquetteGridWindow, item->data());
+	RestoreData data = item->data();
+	openSession(maquetteGridWindow, data);
 
 	QObject::connect(maquetteGridWindow, &BrowserWindow::destroyed, this, &Application::windowDestroyed);
 
