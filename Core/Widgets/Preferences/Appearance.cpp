@@ -552,6 +552,13 @@ void AppearancePage::setupUI()
 	m_advancedPageLayout->addLayout(m_blurFilterLayout);
 	m_advancedPageLayout->addItem(m_spacer);
 
+#ifdef Q_OS_WIN
+	if (QCoreApplication::testAttribute(Qt::AA_UseSoftwareOpenGL)) {
+		m_oldChipsetInfoLabel = new QLabel(tr("You are using an old chipset that doesn't have a correct OpenGL port. To improve user experience, the hardware acceleration is disabled."), this);
+		m_advancedPageLayout->addWidget(m_oldChipsetInfoLabel);
+	}
+#endif
+
 	m_tabs->addTab(m_themePage, tr("Themes"));
 	m_tabs->addTab(m_advancedPage, tr("Advanced"));
 

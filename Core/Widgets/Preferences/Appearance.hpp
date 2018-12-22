@@ -143,6 +143,9 @@ private:
 	QLabel* m_backgroundLabel{nullptr};
 	QLineEdit* m_backgroundLocationEdit{nullptr};
 	QPushButton* m_backgroundLocationButton{nullptr};
+#ifdef Q_OS_WIN
+	QLabel* m_oldChipsetInfoLabel{nullptr};
+#endif
 	QSpacerItem* m_spacer{nullptr};
 
 	bool m_colorsChanged{false};

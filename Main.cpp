@@ -33,11 +33,48 @@
 
 #include "Core/BrowserWindow.hpp"
 
+#ifdef Q_OS_WIN
+#include <d3d9.h>
+#endif
+
 int main(int argc, char** argv)
 {
 	qputenv("QTWEBENGINE_REMOTE_DEBUGGING", "9000");
 	qputenv("QT_XCB_FORCE_SOFTWARE_OPENGL", "1");
 	qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+
+#ifdef Q_OS_WIN
+	// Dirty but quick fix for Old Intel HD Graphic Card
+	if (QSysInfo::windowsVersion() == QSysInfo::WV_WINDOWS10) {
+		IDirect3D9* ctx = Direct3DCreate9(D3D_SDK_VERSION);
+
+		if (ctx != nullptr) {
+			D3DADAPTER_IDENTIFIER9 id;
+			if (ctx->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &id) == D3D_OK) {
+				const QString DeviceDescription( id.Description );
+				const QString FindedDeviceName = "Intel(R) HD Graphics";
+				QString DeviceVersion = "";
+
+				if (DeviceDescription.length() > FindedDeviceName.length()) {
+					bool cool = true;
+					int i = 0;
+					while (i < FindedDeviceName.length()) {
+						if (DeviceDescription[i] != FindedDeviceName[i]) cool = false;
+						i++;
+					}
+					i++;
+					for (int j = i; j < DeviceDescription.length(); j++) {
+						DeviceVersion += DeviceDescription[j];
+					}
+
+					if (DeviceVersion.toInt() < 5000) {
+						QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+					}
+				}
+			}
+		}
+	}
+#endif
 
 	Sn::Application app(argc, argv);
 
