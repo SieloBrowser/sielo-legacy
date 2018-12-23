@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 						DeviceVersion += DeviceDescription[j];
 					}
 
-					if (DeviceVersion.toInt() > 900 && DeviceVersion.toInt() < 5000) {
+					if (DeviceVersion.toInt() > 900 && DeviceVersion.toInt() <= 5000) {
 						QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
 					}
 				}
