@@ -49,16 +49,10 @@ HistoryMenu::HistoryMenu(QWidget* parent) :
 {
 	setTitle(tr("Hi&story"));
 
-	QAction* action = addAction(Application::getAppIcon("arrow-left"), tr("&Back"), this, &HistoryMenu::goBack);
-
-	action = addAction(Application::getAppIcon("arrow-right"), tr("&Forward"), this, &HistoryMenu::goForward);
-
-	action = addAction(Application::getAppIcon("home"), tr("&Home"), this, &HistoryMenu::goHome);
-	action->setShortcut(QKeySequence(Qt::ALT + Qt::Key_Home));
-
-	action = addAction(Application::getAppIcon("history"), tr("Show &All History"), this,
-					   &HistoryMenu::showHistoryManager);
-	action->setShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_H));
+	QAction* actionBack = addAction(Application::getAppIcon("arrow-left"), tr("&Back"));
+	QAction* actionForward = addAction(Application::getAppIcon("arrow-right"), tr("&Forward"));
+	QAction* actionHome = addAction(Application::getAppIcon("home"), tr("&Home"));
+	QAction* actionShowAllHistory = addAction(Application::getAppIcon("history"), tr("Show &All History"));
 
 	addSeparator();
 
@@ -67,6 +61,11 @@ HistoryMenu::HistoryMenu(QWidget* parent) :
 
 	addMenu(m_menuMostVisited);
 	addMenu(m_menuClosedTabs);
+
+	connect(actionBack, &QAction::triggered, this, &HistoryMenu::goBack);
+	connect(actionForward, &QAction::triggered, this, &HistoryMenu::goForward);
+	connect(actionHome, &QAction::triggered, this, &HistoryMenu::goHome);
+	connect(actionShowAllHistory, &QAction::triggered, this, &HistoryMenu::showHistoryManager);
 
 	connect(this, &QMenu::aboutToShow, this, &HistoryMenu::aboutToShow);
 	connect(this, &QMenu::aboutToHide, this, &HistoryMenu::aboutToHide);

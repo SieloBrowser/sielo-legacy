@@ -152,7 +152,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	                                           this,
 	                                           Application::getAppIcon("preferences", "preferences"),
 	                                           tr("Pr&eferences"),
-	                                           QKeySequence(QKeySequence::Preferences).toString());
+	                                           "Ctrl+,");
 	QAction* showAboutSieloAction =
 		createAction("ShowAboutSielo", this, Application::getAppIcon("ic_sielo"), tr("&About Sielo"));
 	QAction* showPartnersAction = createAction("ShowPartners", this, QIcon(), tr("Partners"));
