@@ -77,10 +77,12 @@ private:
 	QGridLayout* m_layoutGroupProfile{nullptr};
 	QVBoxLayout* m_layoutGroupLanguage{nullptr};
 
+	QCheckBox* m_userSoftwareOpenGL{nullptr};
+
 	// Group Box Home Page
 	QGroupBox* m_groupHomePage{nullptr};
 	QRadioButton* m_radioHPBlank{nullptr};
-	QRadioButton* m_radioHPCustomUrl{nullptr};
+	QRadioButton* m_radioHPCustomUrl{nullptr };
 	QLineEdit* m_homePageUrl{nullptr};
 
 	// Group Box New Tab

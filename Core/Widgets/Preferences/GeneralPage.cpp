@@ -71,6 +71,8 @@ void GeneralPage::loadSettings()
 {
 	Settings settings{};
 
+	m_userSoftwareOpenGL->setChecked(settings.value("useSoftwareOpenGL", false).toBool());
+
 	// Set new tab and new window option
 	settings.beginGroup("Web-Settings");
 
@@ -171,8 +173,9 @@ void GeneralPage::loadSettings()
 
 void GeneralPage::save()
 {
-
 	Settings settings{};
+
+	settings.setValue("useSoftwareOpenGL", m_userSoftwareOpenGL->isChecked());
 
 	// Save what to do on new session
 	settings.beginGroup("Settings");
@@ -330,6 +333,8 @@ void GeneralPage::setupUI()
 
 void GeneralPage::setupUIObjects()
 {
+	m_userSoftwareOpenGL = new QCheckBox(tr("Use Software OpenGL (Important: this should only be activated if you have dispaly issue!)"), this);
+	
 	// Group Home Page
 	m_groupHomePage = new QGroupBox(tr("Home page"), this);
 
@@ -450,6 +455,7 @@ void GeneralPage::setupLayouts()
 	m_layoutGroupLanguage->addWidget(m_languages);
 	m_layoutGroupLanguage->addWidget(m_descLanguageNeedRestart);
 
+	m_layout->addWidget(m_userSoftwareOpenGL);
 	m_layout->addWidget(m_groupHomePage);
 	m_layout->addWidget(m_groupNewTab);
 	m_layout->addWidget(m_groupNewSession);

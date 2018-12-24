@@ -76,6 +76,20 @@ int main(int argc, char** argv)
 	}
 #endif
 
+	QString profilesPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/Sielo/profiles";
+	QSettings profilesSettings{profilesPath + QLatin1String("/profiles.ini"), QSettings::IniFormat};
+
+	QString startingProfile = profilesSettings.value(QLatin1String("Profiles/startProfile"), QLatin1String("default")).toString();
+	QString currentProfilePath = profilesPath + "/" + startingProfile;
+	QSettings settings{currentProfilePath + "/settings.ini", QSettings::IniFormat};
+
+	std::string std1 = profilesPath.toStdString();
+	std::string std2 = startingProfile.toStdString();
+	std::string std3 = currentProfilePath.toStdString();
+
+	if (settings.value("useSoftwareOpenGL", false).toBool())
+		QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+
 	Sn::Application app(argc, argv);
 
 	if (app.isClosing())
