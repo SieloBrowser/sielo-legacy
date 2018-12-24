@@ -89,7 +89,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.11");
+QString Application::currentVersion = QString("1.17.12");
 
 // Static member
 Application *Application::instance()
@@ -224,7 +224,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.11"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.17.12"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	setAttribute(Qt::AA_EnableHighDpiScaling);
