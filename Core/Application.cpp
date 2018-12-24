@@ -633,10 +633,10 @@ void Application::loadTranslationSettings()
 	Settings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 16) {
+	if (settings.value("version", 0).toInt() < 17) {
 		QDir(DataPaths::currentProfilePath() + "/locale").removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), DataPaths::currentProfilePath() + "/locale");
-		settings.setValue("version", 16);
+		settings.setValue("version", 17);
 	}
 }
 
