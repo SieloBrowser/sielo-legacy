@@ -1336,7 +1336,7 @@
         <location filename="../Core/Cookies/CookieManager.cpp" line="117"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="422"/>
         <source>Remove cookies</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar cookies</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="128"/>
@@ -1346,34 +1346,34 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="128"/>
         <source>All connections</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Todas las conexiones</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="129"/>
         <source>Session cookie</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cookie de sesión</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="132"/>
         <source>Remove cookie</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar cookie</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="160"/>
         <source>Add to whitelist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir a la whitelist</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="160"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="183"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="383"/>
         <source>Server:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Server:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="167"/>
         <source>Already blacklisted!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ya está en la blacklist!</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="168"/>
@@ -1383,7 +1383,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="183"/>
         <source>Add to blacklist</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir a la blacklist</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="190"/>
@@ -1398,7 +1398,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="322"/>
         <source>Cookies</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cookies</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="354"/>
@@ -1408,7 +1408,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="357"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buscar</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="360"/>
@@ -1418,22 +1418,22 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="367"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Server</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="368"/>
         <source>Cookie name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nombre del cookie</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="371"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nombre:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="380"/>
         <source>Value:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Valor:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="386"/>
@@ -1448,17 +1448,17 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="392"/>
         <source>Expiration:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Expiración:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="419"/>
         <source>Remove all cookies</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar todas las cookies</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="462"/>
         <source>&lt;b&gt;Cookie whitelist&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Cookie whitelist&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="466"/>
@@ -1469,23 +1469,23 @@
         <location filename="../Core/Cookies/CookieManager.cpp" line="472"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="490"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="475"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="493"/>
-        <source>Remove</source>
+        <source>Eliminar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="480"/>
         <source>&lt;b&gt;Cookie blacklist&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Cookie blacklist&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="524"/>
         <source>&lt;b&gt;Cookie Settings&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Cookie Settings&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="527"/>
@@ -1495,22 +1495,22 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="530"/>
         <source>Filter tracking cookies</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filtrar las cookies de seguimiento</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="533"/>
         <source>Filter 3rd party cookies</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filtrar cookies terceros</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="536"/>
         <source>Delete cookies on close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar cookies al cerrar</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="552"/>
         <source>Stored Cookie</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cookies Almacenadas</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="553"/>
@@ -1520,7 +1520,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="574"/>
         <source>Already whitelisted!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ya está en whitelist!</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="575"/>
@@ -1538,7 +1538,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/CurrentTabsSpacePage.cpp" line="65"/>
         <source>Enter url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ingresar url</translation>
     </message>
 </context>
 <context>
@@ -1546,32 +1546,32 @@
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="227"/>
         <source>1 Download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1 Descargar</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="227"/>
         <source>%1 Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 Descargar</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="233"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descargas</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="243"/>
         <source>Clean up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limpiar</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="248"/>
         <source>0 Items</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">0 Items</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="299"/>
         <source>Download completed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descarga completada</translation>
     </message>
 </context>
 <context>
@@ -1589,12 +1589,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/DownloadPage.cpp" line="127"/>
         <source>Downloads location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Localización de las descargas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/DownloadPage.cpp" line="129"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">...</translation>
     </message>
 </context>
 <context>
@@ -1602,52 +1602,52 @@
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="112"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Guardar archivo</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="117"/>
         <source>Download canceled: %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descarga cancelada: %1</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="205"/>
         <source>Download completed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descarga completada</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="221"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Formulario</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="230"/>
         <source>ico</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ico</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="238"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nombre de archivo</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="263"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="265"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="288"/>
         <source>seconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">segundos</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="292"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">minutos</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="306"/>
@@ -1657,12 +1657,12 @@
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="307"/>
         <source>%1 of %2 (%3/sec) %4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 of %2 (%3/sec) %4</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="308"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">?</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="313"/>
@@ -1672,17 +1672,17 @@
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="327"/>
         <source>bytes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">octetos</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="330"/>
         <source>kB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">kB</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="334"/>
         <source>MB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MB</translation>
     </message>
 </context>
 <context>
@@ -1698,7 +1698,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="225"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Advertencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="225"/>
@@ -1887,17 +1887,17 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="157"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notificaciones</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="158"/>
         <source>Geolocation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Geolocalización</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="159"/>
         <source>Microphone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Micrófono</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="160"/>
@@ -1917,7 +1917,7 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="173"/>
         <source>Site</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sitio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="174"/>
@@ -1927,7 +1927,7 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="179"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar</translation>
     </message>
 </context>
 <context>
@@ -1935,7 +1935,7 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsNotification.cpp" line="50"/>
         <source>This site</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Este sitio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsNotification.cpp" line="55"/>
