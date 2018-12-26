@@ -439,7 +439,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="257"/>
         <source>Select a color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecciona un color</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="425"/>
@@ -460,17 +460,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="457"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Licencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="466"/>
         <source>&lt;b&gt;Author: &lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Autor: &lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="473"/>
         <source>&lt;b&gt;Description: &lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Descripción: &lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="480"/>
@@ -480,17 +480,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="481"/>
         <source>Open Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir galería</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="483"/>
         <source>Main Color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Primera color</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="484"/>
         <source>Second Color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Secunda color</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="485"/>
@@ -500,7 +500,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Color del texto</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
@@ -545,7 +545,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="504"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="510"/>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="564"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Avanzado</translation>
     </message>
 </context>
 <context>
@@ -568,12 +568,12 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="321"/>
         <source>Permission is required, please enter Master Password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Se require permiso, por favor ingrese la contraseña maestra:</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="324"/>
         <source>Entered password is wrong</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">La contrasña ingrese es falsa</translation>
     </message>
 </context>
 <context>
@@ -582,17 +582,17 @@
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <source>You can&apos;t export password yet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Usted puede todavía exportar la contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>You can&apos;t import password yet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aún no puede importar la contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/DatabaseEncryptedPasswordBackend.cpp" line="244"/>
@@ -610,7 +610,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillIcon.cpp" line="39"/>
         <source>Choose username to login</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escoge username para se conectar</translation>
     </message>
 </context>
 <context>
@@ -621,7 +621,7 @@
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="260"/>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="412"/>
         <source>Show Passwords</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Montrar contraseñas</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="149"/>
@@ -636,7 +636,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="194"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Confirmación</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="195"/>
@@ -651,7 +651,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="216"/>
         <source>Change password:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cambiar contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="261"/>
@@ -667,7 +667,7 @@
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="326"/>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="331"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="326"/>
@@ -745,32 +745,32 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="409"/>
         <source>Remove all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar todos</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="410"/>
         <source>Import and Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar and Exportar</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="428"/>
         <source>Import Passwords from File...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar contraseñas desde un archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="429"/>
         <source>Export Passwords to File...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportar contraseñas en un archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="443"/>
         <source>Remove All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar todos</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="455"/>
         <source>Exceptions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Excepcionesactualizar</translation>
     </message>
 </context>
 <context>
@@ -798,7 +798,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="113"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actualizar</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="114"/>
@@ -813,7 +813,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="116"/>
         <source>Not Now</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No ahora</translation>
     </message>
 </context>
 <context>
