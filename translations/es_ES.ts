@@ -6,17 +6,17 @@
     <message>
         <location filename="../Core/Application.cpp" line="1102"/>
         <source>Start after crash</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar depuès un crash</translation>
     </message>
-    <message>
+    <messagela
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation>Usted inicia Sielo después un crash. Qué usted gustará hacer ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1105"/>
         <source>Start New Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar una nueva sesión</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1107"/>
@@ -32,12 +32,12 @@
     <message>
         <location filename="../Core/Application.cpp" line="1198"/>
         <source>The argument is unknow</source>
-        <translation type="unfinished"></translation>
+        <translation>El argumento es desconocido</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1203"/>
         <source>This command need one argument!</source>
-        <translation type="unfinished"></translation>
+        <translation>Este comanda necesita un argumento</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="362"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="398"/>
         <source>Organization (O):</source>
-        <translation type="unfinished"></translation>
+        <translation>Organizatión (O):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="370"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="378"/>
         <source>Serial Number:</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de serie</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="386"/>
@@ -124,12 +124,12 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
         <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation type="unfinished"></translation>
+        <translation>Usted quiere añadir &lt;b&gt;%1&lt;/b&gt; subscripción?</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="258"/>
         <source>AdBlock Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>AdBlock subscripción</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../Core/AdBlock/Subscription.cpp" line="239"/>
         <source>Cannot load subscription!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede cargar la subscripción</translation>
     </message>
 </context>
 <context>
@@ -145,27 +145,27 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="33"/>
         <source>Add Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir subscripción</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="65"/>
         <source>Other...</source>
-        <translation type="unfinished"></translation>
+        <translation>Otro ...</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="111"/>
         <source>Add new subscription to AdBlock:</source>
-        <translation type="unfinished"></translation>
+        <translation>>Añadir nueva subscripción a AdBlock</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="113"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titro:</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="115"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -173,17 +173,17 @@
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Add Custom Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir customa regla</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Please write your rule here:</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor usted puede escribir vuestra regla aquí</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="156"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir regla</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="159"/>
@@ -206,7 +206,7 @@
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="41"/>
         <source>About Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre Sielo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="68"/>
@@ -225,7 +225,7 @@
         <location filename="../Core/Widgets/AboutDialog.cpp" line="77"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="117"/>
         <source>Our partners</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuestros socios</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="80"/>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="133"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="133"/>
@@ -274,32 +274,32 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="205"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="208"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir regla</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="209"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar regla</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="211"/>
         <source>Add Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir subscripción</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="212"/>
         <source>Remove Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Anardir subscripción</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="213"/>
         <source>Update Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualizar subscripción</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="215"/>
@@ -309,7 +309,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="221"/>
         <source>AdBlock</source>
-        <translation type="unfinished"></translation>
+        <translation>AdBlock</translation>
     </message>
 </context>
 <context>
@@ -318,12 +318,12 @@
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="101"/>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="305"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Recargar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="107"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="141"/>
@@ -333,12 +333,12 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="288"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteIcon.cpp" line="45"/>
         <source>Show information about this page</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar información sobre esta página</translation>
     </message>
 </context>
 <context>
@@ -399,7 +399,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="190"/>
         <source>Choose background</source>
-        <translation type="unfinished"></translation>
+        <translation>Escorger background</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="203"/>
@@ -414,7 +414,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="216"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="217"/>
@@ -439,7 +439,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="257"/>
         <source>Select a color</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona un color</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="425"/>
@@ -460,17 +460,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="457"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>Licencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="466"/>
         <source>&lt;b&gt;Author: &lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Autor: &lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="473"/>
         <source>&lt;b&gt;Description: &lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Descripción: &lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="480"/>
@@ -480,17 +480,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="481"/>
         <source>Open Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir galería</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="483"/>
         <source>Main Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Primera color</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="484"/>
         <source>Second Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Secunda color</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="485"/>
@@ -500,7 +500,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color del texto</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
@@ -545,7 +545,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="504"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="510"/>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="564"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Avanzado</translation>
     </message>
 </context>
 <context>
@@ -568,12 +568,12 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="321"/>
         <source>Permission is required, please enter Master Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Se require permiso, por favor ingrese la contraseña maestra:</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="324"/>
         <source>Entered password is wrong</source>
-        <translation type="unfinished"></translation>
+        <translation>La contrasña ingrese es falsa</translation>
     </message>
 </context>
 <context>
@@ -582,17 +582,17 @@
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <source>You can&apos;t export password yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Usted puede todavía exportar la contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>You can&apos;t import password yet</source>
-        <translation type="unfinished"></translation>
+        <translation>Aún no puede importar la contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/DatabaseEncryptedPasswordBackend.cpp" line="244"/>
@@ -610,7 +610,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillIcon.cpp" line="39"/>
         <source>Choose username to login</source>
-        <translation type="unfinished"></translation>
+        <translation>Escoge username para se conectar</translation>
     </message>
 </context>
 <context>
@@ -621,7 +621,7 @@
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="260"/>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="412"/>
         <source>Show Passwords</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Montrar contraseñas</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="149"/>
@@ -636,7 +636,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="194"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmación</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="195"/>
@@ -651,7 +651,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="216"/>
         <source>Change password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="261"/>
@@ -667,7 +667,7 @@
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="326"/>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="331"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="326"/>
@@ -745,32 +745,32 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="409"/>
         <source>Remove all</source>
-        <translation type="unfinished"></translation>
+        <translation*>Eliminar todos</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="410"/>
         <source>Import and Export</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar and Exportar</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="428"/>
         <source>Import Passwords from File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar contraseñas desde un archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="429"/>
         <source>Export Passwords to File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar contraseñas en un archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="443"/>
         <source>Remove All</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar todos</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="455"/>
         <source>Exceptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Excepcionesactualizar</translation>
     </message>
 </context>
 <context>
@@ -798,7 +798,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="113"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualizar</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="114"/>
@@ -813,7 +813,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillNotification.cpp" line="116"/>
         <source>Not Now</source>
-        <translation type="unfinished"></translation>
+        <translation>No ahora</translation>
     </message>
 </context>
 <context>
@@ -884,7 +884,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="155"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titro:</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="158"/>
@@ -899,12 +899,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="165"/>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Descripción:</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="258"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmación</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="259"/>
@@ -922,17 +922,17 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="79"/>
         <source>Error!</source>
-        <translation type="unfinished"></translation>
+        <translation>Error !</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="88"/>
         <source>Export options</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar opciones</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="94"/>
         <source>Export Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="96"/>
@@ -947,7 +947,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="101"/>
         <source>Choose...</source>
-        <translation type="unfinished"></translation>
+        <translation>Escoger...</translation>
     </message>
 </context>
 <context>
@@ -955,7 +955,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="53"/>
         <source>HTML Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML favoritos</translation>
     </message>
 </context>
 <context>
@@ -963,7 +963,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksFoldersMenu.cpp" line="74"/>
         <source>Choose %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Escorger %1</translation>
     </message>
 </context>
 <context>
@@ -971,18 +971,18 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="48"/>
         <source>Import Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="103"/>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="108"/>
         <source>Error!</source>
-        <translation type="unfinished"></translation>
+        <translation>Error !</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="108"/>
         <source>No bookmarks were found.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se encontraron favoritos.</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="114"/>
@@ -1013,12 +1013,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="224"/>
         <source>Html file</source>
-        <translation type="unfinished"></translation>
+        <translation>Html archivo</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="235"/>
         <source>Choose...</source>
-        <translation type="unfinished"></translation>
+        <translation>Escoger...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="243"/>
@@ -1037,7 +1037,7 @@
         <location filename="../Core/Bookmarks/BookmarksImport/ChromeImporter.cpp" line="68"/>
         <location filename="../Core/Bookmarks/BookmarksImport/HtmlImporter.cpp" line="60"/>
         <source>Choose file...</source>
-        <translation type="unfinished"></translation>
+        <translation>Escoger archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/ChromeImporter.cpp" line="78"/>
@@ -1055,17 +1055,17 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="48"/>
         <source>Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="67"/>
         <source>Import Bookmarks...</source>
-        <translation type="unfinished"></translation>
+        <translation>Imoportar Favoritos...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="68"/>
         <source>Export Bookmarks...</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportar Favoritos...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="118"/>
@@ -1086,13 +1086,13 @@
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="123"/>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="201"/>
         <source>New Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuevo Favorito</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="124"/>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="211"/>
         <source>New Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva carpeta</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="125"/>
@@ -1102,12 +1102,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="128"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Suprimir</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="267"/>
         <source>Import and export</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar and exportar</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="269"/>
@@ -1117,7 +1117,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="273"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>Titro:</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="275"/>
@@ -1132,7 +1132,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="279"/>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Descripción:</translation>
     </message>
 </context>
 <context>
@@ -1140,7 +1140,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksMenu.cpp" line="43"/>
         <source>&amp;Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksMenu.cpp" line="45"/>
@@ -1168,7 +1168,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksModel.cpp" line="142"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titro</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksModel.cpp" line="144"/>
@@ -1227,12 +1227,12 @@
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="221"/>
         <source>Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>Sielo</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="341"/>
         <source>%1 - Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 - Sielo</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="390"/>
@@ -1266,13 +1266,13 @@
         <location filename="../Core/BrowserWindow.cpp" line="783"/>
         <location filename="../Core/BrowserWindow.cpp" line="809"/>
         <source>Add Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation">Agregar favoritos</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="785"/>
         <location filename="../Core/BrowserWindow.cpp" line="810"/>
         <source>Show all Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar todos los favoritos</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="787"/>
@@ -1336,7 +1336,7 @@
         <location filename="../Core/Cookies/CookieManager.cpp" line="117"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="422"/>
         <source>Remove cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar cookies</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="128"/>
@@ -1346,34 +1346,34 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="128"/>
         <source>All connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las conexiones</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="129"/>
         <source>Session cookie</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookie de sesión</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="132"/>
         <source>Remove cookie</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar cookie</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="160"/>
         <source>Add to whitelist</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir a la whitelist</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="160"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="183"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="383"/>
         <source>Server:</source>
-        <translation type="unfinished"></translation>
+        <translation>Server:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="167"/>
         <source>Already blacklisted!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya está en la blacklist!</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="168"/>
@@ -1383,7 +1383,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="183"/>
         <source>Add to blacklist</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir a la blacklist</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="190"/>
@@ -1398,7 +1398,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="322"/>
         <source>Cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookies</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="354"/>
@@ -1408,7 +1408,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="357"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="360"/>
@@ -1418,22 +1418,22 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="367"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="368"/>
         <source>Cookie name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del cookie</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="371"/>
         <source>Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="380"/>
         <source>Value:</source>
-        <translation type="unfinished"></translation>
+        <translation>Valor:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="386"/>
@@ -1448,17 +1448,17 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="392"/>
         <source>Expiration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Expiración:</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="419"/>
         <source>Remove all cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar todas las cookies</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="462"/>
         <source>&lt;b&gt;Cookie whitelist&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cookie whitelist&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="466"/>
@@ -1469,23 +1469,23 @@
         <location filename="../Core/Cookies/CookieManager.cpp" line="472"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="490"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="475"/>
         <location filename="../Core/Cookies/CookieManager.cpp" line="493"/>
-        <source>Remove</source>
+        <source>Eliminar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="480"/>
         <source>&lt;b&gt;Cookie blacklist&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cookie blacklist&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="524"/>
         <source>&lt;b&gt;Cookie Settings&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Cookie Settings&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="527"/>
@@ -1495,22 +1495,22 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="530"/>
         <source>Filter tracking cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrar las cookies de seguimiento</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="533"/>
         <source>Filter 3rd party cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrar cookies terceros</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="536"/>
         <source>Delete cookies on close</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar cookies al cerrar</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="552"/>
         <source>Stored Cookie</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookies Almacenadas</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="553"/>
@@ -1520,7 +1520,7 @@
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="574"/>
         <source>Already whitelisted!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya está en whitelist!</translation>
     </message>
     <message>
         <location filename="../Core/Cookies/CookieManager.cpp" line="575"/>
@@ -1538,7 +1538,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/CurrentTabsSpacePage.cpp" line="65"/>
         <source>Enter url</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingresar url</translation>
     </message>
 </context>
 <context>
@@ -1546,32 +1546,32 @@
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="227"/>
         <source>1 Download</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Descargar</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="227"/>
         <source>%1 Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Descargar</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="233"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargas</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="243"/>
         <source>Clean up</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpiar</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="248"/>
         <source>0 Items</source>
-        <translation type="unfinished"></translation>
+        <translation>0 Items</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadManager.cpp" line="299"/>
         <source>Download completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Descarga completada</translation>
     </message>
 </context>
 <context>
@@ -1589,12 +1589,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/DownloadPage.cpp" line="127"/>
         <source>Downloads location</source>
-        <translation type="unfinished"></translation>
+        <translation>Localización de las descargas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/DownloadPage.cpp" line="129"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -1602,52 +1602,52 @@
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="112"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar archivo</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="117"/>
         <source>Download canceled: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Descarga cancelada: %1</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="205"/>
         <source>Download completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Descarga completada</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="221"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulario</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="230"/>
         <source>ico</source>
-        <translation type="unfinished"></translation>
+        <translation>ico</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="238"/>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre del archivo</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="263"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="265"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="288"/>
         <source>seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>segundos</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="292"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>minutos</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="306"/>
@@ -1657,12 +1657,12 @@
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="307"/>
         <source>%1 of %2 (%3/sec) %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 of %2 (%3/sec) %4</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="308"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="313"/>
@@ -1672,17 +1672,17 @@
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="327"/>
         <source>bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>octetos</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="330"/>
         <source>kB</source>
-        <translation type="unfinished"></translation>
+        <translation>kB</translation>
     </message>
     <message>
         <location filename="../Core/Download/DownloadWidget.cpp" line="334"/>
         <source>MB</source>
-        <translation type="unfinished"></translation>
+        <translation>MB</translation>
     </message>
 </context>
 <context>
@@ -1698,7 +1698,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="225"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/GeneralPage.cpp" line="225"/>
@@ -1887,17 +1887,17 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="157"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notificaciones</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="158"/>
         <source>Geolocation</source>
-        <translation type="unfinished"></translation>
+        <translation>Geolocalización</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="159"/>
         <source>Microphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Micrófono</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="160"/>
@@ -1917,7 +1917,7 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="173"/>
         <source>Site</source>
-        <translation type="unfinished"></translation>
+        <translation>Sitio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="174"/>
@@ -1927,7 +1927,7 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsDialog.cpp" line="179"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
 </context>
 <context>
@@ -1935,7 +1935,7 @@
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsNotification.cpp" line="50"/>
         <source>This site</source>
-        <translation type="unfinished"></translation>
+        <translation >Este sitio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/HTML5Permissions/HTML5PermissionsNotification.cpp" line="55"/>
@@ -2002,67 +2002,67 @@
     <message>
         <location filename="../Core/History/History.cpp" line="41"/>
         <source>January</source>
-        <translation type="unfinished"></translation>
+        <translation>Enero</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="43"/>
         <source>February</source>
-        <translation type="unfinished"></translation>
+        <translation>Febrero</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="45"/>
         <source>March</source>
-        <translation type="unfinished"></translation>
+        <translation>Marzo</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="47"/>
         <source>April</source>
-        <translation type="unfinished"></translation>
+        <translation>abril</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="49"/>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation>Mayo</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="51"/>
         <source>June</source>
-        <translation type="unfinished"></translation>
+        <translation>Junio</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="53"/>
         <source>July</source>
-        <translation type="unfinished"></translation>
+        <translation>Julio</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="55"/>
         <source>August</source>
-        <translation type="unfinished"></translation>
+        <translation>Agosto</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="57"/>
         <source>September</source>
-        <translation type="unfinished"></translation>
+        <translation>Septiembre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="59"/>
         <source>October</source>
-        <translation type="unfinished"></translation>
+        <translation>Octubre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="61"/>
         <source>November</source>
-        <translation type="unfinished"></translation>
+        <translation>Noviembre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="63"/>
         <source>December</source>
-        <translation type="unfinished"></translation>
+        <translation>Diciembre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="116"/>
         <source>Empty page</source>
-        <translation type="unfinished"></translation>
+        <translation>Página vacía</translation>
     </message>
 </context>
 <context>
@@ -2090,23 +2090,23 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="128"/>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar Url</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="129"/>
         <source>Copy Title</source>
-        <translation type="unfinished"></translation>
+        <translation">Copiar Title</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="133"/>
         <location filename="../Core/History/HistoryManager.cpp" line="197"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="165"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmación</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="165"/>
@@ -2116,7 +2116,7 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="194"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar...</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="198"/>
@@ -2154,28 +2154,28 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="59"/>
         <source>Most Visited</source>
-        <translation type="unfinished"></translation>
+        <translation>Los más visitados</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="60"/>
         <source>Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Pestañas cerradas</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="180"/>
         <location filename="../Core/History/HistoryMenu.cpp" line="204"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Vacío</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="208"/>
         <source>Restore All Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar todas las pestañas cerradas</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="209"/>
         <source>Clear list</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar lista</translation>
     </message>
 </context>
 <context>
@@ -2184,37 +2184,37 @@
         <location filename="../Core/History/HistoryModel.cpp" line="66"/>
         <location filename="../Core/History/HistoryModel.cpp" line="336"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titro</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="68"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirección</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="70"/>
         <source>Visit Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha de la visita</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="72"/>
         <source>Visit Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Conde de visitas</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="447"/>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoy</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="451"/>
         <source>This Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta semana</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="455"/>
         <source>This Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Este mes</translation>
     </message>
 </context>
 <context>
@@ -2222,17 +2222,17 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="47"/>
         <source>HTML File</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML Archivo</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="54"/>
         <source>Choose file...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="64"/>
         <source>Cannot open file for writing!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede abrir el archivo para escribir!</translation>
     </message>
 </context>
 <context>
@@ -2245,12 +2245,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/HtmlImporter.cpp" line="59"/>
         <source>HTML Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/HtmlImporter.cpp" line="70"/>
         <source>Unable to open file.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede abrir el archivo.</translation>
     </message>
 </context>
 <context>
@@ -2258,7 +2258,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="88"/>
         <source>JavaScript Options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de JavaScript</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="91"/>
@@ -2281,12 +2281,12 @@
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="78"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Deshacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="83"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rehacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="88"/>
@@ -2296,27 +2296,27 @@
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="93"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Copiar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="98"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pegar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="107"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="111"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar todo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="116"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar todo</translation>
     </message>
 </context>
 <context>
@@ -2324,12 +2324,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
         <source>Not work for now...</source>
-        <translation type="unfinished"></translation>
+        <translation>No trabajar por ahora....</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="144"/>
@@ -2339,12 +2339,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="146"/>
         <source>Maximum </source>
-        <translation type="unfinished"></translation>
+        <translation>Máximo </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="147"/>
         <source>100 MB</source>
-        <translation type="unfinished"></translation>
+        <translation>100 MB</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="154"/>
@@ -2354,12 +2354,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="180"/>
         <source>Allow saving history</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir el historial de guardado</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="181"/>
         <source>Delete history on close</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar el historial al cerrar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="182"/>
@@ -2374,7 +2374,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="185"/>
         <source>Delete now</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar ahora</translation>
     </message>
 </context>
 <context>
@@ -2383,12 +2383,12 @@
         <location filename="../Core/Widgets/MainMenu.cpp" line="65"/>
         <location filename="../Core/Widgets/MainMenu.cpp" line="272"/>
         <source>Show Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar barra de favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="70"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Espalda</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="71"/>
@@ -2398,12 +2398,12 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="72"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Home</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="80"/>
         <source>Side Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Barra lateral</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="83"/>
@@ -2413,17 +2413,17 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="98"/>
         <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tools</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="100"/>
         <source>&amp;Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Extensiones</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="104"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation">Nueva pestaña</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="106"/>
@@ -2438,27 +2438,27 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="114"/>
         <source>Open &amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir &amp;File</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="119"/>
         <source>Select &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>Selectionar &amp;Todo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="121"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Buscar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="124"/>
         <source>&amp;Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Stop</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="125"/>
         <source>&amp;Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Recargar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="127"/>
@@ -2473,82 +2473,82 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="129"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="131"/>
         <source>&amp;Page Source</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fuente Page</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="132"/>
         <source>&amp;FullScreen</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pantalla completa</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="139"/>
         <source>Show Site Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar información del sitio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="144"/>
         <source>Download Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestor de descargas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="148"/>
         <source>&amp;Cookies Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gestor de Cookies</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="154"/>
         <source>Pr&amp;eferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="157"/>
         <source>&amp;About Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre Sielo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="158"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>Socios</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="160"/>
         <source>&amp;Help Us</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ayúdenos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="161"/>
         <source>&amp;Discord Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Discord Server</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="163"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="207"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Archivo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="215"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="216"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Deshacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="217"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rehacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="218"/>
@@ -2558,37 +2558,37 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="219"/>
         <source>C&amp;opy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>&amp;Past</source>
-        <translation type="unfinished"></translation>
+        <translation>Pasado</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="272"/>
         <source>Hide Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar la barra de favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>HTML files</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML Archivos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de imagen</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de texto</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los archivos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="301"/>
@@ -2616,12 +2616,12 @@
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="485"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>titro:</translation>
     </message>
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="487"/>
         <source>Url:</source>
-        <translation type="unfinished"></translation>
+        <translation>Url:</translation>
     </message>
 </context>
 <context>
@@ -2643,7 +2643,7 @@
         <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="97"/>
         <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="99"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva pestaña</translation>
     </message>
 </context>
 <context>
@@ -2653,7 +2653,7 @@
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="96"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="191"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="91"/>
@@ -2669,7 +2669,7 @@
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="122"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="145"/>
         <source>Warning!</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia!</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="123"/>
@@ -2694,7 +2694,7 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="227"/>
         <source>Set/Change Master Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Establecer/cambiar contraseña maestra....</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="229"/>
@@ -2704,7 +2704,7 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="231"/>
         <source>Clear Master Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar contraseña maestra....</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="239"/>
@@ -2714,17 +2714,17 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="243"/>
         <source>Current Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña actual</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="246"/>
         <source>New Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nueva contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="249"/>
         <source>Confirm Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmar Contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="252"/>
@@ -2737,7 +2737,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationControlDialog.cpp" line="38"/>
         <source>Navigation Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Controles de navegación</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationControlDialog.cpp" line="82"/>
@@ -2752,7 +2752,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationControlDialog.cpp" line="91"/>
         <source>Toolbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Toolbars</translation>
     </message>
 </context>
 <context>
@@ -2760,7 +2760,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="61"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Espalda</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="71"/>
@@ -2770,22 +2770,22 @@
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="81"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Home / Inicio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="90"/>
         <source>View Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="100"/>
         <source>Add Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Add Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="110"/>
         <source>View History</source>
-        <translation type="unfinished"></translation>
+        <translation>View History</translation>
     </message>
 </context>
 <context>
@@ -2793,7 +2793,7 @@
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="89"/>
         <source>Authorisation required</source>
-        <translation type="unfinished"></translation>
+        <translation>Se requiere autorización</translation>
     </message>
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="92"/>
@@ -2804,13 +2804,13 @@
         <location filename="../Core/Network/NetworkManager.cpp" line="94"/>
         <location filename="../Core/Network/NetworkManager.cpp" line="179"/>
         <source>Username: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de usuario: </translation>
     </message>
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="95"/>
         <location filename="../Core/Network/NetworkManager.cpp" line="180"/>
         <source>Password: </source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña: </translation>
     </message>
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="99"/>
@@ -2838,7 +2838,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/OldSieloImporter.cpp" line="62"/>
         <source>Choose file...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar archivo....</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/OldSieloImporter.cpp" line="71"/>
@@ -2861,17 +2861,17 @@
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="38"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>Socios</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="100"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="101"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="123"/>
@@ -2902,12 +2902,12 @@
     <message>
         <location filename="../Core/Plugins/PluginsManager.cpp" line="131"/>
         <source>Cannot load plugin!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede cargar el plugin!</translation>
     </message>
     <message>
         <location filename="../Core/Plugins/PluginsManager.cpp" line="131"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Plugins/PluginsManager.cpp" line="192"/>
@@ -2920,32 +2920,32 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="50"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="137"/>
         <source>Preferences - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias - %1</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="196"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>General</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="197"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Apariencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="198"/>
         <source>Web Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración Web</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="199"/>
         <source>Local Storage</source>
-        <translation type="unfinished"></translation>
+        <translation>Almacenamiento local</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="200"/>
@@ -2955,27 +2955,27 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="201"/>
         <source>Password Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrador de contraseñas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="202"/>
         <source>Privacy</source>
-        <translation type="unfinished"></translation>
+        <translation>Privacidad</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="203"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="204"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="205"/>
         <source>AdBlock</source>
-        <translation type="unfinished"></translation>
+        <translation>AdBlock</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="206"/>
@@ -2993,52 +2993,52 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="93"/>
         <source>Manage Cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar cookies</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="94"/>
         <source>Cookies Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrador de Cookies</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="97"/>
         <source>&lt;b&gt;JavaScript&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;JavaScript&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="98"/>
         <source>Manage JavaScript privacy options</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar las opciones de privacidad de JavaScript</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="99"/>
         <source>JavaScript options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de JavaScript</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="102"/>
         <source>&lt;b&gt;HTML5 Permissions&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Permisos HTML5&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="103"/>
         <source>Manage HTML5 permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar permisos HTML5</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="104"/>
         <source>HTML5 Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Permisos HTML5</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="107"/>
         <source>&lt;b&gt;Other&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Otro&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="108"/>
         <source>Send Do Not Track header to servers</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar el encabezado No rastrear a los servidores</translation>
     </message>
 </context>
 <context>
@@ -3046,27 +3046,27 @@
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="121"/>
         <source>System proxy configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de proxy del sistema</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="122"/>
         <source>Manual configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración manual</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="127"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="130"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de usuario: </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="132"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña:</translation>
     </message>
 </context>
 <context>
@@ -3084,22 +3084,22 @@
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="342"/>
         <source>Left Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Izquierda Toolbar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="343"/>
         <source>Right Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Right Toolbar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="345"/>
         <source>Top Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Derecha Toolbar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="346"/>
         <source>Bottom Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>inferior Toolbar</translation>
     </message>
 </context>
 <context>
@@ -3107,7 +3107,7 @@
     <message>
         <location filename="../Core/Widgets/SearchLineEdit.cpp" line="41"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar</translation>
     </message>
 </context>
 <context>
@@ -3115,17 +3115,17 @@
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="140"/>
         <source>No results found.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se han encontrado resultados.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="211"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="216"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="232"/>
@@ -3138,23 +3138,23 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="138"/>
         <source>Copy Image Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar ubicación de la imagen</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="140"/>
         <source>Copy Image Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar nombre de la image</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="142"/>
         <source>Save Image to Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar image en disco</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="170"/>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="215"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="170"/>
@@ -3164,17 +3164,17 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="207"/>
         <source>Save Image...</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar image</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="215"/>
         <source>Cannot write to file!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede escribir en un archivo!</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="226"/>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="239"/>
