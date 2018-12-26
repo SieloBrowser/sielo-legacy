@@ -2478,77 +2478,77 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="131"/>
         <source>&amp;Page Source</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fuente Page</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="132"/>
         <source>&amp;FullScreen</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pantalla completa</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="139"/>
         <source>Show Site Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar información del sitio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="144"/>
         <source>Download Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestor de descargas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="148"/>
         <source>&amp;Cookies Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Gestor de Cookies</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="154"/>
         <source>Pr&amp;eferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="157"/>
         <source>&amp;About Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre Sielo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="158"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>Socios</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="160"/>
         <source>&amp;Help Us</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ayúdenos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="161"/>
         <source>&amp;Discord Server</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Discord Server</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="163"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="207"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Archivo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="215"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="216"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Deshacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="217"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rehacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="218"/>
@@ -2558,37 +2558,37 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="219"/>
         <source>C&amp;opy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="220"/>
         <source>&amp;Past</source>
-        <translation type="unfinished"></translation>
+        <translation>Pasado</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="272"/>
         <source>Hide Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar la barra de favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>HTML files</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML Archivos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de imagen</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>Text files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de texto</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
         <source>All files</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los archivos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="301"/>
@@ -2616,12 +2616,12 @@
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="485"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation>titro:</translation>
     </message>
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridManager.cpp" line="487"/>
         <source>Url:</source>
-        <translation type="unfinished"></translation>
+        <translation>Url:</translation>
     </message>
 </context>
 <context>
@@ -2643,7 +2643,7 @@
         <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="97"/>
         <location filename="../Core/MaquetteGrid/MaquetteGridTabsList.cpp" line="99"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva pestaña</translation>
     </message>
 </context>
 <context>
@@ -2653,7 +2653,7 @@
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="96"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="191"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="91"/>
@@ -2669,7 +2669,7 @@
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="122"/>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="145"/>
         <source>Warning!</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia!</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="123"/>
@@ -2694,7 +2694,7 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="227"/>
         <source>Set/Change Master Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Establecer/cambiar contraseña maestra....</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="229"/>
@@ -2704,7 +2704,7 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="231"/>
         <source>Clear Master Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar contraseña maestra....</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="239"/>
