@@ -6,17 +6,17 @@
     <message>
         <location filename="../Core/Application.cpp" line="1102"/>
         <source>Start after crash</source>
-        <translation>Iniciarse depuès crash</translation>
+        <translation>Iniciar depuès un crash</translation>
     </message>
     <messagela
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation>Usted comienza Sielo después un crash. Qué usted gustará hacer ?</translation>
+        <translation>Usted inicia Sielo después un crash. Qué usted gustará hacer ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1105"/>
         <source>Start New Session</source>
-        <translation>Iniciarse una nueva sesión</translation>
+        <translation>Iniciar una nueva sesión</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1107"/>
@@ -37,7 +37,7 @@
     <message>
         <location filename="../Core/Application.cpp" line="1203"/>
         <source>This command need one argument!</source>
-        <translation>Este comando necesita un argumento</translation>
+        <translation>Este comanda necesita un argumento</translation>
     </message>
 </context>
 <context>
