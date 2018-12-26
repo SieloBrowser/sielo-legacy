@@ -2719,7 +2719,7 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="246"/>
         <source>New Password</source>
-        <translation type="unfinished">Nueva contraseña</translation>
+        <translation>Nueva contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="249"/>
