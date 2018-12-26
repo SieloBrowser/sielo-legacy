@@ -371,4 +371,10 @@ private:
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Application::NewTabTypeFlags);
 }
+
+namespace Cocoa
+{
+void changeTitleBarColor(WId winId, double red, double green, double blue, double alpha);
+}
+
 #endif // CORE_APPLICATION_HPP
