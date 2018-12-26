@@ -884,7 +884,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="155"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titro:</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="158"/>
@@ -899,12 +899,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="165"/>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descripción:</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="258"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Confirmación</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksUtils.cpp" line="259"/>
@@ -922,17 +922,17 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="79"/>
         <source>Error!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error !</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="88"/>
         <source>Export options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportar opciones</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="94"/>
         <source>Export Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportar favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="96"/>
@@ -947,7 +947,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/BookmarksExportDialog.cpp" line="101"/>
         <source>Choose...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escoger...</translation>
     </message>
 </context>
 <context>
@@ -955,7 +955,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="53"/>
         <source>HTML Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HTML favoritos</translation>
     </message>
 </context>
 <context>
@@ -963,7 +963,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksFoldersMenu.cpp" line="74"/>
         <source>Choose %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escorger %1</translation>
     </message>
 </context>
 <context>
@@ -971,18 +971,18 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="48"/>
         <source>Import Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="103"/>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="108"/>
         <source>Error!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error !</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="108"/>
         <source>No bookmarks were found.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No se encontraron favoritos.</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="114"/>
@@ -1013,12 +1013,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="224"/>
         <source>Html file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Html archivo</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="235"/>
         <source>Choose...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escoger...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/BookmarksImportDialog.cpp" line="243"/>
@@ -1037,7 +1037,7 @@
         <location filename="../Core/Bookmarks/BookmarksImport/ChromeImporter.cpp" line="68"/>
         <location filename="../Core/Bookmarks/BookmarksImport/HtmlImporter.cpp" line="60"/>
         <source>Choose file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escoger archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/ChromeImporter.cpp" line="78"/>
@@ -1055,17 +1055,17 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="48"/>
         <source>Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="67"/>
         <source>Import Bookmarks...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imoportar Favoritos...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="68"/>
         <source>Export Bookmarks...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exportar Favoritos...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="118"/>
@@ -1086,13 +1086,13 @@
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="123"/>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="201"/>
         <source>New Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nuevo Favorito</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="124"/>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="211"/>
         <source>New Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nueva carpeta</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="125"/>
@@ -1102,12 +1102,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="128"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Suprimir</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="267"/>
         <source>Import and export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar and exportar</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="269"/>
@@ -1117,7 +1117,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="273"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titro:</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="275"/>
@@ -1132,7 +1132,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksManager.cpp" line="279"/>
         <source>Description:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descripción:</translation>
     </message>
 </context>
 <context>
@@ -1140,7 +1140,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksMenu.cpp" line="43"/>
         <source>&amp;Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksMenu.cpp" line="45"/>
@@ -1168,7 +1168,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksModel.cpp" line="142"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titro</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksModel.cpp" line="144"/>
@@ -1227,12 +1227,12 @@
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="221"/>
         <source>Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sielo</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="341"/>
         <source>%1 - Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 - Sielo</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="390"/>
@@ -1266,13 +1266,13 @@
         <location filename="../Core/BrowserWindow.cpp" line="783"/>
         <location filename="../Core/BrowserWindow.cpp" line="809"/>
         <source>Add Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Agregar favoritos</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="785"/>
         <location filename="../Core/BrowserWindow.cpp" line="810"/>
         <source>Show all Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar todos los favoritos</translation>
     </message>
     <message>
         <location filename="../Core/BrowserWindow.cpp" line="787"/>
