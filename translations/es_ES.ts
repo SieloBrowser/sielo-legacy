@@ -2714,17 +2714,17 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="243"/>
         <source>Current Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña actual</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="246"/>
         <source>New Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nueva contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="249"/>
         <source>Confirm Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmar Contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="252"/>
@@ -2737,7 +2737,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationControlDialog.cpp" line="38"/>
         <source>Navigation Controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Controles de navegación</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationControlDialog.cpp" line="82"/>
@@ -2752,7 +2752,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationControlDialog.cpp" line="91"/>
         <source>Toolbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Toolbars</translation>
     </message>
 </context>
 <context>
@@ -2760,7 +2760,7 @@
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="61"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Espalda</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="71"/>
@@ -2770,22 +2770,22 @@
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="81"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Home / Inicio</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="90"/>
         <source>View Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="100"/>
         <source>Add Bookmark</source>
-        <translation type="unfinished"></translation>
+        <translation>Add Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/NavigationBar.cpp" line="110"/>
         <source>View History</source>
-        <translation type="unfinished"></translation>
+        <translation>View History</translation>
     </message>
 </context>
 <context>
@@ -2793,7 +2793,7 @@
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="89"/>
         <source>Authorisation required</source>
-        <translation type="unfinished"></translation>
+        <translation>Se requiere autorización</translation>
     </message>
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="92"/>
@@ -2804,13 +2804,13 @@
         <location filename="../Core/Network/NetworkManager.cpp" line="94"/>
         <location filename="../Core/Network/NetworkManager.cpp" line="179"/>
         <source>Username: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de usuario: </translation>
     </message>
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="95"/>
         <location filename="../Core/Network/NetworkManager.cpp" line="180"/>
         <source>Password: </source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña: </translation>
     </message>
     <message>
         <location filename="../Core/Network/NetworkManager.cpp" line="99"/>
@@ -2838,7 +2838,7 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/OldSieloImporter.cpp" line="62"/>
         <source>Choose file...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar archivo....</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/OldSieloImporter.cpp" line="71"/>
@@ -2861,17 +2861,17 @@
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="38"/>
         <source>Partners</source>
-        <translation type="unfinished"></translation>
+        <translation>Socios</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="100"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="101"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/PartnerDialog.cpp" line="123"/>
@@ -2902,12 +2902,12 @@
     <message>
         <location filename="../Core/Plugins/PluginsManager.cpp" line="131"/>
         <source>Cannot load plugin!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede cargar el plugin!</translation>
     </message>
     <message>
         <location filename="../Core/Plugins/PluginsManager.cpp" line="131"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Plugins/PluginsManager.cpp" line="192"/>
@@ -2920,32 +2920,32 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="50"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="137"/>
         <source>Preferences - %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias - %1</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="196"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>General</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="197"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Apariencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="198"/>
         <source>Web Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración Web</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="199"/>
         <source>Local Storage</source>
-        <translation type="unfinished"></translation>
+        <translation>Almacenamiento local</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="200"/>
@@ -2955,27 +2955,27 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="201"/>
         <source>Password Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrador de contraseñas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="202"/>
         <source>Privacy</source>
-        <translation type="unfinished"></translation>
+        <translation>Privacidad</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="203"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="204"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="205"/>
         <source>AdBlock</source>
-        <translation type="unfinished"></translation>
+        <translation>AdBlock</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PreferencesDialog.cpp" line="206"/>
@@ -2993,52 +2993,52 @@
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="93"/>
         <source>Manage Cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar cookies</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="94"/>
         <source>Cookies Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrador de Cookies</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="97"/>
         <source>&lt;b&gt;JavaScript&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;JavaScript&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="98"/>
         <source>Manage JavaScript privacy options</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar las opciones de privacidad de JavaScript</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="99"/>
         <source>JavaScript options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones de JavaScript</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="102"/>
         <source>&lt;b&gt;HTML5 Permissions&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Permisos HTML5&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="103"/>
         <source>Manage HTML5 permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrar permisos HTML5</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="104"/>
         <source>HTML5 Permissions</source>
-        <translation type="unfinished"></translation>
+        <translation>Permisos HTML5</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="107"/>
         <source>&lt;b&gt;Other&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Otro&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/PrivacyPage.cpp" line="108"/>
         <source>Send Do Not Track header to servers</source>
-        <translation type="unfinished"></translation>
+        <translation>Enviar el encabezado No rastrear a los servidores</translation>
     </message>
 </context>
 <context>
@@ -3046,27 +3046,27 @@
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="121"/>
         <source>System proxy configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de proxy del sistema</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="122"/>
         <source>Manual configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración manual</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="127"/>
         <source>Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="130"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de usuario: </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/ProxyConfigPage.cpp" line="132"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña:</translation>
     </message>
 </context>
 <context>
@@ -3084,22 +3084,22 @@
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="342"/>
         <source>Left Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Izquierda Toolbar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="343"/>
         <source>Right Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Right Toolbar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="345"/>
         <source>Top Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Derecha Toolbar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/FloatingButton.cpp" line="346"/>
         <source>Bottom Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>inferior Toolbar</translation>
     </message>
 </context>
 <context>
@@ -3107,7 +3107,7 @@
     <message>
         <location filename="../Core/Widgets/SearchLineEdit.cpp" line="41"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar</translation>
     </message>
 </context>
 <context>
@@ -3115,17 +3115,17 @@
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="140"/>
         <source>No results found.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se han encontrado resultados.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="211"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="216"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SearchToolBar.cpp" line="232"/>
@@ -3138,23 +3138,23 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="138"/>
         <source>Copy Image Location</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar ubicación de la imagen</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="140"/>
         <source>Copy Image Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar nombre de la image</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="142"/>
         <source>Save Image to Disk</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar image en disco</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="170"/>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="215"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="170"/>
@@ -3164,17 +3164,17 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="207"/>
         <source>Save Image...</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar image</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="215"/>
         <source>Cannot write to file!</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede escribir en un archivo!</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="226"/>
         <source>Loading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargando...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="239"/>
