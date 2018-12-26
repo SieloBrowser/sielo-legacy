@@ -6,17 +6,17 @@
     <message>
         <location filename="../Core/Application.cpp" line="1102"/>
         <source>Start after crash</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iniciarse depuès crash</translation>
     </message>
-    <message>
+    <messagela
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Usted comienza Sielo después un crash. Qué usted gustará hacer ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1105"/>
         <source>Start New Session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Iniciarse una nueva sesión</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1107"/>
@@ -32,12 +32,12 @@
     <message>
         <location filename="../Core/Application.cpp" line="1198"/>
         <source>The argument is unknow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">El argumento es desconocido</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1203"/>
         <source>This command need one argument!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Este comando necesita un argumento</translation>
     </message>
 </context>
 <context>
@@ -62,7 +62,7 @@
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="362"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="398"/>
         <source>Organization (O):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Organizatión (O):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="370"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="378"/>
         <source>Serial Number:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Número de serie</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="386"/>
@@ -124,12 +124,12 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
         <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Usted quiere añadir &lt;b&gt;%1&lt;/b&gt; subscripción?</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="258"/>
         <source>AdBlock Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">AdBlock subscripción</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../Core/AdBlock/Subscription.cpp" line="239"/>
         <source>Cannot load subscription!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No se puede cargar la subscripción</translation>
     </message>
 </context>
 <context>
@@ -145,22 +145,22 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="33"/>
         <source>Add Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir subscripción</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="65"/>
         <source>Other...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Otro ...</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="111"/>
         <source>Add new subscription to AdBlock:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">>Añadir nueva subscripción a AdBlock</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="113"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titro:</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="115"/>
@@ -173,17 +173,17 @@
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Add Custom Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir customa regla</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Please write your rule here:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Por favor usted puede escribir vuestra regla aquí</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="156"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir regla</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="159"/>
@@ -206,7 +206,7 @@
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="41"/>
         <source>About Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sobre Sielo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="68"/>
@@ -225,7 +225,7 @@
         <location filename="../Core/Widgets/AboutDialog.cpp" line="77"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="117"/>
         <source>Our partners</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nuestros socios</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="80"/>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="133"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="133"/>
@@ -274,32 +274,32 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="205"/>
         <source>Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opciones</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="208"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir regla</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="209"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar regla</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="211"/>
         <source>Add Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Añadir subscripción</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="212"/>
         <source>Remove Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anardir subscripción</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="213"/>
         <source>Update Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actualizar subscripción</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="215"/>
@@ -309,7 +309,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="221"/>
         <source>AdBlock</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">AdBlock</translation>
     </message>
 </context>
 <context>
@@ -318,12 +318,12 @@
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="101"/>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="305"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Recargar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="107"/>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cargar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="141"/>
@@ -333,12 +333,12 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="288"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stop</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteIcon.cpp" line="45"/>
         <source>Show information about this page</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar información sobre esta página</translation>
     </message>
 </context>
 <context>
@@ -399,7 +399,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="190"/>
         <source>Choose background</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escorger background</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="203"/>
@@ -414,7 +414,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="216"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="217"/>
