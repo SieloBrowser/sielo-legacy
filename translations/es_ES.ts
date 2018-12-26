@@ -2002,67 +2002,67 @@
     <message>
         <location filename="../Core/History/History.cpp" line="41"/>
         <source>January</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enero</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="43"/>
         <source>February</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Febrero</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="45"/>
         <source>March</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Marzo</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="47"/>
         <source>April</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">abril</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="49"/>
         <source>May</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mayo</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="51"/>
         <source>June</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Junio</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="53"/>
         <source>July</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Julio</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="55"/>
         <source>August</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Agosto</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="57"/>
         <source>September</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Septiembre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="59"/>
         <source>October</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Octubre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="61"/>
         <source>November</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Noviembre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="63"/>
         <source>December</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diciembre</translation>
     </message>
     <message>
         <location filename="../Core/History/History.cpp" line="116"/>
         <source>Empty page</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Página vacía</translation>
     </message>
 </context>
 <context>
@@ -2090,23 +2090,23 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="128"/>
         <source>Copy Url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copiar Url</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="129"/>
         <source>Copy Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copiar Title</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="133"/>
         <location filename="../Core/History/HistoryManager.cpp" line="197"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="165"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Confirmación</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="165"/>
@@ -2116,7 +2116,7 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="194"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Buscar...</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="198"/>
@@ -2154,28 +2154,28 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="59"/>
         <source>Most Visited</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Los más visitados</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="60"/>
         <source>Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pestañas cerradas</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="180"/>
         <location filename="../Core/History/HistoryMenu.cpp" line="204"/>
         <source>Empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vacío</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="208"/>
         <source>Restore All Closed Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Restaurar todas las pestañas cerradas</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="209"/>
         <source>Clear list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Borrar lista</translation>
     </message>
 </context>
 <context>
@@ -2184,37 +2184,37 @@
         <location filename="../Core/History/HistoryModel.cpp" line="66"/>
         <location filename="../Core/History/HistoryModel.cpp" line="336"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titro</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="68"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dirección</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="70"/>
         <source>Visit Date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fecha de la visita</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="72"/>
         <source>Visit Count</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conde de visitas</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="447"/>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hoy</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="451"/>
         <source>This Week</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esta semana</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryModel.cpp" line="455"/>
         <source>This Month</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Este mes</translation>
     </message>
 </context>
 <context>
@@ -2222,17 +2222,17 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="47"/>
         <source>HTML File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HTML Archivo</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="54"/>
         <source>Choose file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seleccionar archivo...</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksExport/HtmlExporter.cpp" line="64"/>
         <source>Cannot open file for writing!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No se puede abrir el archivo para escribir!</translation>
     </message>
 </context>
 <context>
@@ -2245,12 +2245,12 @@
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/HtmlImporter.cpp" line="59"/>
         <source>HTML Bookmarks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HTML Favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Bookmarks/BookmarksImport/HtmlImporter.cpp" line="70"/>
         <source>Unable to open file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No se puede abrir el archivo.</translation>
     </message>
 </context>
 <context>
@@ -2258,7 +2258,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="88"/>
         <source>JavaScript Options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Opciones de JavaScript</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/JSOptions.cpp" line="91"/>
@@ -2281,12 +2281,12 @@
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="78"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Deshacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="83"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Rehacer</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="88"/>
@@ -2296,27 +2296,27 @@
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="93"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Copiar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="98"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Pegar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="107"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="111"/>
         <source>Clear All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Borrar todo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/LineEdit.cpp" line="116"/>
         <source>Select All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seleccionar todo</translation>
     </message>
 </context>
 <context>
@@ -2324,12 +2324,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Error</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="133"/>
         <source>Not work for now...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No trabajar por ahora....</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="144"/>
@@ -2339,12 +2339,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="146"/>
         <source>Maximum </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Máximo </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="147"/>
         <source>100 MB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">100 MB</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="154"/>
@@ -2354,12 +2354,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="180"/>
         <source>Allow saving history</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Permitir el historial de guardado</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="181"/>
         <source>Delete history on close</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Borrar el historial al cerrar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="182"/>
@@ -2374,7 +2374,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/LocalStoragePage.cpp" line="185"/>
         <source>Delete now</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Borrar ahora</translation>
     </message>
 </context>
 <context>
@@ -2383,12 +2383,12 @@
         <location filename="../Core/Widgets/MainMenu.cpp" line="65"/>
         <location filename="../Core/Widgets/MainMenu.cpp" line="272"/>
         <source>Show Bookmarks Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar barra de favoritos</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="70"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Espalda</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="71"/>
@@ -2398,12 +2398,12 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="72"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Home</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="80"/>
         <source>Side Bar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Barra lateral</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="83"/>
@@ -2413,17 +2413,17 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="98"/>
         <source>&amp;Tools</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Tools</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="100"/>
         <source>&amp;Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Extensiones</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="104"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nueva pestaña</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="106"/>
@@ -2438,27 +2438,27 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="114"/>
         <source>Open &amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir &amp;File</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="119"/>
         <source>Select &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectionar &amp;Todo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="121"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Buscar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="124"/>
         <source>&amp;Stop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Stop</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="125"/>
         <source>&amp;Reload</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Recargar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="127"/>
@@ -2473,7 +2473,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="129"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reiniciar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="131"/>
