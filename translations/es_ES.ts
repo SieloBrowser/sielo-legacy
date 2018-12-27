@@ -165,7 +165,7 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="115"/>
         <source>Address:</source>
-        <translation></translation>
+        <translation>Dirección:</translation>
     </message>
 </context>
 <context>
@@ -356,7 +356,7 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="205"/>
         <source>Switch to tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a la pestaña</translation>
     </message>
 </context>
 <context>
@@ -364,12 +364,12 @@
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="114"/>
         <source>Warning!</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia!</translation>
     </message>
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="115"/>
         <source>Datas have been encrypted with a newer version of Sielo. Please install the latest version!</source>
-        <translation type="unfinished"></translation>
+        <translation>Los datos han sido encriptados con una nueva versión de Sielo. Por favor, instale la última versión!</translation>
     </message>
 </context>
 <context>
@@ -377,24 +377,24 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="110"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="111"/>
         <source>Be aware, if you only load theme&apos;s icons, floating button will disappear. You should disable floating button when you don&apos;t load full theme.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenga en cuenta que si sólo carga iconos de temas, el botón flotante desaparecerá. Debe desactivar el botón flotante cuando no cargue el tema completo.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="178"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="354"/>
         <source>Tabs spaces padding (%1px)</source>
-        <translation type="unfinished"></translation>
+        <translation>Espacio entre las pestañas acolchado (%1px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="183"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="358"/>
         <source>Background blur filter radius (%1px)</source>
-        <translation type="unfinished"></translation>
+        <translation>Radio del filtro de desenfoque de fondo (%1px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="190"/>
@@ -404,12 +404,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="203"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>No disponible</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="203"/>
         <source>The gallery is currently unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>La galería no está disponible en este momento.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="216"/>
@@ -424,17 +424,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="222"/>
         <source>Open a theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir un tema</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="235"/>
         <source>Theme exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema existente</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="236"/>
         <source>The theme already exist and is going to be update with the new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>El tema ya existe y va a ser actualizado con la nueva versión.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="257"/>
@@ -445,12 +445,12 @@
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="425"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="563"/>
         <source>Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>Temas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="426"/>
         <source>Theme colors (might not work on every themes)</source>
-        <translation type="unfinished"></translation>
+        <translation>Colores de los temas (es posible que no funcionen en todos los temas)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="451"/>
@@ -475,7 +475,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="480"/>
         <source>Add a Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar un tema</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="481"/>
@@ -495,7 +495,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="485"/>
         <source>Accent Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color de acento</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
@@ -510,17 +510,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="489"/>
         <source>Use real toolbar instead of floating button</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilice la barra de herramientas real en lugar del botón flotante</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="491"/>
         <source>Hide bookmarks and history action in the navigation tool bar by default</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar los marcadores y la acción del historial en la barra de navegación de forma predeterminada</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="492"/>
         <source>Floating button automatically move to focused tabs space</source>
-        <translation type="unfinished"></translation>
+        <translation>Botón flotante que se mueve automáticamente al espacio de pestañas enfocadas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="493"/>
