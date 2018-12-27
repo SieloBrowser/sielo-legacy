@@ -165,7 +165,7 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="115"/>
         <source>Address:</source>
-        <translation>Dirección:</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
