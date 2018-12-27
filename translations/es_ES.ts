@@ -21,13 +21,13 @@
     <message>
         <location filename="../Core/Application.cpp" line="1107"/>
         <source>Restore Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar sesión</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1197"/>
         <location filename="../Core/Application.cpp" line="1202"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallido</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1198"/>
@@ -45,18 +45,18 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="32"/>
         <source>&lt;not set in certificate&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>no establecido en el certificado</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="350"/>
         <source>&lt;b&gt;Issued To&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitido a</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="354"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="390"/>
         <source>Common Name (CN):</source>
-        <translation type="unfinished"></translation>
+        <translation>Common Name (CN):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="362"/>
@@ -68,7 +68,7 @@
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="370"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="406"/>
         <source>Organizational Unit (OU):</source>
-        <translation type="unfinished"></translation>
+        <translation>Organizational Unit (OU):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="378"/>
@@ -78,22 +78,22 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="386"/>
         <source>&lt;b&gt;Issued By&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitido por</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="414"/>
         <source>&lt;b&gt;Validity&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Validez</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="418"/>
         <source>Issued On:</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitido el:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="426"/>
         <source>Expires On:</source>
-        <translation type="unfinished"></translation>
+        <translation>Expires On:</translation>
     </message>
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
