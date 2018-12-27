@@ -21,13 +21,13 @@
     <message>
         <location filename="../Core/Application.cpp" line="1107"/>
         <source>Restore Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar sesión</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1197"/>
         <location filename="../Core/Application.cpp" line="1202"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallido</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1198"/>
@@ -45,18 +45,18 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="32"/>
         <source>&lt;not set in certificate&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>no establecido en el certificado</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="350"/>
         <source>&lt;b&gt;Issued To&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitido a</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="354"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="390"/>
         <source>Common Name (CN):</source>
-        <translation type="unfinished"></translation>
+        <translation>Common Name (CN):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="362"/>
@@ -68,7 +68,7 @@
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="370"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="406"/>
         <source>Organizational Unit (OU):</source>
-        <translation type="unfinished"></translation>
+        <translation>Organizational Unit (OU):</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="378"/>
@@ -78,32 +78,32 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="386"/>
         <source>&lt;b&gt;Issued By&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitido por</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="414"/>
         <source>&lt;b&gt;Validity&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Validez</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="418"/>
         <source>Issued On:</source>
-        <translation type="unfinished"></translation>
+        <translation>Emitido el:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="426"/>
         <source>Expires On:</source>
-        <translation type="unfinished"></translation>
+        <translation>Expires On:</translation>
     </message>
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
         <source>Sielo: Incompatible profile version</source>
-        <translation type="unfinished"></translation>
+        <translation>Sielo: Incompatible profile version</translation>
     </message>
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
         <source>Incompatible profile version has been detected. To avoid losing your profile data, they were backed up in following file:&lt;br/&gt;&lt;br/&gt;&lt;b&gt;%1&lt;br/&gt;&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha detectado una versión de perfil incompatible. Para evitar perder los datos de su perfil, se realizó una copia de seguridad en el siguiente archivo:</translation>
     </message>
 </context>
 <context>
@@ -111,7 +111,7 @@
     <message>
         <location filename="../Core/AdBlock/CustomList.cpp" line="38"/>
         <source>Custom Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Reglas Aduaneras</translation>
     </message>
 </context>
 <context>
@@ -119,7 +119,7 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="131"/>
         <source>EasyList</source>
-        <translation type="unfinished"></translation>
+        <translation>EasyList</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
@@ -188,17 +188,17 @@
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="159"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar regla</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="211"/>
         <source>%1 (recently updated</source>
-        <translation type="unfinished"></translation>
+        <translation>1 (recientemente actualizado</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="220"/>
         <source>%1 (Error: %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (Error: %2)</translation>
     </message>
 </context>
 <context>
@@ -212,14 +212,14 @@
         <location filename="../Core/Widgets/AboutDialog.cpp" line="68"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="88"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="69"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="89"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="116"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="77"/>
@@ -259,17 +259,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="133"/>
         <source>The feature you request is not implemented yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>La característica que usted solicita no está implementada todavía.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="196"/>
         <source>Enable AdBlock (Be aware, it is an experimental version!)</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar AdBlock (¡Cuidado, es una versión experimental!)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="199"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="205"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="215"/>
         <source>Learn about writing rules...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aprenda a escribir reglas....</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="221"/>
@@ -328,7 +328,7 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="141"/>
         <source>Enter a search or an address</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca una búsqueda o una dirección</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="288"/>
@@ -346,17 +346,17 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="164"/>
         <source>Visit</source>
-        <translation type="unfinished"></translation>
+        <translation>Visitar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="166"/>
         <source>Search with your search engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Busca con tu buscador</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="205"/>
         <source>Switch to tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a la pestaña</translation>
     </message>
 </context>
 <context>
@@ -364,12 +364,12 @@
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="114"/>
         <source>Warning!</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia!</translation>
     </message>
     <message>
         <location filename="../Core/Utils/AesInterface.cpp" line="115"/>
         <source>Datas have been encrypted with a newer version of Sielo. Please install the latest version!</source>
-        <translation type="unfinished"></translation>
+        <translation>Los datos han sido encriptados con una nueva versión de Sielo. Por favor, instale la última versión!</translation>
     </message>
 </context>
 <context>
@@ -377,24 +377,24 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="110"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Advertencia</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="111"/>
         <source>Be aware, if you only load theme&apos;s icons, floating button will disappear. You should disable floating button when you don&apos;t load full theme.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenga en cuenta que si sólo carga iconos de temas, el botón flotante desaparecerá. Debe desactivar el botón flotante cuando no cargue el tema completo.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="178"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="354"/>
         <source>Tabs spaces padding (%1px)</source>
-        <translation type="unfinished"></translation>
+        <translation>Espacio entre las pestañas acolchado (%1px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="183"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="358"/>
         <source>Background blur filter radius (%1px)</source>
-        <translation type="unfinished"></translation>
+        <translation>Radio del filtro de desenfoque de fondo (%1px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="190"/>
@@ -404,12 +404,12 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="203"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>No disponible</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="203"/>
         <source>The gallery is currently unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>La galería no está disponible en este momento.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="216"/>
@@ -424,17 +424,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="222"/>
         <source>Open a theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir un tema</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="235"/>
         <source>Theme exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Tema existente</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="236"/>
         <source>The theme already exist and is going to be update with the new version.</source>
-        <translation type="unfinished"></translation>
+        <translation>El tema ya existe y va a ser actualizado con la nueva versión.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="257"/>
@@ -445,12 +445,12 @@
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="425"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="563"/>
         <source>Themes</source>
-        <translation type="unfinished"></translation>
+        <translation>Temas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="426"/>
         <source>Theme colors (might not work on every themes)</source>
-        <translation type="unfinished"></translation>
+        <translation>Colores de los temas (es posible que no funcionen en todos los temas)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="451"/>
@@ -475,7 +475,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="480"/>
         <source>Add a Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar un tema</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="481"/>
@@ -495,7 +495,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="485"/>
         <source>Accent Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color de acento</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="486"/>
@@ -510,17 +510,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="489"/>
         <source>Use real toolbar instead of floating button</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilice la barra de herramientas real en lugar del botón flotante</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="491"/>
         <source>Hide bookmarks and history action in the navigation tool bar by default</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar los marcadores y la acción del historial en la barra de navegación de forma predeterminada</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="492"/>
         <source>Floating button automatically move to focused tabs space</source>
-        <translation type="unfinished"></translation>
+        <translation>Botón flotante que se mueve automáticamente al espacio de pestañas enfocadas</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="493"/>
