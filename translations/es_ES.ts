@@ -98,12 +98,12 @@
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
         <source>Sielo: Incompatible profile version</source>
-        <translation type="unfinished"></translation>
+        <translation>Sielo: Incompatible profile version</translation>
     </message>
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
         <source>Incompatible profile version has been detected. To avoid losing your profile data, they were backed up in following file:&lt;br/&gt;&lt;br/&gt;&lt;b&gt;%1&lt;br/&gt;&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha detectado una versión de perfil incompatible. Para evitar perder los datos de su perfil, se realizó una copia de seguridad en el siguiente archivo:</translation>
     </message>
 </context>
 <context>
@@ -111,7 +111,7 @@
     <message>
         <location filename="../Core/AdBlock/CustomList.cpp" line="38"/>
         <source>Custom Rules</source>
-        <translation type="unfinished"></translation>
+        <translation>Reglas Aduaneras</translation>
     </message>
 </context>
 <context>
@@ -119,7 +119,7 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="131"/>
         <source>EasyList</source>
-        <translation type="unfinished"></translation>
+        <translation>EasyList</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
@@ -188,17 +188,17 @@
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="159"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar regla</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="211"/>
         <source>%1 (recently updated</source>
-        <translation type="unfinished"></translation>
+        <translation>1 (recientemente actualizado</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="220"/>
         <source>%1 (Error: %2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 (Error: %2)</translation>
     </message>
 </context>
 <context>
@@ -212,14 +212,14 @@
         <location filename="../Core/Widgets/AboutDialog.cpp" line="68"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="88"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="69"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="89"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="116"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="77"/>
@@ -259,17 +259,17 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="133"/>
         <source>The feature you request is not implemented yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>La característica que usted solicita no está implementada todavía.</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="196"/>
         <source>Enable AdBlock (Be aware, it is an experimental version!)</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitar AdBlock (¡Cuidado, es una versión experimental!)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="199"/>
         <source>Search...</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar...</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="205"/>
@@ -304,7 +304,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="215"/>
         <source>Learn about writing rules...</source>
-        <translation type="unfinished"></translation>
+        <translation>Aprenda a escribir reglas....</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/AdBlockPage.cpp" line="221"/>
@@ -328,7 +328,7 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="141"/>
         <source>Enter a search or an address</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca una búsqueda o una dirección</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBar.cpp" line="288"/>
@@ -346,12 +346,12 @@
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="164"/>
         <source>Visit</source>
-        <translation type="unfinished"></translation>
+        <translation>Visitar</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="166"/>
         <source>Search with your search engine</source>
-        <translation type="unfinished"></translation>
+        <translation>Busca con tu buscador</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AddressBar/AddressBarCompleterDelegate.cpp" line="205"/>
