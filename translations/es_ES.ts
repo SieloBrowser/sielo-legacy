@@ -8,10 +8,10 @@
         <source>Start after crash</source>
         <translation>Iniciar depuès un crash</translation>
     </message>
-    <messagela
+    <message>
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation>Usted inicia Sielo después un crash. Qué usted gustará hacer ?</translation>
+        <translation>Inicias Sielo después un crash. Qué usted gustará hacer ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1105"/>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
         <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation>Usted quiere añadir &lt;b&gt;%1&lt;/b&gt; subscripción?</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="258"/>
@@ -231,7 +231,7 @@
         <location filename="../Core/Widgets/AboutDialog.cpp" line="80"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="99"/>
         <source>What&apos;s Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Qué es sielo?</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="138"/>
@@ -505,7 +505,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="488"/>
         <source>Fully load theme (otherwise it will only load theme&apos;s icons)</source>
-        <translation type="unfinished"></translation>
+        <translation>Cargar completamente el tema (de lo contrario, sólo cargará los iconos del tema)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="489"/>
@@ -525,22 +525,22 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="493"/>
         <source>Visually show active tabs space with borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar visualmente el espacio de las pestañas activas con bordes</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="495"/>
         <source>Tabs spaces padding (in px)</source>
-        <translation type="unfinished"></translation>
+        <translation>Espacios de las pestañas acolchados (en px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="500"/>
         <source>Repeate the background if the picture is too small</source>
-        <translation type="unfinished"></translation>
+        <translation>Repita el fondo si la image es demasiado pequeña</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="502"/>
         <source>Background: </source>
-        <translation type="unfinished"></translation>
+        <translation>Fondo: </translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="504"/>
@@ -550,7 +550,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="510"/>
         <source>Background blur filter radius (in px)</source>
-        <translation type="unfinished"></translation>
+        <translation>Radio del filtro de desenfoque de fondo (en px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="558"/>
@@ -587,7 +587,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <source>You can&apos;t export password yet</source>
-        <translation>Usted puede todavía exportar la contraseña</translation>
+        <translation>Puedes todavía exportar la contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
@@ -597,12 +597,12 @@
     <message>
         <location filename="../Core/Password/DatabaseEncryptedPasswordBackend.cpp" line="244"/>
         <source>Database (encrypted)</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de datos (encriptada)</translation>
     </message>
     <message>
         <location filename="../Core/Password/DatabasePasswordBackend.cpp" line="41"/>
         <source>Database (plaintext)</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de datos (texto plano)</translation>
     </message>
 </context>
 <context>
@@ -626,12 +626,12 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="149"/>
         <source>Change backend...</source>
-        <translation type="unfinished"></translation>
+        <translation">Modificar backend....</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="149"/>
         <source>Change backend:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar backend:</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="194"/>
@@ -641,12 +641,12 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="195"/>
         <source>Are you sure you want to delete all passwords on your computer?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Está seguro de que desea eliminar todas las contraseñas de su equipo?</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="215"/>
         <source>Edit password</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="216"/>
@@ -656,12 +656,12 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="261"/>
         <source>Are you sure that you want to show all passwords?</source>
-        <translation type="unfinished"></translation>
+        <translation>¿Estás seguro de que quieres mostrar todas las contraseñas?</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="274"/>
         <source>Hide Passwords</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar contraseñas</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="326"/>
