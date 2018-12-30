@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE">
+<TS version="2.1">
 <context>
     <name>QApplication</name>
     <message>
         <location filename="../Core/Application.cpp" line="1102"/>
         <source>Start after crash</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nach dem Absturz starten</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sie starten Sielo nach einem Absturz. Was würdest du gern tun ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1105"/>
         <source>Start New Session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neue Sitzung beginnen</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1107"/>
         <source>Restore Session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wiederherstellungsitzung</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1197"/>
         <location filename="../Core/Application.cpp" line="1202"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gescheitert</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1198"/>
         <source>The argument is unknow</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Das Argument ist unbekannt</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1203"/>
         <source>This command need one argument!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dieser Befehl benötigt ein Argument!</translation>
     </message>
 </context>
 <context>
@@ -45,65 +45,65 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="32"/>
         <source>&lt;not set in certificate&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;nicht im Zertifikat festgelegt&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="350"/>
         <source>&lt;b&gt;Issued To&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Lautend auf&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="354"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="390"/>
         <source>Common Name (CN):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gemeinsamen Namen (GN)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="362"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="398"/>
         <source>Organization (O):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Organisation (O) :</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="370"/>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="406"/>
         <source>Organizational Unit (OU):</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Organisationseinheit :</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="378"/>
         <source>Serial Number:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ordnungsnummer:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="386"/>
         <source>&lt;b&gt;Issued By&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Herausgegeben von&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="414"/>
         <source>&lt;b&gt;Validity&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;Gültigkeit&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="418"/>
         <source>Issued On:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ausgegeben am:</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="426"/>
         <source>Expires On:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Läuft aus am:</translation>
     </message>
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
         <source>Sielo: Incompatible profile version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sielo: Inkompatible Profilversion</translation>
     </message>
     <message>
         <location filename="../Core/Database/ProfileManager.cpp" line="239"/>
         <source>Incompatible profile version has been detected. To avoid losing your profile data, they were backed up in following file:&lt;br/&gt;&lt;br/&gt;&lt;b&gt;%1&lt;br/&gt;&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inkompatible Profilversion wurde gefunden. Um zu vermeiden, dass Ihre Profildaten verloren gehen, wurden sie in der folgenden Datei gesichert:</translation>
     </message>
 </context>
 <context>
@@ -111,7 +111,7 @@
     <message>
         <location filename="../Core/AdBlock/CustomList.cpp" line="38"/>
         <source>Custom Rules</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Benutzerdefinierte Regeln</translation>
     </message>
 </context>
 <context>
@@ -119,17 +119,17 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="131"/>
         <source>EasyList</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">EasyList</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
         <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Möchten Sie &lt;b&gt;%1&lt;/b&gt; Abonnement?</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="258"/>
         <source>AdBlock Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">AdBlock-Abonnement</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../Core/AdBlock/Subscription.cpp" line="239"/>
         <source>Cannot load subscription!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abonnement kann nicht geladen werden!</translation>
     </message>
 </context>
 <context>
@@ -145,27 +145,27 @@
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="33"/>
         <source>Add Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abonnement hinzufügen</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="65"/>
         <source>Other...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Andere ...</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="111"/>
         <source>Add new subscription to AdBlock:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neues Abonnement zu AdBlock hinzufügen:</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="113"/>
         <source>Title:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Titel</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/SubscriptionDialog.cpp" line="115"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Adresse</translation>
     </message>
 </context>
 <context>
@@ -173,32 +173,32 @@
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Add Custom Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Benutzerdefinierte Regel hinzufügen</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="112"/>
         <source>Please write your rule here:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bitte schreiben Sie Ihre Regel hier:</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="156"/>
         <source>Add Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Regel hinzufügen</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="159"/>
         <source>Remove Rule</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Regel entfernen</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="211"/>
-        <source>%1 (recently updated</source>
-        <translation type="unfinished"></translation>
+        <source>%1 (recently updated)</source>
+        <translation type="unfinished">% 1 (kürzlich aktualisiert)</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/TreeWidget.cpp" line="220"/>
         <source>%1 (Error: %2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">% 1 (Fehler:% 2)</translation>
     </message>
 </context>
 <context>
@@ -206,26 +206,26 @@
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="41"/>
         <source>About Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Über Sielo</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="68"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="88"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nächster</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="69"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="89"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="116"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bisherige</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="77"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="117"/>
         <source>Our partners</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unsere Partner</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="80"/>
