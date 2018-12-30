@@ -19,6 +19,8 @@
 
         <!-- Sielo translations -->
         <file>data/locale/fr_FR.qm</file>
+        <file>data/locale/de_DE.qm</file>
+        <file>data/locale/es_ES.qm</file>
         <file>data/locale/ar_AR.qm</file>
     </qresource>
 </RCC>
