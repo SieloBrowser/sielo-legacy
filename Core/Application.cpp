@@ -89,7 +89,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.13");
+QString Application::currentVersion = QString("1.17.14");
 
 // Static member
 Application *Application::instance()
@@ -224,7 +224,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.13"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.17.14"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -562,7 +562,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 52) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 53) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -603,7 +603,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
 
-		settings.setValue("Themes/defaultThemeVersion", 52);
+		settings.setValue("Themes/defaultThemeVersion", 53);
 	}
 }
 
@@ -615,7 +615,7 @@ void Application::loadPluginsSettings()
 	QString pluginsPath{DataPaths::currentProfilePath() + "/plugins"};
 	QString dataPluginsPath{":/plugins/data/plugins/"};
 
-	if (pluginsVersion < 5) {
+	if (pluginsVersion < 6) {
 #if defined(Q_OS_WIN)
 		copyPath(QDir(dataPluginsPath + "/windows").absolutePath(), pluginsPath);
 #elif defined(Q_OS_MACOS) 
@@ -624,7 +624,7 @@ void Application::loadPluginsSettings()
 		copyPath(QDir(dataPluginsPath + "/linux").absolutePath(), pluginsPath);
 #endif
 
-		settings.setValue("Plugin-Settings/pluginsVersion", 5);
+		settings.setValue("Plugin-Settings/pluginsVersion", 6);
 	}
 }
 
@@ -633,10 +633,10 @@ void Application::loadTranslationSettings()
 	Settings settings{};
 	settings.beginGroup("Language");
 
-	if (settings.value("version", 0).toInt() < 17) {
+	if (settings.value("version", 0).toInt() < 18) {
 		QDir(DataPaths::currentProfilePath() + "/locale").removeRecursively();
 		copyPath(QDir(":data/locale").absolutePath(), DataPaths::currentProfilePath() + "/locale");
-		settings.setValue("version", 17);
+		settings.setValue("version", 18);
 	}
 }
 

@@ -10,7 +10,7 @@ QTabBar {
 
 QTabBar::tab
 {
-    height: 35px;
+    height: 40px;
     border: 1px transparent;
     border-radius: 17.5px;
     padding: 0 20px 0 20px;
@@ -43,54 +43,71 @@ QTabBar::tab:!selected:hover
 /* Tab bar */
 #tabbarwidget * {
     height: 40px;
-    background: transparent;
+    background: scolor(main, normal, 150);
     border: 1px solid transparent;
     border-radius: 20px;
     width: 40px;
 }
 
-#maintabbar {
+#tabbar {
     height: 40px;
     padding: 0 0 0 0;
     border: 1px transparent;
     border-radius: 17.5px;
-    background: qlineargradient(y1:0, y2:1, stop:0 scolor(main, dark, 175), stop: 0.25 scolor(accent, normal, 175));
+    background: qlineargradient(y1:0, y2:1, stop:0 scolor(main, dark, 175), stop: 0.25 transparent);
 }
 
-#maintabbar::tab {
+#tabbar::tab {
     height: 40px;
     border: 1px transparent;
     border-radius: 17.5px;
+    padding: 0 20px 0 20px;
     margin: 0px;
+    margin-bottom: 3px;
     color: scolor(text);
 }
 
-#maintabbar::tab:selected
+#tabbar::tab:selected
 {
     border: 1px transparent;
     border-radius: 15px;
-    background: qlineargradient(y1:0, y2:1, stop:0 transparent, stop: 0.75 scolor(main, light, 175));
+    background: scolor(accent, normal);
 }
 
-#maintabbar::tab:!selected
+#tabbar::tab:!selected
 {
     border: 1px transparent;
     border-radius: 17.5px;
     background: transparent;
 }
 
-#maintabbar::tab:!selected:hover
+#tabbar::tab:!selected:hover
 {
     border: 1px transparent;
     border-radius: 17.5px;
     background: qlineargradient(y1:0, y2:1, stop:0 transparent, stop: 1 scolor(accent, dark, 150));
 }
 
+#pinnedtabbar * {
+    border: 1px solid scolor(main, dark);
+    width: 50px;
+    max-width: 50px;
+    border-radius: 17.5px;
+}
+
+#pinnedtabbar::tab:!selected:hover
+{
+    height: 40px;
+    background: scolor(accent, light);
+    border: 1px solid scolor(accent, dark);
+    border-radius: 17.5px;
+}
+
 /**
  * Add & close tab & preferences button rules
  */
 #tabs-closebutton {
-    background: scolor(accent);
+    background: transparent;
 }
 
 #tabs-closebutton:hover
@@ -98,52 +115,45 @@ QTabBar::tab:!selected:hover
     background-color: #C62828;
 }
 
- #tabwidget-button-addtab {
+#tabwidget-button-addtab {
     background: transparent;
-    border: 1px solid transparent;
+    border: 1px transparent;
+    border-radius: 15px;
+    max-height: 30px;
+    max-width: 30px;
+    width: 30px;
+    height: 30px;
+}
+
+#tabwidget-button-addtab:hover {
+    border: scolor(accent);
+    background: scolor(accent);
+    border-radius: 15px;
+}
+
+#mainmenu {
+    background: scolor(main);
+    border: 1px solid scolor(main);
+    border-radius: 20px;
+}
+
+#tabwidget-button-mainmenu {
     border-radius: 20px;
     max-width: 40px;
     max-height: 40px;
     width: 40px;
     height: 40px;
-  }
-  
-  #tabwidget-button-addtab:hover {
+}
+
+#tabwidget-button-mainmenu:hover {
+    background: scolor(accent);
+    border: scolor(accent);
+}
+
+#tabwidget-button-mainmenu:hover {
     border: scolor(accent);
     background: scolor(accent);
-  }
-  
-  #tabwidget-button-listtabs {
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    max-width: 40px;
-    max-height: 40px;
-    width: 40px;
-    height: 40px;
-  }
-  
-  #tabwidget-button-listtabs:hover {
-    border: 1px solid transparent;
-    border: scolor(accent);
-    background: scolor(accent);
-  }
-  
-  #tabwidget-button-mainmenu {
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    max-width: 40px;
-    max-height: 40px;
-    width: 40px;
-    height: 40px;
-  }
-  
-  #tabwidget-button-mainmenu:hover {
-    border: scolor(accent);
-    background: scolor(accent);
-  }
-  
+}
 
 /**
  * Floating button sss rules
@@ -255,7 +265,7 @@ QTabBar::tab:!selected:hover
 #title-bar {
     height: 30px;
     border: none;
-    background: scolor(main, light, 150);
+    background: scolor(main, light, 100);
     border: 1px solid transparent;
     border-radius: 10px;
 }
@@ -293,11 +303,11 @@ QTabBar::tab:!selected:hover
  * Bookmarks toolbar rules
  */
 #bookmarks-toolbar {
-    height: 30px;
+    height: 40px;
     border: none;
     border: 1px solid transparent;
     border-radius: 10px;
-    background: scolor(main, light, 150);
+    background: scolor(main, light, 100);
 }
 
 #bookmarks-toolbar QPushButton {
@@ -338,7 +348,8 @@ QTabBar::tab:!selected:hover
 #navigationbar
 {
     border: none;
-    max-height: 42px;
+    /* height: 25px; */
+    max-height: 50px;
 }
 
 #navigationbar QToolButton,
@@ -399,23 +410,20 @@ QTabBar::tab:!selected:hover
 }
 
 /**
- * Navigation bar address bar rules
+ * Address bar address bar rules
  */
 
 #addressbar {
-    height: 25px;
-    border-radius: 17.5px;
-    padding: 6px 12px;
-    margin: 0px;
-    spacing: 0px;
+    border-radius: 15px;
+    border: qlineargradient(y1:0, y2:1, stop: 0 scolor(main, light, 150), stop: 1 scolor(main, dark, 150));
     background-color: qlineargradient(y1:0, y2:1, stop: 0 scolor(main, light, 150), stop: 1 scolor(main, dark, 150));
 }
 
 #addressbar QToolButton,
 #addressbar ToolButton
 {
-	width: 25px;
-    height: 25px;
+	width: 35px;
+    height: 35px;
 	padding: 0px;
 	margin: 5px;
     spacing: 0px;
@@ -430,6 +438,14 @@ QTabBar::tab:!selected:hover
     border-radius: 12.5px;
     background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop: 0 scolor(main, normal, 175), stop: 1 scolor(second, normal, 175));
 }
+
+/* QListView {
+    background: red;
+}
+
+QListView::item {
+    background: blue;
+} */
 
 /**
  * Search tool bar rules
@@ -470,6 +486,10 @@ QTabBar::tab:!selected:hover
  * Preferences rules
  */
  
+#preferences-dialog {
+    background: transparent;
+}
+
 #preferences-pages {
   background: transparent;
 }
@@ -500,15 +520,16 @@ QTabBar::tab:!selected:hover
   background: transparent;
   color: scolor(text);
   border: 1px transparent;
-  icon-size: 24px;
   border-radius: 5px;
 }
 
 #preferences-list::item {
     margin-bottom: 5px;
     border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    padding-left: 5px;
+    /* border-right: 5px solid transparent; */
+    /* padding-left: 5px; */
+    border-right: 0px;
+    height: 40px;
 }
 
 #preferences-list::item::selected {
@@ -526,7 +547,7 @@ QTabBar::tab:!selected:hover
 
 #preferences-line
 {
-	background: scolor(accent);
+	background: transparent;
 }
 
 #preferences-title
@@ -556,38 +577,25 @@ QTabBar::tab:!selected:hover
   background: rgba(69, 90, 100, 155);
 }
 
-/**
-* Side Bar
-*/
-
-#sidebar-title * {
-    background: scolor(second);
-    color: scolor(text);
-  }
-  
-  #sidebar-content {
-    background: scolor(second);
-    color: scolor(text);
-  }
 
 /**
  * Others
  */
 
 #about-dialog {
-    background: url(images/About.jpg);
+    background: transparent;
 }
 
 QSplitterHandle {
     background: scolor(accent, normal, 175);
 }
 
-QDialog
+/* QDialog
 {
   border: transparent;
-  background: url(images/Preferences.jpg);
+  background: url(images/Preferences.jpg) transparent;
   color: scolor(text);
-}
+} */
 
 QTabWidget::pane {
     border: transparent;
@@ -598,7 +606,10 @@ QTabWidget::pane {
 QMenu {
     background: scolor(second, normal, 200);
     border: 1px solid scolor(second, normal, 200);
-    border-radius: 5px;
+    width: 250px;
+    max-width: 250px;
+    border-radius: 25px;
+    /* border-radius: 5px; */
     color: scolor(text);
 }
 
@@ -613,8 +624,15 @@ QTableView,
 QListView,
 QListWidget {
   background: scolor(main);
-  alternate-background-color: scolor(second);
+  /* alternate-background-color: scolor(second); */
   color: scolor(text);
+  border: 1px solid scolor(second, normal, 200);
+  border-radius: 5px;
+}
+
+QListView::item {
+    height: 50px;
+    max-height: 50px;
 }
 
 QTreeView {
@@ -633,6 +651,10 @@ QTextEdit {
     color: white;
 }
 
+QDialog {
+    background: url(images/background.png);
+}
+
 QDialog QLabel
 {
 	color: white;
@@ -642,11 +664,11 @@ QDialog QLabel
 QDialog QPushButton
 {
 	background: scolor(accent, light);
-	border: 2px solid transparent;
-	border-radius: 4px;
     padding: 8px 16px;
 	color: white;
 	font-size: 12px;
+    border: 1px solid transparent;
+    border-radius: 15px;
 }
 
 QDialog QPushButton:hover
