@@ -231,7 +231,7 @@
         <location filename="../Core/Widgets/AboutDialog.cpp" line="80"/>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="99"/>
         <source>What&apos;s Sielo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">¿Qué es sielo?</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/AboutDialog.cpp" line="138"/>
