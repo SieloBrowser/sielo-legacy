@@ -8,7 +8,7 @@
         <source>Start after crash</source>
         <translation>Iniciar depuès un crash</translation>
     </message>
-    <messagela
+    <message>
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
         <translation>Inicias Sielo después un crash. Qué usted gustará hacer ?</translation>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
         <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation>Quieres añadir &lt;b&gt;%1&lt;/b&gt; subscripción?</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="258"/>
