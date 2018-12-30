@@ -562,7 +562,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 51) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 52) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -588,7 +588,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 51);
+			settings.setValue("Themes/defaultThemeVersion", 52);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -603,7 +603,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
 
-		settings.setValue("Themes/defaultThemeVersion", 51);
+		settings.setValue("Themes/defaultThemeVersion", 52);
 	}
 }
 

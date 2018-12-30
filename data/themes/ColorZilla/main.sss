@@ -1,5 +1,434 @@
 * {
-	font-family: ubuntu, segoe ui, arial, sans-serif;
+	font-family: arial, ubuntu, segoe ui, sans-serif;
+}
+
+/**
+* Others
+*/
+
+QDialog,
+QMenu,
+QTabWidget::pane {
+	border: none;
+	background: scolor(main);
+	color: scolor(text);
+}
+
+QMainWindow {
+	background: scolor(main);
+	background-image: url(images/background.png);
+}
+
+QTreeWidget,
+QTreeView,
+QTableWidget,
+QTableView,
+QListView,
+QListWidget {
+	background: scolor(main);
+	color: scolor(text);
+}
+
+QDialog QTreeWidget,
+QDialog QTreeView,
+QDialog QTableWidget,
+QDialog QTableView,
+QDialog QListView,
+QDialog QListWidget {
+	background: transparent;
+	color: scolor(text);
+    border: none;
+}
+
+QDialog QTableView::title {
+    text-align: left;
+    background: red;
+    padding-left: 35px;
+}
+
+QTextBrowser {
+	border: none;
+	background: rgba(0, 0, 0, .3);
+	color: scolor(text);
+}
+
+QDialog QLabel {
+	color: scolor(text);
+	font-size: 12px;
+}
+
+QDialog QTabBar {
+	background: scolor(second, normal, 100);
+	border-radius: 13px;
+}
+
+QDialog QTabBar::tab,
+QDialog QTabBar::tab:select {
+	padding: 0px 15px;
+	border-radius: 13px;
+	height: 26px;
+}
+
+QDialog QTabBar::tab:!selected:hover {
+	background: rgba(255, 255, 255, .3);
+}
+
+QDialog QLineEdit {
+	border: 1px solid scolor(text);
+	background: transparent;
+}
+
+QDialog QLineEdit::hover {
+	border-color: scolor(accent, normal, 127);
+}
+
+QDialog QLineEdit::focus {
+	border-color: scolor(accent);
+}
+
+QDialog QPushButton {
+    border: none;
+	background: scolor(accent);
+	border-bottom: 3px solid scolor(accent, dark);
+	border-radius: 4px;
+	padding: 5px 12px;
+	color: scolor(text);
+	font-size: 12px;
+}
+
+QDialog QPushButton:hover {
+	background: scolor(second);
+	border-bottom: 3px solid scolor(second, dark);
+}
+
+QDialog QPushButton:focus {
+	border: 2px solid scolor(accent, dark);
+	background: scolor(accent, dark);
+	color: scolor(text);
+}
+
+
+/*
+QDialog QPushButton:focus,
+#search-toolbar QPushButton:checked
+{
+  background: white;
+  color: black;
+}*/
+
+QDialog QGroupBox {
+	color: scolor(text);
+	margin-top: 24px;
+	border: none;
+	background: scolor(second, normal, 200);
+    border-radius: 10px;
+    border-top-left-radius: 0;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	color: scolor(text);
+    background: scolor(accent);
+    padding: 5px;
+    font-weight: bold;
+}
+
+QSplitterHandle {
+	background: scolor(main, normal, 255);
+}
+
+#navigationbar QSplitterHandle {
+	background: scolor(accent);
+}
+
+QMenu {
+    background-color: scolor(main);
+    padding: 2px 0;
+}
+
+QMenu::separator
+{
+  background: scolor(text);
+  height: 1px;
+  margin: 0px 3px;
+}
+
+QMenu::item:selected,
+QMenu::item:hover
+{
+  background: scolor(accent) repeat-x;
+  color: scolor(text);
+}
+
+QProgressBar {
+	border: 1px solid scolor(accent);
+	color: scolor(text);
+	background: transparent;
+	border-radius: 2px;
+	text-align: center;
+}
+
+QProgressBar::chunk {
+	background-color: scolor(accent);
+	width: 20px;
+}
+
+QLineEdit {
+	padding: 4px 6px;
+	color: scolor(text);
+	background: transparent;
+	font-size: 12px;
+	border-radius: 4px;
+}
+
+QComboBox {
+	border: 1px solid scolor(text);
+	background: transparent;
+	padding: 4px 4px 4px 7px;
+	min-width: 75px;
+	color: scolor(text);
+	border-radius: 4px;
+}
+
+QComboBox:hover,
+QComboBox::drop-down:hover {
+	border-color: scolor(accent);
+}
+
+QComboBox::drop-down {
+	border: none;
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px;
+}
+
+QComboBox::down-arrow {
+	image: url($ulightness/other/arrow-down.png);
+	width: 10px;
+}
+
+QComboBox QAbstractItemView {
+	border: none;
+	background-color: scolor(second);
+	color: scolor(text);
+}
+
+QCheckBox,
+QRadioButton {
+	spacing: 7px;
+	color: scolor(text);
+	font-size: 12px;
+}
+
+QCheckBox:disabled,
+QRadioButton:disabled {
+	color: scolor(text, normal, 100);
+}
+
+QCheckBox::indicator,
+QRadioButton::indicator {
+	width: 18px;
+	height: 18px;
+	border: 1px solid scolor(text);
+	border-radius: 4px;
+	background-color: transparent;
+}
+
+QCheckBox::indicator:disabled,
+QRadioButton::indicator:disabled {
+	border-color: scolor(text, normal, 100);
+}
+
+QRadioButton::indicator {
+	border-radius: 11px;
+	padding: 3px;
+	width: 14px;
+	height: 14px;
+}
+
+QCheckBox::indicator:hover,
+QRadioButton::indicator:hover {
+	background: scolor(accent);
+}
+
+QCheckBox::indicator {
+	padding: 4px;
+	width: 11px;
+	height: 11px;
+}
+
+QCheckBox::indicator:checked {
+	image: url($ulightness/other/check.png);
+	padding: 4px;
+	width: 11px;
+	height: 11px;
+}
+
+QRadioButton::indicator:checked {
+	image: url($ulightness/other/round.png);
+}
+
+QScrollBar:vertical {
+	border: none;
+	background: scolor(second, normal, 127);
+	width: 22px;
+	margin: 0px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+QScrollBar::handle:vertical {
+	background: scolor(text, normal, 127);
+	min-height: 50px;
+	border-radius: 8px;
+	width: 16px;
+	margin: 3px;
+	border: none;
+}
+
+QScrollBar::handle:vertical:hover {
+	background: scolor(text);
+}
+
+QScrollBar::add-line:vertical,
+QScrollBar::sub-line:vertical {
+	border: none;
+	background: transparent;
+	height: 0px;
+	subcontrol-origin: margin;
+}
+
+QScrollBar::up-arrow:vertical,
+QScrollBar::down-arrow:vertical {
+	border: none;
+	width: 0px;
+	height: 0px;
+	background: transparent;
+}
+
+QScrollBar::add-page:vertical,
+QScrollBar::sub-page:vertical {
+	background: none;
+}
+
+
+/* HORIZONTAL */
+
+QScrollBar:horizontal {
+	border: none;
+	background: transparent;
+	height: 17px;
+	margin: 0px;
+}
+
+QScrollBar::handle:horizontal {
+	background: rgba(255, 255, 255, .2);
+	min-width: 50px;
+	margin-bottom: 2px;
+	border-radius: 7px;
+	border: none;
+}
+
+QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:horizontal {
+	subcontrol-origin: margin;
+	width: 0px;
+	border: none;
+	background: transparent;
+}
+
+QScrollBar:left-arrow:horizontal,
+QScrollBar::right-arrow:horizontal {
+	border: none;
+	width: 0px;
+	height: 0px;
+	background: rgba(0, 0, 0, 0);
+}
+
+QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:horizontal {
+	background: none;
+}
+
+QSlider::groove {
+	padding: 0px;
+	/*
+	margin: 16px 0px;*/
+	border: none;
+	background: scolor(text);
+	height: 2px;
+}
+
+QSlider::handle {
+	padding: 0px;
+	margin: -10px 0px;
+	background: scolor(accent);
+	border: none;
+	border-radius: 10px;
+	width: 30px;
+	height: 20px;
+}
+
+QSlider::handle:hover {
+	background: scolor(text);
+}
+
+QSpinBox {
+	padding-right: 15px;
+	/* make room for the arrows */
+	border: 1px solid scolor(text);
+	background: transparent;
+	color: scolor(text);
+	padding: 5px 10px;
+	border-radius: 4px;
+}
+
+QSpinBox:hover {
+	border: 1px solid scolor(accent);
+}
+
+QSpinBox::up-button,
+QSpinBox::down-button {
+	subcontrol-origin: border;
+	width: 26px;
+	height: 100%;
+	border: none;
+	border-radius: 4px;
+}
+
+QSpinBox::up-button {
+	subcontrol-position: right;
+}
+
+QSpinBox::down-button {
+	subcontrol-position: left;
+}
+
+QSpinBox::up-button:hover,
+QSpinBox::down-button:hover {
+	background: scolor(accent);
+}
+
+QSpinBox::up-button:pressed,
+QSpinBox::down-button:pressed {
+	background: scolor(accent, dark);
+}
+
+QSpinBox::up-arrow,
+QSpinBox::down-arrow {
+	image: url($ulightness/other/arrow-up.png);
+	width: 10px;
+	height: 10px;
+}
+
+QSpinBox::down-arrow {
+	image: url($ulightness/other/arrow-down.png);
+}
+
+QSpinBox::down-arrow:disabled,
+QSpinBox::down-arrow:off {
+	/* off state when value in min */
+	image: url(:/images/down_arrow_disabled.png);
 }
 
 
@@ -57,6 +486,7 @@ QTabBar::close-button:hover {
 	margin-bottom: 2px;
 	margin-left: -1px;
 	color: scolor(text);
+    font-size: 12px;
 }
 
 #maintabbar::tab:!selected {
@@ -78,8 +508,7 @@ QTabBar::close-button:hover {
 #tabwidget-button-mainmenu {
   background: scolor(main, normal, 150);
 	border: none;
-	width: 50px;
-	max-width: 50px;
+	width: 35px;
 	margin: 0;
 }
 
@@ -221,14 +650,16 @@ QTabBar::close-button:hover {
 
 #navigationbar QToolButton:hover,
 #navigationbar ToolButton:hover {
-	background: scolor(main, dark, 170);
+	background: scolor(accent, dark, 255);
+    border: none;
 }
 
 #navigationbar QToolButton:pressed,
 #navigationbar ToolButton:pressed,
 #navigationbar QToolButton:checked,
 #navigationbar ToolButton:checked {
-	background: scolor(accent, normal, 170);
+	background: scolor(second, normal, 255);
+    border: none;
 }
 
 #navigationbar ToolButton::menu-indicator {
@@ -261,11 +692,11 @@ QTabBar::close-button:hover {
 	margin: 2px 0px;
 	spacing: 0px;
 	border-radius: 15px;
-	background: scolor(main, normal, 100);
+	background: scolor(second, normal, 100);
 }
 
 #navigationbar #addressbar:hover {
-	background: scolor(main, normal, 200);
+	background: scolor(second, normal, 200);
 }
 
 #addressbar QToolButton {
@@ -276,10 +707,15 @@ QTabBar::close-button:hover {
 	spacing: 0px;
 	background: transparent;
 	color: scolor(text);
+    border-radius: 15px;
 }
 
 #addressbar QToolButton:hover {
-	background: scolor(accent, dark);
+	background: scolor(main);
+}
+
+#addressbar QToolButton:pressed {
+	background: scolor(second);
 }
 
 #addressbar QLabel,
@@ -412,35 +848,40 @@ QTabBar::close-button:hover {
 */
 
 #preferences_dialog {
-	border: none;
-	background: scolor(main);
+	border: none;/*
+	background: scolor(main);*/
 }
 
 #preferences-pages {
-	background: scolor(main);
+	background: scolor(second, normal, 170);
+    border-radius: 10px;
+}
+
+#preferences-pages #preferences-pages {
+	background: transparent;
 }
 
 #preferences-list {
-	background: transparent;
+	background: scolor(second, normal, 127);
 	color: scolor(text);
-	icon-size: 24px;
 	border: none;
+    border-radius: 10px;
 }
 
 #preferences-list::item {
-	margin-bottom: 10px;
 	border-left: 5px solid transparent;
+    padding: 8px 5px;
 	padding-left: 5px;
+    margin: 0;
 }
 
 #preferences-list::item::selected {
-	/* background: scolor(accent);*/
-	border-left-color: scolor(accent);
+	border-left-color: scolor(text);
 	color: scolor(text);
 }
 
-#preferences-list::item::!selected::hover {
-	background: scolor(accent, normal, 100);
+#preferences-list::item:hover {
+	background: scolor(accent, normal, 255);
 }
 
 #preferences-line {
@@ -448,12 +889,38 @@ QTabBar::close-button:hover {
 }
 
 #preferences-title {
-	color: scolor(accent);
-	font-size: 14px;
+	color: scolor(text);
+	font-size: 18px;
 	text-transform: uppercase;
 	margin-top: 8px;
-	margin-bottom: -2px;
-	margin-left: 6px;
+	margin-bottom: -10px;
+	margin-left: 0px;
+    font-family: arial;
+}
+
+#preferences-pages QTabWidget::pane,
+#preferences-pages QListView {
+	border: none;
+	background: transparent;
+	alternate-background-color: transparent;
+}
+
+#preferences-pages QListView::item {
+    border-radius: 6px;
+}
+
+#preferences-pages QListView::item::selected {
+	background: scolor(accent, normal, 50);
+    color: scolor(text);
+}
+
+#preferences-pages QListView::item:hover {
+	border: none;
+	background: scolor(accent);
+}
+
+#line {
+    background-color: scolor(text);
 }
 
 
@@ -486,7 +953,7 @@ QTabBar::close-button:hover {
 #search-lineedit {
 	padding: 4px 6px;
 	color: scolor(text);
-	border-radius: 2px;
+	border-radius: 4px;
 }
 
 #exlinedit-lineedit {
@@ -507,438 +974,17 @@ QTabBar::close-button:hover {
 */
 
 #sidebar-title * {
-	background: scolor(main);
-	color: scolor(text);
-  }
-  
-  #sidebar-content {
-	background: scolor(main);
-	color: scolor(text);
-  }
-
-/**
-* Others
-*/
-
-QDialog,
-QMenu,
-QTabWidget::pane {
-	border: none;
-	background: scolor(main);
-	color: scolor(text);
+  background: scolor(second);
+  color: scolor(text);
 }
 
-QMainWindow {
-	background: scolor(main);
-	background-image: url(images/background.png);
+#sidebar-content {
+  background: scolor(second);
+  color: scolor(text);
 }
 
-QTreeWidget,
-QTreeView,
-QTableWidget,
-QTableView,
-QListView,
-QListWidget {
-	background: scolor(main);
-	alternate-background-color: scolor(main, dark);
-	color: scolor(text);
-}
-
-QTextBrowser {
-	border: none;
-	background: rgba(0, 0, 0, .3);
-	color: scolor(text);
-}
-
-QDialog QLabel {
-	color: scolor(text);
-	font-size: 12px;
-}
-
-QDialog QTabBar {
-	background: scolor(second, normal, 100);
-	border-radius: 13px;
-}
-
-QDialog QTabBar::tab,
-QDialog QTabBar::tab:select {
-	padding: 0px 15px;
-	border-radius: 13px;
-	height: 26px;
-}
-
-QDialog QTabBar::tab:!selected:hover {
-	background: rgba(255, 255, 255, .3);
-}
-
-QDialog QLineEdit {
-	border: 1px solid scolor(text);
-	background: transparent;
-}
-
-QDialog QLineEdit::hover {
-	border-color: scolor(accent, normal, 127);
-}
-
-QDialog QLineEdit::focus {
-	border-color: scolor(accent);
-}
-
-QDialog QPushButton {
-    border: none;
-	background: scolor(accent);
-	border-bottom: 3px solid scolor(accent, dark);
-	border-radius: 4px;
-	padding: 5px 12px;
-	color: scolor(text);
-	font-size: 12px;
-	min-width: 80px;
-}
-
-QDialog QPushButton:hover {
-	background: scolor(second);
-	border-bottom: 3px solid scolor(second, dark);
-}
-
-QDialog QPushButton:focus {
-	border: 2px solid scolor(accent, dark);
-	background: scolor(accent, dark);
-	color: scolor(text);
-}
-
-
-/*
-QDialog QPushButton:focus,
-#search-toolbar QPushButton:checked
+QDialog
 {
-  background: white;
-  color: black;
-}*/
-
-QDialog QGroupBox {
-	color: scolor(text);
-	margin-top: 22px;
-	border: none;
-	border-left: 2px solid scolor(accent);
-	background: rgba(255, 255, 255, .1);
-}
-
-QGroupBox::title {
-	subcontrol-origin: margin;
-	color: scolor(text);
-	padding: 5px 5px;
-	background-color: scolor(accent);
-}
-
-QSplitterHandle {
-	background: scolor(main, normal, 255);
-}
-
-#navigationbar QSplitterHandle {
-	background: scolor(accent);
-}
-
-QMenu {
-	border: 1px solid scolor(second);
-	padding: 5px 0;
-}
-
-QMenu::separator {
-	background: scolor(second);
-	height: 1px;
-	margin: 5px;
-}
-
-QMenu::icon {
-	padding-left: 15px;
-}
-
-QMenu::item {
-	padding: 5px 10px 5px 30px;
-	min-width: 200px;
-}
-
-QMenu::item:selected {
-	background: scolor(accent) repeat-x;
-	color: scolor(text);
-}
-
-QMenu::item::!selected::hover {
-	background: scolor(accent, normal, 100);
-}
-
-QProgressBar {
-	border: 1px solid scolor(accent);
-	color: scolor(text);
-	background: transparent;
-	border-radius: 2px;
-	text-align: center;
-}
-
-QProgressBar::chunk {
-	background-color: scolor(accent);
-	width: 20px;
-}
-
-QLineEdit {
-	padding: 3px 6px;
-	color: scolor(text);
-	background: transparent;
-	font-size: 12px;
-	border-radius: 2px;
-}
-
-QComboBox {
-	border: 1px solid scolor(text);
-	background: transparent;
-	padding: 4px 4px 4px 7px;
-	min-width: 75px;
-	color: scolor(text);
-	border-radius: 4px;
-}
-
-QComboBox:hover,
-QComboBox::drop-down:hover {
-	border-color: scolor(accent);
-}
-
-QComboBox::drop-down {
-	border: none;
-	subcontrol-origin: padding;
-	subcontrol-position: top right;
-	width: 25px;
-}
-
-QComboBox::down-arrow {
-	image: url($ulightness/other/arrow-down.png);
-	width: 10px;
-}
-
-QComboBox QAbstractItemView {
-	border: none;
-	background-color: scolor(second);
-	color: scolor(text);
-}
-
-QCheckBox,
-QRadioButton {
-	spacing: 7px;
-	color: scolor(text);
-	font-size: 12px;
-}
-
-QCheckBox:hover,
-QRadioButton:hover {
-	color: scolor(accent);
-}
-
-QCheckBox:disabled,
-QRadioButton:disabled {
-	color: scolor(text, dark);
-}
-
-QCheckBox::indicator {
-	width: 12px;
-	height: 12px;
-	padding: 4px;
-	border: 1px solid scolor(text);
-	border-radius: 2px;
-	background-color: transparent;
-}
-
-QRadioButton::indicator {
-	width: 12px;
-	height: 12px;
-	padding: 4px;
-	border: 1px solid scolor(text);
-	border-radius: 9px;
-	background-color: transparent;
-}
-
-QCheckBox::indicator:disabled,
-QRadioButton::indicator:disabled {
-	border-color: scolor(second, dark);
-}
-
-QCheckBox::indicator:hover,
-QRadioButton::indicator:hover {
-	background: scolor(accent);
-}
-
-QCheckBox::indicator {
-	padding: 4px;
-	width: 11px;
-	height: 11px;
-}
-
-QCheckBox::indicator:checked {
-	image: url($ulightness/other/check.png);
-	padding: 4px;
-	width: 11px;
-	height: 11px;
-}
-
-QRadioButton::indicator:checked {
-	image: url($ulightness/other/round.png);
-}
-
-QScrollBar:vertical {
-	border: none;
-	background: transparent;
-	width: 16px;
-	margin: 0px;
-}
-
-QScrollBar::handle:vertical {
-	background: scolor(text, normal, 127);
-	min-height: 50px;
-	border-radius: 8px;
-	width: 16px;
-	margin: 0;
-	border: none;
-}
-
-QScrollBar::handle:vertical:hover {
-	background: scolor(text);
-}
-
-QScrollBar::add-line:vertical,
-QScrollBar::sub-line:vertical {
-	border: none;
-	background: transparent;
-	height: 0px;
-	subcontrol-origin: margin;
-}
-
-QScrollBar::up-arrow:vertical,
-QScrollBar::down-arrow:vertical {
-	border: none;
-	width: 0px;
-	height: 0px;
-	background: transparent;
-}
-
-QScrollBar::add-page:vertical,
-QScrollBar::sub-page:vertical {
-	background: none;
-}
-
-
-/* HORIZONTAL */
-
-QScrollBar:horizontal {
-	border: none;
-	background: transparent;
-	height: 17px;
-	margin: 0px;
-}
-
-QScrollBar::handle:horizontal {
-	background: rgba(255, 255, 255, .2);
-	min-width: 50px;
-	margin-bottom: 2px;
-	border-radius: 7px;
-	border: none;
-}
-
-QScrollBar::add-line:horizontal,
-QScrollBar::sub-line:horizontal {
-	subcontrol-origin: margin;
-	width: 0px;
-	border: none;
-	background: transparent;
-}
-
-QScrollBar:left-arrow:horizontal,
-QScrollBar::right-arrow:horizontal {
-	border: none;
-	width: 0px;
-	height: 0px;
-	background: rgba(0, 0, 0, 0);
-}
-
-QScrollBar::add-page:horizontal,
-QScrollBar::sub-page:horizontal {
-	background: none;
-}
-
-QSlider::groove {
-	padding: 0px;
-	/*
-	margin: 16px 0px;*/
-	border: none;
-	background: scolor(text);
-	height: 2px;
-}
-
-QSlider::handle {
-	padding: 0px;
-	margin: -10px 0px;
-	background: scolor(accent);
-	border: 2px solid scolor(main);
-	border-radius: 10px;
-	width: 30px;
-	height: 20px;
-}
-
-QSlider::handle:hover {
-	background: scolor(text);
-}
-
-QSpinBox {
-	padding-right: 15px;
-	/* make room for the arrows */
-	border: 1px solid scolor(text);
-	background: transparent;
-	color: scolor(text);
-	padding: 5px 10px;
-	border-radius: 4px;
-}
-
-QSpinBox:hover {
-	border: 1px solid scolor(accent);
-}
-
-QSpinBox::up-button,
-QSpinBox::down-button {
-	subcontrol-origin: border;
-	width: 26px;
-	height: 100%;
-	border: none;
-	border-radius: 4px;
-}
-
-QSpinBox::up-button {
-	subcontrol-position: right;
-}
-
-QSpinBox::down-button {
-	subcontrol-position: left;
-}
-
-QSpinBox::up-button:hover,
-QSpinBox::down-button:hover {
-	background: scolor(accent);
-}
-
-QSpinBox::up-button:pressed,
-QSpinBox::down-button:pressed {
-	background: scolor(accent, dark);
-}
-
-QSpinBox::up-arrow,
-QSpinBox::down-arrow {
-	image: url($ulightness/other/arrow-up.png);
-	width: 10px;
-	height: 10px;
-}
-
-QSpinBox::down-arrow {
-	image: url($ulightness/other/arrow-down.png);
-}
-
-QSpinBox::down-arrow:disabled,
-QSpinBox::down-arrow:off {
-	/* off state when value in min */
-	image: url(:/images/down_arrow_disabled.png);
+  border: transparent;
+  background: transparent;
 }
