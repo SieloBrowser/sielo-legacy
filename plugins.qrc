@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/plugins"> 
     <!-- Windows -->
-	<file>data/plugins/windows/arcscreen-plugin.dll</file>
+		<file>data/plugins/windows/arcscreen-plugin.dll</file>
+	    <file>data/plugins/windows/DiscordRichPresence.dll</file>
         <file>data/plugins/windows/GreaseMonkey.dll</file>
         <file>data/plugins/windows/StrateonPlugin.dll</file>
 

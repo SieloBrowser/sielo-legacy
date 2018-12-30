@@ -89,7 +89,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.12");
+QString Application::currentVersion = QString("1.17.13");
 
 // Static member
 Application *Application::instance()
@@ -224,7 +224,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.12"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.17.13"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -615,7 +615,7 @@ void Application::loadPluginsSettings()
 	QString pluginsPath{DataPaths::currentProfilePath() + "/plugins"};
 	QString dataPluginsPath{":/plugins/data/plugins/"};
 
-	if (pluginsVersion < 4) {
+	if (pluginsVersion < 5) {
 #if defined(Q_OS_WIN)
 		copyPath(QDir(dataPluginsPath + "/windows").absolutePath(), pluginsPath);
 #elif defined(Q_OS_MACOS) 
@@ -624,7 +624,7 @@ void Application::loadPluginsSettings()
 		copyPath(QDir(dataPluginsPath + "/linux").absolutePath(), pluginsPath);
 #endif
 
-		settings.setValue("Plugin-Settings/pluginsVersion", 4);
+		settings.setValue("Plugin-Settings/pluginsVersion", 5);
 	}
 }
 
