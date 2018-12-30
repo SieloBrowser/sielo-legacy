@@ -11,7 +11,7 @@
     <messagela
         <location filename="../Core/Application.cpp" line="1103"/>
         <source>You are starting Sielo after a crash. What would you like to do?</source>
-        <translation>Usted inicia Sielo después un crash. Qué usted gustará hacer ?</translation>
+        <translation>Inicias Sielo después un crash. Qué usted gustará hacer ?</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1105"/>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="254"/>
         <source>Do you want to add &lt;b&gt;%1&lt;/b&gt; subscription?</source>
-        <translation>Usted quiere añadir &lt;b&gt;%1&lt;/b&gt; subscripción?</translation>
+        <translation>Quieres añadir &lt;b&gt;%1&lt;/b&gt; subscripción?</translation>
     </message>
     <message>
         <location filename="../Core/AdBlock/Manager.cpp" line="258"/>
@@ -587,7 +587,7 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <source>You can&apos;t export password yet</source>
-        <translation>Usted puede todavía exportar la contraseña</translation>
+        <translation>Puedes todavía exportar la contraseña</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
