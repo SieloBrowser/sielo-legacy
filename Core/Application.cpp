@@ -518,14 +518,14 @@ void Application::loadApplicationSettings()
 				}
 
 				// Update home page to use last version of doosearch
-				oldSettings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
-				oldSettings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
+				oldSettings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/search.php");
+				oldSettings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/search.php");
 
 				foreach(BrowserWindow* window, m_windows)
 				{
 					window->loadSettings();
 					for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
-						window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+						window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app/search.php");
 					}
 				}
 			}

@@ -243,7 +243,7 @@ void BrowserWindow::loadSettings()
 {
 	Settings settings{};
 
-	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/search.php")).toUrl();
 
 	m_blur_radius = settings.value(QLatin1String("Settings/backdropBlur"), 100).toInt();
 
