@@ -22,99 +22,56 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_ADBMANAGER_HPP
-#define SIELOBROWSER_ADBMANAGER_HPP
+#ifndef SIELO_BROWSER_URLREQUESTINFO_HPP
+#define SIELO_BROWSER_URLREQUESTINFO_HPP
 
 #include "SharedDefines.hpp"
 
 #include <QObject>
-#include <QPointer>
 
-#include <QStringList>
-#include <QUrl>
+#include <QtWebEngineCore/QWebEngineUrlRequestInfo>
 
-#include <QWebEngine/UrlRequestInfo.hpp>
-
-namespace Sn {
-namespace ADB {
-class Rule;
-
-class Dialog;
-
-class Matcher;
-
-class CustomList;
-
-class Subscription;
-
-class UrlInterceptor;
-
-class SIELO_SHAREDLIB Manager : public QObject {
+namespace Engine {
+class UrlRequestInfo: public QObject {
 Q_OBJECT
 
 public:
-	Manager(QObject* parent = nullptr);
-	~Manager();
+	enum ResourceType {
+		ResourceTypeMainFrame = 0,
+		ResourceTypeSubFrame = 1,
+		ResourceTypeStylesheet = 2,
+		ResourceTypeScript = 3,
+		ResourceTypeImage = 4,
+		ResourceTypeFontResource = 5,
+		ResourceTypeSubResource = 6,
+		ResourceTypeObject = 7,
+		ResourceTypeMedia = 8,
+		ResourceTypeWorker = 9,
+		ResourceTypeSharedWorker = 10,
+		ResourceTypePrefetch = 11,
+		ResourceTypeFavicon = 12,
+		ResourceTypeXhr = 13,
+		ResourceTypePing = 14,
+		ResourceTypeServiceWorker = 15,
+		ResourceTypeCspReport = 16,
+		ResourceTypePluginResource = 17,
+		ResourceTypeUnknown = 255
+	};
 
-	void load();
-	void save();
+	UrlRequestInfo(QWebEngineUrlRequestInfo* request);
+	~UrlRequestInfo() = default;
 
-	bool isEnabled() const;
-	bool canRunOnScheme(const QString& scheme) const;
+	void redirect(const QUrl& url);
+	void block(bool shouldBlock);
 
-	bool useLimitedEasyList() const;
-	void setUseLimitedEasyList(bool useLimited);
+	QUrl firstPartyUrl() const;
+	QUrl requestUrl() const;
+	ResourceType resourceType() const;
 
-	QString elementHidingRules(const QUrl& url) const;
-	QString elementHidingRulesForDomain(const QUrl& url) const;
-
-	Subscription* subscriptionByName(const QString& name) const;
-	QList<Subscription*> subscriptions() const;
-
-	bool addSubscriptionFromUrl(const QUrl& url);
-
-	Subscription* addSubscription(const QString& title, const QString& url);
-	bool removeSubscription(Subscription* subscription);
-
-	bool block(Engine::UrlRequestInfo& request);
-
-	QStringList disabledRules() const { return m_disabledRules; }
-
-	void addDisabledRule(const QString& filter);
-	void removeDisabledRule(const QString& filter);
-
-	CustomList* customList() const;
-
-	static Manager* instance();
-
-signals:
-	void enabledChanged(bool enabled);
-
-public slots:
-	void setEnabled(bool enabled);
-	void showRule();
-
-	void updateAllSubscriptions();
-
-	Dialog* showDialog();
-
+	void setHttpHeader(const QByteArray& name, const QByteArray& value);
 private:
-	inline bool canBeBlocked(const QUrl& url) const;
-
-	bool m_loaded{false};
-	bool m_enabled{false};
-	bool m_useLimitedEasyList{true};
-
-	QList<Subscription*> m_subscriptions;
-	QPointer<Dialog> m_adBlockDialog;
-	Matcher* m_matcher{nullptr};
-	UrlInterceptor* m_interceptor{nullptr};
-
-	QStringList m_disabledRules;
+	QWebEngineUrlRequestInfo* m_request{nullptr};
 };
-
-}
 }
 
-#endif //SIELOBROWSER_ADBMANAGER_HPP
+#endif //SIELO_BROWSER_URLREQUESTINFO_HPP

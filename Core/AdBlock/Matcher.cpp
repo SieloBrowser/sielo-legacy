@@ -44,7 +44,7 @@ Matcher::~Matcher()
 	clear();
 }
 
-const Rule* Matcher::match(const QWebEngineUrlRequestInfo& request, const QString& urlDomain,
+const Rule* Matcher::match(const Engine::UrlRequestInfo& request, const QString& urlDomain,
 						   const QString& urlString) const
 {
 	if (m_networkExceptionTree.find(request, urlDomain, urlString))

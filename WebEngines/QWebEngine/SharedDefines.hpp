@@ -1,4 +1,4 @@
-/***********************************************************************************
+﻿/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -23,32 +23,9 @@
 ***********************************************************************************/
 
 #pragma once
-#ifndef SIELOBROWSER_ADBURLINTERCEPTOR_HPP
-#define SIELOBROWSER_ADBURLINTERCEPTOR_HPP
 
-#include "SharedDefines.hpp"
-
-#include <QObject>
-
-#include <QWebEngine/UrlRequestInfo.hpp>
-
-#include "Network/BaseUrlInterceptor.hpp"
-
-namespace Sn {
-namespace ADB {
-class Manager;
-
-class SIELO_SHAREDLIB UrlInterceptor: public BaseUrlInterceptor {
-public:
-	UrlInterceptor(Manager* manager);
-
-	void interceptRequest(Engine::UrlRequestInfo& info);
-
-private:
-	Manager* m_manager{nullptr};
-};
-
-}
-}
-
-#endif //SIELOBROWSER_ADBURLINTERCEPTOR_HPP
+#ifdef SIELO_SHAREDLIBRARY
+#define SIELO_SHAREDLIB Q_DECL_EXPORT
+#else
+#define SIELO_SHAREDLIB Q_DECL_IMPORT
+#endif

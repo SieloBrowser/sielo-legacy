@@ -37,7 +37,7 @@ UrlInterceptor::UrlInterceptor(Manager* manager) :
 	// Empty
 }
 
-void UrlInterceptor::interceptRequest(QWebEngineUrlRequestInfo& info)
+void UrlInterceptor::interceptRequest(Engine::UrlRequestInfo& info)
 {
 	if (m_manager->block(info))
 		info.block(true);

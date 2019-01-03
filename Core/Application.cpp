@@ -328,8 +328,8 @@ Application::Application(int& argc, char** argv) :
 #endif 
 
 	// Setting up web and network objects
-	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
-	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
+	m_webProfile = privateBrowsing() ? new Engine::WebProfile(this) : Engine::WebProfile::defaultProfile();
+	connect(m_webProfile, &Engine::WebProfile::downloadRequested, this, &Application::downloadRequested);
 
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
@@ -469,7 +469,7 @@ void Application::loadWebSettings()
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
-	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
+	Engine::WebProfile* webProfile = Engine::WebProfile::defaultProfile();
 
 	QString defaultUserAgent = webProfile->httpUserAgent();
 	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
@@ -478,10 +478,10 @@ void Application::loadWebSettings()
 
 
 	const bool allowCache{settings.value("allowLocalCache", true).toBool()};
-	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
+	webProfile->setHttpCacheType(allowCache ? Engine::WebProfile::DiskHttpCache : Engine::WebProfile::MemoryHttpCache);
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
 
-	webProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
+	webProfile->setPersistentCookiesPolicy(Engine::WebProfile::AllowPersistentCookies);
 	webProfile->setPersistentStoragePath(DataPaths::currentProfilePath());
 
 	settings.endGroup();
@@ -728,7 +728,7 @@ QString Application::currentLanguage() const
 	return lang.left(lang.length() - 3);
 }
 
-QWebEngineProfile *Application::webProfile()
+Engine::WebProfile *Application::webProfile()
 {
 	return m_webProfile;
 }

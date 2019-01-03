@@ -31,7 +31,7 @@
 #include <QChar>
 #include <QHash>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 namespace Sn {
 namespace ADB {
@@ -45,7 +45,7 @@ public:
 	void clear();
 
 	bool add(const Rule* rule);
-	const Rule* find(const QWebEngineUrlRequestInfo& request, const QString& domain, const QString& urlString) const;
+	const Rule* find(const Engine::UrlRequestInfo& request, const QString& domain, const QString& urlString) const;
 
 private:
 	struct Node {
@@ -58,7 +58,7 @@ private:
 				rule(nullptr) {}
 	};
 
-	const Rule* prefixSearch(const QWebEngineUrlRequestInfo& request, const QString& domain, const QString& urlString,
+	const Rule* prefixSearch(const Engine::UrlRequestInfo& request, const QString& domain, const QString& urlString,
 							 const QChar* string, int length) const;
 
 	void deleteNode(Node* node);

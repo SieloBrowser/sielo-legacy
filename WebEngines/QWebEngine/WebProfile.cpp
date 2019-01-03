@@ -22,99 +22,13 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_ADBMANAGER_HPP
-#define SIELOBROWSER_ADBMANAGER_HPP
+#include "WebProfile.hpp"
 
-#include "SharedDefines.hpp"
+namespace Engine {
 
-#include <QObject>
-#include <QPointer>
-
-#include <QStringList>
-#include <QUrl>
-
-#include <QWebEngine/UrlRequestInfo.hpp>
-
-namespace Sn {
-namespace ADB {
-class Rule;
-
-class Dialog;
-
-class Matcher;
-
-class CustomList;
-
-class Subscription;
-
-class UrlInterceptor;
-
-class SIELO_SHAREDLIB Manager : public QObject {
-Q_OBJECT
-
-public:
-	Manager(QObject* parent = nullptr);
-	~Manager();
-
-	void load();
-	void save();
-
-	bool isEnabled() const;
-	bool canRunOnScheme(const QString& scheme) const;
-
-	bool useLimitedEasyList() const;
-	void setUseLimitedEasyList(bool useLimited);
-
-	QString elementHidingRules(const QUrl& url) const;
-	QString elementHidingRulesForDomain(const QUrl& url) const;
-
-	Subscription* subscriptionByName(const QString& name) const;
-	QList<Subscription*> subscriptions() const;
-
-	bool addSubscriptionFromUrl(const QUrl& url);
-
-	Subscription* addSubscription(const QString& title, const QString& url);
-	bool removeSubscription(Subscription* subscription);
-
-	bool block(Engine::UrlRequestInfo& request);
-
-	QStringList disabledRules() const { return m_disabledRules; }
-
-	void addDisabledRule(const QString& filter);
-	void removeDisabledRule(const QString& filter);
-
-	CustomList* customList() const;
-
-	static Manager* instance();
-
-signals:
-	void enabledChanged(bool enabled);
-
-public slots:
-	void setEnabled(bool enabled);
-	void showRule();
-
-	void updateAllSubscriptions();
-
-	Dialog* showDialog();
-
-private:
-	inline bool canBeBlocked(const QUrl& url) const;
-
-	bool m_loaded{false};
-	bool m_enabled{false};
-	bool m_useLimitedEasyList{true};
-
-	QList<Subscription*> m_subscriptions;
-	QPointer<Dialog> m_adBlockDialog;
-	Matcher* m_matcher{nullptr};
-	UrlInterceptor* m_interceptor{nullptr};
-
-	QStringList m_disabledRules;
-};
-
+WebProfile::WebProfile(QObject* parent) :
+	QWebEngineProfile(parent)
+{
+	// Empty
 }
 }
-
-#endif //SIELOBROWSER_ADBMANAGER_HPP

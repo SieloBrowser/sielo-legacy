@@ -79,7 +79,7 @@ bool SearchTree::add(const Rule* rule)
 	return true;
 }
 
-const Rule* SearchTree::find(const QWebEngineUrlRequestInfo& request, const QString& domain,
+const Rule* SearchTree::find(const Engine::UrlRequestInfo& request, const QString& domain,
 							 const QString& urlString) const
 {
 	int length{urlString.size()};
@@ -98,7 +98,7 @@ const Rule* SearchTree::find(const QWebEngineUrlRequestInfo& request, const QStr
 	return nullptr;
 }
 
-const Rule* SearchTree::prefixSearch(const QWebEngineUrlRequestInfo& request, const QString& domain,
+const Rule* SearchTree::prefixSearch(const Engine::UrlRequestInfo& request, const QString& domain,
 									 const QString& urlString, const QChar* string, int length) const
 {
 	if (length <= 0)

@@ -35,10 +35,10 @@
 
 #include <QFont>
 
-#include <QWebEngineProfile>
-
 #include "3rdparty/SingleApplication/singleapplication.h"
 #include "3rdparty/Piwik/piwiktracker.h"
+
+#include "../WebEngines/QWebEngine/WebProfile.hpp"
 
 namespace Sn
 {
@@ -243,7 +243,7 @@ public:
 	NetworkManager *networkManager() const { return m_networkManager; }
 	RestoreManager *restoreManager() const { return m_restoreManager; }
 
-	QWebEngineProfile *webProfile();
+	Engine::WebProfile *webProfile();
 
 	PiwikTracker *piwikTraker() { return m_piwikTracker; }
 
@@ -353,7 +353,7 @@ private:
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 
 	NetworkManager* m_networkManager{nullptr};
-	QWebEngineProfile* m_webProfile{nullptr};
+	Engine::WebProfile* m_webProfile{nullptr};
 
 	RestoreManager* m_restoreManager{nullptr};
 

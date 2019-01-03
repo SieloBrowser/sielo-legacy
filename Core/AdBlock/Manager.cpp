@@ -325,7 +325,7 @@ bool Manager::removeSubscription(Subscription* subscription)
 	return true;
 }
 
-bool Manager::block(QWebEngineUrlRequestInfo& request)
+bool Manager::block(Engine::UrlRequestInfo& request)
 {
 	const QString urlString{request.requestUrl().toEncoded().toLower()};
 	const QString urlDomain{request.requestUrl().host().toLower()};
@@ -340,7 +340,7 @@ bool Manager::block(QWebEngineUrlRequestInfo& request)
 	if (blockedRule) {
 		res = true;
 
-		if (request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeMainFrame) {
+		if (request.resourceType() == Engine::UrlRequestInfo::ResourceTypeMainFrame) {
 			QUrl url{QStringLiteral("sielo:adblock")};
 			QUrlQuery query{};
 

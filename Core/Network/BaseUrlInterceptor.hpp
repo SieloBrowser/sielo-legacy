@@ -29,7 +29,8 @@
 #include "SharedDefines.hpp"
 
 #include <QObject>
-#include <QWebEngineUrlRequestInfo>
+
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 namespace Sn {
 
@@ -38,7 +39,7 @@ public:
 	BaseUrlInterceptor(QObject* parent = nullptr) :
 		QObject(parent) {}
 
-	virtual void interceptRequest(QWebEngineUrlRequestInfo& info) = 0;
+	virtual void interceptRequest(Engine::UrlRequestInfo& info) = 0;
 };
 
 }
