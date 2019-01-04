@@ -32,9 +32,9 @@
 
 namespace Engine {
 
-WebProfile* WebProfile::defaultProfile()
+WebProfile* WebProfile::defaultWebProfile()
 {
-	return qobject_cast<WebProfile*>(QWebEngineProfile::defaultProfile());
+	return static_cast<WebProfile*>(QWebEngineProfile::defaultProfile());
 }
 
 WebProfile::WebProfile(QObject* parent) :

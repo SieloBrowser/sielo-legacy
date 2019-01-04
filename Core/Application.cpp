@@ -88,7 +88,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.14");
+QString Application::currentVersion = QString("1.18.00");
 
 // Static member
 Application *Application::instance()
@@ -223,7 +223,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.14"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.18.00"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -327,7 +327,7 @@ Application::Application(int& argc, char** argv) :
 #endif 
 
 	// Setting up web and network objects
-	m_webProfile = privateBrowsing() ? new Engine::WebProfile(this) : Engine::WebProfile::defaultProfile();
+	m_webProfile = privateBrowsing() ? new Engine::WebProfile(this) : Engine::WebProfile::defaultWebProfile();
 	connect(m_webProfile, &Engine::WebProfile::downloadRequested, this, &Application::downloadRequested);
 
 	m_networkManager = new NetworkManager(this);
@@ -464,7 +464,7 @@ void Application::loadWebSettings()
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
-	Engine::WebProfile* webProfile = Engine::WebProfile::defaultProfile();
+	Engine::WebProfile* webProfile = Engine::WebProfile::defaultWebProfile();
 
 	QString defaultUserAgent = webProfile->httpUserAgent();
 	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),

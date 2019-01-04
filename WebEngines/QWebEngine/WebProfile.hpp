@@ -60,7 +60,7 @@ public:
 	WebSettings* settings() const;
 	CookieStore* cookieStore();
 
-	static WebProfile* defaultProfile();
+	static WebProfile* defaultWebProfile();
 
 signals:
 	void downloadRequested(Engine::DownloadItem* item);
