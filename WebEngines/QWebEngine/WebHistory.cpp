@@ -27,10 +27,20 @@
 namespace Engine {
 
 WebHistory::WebHistory(QWebEngineHistory* history) :
-	QObject(),
-	m_history(history)
+		QObject(),
+		m_history(history)
 {
 	// Empty
+}
+
+bool WebHistory::canGoBack() const
+{
+	return m_history->canGoBack();
+}
+
+bool WebHistory::canGoForward() const
+{
+	return m_history->canGoForward();
 }
 
 }

@@ -36,6 +36,9 @@ public:
 	WebHistory(QWebEngineHistory* history);
 	~WebHistory() = default;
 
+	bool canGoBack() const;
+	bool canGoForward() const;
+
 private:
 	QWebEngineHistory* m_history{nullptr};
 };

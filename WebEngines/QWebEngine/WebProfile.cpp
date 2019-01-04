@@ -40,7 +40,7 @@ WebProfile* WebProfile::defaultProfile()
 WebProfile::WebProfile(QObject* parent) :
 	QWebEngineProfile(parent)
 {
-	// Empty
+	connect(this, &QWebEngineProfile::downloadRequested, this, &WebProfile::emitDownloadRequest);
 }
 
 void WebProfile::insertScript(QString name, QString source, Engine::WebProfile::ScriptInjectionPoint injectionPoint,
@@ -65,6 +65,11 @@ WebSettings* WebProfile::settings() const
 CookieStore* WebProfile::cookieStore()
 {
 	return new CookieStore(QWebEngineProfile::cookieStore());
+}
+
+void WebProfile::emitDownloadRequest(QWebEngineDownloadItem* download)
+{
+	emit downloadRequested(new DownloadItem(download));
 }
 
 }

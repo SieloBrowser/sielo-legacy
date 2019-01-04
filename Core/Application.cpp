@@ -952,7 +952,7 @@ void Application::onFocusChanged()
 	}
 }
 
-void Application::downloadRequested(QWebEngineDownloadItem* download)
+void Application::downloadRequested(Engine::DownloadItem* download)
 {
 	downloadManager()->downlaod(download);
 	downloadManager()->show();
@@ -1010,37 +1010,37 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 
 void Application::setUserStyleSheet(const QString& filePath)
 {
-	QString userCSS{};
-	QFile file{filePath};
-	QByteArray array{};
-
-	// Check if we can open the file
-	if (!filePath.isEmpty() && file.open(QFile::ReadOnly)) {
-		array = file.readAll();
-		file.close();
-	}
-
-	userCSS += QString::fromUtf8(array).remove(QLatin1Char('\n'));
-
-	// Check if we have an old script
-	const QString name{QStringLiteral("_sielo_userstylesheet")};
-	QWebEngineScript oldScript = m_webProfile->scripts()->findScript(name);
-
-	if (!oldScript.isNull())
-		m_webProfile->scripts()->remove(oldScript);
-
-	if (userCSS.isEmpty())
-		return;
-
-	// Apply custom css
-	QWebEngineScript script{};
-	script.setName(name);
-	script.setInjectionPoint(QWebEngineScript::DocumentReady);
-	script.setWorldId(QWebEngineScript::ApplicationWorld);
-	script.setRunsOnSubFrames(true);
-	script.setSourceCode(WebPage::setCSS(userCSS));
-
-	m_webProfile->scripts()->insert(script);
+//	QString userCSS{};
+//	QFile file{filePath};
+//	QByteArray array{};
+//
+//	// Check if we can open the file
+//	if (!filePath.isEmpty() && file.open(QFile::ReadOnly)) {
+//		array = file.readAll();
+//		file.close();
+//	}
+//
+//	userCSS += QString::fromUtf8(array).remove(QLatin1Char('\n'));
+//
+//	// Check if we have an old script
+//	const QString name{QStringLiteral("_sielo_userstylesheet")};
+//	QWebEngineScript oldScript = m_webProfile->scripts()->findScript(name);
+//
+//	if (!oldScript.isNull())
+//		m_webProfile->scripts()->remove(oldScript);
+//
+//	if (userCSS.isEmpty())
+//		return;
+//
+//	// Apply custom css
+//	QWebEngineScript script{};
+//	script.setName(name);
+//	script.setInjectionPoint(QWebEngineScript::DocumentReady);
+//	script.setWorldId(QWebEngineScript::ApplicationWorld);
+//	script.setRunsOnSubFrames(true);
+//	script.setSourceCode(WebPage::setCSS(userCSS));
+//
+//	m_webProfile->scripts()->insert(script);
 }
 
 CookieJar *Application::cookieJar()

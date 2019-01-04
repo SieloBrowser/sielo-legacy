@@ -26,14 +26,16 @@
 #define SIELO_BROWSER_WEBPROFILE_HPP
 
 #include "SharedDefines.hpp"
+#include "DownloadItem.hpp"
 
 #include <QtWebEngineWidgets/QWebEngineProfile>
 
 namespace Engine {
 class WebSettings;
+
 class CookieStore;
 
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
+class SIELO_SHAREDLIB WebProfile : public QWebEngineProfile {
 Q_OBJECT
 
 public:
@@ -52,12 +54,19 @@ public:
 	WebProfile(QObject* parent = nullptr);
 	~WebProfile() = default;
 
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
+	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId,
+					  bool runsOnSubFrames);
 
 	WebSettings* settings() const;
 	CookieStore* cookieStore();
 
 	static WebProfile* defaultProfile();
+
+signals:
+	void downloadRequested(Engine::DownloadItem* item);
+
+private slots:
+	void emitDownloadRequest(QWebEngineDownloadItem* download);
 };
 }
 

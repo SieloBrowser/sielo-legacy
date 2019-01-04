@@ -38,7 +38,8 @@
 #include "3rdparty/SingleApplication/singleapplication.h"
 #include "3rdparty/Piwik/piwiktracker.h"
 
-#include "../WebEngines/QWebEngine/WebProfile.hpp"
+#include <QWebEngine/WebProfile.hpp>
+#include <QWebEngine/DownloadItem.hpp>
 
 namespace Sn
 {
@@ -316,7 +317,7 @@ private slots:
 	void windowDestroyed(QObject* window);
 	void onFocusChanged();
 
-	void downloadRequested(QWebEngineDownloadItem* download);
+	void downloadRequested(Engine::DownloadItem* download);
 
 private:
 	enum PostLaunchAction {
