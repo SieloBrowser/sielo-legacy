@@ -103,7 +103,7 @@ void DownloadManager::setRemovePolicy(RemovePolicy policy)
 	m_saver->changeOccurred();
 }
 
-void DownloadManager::downlaod(QWebEngineDownloadItem* download)
+void DownloadManager::downlaod(Engine::DownloadItem* download)
 {
 	DownloadWidget* widget{new DownloadWidget(download, this)};
 

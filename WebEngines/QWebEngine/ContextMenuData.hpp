@@ -22,43 +22,20 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
+#ifndef SIELO_BROWSER_CONTEXTMENUDATA_HPP
+#define SIELO_BROWSER_CONTEXTMENUDATA_HPP
 
 #include "SharedDefines.hpp"
 
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QObject>
+#include <QtWebEngineWidgets/QWebEngineContextMenuData>
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
-Q_OBJECT
-
+class SIELO_SHAREDLIB ContextMenuData : public QWebEngineContextMenuData {
 public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
-	};
-
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
-
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
-
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
-
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
-
-	static WebProfile* defaultProfile();
+	ContextMenuData();
+	~ContextMenuData() = default;
 };
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+#endif //SIELO_BROWSER_CONTEXTMENUDATA_HPP

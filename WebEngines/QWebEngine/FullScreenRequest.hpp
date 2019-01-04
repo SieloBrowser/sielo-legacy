@@ -22,43 +22,27 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
+#ifndef SIELO_BROWSER_FULLSCREENREQUEST_HPP
+#define SIELO_BROWSER_FULLSCREENREQUEST_HPP
 
-#include "SharedDefines.hpp"
-
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QtWebEngineWidgets/QWebEngineFullScreenRequest>
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
+class FullScreenRequest: public QObject {
 Q_OBJECT
 
 public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
-	};
+	FullScreenRequest(QWebEngineFullScreenRequest* baseRequest);
+	~FullScreenRequest();
 
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
+	void accept();
+	void reject();
 
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
+	bool toggleOn() const;
 
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
-
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
-
-	static WebProfile* defaultProfile();
+private:
+	QWebEngineFullScreenRequest* m_request{nullptr};
 };
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+#endif //SIELO_BROWSER_FULLSCREENREQUEST_HPP

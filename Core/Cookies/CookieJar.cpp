@@ -37,8 +37,8 @@ CookieJar::CookieJar(QObject* parent) :
 	loadSettings();
 	m_client->loadAllCookies();
 
-	connect(m_client, &QWebEngineCookieStore::cookieAdded, this, &CookieJar::sCookieAdded);
-	connect(m_client, &QWebEngineCookieStore::cookieRemoved, this, &CookieJar::sCookieRemoved);
+	connect(m_client, &Engine::CookieStore::cookieAdded, this, &CookieJar::sCookieAdded);
+	connect(m_client, &Engine::CookieStore::cookieRemoved, this, &CookieJar::sCookieRemoved);
 }
 
 void CookieJar::loadSettings()

@@ -22,43 +22,53 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
+#ifndef SIELO_BROWSER_DOWNLOADITEM_HPP
+#define SIELO_BROWSER_DOWNLOADITEM_HPP
 
-#include "SharedDefines.hpp"
+#include <QtWebEngineWidgets/QWebEngineDownloadItem>
 
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QUrl>
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
+class DownloadItem : public QObject {
 Q_OBJECT
 
 public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
+	enum DownloadState {
+		DownloadRequested = 0,
+		DownloadInProgress = 1,
+		DownloadCompleted = 2,
+		DownloadCancelled = 3,
+		DownloadInterrupted = 4
 	};
 
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
+	DownloadItem(QWebEngineDownloadItem* item);
+	~DownloadItem();
 
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
+	bool isFinished() const;
 
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
+	void accept();
+	void cancel();
+	void pause();
+	void resume();
 
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
+	void setPath(QString path);
 
-	static WebProfile* defaultProfile();
+	QString path() const;
+	QUrl url() const;
+	DownloadState state() const;
+
+signals:
+	void downloadProgress(quint64 bytesReceived, qint64 bytesTotal);
+	void finished();
+
+private slots:
+	void emitDownloadProgress(quint64 bytesReceived, qint64 bytesTotal);
+	void emitFinished();
+
+private:
+	QWebEngineDownloadItem* m_item{nullptr};
 };
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+#endif //SIELO_BROWSER_DOWNLOADITEM_HPP

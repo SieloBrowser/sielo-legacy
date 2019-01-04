@@ -34,9 +34,9 @@
 #include <QMenu>
 #include <QToolBar>
 
-#include <QWebEngineFullScreenRequest>
-#include <QWebEngineDownloadItem>
-#include <QWebEngineView>
+#include <QWebEngine/FullScreenRequest.hpp>
+#include <QWebEngine/DownloadItem.hpp>
+#include <QWebEngine/WebView.hpp>
 
 #include "Application.hpp"
 
@@ -163,7 +163,7 @@ public slots:
 
 	void showInspector(WebTab* webTab = nullptr);
 
-	void fullScreenRequested(QWebEngineFullScreenRequest request);
+	void fullScreenRequested(Engine::FullScreenRequest request);
 	void toggleFullScreen();
 
 	void moveAddTabButton(int posX);
@@ -226,7 +226,7 @@ private:
 	bool m_newEmptyTabAfterActive{false};
 	bool m_currentTabFresh{false};
 
-	QWebEngineView* m_fullScreenView{nullptr};
+	Engine::WebView* m_fullScreenView{nullptr};
 	QWidget* m_oldParent{nullptr};
 	QSize m_oldSize{};
 };

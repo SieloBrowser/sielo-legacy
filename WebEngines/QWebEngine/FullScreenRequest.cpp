@@ -22,43 +22,33 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
-
-#include "SharedDefines.hpp"
-
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include "FullScreenRequest.hpp"
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
+FullScreenRequest::FullScreenRequest(QWebEngineFullScreenRequest* baseRequest) :
+		QObject(),
+		m_request(baseRequest)
+{
 
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
-Q_OBJECT
-
-public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
-	};
-
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
-
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
-
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
-
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
-
-	static WebProfile* defaultProfile();
-};
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+FullScreenRequest::~FullScreenRequest()
+{
+	delete m_request;
+}
+
+void FullScreenRequest::accept()
+{
+	m_request->accept();
+}
+
+void FullScreenRequest::reject()
+{
+	m_request->reject();
+}
+
+bool FullScreenRequest::toggleOn() const
+{
+	return m_request->toggleOn();
+}
+}

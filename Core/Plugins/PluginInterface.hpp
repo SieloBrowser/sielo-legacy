@@ -32,7 +32,7 @@
 #include <QPixmap>
 #include <QObject>
 
-#include <QWebEnginePage>
+#include <QWebEngine/WebPage.hpp>
 
 #include "Application.hpp"
 
@@ -150,7 +150,7 @@ public:
 		return false;
 	}
 
-	virtual bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type,
+	virtual bool acceptNavigationRequest(WebPage* page, const QUrl& url, Engine::WebPage::NavigationType type,
 										 bool isMainFrame)
 	{
 		Q_UNUSED(page);

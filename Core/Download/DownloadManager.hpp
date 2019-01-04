@@ -37,7 +37,7 @@
 #include <QLabel>
 #include <QSpacerItem>
 
-#include <QWebEngineDownloadItem>
+#include <QWebEngine/DownloadItem.hpp>
 
 namespace Sn {
 class DownloadWidget;
@@ -73,7 +73,7 @@ public:
 	void setRemovePolicy(RemovePolicy policy);
 
 public slots:
-	void downlaod(QWebEngineDownloadItem* download);
+	void downlaod(Engine::DownloadItem* download);
 	void cleanup();
 
 private slots:

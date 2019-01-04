@@ -38,10 +38,11 @@
 #include <QWidget>
 #include <QLabel>
 
-#include <QWebEngineView>
-#include <QWebEnginePage>
+#include <QWebEngine/WebView.hpp>
+#include <QWebEngine/WebPage.hpp>
 
 #include "Web/LoadRequest.hpp"
+
 #include "Application.hpp"
 
 namespace Sn {
@@ -49,7 +50,7 @@ namespace Sn {
 class WebPage;
 class WebHitTestResult;
 
-class SIELO_SHAREDLIB WebView: public QWebEngineView {
+class SIELO_SHAREDLIB WebView: public Engine::WebView {
 Q_OBJECT
 
 public:
@@ -109,18 +110,18 @@ public slots:
 	void zoomOut();
 	void zoomReset();
 
-	void editUndo() { triggerPageAction(QWebEnginePage::Undo); }
-	void editRedo() { triggerPageAction(QWebEnginePage::Redo); }
-	void editCopy() { triggerPageAction(QWebEnginePage::Copy); }
-	void editCut() { triggerPageAction(QWebEnginePage::Cut); }
-	void editPast() { triggerPageAction(QWebEnginePage::Paste); }
-	void editSelectAll() { triggerPageAction(QWebEnginePage::SelectAll); }
+	void editUndo() { triggerPageAction(Engine::WebPage::Undo); }
+	void editRedo() { triggerPageAction(Engine::WebPage::Redo); }
+	void editCopy() { triggerPageAction(Engine::WebPage::Copy); }
+	void editCut() { triggerPageAction(Engine::WebPage::Cut); }
+	void editPast() { triggerPageAction(Engine::WebPage::Paste); }
+	void editSelectAll() { triggerPageAction(Engine::WebPage::SelectAll); }
 	void editDelet()
 	{
 		QKeyEvent event{QEvent::KeyPress, Qt::Key_Delete, Qt::NoModifier};
 		QApplication::sendEvent(this, &event);
 	}
-	void reloadBypassCache() { triggerPageAction(QWebEnginePage::ReloadAndBypassCache); }
+	void reloadBypassCache() { triggerPageAction(Engine::WebPage::ReloadAndBypassCache); }
 
 	void back();
 	void forward();
@@ -183,8 +184,8 @@ protected:
 private slots:
 	//TODO: Manage forms (for password for example)
 
-	void toggleMediaPause() { triggerPageAction(QWebEnginePage::ToggleMediaPlayPause); }
-	void toggleMediaMute() { triggerPageAction(QWebEnginePage::ToggleMediaMute); }
+	void toggleMediaPause() { triggerPageAction(Engine::WebPage::ToggleMediaPlayPause); }
+	void toggleMediaMute() { triggerPageAction(Engine::WebPage::ToggleMediaMute); }
 
 private:
 	// Actually, this class is more for add shortcuts

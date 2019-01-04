@@ -22,43 +22,73 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
-
-#include "SharedDefines.hpp"
-
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include "DownloadItem.hpp"
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
-Q_OBJECT
-
-public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
-	};
-
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
-
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
-
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
-
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
-
-	static WebProfile* defaultProfile();
-};
+DownloadItem::DownloadItem(QWebEngineDownloadItem* item) :
+		QObject(),
+		m_item(item)
+{
+	connect(m_item, &QWebEngineDownloadItem::downloadProgress, this, &DownloadItem::emitDownloadProgress);
+	connect(m_item, &QWebEngineDownloadItem::finished, this, &DownloadItem::emitFinished);
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+DownloadItem::~DownloadItem()
+{
+	delete m_item;
+}
+
+bool DownloadItem::isFinished() const
+{
+	return m_item->isFinished();
+}
+
+void DownloadItem::accept()
+{
+	m_item->accept();
+}
+
+void DownloadItem::cancel()
+{
+	m_item->cancel();
+}
+
+void DownloadItem::pause()
+{
+	m_item->pause();
+}
+
+void DownloadItem::resume()
+{
+	m_item->resume();
+}
+
+DownloadItem::DownloadState DownloadItem::state() const
+{
+	return static_cast<DownloadState>(m_item->state());
+}
+
+void DownloadItem::setPath(QString path)
+{
+	m_item->setPath(path);
+}
+
+QString DownloadItem::path() const
+{
+	return m_item->path();
+}
+
+QUrl DownloadItem::url() const {
+	return m_item->url();
+}
+
+void DownloadItem::emitDownloadProgress(quint64 bytesReceived, qint64 bytesTotal)
+{
+	emit downloadProgress(bytesReceived, bytesTotal);
+}
+
+void DownloadItem::emitFinished()
+{
+	emit finished();
+}
+}

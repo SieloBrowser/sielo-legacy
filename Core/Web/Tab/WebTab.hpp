@@ -39,7 +39,7 @@
 #include <QMenu>
 #include <QToolBar>
 
-#include <QWebEngineHistory>
+#include <QWebEngine/WebHistory.hpp>
 
 #include <QUrl>
 
@@ -116,7 +116,7 @@ public:
 	QUrl url() const;
 	QString title() const;
 	QIcon icon(bool allowNull = false) const;
-	QWebEngineHistory* history() const;
+	Engine::WebHistory* history() const;
 	int zoomLevel() const;
 	void setZoomLevel(int level);
 

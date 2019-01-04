@@ -30,7 +30,7 @@
 
 #include <QList>
 
-#include <QWebEnginePage>
+#include <QWebEngine/WebPage.hpp>
 
 #include "Plugins/Plugins.hpp"
 #include "Application.hpp"
@@ -85,7 +85,7 @@ public:
 
 	bool processCommand(const QString& command, const QStringList& args);
 
-	bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type, bool isMainFrame);
+	bool acceptNavigationRequest(WebPage* page, const QUrl& url, Engine::WebPage::NavigationType type, bool isMainFrame);
 
 
 	void emitWebPageCreated(WebPage* page);

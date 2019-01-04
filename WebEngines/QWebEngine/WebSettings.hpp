@@ -22,43 +22,73 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
+#ifndef SIELO_BROWSER_WEBSETTINGS_HPP
+#define SIELO_BROWSER_WEBSETTINGS_HPP
 
 #include "SharedDefines.hpp"
 
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QObject>
+
+#include <QtWebEngineWidgets/QWebEngineSettings>
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
+class SIELO_SHAREDLIB WebSettings: public QObject {
 Q_OBJECT
 
 public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
+	enum WebAttribute {
+		AutoLoadImages = 0,
+		JavascriptEnabled = 1,
+		JavascriptCanOpenWindows = 2,
+		JavascriptCanAccessClipboard = 3,
+		LinksIncludedInFocusChain = 4,
+		LocalStorageEnabled = 5,
+		LocalContentCanAccessRemoteUrls = 6,
+		XSSAuditingEnabled = 7,
+		SpatialNavigationEnabled = 8,
+		LocalContentCanAccessFileUrls = 9,
+		HyperlinkAuditingEnabled = 10,
+		ScrollAnimatorEnabled = 11,
+		ErrorPageEnabled = 12,
+		PluginsEnabled = 13,
+		FullScreenSupportEnabled = 14,
+		ScreenCaptureEnabled = 15,
+		WebGLEnabled = 16,
+		Accelerated2dCanvasEnabled = 17,
+		AutoLoadIconsForPage = 18,
+		TouchIconsEnabled = 19,
+		FocusOnNavigationEnabled = 20,
+		PrintElementBackgrounds = 21,
+		AllowRunningInsecureContent = 22,
+		AllowGeolocationOnInsecureOrigins = 23,
+		AllowWindowActivationFromJavaScript = 24,
+		ShowScrollBars = 25,
+		PlaybackRequiresUserGesture = 26,
+		WebRTCPublicInterfacesOnly = 27,
+		JavascriptCanPaste = 28,
+		DnsPrefetchEnabled = 29
 	};
 
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
+	enum FontFamily {
+		StandardFont = 0,
+		FixedFont = 1,
+		SerifFont = 2,
+		SansSerifFont = 3,
+		CursiveFont = 4,
+		FantasyFont = 5,
+		PictographFont = 6
 	};
 
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
+	WebSettings();
+	WebSettings(QWebEngineSettings* settings);
+	~WebSettings() = default;
 
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
+	void setAttribute(WebAttribute attribute, bool on);
 
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
-
-	static WebProfile* defaultProfile();
+private:
+	QWebEngineSettings* m_settings{nullptr};
 };
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+
+#endif //SIELO_BROWSER_WEBSETTINGS_HPP

@@ -370,7 +370,7 @@ QIcon WebTab::icon(bool allowNull) const
 	return Application::getAppIcon("webpage");
 }
 
-QWebEngineHistory* WebTab::history() const
+Engine::WebHistory* WebTab::history() const
 {
 	return m_webView->history();
 }

@@ -22,43 +22,31 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
+#ifndef SIELO_BROWSER_WEBPAGE_HPP
+#define SIELO_BROWSER_WEBPAGE_HPP
 
 #include "SharedDefines.hpp"
 
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QObject>
+#include <QtWebEngineWidgets/QWebEnginePage>
+
+#include "WebView.hpp"
+#include "WebProfile.hpp"
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
+class SIELO_SHAREDLIB WebPage: public QWebEnginePage {
 Q_OBJECT
 
 public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
-	};
+	WebPage(QObject* parent = nullptr);
+	WebPage(WebProfile* profile, QObject* parent = nullptr);
+	~WebPage() = default;
 
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
+	WebView* view() const;
 
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
-
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
-
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
-
-	static WebProfile* defaultProfile();
+	QWebEnginePage* createWindow(WebWindowType type) Q_DECL_OVERRIDE;
+	virtual Engine::WebPage* createNewWindow(WebWindowType type);
 };
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+#endif //SIELO_BROWSER_WEBPAGE_HPP

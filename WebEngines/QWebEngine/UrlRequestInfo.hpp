@@ -32,7 +32,7 @@
 #include <QtWebEngineCore/QWebEngineUrlRequestInfo>
 
 namespace Engine {
-class UrlRequestInfo: public QObject {
+class SIELO_SHAREDLIB UrlRequestInfo: public QObject {
 Q_OBJECT
 
 public:

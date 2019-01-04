@@ -22,43 +22,38 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#ifndef SIELO_BROWSER_WEBPROFILE_HPP
-#define SIELO_BROWSER_WEBPROFILE_HPP
+#ifndef SIELO_BROWSER_COOKIESTORE_HPP
+#define SIELO_BROWSER_COOKIESTORE_HPP
 
-#include "SharedDefines.hpp"
+#include <QObject>
+#include <QtWebEngineCore/QWebEngineCookieStore>
 
-#include <QtWebEngineWidgets/QWebEngineProfile>
+#include <QNetworkCookie>
 
 namespace Engine {
-class WebSettings;
-class CookieStore;
-
-class SIELO_SHAREDLIB WebProfile: public QWebEngineProfile {
+class CookieStore : public QObject {
 Q_OBJECT
 
 public:
-	enum ScriptInjectionPoint {
-		Deferred = 0,
-		DocumentReady = 1,
-		DocumentCreation = 2
-	};
+	CookieStore(QWebEngineCookieStore* store);
+	~CookieStore();
 
-	enum ScriptWorldId {
-		MainWorld = 0,
-		ApplicationWorld = 1,
-		UserWorld
-	};
+	void deleteCookie(const QNetworkCookie& cookie, const QUrl& origin = QUrl());
+	void deleteAllCookies();
+	void loadAllCookies();
 
-	WebProfile(QObject* parent = nullptr);
-	~WebProfile() = default;
+signals:
+	void cookieAdded(const QNetworkCookie& cookie);
+	void cookieRemoved(const QNetworkCookie& cookie);
 
-	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId, bool runsOnSubFrames);
+private slots:
+	void emitCookieAdded(const QNetworkCookie& cookie);
+	void emitCookieRemoved(const QNetworkCookie& cookie);
 
-	WebSettings* settings() const;
-	CookieStore* cookieStore();
+private:
+	QWebEngineCookieStore* m_store{nullptr};
 
-	static WebProfile* defaultProfile();
 };
 }
 
-#endif //SIELO_BROWSER_WEBPROFILE_HPP
+#endif //SIELO_BROWSER_COOKIESTORE_HPP

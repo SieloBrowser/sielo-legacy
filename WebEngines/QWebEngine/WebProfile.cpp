@@ -24,11 +24,47 @@
 
 #include "WebProfile.hpp"
 
+#include "WebSettings.hpp"
+#include "CookieStore.hpp"
+
+#include <QtWebEngineWidgets/QWebEngineScript>
+#include <QtWebEngineWidgets/QWebEngineScriptCollection>
+
 namespace Engine {
+
+WebProfile* WebProfile::defaultProfile()
+{
+	return qobject_cast<WebProfile*>(QWebEngineProfile::defaultProfile());
+}
 
 WebProfile::WebProfile(QObject* parent) :
 	QWebEngineProfile(parent)
 {
 	// Empty
 }
+
+void WebProfile::insertScript(QString name, QString source, Engine::WebProfile::ScriptInjectionPoint injectionPoint,
+							  Engine::WebProfile::ScriptWorldId worldId, bool runsOnSubFrames)
+{
+	QWebEngineScript script{};
+
+	script.setName(name);
+	script.setInjectionPoint(static_cast<QWebEngineScript::InjectionPoint>(injectionPoint));
+	script.setWorldId(static_cast<QWebEngineScript::ScriptWorldId>(worldId));
+	script.setRunsOnSubFrames(runsOnSubFrames);
+	script.setSourceCode(source);
+
+	scripts()->insert(script);
+}
+
+WebSettings* WebProfile::settings() const
+{
+	return new WebSettings(QWebEngineProfile::settings());
+}
+
+CookieStore* WebProfile::cookieStore()
+{
+	return new CookieStore(QWebEngineProfile::cookieStore());
+}
+
 }

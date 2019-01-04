@@ -712,7 +712,7 @@ void TabWidget::requestCloseTab(int index)
 		return;
 	}
 
-	webView->triggerPageAction(QWebEnginePage::RequestClose);
+	webView->triggerPageAction(Engine::WebPage::RequestClose);
 }
 
 void TabWidget::reloadTab(int index)
@@ -885,19 +885,19 @@ void TabWidget::showInspector(WebTab* webTab)
 	webTab->toggleWebInspector();
 }
 
-void TabWidget::fullScreenRequested(QWebEngineFullScreenRequest request)
+void TabWidget::fullScreenRequested(Engine::FullScreenRequest request)
 {
 	WebPage* webPage = qobject_cast<WebPage*>(sender());
 
 	if (request.toggleOn()) {
 		if (!m_fullScreenView) {
-			m_fullScreenView = new QWebEngineView();
+			m_fullScreenView = new Engine::WebView();
 
 			QAction* exitFullScreenAction = new QAction(m_fullScreenView);
 			exitFullScreenAction->setShortcut(Qt::Key_Escape);
 
 			connect(exitFullScreenAction, &QAction::triggered, [webPage] {
-				webPage->triggerAction(QWebEnginePage::ExitFullScreen);
+				webPage->triggerAction(Engine::WebPage::ExitFullScreen);
 			});
 
 			m_fullScreenView->addAction(exitFullScreenAction);

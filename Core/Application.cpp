@@ -41,9 +41,8 @@
 
 #include <QMessageBox>
 
-#include <QWebEngineSettings>
-#include <QWebEngineScript>
-#include <QWebEngineScriptCollection>
+#include <QWebEngine/WebSettings.hpp>
+
 #include <AdBlock/Manager.hpp>
 
 #include "BrowserWindow.hpp"
@@ -340,15 +339,11 @@ Application::Application(int& argc, char** argv) :
 	// Setup web channel with custom script (mainly for autofill)
 	QString webChannelScriptSrc = Scripts::webChannelDefautlScript();
 
-	QWebEngineScript script{};
-
-	script.setName(QStringLiteral("_sielo_webchannel"));
-	script.setInjectionPoint(QWebEngineScript::DocumentCreation);
-	script.setWorldId(QWebEngineScript::MainWorld);
-	script.setRunsOnSubFrames(true);
-	script.setSourceCode(webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))));
-
-	m_webProfile->scripts()->insert(script);
+	m_webProfile->insertScript(QStringLiteral("_sielo_webchannel"),
+							   webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))),
+							   Engine::WebProfile::DocumentCreation,
+							   Engine::WebProfile::MainWorld,
+							   true);
 
 	m_plugins = new PluginProxy;
 	m_plugins->loadPlugins();
@@ -449,23 +444,23 @@ void Application::loadWebSettings()
 	Settings settings{};
 
 	// load web settings
-	QWebEngineSettings* webSettings = m_webProfile->settings();
+	Engine::WebSettings* webSettings = m_webProfile->settings();
 
 	settings.beginGroup("Web-Settings");
 
-	webSettings->setAttribute(QWebEngineSettings::PluginsEnabled, settings.value("allowPlugins", true).toBool());
-	webSettings->setAttribute(QWebEngineSettings::JavascriptEnabled, settings.value("allowJavaScript", true).toBool());
-	webSettings->setAttribute(QWebEngineSettings::LinksIncludedInFocusChain,
+	webSettings->setAttribute(Engine::WebSettings::PluginsEnabled, settings.value("allowPlugins", true).toBool());
+	webSettings->setAttribute(Engine::WebSettings::JavascriptEnabled, settings.value("allowJavaScript", true).toBool());
+	webSettings->setAttribute(Engine::WebSettings::LinksIncludedInFocusChain,
 							  settings.value("includeLinkInFocusChain", false).toBool());
-	webSettings->setAttribute(QWebEngineSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
+	webSettings->setAttribute(Engine::WebSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
 	webSettings
-		->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled,
+		->setAttribute(Engine::WebSettings::ScrollAnimatorEnabled,
 					   settings.value("animateScrolling", true).toBool());
-	webSettings->setAttribute(QWebEngineSettings::SpatialNavigationEnabled,
+	webSettings->setAttribute(Engine::WebSettings::SpatialNavigationEnabled,
 							  settings.value("spatialNavigation", false).toBool());
-	webSettings->setAttribute(QWebEngineSettings::HyperlinkAuditingEnabled, false);
-	webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-	webSettings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+	webSettings->setAttribute(Engine::WebSettings::HyperlinkAuditingEnabled, false);
+	webSettings->setAttribute(Engine::WebSettings::FullScreenSupportEnabled, true);
+	webSettings->setAttribute(Engine::WebSettings::LocalContentCanAccessRemoteUrls, true);
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
@@ -488,7 +483,7 @@ void Application::loadWebSettings()
 
 	// Force local storage to be disabled if it's a provate session
 	if (privateBrowsing()) {
-		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
+		webSettings->setAttribute(Engine::WebSettings::LocalStorageEnabled, false);
 		history()->setSaving(false);
 	}
 }

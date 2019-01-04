@@ -219,7 +219,7 @@ bool PluginProxy::processCommand(const QString& command, const QStringList& args
 	return accepted;
 }
 
-bool PluginProxy::acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type,
+bool PluginProxy::acceptNavigationRequest(WebPage* page, const QUrl& url, Engine::WebPage::NavigationType type,
 										  bool isMainFrame)
 {
 	bool accepted{true};

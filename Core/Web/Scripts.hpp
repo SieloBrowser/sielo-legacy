@@ -30,7 +30,6 @@
 
 #include <QString>
 
-#include <QWebEngineView>
 #include <QUrlQuery>
 
 namespace Sn
