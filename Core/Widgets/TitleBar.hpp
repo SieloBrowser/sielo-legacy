@@ -33,10 +33,15 @@
 #include <QToolButton>
 #include <QPushButton>
 
+#include <QHBoxLayout>
+
+#include <QStackedWidget>
+
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 
 namespace Sn {
+class NavigationToolBar;
 class BookmarksToolbar;
 
 class BrowserWindow;
@@ -46,24 +51,23 @@ Q_OBJECT
 
 public:
 	TitleBar(BrowserWindow* window, bool showBookmarks = true);
-	~TitleBar();
-
-	void setTitle(const QString& title);
+	~TitleBar() = default;
 
 	BookmarksToolbar* bookmarksToolBar() const { return m_bookmarksToolbar; }
+	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 	bool showBookmarks() const { return m_showBookmarks; }
 	void setShowBookmark(bool show);
 
 	bool isWindowMaximized() const;
-
-	void saveToolBarsPositions();
-	void restoreToolBarsPositions();
 
 	void hide();
 	void show();
 
 	bool isView();
 	void setView(bool view);
+
+	QWidget* control() const { return m_moveControlWidget; }
+	QStackedWidget* addressBars() const { return m_addressBars; }
 
 signals:
 	void toggleBookmarksBar(bool shown);
@@ -80,27 +84,31 @@ private slots:
 	void minimize();
 
 private:
-	bool m_showBookmarks{true};
-	bool m_isMaximized{false};
-	bool m_isOnSide{false};
-	bool m_canMove{true};
-	bool m_show{true};
+	void setupUI();
+
+	BrowserWindow* m_window{nullptr};
+
+	QHBoxLayout* m_layout{nullptr};
+	BookmarksToolbar* m_bookmarksToolbar{nullptr};
+	NavigationToolBar* m_navigationToolBar{nullptr};
+	QWidget* m_moveControlWidget{nullptr};
 
 #ifdef Q_OS_WIN
-	QToolBar* m_controlsToolbar{ nullptr };
-	QLabel* m_title{nullptr};
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};
 	QToolButton* m_minimize{nullptr};
 #endif // Q_OS_WIN
 
-	QFrame *m_sizePreview{nullptr};
-
-	BookmarksToolbar* m_bookmarksToolbar{nullptr};
+	QStackedWidget* m_addressBars{nullptr};
 
 	QRect m_geometry{};
 	QPoint m_offset{};
-	BrowserWindow* m_window{nullptr};
+
+	bool m_showBookmarks{true};
+	bool m_isMaximized{false};
+	bool m_isOnSide{false};
+	bool m_canMove{true};
+	bool m_show{true};
 };
 }
 

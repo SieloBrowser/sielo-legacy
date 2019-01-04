@@ -35,6 +35,7 @@
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
@@ -184,8 +185,8 @@ void TabbedWebView::sPageRendering()
 
 void TabbedWebView::urlChanged(const QUrl& url)
 {
-	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabWidget()))
-		m_webTab->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
+	if (m_webTab->isCurrentTab() && m_webTab->tabWidget())
+		m_webTab->tabWidget()->window()->titleBar()->navigationToolBar()->refreshBackForwardButtons();
 }
 
 void TabbedWebView::linkHovered(const QString& link)

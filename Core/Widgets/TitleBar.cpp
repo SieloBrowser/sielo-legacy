@@ -32,6 +32,7 @@
 
 #include "Utils/Settings.hpp"
 
+#include "Widgets/NavigationBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "Application.hpp"
@@ -43,92 +44,28 @@ TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		m_window(window),
 		m_showBookmarks(showBookmarks)
 {
-	m_bookmarksToolbar = new BookmarksToolbar(m_window, m_window);
-	m_bookmarksToolbar->setFloatable(false);
-	m_bookmarksToolbar->installEventFilter(this);
-	m_bookmarksToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+	setupUI();
 
 	connect(m_bookmarksToolbar, &BookmarksToolbar::orientationChanged, this, &TitleBar::build);
 
-#ifdef Q_OS_WIN
-	m_controlsToolbar = new QToolBar(m_window);
-	m_controlsToolbar->setFloatable(false);
-	m_controlsToolbar->installEventFilter(this);
-	m_controlsToolbar->setObjectName(QLatin1String("title-bar"));
-	m_controlsToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+	if (Application::instance()->hideBookmarksHistoryActions())
+		m_navigationToolBar->hideBookmarksHistory();
+	else
+		m_navigationToolBar->showBookmarksHistory();
 
-	connect(m_controlsToolbar, &QToolBar::orientationChanged, this, &TitleBar::build);
-#endif // Q_OS_WIN
-
-	restoreToolBarsPositions();
-
-	m_sizePreview = new QFrame(this);
-	m_sizePreview->setObjectName(QLatin1String("window-sizepreview"));
-	m_sizePreview->setStyleSheet("window-sizepreview{background: rgba(66, 134, 244, 0.5);}");
-	m_sizePreview->setAttribute(Qt::WA_TransparentForMouseEvents);
-	m_sizePreview->hide();
-
-	build();
+	if (m_showBookmarks && m_show)
+		m_bookmarksToolbar->show();
+	else
+		m_bookmarksToolbar->hide();
 }
-
-TitleBar::~TitleBar()
-{
-	// Empty
-}
-
-#ifdef Q_OS_WIN
-void TitleBar::setTitle(const QString& title)
-{
-	if (!m_title)
-		return;
-
-	m_title->setText(title);
-}
-#else
-void TitleBar::setTitle(const QString& title)
-{
-	(void)title;
-}
-#endif // Q_OS_WIN
 
 void TitleBar::setShowBookmark(bool show)
 {
 	m_showBookmarks = show;
-	build();
-}
-
-void TitleBar::saveToolBarsPositions()
-{
-	Settings settings{};
-
-	settings.beginGroup("TitleBar");
-
-	settings.setValue("bookmarks/area", static_cast<int>(m_window->toolBarArea(m_bookmarksToolbar)));
-	settings.setValue("bookmarks/locked", m_bookmarksToolbar->isMovable());
-
-#ifdef Q_OS_WIN
-	settings.setValue("controls/area", static_cast<int>(m_window->toolBarArea(m_controlsToolbar)));
-	settings.setValue("controls/locked", m_controlsToolbar->isMovable());
-#endif // Q_OS_WIN
-
-	settings.endGroup();
-}
-
-void TitleBar::restoreToolBarsPositions()
-{
-	Settings settings{};
-
-	settings.beginGroup("TitleBar");
-
-	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("bookmarks/area", Qt::TopToolBarArea).toInt()), m_bookmarksToolbar);
-	m_bookmarksToolbar->setMovable(settings.value("bookmarks/locked", true).toBool());
-
-#ifdef Q_OS_WIN
-	m_window->addToolBar(static_cast<Qt::ToolBarArea>(settings.value("controls/area", Qt::TopToolBarArea).toInt()), m_controlsToolbar);
-	m_controlsToolbar->setMovable(settings.value("controls/locked", true).toBool());
-#endif // Q_OS_WIN
-
-	settings.endGroup();
+	if (m_showBookmarks && m_show)
+		m_bookmarksToolbar->show();
+	else
+		m_bookmarksToolbar->hide();
 }
 
 void TitleBar::hide()
@@ -149,7 +86,10 @@ bool TitleBar::isView()
 void TitleBar::setView(bool view)
 {
 	m_show = view;
-	build();
+	if (m_showBookmarks && m_show)
+		m_bookmarksToolbar->show();
+	else
+		m_bookmarksToolbar->hide();
 }
 
 bool TitleBar::isWindowMaximized() const
@@ -180,16 +120,7 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 
 	if (obj != nullptr) {
 		QToolBar* toolbar = qobject_cast<QToolBar*>(obj);
-		QAction* lockToolbar(menu.addAction(tr("Lock Toolbar")));
-
-		lockToolbar->setCheckable(true);
-		lockToolbar->setChecked(!toolbar->isMovable());
-
-		connect(lockToolbar, &QAction::toggled, this, [=]() {
-			toolbar->setMovable(!toolbar->isMovable());
-			Application::instance()->saveSession();
-		});
-
+		
 		if (toolbar->objectName() == "bookmarks-toolbar") {
 			menu.addSeparator();
 			m_bookmarksToolbar->createContextMenu(menu, event->pos());
@@ -205,61 +136,6 @@ void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
 
 void TitleBar::build()
 {
-#ifdef Q_OS_WIN
-	if (m_showBookmarks && m_show)
-		m_bookmarksToolbar->show();
-	else
-		m_bookmarksToolbar->hide();
-
-	if (m_show)
-		m_controlsToolbar->show();
-	else
-		m_controlsToolbar->hide();
-
-	m_controlsToolbar->clear();
-
-	m_title = new QLabel(m_window->windowTitle(), m_controlsToolbar);
-	m_closeButton = new QToolButton(m_controlsToolbar);
-	m_toggleMaximize = new QToolButton(m_controlsToolbar);
-	m_minimize = new QToolButton(m_controlsToolbar);
-
-	m_title->setObjectName(QLatin1String("titlebar-title"));
-	m_title->setAlignment(Qt::AlignCenter);
-	m_window->setCaption(m_title);
-
-	m_closeButton->setObjectName(QLatin1String("titlebar-button-close"));
-	m_closeButton->setIcon(Application::getAppIcon("tb-close", "titlebar"));
-
-	m_toggleMaximize->setObjectName(
-			QLatin1String(isWindowMaximized() ? "titlebar-button-reverse-maximize" : "titlebar-button-maximize"));
-	m_toggleMaximize->setIcon(isWindowMaximized() ? Application::getAppIcon("tb-revert-maximize", "titlebar") :
-							  Application::getAppIcon("tb-maximize", "titlebar"));
-
-	m_minimize->setObjectName(QLatin1String("titlebar-button-minimize"));
-	m_minimize->setIcon(Application::getAppIcon("tb-minimize", "titlebar"));
-
-	connect(m_closeButton, &QToolButton::clicked, this, &TitleBar::closeWindow);
-	connect(m_toggleMaximize, &QToolButton::clicked, this, &TitleBar::toggleMaximize);
-	connect(m_minimize, &QToolButton::clicked, this, &TitleBar::minimize);
-
-	if (m_controlsToolbar->orientation() == Qt::Horizontal) {
-		m_title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-	}
-	else if (m_controlsToolbar->orientation() == Qt::Vertical) {
-		m_title->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
-	}
-
-	m_controlsToolbar->addWidget(m_title);
-	m_controlsToolbar->addWidget(m_minimize);
-	m_controlsToolbar->addWidget(m_toggleMaximize);
-	m_controlsToolbar->addWidget(m_closeButton);
-#else
-	if (m_showBookmarks && m_show)
-		m_bookmarksToolbar->show();
-	else
-		m_bookmarksToolbar->hide();
-#endif
-
 	Application::instance()->saveSession();
 }
 
@@ -301,5 +177,54 @@ void TitleBar::toggleMaximize(bool forceMaximize)
 void TitleBar::minimize()
 {
 	m_window->showMinimized();
+}
+
+void TitleBar::setupUI()
+{
+	m_layout = new QHBoxLayout(this);
+	m_layout->setSpacing(0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+
+	m_bookmarksToolbar = new BookmarksToolbar(m_window, m_window);
+	m_bookmarksToolbar->setFloatable(false);
+	m_bookmarksToolbar->installEventFilter(this);
+	m_bookmarksToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
+
+	m_addressBars = new QStackedWidget(this);
+	m_navigationToolBar = new NavigationToolBar(m_window, m_addressBars);
+	m_navigationToolBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+	m_moveControlWidget = new QWidget(this);
+	m_moveControlWidget->setFixedWidth(64);
+	m_moveControlWidget->setStyleSheet("background: magenta;");
+
+	m_layout->addWidget(m_bookmarksToolbar);
+	m_layout->addWidget(m_navigationToolBar);
+	m_layout->addWidget(m_moveControlWidget);
+
+#ifdef Q_OS_WIN
+	m_closeButton = new QToolButton(this);
+	m_toggleMaximize = new QToolButton(this);
+	m_minimize = new QToolButton(this);
+
+	m_closeButton->setObjectName(QLatin1String("titlebar-button-close"));
+	m_closeButton->setIcon(Application::getAppIcon("tb-close", "titlebar"));
+
+	m_toggleMaximize->setObjectName(
+		QLatin1String(isWindowMaximized() ? "titlebar-button-reverse-maximize" : "titlebar-button-maximize"));
+	m_toggleMaximize->setIcon(isWindowMaximized() ? Application::getAppIcon("tb-revert-maximize", "titlebar") :
+							  Application::getAppIcon("tb-maximize", "titlebar"));
+
+	m_minimize->setObjectName(QLatin1String("titlebar-button-minimize"));
+	m_minimize->setIcon(Application::getAppIcon("tb-minimize", "titlebar"));
+
+	connect(m_closeButton, &QToolButton::clicked, this, &TitleBar::closeWindow);
+	connect(m_toggleMaximize, &QToolButton::clicked, this, &TitleBar::toggleMaximize);
+	connect(m_minimize, &QToolButton::clicked, this, &TitleBar::minimize);
+
+	m_layout->addWidget(m_minimize);
+	m_layout->addWidget(m_toggleMaximize);
+	m_layout->addWidget(m_closeButton);
+#endif
 }
 }

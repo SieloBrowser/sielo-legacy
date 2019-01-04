@@ -60,6 +60,7 @@
 #include "Widgets/Preferences/PreferencesDialog.hpp"
 #include "Widgets/SideBar/SideBar.hpp"
 #include "Widgets/SideBar/SideBar.hpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabIcon.hpp"
 #include "Widgets/Tab/MenuTabs.hpp"
@@ -248,22 +249,6 @@ void TabWidget::loadSettings()
 		settings.endGroup();
 	}
 
-	if (Application::instance()->useTopToolBar()) {
-		setupNavigationBar();
-	}
-	else if (!Application::instance()->useTopToolBar() && m_navigationToolBar) {
-		for (int i{0}; i < count(); ++i) {
-			WebTab* tab{ weTab(i) };
-			m_addressBars->removeWidget(tab->addressBar());
-			tab->takeAddressBar();
-		}
-		delete m_addressBars;
-		delete m_navigationToolBar;
-
-		m_addressBars = nullptr;
-		m_navigationToolBar = nullptr;
-	}
-
 	updateClosedTabsButton();
 }
 
@@ -369,8 +354,8 @@ void TabWidget::currentTabChanged(int index)
 
 	if (Application::instance()->useTopToolBar()) {
 		AddressBar* addressBar = currentTab->addressBar();
-		if (addressBar && m_addressBars->indexOf(addressBar) != -1)
-			m_addressBars->setCurrentWidget(addressBar);
+		if (addressBar && m_window->titleBar()->addressBars()->indexOf(addressBar) != -1)
+			m_window->titleBar()->addressBars()->setCurrentWidget(addressBar);
 	}
 
 	m_lastBackgroundTab = nullptr;
@@ -470,7 +455,7 @@ void TabWidget::detachTab(WebTab* tab)
 		return;
 
 	if (Application::instance()->useTopToolBar())
-		m_addressBars->removeWidget(tab->addressBar());
+		m_window->titleBar()->addressBars()->removeWidget(tab->addressBar());
 
 	disconnect(tab->webView(), &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	disconnect(tab->webView(), SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
@@ -535,7 +520,7 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	webTab->setPinned(pinned);
 	webTab->addressBar()->showUrl(url);
 	if (Application::instance()->useTopToolBar())
-		m_addressBars->addWidget(webTab->addressBar());
+		m_window->titleBar()->addressBars()->addWidget(webTab->addressBar());
 
 	int index{insertTab(position == -1 ? count() : position, webTab, QString(), pinned)};
 
@@ -584,7 +569,7 @@ int TabWidget::addView(WebTab* tab, const Application::NewTabTypeFlags& openFlag
 int TabWidget::insertView(int index, WebTab* tab, const Application::NewTabTypeFlags& openFlags)
 {
 	if (Application::instance()->useTopToolBar())
-		m_addressBars->addWidget(tab->addressBar());
+		m_window->titleBar()->addressBars()->addWidget(tab->addressBar());
 
 	int newIndex{insertTab(index, tab, QString(), tab->isPinned())};
 
@@ -662,8 +647,7 @@ void TabWidget::closeTab(int index)
 
 	TabbedWebView* webView{webTab->webView()};
 	
-	if (Application::instance()->useTopToolBar())
-		m_addressBars->removeWidget(webView->webTab()->addressBar());
+	m_window->titleBar()->addressBars()->removeWidget(webView->webTab()->addressBar());
 
 	disconnect(webView, &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	disconnect(webView, SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
@@ -1086,41 +1070,6 @@ void TabWidget::updateClosedTabsButton()
 		m_buttonClosedTabs->hide();
 
 	m_buttonClosedTabs->setEnabled(canRestoreTab());
-}
-
-void TabWidget::setupNavigationBar()
-{
-	if (m_navigationToolBar) {
-		if (Application::instance()->hideBookmarksHistoryActions())
-			m_navigationToolBar->hideBookmarksHistory();
-		else
-			m_navigationToolBar->showBookmarksHistory();
-
-		return;
-	}
-
-	m_addressBars = new QStackedWidget(this);
-	m_navigationToolBar = new NavigationToolBar(this);
-
-	if (Application::instance()->hideBookmarksHistoryActions())
-		m_navigationToolBar->hideBookmarksHistory();
-	else
-		m_navigationToolBar->showBookmarksHistory();
-
-	setNavigationToolBar(m_navigationToolBar);
-
-	if (count() <= 0)
-		return;
-
-	for (int i{ 0 }; i < count(); ++i) {
-		WebTab* tab = weTab(i);
-		if (tab->addressBar())
-			m_addressBars->addWidget(tab->addressBar());	
-	}
-
-	AddressBar* addressBar = weTab()->addressBar();
-	if (addressBar && m_addressBars->indexOf(addressBar) != -1)
-		m_addressBars->setCurrentWidget(addressBar);
 }
 
 void TabWidget::keyPressEvent(QKeyEvent* event)

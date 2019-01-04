@@ -385,13 +385,6 @@ void BrowserWindow::setWindowTitle(const QString& title)
 {
 	QString t{title};
 
-	// We wan't to be sure to have an indication when the window is private
-	if (Application::instance()->privateBrowsing())
-		t.append(tr(" (Private Browsing)"));
-
-	if (m_titleBar)
-		m_titleBar->setTitle(t);
-
 	QMainWindow::setWindowTitle(t);
 }
 
@@ -440,6 +433,10 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 	emit tabWidgetChanged(tbWidget);
 
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabsSpaceSplitter->tabWidget(), SLOT(restoreClosedTab()));
+
+	AddressBar* addressBar = tabWidget()->webTab()->addressBar();
+	if (addressBar && m_titleBar->addressBars()->indexOf(addressBar) != -1)
+		m_titleBar->addressBars()->setCurrentWidget(addressBar);
 
 	// Move the floating button to the new focused tabs space if the user wants
 	if (m_fButton) {
@@ -724,8 +721,17 @@ void BrowserWindow::newTab()
 
 void BrowserWindow::setupUi()
 {
+	QWidget* centralWidget{new QWidget(this)};
+	QVBoxLayout* layout{new QVBoxLayout(centralWidget)};
+
+	layout->setSpacing(0);
+	layout->setContentsMargins(0, 0, 0, 0);
+
 	m_titleBar = new TitleBar(this);
 	m_tabsSpaceSplitter = new TabsSpaceSplitter(this);
+
+	m_titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	m_tabsSpaceSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	QPalette palette{QToolTip::palette()};
 	QColor color{palette.window().color()};
@@ -738,7 +744,14 @@ void BrowserWindow::setupUi()
 	setMinimumWidth(300);
 	//TODO: delete this line when settings will be implements
 	resize(1200, 720);
-	setCentralWidget(m_tabsSpaceSplitter);
+
+	layout->addWidget(m_titleBar);
+	layout->addWidget(m_tabsSpaceSplitter);
+
+	layout->setStretchFactor(m_titleBar, 1);
+	layout->setStretchFactor(m_tabsSpaceSplitter, 100);
+
+	setCentralWidget(centralWidget);
 }
 
 void BrowserWindow::setupFloatingButton()

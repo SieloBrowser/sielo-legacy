@@ -11,7 +11,7 @@ include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 file(
         GLOB_RECURSE
         SOURCE_FILES
-        *.h
+        *.hpp
         *.cpp
 )
 
@@ -32,7 +32,7 @@ target_link_libraries(SieloWebEngine PRIVATE ${SENGINE_LIBS})
 
 foreach(_source IN ITEMS ${SOURCE_FILES})
     get_filename_component(_source_path "${_source}" PATH)
-    file(RELATIVE_PATH _source_path_rel "${CMAKE_SOURCE_DIR}/Core" "${_source_path}")
+    file(RELATIVE_PATH _source_path_rel "${CMAKE_SOURCE_DIR}/WebEngines/QWebEngine" "${_source_path}")
     string(REPLACE "/" "\\" _group_path "${_source_path_rel}")
     source_group("${_group_path}" FILES "${_source}")
 endforeach()

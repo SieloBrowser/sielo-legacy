@@ -37,15 +37,16 @@
 #include "Web/WebPage.hpp"
 #include "Web/Tab/TabbedWebView.hpp"
 
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "BrowserWindow.hpp"
 
 namespace Sn
 {
-NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
-	QWidget(tabWidget),
-	m_tabWidget(tabWidget)
+NavigationToolBar::NavigationToolBar(BrowserWindow* window, QStackedWidget* addressBars) :
+	QWidget(window),
+	m_window(window)
 {
 	setObjectName(QStringLiteral("navigationbar"));
 	QSize iconSize{28, 28};
@@ -133,7 +134,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	m_layout->addWidget(m_buttonBack);
 	m_layout->addWidget(m_buttonForward);
 	m_layout->addWidget(m_buttonHome);
-	m_layout->addWidget(tabWidget->addressBars());
+	m_layout->addWidget(addressBars);
 	m_layout->addWidget(m_extensionWidget);
 	m_layout->addWidget(m_bookmarksHistoryWidget);
 
@@ -151,7 +152,7 @@ NavigationToolBar::NavigationToolBar(TabWidget* tabWidget) :
 	connect(m_buttonAddBookmark, &ToolButton::clicked, this, &NavigationToolBar::showAddBookmarkDialog);
 	connect(m_buttonViewHistory, &ToolButton::clicked, this, &NavigationToolBar::showHistoryDialog);
 
-	foreach(QWidget* widget, Application::instance()->plugins()->navigationBarButton(m_tabWidget))
+	foreach(QWidget* widget, Application::instance()->plugins()->navigationBarButton(m_window))
 	{
 		addExtensionAction(widget);
 	}
@@ -197,37 +198,37 @@ void NavigationToolBar::addExtensionAction(QWidget* widget)
 
 void NavigationToolBar::refreshBackForwardButtons()
 {
-	if (Application::instance()->isClosing() || !m_tabWidget->webTab())
+	if (Application::instance()->isClosing() || !m_window->tabWidget()->webTab())
 		return;
 
-	Engine::WebHistory* history{m_tabWidget->webTab()->webView()->page()->history()};
+	Engine::WebHistory* history{m_window->tabWidget()->webTab()->webView()->page()->history()};
 	m_buttonBack->setEnabled(history->canGoBack());
 	m_buttonForward->setEnabled(history->canGoForward());
 }
 
 void NavigationToolBar::goBack()
 {
-	m_tabWidget->webTab()->webView()->back();
+	m_window->tabWidget()->webTab()->webView()->back();
 }
 
 void NavigationToolBar::goBackInNewTab()
 {
-	m_tabWidget->addView(m_tabWidget->webTab()->webView()->history()->backUrl());
+	m_window->tabWidget()->addView(m_window->tabWidget()->webTab()->webView()->history()->backUrl());
 }
 
 void NavigationToolBar::goForward()
 {
-	m_tabWidget->webTab()->webView()->forward();
+	m_window->tabWidget()->webTab()->webView()->forward();
 }
 
 void NavigationToolBar::goForwardInNewTab()
 {
-	m_tabWidget->addView(m_tabWidget->webTab()->webView()->history()->forwardUrl());
+	m_window->tabWidget()->addView(m_window->tabWidget()->webTab()->webView()->history()->forwardUrl());
 }
 
 void NavigationToolBar::goHome()
 {
-	m_tabWidget->webTab()->sGoHome();
+	m_window->tabWidget()->webTab()->sGoHome();
 }
 
 void NavigationToolBar::goHomeInNewTab()
@@ -237,17 +238,17 @@ void NavigationToolBar::goHomeInNewTab()
 
 void NavigationToolBar::showBookmarksDialog()
 {
-	m_tabWidget->openBookmarksDialog();
+	m_window->tabWidget()->openBookmarksDialog();
 }
 
 void NavigationToolBar::showAddBookmarkDialog()
 {
-	m_tabWidget->window()->bookmarkPage();
+	m_window->tabWidget()->window()->bookmarkPage();
 }
 
 void NavigationToolBar::showHistoryDialog()
 {
-	m_tabWidget->openHistoryDialog();
+	m_window->tabWidget()->openHistoryDialog();
 }
 
 void NavigationToolBar::contextMenuRequested(const QPoint& pos)

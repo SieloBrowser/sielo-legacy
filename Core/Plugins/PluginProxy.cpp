@@ -89,13 +89,13 @@ void PluginProxy::registerAppEventHandler(const EventHandlerType& type, PluginIn
 	}
 }
 
-QList<QWidget*> PluginProxy::navigationBarButton(TabWidget* tabWidget)
+QList<QWidget*> PluginProxy::navigationBarButton(BrowserWindow* window)
 {
 	QList<QWidget*> buttons{};
 
 	foreach (PluginInterface* iPlugin, m_loadedPlugins)
 	{
-		buttons.append(iPlugin->navigationBarButton(tabWidget));
+		buttons.append(iPlugin->navigationBarButton(window));
 	}
 
 	return buttons;

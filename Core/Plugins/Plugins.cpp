@@ -34,6 +34,7 @@
 #include "Utils/Settings.hpp"
 
 #include "Widgets/NavigationBar.hpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 
 #include "BrowserWindow.hpp"
@@ -76,11 +77,7 @@ bool Plugins::loadPlugin(Plugin* plugin)
 		if (Application::instance()->useTopToolBar()) {
 			foreach(BrowserWindow* window, Application::instance()->windows())
 			{
-				foreach(TabWidget* tabWidget, window->tabsSpaceSplitter()->tabWidgets())
-				{
-					if (tabWidget->navigationToolBar())
-						tabWidget->navigationToolBar()->addExtensionAction(plugin->instance->navigationBarButton(tabWidget));
-				}
+				window->titleBar()->navigationToolBar()->addExtensionAction(plugin->instance->navigationBarButton(window));
 			}
 		}
 	}

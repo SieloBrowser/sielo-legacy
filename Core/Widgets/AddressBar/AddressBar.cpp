@@ -527,8 +527,6 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 
 void AddressBar::mousePressEvent(QMouseEvent* event)
 {
-	emit m_tabWidget->focusIn(m_tabWidget);
-
 	LineEdit::mousePressEvent(event);
 }
 

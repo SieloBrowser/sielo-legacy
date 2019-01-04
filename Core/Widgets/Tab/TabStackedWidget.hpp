@@ -66,8 +66,6 @@ public:
 	ComboTabBar* tabBar() { return m_comboTabBar; }
 	void setTabBar(ComboTabBar* tab);
 
-	void setNavigationToolBar(NavigationToolBar* navigationToolBar);
-
 	bool documentMode() const;
 	void setDocumentMode(bool enable);
 

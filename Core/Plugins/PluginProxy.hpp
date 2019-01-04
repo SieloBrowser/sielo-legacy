@@ -68,7 +68,7 @@ public:
 
 	void registerAppEventHandler(const EventHandlerType& type, PluginInterface* obj);
 
-	QList<QWidget*> navigationBarButton(TabWidget* widget);
+	QList<QWidget*> navigationBarButton(BrowserWindow* window);
 
 	void populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result);
 	void populateExtensionsMenu(QMenu* menu, TabWidget* tabWidget);
