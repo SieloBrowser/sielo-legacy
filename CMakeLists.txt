@@ -30,6 +30,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/Core)
+include_directories(${CMAKE_SOURCE_DIR}/WebEngines)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 add_subdirectory(WebEngines/QWebEngine)
@@ -51,7 +52,7 @@ else()
     add_executable(sielo-browser ${SOURCE_FILES})
 endif()
 
-set (SIELO_LIBS ${SIELO_LIBS} SieloCore)
+set (SIELO_LIBS ${SIELO_LIBS} SieloCore SieloWebEngine)
 
 target_link_libraries(sielo-browser ${SIELO_LIBS})
 
