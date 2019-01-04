@@ -39,6 +39,17 @@ public:
 	bool canGoBack() const;
 	bool canGoForward() const;
 
+	QUrl backUrl() const;
+	QUrl forwardUrl() const;
+
+	int itemCount() const;
+
+	void back();
+	void forward();
+
+	friend QDataStream& operator<<(QDataStream& stream, const WebHistory& item);
+	friend QDataStream& operator>>(QDataStream& stream, WebHistory& item);
+
 private:
 	QWebEngineHistory* m_history{nullptr};
 };

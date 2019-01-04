@@ -125,8 +125,8 @@ WebView::~WebView()
 
 QIcon WebView::icon(bool allowNull) const
 {
-	if (!QWebEngineView::icon().isNull())
-		return QWebEngineView::icon();
+	if (!Engine::WebView::icon().isNull())
+		return Engine::WebView::icon();
 
 	return allowNull ? QIcon() : Application::getAppIcon("webpage");
 
@@ -148,7 +148,7 @@ bool WebView::event(QEvent* event)
 	if (event->type() == QEvent::ParentChange && parentWidget())
 		parentWidget()->installEventFilter(this);
 
-	return QWebEngineView::event(event);
+	return Engine::WebView::event(event);
 }
 
 bool WebView::eventFilter(QObject* watched, QEvent* event)
@@ -211,7 +211,7 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 		}
 	}
 
-	const bool res = QWebEngineView::eventFilter(watched, event);
+	const bool res = Engine::WebView::eventFilter(watched, event);
 
 	if (watched == m_child) {
 		switch (event->type()) {
@@ -230,7 +230,7 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 
 QString WebView::title() const
 {
-	QString title{QWebEngineView::title()};
+	QString title{Engine::WebView::title()};
 
 	if (title.isEmpty())
 		title = url().toString(QUrl::RemoveFragment);
@@ -243,7 +243,7 @@ QString WebView::title() const
 
 bool WebView::isTitleEmpty() const
 {
-	return QWebEngineView::title().isEmpty();
+	return Engine::WebView::title().isEmpty();
 }
 
 WebPage* WebView::page() const
@@ -269,7 +269,7 @@ void WebView::setPage(WebPage* page)
 
 	m_page = page;
 	m_page->setParent(this);
-	QWebEngineView::setPage(page);
+	Engine::WebView::setPage(page);
 
 	if (m_page->isLoading()) {
 		emit loadStarted();
@@ -291,7 +291,7 @@ void WebView::load(const QUrl& url)
 	if (m_page && !m_page->acceptNavigationRequest(url, Engine::WebPage::NavigationTypeTyped, true))
 		return;
 
-	QWebEngineView::load(url);
+	Engine::WebView::load(url);
 
 	if (!m_firstLoad) {
 		m_firstLoad = true;
@@ -443,7 +443,7 @@ void WebView::zoomReset()
 
 void WebView::back()
 {
-	QWebEngineHistory* history{m_page->history()};
+	Engine::WebHistory* history = m_page->history();
 
 	if (history->canGoBack()) {
 		history->back();
@@ -454,7 +454,7 @@ void WebView::back()
 
 void WebView::forward()
 {
-	QWebEngineHistory* history{m_page->history()};
+	Engine::WebHistory* history = m_page->history();
 
 	if (history->canGoForward()) {
 		history->forward();
@@ -601,7 +601,7 @@ void WebView::openUrlInBgTab()
 
 void WebView::showEvent(QShowEvent* event)
 {
-	QWebEngineView::showEvent(event);
+	Engine::WebView::showEvent(event);
 
 	if (m_backgroundActivity) {
 		m_backgroundActivity = false;
@@ -611,7 +611,7 @@ void WebView::showEvent(QShowEvent* event)
 
 void WebView::resizeEvent(QResizeEvent* event)
 {
-	QWebEngineView::resizeEvent(event);
+	Engine::WebView::resizeEvent(event);
 	emit viewportResized(size());
 }
 
@@ -812,7 +812,7 @@ void WebView::loadRequest(const LoadRequest& request)
 	if (request.operation() == LoadRequest::GetOp)
 		load(request.url());
 	else
-		m_page->runJavaScript(Scripts::sendPostData(request.url(), request.data()), QWebEngineScript::ApplicationWorld);
+		m_page->runJavaScript(Scripts::sendPostData(request.url(), request.data()), Engine::WebProfile::ScriptWorldId::ApplicationWorld);
 }
 
 void WebView::applyZoom()
@@ -826,7 +826,7 @@ void WebView::createContextMenu(QMenu* menu, WebHitTestResult& hitTest)
 {
 	int spellCheckAction{0};
 
-	const QWebEngineContextMenuData& contextMenuData{page()->contextMenuData()};
+	const Engine::ContextMenuData& contextMenuData{page()->contextMenuData()};
 	hitTest.updateWithContextMenuData(contextMenuData);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)

@@ -29,7 +29,6 @@
 #include <QDesktopServices>
 #include <QFileInfo>
 
-#include <QWebEngineSettings>
 #include <QWebChannel>
 
 #include <QMessageBox>

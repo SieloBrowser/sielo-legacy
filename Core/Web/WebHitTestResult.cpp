@@ -24,6 +24,8 @@
 
 #include "Web/WebHitTestResult.hpp"
 
+#include <QWebEngine/WebProfile.hpp>
+
 #include "Web/WebPage.hpp"
 
 namespace Sn {
@@ -96,7 +98,7 @@ WebHitTestResult::WebHitTestResult(const WebPage* page, const QPoint& pos) :
 
 	const QString& js = source.arg(m_viewportPos.x()).arg(m_viewportPos.y());
 	const QUrl& url{p->url()};
-	const QVariantMap& map{p->executeJavaScript(js, QWebEngineScript::ApplicationWorld).toMap()};
+	const QVariantMap& map{p->executeJavaScript(js, Engine::WebProfile::ScriptWorldId::ApplicationWorld).toMap()};
 
 	if (map.isEmpty())
 		return;
@@ -126,7 +128,7 @@ WebHitTestResult::WebHitTestResult(const WebPage* page, const QPoint& pos) :
 		m_mediaUrl = url.resolved(m_mediaUrl);
 }
 
-void WebHitTestResult::updateWithContextMenuData(const QWebEngineContextMenuData& data)
+void WebHitTestResult::updateWithContextMenuData(const Engine::ContextMenuData& data)
 {
 	if (!data.isValid()) {
 		return;
@@ -138,12 +140,12 @@ void WebHitTestResult::updateWithContextMenuData(const QWebEngineContextMenuData
 	m_isContentSelected = !data.selectedText().isEmpty();
 
 	switch (data.mediaType()) {
-	case QWebEngineContextMenuData::MediaTypeImage:
+	case Engine::ContextMenuData::MediaTypeImage:
 		m_imageUrl = data.mediaUrl();
 		break;
 
-	case QWebEngineContextMenuData::MediaTypeVideo:
-	case QWebEngineContextMenuData::MediaTypeAudio:
+	case Engine::ContextMenuData::MediaTypeVideo:
+	case Engine::ContextMenuData::MediaTypeAudio:
 		m_mediaUrl = data.mediaUrl();
 		break;
 

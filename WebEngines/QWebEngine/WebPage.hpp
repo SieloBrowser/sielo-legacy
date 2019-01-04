@@ -30,22 +30,35 @@
 #include <QObject>
 #include <QtWebEngineWidgets/QWebEnginePage>
 
+#include "ContextMenuData.hpp"
+#include "FullScreenRequest.hpp"
 #include "WebView.hpp"
 #include "WebProfile.hpp"
 
 namespace Engine {
-class SIELO_SHAREDLIB WebPage: public QWebEnginePage {
+class SIELO_SHAREDLIB WebPage : public QWebEnginePage {
 Q_OBJECT
 
 public:
 	WebPage(QObject* parent = nullptr);
 	WebPage(WebProfile* profile, QObject* parent = nullptr);
-	~WebPage() = default;
+	~WebPage();
 
+	const ContextMenuData& contextMenuData() const;
+	WebHistory* history() const;
 	WebView* view() const;
 
 	QWebEnginePage* createWindow(WebWindowType type) Q_DECL_OVERRIDE;
 	virtual Engine::WebPage* createNewWindow(WebWindowType type);
+
+signals:
+	void fullScreenRequested(FullScreenRequest& request);
+
+private slots:
+	void emitFullScreenRequest(QWebEngineFullScreenRequest request);
+
+private:
+	WebHistory* m_history{nullptr};
 };
 }
 

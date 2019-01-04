@@ -32,9 +32,9 @@
 #include <QRect>
 #include <QString>
 #include <QVariantMap>
-#include <QWebEngineContextMenuData>
 
-#include <QWebEnginePage>
+#include <QWebEngine/ContextMenuData.hpp>
+#include <QWebEngine/WebPage.hpp>
 
 namespace Sn {
 
@@ -44,7 +44,7 @@ class SIELO_SHAREDLIB WebHitTestResult {
 public:
 	WebHitTestResult(const WebPage* page, const QPoint& pos);
 
-	void updateWithContextMenuData(const QWebEngineContextMenuData& data);
+	void updateWithContextMenuData(const Engine::ContextMenuData& data);
 
 	QUrl baseUrl() const;
 	QString alternateText() const;

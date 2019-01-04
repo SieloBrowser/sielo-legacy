@@ -28,16 +28,19 @@
 
 #include "SharedDefines.hpp"
 
-#include <QWebEngineUrlRequestInterceptor>
+#include <QObject>
+
+#include <QWebEngine/UrlRequestInterceptor.hpp>
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 namespace Sn {
 class BaseUrlInterceptor;
 
-class SIELO_SHAREDLIB NetworkUrlInterceptor: public QWebEngineUrlRequestInterceptor {
+class SIELO_SHAREDLIB NetworkUrlInterceptor: public Engine::UrlRequestInterceptor {
 public:
 	NetworkUrlInterceptor(QObject* parent = nullptr);
 
-	void interceptRequest(QWebEngineUrlRequestInfo& info) Q_DECL_OVERRIDE;
+	void interceptUrlRequest(Engine::UrlRequestInfo& info) Q_DECL_OVERRIDE;
 
 	void installUrlInterceptor(BaseUrlInterceptor* interceptor);
 	void removeUrlInterceptor(BaseUrlInterceptor* interceptor);

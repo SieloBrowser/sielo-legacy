@@ -26,7 +26,7 @@
 
 #include <QStyle>
 
-#include <QWebEngineHistory>
+#include <QWebEngine/WebHistory.hpp>
 
 #include "Utils/ToolButton.hpp"
 
@@ -200,7 +200,7 @@ void NavigationToolBar::refreshBackForwardButtons()
 	if (Application::instance()->isClosing() || !m_tabWidget->webTab())
 		return;
 
-	QWebEngineHistory* history{m_tabWidget->webTab()->webView()->page()->history()};
+	Engine::WebHistory* history{m_tabWidget->webTab()->webView()->page()->history()};
 	m_buttonBack->setEnabled(history->canGoBack());
 	m_buttonForward->setEnabled(history->canGoForward());
 }
@@ -212,8 +212,7 @@ void NavigationToolBar::goBack()
 
 void NavigationToolBar::goBackInNewTab()
 {
-	// TODO: go back in new tab
-	m_tabWidget->addView(m_tabWidget->webTab()->webView()->history()->backItem().url());
+	m_tabWidget->addView(m_tabWidget->webTab()->webView()->history()->backUrl());
 }
 
 void NavigationToolBar::goForward()
@@ -223,7 +222,7 @@ void NavigationToolBar::goForward()
 
 void NavigationToolBar::goForwardInNewTab()
 {
-	// TODO: go forward in new tab
+	m_tabWidget->addView(m_tabWidget->webTab()->webView()->history()->forwardUrl());
 }
 
 void NavigationToolBar::goHome()

@@ -160,7 +160,7 @@ void TabbedWebView::sLoadFinished()
 #ifdef EXP_TRANSPARENT_BG
 void TabbedWebView::sPageRendering()
 {
-	page()->runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res)
+	page()->runJavaScript(Scripts::getAllMetaAttributes(), Engine::WebProfile::ScriptWorldId::ApplicationWorld, [this](const QVariant &res)
 	{
 		const QVariantList& list = res.toList();
 

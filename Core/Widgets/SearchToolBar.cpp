@@ -152,9 +152,9 @@ void SearchToolBar::searchText(const QString& text)
 void SearchToolBar::updateFindFlags()
 {
 	if (m_caseSensitive->isChecked())
-		m_findFlags = m_findFlags | QWebEnginePage::FindCaseSensitively;
+		m_findFlags = m_findFlags | Engine::WebPage::FindCaseSensitively;
 	else
-		m_findFlags = m_findFlags & ~QWebEnginePage::FindCaseSensitively;
+		m_findFlags = m_findFlags & ~Engine::WebPage::FindCaseSensitively;
 }
 
 void SearchToolBar::caseSensitivityChanged()
@@ -175,7 +175,7 @@ void SearchToolBar::findNext()
 
 void SearchToolBar::findPrevious()
 {
-	m_findFlags = QWebEnginePage::FindBackward;
+	m_findFlags = Engine::WebPage::FindBackward;
 	updateFindFlags();
 
 	searchText(m_toSearch->text());

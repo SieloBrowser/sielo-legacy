@@ -29,13 +29,32 @@ namespace Engine {
 WebPage::WebPage(QObject* parent) :
 	QWebEnginePage(parent)
 {
-	// Empty
+	m_history = new WebHistory(QWebEnginePage::history());
+
+	connect(this, &QWebEnginePage::fullScreenRequested, this, &WebPage::emitFullScreenRequest);
 }
 
 WebPage::WebPage(Engine::WebProfile* profile, QObject* parent) :
 	QWebEnginePage(profile, parent)
 {
-	// Empty
+	m_history = new WebHistory(QWebEnginePage::history());
+
+	connect(this, &QWebEnginePage::fullScreenRequested, this, &WebPage::emitFullScreenRequest);
+}
+
+WebPage::~WebPage()
+{
+	delete m_history;
+}
+
+const ContextMenuData& WebPage::contextMenuData() const
+{
+	return ContextMenuData();
+}
+
+WebHistory* WebPage::history() const
+{
+	return m_history;
 }
 
 WebView* WebPage::view() const
@@ -51,6 +70,13 @@ QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
 Engine::WebPage* WebPage::createNewWindow(QWebEnginePage::WebWindowType type)
 {
 	return qobject_cast<Engine::WebPage*>(QWebEnginePage::createWindow(type));
+}
+
+void WebPage::emitFullScreenRequest(QWebEngineFullScreenRequest request)
+{
+	FullScreenRequest newRequest{&request};
+
+	emit fullScreenRequested(newRequest);
 }
 
 }

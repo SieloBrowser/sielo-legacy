@@ -34,6 +34,8 @@
 #include <QClipboard>
 #include <QtWidgets/qgraphicsitem.h>
 
+#include <QWebEngine/WebProfile.hpp>
+
 #include "Network/NetworkManager.hpp"
 
 #include "Web/Scripts.hpp"
@@ -247,12 +249,12 @@ void SiteInfo::setupGeneral()
 {
 	m_siteAddress->setText(m_view->url().toString());
 
-	m_view->page()->runJavaScript(QStringLiteral("document.charset"), QWebEngineScript::ApplicationWorld,
+	m_view->page()->runJavaScript(QStringLiteral("document.charset"), Engine::WebProfile::ScriptWorldId::ApplicationWorld,
 								  [this](const QVariant& res) {
 									  m_encoding->setText(res.toString());
 								  });
 
-	m_view->page()->runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld,
+	m_view->page()->runJavaScript(Scripts::getAllMetaAttributes(), Engine::WebProfile::ScriptWorldId::ApplicationWorld,
 								  [this](const QVariant& res) {
 									  const QVariantList& list = res.toList();
 
@@ -283,7 +285,7 @@ void SiteInfo::setupGeneral()
 
 void SiteInfo::setupMedia()
 {
-	m_view->page()->runJavaScript(Scripts::getAllImages(), QWebEngineScript::ApplicationWorld,
+	m_view->page()->runJavaScript(Scripts::getAllImages(), Engine::WebProfile::ScriptWorldId::ApplicationWorld,
 								  [this](const QVariant& res) {
 									  const QVariantList& list = res.toList();
 

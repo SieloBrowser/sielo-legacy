@@ -885,7 +885,7 @@ void TabWidget::showInspector(WebTab* webTab)
 	webTab->toggleWebInspector();
 }
 
-void TabWidget::fullScreenRequested(Engine::FullScreenRequest request)
+void TabWidget::fullScreenRequested(Engine::FullScreenRequest& request)
 {
 	WebPage* webPage = qobject_cast<WebPage*>(sender());
 

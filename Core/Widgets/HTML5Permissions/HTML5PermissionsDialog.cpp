@@ -64,7 +64,7 @@ HTML5PermissionsDialog::~HTML5PermissionsDialog()
 	// Empty
 }
 
-void HTML5PermissionsDialog::showFeaturePermissions(QWebEnginePage::Feature feature)
+void HTML5PermissionsDialog::showFeaturePermissions(Engine::WebPage::Feature feature)
 {
 	if (!m_granted.contains(feature) || !m_denied.contains(feature))
 		return;
@@ -119,23 +119,23 @@ void HTML5PermissionsDialog::saveSettings()
 
 	settings.beginGroup("HTML5-Permissions");
 
-	settings.setValue("NotificationsGranted", m_granted[QWebEnginePage::Notifications]);
-	settings.setValue("NotificationDenied", m_denied[QWebEnginePage::Notifications]);
+	settings.setValue("NotificationsGranted", m_granted[Engine::WebPage::Notifications]);
+	settings.setValue("NotificationDenied", m_denied[Engine::WebPage::Notifications]);
 
-	settings.setValue("GeoLocationGranted", m_granted[QWebEnginePage::Geolocation]);
-	settings.setValue("GeoLocationDenied", m_denied[QWebEnginePage::Geolocation]);
+	settings.setValue("GeoLocationGranted", m_granted[Engine::WebPage::Geolocation]);
+	settings.setValue("GeoLocationDenied", m_denied[Engine::WebPage::Geolocation]);
 
-	settings.setValue("MediaAudioCaptureGranted", m_granted[QWebEnginePage::MediaAudioCapture]);
-	settings.setValue("MediaAudioCaptureDenied", m_denied[QWebEnginePage::MediaAudioCapture]);
+	settings.setValue("MediaAudioCaptureGranted", m_granted[Engine::WebPage::MediaAudioCapture]);
+	settings.setValue("MediaAudioCaptureDenied", m_denied[Engine::WebPage::MediaAudioCapture]);
 
-	settings.setValue("MediaVideoCaptureGranted", m_granted[QWebEnginePage::MediaVideoCapture]);
-	settings.setValue("MediaVideoCaptureDenied", m_denied[QWebEnginePage::MediaVideoCapture]);
+	settings.setValue("MediaVideoCaptureGranted", m_granted[Engine::WebPage::MediaVideoCapture]);
+	settings.setValue("MediaVideoCaptureDenied", m_denied[Engine::WebPage::MediaVideoCapture]);
 
-	settings.setValue("MediaAudioVideoCaptureGranted", m_granted[QWebEnginePage::MediaAudioVideoCapture]);
-	settings.setValue("MediaAudioVideoCaptureDenied", m_denied[QWebEnginePage::MediaAudioVideoCapture]);
+	settings.setValue("MediaAudioVideoCaptureGranted", m_granted[Engine::WebPage::MediaAudioVideoCapture]);
+	settings.setValue("MediaAudioVideoCaptureDenied", m_denied[Engine::WebPage::MediaAudioVideoCapture]);
 
-	settings.setValue("MouseLockGranted", m_granted[QWebEnginePage::MouseLock]);
-	settings.setValue("MouseLockDenied", m_denied[QWebEnginePage::MouseLock]);
+	settings.setValue("MouseLockGranted", m_granted[Engine::WebPage::MouseLock]);
+	settings.setValue("MouseLockDenied", m_denied[Engine::WebPage::MouseLock]);
 
 	settings.endGroup();
 
@@ -202,51 +202,51 @@ void HTML5PermissionsDialog::loadSettings()
 
 	settings.beginGroup("HTML5-Permissions");
 
-	m_granted[QWebEnginePage::Notifications] = settings.value("NotificationsGranted", QStringList()).toStringList();
-	m_denied[QWebEnginePage::Notifications] = settings.value("NotificationDenied", QStringList()).toStringList();
+	m_granted[Engine::WebPage::Notifications] = settings.value("NotificationsGranted", QStringList()).toStringList();
+	m_denied[Engine::WebPage::Notifications] = settings.value("NotificationDenied", QStringList()).toStringList();
 
-	m_granted[QWebEnginePage::Geolocation] = settings.value("GeoLocationGranted", QStringList()).toStringList();
-	m_denied[QWebEnginePage::Geolocation] = settings.value("GeoLocationDenied", QStringList()).toStringList();
+	m_granted[Engine::WebPage::Geolocation] = settings.value("GeoLocationGranted", QStringList()).toStringList();
+	m_denied[Engine::WebPage::Geolocation] = settings.value("GeoLocationDenied", QStringList()).toStringList();
 
-	m_granted[QWebEnginePage::MediaAudioCapture] =
+	m_granted[Engine::WebPage::MediaAudioCapture] =
 		settings.value("MediaAudioCaptureGranted", QStringList()).toStringList();
-	m_denied[QWebEnginePage::MediaAudioCapture] =
+	m_denied[Engine::WebPage::MediaAudioCapture] =
 		settings.value("MediaAudioCaptureDenied", QStringList()).toStringList();
 
-	m_granted[QWebEnginePage::MediaVideoCapture] =
+	m_granted[Engine::WebPage::MediaVideoCapture] =
 		settings.value("MediaVideoCaptureGranted", QStringList()).toStringList();
-	m_denied[QWebEnginePage::MediaVideoCapture] =
+	m_denied[Engine::WebPage::MediaVideoCapture] =
 		settings.value("MediaVideoCaptureDenied", QStringList()).toStringList();
 
-	m_granted[QWebEnginePage::MediaAudioVideoCapture] =
+	m_granted[Engine::WebPage::MediaAudioVideoCapture] =
 		settings.value("MediaAudioVideoCaptureGranted", QStringList()).toStringList();
-	m_denied[QWebEnginePage::MediaAudioVideoCapture] =
+	m_denied[Engine::WebPage::MediaAudioVideoCapture] =
 		settings.value("MediaAudioVideoCaptureDenied", QStringList()).toStringList();
 
-	m_granted[QWebEnginePage::MouseLock] = settings.value("MouseLockGranted", QStringList()).toStringList();
-	m_denied[QWebEnginePage::MouseLock] = settings.value("MouseLockDenied", QStringList()).toStringList();
+	m_granted[Engine::WebPage::MouseLock] = settings.value("MouseLockGranted", QStringList()).toStringList();
+	m_denied[Engine::WebPage::MouseLock] = settings.value("MouseLockDenied", QStringList()).toStringList();
 
 	settings.endGroup();
 }
 
-QWebEnginePage::Feature HTML5PermissionsDialog::currentFeature() const
+Engine::WebPage::Feature HTML5PermissionsDialog::currentFeature() const
 {
 	switch (m_feature->currentIndex()) {
 	case 0:
-		return QWebEnginePage::Notifications;
+		return Engine::WebPage::Notifications;
 	case 1:
-		return QWebEnginePage::Geolocation;
+		return Engine::WebPage::Geolocation;
 	case 2:
-		return QWebEnginePage::MediaVideoCapture;
+		return Engine::WebPage::MediaVideoCapture;
 	case 3:
-		return QWebEnginePage::MediaVideoCapture;
+		return Engine::WebPage::MediaVideoCapture;
 	case 4:
-		return QWebEnginePage::MediaAudioVideoCapture;
+		return Engine::WebPage::MediaAudioVideoCapture;
 	case 5:
-		return QWebEnginePage::MouseLock;
+		return Engine::WebPage::MouseLock;
 	default:
 		Q_UNREACHABLE();
-		return QWebEnginePage::Notifications;
+		return Engine::WebPage::Notifications;
 	}
 }
 

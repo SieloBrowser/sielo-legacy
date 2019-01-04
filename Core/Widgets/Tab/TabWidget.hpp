@@ -163,7 +163,7 @@ public slots:
 
 	void showInspector(WebTab* webTab = nullptr);
 
-	void fullScreenRequested(Engine::FullScreenRequest request);
+	void fullScreenRequested(Engine::FullScreenRequest& request);
 	void toggleFullScreen();
 
 	void moveAddTabButton(int posX);

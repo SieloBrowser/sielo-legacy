@@ -43,4 +43,43 @@ bool WebHistory::canGoForward() const
 	return m_history->canGoForward();
 }
 
+QUrl WebHistory::backUrl() const
+{
+	return m_history->backItem().url();
+}
+
+QUrl WebHistory::forwardUrl() const
+{
+	return m_history->forwardItem().url();
+}
+
+int WebHistory::itemCount() const
+{
+	return m_history->items().count();
+}
+
+void WebHistory::back()
+{
+	m_history->back();
+}
+
+void WebHistory::forward()
+{
+	m_history->forward();
+}
+
+QDataStream& operator<<(QDataStream& stream, const WebHistory& item)
+{
+	stream << item.m_history;
+
+	return stream;
+}
+
+QDataStream& operator>>(QDataStream& stream, WebHistory& item)
+{
+	stream >> *item.m_history;
+
+	return stream;
+}
+
 }

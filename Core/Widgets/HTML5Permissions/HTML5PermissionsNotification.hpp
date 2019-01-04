@@ -31,7 +31,8 @@
 #include <QHBoxLayout>
 
 #include <QWidget>
-#include <QWebEnginePage>
+
+#include <QWebEngine/WebPage.hpp>
 
 #include <QLabel>
 #include <QCheckBox>
@@ -46,7 +47,7 @@ class SIELO_SHAREDLIB HTML5PermissionsNotification: public QWidget {
 Q_OBJECT
 
 public:
-	HTML5PermissionsNotification(const QUrl& origin, QWebEnginePage* page, const QWebEnginePage::Feature& feature);
+	HTML5PermissionsNotification(const QUrl& origin, Engine::WebPage* page, const Engine::WebPage::Feature& feature);
 	~HTML5PermissionsNotification();
 
 private slots:
@@ -65,8 +66,8 @@ private:
 	QPushButton* m_denyButton{nullptr};
 
 	QUrl m_origin{};
-	QWebEnginePage* m_page{nullptr};
-	QWebEnginePage::Feature m_feature;
+	Engine::WebPage* m_page{nullptr};
+	Engine::WebPage::Feature m_feature;
 
 };
 }
