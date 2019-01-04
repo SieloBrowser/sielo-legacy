@@ -135,9 +135,9 @@ QIcon WebView::icon(bool allowNull) const
 bool WebView::event(QEvent* event)
 {
 	if (event->type() == QEvent::ChildAdded) {
-		QChildEvent* child_ev{static_cast<QChildEvent*>(event)};
+		QChildEvent* child_ev{dynamic_cast<QChildEvent*>(event)};
 
-		QOpenGLWidget* widget{static_cast<QOpenGLWidget*>(child_ev->child())};
+		QOpenGLWidget* widget{dynamic_cast<QOpenGLWidget*>(child_ev->child())};
 
 		if (widget) {
 			m_child = widget;
@@ -156,16 +156,16 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 	if (watched == m_child) {
 		switch (event->type()) {
 		case QEvent::Wheel:
-			newWheelEvent(static_cast<QWheelEvent*>(event));
+			newWheelEvent(dynamic_cast<QWheelEvent*>(event));
 			break;
 		case QEvent::MouseButtonPress:
-			newMousePressEvent(static_cast<QMouseEvent*>(event));
+			newMousePressEvent(dynamic_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::MouseButtonRelease:
-			newMouseReleaseEvent(static_cast<QMouseEvent*>(event));
+			newMouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::MouseMove:
-			newMouseMoveEvent(static_cast<QMouseEvent*>(event));
+			newMouseMoveEvent(dynamic_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::FocusIn:
 			emit focusChanged(true);

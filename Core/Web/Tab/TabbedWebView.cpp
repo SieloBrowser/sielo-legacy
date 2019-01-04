@@ -247,6 +247,9 @@ void TabbedWebView::newMousePressEvent(QMouseEvent* event)
 //		m_webTab->floatingButton()->hideChildren();
 //	}
 
+	if (m_webTab->tabWidget())
+		emit m_webTab->tabWidget()->focusIn(m_webTab->tabWidget());
+
 	WebView::newMousePressEvent(event);
 }
 
@@ -410,9 +413,6 @@ void TabbedWebView::enterEvent(QEvent* event)
 	event->accept();
 
 	m_cursorIn = true;
-
-	if (m_webTab->tabWidget())
-		emit m_webTab->tabWidget()->focusIn(m_webTab->tabWidget());
 }
 
 void TabbedWebView::leaveEvent(QEvent* event)

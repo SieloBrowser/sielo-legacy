@@ -57,6 +57,8 @@ TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		m_bookmarksToolbar->show();
 	else
 		m_bookmarksToolbar->hide();
+
+	m_window->setCaption(m_moveControlWidget);
 }
 
 void TitleBar::setShowBookmark(bool show)
@@ -195,8 +197,8 @@ void TitleBar::setupUI()
 	m_navigationToolBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 
 	m_moveControlWidget = new QWidget(this);
+	m_moveControlWidget->setObjectName("titlebar-movecontrol");
 	m_moveControlWidget->setFixedWidth(64);
-	m_moveControlWidget->setStyleSheet("background: magenta;");
 
 	m_layout->addWidget(m_bookmarksToolbar);
 	m_layout->addWidget(m_navigationToolBar);
