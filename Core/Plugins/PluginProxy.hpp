@@ -32,6 +32,8 @@
 
 #include <QWebEngine/WebPage.hpp>
 
+#include "Web/WebPage.hpp"
+
 #include "Plugins/Plugins.hpp"
 #include "Application.hpp"
 
@@ -39,7 +41,6 @@ namespace Sn
 {
 
 class WebView;
-class WebPage;
 class WebTab;
 class TabWidget;
 class WebHitTestResult;

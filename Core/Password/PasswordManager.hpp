@@ -130,6 +130,6 @@ private:
 
 Q_DECLARE_TYPEINFO(Sn::PasswordEntry, Q_MOVABLE_TYPE);
 
-Q_DECLARE_METATYPE(Sn::PasswordEntry);
+Q_DECLARE_METATYPE(Sn::PasswordEntry)
 
 #endif //SIELO_BROWSER_PASSWORDMANAGER_HPP
