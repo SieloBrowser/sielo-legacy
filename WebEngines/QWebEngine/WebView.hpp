@@ -29,17 +29,45 @@
 
 #include <QtWebEngineWidgets/QWebEngineView>
 
+#include <QPointer>
+#include <QOpenGLWidget>
+
+#include <QEvent>
+#include <QWheelEvent>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include <QContextMenuEvent>
+
 #include "WebHistory.hpp"
 
-namespace Engine {
+namespace Engine
+{
 class WebView: public QWebEngineView {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	WebView(QWidget* parent = nullptr);
 	~WebView() = default;
 
+	bool eventFilter(QObject* watched, QEvent* event) override;
+
 	WebHistory* history() const;
+	QWidget* inputWidget() const;
+
+signals:
+	void focusChanged(bool);
+
+protected:
+	virtual void newWheelEvent(QWheelEvent* event) {}
+	virtual void newMousePressEvent(QMouseEvent* event) {}
+	virtual void newMouseReleaseEvent(QMouseEvent* event) {}
+	virtual void newMouseMoveEvent(QMouseEvent* event) {}
+	virtual void newKeyPressEvent(QKeyEvent* event) {}
+	virtual void newKeyReleaseEvent(QKeyEvent* event) {}
+	virtual void newContextMenuEvent(QContextMenuEvent* event) {}
+
+private:
+	QPointer<QWidget> m_child{};
 };
 }
 

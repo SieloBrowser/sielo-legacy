@@ -61,9 +61,6 @@ public:
 	WebView(QWidget* parent = nullptr);
 	~WebView();
 
-	bool event(QEvent* event);
-	bool eventFilter(QObject* watched, QEvent* event);
-
 	QIcon icon(bool allowNull = false) const;
 
 	QString title() const;
@@ -90,7 +87,6 @@ public:
 
 	void addNotification(QWidget* notification);
 
-	QWidget* inputWidget() const;
 	virtual QWidget* overlayWidget() = 0;
 
 	bool isTransparent() const;
@@ -98,7 +94,6 @@ public:
 signals:
 	void pageChanged(WebPage* page);
 	void pageRendering();
-	void focusChanged(bool);
 	void viewportResized(QSize);
 	void privacyChanged(bool);
 	void zoomLevelChanged(int);
@@ -203,8 +198,6 @@ private:
 
 	QLabel* m_zoomLabel{nullptr};
 	QTimer* m_zoomTimer{nullptr};
-
-	QPointer<QOpenGLWidget> m_child{};
 
 	WebPage* m_page{nullptr};
 };

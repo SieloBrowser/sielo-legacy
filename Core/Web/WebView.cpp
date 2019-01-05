@@ -106,10 +106,6 @@ WebView::WebView(QWidget* parent) :
 	m_currentZoomLevel = settings.value("Web-Settings/defaultZoomLevel", WebView::zoomLevels().indexOf(100)).toInt();
 
 	setAcceptDrops(true);
-	installEventFilter(this);
-
-	if (parentWidget())
-		parentWidget()->installEventFilter(this);
 
 	m_zoomLabel = new QLabel(this);
 	m_zoomLabel->setWindowFlags(m_zoomLabel->windowFlags() | Qt::WindowStaysOnTopHint);
@@ -130,102 +126,6 @@ QIcon WebView::icon(bool allowNull) const
 
 	return allowNull ? QIcon() : Application::getAppIcon("webpage");
 
-}
-
-bool WebView::event(QEvent* event)
-{
-	if (event->type() == QEvent::ChildAdded) {
-		QChildEvent* child_ev{dynamic_cast<QChildEvent*>(event)};
-
-		QOpenGLWidget* widget{dynamic_cast<QOpenGLWidget*>(child_ev->child())};
-
-		if (widget) {
-			m_child = widget;
-			widget->installEventFilter(this);
-		}
-	}
-
-	if (event->type() == QEvent::ParentChange && parentWidget())
-		parentWidget()->installEventFilter(this);
-
-	return Engine::WebView::event(event);
-}
-
-bool WebView::eventFilter(QObject* watched, QEvent* event)
-{
-	if (watched == m_child) {
-		switch (event->type()) {
-		case QEvent::Wheel:
-			newWheelEvent(dynamic_cast<QWheelEvent*>(event));
-			break;
-		case QEvent::MouseButtonPress:
-			newMousePressEvent(dynamic_cast<QMouseEvent*>(event));
-			break;
-		case QEvent::MouseButtonRelease:
-			newMouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
-			break;
-		case QEvent::MouseMove:
-			newMouseMoveEvent(dynamic_cast<QMouseEvent*>(event));
-			break;
-		case QEvent::FocusIn:
-			emit focusChanged(true);
-			break;
-		case QEvent::FocusOut:
-			emit focusChanged(false);
-			break;
-		default:
-			break;
-		}
-	}
-
-	if (watched == parentWidget()) {
-		switch (event->type()) {
-		case QEvent::KeyPress:
-			newKeyPressEvent(static_cast<QKeyEvent*>(event));
-			break;
-		case QEvent::KeyRelease:
-			newKeyReleaseEvent(static_cast<QKeyEvent*>(event));
-		default:
-			break;
-		}
-	}
-
-	if (watched == this) {
-		switch (event->type()) {
-		case QEvent::KeyPress:
-		case QEvent::KeyRelease:
-		case QEvent::MouseButtonPress:
-		case QEvent::MouseButtonRelease:
-		case QEvent::MouseMove:
-		case QEvent::Wheel:
-			return true;
-
-		case QEvent::Hide:
-			if (isFullScreen()) {
-				triggerPageAction(Engine::WebPage::ExitFullScreen);
-			}
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	const bool res = Engine::WebView::eventFilter(watched, event);
-
-	if (watched == m_child) {
-		switch (event->type()) {
-		case QEvent::FocusIn:
-		case QEvent::FocusOut:
-			emit focusChanged(hasFocus());
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	return res;
 }
 
 QString WebView::title() const
@@ -390,14 +290,6 @@ void WebView::restoreHistory(const QByteArray& data)
 void WebView::addNotification(QWidget* notification)
 {
 	emit showNotification(notification);
-}
-
-QWidget* WebView::inputWidget() const
-{
-	if (m_child)
-		return m_child;
-	else
-		return const_cast<WebView*>(this);
 }
 
 bool WebView::isTransparent() const
@@ -649,7 +541,7 @@ void WebView::newWheelEvent(QWheelEvent* event)
 				{event->pos(), event->globalPos(), event->pixelDelta(), event->angleDelta() * multiplier, 0,
 				 Qt::Horizontal, event->buttons(), event->modifiers(), event->phase(), event->source(),
 				 event->inverted()};
-			Application::sendEvent(m_child, &newEvent);
+			Application::sendEvent(inputWidget(), &newEvent);
 			event->accept();
 		}
 	}
