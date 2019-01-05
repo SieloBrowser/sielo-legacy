@@ -62,20 +62,18 @@ WebView::WebView(QWidget* parent) :
 bool WebView::eventFilter(QObject* watched, QEvent* event)
 {
 	if (watched->parent() == this) {
-		std::string test = "";
 		switch (event->type()) {
 		case QEvent::Wheel:
-			newWheelEvent(dynamic_cast<QWheelEvent*>(event));
+			newWheelEvent(static_cast<QWheelEvent*>(event));
 			break;
 		case QEvent::MouseButtonPress:
-			test = watched->metaObject()->className();
-			newMousePressEvent(dynamic_cast<QMouseEvent*>(event));
+			newMousePressEvent(static_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::MouseButtonRelease:
-			newMouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
+			newMouseReleaseEvent(static_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::MouseMove:
-			newMouseMoveEvent(dynamic_cast<QMouseEvent*>(event));
+			newMouseMoveEvent(static_cast<QMouseEvent*>(event));
 			break;
 		case QEvent::FocusIn:
 			emit focusChanged(true);
@@ -91,10 +89,10 @@ bool WebView::eventFilter(QObject* watched, QEvent* event)
 	if (watched == parentWidget()) {
 		switch (event->type()) {
 		case QEvent::KeyPress:
-			newKeyPressEvent(dynamic_cast<QKeyEvent*>(event));
+			newKeyPressEvent(static_cast<QKeyEvent*>(event));
 			break;
 		case QEvent::KeyRelease:
-			newKeyReleaseEvent(dynamic_cast<QKeyEvent*>(event));
+			newKeyReleaseEvent(static_cast<QKeyEvent*>(event));
 		default:
 			break;
 		}

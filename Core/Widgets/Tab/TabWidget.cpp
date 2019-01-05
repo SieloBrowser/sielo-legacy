@@ -352,11 +352,9 @@ void TabWidget::currentTabChanged(int index)
 	disconnect(oldTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 	connect(currentTab->webView()->page(), &WebPage::fullScreenRequested, this, &TabWidget::fullScreenRequested);
 
-	if (Application::instance()->useTopToolBar()) {
-		AddressBar* addressBar = currentTab->addressBar();
-		if (addressBar && m_window->titleBar()->addressBars()->indexOf(addressBar) != -1)
-			m_window->titleBar()->addressBars()->setCurrentWidget(addressBar);
-	}
+	AddressBar* addressBar = currentTab->addressBar();
+	if (addressBar && m_window->titleBar()->addressBars()->indexOf(addressBar) != -1)
+		m_window->titleBar()->addressBars()->setCurrentWidget(addressBar);
 
 	m_lastBackgroundTab = nullptr;
 	m_currentTabFresh = false;
@@ -454,8 +452,7 @@ void TabWidget::detachTab(WebTab* tab)
 	if (count() == 1 && m_window->tabsSpaceSplitter()->count() == 1 && Application::instance()->windowCount() == 1)
 		return;
 
-	if (Application::instance()->useTopToolBar())
-		m_window->titleBar()->addressBars()->removeWidget(tab->addressBar());
+	m_window->titleBar()->addressBars()->removeWidget(tab->addressBar());
 
 	disconnect(tab->webView(), &TabbedWebView::wantsCloseTab, this, &TabWidget::closeTab);
 	disconnect(tab->webView(), SIGNAL(urlChanged(QUrl)), this, SIGNAL(changed()));
@@ -519,8 +516,8 @@ int TabWidget::addView(const LoadRequest& request, const QString& title, const A
 	WebTab* webTab{new WebTab(this)};
 	webTab->setPinned(pinned);
 	webTab->addressBar()->showUrl(url);
-	if (Application::instance()->useTopToolBar())
-		m_window->titleBar()->addressBars()->addWidget(webTab->addressBar());
+	
+	m_window->titleBar()->addressBars()->addWidget(webTab->addressBar());
 
 	int index{insertTab(position == -1 ? count() : position, webTab, QString(), pinned)};
 
@@ -568,8 +565,7 @@ int TabWidget::addView(WebTab* tab, const Application::NewTabTypeFlags& openFlag
 
 int TabWidget::insertView(int index, WebTab* tab, const Application::NewTabTypeFlags& openFlags)
 {
-	if (Application::instance()->useTopToolBar())
-		m_window->titleBar()->addressBars()->addWidget(tab->addressBar());
+	m_window->titleBar()->addressBars()->addWidget(tab->addressBar());
 
 	int newIndex{insertTab(index, tab, QString(), tab->isPinned())};
 

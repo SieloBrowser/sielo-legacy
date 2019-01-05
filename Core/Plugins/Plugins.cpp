@@ -74,11 +74,9 @@ bool Plugins::loadPlugin(Plugin* plugin)
 	refreshLoadedPlugins();
 
 	if (plugin->isLoaded()) {
-		if (Application::instance()->useTopToolBar()) {
-			foreach(BrowserWindow* window, Application::instance()->windows())
-			{
-				window->titleBar()->navigationToolBar()->addExtensionAction(plugin->instance->navigationBarButton(window));
-			}
+		foreach(BrowserWindow* window, Application::instance()->windows())
+		{
+			window->titleBar()->navigationToolBar()->addExtensionAction(plugin->instance->navigationBarButton(window));
 		}
 	}
 

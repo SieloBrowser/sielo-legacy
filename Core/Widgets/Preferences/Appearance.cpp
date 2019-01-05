@@ -83,7 +83,7 @@ AppearancePage::AppearancePage(QWidget* parent, PreferencesDialog* preferencesDi
 	connect(m_secondColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
 	connect(m_accentColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
 	connect(m_textColorButton, &QPushButton::clicked, this, &AppearancePage::getColor);
-	connect(m_useRealToolBar, &QCheckBox::toggled, this, &AppearancePage::useRealToolBarChanged);
+	connect(m_showFloatingButton, &QCheckBox::toggled, this, &AppearancePage::showFloatingButtonChanged);
 	connect(m_tabsSpacesPadding, &QSlider::valueChanged, this, &AppearancePage::tabsSpacesPaddingValueChanged);
 	connect(m_blurFilterRadius, &QSlider::valueChanged, this, &AppearancePage::blurFilterRadiusValueChanged);
 	connect(m_backgroundLocationButton, &QPushButton::clicked, this, &AppearancePage::backgroundLocationClicked);
@@ -112,13 +112,12 @@ void AppearancePage::save()
 			                     "Be aware, if you only load theme's icons, floating button will disappear. You should disable floating button when you don't load full theme."));
 	}
 
-	settings.setValue(QLatin1String("useTopToolBar"), m_useRealToolBar->isChecked());
+	settings.setValue(QLatin1String("showFloatingButton"), m_showFloatingButton->isChecked());
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
-	                  m_useRealToolBar->isChecked() ? false : m_floatingButtonFoloweMouse->isChecked());
+					  m_showFloatingButton->isChecked() ? m_floatingButtonFoloweMouse->isChecked() : false);
 	settings
 		.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
 		          m_hideBookmarksHistoryActionsByDefault->isChecked());
-	settings.setValue("showActiveTabsSpace", m_showActiveTabsSpace->isChecked());
 
 	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
 	settings.setValue(QLatin1String("repeatBackground"), m_repeatBackground->isChecked());
@@ -267,11 +266,11 @@ void AppearancePage::getColor()
 	}
 }
 
-void AppearancePage::useRealToolBarChanged(bool enabled)
+void AppearancePage::showFloatingButtonChanged(bool enabled)
 {
 	Q_UNUSED(enabled);
-	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
-	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
+	m_floatingButtonFoloweMouse->setEnabled(m_showFloatingButton->isChecked());
+	m_hideBookmarksHistoryActionsByDefault->setEnabled(!m_showFloatingButton->isChecked());
 }
 
 AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
@@ -337,18 +336,17 @@ void AppearancePage::loadSettings()
 	m_fullyLoadThemes
 		->setChecked(settings.value(QLatin1String("fullyLoadThemes"), Application::instance()->fullyLoadThemes())
 		                     .toBool());
-	m_useRealToolBar
+	m_showFloatingButton
 		->setChecked(
-			settings.value(QLatin1String("useTopToolBar"), Application::instance()->useTopToolBar()).toBool());
+			settings.value(QLatin1String("showFloatingButton"), Application::instance()->showFloatingButton()).toBool());
 	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
 	                                                                  Application::instance()
 	                                                                  ->hideBookmarksHistoryActions()).toBool());
 	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
 	                                                       Application::instance()->floatingButtonFoloweMouse())
 	                                                .toBool());
-	m_floatingButtonFoloweMouse->setEnabled(!m_useRealToolBar->isChecked());
-	m_hideBookmarksHistoryActionsByDefault->setEnabled(m_useRealToolBar->isChecked());
-	m_showActiveTabsSpace->setChecked(settings.value("showActiveTabsSpace", true).toBool());
+	m_floatingButtonFoloweMouse->setEnabled(m_showFloatingButton->isChecked());
+	m_hideBookmarksHistoryActionsByDefault->setEnabled(!m_showFloatingButton->isChecked());
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
@@ -486,12 +484,12 @@ void AppearancePage::setupUI()
 	m_textColorButton = new QPushButton(tr("Text Color"), m_themeColorsBox);
 
 	m_fullyLoadThemes = new QCheckBox(tr("Fully load theme (otherwise it will only load theme's icons)"));
-	m_useRealToolBar = new QCheckBox(tr("Use real toolbar instead of floating button"), this);
+	
+	m_showFloatingButton = new QCheckBox(tr("Show Floating Button"), this);
+	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
 	m_hideBookmarksHistoryActionsByDefault =
 		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
-	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
-	m_showActiveTabsSpace = new QCheckBox(tr("Visually show active tabs space with borders"));
-
+	
 	m_tabsSpacesPaddingLabel = new QLabel(tr("Tabs spaces padding (in px)"), this);
 	m_tabsSpacesPadding = new QSlider(Qt::Horizontal, this);
 	m_tabsSpacesPadding->setMinimum(0);
@@ -542,10 +540,9 @@ void AppearancePage::setupUI()
 	m_themePageLayout->addWidget(m_themeBox);
 	m_themePageLayout->addWidget(m_fullyLoadThemes);
 
-	m_advancedPageLayout->addWidget(m_useRealToolBar);
-	m_advancedPageLayout->addWidget(m_hideBookmarksHistoryActionsByDefault);
+	m_advancedPageLayout->addWidget(m_showFloatingButton);
 	m_advancedPageLayout->addWidget(m_floatingButtonFoloweMouse);
-	m_advancedPageLayout->addWidget(m_showActiveTabsSpace);
+	m_advancedPageLayout->addWidget(m_hideBookmarksHistoryActionsByDefault);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPaddingLabel);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
 	m_advancedPageLayout->addWidget(m_repeatBackground);

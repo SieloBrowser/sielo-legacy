@@ -249,7 +249,7 @@ public:
 	PiwikTracker *piwikTraker() { return m_piwikTracker; }
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
-	bool useTopToolBar() const { return m_useTopToolBar; }
+	bool showFloatingButton() const { return m_showFloatingButton; }
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
@@ -337,7 +337,7 @@ private:
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
 	bool m_fullyLoadThemes{true};
-	bool m_useTopToolBar{false};
+	bool m_showFloatingButton{false};
 	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};
 	bool m_databaseConnected{false};

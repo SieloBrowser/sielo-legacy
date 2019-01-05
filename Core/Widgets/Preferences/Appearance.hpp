@@ -72,7 +72,7 @@ private slots:
 	void openGallery();
 	void addTheme();
 	void getColor();
-	void useRealToolBarChanged(bool enabled);
+	void showFloatingButtonChanged(bool enabled);
 
 private:
 	struct Theme {
@@ -130,10 +130,10 @@ private:
 	QPushButton* m_textColorButton{nullptr};
 
 	QCheckBox* m_fullyLoadThemes{nullptr};
-	QCheckBox* m_useRealToolBar{nullptr};
-	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
+
+	QCheckBox* m_showFloatingButton{nullptr};
 	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
-	QCheckBox* m_showActiveTabsSpace{nullptr};
+	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
 
 	QLabel* m_tabsSpacesPaddingLabel{nullptr};
 	QSlider* m_tabsSpacesPadding{nullptr};

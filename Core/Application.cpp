@@ -406,7 +406,7 @@ void Application::loadSettings()
 
 	// General Sielo settings
 	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
-	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
+	m_showFloatingButton = settings.value("Settings/showFloatingButton", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 

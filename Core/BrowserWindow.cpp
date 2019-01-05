@@ -53,6 +53,7 @@
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/CheckBoxDialog.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
@@ -251,9 +252,9 @@ void BrowserWindow::loadSettings()
 	// There is two possibility: the user use the floating button or not. 
 	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
 	if (m_tabsSpaceSplitter->count() > 0) {
-		if (!Application::instance()->useTopToolBar() && !m_fButton)
+		if (Application::instance()->showFloatingButton() && !m_fButton)
 			setupFloatingButton();
-		else if (Application::instance()->useTopToolBar() && m_fButton) {
+		else if (!Application::instance()->showFloatingButton() && m_fButton) {
 			delete m_fButton;
 			m_fButton = nullptr;
 		}
@@ -662,9 +663,9 @@ void BrowserWindow::postLaunch()
 
 	tabWidget()->tabBar()->ensureVisible();
 
-	if (!Application::instance()->useTopToolBar() && !m_fButton)
+	if (Application::instance()->showFloatingButton() && !m_fButton)
 		setupFloatingButton();
-	else if (Application::instance()->useTopToolBar() && m_fButton) {
+	else if (!Application::instance()->showFloatingButton() && m_fButton) {
 		delete m_fButton;
 		m_fButton = nullptr;
 	}
@@ -681,10 +682,17 @@ void BrowserWindow::postLaunch()
 #ifndef QT_DEBUG
 		Application::instance()->piwikTraker()->sendEvent("installation", "installation", "installation", "new installation");
 #endif
-		NavigationControlDialog* navigationControlDialog{new NavigationControlDialog(this)};
-		navigationControlDialog->exec();
+		CheckBoxDialog dialog(QMessageBox::Ok, this);
+		dialog.setWindowTitle(tr("Floating Button"));
+		dialog.setText(tr("Do you want to enable floating button? This button can always be enable/disable later in settings."));
+		dialog.setCheckBoxText(tr("Enable"));
+		dialog.setIcon(QMessageBox::Information);
+		dialog.exec();
 
+		settings.setValue("Settings/showFloatingButton", dialog.isChecked());
 		settings.setValue("installed", true);
+
+		Application::instance()->loadSettings();
 	}
 }
 

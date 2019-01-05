@@ -194,8 +194,6 @@ void TabsSpaceSplitter::loadSettings()
 
 	m_tabsSpacePadding = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 	const bool showBookmarksToolBar{settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool()};
-	const bool showActiveTabsSpace = settings.value("Settings/showActiveTabsSpace", true).toBool();
-
 	// We can apply a padding between tabs space, exactly like i3 gaps
 	foreach(TabWidget* tabWidget, m_tabWidgets)
 	{
@@ -208,8 +206,7 @@ void TabsSpaceSplitter::loadSettings()
 			tabWidget->parentWidget()->setContentsMargins(m_tabsSpacePadding, m_tabsSpacePadding,
 														  m_tabsSpacePadding, m_tabsSpacePadding);
 
-		if (tabWidget == m_currentTabWidget && showActiveTabsSpace)
-			tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+		tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 }
 
@@ -430,12 +427,10 @@ int TabsSpaceSplitter::horizontalCount() const
 
 void TabsSpaceSplitter::currentTabWidgetChanged(TabWidget* current)
 {
-	if (Settings().value("Settings/showActiveTabsSpace", true).toBool()) {
-		if (m_currentTabWidget)
+	if (m_currentTabWidget)
 			m_currentTabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
-		current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
-	}
+	current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 
 	m_currentTabWidget = current;
 }
