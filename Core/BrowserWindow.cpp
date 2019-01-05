@@ -884,9 +884,30 @@ void BrowserWindow::saveButtonState()
 	fButtonFile.close();
 }
 
-void BrowserWindow::setCaption(const QWidget* widget)
+void BrowserWindow::addCaption(const QWidget* widget)
 {
-	m_captionWidget = widget;
+	if (!isCaption(widget)) {
+		m_captionWidgets.push_back(widget);
+	}
+}
+
+void BrowserWindow::removeCaption(const QWidget* widget)
+{
+	for (int i = 0; i < m_captionWidgets.length(); i++) {
+		if (m_captionWidgets[i] == widget) {
+			m_captionWidgets.removeAt(i);
+			return;
+		}
+	}
+}
+
+bool BrowserWindow::isCaption(const QWidget* widget)
+{
+	for (int i = 0; i < m_captionWidgets.length(); i++) {
+		if (m_captionWidgets[i] == widget)
+			return true;
+	}
+	return false;
 }
 
 #ifdef Q_OS_WIN
@@ -938,8 +959,9 @@ long BrowserWindow::ncHitTest(const MSG* wMsg) const
 	RECT rcWin;
 	GetWindowRect(wMsg->hwnd, &rcWin);
 
-	if (m_captionWidget == QApplication::widgetAt(QCursor::pos()))
-		return HTCAPTION;
+	for (const auto &e : m_captionWidgets)
+		if (e == QApplication::widgetAt(QCursor::pos()))
+			return HTCAPTION;
 
 	RECT rcFrame = {0};
 	AdjustWindowRectEx(&rcFrame, WS_OVERLAPPEDWINDOW & ~WS_CAPTION, FALSE, NULL);

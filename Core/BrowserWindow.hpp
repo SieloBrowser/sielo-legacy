@@ -132,7 +132,9 @@ public:
 	const QImage* background();
 	const QImage* processedBackground();
 
-	void setCaption(const QWidget* widget);
+	void addCaption(const QWidget* widget);
+	void removeCaption(const QWidget* widget);
+	bool isCaption(const QWidget* widget);
 
 signals:
 	void mouseOver(bool state);
@@ -185,7 +187,7 @@ private:
 	long ncHitTest(const MSG* wMsg) const;
 #endif
 
-	const QWidget *m_captionWidget{ nullptr };
+	QVector<const QWidget*> m_captionWidgets;
 
 	QAction* m_restoreAction{nullptr};
 
