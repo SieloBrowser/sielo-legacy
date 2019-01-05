@@ -57,15 +57,15 @@ public:
 
 	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 
-	bool isWindowMaximized() const;
-
 	QWidget* control() const { return m_moveControlWidget; }
 	QStackedWidget* addressBars() const { return m_addressBars; }
 
 private slots:
 	void closeWindow();
-	void toggleMaximize(bool forceMaximize = false);
+	void toggleMaximize();
 	void minimize();
+
+	void maximizeChanged(bool maximized, QSize oldSize);
 
 private:
 	void setupUI();

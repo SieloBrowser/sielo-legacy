@@ -32,6 +32,7 @@
 #include <QAction>
 
 #include <QClipboard>
+#include <QDesktopWidget>
 
 #include <QTimer>
 #include <QMessageBox>
@@ -538,6 +539,13 @@ void BrowserWindow::resizeEvent(QResizeEvent* event)
 							m_fButton->y() - (event->oldSize().height() - event->size().height()));
 		}
 	}
+
+	QRect screeRect{QApplication::desktop()->availableGeometry(this)};
+
+	if (event->oldSize() == screeRect.size() && event->size() != screeRect.size())
+		emit maximizeChanged(false, event->oldSize());
+	else if (event->oldSize() != screeRect.size() && event->size() == screeRect.size())
+		emit maximizeChanged(true, event->oldSize());
 
 	QMainWindow::resizeEvent(event);
 

@@ -140,6 +140,8 @@ signals:
 	void mouseOver(bool state);
 	void tabWidgetChanged(TabWidget* tabWidget);
 
+	void maximizeChanged(bool maximized, QSize oldSize);
+
 public slots:
 	void setWindowTitle(const QString& title);
 
