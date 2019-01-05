@@ -200,14 +200,14 @@ void TabsSpaceSplitter::loadSettings()
 		tabWidget->loadSettings();
 		tabWidget->updateShowBookmarksBarText(showBookmarksToolBar);
 
-		tabWidget->parentWidget()->setStyleSheet("");
+		tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
 		if (tabWidget->parentWidget())
 			tabWidget->parentWidget()->setContentsMargins(m_tabsSpacePadding, m_tabsSpacePadding,
 														  m_tabsSpacePadding, m_tabsSpacePadding);
 
 		if (tabWidget == m_currentTabWidget && showActiveTabsSpace)
-			tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+			tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 }
 
@@ -430,9 +430,9 @@ void TabsSpaceSplitter::currentTabWidgetChanged(TabWidget* current)
 {
 	if (Settings().value("Settings/showActiveTabsSpace", true).toBool()) {
 		if (m_currentTabWidget)
-			m_currentTabWidget->parentWidget()->setStyleSheet("");
+			m_currentTabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
-		current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+		current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 
 	m_currentTabWidget = current;
@@ -535,6 +535,8 @@ QWidget* TabsSpaceSplitter::tabWidgetContainer(TabWidget* tabWidget)
 	connect(tabWidget, &TabWidget::focusIn, m_window, &BrowserWindow::tabWidgetIndexChanged);
 	connect(m_window->titleBar(), &TitleBar::toggleBookmarksBar, tabWidget,
 			&TabWidget::updateShowBookmarksBarText);
+
+	tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
 	return widget;
 }
