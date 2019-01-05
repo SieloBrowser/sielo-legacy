@@ -232,6 +232,7 @@ BrowserWindow::BrowserWindow(Application::WindowType type, const QUrl& url) :
 
 	// Just wait some milli seconds before doing some post launch action
 	QTimer::singleShot(10, this, &BrowserWindow::postLaunch);
+
 }
 
 BrowserWindow::~BrowserWindow()
@@ -264,6 +265,7 @@ void BrowserWindow::loadSettings()
 
 	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
 	m_titleBar->setShowBookmark(showBookmarksToolBar);
+
 }
 
 void BrowserWindow::loadWallpaperSettings()
@@ -306,17 +308,21 @@ void BrowserWindow::loadWallpaperSettings()
 
 		m_currentBackground = newBackground;
 		m_upd_ss = true; // Citorva will explain this.
-	}
+    }
+#ifdef Q_OS_MAC
+
+    Cocoa::changeTitleBarColor(this->winId(), 0.188, 0.239, 0.290, 0.1);
+#endif
 }
 
 void BrowserWindow::setStartTab(WebTab* tab)
 {
-	m_startTab = tab;
+    m_startTab = tab;
 }
 
 void BrowserWindow::setStartPage(WebPage* page)
 {
-	m_startPage = page;
+    m_startPage = page;
 }
 
 void BrowserWindow::restoreWindowState(const SavedWindow& window)
@@ -330,7 +336,7 @@ void BrowserWindow::restoreWindowState(const SavedWindow& window)
 
 	m_tabsSpaceSplitter->autoResize();
 
-	loadSettings();
+    loadSettings();
 }
 
 void BrowserWindow::currentTabChanged(WebTab* tab)
@@ -340,7 +346,7 @@ void BrowserWindow::currentTabChanged(WebTab* tab)
 
 	setWindowTitle(tr("%1 - Sielo").arg(tab->title()));
 
-	tab->webView()->setFocus();
+    tab->webView()->setFocus();
 }
 
 void BrowserWindow::loadUrl(const QUrl& url)
@@ -353,32 +359,32 @@ void BrowserWindow::loadUrl(const QUrl& url)
 	else {
 		tabWidget()->webTab()->webView()->setFocus();
 		tabWidget()->webTab()->webView()->load(url);
-	}
+    }
 }
 
 void BrowserWindow::loadUrlInNewTab(const QUrl& url)
 {
-	tabWidget()->addView(url);
+    tabWidget()->addView(url);
 }
 
 TabWidget *BrowserWindow::tabWidget() const
 {
-	return m_tabsSpaceSplitter->tabWidget();
+    return m_tabsSpaceSplitter->tabWidget();
 }
 
 TabWidget *BrowserWindow::tabWidget(int index) const
 {
-	return m_tabsSpaceSplitter->tabWidget(index);
+    return m_tabsSpaceSplitter->tabWidget(index);
 }
 
 const QImage *BrowserWindow::background()
 {
-	return m_bg;
+    return m_bg;
 }
 
 const QImage *BrowserWindow::processedBackground()
 {
-	return m_blur_bg;
+    return m_blur_bg;
 }
 
 void BrowserWindow::setWindowTitle(const QString& title)
@@ -392,7 +398,7 @@ void BrowserWindow::setWindowTitle(const QString& title)
 	if (m_titleBar)
 		m_titleBar->setTitle(t);
 
-	QMainWindow::setWindowTitle(t);
+    QMainWindow::setWindowTitle(t);
 }
 
 void BrowserWindow::enterHtmlFullScreen()
@@ -405,19 +411,19 @@ void BrowserWindow::toggleFullScreen()
 	if (isFullScreen())
 		showNormal();
 	else
-		showFullScreen();
+        showFullScreen();
 }
 
 void BrowserWindow::bookmarkPage()
 {
 	TabbedWebView* view{tabWidget()->webTab()->webView()};
 
-	BookmarksUtils::addBookmarkDialog(this, view->url(), view->title());
+    BookmarksUtils::addBookmarkDialog(this, view->url(), view->title());
 }
 
 void BrowserWindow::bookmarkAllTabs()
 {
-	BookmarksUtils::bookmarkAllTabsDialog(this, tabWidget());
+    BookmarksUtils::bookmarkAllTabsDialog(this, tabWidget());
 }
 
 void BrowserWindow::addBookmark(const QUrl& url, const QString& title)
