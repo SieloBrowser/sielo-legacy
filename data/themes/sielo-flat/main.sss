@@ -2,7 +2,7 @@
  * Tab bar & tab rules
  */
 
-QTabBar {
+ QTabBar {
   background: scolor(second);
   border: none;
 }
@@ -223,6 +223,33 @@ QTabBar::tab:!selected:hover
   background-color: rgb(114, 150, 167);
 }
 
+#title-bar {
+  height: 30px;
+  border: none;
+  padding: 0px;
+  background: transparent;
+}
+
+#title-bar QToolButton {
+  max-width: 11px;
+  max-height: 20px;
+  padding: 6px 17px;
+  margin: 0px;
+  spacing: 0px;  
+  border-radius: 0px;
+  background: scolor(accent, normal, 125);
+  color: scolor(text);
+}
+
+#title-bar QToolButton:hover {
+  background: scolor(accent, normal, 255);
+}
+
+#title-bar #titlebar-movecontrol {
+  background: scolor(accent, normal, 125);
+}
+
+
 /**
 * Navigation bar rules
 */
@@ -234,8 +261,10 @@ QTabBar::tab:!selected:hover
 #navigationbar QToolButton,
 #navigationbar ToolButton
 {
-  background: scolor(accent);
+  background: scolor(accent, normal, 125);
   color: scolor(text);
+  max-width: 20px;
+  max-height: 20px;
   height: 20px;
   width: 20px;
   padding: 6px;
@@ -276,16 +305,6 @@ QTabBar::tab:!selected:hover
 * Navigation bar address bar rules
 */
 
-#addressbar
-{
-  height: 20px;
-  padding: 6px;
-  margin: 0px;
-  spacing: 0px;
-  background-color: scolor(accent);
-  border-radius: 0px;
-}
-
 #navigationbar #addressbar
 {
   height: 20px;
@@ -294,22 +313,6 @@ QTabBar::tab:!selected:hover
   spacing: 0px;
   background-color: scolor(accent, dark);
   border-radius: 0px;
-}
-
-
-#addressbar QToolButton,
-#addressbar QToolButton:hover
-{
-  width: 26px;
-  height: 16px;
-  border: none;
-  padding: 0px;
-  padding-right: 8px;
-  padding-left: 15px;
-   margin: 0px;
-  spacing: 0px;
-  background: transparent;
-  color: scolor(text);
 }
 
 #navigationbar #addressbar QToolButton,
@@ -404,32 +407,6 @@ QTabBar::tab:!selected:hover
 /**
 * Title bar rules
   */
-
-#title-bar {
-  height: 30px;
-  border: none;
-  padding: 0px;
-  background: transparent;
-}
-
-#title-bar QToolButton {
-  max-width: 11px;
-  max-height: 16px;
-  padding: 5px 17px;
-  margin: 0px;
-  spacing: 0px;  
-  border-radius: 0px;
-  background: scolor(accent, normal, 125);
-  color: scolor(text);
-}
-
-#title-bar QToolButton:hover {
-  background: scolor(accent, normal, 255);
-}
-
-#title-bar #titlebar-title {
-  color: scolor(text);
-}
 
 
 /**

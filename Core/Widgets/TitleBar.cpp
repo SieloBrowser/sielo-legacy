@@ -43,6 +43,8 @@ TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		QWidget(window),
 		m_window(window)
 {
+	setObjectName("title-bar");
+
 	setupUI();
 	loadSettings();
 
@@ -115,7 +117,7 @@ void TitleBar::setupUI()
 
 	m_moveControlWidget = new QWidget(this);
 	m_moveControlWidget->setObjectName("titlebar-movecontrol");
-	m_moveControlWidget->setFixedWidth(64);
+	m_moveControlWidget->setFixedWidth(48);
 
 	m_layout->addWidget(m_navigationToolBar);
 	m_layout->addWidget(m_moveControlWidget);
