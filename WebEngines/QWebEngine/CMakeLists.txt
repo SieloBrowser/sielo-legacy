@@ -28,7 +28,7 @@ if(WIN32)
     set(SENGINE_LIBS ${SENGINE_LIBS} dwmapi uxtheme)
 endif()
 
-target_link_libraries(SieloWebEngine PRIVATE ${SENGINE_LIBS})
+target_link_libraries(SieloWebEngine PUBLIC ${SENGINE_LIBS})
 
 foreach(_source IN ITEMS ${SOURCE_FILES})
     get_filename_component(_source_path "${_source}" PATH)
