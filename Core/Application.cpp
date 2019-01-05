@@ -78,7 +78,6 @@
 #include "Network/NetworkManager.hpp"
 
 #include "Widgets/TitleBar.hpp"
-#include "Widgets/NavigationControlDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"

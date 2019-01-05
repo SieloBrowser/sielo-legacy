@@ -57,7 +57,6 @@
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
-#include "Widgets/NavigationControlDialog.hpp"
 
 #ifdef Q_OS_WIN
 #include <windowsx.h>
