@@ -259,6 +259,7 @@ void BrowserWindow::loadSettings()
 		}
 	}
 
+	m_titleBar->loadSettings();
 	m_bookmarksToolbar->loadSettings();
 	m_tabsSpaceSplitter->loadSettings();
 

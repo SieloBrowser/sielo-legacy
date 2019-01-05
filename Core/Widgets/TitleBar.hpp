@@ -53,6 +53,8 @@ public:
 	TitleBar(BrowserWindow* window, bool showBookmarks = true);
 	~TitleBar() = default;
 
+	void loadSettings();
+
 	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 
 	bool isWindowMaximized() const;

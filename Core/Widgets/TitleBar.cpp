@@ -44,13 +44,17 @@ TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		m_window(window)
 {
 	setupUI();
+	loadSettings();
 
+	m_window->setCaption(m_moveControlWidget);
+}
+
+void TitleBar::loadSettings()
+{
 	if (Application::instance()->hideBookmarksHistoryActions())
 		m_navigationToolBar->hideBookmarksHistory();
 	else
 		m_navigationToolBar->showBookmarksHistory();
-
-	m_window->setCaption(m_moveControlWidget);
 }
 
 bool TitleBar::isWindowMaximized() const
