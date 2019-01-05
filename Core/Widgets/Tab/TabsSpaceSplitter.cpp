@@ -26,6 +26,8 @@
 
 #include <QFileInfo>
 
+#include "Bookmarks/BookmarksToolbar.hpp"
+
 #include "Utils/Settings.hpp"
 #include "Utils/DataPaths.hpp"
 
@@ -533,7 +535,7 @@ QWidget* TabsSpaceSplitter::tabWidgetContainer(TabWidget* tabWidget)
 	layout->addWidget(tabWidget);
 
 	connect(tabWidget, &TabWidget::focusIn, m_window, &BrowserWindow::tabWidgetIndexChanged);
-	connect(m_window->titleBar(), &TitleBar::toggleBookmarksBar, tabWidget,
+	connect(m_window->bookmarksToolBar(), &BookmarksToolbar::visibilityChanged, tabWidget,
 			&TabWidget::updateShowBookmarksBarText);
 
 	tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");

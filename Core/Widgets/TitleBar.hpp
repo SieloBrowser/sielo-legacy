@@ -53,32 +53,14 @@ public:
 	TitleBar(BrowserWindow* window, bool showBookmarks = true);
 	~TitleBar() = default;
 
-	BookmarksToolbar* bookmarksToolBar() const { return m_bookmarksToolbar; }
 	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
-	bool showBookmarks() const { return m_showBookmarks; }
-	void setShowBookmark(bool show);
 
 	bool isWindowMaximized() const;
-
-	void hide();
-	void show();
-
-	bool isView();
-	void setView(bool view);
 
 	QWidget* control() const { return m_moveControlWidget; }
 	QStackedWidget* addressBars() const { return m_addressBars; }
 
-signals:
-	void toggleBookmarksBar(bool shown);
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
-	void contextMenuEvent(QObject* obj, QContextMenuEvent* event);
-
 private slots:
-	void build();
-
 	void closeWindow();
 	void toggleMaximize(bool forceMaximize = false);
 	void minimize();
@@ -89,7 +71,6 @@ private:
 	BrowserWindow* m_window{nullptr};
 
 	QHBoxLayout* m_layout{nullptr};
-	BookmarksToolbar* m_bookmarksToolbar{nullptr};
 	NavigationToolBar* m_navigationToolBar{nullptr};
 	QWidget* m_moveControlWidget{nullptr};
 
@@ -102,13 +83,8 @@ private:
 	QStackedWidget* m_addressBars{nullptr};
 
 	QRect m_geometry{};
-	QPoint m_offset{};
-
-	bool m_showBookmarks{true};
 	bool m_isMaximized{false};
 	bool m_isOnSide{false};
-	bool m_canMove{true};
-	bool m_show{true};
 };
 }
 

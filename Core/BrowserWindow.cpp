@@ -37,6 +37,7 @@
 #include <QMessageBox>
 
 #include "Bookmarks/BookmarksUtils.hpp"
+#include "Bookmarks/BookmarksToolbar.hpp"
 
 #include "MaquetteGrid/MaquetteGridItem.hpp"
 
@@ -258,12 +259,13 @@ void BrowserWindow::loadSettings()
 		}
 	}
 
+	m_bookmarksToolbar->loadSettings();
 	m_tabsSpaceSplitter->loadSettings();
 
 	loadWallpaperSettings();
 
 	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
-	m_titleBar->setShowBookmark(showBookmarksToolBar);
+	m_bookmarksToolbar->setVisible(showBookmarksToolBar);
 }
 
 void BrowserWindow::loadWallpaperSettings()
@@ -728,9 +730,11 @@ void BrowserWindow::setupUi()
 	layout->setContentsMargins(0, 0, 0, 0);
 
 	m_titleBar = new TitleBar(this);
+	m_bookmarksToolbar = new BookmarksToolbar(this, this);
 	m_tabsSpaceSplitter = new TabsSpaceSplitter(this);
 
 	m_titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	m_bookmarksToolbar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	m_tabsSpaceSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	QPalette palette{QToolTip::palette()};
@@ -746,9 +750,11 @@ void BrowserWindow::setupUi()
 	resize(1200, 720);
 
 	layout->addWidget(m_titleBar);
+	layout->addWidget(m_bookmarksToolbar);
 	layout->addWidget(m_tabsSpaceSplitter);
 
 	layout->setStretchFactor(m_titleBar, 1);
+	layout->setStretchFactor(m_bookmarksToolbar, 1);
 	layout->setStretchFactor(m_tabsSpaceSplitter, 100);
 
 	setCentralWidget(centralWidget);

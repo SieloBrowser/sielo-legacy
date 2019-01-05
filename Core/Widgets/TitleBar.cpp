@@ -41,104 +41,22 @@
 namespace Sn {
 TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 		QWidget(window),
-		m_window(window),
-		m_showBookmarks(showBookmarks)
+		m_window(window)
 {
 	setupUI();
-
-	connect(m_bookmarksToolbar, &BookmarksToolbar::orientationChanged, this, &TitleBar::build);
 
 	if (Application::instance()->hideBookmarksHistoryActions())
 		m_navigationToolBar->hideBookmarksHistory();
 	else
 		m_navigationToolBar->showBookmarksHistory();
 
-	if (m_showBookmarks && m_show)
-		m_bookmarksToolbar->show();
-	else
-		m_bookmarksToolbar->hide();
-
 	m_window->setCaption(m_moveControlWidget);
-}
-
-void TitleBar::setShowBookmark(bool show)
-{
-	m_showBookmarks = show;
-	if (m_showBookmarks && m_show)
-		m_bookmarksToolbar->show();
-	else
-		m_bookmarksToolbar->hide();
-}
-
-void TitleBar::hide()
-{
-	setView(false);
-}
-
-void TitleBar::show()
-{
-	setView(true);
-}
-
-bool TitleBar::isView()
-{
-	return m_show;
-}
-
-void TitleBar::setView(bool view)
-{
-	m_show = view;
-	if (m_showBookmarks && m_show)
-		m_bookmarksToolbar->show();
-	else
-		m_bookmarksToolbar->hide();
 }
 
 bool TitleBar::isWindowMaximized() const
 {
 	//return m_window->geometry() == Application::desktop()->availableGeometry(m_window);
 	return m_isMaximized;
-}
-
-bool TitleBar::eventFilter(QObject* obj, QEvent* event)
-{
-	if (event->type() == QEvent::ContextMenu) {
-		contextMenuEvent(obj, static_cast<QContextMenuEvent*>(event));
-	}
-	return QObject::eventFilter(obj, event);
-}
-
-void TitleBar::contextMenuEvent(QObject* obj, QContextMenuEvent* event)
-{
-	QMenu menu{};
-	QAction* hideShowAction{menu.addAction(tr("Show Bookmarks Bar"))};
-
-	hideShowAction->setCheckable(true);
-	hideShowAction->setChecked(m_showBookmarks);
-	connect(hideShowAction, &QAction::toggled, this, [=]() {
-		setShowBookmark(!m_showBookmarks);
-		emit toggleBookmarksBar(m_showBookmarks);
-	});
-
-	if (obj != nullptr) {
-		QToolBar* toolbar = qobject_cast<QToolBar*>(obj);
-		
-		if (toolbar->objectName() == "bookmarks-toolbar") {
-			menu.addSeparator();
-			m_bookmarksToolbar->createContextMenu(menu, event->pos());
-		}
-	}
-
-	const QPoint position{ event->globalPos() };
-	QPoint point{ position.x(), position.y() + 1 };
-	menu.exec(point);
-
-	m_bookmarksToolbar->contextMenuCreated();
-}
-
-void TitleBar::build()
-{
-	Application::instance()->saveSession();
 }
 
 void TitleBar::closeWindow()
@@ -187,11 +105,6 @@ void TitleBar::setupUI()
 	m_layout->setSpacing(0);
 	m_layout->setContentsMargins(0, 0, 0, 0);
 
-	m_bookmarksToolbar = new BookmarksToolbar(m_window, m_window);
-	m_bookmarksToolbar->setFloatable(false);
-	m_bookmarksToolbar->installEventFilter(this);
-	m_bookmarksToolbar->setContextMenuPolicy(Qt::CustomContextMenu);
-
 	m_addressBars = new QStackedWidget(this);
 	m_navigationToolBar = new NavigationToolBar(m_window, m_addressBars);
 	m_navigationToolBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -200,7 +113,6 @@ void TitleBar::setupUI()
 	m_moveControlWidget->setObjectName("titlebar-movecontrol");
 	m_moveControlWidget->setFixedWidth(64);
 
-	m_layout->addWidget(m_bookmarksToolbar);
 	m_layout->addWidget(m_navigationToolBar);
 	m_layout->addWidget(m_moveControlWidget);
 

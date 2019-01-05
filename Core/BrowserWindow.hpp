@@ -53,6 +53,7 @@ class TabWidget;
 
 class RootFloatingButton;
 class TitleBar;
+class BookmarksToolbar;
 
 class MaquetteGridItem;
 
@@ -126,6 +127,7 @@ public:
 	TabsSpaceSplitter* tabsSpaceSplitter() const { return m_tabsSpaceSplitter; }
 
 	TitleBar* titleBar() const { return m_titleBar; }
+	BookmarksToolbar* bookmarksToolBar() const { return m_bookmarksToolbar; }
 
 	const QImage* background();
 	const QImage* processedBackground();
@@ -195,6 +197,7 @@ private:
 
 	TabsSpaceSplitter* m_tabsSpaceSplitter{nullptr};
 	TitleBar* m_titleBar{nullptr};
+	BookmarksToolbar* m_bookmarksToolbar{nullptr};
 
 	qreal m_blur_radius{ 0 };
 
