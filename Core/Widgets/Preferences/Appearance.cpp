@@ -270,7 +270,6 @@ void AppearancePage::showFloatingButtonChanged(bool enabled)
 {
 	Q_UNUSED(enabled);
 	m_floatingButtonFoloweMouse->setEnabled(m_showFloatingButton->isChecked());
-	m_hideBookmarksHistoryActionsByDefault->setEnabled(!m_showFloatingButton->isChecked());
 }
 
 AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
@@ -346,7 +345,6 @@ void AppearancePage::loadSettings()
 	                                                       Application::instance()->floatingButtonFoloweMouse())
 	                                                .toBool());
 	m_floatingButtonFoloweMouse->setEnabled(m_showFloatingButton->isChecked());
-	m_hideBookmarksHistoryActionsByDefault->setEnabled(!m_showFloatingButton->isChecked());
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
