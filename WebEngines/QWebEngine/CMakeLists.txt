@@ -21,7 +21,7 @@ file(
         ${CMAKE_SOURCE_DIR}/WebEngines/QWebEngine/*.qrc
 )
 
-add_library(SieloWebEngine STATIC ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
+add_library(SieloWebEngine SHARED ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
 
 set(SENGINE_LIBS Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
 if(WIN32)
