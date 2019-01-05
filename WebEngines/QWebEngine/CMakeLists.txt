@@ -21,14 +21,14 @@ file(
         ${CMAKE_SOURCE_DIR}/WebEngines/QWebEngine/*.qrc
 )
 
-add_library(SieloWebEngine SHARED ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
+add_library(SieloWebEngine STATIC ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
 
 set(SENGINE_LIBS Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
 if(WIN32)
     set(SENGINE_LIBS ${SENGINE_LIBS} dwmapi uxtheme)
 endif()
 
-target_link_libraries(SieloWebEngine PUBLIC ${SENGINE_LIBS})
+target_link_libraries(SieloWebEngine PRIVATE ${SENGINE_LIBS})
 
 foreach(_source IN ITEMS ${SOURCE_FILES})
     get_filename_component(_source_path "${_source}" PATH)
