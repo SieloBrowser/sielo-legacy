@@ -87,7 +87,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.18.01");
+QString Application::currentVersion = QString("1.18.02 | closed-beta");
 
 // Static member
 Application *Application::instance()
@@ -222,7 +222,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.18.01"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.18.02"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -406,6 +406,7 @@ void Application::loadSettings()
 	// General Sielo settings
 	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
 	m_showFloatingButton = settings.value("Settings/showFloatingButton", false).toBool();
+	m_hideToolbarControls = settings.value("Settings/hideToolbarControls", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 

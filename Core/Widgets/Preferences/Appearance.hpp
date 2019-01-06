@@ -133,7 +133,9 @@ private:
 
 	QCheckBox* m_showFloatingButton{nullptr};
 	QCheckBox* m_floatingButtonFoloweMouse{nullptr};
+	QCheckBox* m_hideControles{nullptr};
 	QCheckBox* m_hideBookmarksHistoryActionsByDefault{nullptr};
+	QCheckBox* m_bottomNavigationBar{nullptr};
 
 	QLabel* m_tabsSpacesPaddingLabel{nullptr};
 	QSlider* m_tabsSpacesPadding{nullptr};

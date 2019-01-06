@@ -47,15 +47,17 @@ public:
 	NavigationToolBar(BrowserWindow* window, QStackedWidget* addressBars);
 
 	Q_PROPERTY(int layoutMargin
-				   READ
-				   layoutMargin
-				   WRITE
-				   setLayoutMargin)
-	Q_PROPERTY(int layoutSpacing
+			   READ
+			   layoutMargin
+			   WRITE
+			   setLayoutMargin)
+		Q_PROPERTY(int layoutSpacing
 				   READ
 				   layoutSpacing
 				   WRITE
 				   setLayoutSpacing)
+
+		void loadSettings();
 
 	int layoutMargin() const;
 	void setLayoutMargin(int margin);
@@ -65,6 +67,8 @@ public:
 
 	void hideBookmarksHistory();
 	void showBookmarksHistory();
+	void hideControls();
+	void showControls();
 
 	void addExtensionAction(QWidget* widget);
 

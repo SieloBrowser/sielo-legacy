@@ -29,6 +29,7 @@
 #include <QWebEngine/WebHistory.hpp>
 
 #include "Utils/ToolButton.hpp"
+#include "Utils/Settings.hpp"
 
 //#include "History/HistoryDialog.hpp"
 
@@ -158,6 +159,19 @@ NavigationToolBar::NavigationToolBar(BrowserWindow* window, QStackedWidget* addr
 	}
 }
 
+void NavigationToolBar::loadSettings()
+{
+	if (Application::instance()->hideBookmarksHistoryActions())
+		hideBookmarksHistory();
+	else
+		showBookmarksHistory();
+
+	if (Application::instance()->hideToolbarControls())
+		hideControls();
+	else
+		showControls();
+}
+
 int NavigationToolBar::layoutMargin() const
 {
 	return m_layout->margin();
@@ -186,6 +200,20 @@ void NavigationToolBar::hideBookmarksHistory()
 void NavigationToolBar::showBookmarksHistory()
 {
 	m_bookmarksHistoryWidget->show();
+}
+
+void NavigationToolBar::hideControls()
+{
+	m_buttonBack->hide();
+	m_buttonForward->hide();
+	m_buttonHome->hide();
+}
+
+void NavigationToolBar::showControls()
+{
+	m_buttonBack->show();
+	m_buttonForward->show();
+	m_buttonHome->show();
 }
 
 void NavigationToolBar::addExtensionAction(QWidget* widget)

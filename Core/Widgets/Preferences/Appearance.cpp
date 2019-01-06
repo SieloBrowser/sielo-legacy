@@ -115,9 +115,12 @@ void AppearancePage::save()
 	settings.setValue(QLatin1String("showFloatingButton"), m_showFloatingButton->isChecked());
 	settings.setValue(QLatin1String("floatingButtonFoloweMouse"),
 					  m_showFloatingButton->isChecked() ? m_floatingButtonFoloweMouse->isChecked() : false);
+	settings.setValue(QLatin1String("hideToolbarControls"),
+					  m_showFloatingButton->isChecked() ? m_hideControles->isChecked() : false);
 	settings
 		.setValue(QLatin1String("hideBookmarksHistoryByDefault"),
 		          m_hideBookmarksHistoryActionsByDefault->isChecked());
+	settings.setValue(QLatin1String("bottomToolBar"), m_bottomNavigationBar->isChecked());
 
 	settings.setValue(QLatin1String("tabsSpacesPadding"), m_tabsSpacesPadding->value());
 	settings.setValue(QLatin1String("repeatBackground"), m_repeatBackground->isChecked());
@@ -269,7 +272,9 @@ void AppearancePage::getColor()
 void AppearancePage::showFloatingButtonChanged(bool enabled)
 {
 	Q_UNUSED(enabled);
+
 	m_floatingButtonFoloweMouse->setEnabled(m_showFloatingButton->isChecked());
+	m_hideControles->setEnabled(m_showFloatingButton->isChecked());
 }
 
 AppearancePage::Theme AppearancePage::parseTheme(const QString& path, const QString& name)
@@ -338,13 +343,16 @@ void AppearancePage::loadSettings()
 	m_showFloatingButton
 		->setChecked(
 			settings.value(QLatin1String("showFloatingButton"), Application::instance()->showFloatingButton()).toBool());
-	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
-	                                                                  Application::instance()
-	                                                                  ->hideBookmarksHistoryActions()).toBool());
+	m_hideControles->setChecked(settings.value(QLatin1String("hideToolbarControls"), Application::instance()->hideToolbarControls()).toBool());
+	m_hideControles->setEnabled(m_showFloatingButton->isChecked());
 	m_floatingButtonFoloweMouse->setChecked(settings.value(QLatin1String("floatingButtonFolowMouse"),
 	                                                       Application::instance()->floatingButtonFoloweMouse())
 	                                                .toBool());
 	m_floatingButtonFoloweMouse->setEnabled(m_showFloatingButton->isChecked());
+	m_hideBookmarksHistoryActionsByDefault->setChecked(settings.value(QLatin1String("hideBookmarksHistoryByDefault"),
+													   Application::instance()
+													   ->hideBookmarksHistoryActions()).toBool());
+	m_bottomNavigationBar->setChecked(settings.value("bottomToolBar", false).toBool());
 
 	m_tabsSpacesPadding->setValue(settings.value(QLatin1String("tabsSpacesPadding"), 7).toInt());
 	m_tabsSpacesPaddingLabel->setText(tr("Tabs spaces padding (%1px)").arg(m_tabsSpacesPadding->value()));
@@ -485,8 +493,14 @@ void AppearancePage::setupUI()
 	
 	m_showFloatingButton = new QCheckBox(tr("Show Floating Button"), this);
 	m_floatingButtonFoloweMouse = new QCheckBox(tr("Floating button automatically move to focused tabs space"));
+	m_hideControles = new QCheckBox(tr("Hide Toolbar controls (back, forward, etc.)"), this);
 	m_hideBookmarksHistoryActionsByDefault =
 		new QCheckBox(tr("Hide bookmarks and history action in the navigation tool bar by default"));
+#ifdef Q_OS_WIN
+	m_bottomNavigationBar = new QCheckBox(tr("Show title bar at the bottom"), this);
+#else 
+	m_bottomNavigationBar = new QCheckBox(tr("Show navigation bar at the bottom"), this);
+#endif
 	
 	m_tabsSpacesPaddingLabel = new QLabel(tr("Tabs spaces padding (in px)"), this);
 	m_tabsSpacesPadding = new QSlider(Qt::Horizontal, this);
@@ -540,7 +554,9 @@ void AppearancePage::setupUI()
 
 	m_advancedPageLayout->addWidget(m_showFloatingButton);
 	m_advancedPageLayout->addWidget(m_floatingButtonFoloweMouse);
+	m_advancedPageLayout->addWidget(m_hideControles);
 	m_advancedPageLayout->addWidget(m_hideBookmarksHistoryActionsByDefault);
+	m_advancedPageLayout->addWidget(m_bottomNavigationBar);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPaddingLabel);
 	m_advancedPageLayout->addWidget(m_tabsSpacesPadding);
 	m_advancedPageLayout->addWidget(m_repeatBackground);

@@ -62,10 +62,7 @@ TitleBar::TitleBar(BrowserWindow* window, bool showBookmarks) :
 
 void TitleBar::loadSettings()
 {
-	if (Application::instance()->hideBookmarksHistoryActions())
-		m_navigationToolBar->hideBookmarksHistory();
-	else
-		m_navigationToolBar->showBookmarksHistory();
+	m_navigationToolBar->loadSettings();
 }
 
 void TitleBar::closeWindow()

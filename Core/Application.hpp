@@ -250,6 +250,7 @@ public:
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
 	bool showFloatingButton() const { return m_showFloatingButton; }
+	bool hideToolbarControls() const { return m_hideToolbarControls; }
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
@@ -338,6 +339,7 @@ private:
 	bool m_isClosing{false};
 	bool m_fullyLoadThemes{true};
 	bool m_showFloatingButton{false};
+	bool m_hideToolbarControls{false};
 	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};
 	bool m_databaseConnected{false};

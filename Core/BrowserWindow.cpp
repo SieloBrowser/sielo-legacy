@@ -249,6 +249,17 @@ void BrowserWindow::loadSettings()
 
 	m_blur_radius = settings.value(QLatin1String("Settings/backdropBlur"), 100).toInt();
 
+	bool toolbarAtBottom{settings.value(QLatin1String("Settings/bottomToolBar"), false).toBool()};
+
+	if (toolbarAtBottom) {
+		m_layout->removeWidget(m_titleBar);
+		m_layout->addWidget(m_titleBar);
+	}
+	else {
+		m_layout->removeWidget(m_titleBar);
+		m_layout->insertWidget(0, m_titleBar);
+	}
+
 	// There is two possibility: the user use the floating button or not. 
 	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
 	if (m_tabsSpaceSplitter->count() > 0) {
@@ -740,10 +751,10 @@ void BrowserWindow::newTab()
 void BrowserWindow::setupUi()
 {
 	QWidget* centralWidget{new QWidget(this)};
-	QVBoxLayout* layout{new QVBoxLayout(centralWidget)};
+	m_layout = new QVBoxLayout(centralWidget);
 
-	layout->setSpacing(0);
-	layout->setContentsMargins(0, 0, 0, 0);
+	m_layout->setSpacing(0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
 
 	m_titleBar = new TitleBar(this);
 	m_bookmarksToolbar = new BookmarksToolbar(this, this);
@@ -765,13 +776,13 @@ void BrowserWindow::setupUi()
 	//TODO: delete this line when settings will be implements
 	resize(1200, 720);
 
-	layout->addWidget(m_titleBar);
-	layout->addWidget(m_bookmarksToolbar);
-	layout->addWidget(m_tabsSpaceSplitter);
+	m_layout->addWidget(m_titleBar);
+	m_layout->addWidget(m_bookmarksToolbar);
+	m_layout->addWidget(m_tabsSpaceSplitter);
 
-	layout->setStretchFactor(m_titleBar, 1);
-	layout->setStretchFactor(m_bookmarksToolbar, 1);
-	layout->setStretchFactor(m_tabsSpaceSplitter, 100);
+	m_layout->setStretchFactor(m_titleBar, 1);
+	m_layout->setStretchFactor(m_bookmarksToolbar, 1);
+	m_layout->setStretchFactor(m_tabsSpaceSplitter, 100);
 
 	setCentralWidget(centralWidget);
 }

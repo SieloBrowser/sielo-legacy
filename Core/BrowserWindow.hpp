@@ -199,6 +199,8 @@ private:
 	WebTab* m_startTab{nullptr};
 	WebPage* m_startPage{nullptr};
 
+	QVBoxLayout* m_layout{nullptr};
+
 	TabsSpaceSplitter* m_tabsSpaceSplitter{nullptr};
 	TitleBar* m_titleBar{nullptr};
 	BookmarksToolbar* m_bookmarksToolbar{nullptr};
