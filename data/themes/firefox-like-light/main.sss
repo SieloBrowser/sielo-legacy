@@ -200,6 +200,42 @@ QTabBar::tab:!selected:hover
 
 
 /**
+* Title bar rules
+*/
+
+#title-bar {
+  height: 30px;
+  border: none;
+  background: #f5f6f7;
+}
+
+
+#title-bar QToolButton {
+  max-width: 36px;
+  max-height: 36px;
+  padding: 6px 17px;
+  margin: 0px;
+  spacing: 0px;  
+  border-radius: 0px;
+  border: none;
+  color: #000000;
+  background: #f4f5f6;
+}
+
+#title-bar QToolButton:hover {
+  background: scolor(accent, normal, 255);
+}
+
+#title-bar #titlebar-movecontrol {
+  background: #f4f5f6;
+  }
+  
+  #title-bar #titlebar-movecontrol-top {
+    background: #f4f5f6;
+  }
+  
+
+/**
 * Navigation bar rules
 */
 
@@ -225,12 +261,14 @@ QTabBar::tab:!selected:hover
   border: none;
   background: #f5f6f7;
   color: white;
-  height: 16px;
-  width: 16px;
+  max-height: 32px;
+  max-width: 32px;
+  height: 32px;
+  width: 32px;
   padding: 6px;
   margin: 0px;
   spacing: 0px;
-  border-radius: 3px;
+  border-radius: 0px;
 }
 
 #navigationbar QToolButton:hover,
@@ -247,44 +285,6 @@ QTabBar::tab:!selected:hover
   background: #d2d2d3;
 }
 
-#navigationbar #navigation-button-back {
-  background: #f5f6f7;
-  color: white;
-  min-height: 43px;
-  min-width: 43px;
-  padding: 0px;
-  margin: 0px;
-  spacing: 0px;
-  border-bottom: 1px solid #cccccc;
-  border-radius: 0px;
-}
-
-#navigationbar #navigation-button-forward {
-  background: #f5f6f7;
-  color: white;
-  min-height: 43px;
-  min-width: 43px;
-  padding: 0px;
-  margin: 0px;
-  spacing: 0px;
-  border-bottom: 1px solid #cccccc;
-  border-radius: 0px;
-}
-
-#navigationbar #navigation-button-home {
-  background: #f5f6f7;
-  color: white;
-  min-height: 43px;
-  min-width: 43px;
-  padding: 0px;
-  margin: 0px;
-  spacing: 0px;
-  border-bottom: 1px solid #cccccc;
-  border-radius: 0px;
-}
-
-
-
 #navigationbar ToolButton::menu-indicator
 {
   image: url(none.png);
@@ -293,18 +293,6 @@ QTabBar::tab:!selected:hover
 /**
 * Navigation bar address bar rules
 */
-
-#addressbar
-{
-  height: 20px;
-  border-radius: 3px;
-  border: 1px solid #bbbcbc;
-  border-top: none;
-  padding: 6px;
-  margin: 0px;
-  spacing: 0px;
-  background-color: #f4f5f6;
-}
 
 #navigationbar #addressbar
 {
@@ -315,20 +303,6 @@ QTabBar::tab:!selected:hover
   margin: 0px;
   spacing: 0px;
   background-color: #ffffff;
-}
-
-
-#addressbar QToolButton
-{
-  width: 16px;
-  height: 16px;
-  border: none;
-  padding: 0px;
-  padding-right: 15px;
-  margin: 0px;
-  spacing: 0px;
-  background: transparent;
-  color: #000000;
 }
 
 #navigationbar #addressbar QToolButton
@@ -439,36 +413,6 @@ QTabBar::tab:!selected:hover
 #bookmarks-toolbar QToolButton::menu-indicator:pressed, #bookmarks-toolbar QToolButton::menu-indicator:open {
     position: relative;
     top: 2px; left: 2px;
-}
-
-/**
-* Title bar rules
-*/
-
-#title-bar {
-  height: 30px;
-  border: none;
-  background: #f5f6f7;
-}
-
-
-#title-bar QToolButton {
-  max-width: 11px;
-  max-height: 16px;
-  padding: 5px 17px;
-  margin: 0px;
-  spacing: 0px;  
-  border-radius: 0px;
-  border: none;
-  color: #000000
-}
-
-#title-bar QToolButton:hover {
-  background: scolor(accent, normal, 255);
-}
-
-#title-bar #titlebar-title {
-  color: #000000;
 }
 
 /**

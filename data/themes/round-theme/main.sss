@@ -258,46 +258,6 @@ QTabBar::tab:!selected:hover
     background-color: qlineargradient(y1:0, y2:1, stop: 0 rgba(84, 110, 122, 1), stop: 1 rgba(63, 82, 90, 1));
 }
 
-/**
-* Title bar rules
-  */
-
-#title-bar {
-    height: 30px;
-    border: none;
-    background: scolor(main, light, 100);
-    border: 1px solid transparent;
-    border-radius: 10px;
-}
-
-#title-bar QToolButton {
-    max-width: 8px;
-    max-height: 16px;
-    border: 1px solid transparent;
-    padding: 7px 12px;
-    border-radius: 15px;
-    background: scolor(accent, normal, 175);
-}
-
-#title-bar #titlebar-button-close:hover {
-    background: #C62828;
-}
-
-#title-bar #titlebar-button-reverse-maximize:hover {
-    background: scolor(accent, light, 175);
-}
-
-#title-bar #titlebar-button-maximize:hover {
-    background: scolor(accent, light, 175);
-}
-
-#title-bar #titlebar-button-minimize:hover {
-    background: scolor(accent, light, 175);
-}
-
-#title-bar #titlebar-title {
-    color: scolor(text);
-}
 
 /**
  * Bookmarks toolbar rules
@@ -341,6 +301,60 @@ QTabBar::tab:!selected:hover
     top: 2px; left: 2px;
 }
 
+
+/**
+* Title bar rules
+  */
+
+  #title-bar {
+    height: 30px;
+    border: none;
+    background: scolor(main, light, 100);
+    border: 1px solid transparent;
+    border-radius: 10px;
+}
+
+#title-bar QToolButton {
+	color: white;
+    height: 25px;
+    width: 25px;
+	padding: 6px 6px;
+	margin: 0px;
+    border-radius: 17.5px;
+}
+
+#title-bar #titlebar-button-close {
+    background-color: qlineargradient(y1:0, y2:1, stop: 0 rgba(51, 126, 255, 0.75), stop: 1 rgba(0, 75, 204, 0.75));
+}
+
+#title-bar #titlebar-button-reverse-maximize {
+    background-color: qlineargradient(y1:0, y2:1, stop: 0 rgba(51, 126, 255, 0.75), stop: 1 rgba(0, 75, 204, 0.75));
+}
+
+#title-bar #titlebar-button-maximize {
+    background-color: qlineargradient(y1:0, y2:1, stop: 0 rgba(51, 126, 255, 0.75), stop: 1 rgba(0, 75, 204, 0.75));
+}
+
+#title-bar #titlebar-button-minimize {
+    background-color: qlineargradient(y1:0, y2:1, stop: 0 rgba(51, 126, 255, 0.75), stop: 1 rgba(0, 75, 204, 0.75));
+}
+
+#title-bar #titlebar-button-close:hover {
+    background: #C62828;
+}
+
+#title-bar #titlebar-button-reverse-maximize:hover {
+    background: scolor(accent, light, 175);
+}
+
+#title-bar #titlebar-button-maximize:hover {
+    background: scolor(accent, light, 175);
+}
+
+#title-bar #titlebar-button-minimize:hover {
+    background: scolor(accent, light, 175);
+}
+
 /**
  * Navigation bar rules
  */
@@ -352,22 +366,6 @@ QTabBar::tab:!selected:hover
     max-height: 50px;
 }
 
-#navigationbar QToolButton,
-#navigationbar ToolButton
-{
-	color: white;
-    height: 25px;
-    width: 25px;
-	padding: 6px 6px;
-	margin: 0px;
-    border-radius: 17.5px;
-}
-
-#navigationbar QToolButton:hover,
-#navigationbar ToolButton:hover {
-    background: scolor(accent, normal, 175);
-    border: none;
-}
 
 /**
  * Navigation bar tool buttons rules
@@ -413,14 +411,14 @@ QTabBar::tab:!selected:hover
  * Address bar address bar rules
  */
 
-#addressbar {
+#navigationbar #addressbar {
     border-radius: 15px;
     border: qlineargradient(y1:0, y2:1, stop: 0 scolor(main, light, 150), stop: 1 scolor(main, dark, 150));
     background-color: qlineargradient(y1:0, y2:1, stop: 0 scolor(main, light, 150), stop: 1 scolor(main, dark, 150));
 }
 
-#addressbar QToolButton,
-#addressbar ToolButton
+#navigationbar #addressbar QToolButton,
+#navigationbar #addressbar ToolButton
 {
 	width: 35px;
     height: 35px;
@@ -431,8 +429,8 @@ QTabBar::tab:!selected:hover
     border-radius: 12.5px;
 }
 
-#addressbar QToolButton:hover,
-#addressbar ToolButton::hover
+#navigationbar #addressbar QToolButton:hover,
+#navigationbar #addressbar ToolButton::hover
 {
     border: 1px solid transparent;
     border-radius: 12.5px;
