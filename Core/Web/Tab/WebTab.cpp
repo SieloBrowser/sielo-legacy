@@ -614,14 +614,14 @@ void WebTab::toggleWebInspector()
 
 void WebTab::showSearchToolBar()
 {
-	const int index{2};
+	const int index{1};
 	SearchToolBar* toolBar{nullptr};
 
-	if (m_layout->count() == 2) {
+	if (m_layout->count() == 1) {
 		toolBar = new SearchToolBar(m_webView, this);
 		m_layout->insertWidget(index, toolBar);
 	}
-	else if (m_layout->count() == 3) {
+	else if (m_layout->count() == 2) {
 		Q_ASSERT(qobject_cast<SearchToolBar*>(m_layout->itemAt(index)->widget()));
 		toolBar = static_cast<SearchToolBar*>(m_layout->itemAt(index)->widget());
 	}
