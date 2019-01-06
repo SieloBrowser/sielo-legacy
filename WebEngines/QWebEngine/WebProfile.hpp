@@ -61,6 +61,7 @@ public:
 	CookieStore* cookieStore();
 
 	static WebProfile* defaultWebProfile();
+	static WebProfile* s_defaultProfile;
 
 signals:
 	void downloadRequested(Engine::DownloadItem* item);

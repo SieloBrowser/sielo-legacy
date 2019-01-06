@@ -32,9 +32,17 @@
 
 namespace Engine {
 
+WebProfile* WebProfile::s_defaultProfile = nullptr;
+
 WebProfile* WebProfile::defaultWebProfile()
 {
-	return static_cast<WebProfile*>(QWebEngineProfile::defaultProfile());
+	if (!WebProfile::s_defaultProfile) {
+		WebProfile::s_defaultProfile = static_cast<WebProfile*>(QWebEngineProfile::defaultProfile());
+
+		connect(WebProfile::s_defaultProfile, &QWebEngineProfile::downloadRequested, WebProfile::s_defaultProfile, &WebProfile::emitDownloadRequest);
+	}
+
+	return WebProfile::s_defaultProfile;
 }
 
 WebProfile::WebProfile(QObject* parent) :
