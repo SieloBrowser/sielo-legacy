@@ -266,7 +266,7 @@ void BrowserWindow::loadSettings()
 
 	loadWallpaperSettings();
 
-	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
+	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), false).toBool();
 	m_bookmarksToolbar->setVisible(showBookmarksToolBar);
 }
 

@@ -25,9 +25,81 @@
 #include "ContextMenuData.hpp"
 
 namespace Engine {
-ContextMenuData::ContextMenuData() :
-	QWebEngineContextMenuData()
+ContextMenuData::ContextMenuData(QWebEngineContextMenuData* data) :
+	QObject(),
+	m_data(data)
 {
 	// Empty
+}
+
+bool ContextMenuData::isValid() const
+{
+	return m_data->isValid();
+}
+
+QString ContextMenuData::selectedText() const
+{
+	return m_data->selectedText();
+}
+
+QString ContextMenuData::linkText() const
+{
+	return m_data->linkText();
+}
+
+QUrl ContextMenuData::linkUrl() const
+{
+	return m_data->linkUrl();
+}
+
+QUrl ContextMenuData::mediaUrl() const
+{
+	return m_data->mediaUrl();
+}
+
+bool ContextMenuData::isContentEditable() const
+{
+	return m_data->isContentEditable();
+}
+
+QString ContextMenuData::misspelledWord() const
+{
+	return m_data->misspelledWord();
+}
+
+QStringList ContextMenuData::spellCheckerSuggestions() const
+{
+	return m_data->spellCheckerSuggestions();
+}
+
+ContextMenuData::MediaType ContextMenuData::mediaType() const
+{
+	return static_cast<MediaType>(m_data->mediaType());
+}
+
+ContextMenuData::MediaFlags ContextMenuData::mediaFlags() const
+{
+	switch (m_data->mediaFlags()) {
+	case QWebEngineContextMenuData::MediaInError:
+		return MediaFlag::MediaInError;
+	case QWebEngineContextMenuData::MediaPaused:
+		return MediaFlag::MediaPaused;
+	case QWebEngineContextMenuData::MediaMuted:
+		return MediaFlag::MediaMuted;
+	case QWebEngineContextMenuData::MediaLoop:
+		return MediaFlag::MediaLoop;
+	case QWebEngineContextMenuData::MediaCanSave:
+		return MediaFlag::MediaCanSave;
+	case QWebEngineContextMenuData::MediaHasAudio:
+		return MediaFlag::MediaHasAudio;
+	case QWebEngineContextMenuData::MediaCanToggleControls:
+		return MediaFlag::MediaCanToggleControls;
+	case QWebEngineContextMenuData::MediaControls:
+		return MediaFlag::MediaControls;
+	case QWebEngineContextMenuData::MediaCanPrint:
+		return MediaFlag::MediaCanPrint;
+	case QWebEngineContextMenuData::MediaCanRotate:
+		return MediaFlag::MediaCanRotate;
+	}
 }
 }

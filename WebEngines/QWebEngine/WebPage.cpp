@@ -49,7 +49,10 @@ WebPage::~WebPage()
 
 const ContextMenuData& WebPage::contextMenuData() const
 {
-	return ContextMenuData();
+	QWebEngineContextMenuData newData{QWebEnginePage::contextMenuData()};
+	ContextMenuData contextMenuData{&newData};
+
+	return contextMenuData;
 }
 
 WebHistory* WebPage::history() const
