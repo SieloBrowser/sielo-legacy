@@ -57,7 +57,6 @@ public:
 
 	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 
-	QWidget* control() const { return m_moveControlWidget; }
 	QStackedWidget* addressBars() const { return m_addressBars; }
 
 private slots:
@@ -75,10 +74,11 @@ private:
 	QHBoxLayout* m_layout{nullptr};
 	QVBoxLayout* m_main_layout{nullptr};
 	NavigationToolBar* m_navigationToolBar{nullptr};
+
+#ifdef Q_OS_WIN
 	QWidget* m_moveControlWidget{nullptr};
 	QWidget* m_moveTopControlWidget{nullptr};
 
-#ifdef Q_OS_WIN
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};
 	QToolButton* m_minimize{nullptr};
