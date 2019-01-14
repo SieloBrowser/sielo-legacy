@@ -559,6 +559,8 @@ void AddressBar::refreshTextFormat()
 		return;
 
 	QList<QTextLayout::FormatRange> textFormat{};
+
+	// TODO: Qt suck
 	QString hostName{m_webView->url().isEmpty() ? QUrl(text()).host() : m_webView->url().host()};
 
 	if (!hostName.isEmpty()) {
