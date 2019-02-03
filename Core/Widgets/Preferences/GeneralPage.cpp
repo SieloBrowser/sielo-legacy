@@ -333,7 +333,7 @@ void GeneralPage::setupUI()
 
 void GeneralPage::setupUIObjects()
 {
-	m_userSoftwareOpenGL = new QCheckBox(tr("Use Software OpenGL (Important: this should only be activated if you have dispaly issue!)"), this);
+	m_userSoftwareOpenGL = new QCheckBox(tr("Use Software OpenGL (Require restart)"), this);
 	
 	// Group Home Page
 	m_groupHomePage = new QGroupBox(tr("Home page"), this);
