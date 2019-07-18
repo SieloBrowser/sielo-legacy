@@ -28,12 +28,13 @@
 
 #include "SharedDefines.hpp"
 
+#include "Web/WebPage.hpp"
+
 #include <QObject>
 
 #include <QWebChannel>
 
 namespace Sn {
-class WebPage;
 class AutoFillJsObject;
 
 class SIELO_SHAREDLIB ExternalJsObject: public QObject {

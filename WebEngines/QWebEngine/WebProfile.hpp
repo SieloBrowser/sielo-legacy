@@ -1,4 +1,4 @@
-﻿/***********************************************************************************
+/***********************************************************************************
 ** MIT License                                                                    **
 **                                                                                **
 ** Copyright (c) 2018 Victor DENIS (victordenis01@gmail.com)                      **
@@ -22,52 +22,53 @@
 ** SOFTWARE.                                                                      **
 ***********************************************************************************/
 
-#pragma once
-#ifndef SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
-#define SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
+#ifndef SIELO_BROWSER_WEBPROFILE_HPP
+#define SIELO_BROWSER_WEBPROFILE_HPP
 
 #include "SharedDefines.hpp"
+#include "DownloadItem.hpp"
 
-#include <QDialog>
+#include <QtWebEngineWidgets/QWebEngineProfile>
 
-#include <QGridLayout>
+namespace Engine {
+class WebSettings;
 
-#include <QLabel>
-#include <QPushButton>
-#include <QDialogButtonBox>
+class CookieStore;
 
-#include <QCloseEvent> 
-
-namespace Sn
-{
-class SIELO_SHAREDLIB NavigationControlDialog: public QDialog {
+class SIELO_SHAREDLIB WebProfile : public QWebEngineProfile {
 Q_OBJECT
 
 public:
-	NavigationControlDialog(QWidget* parent = nullptr);
-	~NavigationControlDialog();
+	enum ScriptInjectionPoint {
+		Deferred = 0,
+		DocumentReady = 1,
+		DocumentCreation = 2
+	};
 
-	void save();
+	enum ScriptWorldId {
+		MainWorld = 0,
+		ApplicationWorld = 1,
+		UserWorld
+	};
 
-protected:
-	void closeEvent(QCloseEvent* event);
+	WebProfile(QObject* parent = nullptr);
+	~WebProfile() = default;
+
+	void insertScript(QString name, QString source, ScriptInjectionPoint injectionPoint, ScriptWorldId worldId,
+					  bool runsOnSubFrames);
+
+	WebSettings* settings() const;
+	CookieStore* cookieStore();
+
+	static WebProfile* defaultWebProfile();
+	static WebProfile* s_defaultProfile;
+
+signals:
+	void downloadRequested(Engine::DownloadItem* item);
 
 private slots:
-	void buttonCheckChanged(bool checked);
-
-private:
-	void setupUI();
-
-	QGridLayout* m_layout{nullptr};
-
-	QDialogButtonBox* m_buttonBox{nullptr};
-
-	QLabel* m_desc{nullptr};
-	QLabel* m_floatingButtonImage{nullptr};
-	QLabel* m_toolbarsImage{nullptr};
-	QPushButton* m_floatingButton{nullptr};
-	QPushButton* m_toolbars{nullptr};
+	void emitDownloadRequest(QWebEngineDownloadItem* download);
 };
 }
 
-#endif //SIELOBROWSER_NAVIGATIONCONTROLDIALOG_HPP
+#endif //SIELO_BROWSER_WEBPROFILE_HPP

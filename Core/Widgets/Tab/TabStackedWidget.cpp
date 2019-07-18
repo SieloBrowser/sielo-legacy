@@ -121,12 +121,6 @@ void TabStackedWidget::setTabBar(ComboTabBar* tab)
 	setUpLayout();
 }
 
-void TabStackedWidget::setNavigationToolBar(NavigationToolBar* navigationToolBar)
-{
-	m_layout->insertWidget(0, navigationToolBar);
-	setUpLayout();
-}
-
 bool TabStackedWidget::documentMode() const
 {
 	return m_comboTabBar->documentMode();

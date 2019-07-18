@@ -26,9 +26,6 @@
 
 #include <QUrl>
 
-#include <QWebEnginePage>
-#include <QWebEngineSettings>
-
 #include "Core/Application.hpp"
 
 #include "Core/BrowserWindow.hpp"

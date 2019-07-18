@@ -54,7 +54,7 @@ public:
 		int x{0};
 		int y{0};
 		int currentTab{-1};
-		QString homeUrl{"https://doosearch.sielo.app"};
+		QString homeUrl{"https://doosearch.sielo.app/search.php"};
 		QVector<WebTab::SavedTab> tabs{};
 
 		SavedTabsSpace();

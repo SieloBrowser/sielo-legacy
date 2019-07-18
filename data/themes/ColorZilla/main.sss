@@ -603,64 +603,87 @@ QTabBar::close-button:hover {
 }
 
 
+/* Title bar & bookmarks bar */
+
+#title-bar,
+#bookmarks-toolbar {
+	background: scolor(main, normal, 150);
+}
+
+
+/**
+* Title bar rules
+  */
+
+#title-bar {
+	height: 30px;
+	border: none;
+}
+
+#title-bar QToolButton {
+	background: scolor(accent, normal);
+	max-width: 24px;
+	max-height: 24px;
+	padding: 6px 17px;
+	margin: 0px;
+	spacing: 0px;
+	border-radius: 0px;
+	color: scolor(text);
+}
+
+#title-bar QToolButton:hover {
+	background: scolor(accent, dark);
+}
+
+#title-bar #titlebar-title {
+	color: scolor(text);
+}
+
+#title-bar #titlebar-movecontrol {
+	background: scolor(accent, normal);
+  }
+  
+  #title-bar #titlebar-movecontrol-top {
+	background: scolor(accent, normal);
+  }
+  
+
 /**
 * Navigation bar rules
 */
 
-#navigationbar,
-#navigationbar #navigation-button-back,
-#navigationbar #navigation-button-forward,
-#navigationbar #navigation-button-home,
-#navigationbar QSplitter {
-	background: scolor(accent);
-}
-
-#navigationbar #navigation-button-back,
-#navigationbar #navigation-button-forward,
-#navigationbar #navigation-button-home {
-	border: 1px solid transparent;
-}
-
-#navigationbar {
-    max-height: 35px;
-}
-
 #navigationbar * {
-    background: scolor(accent);
-}
+	max-height: 36px;
+	background: scolor(accent, normal);
+  }
 
-#navigationbar QSplitter {
-	border: none;
-	height: 20px;
-	padding: 6px;
-	padding: 0px;
-	spacing: 0px;
-}
-
-#navigationbar QToolButton,
-#navigationbar ToolButton {
-	background: transparent;
+  #navigationbar QToolButton,
+  #navigationbar ToolButton
+  {
+	background: scolor(accent, normal);
 	color: scolor(text);
-	height: 20px;
-	width: 20px;
+	max-width: 24px;
+	max-height: 24px;
+	height: 24px;
+	width: 24px;
 	padding: 6px;
 	margin: 0px;
 	spacing: 0px;
-}
-
-#navigationbar QToolButton:hover,
-#navigationbar ToolButton:hover {
-	background: scolor(accent, dark, 255);
-    border: none;
-}
-
-#navigationbar QToolButton:pressed,
-#navigationbar ToolButton:pressed,
-#navigationbar QToolButton:checked,
-#navigationbar ToolButton:checked {
-	background: scolor(second, normal, 255);
-    border: none;
-}
+  }
+  
+  #navigationbar QToolButton:hover,
+  #navigationbar ToolButton:hover
+  {
+	background: scolor(accent, dark);
+  }
+  
+  #navigationbar QToolButton:pressed,
+  #navigationbar ToolButton:pressed,
+  #navigationbar QToolButton:checked,
+  #navigationbar ToolButton:checked
+  {
+	background: scolor(accent, dark);
+  }
 
 #navigationbar ToolButton::menu-indicator {
 	image: url(none.png);
@@ -677,40 +700,32 @@ QTabBar::close-button:hover {
 * Navigation bar address bar rules
 */
 
-#addressbar {
-	height: 34px;
-	padding: 0;
-	margin: 0px;
-	spacing: 0px;
-	border-radius: 4px;
-	background-color: scolor(main, normal, 127);
-}
-
 #navigationbar #addressbar {
-	height: 20px;
+	height: 36px;
 	padding: 0;
 	margin: 2px 0px;
 	spacing: 0px;
+	border: 2px solid transparent;
 	border-radius: 15px;
-	background: scolor(second, normal, 100);
+	background: scolor(accent, dark);
 }
 
 #navigationbar #addressbar:hover {
 	background: scolor(second, normal, 200);
 }
 
-#addressbar QToolButton {
+#navigationbar #addressbar QToolButton {
 	width: 25px;
 	height: 30px;
-	border: none;
+	border: 2px solid transparent;
 	margin: 2px;
 	spacing: 0px;
-	background: transparent;
+	background: scolor(accent, dark);
 	color: scolor(text);
     border-radius: 15px;
 }
 
-#addressbar QToolButton:hover {
+#navigationbar #addressbar QToolButton:hover {
 	background: scolor(main);
 }
 
@@ -804,42 +819,6 @@ QTabBar::close-button:hover {
 	position: relative;
 	top: 2px;
 	left: 2px;
-}
-
-
-/* Title bar & bookmarks bar */
-
-#title-bar,
-#bookmarks-toolbar {
-	background: scolor(main, normal, 150);
-}
-
-
-/**
-* Title bar rules
-  */
-
-#title-bar {
-	height: 30px;
-	border: none;
-}
-
-#title-bar QToolButton {
-	max-width: 11px;
-	max-height: 16px;
-	padding: 5px 17px;
-	margin: 0px;
-	spacing: 0px;
-	border-radius: 0px;
-	color: scolor(text);
-}
-
-#title-bar QToolButton:hover {
-	background: scolor(accent, normal, 255);
-}
-
-#title-bar #titlebar-title {
-	color: scolor(text);
 }
 
 

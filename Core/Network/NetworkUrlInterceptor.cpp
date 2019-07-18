@@ -33,13 +33,13 @@
 namespace Sn {
 
 NetworkUrlInterceptor::NetworkUrlInterceptor(QObject* parent) :
-	QWebEngineUrlRequestInterceptor(parent),
+	Engine::UrlRequestInterceptor(parent),
 	m_sendDNT(false)
 {
 	// Empty
 }
 
-void NetworkUrlInterceptor::interceptRequest(QWebEngineUrlRequestInfo& info)
+void NetworkUrlInterceptor::interceptUrlRequest(Engine::UrlRequestInfo& info)
 {
 	if (m_sendDNT)
 		info.setHttpHeader(QByteArrayLiteral("DNT"), QByteArrayLiteral("1"));

@@ -24,8 +24,7 @@
 
 #include "Utils/ClosedTabsManager.hpp"
 
-#include <QWebEngineHistory>
-#include <QWebEngineSettings>
+#include <QWebEngine/WebHistory.hpp>
 
 #include "Application.hpp"
 
@@ -43,7 +42,7 @@ void ClosedTabsManager::saveTab(WebTab* tab, int position)
 	if (Application::instance()->privateBrowsing())
 		return;
 
-	if (tab->url().isEmpty() && tab->history()->items().count() == 0)
+	if (tab->url().isEmpty() && tab->history()->itemCount() == 0)
 		return;
 
 	Tab closedTab;

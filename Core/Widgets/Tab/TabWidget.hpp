@@ -34,10 +34,11 @@
 #include <QMenu>
 #include <QToolBar>
 
-#include <QWebEngineFullScreenRequest>
-#include <QWebEngineDownloadItem>
-#include <QWebEngineView>
+#include <QWebEngine/FullScreenRequest.hpp>
+#include <QWebEngine/DownloadItem.hpp>
+#include <QWebEngine/WebView.hpp>
 
+#include "BrowserWindow.hpp"
 #include "Application.hpp"
 
 #include "Widgets/Tab/TabStackedWidget.hpp"
@@ -58,7 +59,6 @@ class AutoSaver;
 class StatusBarMessage;
 
 class FloatingButton;
-class NavigationToolBar;
 
 class TabbedWebView;
 
@@ -91,7 +91,6 @@ public:
 
 	BrowserWindow* window() const { return m_window; }
 	MainTabBar* tabBar() const { return m_tabBar; }
-	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 	ClosedTabsManager* closedTabsManager() const { return m_closedTabsManager; }
 	QList<WebTab*> allTabs(bool withPinned = true);
 	Application::TabsSpaceType type() const { return m_tabsSpaceType; }
@@ -105,7 +104,6 @@ public:
 	void setHomeUrl(const QString& newUrl);
 
 	StatusBarMessage* statusBarMessage() const { return m_statusBarMessage; }
-	QStackedWidget* addressBars() const { return m_addressBars; }
 	ToolButton* buttonClosedTabs() const { return m_buttonClosedTabs; }
 	AddTabButton* buttonAddTab() const { return m_buttonAddTab; }
 
@@ -163,7 +161,7 @@ public slots:
 
 	void showInspector(WebTab* webTab = nullptr);
 
-	void fullScreenRequested(QWebEngineFullScreenRequest request);
+	void fullScreenRequested(Engine::FullScreenRequest& request);
 	void toggleFullScreen();
 
 	void moveAddTabButton(int posX);
@@ -191,8 +189,6 @@ private:
 	bool validIndex(int index) const;
 	void updateClosedTabsButton();
 
-	void setupNavigationBar();
-
 	void keyPressEvent(QKeyEvent* event) override;
 	void keyReleaseEvent(QKeyEvent* event) override;
 
@@ -200,7 +196,6 @@ private:
 
 	BrowserWindow* m_window{nullptr};
 	MainTabBar* m_tabBar{nullptr};
-	QStackedWidget* m_addressBars{nullptr};
 	ClosedTabsManager* m_closedTabsManager;
 	Application::TabsSpaceType m_tabsSpaceType{};
 
@@ -216,7 +211,6 @@ private:
 	QPointer<WebTab> m_lastBackgroundTab{};
 
 	QMenu* m_menuClosedTabs{nullptr};
-	NavigationToolBar* m_navigationToolBar{nullptr};
 	QUrl m_urlOnNewTab{};
 	QUrl m_homeUrl{};
 
@@ -226,7 +220,7 @@ private:
 	bool m_newEmptyTabAfterActive{false};
 	bool m_currentTabFresh{false};
 
-	QWebEngineView* m_fullScreenView{nullptr};
+	Engine::WebView* m_fullScreenView{nullptr};
 	QWidget* m_oldParent{nullptr};
 	QSize m_oldSize{};
 };

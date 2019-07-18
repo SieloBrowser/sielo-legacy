@@ -43,7 +43,7 @@ class BookmarkItem;
 class BookmarksToolbarButton;
 
 class SIELO_SHAREDLIB BookmarksToolbar: public QToolBar {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	BookmarksToolbar(BrowserWindow* window, QWidget* parent = nullptr);
@@ -51,6 +51,15 @@ public:
 
 	void createContextMenu(QMenu& menu, const QPoint& pos);
 	void contextMenuCreated();
+
+	void loadSettings();
+
+signals:
+	void visibilityChanged(bool visible);
+
+protected:
+	void hideEvent(QHideEvent* event) override;
+	void showEvent(QShowEvent* event) override;
 
 private slots:
 	void refresh();
@@ -63,6 +72,9 @@ private slots:
 	void openBookmarkInNewPrivateWindow();
 	void editBookmark();
 	void deleteBookmark();
+
+	void hideToolBar();
+	void toogleShow(bool showToolBar);
 
 private:
 	void addItem(BookmarkItem* item);

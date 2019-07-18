@@ -35,10 +35,11 @@
 
 #include <QFont>
 
-#include <QWebEngineProfile>
-
 #include "3rdparty/SingleApplication/singleapplication.h"
 #include "3rdparty/Piwik/piwiktracker.h"
+
+#include <QWebEngine/WebProfile.hpp>
+#include <QWebEngine/DownloadItem.hpp>
 
 namespace Sn
 {
@@ -243,12 +244,13 @@ public:
 	NetworkManager *networkManager() const { return m_networkManager; }
 	RestoreManager *restoreManager() const { return m_restoreManager; }
 
-	QWebEngineProfile *webProfile();
+	Engine::WebProfile *webProfile();
 
 	PiwikTracker *piwikTraker() { return m_piwikTracker; }
 
 	bool fullyLoadThemes() const { return m_fullyLoadThemes; }
-	bool useTopToolBar() const { return m_useTopToolBar; }
+	bool showFloatingButton() const { return m_showFloatingButton; }
+	bool hideToolbarControls() const { return m_hideToolbarControls; }
 	bool hideBookmarksHistoryActions() const { return m_hideBookmarksHistoryActions; }
 	bool floatingButtonFoloweMouse() const { return m_floatingButtonFoloweMouse; }
 
@@ -316,7 +318,7 @@ private slots:
 	void windowDestroyed(QObject* window);
 	void onFocusChanged();
 
-	void downloadRequested(QWebEngineDownloadItem* download);
+	void downloadRequested(Engine::DownloadItem* download);
 
 private:
 	enum PostLaunchAction {
@@ -336,7 +338,8 @@ private:
 	bool m_isRestoring{false};
 	bool m_isClosing{false};
 	bool m_fullyLoadThemes{true};
-	bool m_useTopToolBar{false};
+	bool m_showFloatingButton{false};
+	bool m_hideToolbarControls{false};
 	bool m_hideBookmarksHistoryActions{false};
 	bool m_floatingButtonFoloweMouse{true};
 	bool m_databaseConnected{false};
@@ -353,7 +356,7 @@ private:
 	HTML5PermissionsManager* m_permissionsManager{nullptr};
 
 	NetworkManager* m_networkManager{nullptr};
-	QWebEngineProfile* m_webProfile{nullptr};
+	Engine::WebProfile* m_webProfile{nullptr};
 
 	RestoreManager* m_restoreManager{nullptr};
 

@@ -32,7 +32,7 @@
 #include <QPixmap>
 #include <QObject>
 
-#include <QWebEnginePage>
+#include <QWebEngine/WebPage.hpp>
 
 #include "Application.hpp"
 
@@ -45,6 +45,7 @@ class WebHitTestResult;
 class NavigationToolBar;
 
 class TabWidget;
+class BrowserWindow;
 
 struct SIELO_SHAREDLIB PluginProp {
 	QString name{};
@@ -80,7 +81,7 @@ public:
 	virtual QTranslator* getTranslator(const QString& locale) { Q_UNUSED(locale) return nullptr; }
 	virtual void showSettings(QWidget* parent = nullptr) { Q_UNUSED(parent) }
 
-	virtual QWidget* navigationBarButton(TabWidget* tabWidget) { return nullptr; }
+	virtual QWidget* navigationBarButton(BrowserWindow* window) { return nullptr; }
 
 	virtual void populateWebViewMenu(QMenu* menu, WebView* view, const WebHitTestResult& result)
 	{
@@ -150,7 +151,7 @@ public:
 		return false;
 	}
 
-	virtual bool acceptNavigationRequest(WebPage* page, const QUrl& url, QWebEnginePage::NavigationType type,
+	virtual bool acceptNavigationRequest(WebPage* page, const QUrl& url, Engine::WebPage::NavigationType type,
 										 bool isMainFrame)
 	{
 		Q_UNUSED(page);

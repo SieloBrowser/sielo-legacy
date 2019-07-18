@@ -37,7 +37,7 @@
 
 #include <QUrl>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 #include "Utils/RegExp.hpp"
 
@@ -83,20 +83,20 @@ public:
 	bool isInternalDisabled() const;
 
 	bool urlMatch(const QUrl& url) const;
-	bool networkMatch(const QWebEngineUrlRequestInfo& request, const QString& domain, const QString& encodedUrl) const;
+	bool networkMatch(const Engine::UrlRequestInfo& request, const QString& domain, const QString& encodedUrl) const;
 
 	bool matchDomain(const QString& domain) const;
-	bool matchThirdParty(const QWebEngineUrlRequestInfo& request) const;
-	bool matchObject(const QWebEngineUrlRequestInfo& request) const;
-	bool matchSubdocument(const QWebEngineUrlRequestInfo& request) const;
-	bool matchXMLHttpRequest(const QWebEngineUrlRequestInfo& request) const;
-	bool matchImage(const QWebEngineUrlRequestInfo& request) const;
-	bool matchScript(const QWebEngineUrlRequestInfo& request) const;
-	bool matchStyleSheet(const QWebEngineUrlRequestInfo& request) const;
-	bool matchObjectSubrequest(const QWebEngineUrlRequestInfo& request) const;
-	bool matchPing(const QWebEngineUrlRequestInfo& request) const;
-	bool matchMedia(const QWebEngineUrlRequestInfo& request) const;
-	bool matchOther(const QWebEngineUrlRequestInfo& request) const;
+	bool matchThirdParty(const Engine::UrlRequestInfo& request) const;
+	bool matchObject(const Engine::UrlRequestInfo& request) const;
+	bool matchSubdocument(const Engine::UrlRequestInfo& request) const;
+	bool matchXMLHttpRequest(const Engine::UrlRequestInfo& request) const;
+	bool matchImage(const Engine::UrlRequestInfo& request) const;
+	bool matchScript(const Engine::UrlRequestInfo& request) const;
+	bool matchStyleSheet(const Engine::UrlRequestInfo& request) const;
+	bool matchObjectSubrequest(const Engine::UrlRequestInfo& request) const;
+	bool matchPing(const Engine::UrlRequestInfo& request) const;
+	bool matchMedia(const Engine::UrlRequestInfo& request) const;
+	bool matchOther(const Engine::UrlRequestInfo& request) const;
 
 protected:
 	bool stringMatch(const QString& domain, const QString& encodedUrl) const;

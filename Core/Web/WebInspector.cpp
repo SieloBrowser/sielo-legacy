@@ -48,7 +48,7 @@ WebInspector::WebInspector(QWidget* parent) :
 	connect(m_closeButton, &QPushButton::clicked, this, &WebInspector::close);
 }
 
-void WebInspector::setView(QWebEngineView* view, bool inspectElement)
+void WebInspector::setView(Engine::WebView* view, bool inspectElement)
 {
 	m_inspectedView = view;
 	m_view->page()->setInspectedPage(view->page());
@@ -65,7 +65,7 @@ void WebInspector::setupUI()
 	m_closeButton = new QPushButton("X", this);
 	m_closeButton->setObjectName("web-inspector-btn-close");
 
-	m_view = new QWebEngineView(this);
+	m_view = new Engine::WebView(this);
 
 	m_layout->addWidget(m_closeButton);
 	m_layout->addWidget(m_view);

@@ -527,8 +527,6 @@ void AddressBar::keyPressEvent(QKeyEvent* event)
 
 void AddressBar::mousePressEvent(QMouseEvent* event)
 {
-	emit m_tabWidget->focusIn(m_tabWidget);
-
 	LineEdit::mousePressEvent(event);
 }
 
@@ -561,6 +559,8 @@ void AddressBar::refreshTextFormat()
 		return;
 
 	QList<QTextLayout::FormatRange> textFormat{};
+
+	// TODO: Qt suck
 	QString hostName{m_webView->url().isEmpty() ? QUrl(text()).host() : m_webView->url().host()};
 
 	if (!hostName.isEmpty()) {

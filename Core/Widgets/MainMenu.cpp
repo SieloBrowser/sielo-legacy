@@ -31,6 +31,7 @@
 #include "BrowserWindow.hpp"
 
 #include "Bookmarks/BookmarksMenu.hpp"
+#include "Bookmarks/BookmarksToolbar.hpp"
 
 #include "MaquetteGrid/MaquetteGridMenu.hpp"
 
@@ -62,10 +63,8 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 {
 	setObjectName("main-menu");
 
-	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), tr("Show Bookmarks Bar"),
+	m_toggleBookmarksAction = new QAction(Application::getAppIcon("toggle-bookmarks-bar"), m_tabWidget->window()->bookmarksToolBar()->isVisible() ? tr("Hide Bookmarks Bar") : tr("Show Bookmarks Bar"),
 	                                      this);
-
-	m_toggleBookmarksAction->setCheckable(true);
 
 	QAction* backAction = new QAction(Application::getAppIcon("arrow-left"), tr("Back"), this);
 	QAction* nextAction = new QAction(Application::getAppIcon("arrow-right"), tr("Forward"), this);
@@ -85,6 +84,7 @@ MainMenu::MainMenu(TabWidget* tabWidget, QWidget* parent) :
 	m_viewMenu->addSeparator();
 
 	m_bookmarksMenu = new BookmarksMenu(this);
+	m_bookmarksMenu->insertAction(m_bookmarksMenu->actions()[3], m_toggleBookmarksAction);
 	m_bookmarksMenu->setMainWindow(m_tabWidget->window());
 
 	m_maquetteGridMenu = new MaquetteGridMenu(m_tabWidget);
@@ -307,14 +307,17 @@ void MainMenu::openFile()
 void MainMenu::toggleBookmarksToolBar()
 {
 	TitleBar* titleBar{m_tabWidget->window()->titleBar()};
+	Settings settings{};
 
-	if (titleBar->showBookmarks()) {
+	if (m_tabWidget->window()->bookmarksToolBar()->isVisible()) {
 		updateShowBookmarksBarText(false);
-		titleBar->setShowBookmark(false);
+		settings.setValue("Settings/ShowBookmarksToolBar", false);
+		m_tabWidget->window()->bookmarksToolBar()->hide();
 	}
 	else {
 		updateShowBookmarksBarText(true);
-		titleBar->setShowBookmark(true);
+		settings.setValue("Settings/ShowBookmarksToolBar", true);
+		m_tabWidget->window()->bookmarksToolBar()->show();
 	}
 
 	Application::instance()->saveSession();

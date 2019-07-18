@@ -29,7 +29,6 @@
 #include <QDesktopServices>
 #include <QFileInfo>
 
-#include <QWebEngineSettings>
 #include <QWebChannel>
 
 #include <QMessageBox>
@@ -80,7 +79,7 @@ QString WebPage::setCSS(const QString& css)
 }
 
 WebPage::WebPage(QObject* parent) :
-	QWebEnginePage(Application::instance()->webProfile(), parent),
+	Engine::WebPage(Application::instance()->webProfile(), parent),
 	m_runningLoop(nullptr),
 	m_loadProgress(-1),
 	m_blockAlerts(false),
@@ -90,20 +89,20 @@ WebPage::WebPage(QObject* parent) :
 
 	setupWebChannel();
 
-	connect(this, &QWebEnginePage::loadProgress, this, &WebPage::progress);
-	connect(this, &QWebEnginePage::loadFinished, this, &WebPage::finished);
-	connect(this, &QWebEnginePage::urlChanged, this, &WebPage::urlChanged);
-	connect(this, &QWebEnginePage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
-	connect(this, &QWebEnginePage::windowCloseRequested, this, &WebPage::windowCloseRequested);
+	connect(this, &Engine::WebPage::loadProgress, this, &WebPage::progress);
+	connect(this, &Engine::WebPage::loadFinished, this, &WebPage::finished);
+	connect(this, &Engine::WebPage::urlChanged, this, &WebPage::urlChanged);
+	connect(this, &Engine::WebPage::featurePermissionRequested, this, &WebPage::featurePermissionRequested);
+	connect(this, &Engine::WebPage::windowCloseRequested, this, &WebPage::windowCloseRequested);
 
-	connect(this, &QWebEnginePage::authenticationRequired, this, [this](const QUrl& url, QAuthenticator* authenticator)
+	connect(this, &Engine::WebPage::authenticationRequired, this, [this](const QUrl& url, QAuthenticator* authenticator)
 	{
 		Application::instance()->networkManager()->authentication(url, authenticator, view());
 	});
 
 	// Workaround for broken load started/finished signals in QtWebEngine 5.10
 	if (qstrncmp(qVersion(), "5.10.", 5) == 0) {
-		connect(this, &QWebEnginePage::loadProgress, this, [this](int progress) {
+		connect(this, &Engine::WebPage::loadProgress, this, [this](int progress) {
 			if (progress == 100) {
 				emit loadFinished(true);
 			}
@@ -111,7 +110,7 @@ WebPage::WebPage(QObject* parent) :
 	}
 
 	connect(this,
-			&QWebEnginePage::proxyAuthenticationRequired,
+			&Engine::WebPage::proxyAuthenticationRequired,
 			this,
 			[this](const QUrl& url, QAuthenticator* authenticator, const QString& proxyHost)
 			{
@@ -132,7 +131,7 @@ WebPage::~WebPage()
 
 WebView* WebPage::view() const
 {
-	return static_cast<WebView*>(QWebEnginePage::view());
+	return static_cast<WebView*>(Engine::WebPage::view());
 }
 
 bool WebPage::execPrintPage(QPrinter* printer, int timeout)
@@ -188,7 +187,7 @@ WebHitTestResult WebPage::hitTestContent(const QPoint& pos) const
 void WebPage::scroll(int x, int y)
 {
 	runJavaScript(QStringLiteral("window.scrollTo(window.scrollX + %1, window.scrollY + %2)").arg(x).arg(y),
-				  QWebEngineScript::ApplicationWorld);
+				  Engine::WebProfile::ScriptWorldId::ApplicationWorld);
 }
 
 void WebPage::setScrollPosition(const QPointF& pos)
@@ -302,12 +301,12 @@ void WebPage::cleanBlockedObject()
 	const QString elementHiding{manager->elementHidingRules(url())};
 
 	if (!elementHiding.isEmpty())
-		runJavaScript(WebPage::setCSS(elementHiding), QWebEngineScript::ApplicationWorld);
+		runJavaScript(WebPage::setCSS(elementHiding), Engine::WebProfile::ScriptWorldId::ApplicationWorld);
 
 	const QString siteElementHiding{manager->elementHidingRulesForDomain(url())};
 
 	if (!siteElementHiding.isEmpty())
-		runJavaScript(WebPage::setCSS(siteElementHiding), QWebEngineScript::ApplicationWorld);
+		runJavaScript(WebPage::setCSS(siteElementHiding), Engine::WebProfile::ScriptWorldId::ApplicationWorld);
 }
 
 void WebPage::urlChanged(const QUrl& url)
@@ -322,7 +321,7 @@ void WebPage::urlChanged(const QUrl& url)
 void WebPage::watchedFileChanged(const QString& file)
 {
 	if (url().toLocalFile() == file)
-		triggerAction(QWebEnginePage::Reload);
+		triggerAction(Engine::WebPage::Reload);
 }
 
 void WebPage::windowCloseRequested()
@@ -333,7 +332,7 @@ void WebPage::windowCloseRequested()
 	view()->closeView();
 }
 
-void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePage::Feature& feature)
+void WebPage::featurePermissionRequested(const QUrl& origin, const Engine::WebPage::Feature& feature)
 {
 	if (feature == MouseLock && view()->isFullScreen())
 		setFeaturePermission(origin, feature, PermissionGrantedByUser);
@@ -344,7 +343,7 @@ void WebPage::featurePermissionRequested(const QUrl& origin, const QWebEnginePag
 bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame)
 {
 	if (Application::instance()->isClosing())
-		return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
+		return Engine::WebPage::acceptNavigationRequest(url, type, isMainFrame);
 
 	if (!Application::instance()->plugins()->acceptNavigationRequest(this, url, type, isMainFrame))
 		return false;
@@ -352,10 +351,10 @@ bool WebPage::acceptNavigationRequest(const QUrl& url, NavigationType type, bool
 	if (url.scheme() == QLatin1String("abp") && ADB::Manager::instance()->addSubscriptionFromUrl(url))
 		return false;
 
-	return QWebEnginePage::acceptNavigationRequest(url, type, isMainFrame);
+	return Engine::WebPage::acceptNavigationRequest(url, type, isMainFrame);
 }
 
-QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
+Engine::WebPage* WebPage::createNewWindow(Engine::WebPage::WebWindowType type)
 {
 	TabbedWebView* tabbedWebView = qobject_cast<TabbedWebView*>(view());
 	BrowserWindow* window = tabbedWebView ? tabbedWebView->webTab()->tabWidget()->window() : Application::instance()->getWindow();
@@ -369,16 +368,16 @@ QWebEnginePage* WebPage::createWindow(QWebEnginePage::WebWindowType type)
 	};
 
 	switch (type) {
-	case QWebEnginePage::WebBrowserWindow: {
+	case Engine::WebPage::WebBrowserWindow: {
 		BrowserWindow* window{Application::instance()->createWindow(Application::WT_NewWindow)};
 		WebPage* page{new WebPage};
 		window->setStartPage(page);
 		return page;
 	}
-	case QWebEnginePage::WebDialog: //TODO: do
-	case QWebEnginePage::WebBrowserTab:
+	case Engine::WebPage::WebDialog: //TODO: do
+	case Engine::WebPage::WebBrowserTab:
 		return createTab(Application::NTT_CleanSelectedTab);
-	case QWebEnginePage::WebBrowserBackgroundTab:
+	case Engine::WebPage::WebBrowserBackgroundTab:
 		return createTab(Application::NTT_CleanNotSelectedTab);
 	default:
 		break;

@@ -45,7 +45,7 @@
 #include <QTreeWidget>
 #include <QSpacerItem>
 
-#include <QWebEnginePage>
+#include <QWebEngine/WebPage.hpp>
 
 namespace Sn {
 class SIELO_SHAREDLIB HTML5PermissionsDialog: public QDialog {
@@ -55,7 +55,7 @@ public:
 	HTML5PermissionsDialog(QWidget* parent = nullptr);
 	~HTML5PermissionsDialog();
 
-	void showFeaturePermissions(QWebEnginePage::Feature feature);
+	void showFeaturePermissions(Engine::WebPage::Feature feature);
 
 private slots:
 	void removeEntry();
@@ -69,7 +69,7 @@ private:
 	void setupUI();
 	void loadSettings();
 
-	QWebEnginePage::Feature currentFeature() const;
+	Engine::WebPage::Feature currentFeature() const;
 
 	QGridLayout* m_layout{nullptr};
 	QVBoxLayout* m_removeLayout{nullptr};
@@ -82,8 +82,8 @@ private:
 	QComboBox* m_feature{nullptr};
 	QSpacerItem* horizontalSpacer{nullptr};
 
-	QHash<QWebEnginePage::Feature, QStringList> m_granted{};
-	QHash<QWebEnginePage::Feature, QStringList> m_denied{};
+	QHash<Engine::WebPage::Feature, QStringList> m_granted{};
+	QHash<Engine::WebPage::Feature, QStringList> m_denied{};
 };
 
 }

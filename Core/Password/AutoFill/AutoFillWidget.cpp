@@ -29,7 +29,7 @@
 #include <QLayout>
 #include <QPushButton>
 
-#include <QWebEngineScript>
+#include <QWebEngine/WebProfile.hpp>
 
 #include "Web/WebView.hpp"
 #include "Web/WebPage.hpp"
@@ -142,7 +142,7 @@ void AutoFillWidget::loginToPage()
 
 		data.replace(QLatin1String("'"), QLatin1String("\\'"));
 
-		m_view->page()->runJavaScript(source.arg(data), QWebEngineScript::ApplicationWorld);
+		m_view->page()->runJavaScript(source.arg(data), Engine::WebProfile::ScriptWorldId::ApplicationWorld);
 	}
 
 	close();

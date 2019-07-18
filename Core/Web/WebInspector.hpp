@@ -28,7 +28,7 @@
 
 #include "SharedDefines.hpp"
 
-#include <QWebEngineView>
+#include <QWebEngine/WebView.hpp>
 
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -41,16 +41,16 @@ public:
 	WebInspector(QWidget* parent = nullptr);
 	~WebInspector() = default;
 
-	void setView(QWebEngineView* view, bool inspectElement = false);
+	void setView(Engine::WebView* view, bool inspectElement = false);
 
 private:
 	void setupUI();
 
 	QVBoxLayout* m_layout{nullptr};
 	QPushButton* m_closeButton{nullptr};
-	QWebEngineView* m_view{nullptr};
+	Engine::WebView* m_view{nullptr};
 
-	QWebEngineView* m_inspectedView{nullptr};
+	Engine::WebView* m_inspectedView{nullptr};
 };
 }
 

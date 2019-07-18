@@ -6,6 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/Core)
+include_directories(${CMAKE_SOURCE_DIR}/WebEngines)
 include_directories(${CMAKE_SOURCE_DIR}/third-party/includes)
 
 file(
@@ -56,12 +57,12 @@ file(
 
 add_library(SieloCore SHARED ${SOURCE_FILES} ${QRC_FILES} ${QM_FILES})
 
-set(SIELO_LIBS ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::WebEngine Qt5::Sql Qt5::WebEngineWidgets)
+set(SCORE_LIBS SieloWebEngine ${OPENSSL_LIBRARIES} Qt5::Widgets Qt5::Network Qt5::Sql Qt5::WebChannel)
 if(WIN32)
-    set(SIELO_LIBS ${SIELO_LIBS} dwmapi uxtheme)
+    set(SCORE_LIBS ${SCORE_LIBS} dwmapi uxtheme)
 endif()
 
-target_link_libraries(SieloCore ${SIELO_LIBS})
+target_link_libraries(SieloCore PUBLIC ${SCORE_LIBS})
 
 if (WIN32)
     # deploy

@@ -34,7 +34,7 @@
 #include <QStringList>
 #include <QUrl>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 namespace Sn {
 namespace ADB {
@@ -77,7 +77,7 @@ public:
 	Subscription* addSubscription(const QString& title, const QString& url);
 	bool removeSubscription(Subscription* subscription);
 
-	bool block(QWebEngineUrlRequestInfo& request);
+	bool block(Engine::UrlRequestInfo& request);
 
 	QStringList disabledRules() const { return m_disabledRules; }
 

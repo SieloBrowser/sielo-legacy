@@ -33,10 +33,15 @@
 #include <QToolButton>
 #include <QPushButton>
 
+#include <QHBoxLayout>
+
+#include <QStackedWidget>
+
 #include <QMouseEvent>
 #include <QContextMenuEvent>
 
 namespace Sn {
+class NavigationToolBar;
 class BookmarksToolbar;
 
 class BrowserWindow;
@@ -46,61 +51,44 @@ Q_OBJECT
 
 public:
 	TitleBar(BrowserWindow* window, bool showBookmarks = true);
-	~TitleBar();
+	~TitleBar() = default;
 
-	void setTitle(const QString& title);
+	void loadSettings();
 
-	BookmarksToolbar* bookmarksToolBar() const { return m_bookmarksToolbar; }
-	bool showBookmarks() const { return m_showBookmarks; }
-	void setShowBookmark(bool show);
+	NavigationToolBar* navigationToolBar() const { return m_navigationToolBar; }
 
-	bool isWindowMaximized() const;
-
-	void saveToolBarsPositions();
-	void restoreToolBarsPositions();
-
-	void hide();
-	void show();
-
-	bool isView();
-	void setView(bool view);
-
-signals:
-	void toggleBookmarksBar(bool shown);
-
-protected:
-	bool eventFilter(QObject* obj, QEvent* event);
-	void contextMenuEvent(QObject* obj, QContextMenuEvent* event);
+	QStackedWidget* addressBars() const { return m_addressBars; }
 
 private slots:
-	void build();
-
 	void closeWindow();
-	void toggleMaximize(bool forceMaximize = false);
+	void toggleMaximize();
 	void minimize();
 
+	void maximizeChanged(bool maximized, QSize oldSize);
+
 private:
-	bool m_showBookmarks{true};
-	bool m_isMaximized{false};
-	bool m_isOnSide{false};
-	bool m_canMove{true};
-	bool m_show{true};
+	void setupUI();
+
+	BrowserWindow* m_window{nullptr};
+
+	QHBoxLayout* m_layout{nullptr};
+	QVBoxLayout* m_main_layout{nullptr};
+	NavigationToolBar* m_navigationToolBar{nullptr};
 
 #ifdef Q_OS_WIN
-	QToolBar* m_controlsToolbar{ nullptr };
-	QLabel* m_title{nullptr};
+	QWidget* m_moveControlWidget{nullptr};
+	QWidget* m_moveTopControlWidget{nullptr};
+
 	QToolButton* m_closeButton{nullptr};
 	QToolButton* m_toggleMaximize{nullptr};
 	QToolButton* m_minimize{nullptr};
 #endif // Q_OS_WIN
 
-	QFrame *m_sizePreview{nullptr};
-
-	BookmarksToolbar* m_bookmarksToolbar{nullptr};
+	QStackedWidget* m_addressBars{nullptr};
 
 	QRect m_geometry{};
-	QPoint m_offset{};
-	BrowserWindow* m_window{nullptr};
+	bool m_isMaximized{false};
+	bool m_isOnSide{false};
 };
 }
 

@@ -370,7 +370,7 @@ QIcon WebTab::icon(bool allowNull) const
 	return Application::getAppIcon("webpage");
 }
 
-QWebEngineHistory* WebTab::history() const
+Engine::WebHistory* WebTab::history() const
 {
 	return m_webView->history();
 }
@@ -614,16 +614,14 @@ void WebTab::toggleWebInspector()
 
 void WebTab::showSearchToolBar()
 {
-	int offset = Application::instance()->useTopToolBar();
-
-	const int index{2 - offset};
+	const int index{1};
 	SearchToolBar* toolBar{nullptr};
 
-	if (m_layout->count() == 2 - offset) {
+	if (m_layout->count() == 1) {
 		toolBar = new SearchToolBar(m_webView, this);
 		m_layout->insertWidget(index, toolBar);
 	}
-	else if (m_layout->count() == 3 - offset) {
+	else if (m_layout->count() == 2) {
 		Q_ASSERT(qobject_cast<SearchToolBar*>(m_layout->itemAt(index)->widget()));
 		toolBar = static_cast<SearchToolBar*>(m_layout->itemAt(index)->widget());
 	}

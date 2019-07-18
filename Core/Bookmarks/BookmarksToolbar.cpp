@@ -26,6 +26,8 @@
 
 #include <QMimeData>
 
+#include "Utils/Settings.hpp"
+
 #include "Bookmarks/Bookmarks.hpp"
 #include "Bookmarks/BookmarksUtils.hpp"
 #include "Bookmarks/BookmarkItem.hpp"
@@ -44,6 +46,8 @@ BookmarksToolbar::BookmarksToolbar(BrowserWindow* window, QWidget* parent) :
 	setObjectName(QLatin1String("bookmarks-toolbar"));
 	setAcceptDrops(true);
 	setMinimumHeight(25);
+
+	loadSettings();
 
 	m_updateTimer = new QTimer(this);
 	m_updateTimer->setInterval(300);
@@ -70,6 +74,10 @@ void BookmarksToolbar::createContextMenu(QMenu& menu, const QPoint& pos)
 	BookmarksToolbarButton* button = buttonAt(pos);
 	m_clickedBookmark = button ? button->bookmark() : nullptr;
 
+	QAction* actionHide{menu.addAction(tr("Hide toolbar"))};
+
+	menu.addSeparator();
+
 	QAction* actionNewTab{menu.addAction(tr("Open in new tab"))};
 	QAction* actionNewWindow{menu.addAction(Application::getAppIcon("new-window"), tr("Open in new window"))};
 	QAction* actionNewPrivateWindow{menu.addAction(tr("Open in new private window"))};
@@ -93,6 +101,8 @@ void BookmarksToolbar::createContextMenu(QMenu& menu, const QPoint& pos)
 
 	connect(m_actionShowOnlyText, &QAction::toggled, m_bookmarks, &Bookmarks::setShowOnlyTextInToolbar);
 
+	connect(actionHide, &QAction::triggered, this, &BookmarksToolbar::hideToolBar);
+
 	connect(actionNewTab, &QAction::triggered, this, &BookmarksToolbar::openBookmarkInNewTab);
 	connect(actionNewWindow, &QAction::triggered, this, &BookmarksToolbar::openBookmarkInNewWindow);
 	connect(actionNewPrivateWindow, &QAction::triggered, this, &BookmarksToolbar::openBookmarkInNewPrivateWindow);
@@ -111,6 +121,33 @@ void BookmarksToolbar::contextMenuCreated()
 	m_clickedBookmark = nullptr;
 	m_actionShowOnlyIcons = nullptr;
 	m_actionShowOnlyText = nullptr;
+}
+
+void BookmarksToolbar::loadSettings()
+{
+	Settings settings{};
+	bool showToolBar{settings.value("Settings/ShowBookmarksToolBar", true).toBool()};
+
+	if (showToolBar)
+		show();
+	else
+		hide();
+}
+
+void BookmarksToolbar::hideEvent(QHideEvent* event)
+{
+	Q_UNUSED(event);
+
+	emit visibilityChanged(false);
+	QToolBar::hideEvent(event);
+}
+
+void BookmarksToolbar::showEvent(QShowEvent* event)
+{
+	Q_UNUSED(event);
+
+	emit visibilityChanged(true);
+	QToolBar::showEvent(event);
 }
 
 void BookmarksToolbar::refresh()
@@ -147,6 +184,7 @@ void BookmarksToolbar::showOnlyTextChanged(bool state)
 		bookmark->setShowOnlyText(state);
 }
 
+
 void BookmarksToolbar::openBookmarkInNewTab()
 {
 	if (m_clickedBookmark)
@@ -176,6 +214,25 @@ void BookmarksToolbar::deleteBookmark()
 {
 	if (m_clickedBookmark)
 		m_bookmarks->removeBookmark(m_clickedBookmark);
+}
+
+void BookmarksToolbar::hideToolBar()
+{
+	Settings settings{};
+	settings.setValue("Settings/ShowBookmarksToolBar", false);
+
+	hide();
+}
+
+void BookmarksToolbar::toogleShow(bool showToolBar)
+{
+	Settings settings{};
+	settings.setValue("Settings/ShowBookmarksToolBar", showToolBar);
+
+	if (showToolBar)
+		show();
+	else
+		hide();
 }
 
 void BookmarksToolbar::addItem(BookmarkItem* item)

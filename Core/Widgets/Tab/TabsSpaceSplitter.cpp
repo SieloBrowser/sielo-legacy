@@ -26,6 +26,8 @@
 
 #include <QFileInfo>
 
+#include "Bookmarks/BookmarksToolbar.hpp"
+
 #include "Utils/Settings.hpp"
 #include "Utils/DataPaths.hpp"
 
@@ -192,22 +194,19 @@ void TabsSpaceSplitter::loadSettings()
 
 	m_tabsSpacePadding = settings.value(QLatin1String("Settings/tabsSpacesPadding"), 7).toInt();
 	const bool showBookmarksToolBar{settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool()};
-	const bool showActiveTabsSpace = settings.value("Settings/showActiveTabsSpace", true).toBool();
-
 	// We can apply a padding between tabs space, exactly like i3 gaps
 	foreach(TabWidget* tabWidget, m_tabWidgets)
 	{
 		tabWidget->loadSettings();
 		tabWidget->updateShowBookmarksBarText(showBookmarksToolBar);
 
-		tabWidget->parentWidget()->setStyleSheet("");
+		tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
 		if (tabWidget->parentWidget())
 			tabWidget->parentWidget()->setContentsMargins(m_tabsSpacePadding, m_tabsSpacePadding,
 														  m_tabsSpacePadding, m_tabsSpacePadding);
 
-		if (tabWidget == m_currentTabWidget && showActiveTabsSpace)
-			tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
+		tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 	}
 }
 
@@ -428,12 +427,10 @@ int TabsSpaceSplitter::horizontalCount() const
 
 void TabsSpaceSplitter::currentTabWidgetChanged(TabWidget* current)
 {
-	if (Settings().value("Settings/showActiveTabsSpace", true).toBool()) {
-		if (m_currentTabWidget)
-			m_currentTabWidget->parentWidget()->setStyleSheet("");
+	if (m_currentTabWidget)
+			m_currentTabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
-		current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 4px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
-	}
+	current->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("accentnormal") + "); }");
 
 	m_currentTabWidget = current;
 }
@@ -533,8 +530,10 @@ QWidget* TabsSpaceSplitter::tabWidgetContainer(TabWidget* tabWidget)
 	layout->addWidget(tabWidget);
 
 	connect(tabWidget, &TabWidget::focusIn, m_window, &BrowserWindow::tabWidgetIndexChanged);
-	connect(m_window->titleBar(), &TitleBar::toggleBookmarksBar, tabWidget,
+	connect(m_window->bookmarksToolBar(), &BookmarksToolbar::visibilityChanged, tabWidget,
 			&TabWidget::updateShowBookmarksBarText);
+
+	tabWidget->parentWidget()->setStyleSheet("#tabwidget-stack { border: 2px solid rgba(" + AppearancePage::colorString("mainnormal") + "); }");
 
 	return widget;
 }

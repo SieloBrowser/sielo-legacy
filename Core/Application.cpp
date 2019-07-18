@@ -41,9 +41,8 @@
 
 #include <QMessageBox>
 
-#include <QWebEngineSettings>
-#include <QWebEngineScript>
-#include <QWebEngineScriptCollection>
+#include <QWebEngine/WebSettings.hpp>
+
 #include <AdBlock/Manager.hpp>
 
 #include "BrowserWindow.hpp"
@@ -79,7 +78,6 @@
 #include "Network/NetworkManager.hpp"
 
 #include "Widgets/TitleBar.hpp"
-#include "Widgets/NavigationControlDialog.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
@@ -89,7 +87,7 @@
 
 namespace Sn
 {
-QString Application::currentVersion = QString("1.17.14");
+QString Application::currentVersion = QString("1.18.04 | closed-beta");
 
 // Static member
 Application *Application::instance()
@@ -224,7 +222,7 @@ Application::Application(int& argc, char** argv) :
 {
 	// Setting up settings environment
 	QCoreApplication::setApplicationName(QLatin1String("Sielo"));
-	QCoreApplication::setApplicationVersion(QLatin1String("1.17.14"));
+	QCoreApplication::setApplicationVersion(QLatin1String("1.18.04"));
 
 	setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
 	setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -328,8 +326,8 @@ Application::Application(int& argc, char** argv) :
 #endif 
 
 	// Setting up web and network objects
-	m_webProfile = privateBrowsing() ? new QWebEngineProfile(this) : QWebEngineProfile::defaultProfile();
-	connect(m_webProfile, &QWebEngineProfile::downloadRequested, this, &Application::downloadRequested);
+	m_webProfile = privateBrowsing() ? new Engine::WebProfile(this) : Engine::WebProfile::defaultWebProfile();
+	connect(m_webProfile, &Engine::WebProfile::downloadRequested, this, &Application::downloadRequested);
 
 	m_networkManager = new NetworkManager(this);
 	m_autoFill = new AutoFill;
@@ -340,15 +338,11 @@ Application::Application(int& argc, char** argv) :
 	// Setup web channel with custom script (mainly for autofill)
 	QString webChannelScriptSrc = Scripts::webChannelDefautlScript();
 
-	QWebEngineScript script{};
-
-	script.setName(QStringLiteral("_sielo_webchannel"));
-	script.setInjectionPoint(QWebEngineScript::DocumentCreation);
-	script.setWorldId(QWebEngineScript::MainWorld);
-	script.setRunsOnSubFrames(true);
-	script.setSourceCode(webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))));
-
-	m_webProfile->scripts()->insert(script);
+	m_webProfile->insertScript(QStringLiteral("_sielo_webchannel"),
+							   webChannelScriptSrc.arg(readFile(QStringLiteral(":/qtwebchannel/qwebchannel.js"))),
+							   Engine::WebProfile::DocumentCreation,
+							   Engine::WebProfile::MainWorld,
+							   true);
 
 	m_plugins = new PluginProxy;
 	m_plugins->loadPlugins();
@@ -411,7 +405,8 @@ void Application::loadSettings()
 
 	// General Sielo settings
 	m_fullyLoadThemes = settings.value("Settings/fullyLoadThemes", true).toBool();
-	m_useTopToolBar = settings.value("Settings/useTopToolBar", false).toBool();
+	m_showFloatingButton = settings.value("Settings/showFloatingButton", false).toBool();
+	m_hideToolbarControls = settings.value("Settings/hideToolbarControls", false).toBool();
 	m_hideBookmarksHistoryActions = settings.value("Settings/hideBookmarksHistoryByDefault", false).toBool();
 	m_floatingButtonFoloweMouse = settings.value("Settings/floatingButtonFoloweMouse", true).toBool();
 
@@ -449,27 +444,27 @@ void Application::loadWebSettings()
 	Settings settings{};
 
 	// load web settings
-	QWebEngineSettings* webSettings = m_webProfile->settings();
+	Engine::WebSettings* webSettings = m_webProfile->settings();
 
 	settings.beginGroup("Web-Settings");
 
-	webSettings->setAttribute(QWebEngineSettings::PluginsEnabled, settings.value("allowPlugins", true).toBool());
-	webSettings->setAttribute(QWebEngineSettings::JavascriptEnabled, settings.value("allowJavaScript", true).toBool());
-	webSettings->setAttribute(QWebEngineSettings::LinksIncludedInFocusChain,
+	webSettings->setAttribute(Engine::WebSettings::PluginsEnabled, settings.value("allowPlugins", true).toBool());
+	webSettings->setAttribute(Engine::WebSettings::JavascriptEnabled, settings.value("allowJavaScript", true).toBool());
+	webSettings->setAttribute(Engine::WebSettings::LinksIncludedInFocusChain,
 							  settings.value("includeLinkInFocusChain", false).toBool());
-	webSettings->setAttribute(QWebEngineSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
+	webSettings->setAttribute(Engine::WebSettings::XSSAuditingEnabled, settings.value("XSSAuditing", false).toBool());
 	webSettings
-		->setAttribute(QWebEngineSettings::ScrollAnimatorEnabled,
+		->setAttribute(Engine::WebSettings::ScrollAnimatorEnabled,
 					   settings.value("animateScrolling", true).toBool());
-	webSettings->setAttribute(QWebEngineSettings::SpatialNavigationEnabled,
+	webSettings->setAttribute(Engine::WebSettings::SpatialNavigationEnabled,
 							  settings.value("spatialNavigation", false).toBool());
-	webSettings->setAttribute(QWebEngineSettings::HyperlinkAuditingEnabled, false);
-	webSettings->setAttribute(QWebEngineSettings::FullScreenSupportEnabled, true);
-	webSettings->setAttribute(QWebEngineSettings::LocalContentCanAccessRemoteUrls, true);
+	webSettings->setAttribute(Engine::WebSettings::HyperlinkAuditingEnabled, false);
+	webSettings->setAttribute(Engine::WebSettings::FullScreenSupportEnabled, true);
+	webSettings->setAttribute(Engine::WebSettings::LocalContentCanAccessRemoteUrls, true);
 
 	setWheelScrollLines(settings.value("wheelScrollLines", wheelScrollLines()).toInt());
 
-	QWebEngineProfile* webProfile = QWebEngineProfile::defaultProfile();
+	Engine::WebProfile* webProfile = Engine::WebProfile::defaultWebProfile();
 
 	QString defaultUserAgent = webProfile->httpUserAgent();
 	defaultUserAgent.replace(QRegularExpression(QStringLiteral("QtWebEngine/[^\\s]+")),
@@ -478,17 +473,17 @@ void Application::loadWebSettings()
 
 
 	const bool allowCache{settings.value("allowLocalCache", true).toBool()};
-	webProfile->setHttpCacheType(allowCache ? QWebEngineProfile::DiskHttpCache : QWebEngineProfile::MemoryHttpCache);
+	webProfile->setHttpCacheType(allowCache ? Engine::WebProfile::DiskHttpCache : Engine::WebProfile::MemoryHttpCache);
 	webProfile->setCachePath(settings.value("cachePath", webProfile->cachePath()).toString());
 
-	webProfile->setPersistentCookiesPolicy(QWebEngineProfile::AllowPersistentCookies);
+	webProfile->setPersistentCookiesPolicy(Engine::WebProfile::AllowPersistentCookies);
 	webProfile->setPersistentStoragePath(DataPaths::currentProfilePath());
 
 	settings.endGroup();
 
 	// Force local storage to be disabled if it's a provate session
 	if (privateBrowsing()) {
-		webSettings->setAttribute(QWebEngineSettings::LocalStorageEnabled, false);
+		webSettings->setAttribute(Engine::WebSettings::LocalStorageEnabled, false);
 		history()->setSaving(false);
 	}
 }
@@ -518,14 +513,14 @@ void Application::loadApplicationSettings()
 				}
 
 				// Update home page to use last version of doosearch
-				oldSettings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/");
-				oldSettings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/");
+				oldSettings.setValue("Web-Settings/homePage", "https://doosearch.sielo.app/search.php");
+				oldSettings.setValue("Web-Settings/urlOnNewTab", "https://doosearch.sielo.app/search.php");
 
 				foreach(BrowserWindow* window, m_windows)
 				{
 					window->loadSettings();
 					for (int i{0}; i < window->tabsSpaceSplitter()->count(); ++i) {
-						window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app");
+						window->tabWidget(i)->setHomeUrl("https://doosearch.sielo.app/search.php");
 					}
 				}
 			}
@@ -562,7 +557,7 @@ void Application::loadThemesSettings()
 	// Check if the theme existe
 	if (themeInfo.exists()) {
 		// Check default theme version and update it if needed
-		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 53) {
+		if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 56) {
 			if (settings.value("Themes/defaultThemeVersion", 1).toInt() < 11) {
 				QString defaultThemePath{DataPaths::currentProfilePath() + "/themes"};
 
@@ -588,7 +583,7 @@ void Application::loadThemesSettings()
 			loadThemeFromResources("round-theme", false);
 			loadThemeFromResources("ColorZilla", false);
 			loadThemeFromResources("sielo-default", false);
-			settings.setValue("Themes/defaultThemeVersion", 52);
+			settings.setValue("Themes/defaultThemeVersion", 56);
 		}
 
 		loadTheme(settings.value("Themes/currentTheme", QLatin1String("sielo-default")).toString(),
@@ -603,7 +598,7 @@ void Application::loadThemesSettings()
 		loadThemeFromResources("ColorZilla", false);
 		loadThemeFromResources();
 
-		settings.setValue("Themes/defaultThemeVersion", 53);
+		settings.setValue("Themes/defaultThemeVersion", 56);
 	}
 }
 
@@ -728,7 +723,7 @@ QString Application::currentLanguage() const
 	return lang.left(lang.length() - 3);
 }
 
-QWebEngineProfile *Application::webProfile()
+Engine::WebProfile *Application::webProfile()
 {
 	return m_webProfile;
 }
@@ -957,7 +952,7 @@ void Application::onFocusChanged()
 	}
 }
 
-void Application::downloadRequested(QWebEngineDownloadItem* download)
+void Application::downloadRequested(Engine::DownloadItem* download)
 {
 	downloadManager()->downlaod(download);
 	downloadManager()->show();
@@ -1015,37 +1010,37 @@ void Application::messageReceived(quint32, QByteArray messageBytes)
 
 void Application::setUserStyleSheet(const QString& filePath)
 {
-	QString userCSS{};
-	QFile file{filePath};
-	QByteArray array{};
-
-	// Check if we can open the file
-	if (!filePath.isEmpty() && file.open(QFile::ReadOnly)) {
-		array = file.readAll();
-		file.close();
-	}
-
-	userCSS += QString::fromUtf8(array).remove(QLatin1Char('\n'));
-
-	// Check if we have an old script
-	const QString name{QStringLiteral("_sielo_userstylesheet")};
-	QWebEngineScript oldScript = m_webProfile->scripts()->findScript(name);
-
-	if (!oldScript.isNull())
-		m_webProfile->scripts()->remove(oldScript);
-
-	if (userCSS.isEmpty())
-		return;
-
-	// Apply custom css
-	QWebEngineScript script{};
-	script.setName(name);
-	script.setInjectionPoint(QWebEngineScript::DocumentReady);
-	script.setWorldId(QWebEngineScript::ApplicationWorld);
-	script.setRunsOnSubFrames(true);
-	script.setSourceCode(WebPage::setCSS(userCSS));
-
-	m_webProfile->scripts()->insert(script);
+//	QString userCSS{};
+//	QFile file{filePath};
+//	QByteArray array{};
+//
+//	// Check if we can open the file
+//	if (!filePath.isEmpty() && file.open(QFile::ReadOnly)) {
+//		array = file.readAll();
+//		file.close();
+//	}
+//
+//	userCSS += QString::fromUtf8(array).remove(QLatin1Char('\n'));
+//
+//	// Check if we have an old script
+//	const QString name{QStringLiteral("_sielo_userstylesheet")};
+//	QWebEngineScript oldScript = m_webProfile->scripts()->findScript(name);
+//
+//	if (!oldScript.isNull())
+//		m_webProfile->scripts()->remove(oldScript);
+//
+//	if (userCSS.isEmpty())
+//		return;
+//
+//	// Apply custom css
+//	QWebEngineScript script{};
+//	script.setName(name);
+//	script.setInjectionPoint(QWebEngineScript::DocumentReady);
+//	script.setWorldId(QWebEngineScript::ApplicationWorld);
+//	script.setRunsOnSubFrames(true);
+//	script.setSourceCode(WebPage::setCSS(userCSS));
+//
+//	m_webProfile->scripts()->insert(script);
 }
 
 CookieJar *Application::cookieJar()

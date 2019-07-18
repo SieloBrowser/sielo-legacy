@@ -32,11 +32,13 @@
 #include <QAction>
 
 #include <QClipboard>
+#include <QDesktopWidget>
 
 #include <QTimer>
 #include <QMessageBox>
 
 #include "Bookmarks/BookmarksUtils.hpp"
+#include "Bookmarks/BookmarksToolbar.hpp"
 
 #include "MaquetteGrid/MaquetteGridItem.hpp"
 
@@ -52,10 +54,10 @@
 #include "Web/Tab/TabbedWebView.hpp"
 
 #include "Widgets/TitleBar.hpp"
+#include "Widgets/CheckBoxDialog.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
-#include "Widgets/NavigationControlDialog.hpp"
 
 #ifdef Q_OS_WIN
 #include <windowsx.h>
@@ -243,27 +245,40 @@ void BrowserWindow::loadSettings()
 {
 	Settings settings{};
 
-	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/")).toUrl();
+	m_homePage = settings.value(QLatin1String("Web-Settings/homePage"), QUrl("https://doosearch.sielo.app/search.php")).toUrl();
 
 	m_blur_radius = settings.value(QLatin1String("Settings/backdropBlur"), 100).toInt();
+
+	bool toolbarAtBottom{settings.value(QLatin1String("Settings/bottomToolBar"), false).toBool()};
+
+	if (toolbarAtBottom) {
+		m_layout->removeWidget(m_titleBar);
+		m_layout->addWidget(m_titleBar);
+	}
+	else {
+		m_layout->removeWidget(m_titleBar);
+		m_layout->insertWidget(0, m_titleBar);
+	}
 
 	// There is two possibility: the user use the floating button or not. 
 	// Despite the floating button belongs to the window, the navigation bar belongs to the tab widget
 	if (m_tabsSpaceSplitter->count() > 0) {
-		if (!Application::instance()->useTopToolBar() && !m_fButton)
+		if (Application::instance()->showFloatingButton() && !m_fButton)
 			setupFloatingButton();
-		else if (Application::instance()->useTopToolBar() && m_fButton) {
+		else if (!Application::instance()->showFloatingButton() && m_fButton) {
 			delete m_fButton;
 			m_fButton = nullptr;
 		}
 	}
 
+	m_titleBar->loadSettings();
+	m_bookmarksToolbar->loadSettings();
 	m_tabsSpaceSplitter->loadSettings();
 
 	loadWallpaperSettings();
 
-	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), true).toBool();
-	m_titleBar->setShowBookmark(showBookmarksToolBar);
+	bool showBookmarksToolBar = settings.value(QLatin1String("ShowBookmarksToolBar"), false).toBool();
+	m_bookmarksToolbar->setVisible(showBookmarksToolBar);
 }
 
 void BrowserWindow::loadWallpaperSettings()
@@ -385,13 +400,6 @@ void BrowserWindow::setWindowTitle(const QString& title)
 {
 	QString t{title};
 
-	// We wan't to be sure to have an indication when the window is private
-	if (Application::instance()->privateBrowsing())
-		t.append(tr(" (Private Browsing)"));
-
-	if (m_titleBar)
-		m_titleBar->setTitle(t);
-
 	QMainWindow::setWindowTitle(t);
 }
 
@@ -440,6 +448,10 @@ void BrowserWindow::tabWidgetIndexChanged(TabWidget* tbWidget)
 	emit tabWidgetChanged(tbWidget);
 
 	connect(m_restoreAction, SIGNAL(triggered()), m_tabsSpaceSplitter->tabWidget(), SLOT(restoreClosedTab()));
+
+	AddressBar* addressBar = tabWidget()->webTab()->addressBar();
+	if (addressBar && m_titleBar->addressBars()->indexOf(addressBar) != -1)
+		m_titleBar->addressBars()->setCurrentWidget(addressBar);
 
 	// Move the floating button to the new focused tabs space if the user wants
 	if (m_fButton) {
@@ -538,6 +550,13 @@ void BrowserWindow::resizeEvent(QResizeEvent* event)
 							m_fButton->y() - (event->oldSize().height() - event->size().height()));
 		}
 	}
+
+	QRect screeRect{QApplication::desktop()->availableGeometry(this)};
+
+	if (event->oldSize() == screeRect.size() && event->size() != screeRect.size())
+		emit maximizeChanged(false, event->oldSize());
+	else if (event->oldSize() != screeRect.size() && event->size() == screeRect.size())
+		emit maximizeChanged(true, event->oldSize());
 
 	QMainWindow::resizeEvent(event);
 
@@ -662,9 +681,9 @@ void BrowserWindow::postLaunch()
 
 	tabWidget()->tabBar()->ensureVisible();
 
-	if (!Application::instance()->useTopToolBar() && !m_fButton)
+	if (Application::instance()->showFloatingButton() && !m_fButton)
 		setupFloatingButton();
-	else if (Application::instance()->useTopToolBar() && m_fButton) {
+	else if (!Application::instance()->showFloatingButton() && m_fButton) {
 		delete m_fButton;
 		m_fButton = nullptr;
 	}
@@ -681,10 +700,17 @@ void BrowserWindow::postLaunch()
 #ifndef QT_DEBUG
 		Application::instance()->piwikTraker()->sendEvent("installation", "installation", "installation", "new installation");
 #endif
-		NavigationControlDialog* navigationControlDialog{new NavigationControlDialog(this)};
-		navigationControlDialog->exec();
+		CheckBoxDialog dialog(QMessageBox::Ok, this);
+		dialog.setWindowTitle(tr("Floating Button"));
+		dialog.setText(tr("Do you want to enable floating button? This button can always be enable/disable later in settings."));
+		dialog.setCheckBoxText(tr("Enable"));
+		dialog.setIcon(QMessageBox::Information);
+		dialog.exec();
 
+		settings.setValue("Settings/showFloatingButton", dialog.isChecked());
 		settings.setValue("installed", true);
+
+		Application::instance()->loadSettings();
 	}
 }
 
@@ -724,8 +750,19 @@ void BrowserWindow::newTab()
 
 void BrowserWindow::setupUi()
 {
+	QWidget* centralWidget{new QWidget(this)};
+	m_layout = new QVBoxLayout(centralWidget);
+
+	m_layout->setSpacing(0);
+	m_layout->setContentsMargins(0, 0, 0, 0);
+
 	m_titleBar = new TitleBar(this);
+	m_bookmarksToolbar = new BookmarksToolbar(this, this);
 	m_tabsSpaceSplitter = new TabsSpaceSplitter(this);
+
+	m_titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	m_bookmarksToolbar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	m_tabsSpaceSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	QPalette palette{QToolTip::palette()};
 	QColor color{palette.window().color()};
@@ -738,7 +775,16 @@ void BrowserWindow::setupUi()
 	setMinimumWidth(300);
 	//TODO: delete this line when settings will be implements
 	resize(1200, 720);
-	setCentralWidget(m_tabsSpaceSplitter);
+
+	m_layout->addWidget(m_titleBar);
+	m_layout->addWidget(m_bookmarksToolbar);
+	m_layout->addWidget(m_tabsSpaceSplitter);
+
+	m_layout->setStretchFactor(m_titleBar, 1);
+	m_layout->setStretchFactor(m_bookmarksToolbar, 1);
+	m_layout->setStretchFactor(m_tabsSpaceSplitter, 100);
+
+	setCentralWidget(centralWidget);
 }
 
 void BrowserWindow::setupFloatingButton()
@@ -857,9 +903,30 @@ void BrowserWindow::saveButtonState()
 	fButtonFile.close();
 }
 
-void BrowserWindow::setCaption(const QWidget* widget)
+void BrowserWindow::addCaption(const QWidget* widget)
 {
-	m_captionWidget = widget;
+	if (!isCaption(widget)) {
+		m_captionWidgets.push_back(widget);
+	}
+}
+
+void BrowserWindow::removeCaption(const QWidget* widget)
+{
+	for (int i = 0; i < m_captionWidgets.length(); i++) {
+		if (m_captionWidgets[i] == widget) {
+			m_captionWidgets.removeAt(i);
+			return;
+		}
+	}
+}
+
+bool BrowserWindow::isCaption(const QWidget* widget)
+{
+	for (int i = 0; i < m_captionWidgets.length(); i++) {
+		if (m_captionWidgets[i] == widget)
+			return true;
+	}
+	return false;
 }
 
 #ifdef Q_OS_WIN
@@ -911,8 +978,9 @@ long BrowserWindow::ncHitTest(const MSG* wMsg) const
 	RECT rcWin;
 	GetWindowRect(wMsg->hwnd, &rcWin);
 
-	if (m_captionWidget == QApplication::widgetAt(QCursor::pos()))
-		return HTCAPTION;
+	for (const auto &e : m_captionWidgets)
+		if (e == QApplication::widgetAt(QCursor::pos()))
+			return HTCAPTION;
 
 	RECT rcFrame = {0};
 	AdjustWindowRectEx(&rcFrame, WS_OVERLAPPEDWINDOW & ~WS_CAPTION, FALSE, NULL);

@@ -32,29 +32,32 @@
 
 #include <QHBoxLayout>
 #include <QSplitter>
+#include <QStackedWidget>
 
 namespace Sn {
 
 class ToolButton;
 
-class TabWidget;
+class BrowserWindow;
 
-class SIELO_SHAREDLIB NavigationToolBar   : public QWidget {
+class SIELO_SHAREDLIB NavigationToolBar: public QWidget {
 Q_OBJECT
 
 public:
-	NavigationToolBar(TabWidget* tabWidget);
+	NavigationToolBar(BrowserWindow* window, QStackedWidget* addressBars);
 
 	Q_PROPERTY(int layoutMargin
-				   READ
-				   layoutMargin
-				   WRITE
-				   setLayoutMargin)
-	Q_PROPERTY(int layoutSpacing
+			   READ
+			   layoutMargin
+			   WRITE
+			   setLayoutMargin)
+		Q_PROPERTY(int layoutSpacing
 				   READ
 				   layoutSpacing
 				   WRITE
 				   setLayoutSpacing)
+
+		void loadSettings();
 
 	int layoutMargin() const;
 	void setLayoutMargin(int margin);
@@ -64,6 +67,8 @@ public:
 
 	void hideBookmarksHistory();
 	void showBookmarksHistory();
+	void hideControls();
+	void showControls();
 
 	void addExtensionAction(QWidget* widget);
 
@@ -84,7 +89,7 @@ private slots:
 	void contextMenuRequested(const QPoint& pos);
 
 private:
-	TabWidget* m_tabWidget{nullptr};
+	BrowserWindow* m_window{nullptr};
 
 	QHBoxLayout* m_layout{nullptr};
 	QHBoxLayout* m_extensionLayout{nullptr};

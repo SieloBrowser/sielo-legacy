@@ -40,7 +40,7 @@
 
 namespace Sn {
 
-DownloadWidget::DownloadWidget(QWebEngineDownloadItem* download, QWidget* parent) :
+DownloadWidget::DownloadWidget(Engine::DownloadItem* download, QWidget* parent) :
 	QWidget(parent),
 	m_bytesReceived(0),
 	m_download(download)
@@ -58,8 +58,8 @@ DownloadWidget::DownloadWidget(QWebEngineDownloadItem* download, QWidget* parent
 		m_file.setFile(download->path());
 		m_url = download->url();
 
-		connect(m_download.data(), &QWebEngineDownloadItem::downloadProgress, this, &DownloadWidget::downloadProgress);
-		connect(m_download.data(), &QWebEngineDownloadItem::finished, this, &DownloadWidget::finished);
+		connect(m_download.data(), &Engine::DownloadItem::downloadProgress, this, &DownloadWidget::downloadProgress);
+		connect(m_download.data(), &Engine::DownloadItem::finished, this, &DownloadWidget::finished);
 	}
 
 	m_downloadInfoLabel->clear();
@@ -83,7 +83,7 @@ bool DownloadWidget::downloading() const
 bool DownloadWidget::downloadedSuccessfully() const
 {
 	bool completed
-		{m_download && m_download->isFinished() && m_download->state() == QWebEngineDownloadItem::DownloadCompleted};
+		{m_download && m_download->isFinished() && m_download->state() == Engine::DownloadItem::DownloadCompleted};
 
 	return completed || !m_buttonStop->isVisible();
 }
@@ -121,7 +121,7 @@ bool DownloadWidget::getFileName(bool promptForFileName)
 
 	m_file.setFile(fileName);
 
-	if (m_download && m_download->state() == QWebEngineDownloadItem::DownloadRequested)
+	if (m_download && m_download->state() == Engine::DownloadItem::DownloadRequested)
 		m_download->setPath(m_file.absoluteFilePath());
 
 	m_fileNameLabel->setText(m_file.fileName());
@@ -172,22 +172,22 @@ void DownloadWidget::downloadProgress(quint64 byteReceived, quint64 bytesTotal)
 void DownloadWidget::finished()
 {
 	if (m_download) {
-		QWebEngineDownloadItem::DownloadState state{m_download->state()};
+		Engine::DownloadItem::DownloadState state{m_download->state()};
 		QString message{};
 		bool interupted{false};
 
 		switch (state) {
-		case QWebEngineDownloadItem::DownloadRequested:
-		case QWebEngineDownloadItem::DownloadInProgress:
+		case Engine::DownloadItem::DownloadRequested:
+		case Engine::DownloadItem::DownloadInProgress:
 			Q_UNREACHABLE();
 			break;
-		case QWebEngineDownloadItem::DownloadCompleted:
+		case Engine::DownloadItem::DownloadCompleted:
 			break;
-		case QWebEngineDownloadItem::DownloadCancelled:
+		case Engine::DownloadItem::DownloadCancelled:
 			message = QStringLiteral("Download cancelled");
 			interupted = true;
 			break;
-		case QWebEngineDownloadItem::DownloadInterrupted:
+		case Engine::DownloadItem::DownloadInterrupted:
 			message = QStringLiteral("Download interrupted");
 			interupted = true;
 			break;

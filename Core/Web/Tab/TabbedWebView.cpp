@@ -35,6 +35,7 @@
 #include "Widgets/NavigationBar.hpp"
 #include "Widgets/StatusBarMessage.hpp"
 #include "Widgets/AddressBar/AddressBar.hpp"
+#include "Widgets/TitleBar.hpp"
 #include "Widgets/Tab/TabWidget.hpp"
 #include "Widgets/Tab/MainTabBar.hpp"
 #include "Widgets/Tab/TabBar.hpp"
@@ -160,7 +161,7 @@ void TabbedWebView::sLoadFinished()
 #ifdef EXP_TRANSPARENT_BG
 void TabbedWebView::sPageRendering()
 {
-	page()->runJavaScript(Scripts::getAllMetaAttributes(), QWebEngineScript::ApplicationWorld, [this](const QVariant &res)
+	page()->runJavaScript(Scripts::getAllMetaAttributes(), Engine::WebProfile::ScriptWorldId::ApplicationWorld, [this](const QVariant &res)
 	{
 		const QVariantList& list = res.toList();
 
@@ -184,8 +185,8 @@ void TabbedWebView::sPageRendering()
 
 void TabbedWebView::urlChanged(const QUrl& url)
 {
-	if (Application::instance()->useTopToolBar() && (m_webTab->isCurrentTab() && m_webTab->tabWidget()))
-		m_webTab->tabWidget()->navigationToolBar()->refreshBackForwardButtons();
+	if (m_webTab->isCurrentTab() && m_webTab->tabWidget())
+		m_webTab->tabWidget()->window()->titleBar()->navigationToolBar()->refreshBackForwardButtons();
 }
 
 void TabbedWebView::linkHovered(const QString& link)
@@ -245,6 +246,9 @@ void TabbedWebView::newMousePressEvent(QMouseEvent* event)
 //	if (m_webTab->floatingButton()->pattern() != FloatingButton::Toolbar) {
 //		m_webTab->floatingButton()->hideChildren();
 //	}
+
+	if (m_webTab->tabWidget())
+		emit m_webTab->tabWidget()->focusIn(m_webTab->tabWidget());
 
 	WebView::newMousePressEvent(event);
 }
@@ -409,9 +413,6 @@ void TabbedWebView::enterEvent(QEvent* event)
 	event->accept();
 
 	m_cursorIn = true;
-
-	if (m_webTab->tabWidget())
-		emit m_webTab->tabWidget()->focusIn(m_webTab->tabWidget());
 }
 
 void TabbedWebView::leaveEvent(QEvent* event)

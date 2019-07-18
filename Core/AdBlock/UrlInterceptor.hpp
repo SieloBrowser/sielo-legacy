@@ -30,7 +30,7 @@
 
 #include <QObject>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 #include "Network/BaseUrlInterceptor.hpp"
 
@@ -42,7 +42,7 @@ class SIELO_SHAREDLIB UrlInterceptor: public BaseUrlInterceptor {
 public:
 	UrlInterceptor(Manager* manager);
 
-	void interceptRequest(QWebEngineUrlRequestInfo& info);
+	void interceptRequest(Engine::UrlRequestInfo& info);
 
 private:
 	Manager* m_manager{nullptr};

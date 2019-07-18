@@ -31,7 +31,7 @@
 #include <QVector>
 #include <QStringList>
 
-#include <QWebEngineCookieStore>
+#include <QWebEngine/CookieStore.hpp>
 
 namespace Sn {
 
@@ -72,7 +72,7 @@ private:
 	QStringList m_whiteList{};
 	QStringList m_blackList{};
 
-	QWebEngineCookieStore* m_client{nullptr};
+	Engine::CookieStore* m_client{nullptr};
 	QVector<QNetworkCookie> m_cookies{};
 };
 

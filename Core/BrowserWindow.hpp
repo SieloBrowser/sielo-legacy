@@ -53,6 +53,7 @@ class TabWidget;
 
 class RootFloatingButton;
 class TitleBar;
+class BookmarksToolbar;
 
 class MaquetteGridItem;
 
@@ -126,15 +127,20 @@ public:
 	TabsSpaceSplitter* tabsSpaceSplitter() const { return m_tabsSpaceSplitter; }
 
 	TitleBar* titleBar() const { return m_titleBar; }
+	BookmarksToolbar* bookmarksToolBar() const { return m_bookmarksToolbar; }
 
 	const QImage* background();
 	const QImage* processedBackground();
 
-	void setCaption(const QWidget* widget);
+	void addCaption(const QWidget* widget);
+	void removeCaption(const QWidget* widget);
+	bool isCaption(const QWidget* widget);
 
 signals:
 	void mouseOver(bool state);
 	void tabWidgetChanged(TabWidget* tabWidget);
+
+	void maximizeChanged(bool maximized, QSize oldSize);
 
 public slots:
 	void setWindowTitle(const QString& title);
@@ -183,7 +189,7 @@ private:
 	long ncHitTest(const MSG* wMsg) const;
 #endif
 
-	const QWidget *m_captionWidget{ nullptr };
+	QVector<const QWidget*> m_captionWidgets;
 
 	QAction* m_restoreAction{nullptr};
 
@@ -193,8 +199,11 @@ private:
 	WebTab* m_startTab{nullptr};
 	WebPage* m_startPage{nullptr};
 
+	QVBoxLayout* m_layout{nullptr};
+
 	TabsSpaceSplitter* m_tabsSpaceSplitter{nullptr};
 	TitleBar* m_titleBar{nullptr};
+	BookmarksToolbar* m_bookmarksToolbar{nullptr};
 
 	qreal m_blur_radius{ 0 };
 

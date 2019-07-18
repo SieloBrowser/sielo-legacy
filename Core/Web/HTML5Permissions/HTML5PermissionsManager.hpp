@@ -35,7 +35,7 @@
 #include <QStringList>
 #include <QUrl>
 
-#include <QWebEnginePage>
+#include <QWebEngine/WebPage.hpp>
 
 namespace Sn {
 class WebPage;
@@ -44,17 +44,17 @@ class SIELO_SHAREDLIB HTML5PermissionsManager: public QObject {
 public:
 	HTML5PermissionsManager(QObject* parent);
 
-	void requestPermissions(WebPage* page, const QUrl& origin, const QWebEnginePage::Feature& feature);
-	void rememberPermissions(const QUrl& origin, const QWebEnginePage::Feature& feature,
-							 const QWebEnginePage::PermissionPolicy& policy);
+	void requestPermissions(WebPage* page, const QUrl& origin, const Engine::WebPage::Feature& feature);
+	void rememberPermissions(const QUrl& origin, const Engine::WebPage::Feature& feature,
+							 const Engine::WebPage::PermissionPolicy& policy);
 
 	void loadSettings();
 
 private:
 	void saveSettings();
 
-	QHash<QWebEnginePage::Feature, QStringList> m_granted;
-	QHash<QWebEnginePage::Feature, QStringList> m_denied;
+	QHash<Engine::WebPage::Feature, QStringList> m_granted;
+	QHash<Engine::WebPage::Feature, QStringList> m_denied;
 };
 
 }

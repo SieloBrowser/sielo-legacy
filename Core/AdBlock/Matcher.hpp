@@ -34,7 +34,7 @@
 
 #include <QUrl>
 
-#include <QWebEngineUrlRequestInfo>
+#include <QWebEngine/UrlRequestInfo.hpp>
 
 #include "AdBlock/SearchTree.hpp"
 
@@ -51,7 +51,7 @@ public:
 	Matcher(Manager* manager);
 	~Matcher();
 
-	const Rule* match(const QWebEngineUrlRequestInfo& request, const QString& urlDomain,
+	const Rule* match(const Engine::UrlRequestInfo& request, const QString& urlDomain,
 					  const QString& urlString) const;
 
 	bool adBlockDisabledForUrl(const QUrl& url) const;

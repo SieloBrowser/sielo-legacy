@@ -37,8 +37,8 @@
 
 namespace Sn {
 
-HTML5PermissionsNotification::HTML5PermissionsNotification(const QUrl& origin, QWebEnginePage* page,
-														   const QWebEnginePage::Feature& feature) :
+HTML5PermissionsNotification::HTML5PermissionsNotification(const QUrl& origin, Engine::WebPage* page,
+														   const Engine::WebPage::Feature& feature) :
 	QWidget(),
 	m_origin(origin),
 	m_page(page),
@@ -50,27 +50,27 @@ HTML5PermissionsNotification::HTML5PermissionsNotification(const QUrl& origin, Q
 	const QString site{m_origin.host().isEmpty() ? tr("This site") : QString("<b>%1</b>").arg(m_origin.host())};
 
 	switch (feature) {
-	case QWebEnginePage::Notifications:
+	case Engine::WebPage::Notifications:
 		m_iconLabel->setPixmap(QPixmap(":icons/other/notification.png"));
 		m_textLabel->setText(tr("Allow %1 to show desktop notifications?").arg(site));
 		break;
-	case QWebEnginePage::Geolocation:
+	case Engine::WebPage::Geolocation:
 		m_iconLabel->setPixmap(QPixmap(":icons/other/geolocation.png"));
 		m_textLabel->setText(tr("Allow %1 to locate your position?").arg(site));
 		break;
-	case QWebEnginePage::MediaAudioCapture:
+	case Engine::WebPage::MediaAudioCapture:
 		m_iconLabel->setPixmap(QPixmap(":icons/other/audiocapture.png"));
 		m_textLabel->setText(tr("Allow %1 to use your microphone?").arg(site));
 		break;
-	case QWebEnginePage::MediaVideoCapture:
+	case Engine::WebPage::MediaVideoCapture:
 		m_iconLabel->setPixmap(QPixmap(":icons/other/webcam.png"));
 		m_textLabel->setText(tr("Allow %1 to use your camera?").arg(site));
 		break;
-	case QWebEnginePage::MediaAudioVideoCapture:
+	case Engine::WebPage::MediaAudioVideoCapture:
 //TODO: find the icon		m_iconLabel->setPixmap(QPixmap(":icons/other/microphone-webcam.png"));
 		m_textLabel->setText(tr("Allow %1 to use your microphone and camera?").arg(site));
 		break;
-	case QWebEnginePage::MouseLock:
+	case Engine::WebPage::MouseLock:
 		m_iconLabel->setPixmap(QPixmap(":icons/other/mouselock.png"));
 		m_textLabel->setText(tr("Allow %1 to hide your pointer?").arg(site));
 		break;
@@ -95,17 +95,17 @@ void HTML5PermissionsNotification::grantPermissions()
 
 	QTimer::singleShot(0, this, [this]()
 	{
-		if (m_feature == QWebEnginePage::MouseLock) {
+		if (m_feature == Engine::WebPage::MouseLock) {
 			QWidget* view{m_page->view()};
 			QCursor::setPos(view->mapToGlobal(view->rect().center()));
 		}
 
-		m_page->setFeaturePermission(m_origin, m_feature, QWebEnginePage::PermissionGrantedByUser);
+		m_page->setFeaturePermission(m_origin, m_feature, Engine::WebPage::PermissionGrantedByUser);
 	});
 
 	if (m_remember->isChecked())
 		Application::instance()->permissionsManager()
-			->rememberPermissions(m_origin, m_feature, QWebEnginePage::PermissionGrantedByUser);
+			->rememberPermissions(m_origin, m_feature, Engine::WebPage::PermissionGrantedByUser);
 
 	hide();
 
@@ -116,11 +116,11 @@ void HTML5PermissionsNotification::denyPermissions()
 	if (!m_page)
 		return;
 
-	m_page->setFeaturePermission(m_origin, m_feature, QWebEnginePage::PermissionDeniedByUser);
+	m_page->setFeaturePermission(m_origin, m_feature, Engine::WebPage::PermissionDeniedByUser);
 
 	if (m_remember->isChecked())
 		Application::instance()->permissionsManager()
-			->rememberPermissions(m_origin, m_feature, QWebEnginePage::PermissionDeniedByUser);
+			->rememberPermissions(m_origin, m_feature, Engine::WebPage::PermissionDeniedByUser);
 
 	hide();
 

@@ -170,7 +170,7 @@ bool Rule::urlMatch(const QUrl& url) const
 	return stringMatch(domain, encodedUrl);
 }
 
-bool Rule::networkMatch(const QWebEngineUrlRequestInfo& request, const QString& domain,
+bool Rule::networkMatch(const Engine::UrlRequestInfo& request, const QString& domain,
 						const QString& encodedUrl) const
 {
 	if (m_type == CSSRule || !m_isEnabled || m_isInternalDisabled)
@@ -249,7 +249,7 @@ bool Rule::matchDomain(const QString& domain) const
 	return false;
 }
 
-bool Rule::matchThirdParty(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchThirdParty(const Engine::UrlRequestInfo& request) const
 {
 	const QString firstPartyHost{toSecondLevelDomain(request.firstPartyUrl())};
 	const QString host{toSecondLevelDomain(request.requestUrl())};
@@ -259,80 +259,80 @@ bool Rule::matchThirdParty(const QWebEngineUrlRequestInfo& request) const
 	return hasException(ThirdPartyOption) == !match;
 }
 
-bool Rule::matchObject(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchObject(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeObject};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeObject};
 
 	return hasException(ObjectOption) == !match;
 }
 
-bool Rule::matchSubdocument(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchSubdocument(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSubFrame};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeSubFrame};
 
 	return hasException(SubdocumentOption) == !match;
 }
 
-bool Rule::matchXMLHttpRequest(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchXMLHttpRequest(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeXhr};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeXhr};
 
 	return hasException(XMLHttpRequestOption) == !match;
 }
 
-bool Rule::matchImage(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchImage(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeImage};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeImage};
 
 	return hasException(ImageOption) == !match;
 }
 
-bool Rule::matchScript(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchScript(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeScript};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeScript};
 
 	return hasException(ScriptOption) == !match;
 }
 
-bool Rule::matchStyleSheet(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchStyleSheet(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeStylesheet};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeStylesheet};
 
 	return hasException(StyleSheetOption) == !match;
 }
 
-bool Rule::matchObjectSubrequest(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchObjectSubrequest(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePluginResource};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypePluginResource};
 
 	return hasException(ObjectSubrequestOption) == !match;
 }
 
-bool Rule::matchPing(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchPing(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePing};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypePing};
 
 	return hasException(PingOption) == !match;
 }
 
-bool Rule::matchMedia(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchMedia(const Engine::UrlRequestInfo& request) const
 {
-	bool match{request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeMedia};
+	bool match{request.resourceType() == Engine::UrlRequestInfo::ResourceTypeMedia};
 
 	return hasException(MediaOption) == !match;
 }
 
-bool Rule::matchOther(const QWebEngineUrlRequestInfo& request) const
+bool Rule::matchOther(const Engine::UrlRequestInfo& request) const
 {
 	bool match{
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFontResource ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSubResource ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeWorker ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeSharedWorker ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypePrefetch ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeFavicon ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeServiceWorker ||
-			request.resourceType() == QWebEngineUrlRequestInfo::ResourceTypeUnknown
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeFontResource ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeSubResource ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeWorker ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeSharedWorker ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypePrefetch ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeFavicon ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeServiceWorker ||
+			request.resourceType() == Engine::UrlRequestInfo::ResourceTypeUnknown
 	};
 
 	return hasException(MediaOption) == !match;

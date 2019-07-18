@@ -28,9 +28,8 @@
 
 #include "SharedDefines.hpp"
 
-#include <QWebEnginePage>
-#include <QWebEngineScript>
-#include <QWebEngineFullScreenRequest>
+#include <QWebEngine/WebProfile.hpp>
+#include <QWebEngine/WebPage.hpp>
 
 #include <QPointF>
 #include <QVariant>
@@ -46,7 +45,7 @@ class WebHitTestResult;
 
 class DelayedFileWatcher;
 
-class SIELO_SHAREDLIB WebPage: public QWebEnginePage {
+class SIELO_SHAREDLIB WebPage: public Engine::WebPage {
 Q_OBJECT
 
 public:
@@ -56,7 +55,7 @@ public:
 	WebView* view() const;
 
 	bool execPrintPage(QPrinter *printer, int timeout = 1000);
-	QVariant executeJavaScript(const QString& scriptSrc, quint32 worldId = QWebEngineScript::MainWorld,
+	QVariant executeJavaScript(const QString& scriptSrc, quint32 worldId = Engine::WebProfile::ScriptWorldId::MainWorld,
 							   int timeout = 500);
 
 	QPointF mapToViewport(const QPointF& pos) const;
@@ -88,11 +87,11 @@ private slots:
 	void urlChanged(const QUrl& url);
 	void watchedFileChanged(const QString& file);
 	void windowCloseRequested();
-	void featurePermissionRequested(const QUrl& origine, const QWebEnginePage::Feature& feature);
+	void featurePermissionRequested(const QUrl& origine, const Engine::WebPage::Feature& feature);
 
 private:
-	bool acceptNavigationRequest(const QUrl& url, NavigationType type, bool isMainFrame) Q_DECL_OVERRIDE;
-	QWebEnginePage* createWindow(WebWindowType type) Q_DECL_OVERRIDE;
+	bool acceptNavigationRequest(const QUrl& url, Engine::WebPage::NavigationType type, bool isMainFrame) Q_DECL_OVERRIDE;
+	Engine::WebPage* createNewWindow(WebWindowType type) Q_DECL_OVERRIDE;
 
 	void handleUnknowProtocol(const QUrl& url);
 	void desktopServiceOpen(const QUrl& url);

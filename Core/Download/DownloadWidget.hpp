@@ -40,8 +40,9 @@
 #include <QTime>
 #include <QScopedPointer>
 
-#include <QWebEngineDownloadItem>
 #include <QUrl>
+
+#include <QWebEngine/DownloadItem.hpp>
 
 namespace Sn {
 class DownloadManager;
@@ -52,7 +53,7 @@ class SIELO_SHAREDLIB DownloadWidget: public QWidget {
 Q_OBJECT
 
 public:
-	DownloadWidget(QWebEngineDownloadItem* download, QWidget* parent = nullptr);
+	DownloadWidget(Engine::DownloadItem* download, QWidget* parent = nullptr);
 
 	bool downloading() const;
 	bool downloadedSuccessfully() const;
@@ -83,7 +84,7 @@ private:
 	QTime m_downloadTime{};
 	bool m_stopped{};
 
-	QScopedPointer<QWebEngineDownloadItem> m_download;
+	QScopedPointer<Engine::DownloadItem> m_download;
 
 	QHBoxLayout* m_layout{nullptr};
 	QVBoxLayout* m_layoutProgress{nullptr};

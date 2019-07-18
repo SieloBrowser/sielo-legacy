@@ -38,7 +38,7 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include <QWebEnginePage>
+#include <QWebEngine/WebPage.hpp>
 
 namespace Sn {
 class WebView;
@@ -97,7 +97,7 @@ private:
 
 	WebView* m_view{nullptr};
 
-	QWebEnginePage::FindFlags m_findFlags{};
+	Engine::WebPage::FindFlags m_findFlags{};
 };
 
 }
