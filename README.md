@@ -16,7 +16,7 @@ Their is many links to find the last Sielo version
  - Windows: There is a portable version [available here](https://sielo.app/download.php?for=windows_portable)
  - Linux: You can find [an AppImage](https://sielo.app/download.php?for=linux) 
  - ArchLinux: Sielo is available on the AUR.
- - Sources: You can directly download sources files from github. If you want have last functionnality (without waranty), you can run this command `git clone https://github.com/SieloBrowser/sielo-legacy.git`. If you want the last stable version, you can run this command `git clone https://github.com/SieloBrowser/sielo-legacy.git branch 1.18`.
+ - Sources: You can directly download sources files from github. If you want have last functionnality (without waranty), you can run this command `git clone https://github.com/SieloBrowser/sielo-legacy.git`. If you want the last stable version, you can run this command `git clone https://github.com/SieloBrowser/sielo-legacy.git branch 1.17`.
  
 ### Compile the browser
 To build Sielo, [check the Wiki](https://github.com/SieloBrowser/SieloBrowser/wiki/%5BEN%5D-Build-Sielo)
