@@ -32,7 +32,7 @@
     <message>
         <location filename="../Core/Application.cpp" line="1198"/>
         <source>The argument is unknow</source>
-        <translation>L&apos;argument est inconnu</translation>
+        <translation>L&apos;L'argument est inconnu</translation>
     </message>
     <message>
         <location filename="../Core/Application.cpp" line="1203"/>
@@ -45,7 +45,7 @@
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="32"/>
         <source>&lt;not set in certificate&gt;</source>
-        <translation>&lt;non spécifié dans le certificat&gt;</translation>
+        <translation>&lt;Non spécifié dans le certificat&gt;</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/CertificateInformation.cpp" line="350"/>
@@ -394,7 +394,7 @@
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="183"/>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="358"/>
         <source>Background blur filter radius (%1px)</source>
-        <translation>Effet de flou du fond transparent (%1px)</translation>
+        <translation>Effet de flou du fond d'écran (%1px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="190"/>
@@ -550,7 +550,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="510"/>
         <source>Background blur filter radius (in px)</source>
-        <translation>Effet de flou du fond transparent (en px)</translation>
+        <translation>Effet de flou du fond d'écran (en px)</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/Appearance.cpp" line="558"/>
@@ -587,12 +587,12 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="320"/>
         <source>You can&apos;t export password yet</source>
-        <translation>Tu ne peux pas exporter de mot de passe pour l&apos;instant</translation>
+        <translation>Vous ne pouvez pas exporter de mot de passe pour l&apos;instant</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFill.cpp" line="329"/>
         <source>You can&apos;t import password yet</source>
-        <translation>Tu ne peux pas importer de mot de passe pour l&apos;instant</translation>
+        <translation>Vous ne pouvez pas importer de mot de passe pour l&apos;instant</translation>
     </message>
     <message>
         <location filename="../Core/Password/DatabaseEncryptedPasswordBackend.cpp" line="244"/>
@@ -672,12 +672,12 @@
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="326"/>
         <source>You can&apos;t import password yet</source>
-        <translation>Tu ne peux pas importer de mots de passe pour l&apos;instant</translation>
+        <translation>Vous ne pouvez pas importer de mots de passe pour l&apos;instant</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="331"/>
         <source>You can&apos;t export password yet</source>
-        <translation>Tu ne peux pas exporter de mots de passe pour l&apos;instant</translation>
+        <translation>Vous ne pouvez pas exporter de mots de passe pour l&apos;instant</translation>
     </message>
     <message>
         <location filename="../Core/Password/AutoFill/AutoFillManager.cpp" line="357"/>
@@ -2111,7 +2111,7 @@
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="165"/>
         <source>Are you sure you want to delete all history?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer tous l&apos;historique ?</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer tout l&apos;historique ?</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryManager.cpp" line="194"/>
@@ -2154,7 +2154,7 @@
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="59"/>
         <source>Most Visited</source>
-        <translation>Plus visités</translation>
+        <translation>Les plus visités</translation>
     </message>
     <message>
         <location filename="../Core/History/HistoryMenu.cpp" line="60"/>
@@ -2403,7 +2403,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="80"/>
         <source>Side Bar</source>
-        <translation>Side Bar</translation>
+        <translation>Barre latérale</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="83"/>
@@ -2568,7 +2568,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="272"/>
         <source>Hide Bookmarks Bar</source>
-        <translation>Cacher la barre de favoris</translation>
+        <translation>Cacher la barre des favoris</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="298"/>
@@ -2593,7 +2593,7 @@
     <message>
         <location filename="../Core/Widgets/MainMenu.cpp" line="301"/>
         <source>Open file</source>
-        <translation>Ouvrir le  fichier</translation>
+        <translation>Ouvrir le fichier</translation>
     </message>
 </context>
 <context>
@@ -2634,7 +2634,7 @@
     <message>
         <location filename="../Core/MaquetteGrid/MaquetteGridMenu.cpp" line="44"/>
         <source>Open MaquetteGrid Manager</source>
-        <translation>Ouvrir le gestionnaire de maquette</translation>
+        <translation>Ouvrir le gestionnaire de maquettes</translation>
     </message>
 </context>
 <context>
@@ -2680,17 +2680,17 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="146"/>
         <source>Are you sure you want to clear master password ? All data will be decrypt!</source>
-        <translation>Êtes-vous sûr de vouloir supprimer le mot de passe maître ? Toutes les données seront décryptées !</translation>
+        <translation>Êtes-vous sûr de vouloir supprimer le mot de passe maître ? Toutes les données seront déchiffrées !</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="192"/>
         <source>Some data has not been decrypted. The master password was not cleared</source>
-        <translation>Certaines données n&apos;ont pas été décryptées. Le mot de passe maître n&apos;a pas été supprimé</translation>
+        <translation>Certaines données n&apos;ont pas été déchiffrées. Le mot de passe maître n&apos;a pas été supprimé</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="226"/>
         <source>This backend does not work without a master password.</source>
-        <translation>Ce backend ne fonctionne pas sans super mot de passe.</translation>
+        <translation>Ce backend ne fonctionne pas sans mot de passe maître.</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="227"/>
@@ -2700,7 +2700,7 @@
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="229"/>
         <source>This option clears the master password and moves all encrypted data to the &quot;DataBase (Plain Text)&quot; backend, and switches to it.</source>
-        <translation>Cette option supprime le super mot de passe et transfert toutes les données cryptés vers la base de données en claire, puis switch sur cette base de données.</translation>
+        <translation>Cette option supprime le super mot de passe et transfert toutes les données chiffrées vers la base de données en claire, puis switch sur cette base de données.</translation>
     </message>
     <message>
         <location filename="../Core/Password/MasterPasswordDialog.cpp" line="231"/>
@@ -3190,7 +3190,7 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="281"/>
         <source>Connection Not Encrypted</source>
-        <translation>Connexion non sécrusiée</translation>
+        <translation>Connexion non sécurisée</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="333"/>
@@ -3205,7 +3205,7 @@
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="343"/>
         <source>Meta tags of site:</source>
-        <translation>Meta tags du site :</translation>
+        <translation>Métabalises (Meta tags) du site :</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/SiteInfo.cpp" line="348"/>
@@ -3276,7 +3276,7 @@
     <message>
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="64"/>
         <source>&amp;Stop Tab</source>
-        <translation>&amp;Stopper l&apos;onglet</translation>
+        <translation>&amp;Stopper le chargement de l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="69"/>
@@ -3332,7 +3332,7 @@
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="90"/>
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="106"/>
         <source>Bookmark &amp;All Tabs</source>
-        <translation>Mettre en f&amp;avoris tous les onglets</translation>
+        <translation>Mettre en favoris tous les onglets</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="94"/>
@@ -3347,7 +3347,7 @@
     <message>
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="96"/>
         <source>Close Tabs To The Left</source>
-        <translation>Fermer les Onglets à Fauche</translation>
+        <translation>Fermer les Onglets à Gauche</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Tab/TabContextMenu.cpp" line="100"/>
@@ -3527,7 +3527,7 @@
     <message>
         <location filename="../Core/Widgets/Preferences/WebConfigPage.cpp" line="99"/>
         <source>Include links in focus chain</source>
-        <translation>Intégrer les lien dans la chaine de focus</translation>
+        <translation>Inclure des liens dans la chaîne de focalisation</translation>
     </message>
     <message>
         <location filename="../Core/Widgets/Preferences/WebConfigPage.cpp" line="100"/>
